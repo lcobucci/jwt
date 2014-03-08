@@ -11,6 +11,7 @@ use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signature;
+
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0

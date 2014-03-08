@@ -194,7 +194,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test.test.test', (string) $token);
     }
 
-	/**
+    /**
      * Fill the mock expectations
      */
     protected function createMockExpectations($signature = null)
@@ -226,5 +226,4 @@ class TokenTest extends \PHPUnit_Framework_TestCase
                       ->willReturn('test');
         }
     }
-
 }
