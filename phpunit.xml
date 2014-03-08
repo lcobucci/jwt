@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit 
+    colors="true" 
+    backupGlobals="false" 
+    backupStaticAttributes="false" 
+    bootstrap="vendor/autoload.php"
+    strict="true">
+	<testsuites>
+		<testsuite name="JWT Test Suite">
+			<directory>test</directory>
+		</testsuite>
+	</testsuites>
+    
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+        </whitelist>
+        
+        <blacklist>
+            <directory suffix=".php">vendor</directory>
+        </blacklist>
+    </filter>
+</phpunit>
