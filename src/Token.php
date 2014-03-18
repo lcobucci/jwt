@@ -119,6 +119,46 @@ class Token
     }
 
     /**
+     * Validates if the token is valid
+     *
+     * @param string $issuer
+     * @param string $audience
+     * @param string $subject
+     * @param int $currentTime
+     * @return boolean
+     */
+    public function validate(
+        $issuer = null,
+        $audience = null,
+        $subject = null,
+        $currentTime = null
+    ) {
+        $currentTime = $currentTime ?: time();
+
+        if (isset($this->claims['iss']) && $this->claims['iss'] != $issuer) {
+            return false;
+        }
+
+        if (isset($this->claims['aud']) && $this->claims['aud'] != $audience) {
+            return false;
+        }
+
+        if (isset($this->claims['sub']) && $this->claims['sub'] != $subject) {
+            return false;
+        }
+
+        if (isset($this->claims['nbf']) && $this->claims['nbf'] > $currentTime) {
+            return false;
+        }
+
+        if (isset($this->claims['exp']) && $this->claims['exp'] < $currentTime) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Returns the token payload
      *
      * @return string
