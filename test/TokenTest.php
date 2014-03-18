@@ -141,6 +141,101 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers ::__construct
+     * @covers ::validate
+     */
+    public function validateShouldReturnTrueWhenClaimsAreEmpty()
+    {
+        $token = new Token();
+
+        $this->assertTrue($token->validate());
+    }
+
+    /**
+     * @test
+     * @covers ::__construct
+     * @covers ::validate
+     */
+    public function validateShouldReturnFalseWhenIssuerIsDiferentThanTheGivenOne()
+    {
+        $token = new Token([], ['iss' => 'test']);
+
+        $this->assertFalse($token->validate('test1'));
+    }
+
+    /**
+     * @test
+     * @covers ::__construct
+     * @covers ::validate
+     */
+    public function validateShouldReturnFalseWhenAudienceIsDiferentThanTheGivenOne()
+    {
+        $token = new Token([], ['aud' => 'test']);
+
+        $this->assertFalse($token->validate(null, 'test1'));
+    }
+
+    /**
+     * @test
+     * @covers ::__construct
+     * @covers ::validate
+     */
+    public function validateShouldReturnFalseWhenSubjectIsDiferentThanTheGivenOne()
+    {
+        $token = new Token([], ['sub' => 'test']);
+
+        $this->assertFalse($token->validate(null, null, 'test1'));
+    }
+
+    /**
+     * @test
+     * @covers ::__construct
+     * @covers ::validate
+     */
+    public function validateShouldReturnFalseWhenTokenCannotYetBeUsed()
+    {
+        $token = new Token([], ['nbf' => strtotime('+2 hours')]);
+
+        $this->assertFalse($token->validate(null, null, null, time()));
+    }
+
+    /**
+     * @test
+     * @covers ::__construct
+     * @covers ::validate
+     */
+    public function validateShouldReturnFalseWhenTokenIsExpired()
+    {
+        $token = new Token([], ['exp' => time()]);
+
+        $this->assertFalse($token->validate(null, null, null, strtotime('+2 hours')));
+    }
+
+    /**
+     * @test
+     * @covers ::__construct
+     * @covers ::validate
+     */
+    public function validateShouldReturnTrueWhenAllInformationsAreRight()
+    {
+        $token = new Token(
+            [],
+            [
+                'iss' => 'test0',
+                'aud' => 'test1',
+                'sub' => 'test2',
+                'nbf' => time(),
+                'exp' => strtotime('+3 hours')
+            ]
+        );
+
+        $this->assertTrue(
+            $token->validate('test0', 'test1', 'test2', strtotime('+1 hours'))
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::__construct
      * @covers ::getPayload
      * @covers ::__toString
      */
