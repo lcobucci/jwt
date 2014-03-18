@@ -4,6 +4,7 @@
     backupGlobals="false" 
     backupStaticAttributes="false" 
     bootstrap="vendor/autoload.php"
+    verbose="true"
     strict="true">
 	<testsuites>
 		<testsuite name="JWT Test Suite">
