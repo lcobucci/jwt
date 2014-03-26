@@ -10,7 +10,7 @@ A simple library to work with JSON Web Token and JSON Web Signature (requires PH
 
 ## Instalation
 
-Just add to your composer.json: ```"lcobucci/jwt": "~1.0"```
+Just add to your composer.json: ```"lcobucci/jwt": "*"```
 
 ## Basic usage
 
