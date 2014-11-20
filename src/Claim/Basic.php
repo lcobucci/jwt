@@ -13,7 +13,7 @@ use Lcobucci\JWT\Claim;
  * The default claim
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 1.2.0
+ * @since 2.0.0
  */
 class Basic implements Claim
 {

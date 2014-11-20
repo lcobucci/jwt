@@ -13,7 +13,7 @@ use Lcobucci\JWT\Claim;
  * Class that create claims
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 1.2.0
+ * @since 2.0.0
  */
 class Factory
 {
