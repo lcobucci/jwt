@@ -27,9 +27,7 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->signer = $this->getMockBuilder(BaseSigner::class)
-                             ->setMockClassName('BaseSignerMock')
-                             ->getMockForAbstractClass();
+        $this->signer = $this->getMockForAbstractClass(BaseSigner::class);
 
         $this->signer->expects($this->any())
                      ->method('getAlgorithmId')

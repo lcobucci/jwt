@@ -25,9 +25,7 @@ class HmacTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->signer = $this->getMockBuilder(Hmac::class)
-                             ->setMockClassName('HmacMock')
-                             ->getMockForAbstractClass();
+        $this->signer = $this->getMockForAbstractClass(Hmac::class);
 
         $this->signer->expects($this->any())
                      ->method('getAlgorithmId')

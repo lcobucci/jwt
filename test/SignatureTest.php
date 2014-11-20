@@ -25,9 +25,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->signer = $this->getMockBuilder(Signer::class)
-                             ->setMockClassName('SignerMock')
-                             ->getMock();
+        $this->signer = $this->getMock(Signer::class);
     }
 
     /**

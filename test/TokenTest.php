@@ -31,9 +31,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->encoder = $this->getMockBuilder(Encoder::class)
-                              ->setMockClassName('EncoderMock')
-                              ->getMock();
+        $this->encoder = $this->getMock(Encoder::class);
     }
 
     /**
@@ -93,11 +91,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function getSignatureMustReturnTheConfiguredSignature()
     {
-        $signature = $this->getMockBuilder(Signature::class)
-                          ->setMockClassName('SignatureMock')
-                          ->disableOriginalConstructor()
-                          ->getMock();
-
+        $signature = $this->getMock(Signature::class, [], [], '', false);
         $token = new Token([], [], $signature);
 
         $this->assertSame($signature, $token->getSignature());
@@ -125,10 +119,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyMustDelegateTheValidationToSignature()
     {
-        $signature = $this->getMockBuilder(Signature::class)
-                          ->setMockClassName('SignatureMock')
-                          ->disableOriginalConstructor()
-                          ->getMock();
+        $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signature->expects($this->once())
                   ->method('verify')
@@ -277,10 +268,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function toStringMustReturnEncodedData()
     {
-        $signature = $this->getMockBuilder(Signature::class)
-                          ->setMockClassName('SignatureMock')
-                          ->disableOriginalConstructor()
-                          ->getMock();
+        $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signature->expects($this->any())
                   ->method('__toString')

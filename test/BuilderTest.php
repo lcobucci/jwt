@@ -449,14 +449,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function signMustChangeTheSignature()
     {
-        $signer = $this->getMockBuilder(Signer::class)
-                       ->setMockClassName('SignerMock')
-                       ->getMock();
-
-        $signature = $this->getMockBuilder(Signature::class)
-                          ->setMockClassName('SignatureMock')
-                          ->disableOriginalConstructor()
-                          ->getMock();
+        $signer = $this->getMock(Signer::class);
+        $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
                ->method('sign')
@@ -479,14 +473,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function signMustKeepAFluentInterface()
     {
-        $signer = $this->getMockBuilder(Signer::class)
-                       ->setMockClassName('SignerMock')
-                       ->getMock();
-
-        $signature = $this->getMockBuilder(Signature::class)
-                          ->setMockClassName('SignatureMock')
-                          ->disableOriginalConstructor()
-                          ->getMock();
+        $signer = $this->getMock(Signer::class);
+        $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
                ->method('sign')
@@ -535,14 +523,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setMustRaiseExceptionWhenTokenHasBeenSigned()
     {
-        $signer = $this->getMockBuilder(Signer::class)
-                       ->setMockClassName('SignerMock')
-                       ->getMock();
-
-        $signature = $this->getMockBuilder(Signature::class)
-                          ->setMockClassName('SignatureMock')
-                          ->disableOriginalConstructor()
-                          ->getMock();
+        $signer = $this->getMock(Signer::class);
+        $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
                ->method('sign')
