@@ -28,7 +28,7 @@ Just use the builder to create a new JWT/JWS tokens:
 ```php
 <?php
 use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Signer\Sha256;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
 
 $token = (new Builder())->setIssuer('http://example.com') // Configures the issuer (iss claim)
                         ->setAudience('http://example.org') // Configures the audience (aud claim)

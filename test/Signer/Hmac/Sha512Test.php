@@ -5,13 +5,13 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Signer;
+namespace Lcobucci\JWT\Signer\Hmac;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
  *
- * @coversDefaultClass Lcobucci\JWT\Signer\Sha512
+ * @coversDefaultClass Lcobucci\JWT\Signer\Hmac\Sha512
  */
 class Sha512Test extends \PHPUnit_Framework_TestCase
 {

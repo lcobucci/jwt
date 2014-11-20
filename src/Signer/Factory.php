@@ -9,6 +9,9 @@ namespace Lcobucci\JWT\Signer;
 
 use InvalidArgumentException;
 use Lcobucci\JWT\Signer;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Signer\Hmac\Sha384;
+use Lcobucci\JWT\Signer\Hmac\Sha512;
 
 /**
  * Factory that returns instance of signers
