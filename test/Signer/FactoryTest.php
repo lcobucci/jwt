@@ -17,7 +17,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
+     * @covers ::__construct
      * @covers ::create
+     * @covers ::createHmacSha256
      */
     public function createMustBeAbleReturnASha256Signer()
     {
@@ -28,7 +30,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers ::__construct
      * @covers ::create
+     * @covers ::createHmacSha384
      */
     public function createMustBeAbleReturnASha384Signer()
     {
@@ -39,7 +43,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers ::__construct
      * @covers ::create
+     * @covers ::createHmacSha512
      */
     public function createMustBeAbleReturnASha512Signer()
     {
@@ -50,6 +56,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers ::__construct
      * @covers ::create
      *
      * @expectedException InvalidArgumentException

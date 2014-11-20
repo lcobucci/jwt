@@ -53,7 +53,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $this->encoder = $this->getMock(Encoder::class);
         $this->decoder = $this->getMock(Decoder::class);
-        $this->signerFactory = $this->getMock(SignerFactory::class);
+        $this->signerFactory = $this->getMock(SignerFactory::class, [], [], '', false);
         $this->claimFactory = $this->getMock(ClaimFactory::class, [], [], '', false);
         $this->defaultClaim = $this->getMock(Claim::class);
 
