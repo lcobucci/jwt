@@ -8,6 +8,7 @@
 namespace Lcobucci\JWT;
 
 use BadMethodCallException;
+use Generator;
 use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Claim\Validatable;
 
