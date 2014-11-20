@@ -5,9 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Test\Signer;
+namespace Lcobucci\JWT\Signer;
 
-use Lcobucci\JWT\Signer\BaseSigner;
 use Lcobucci\JWT\Signature;
 
 /**

@@ -5,11 +5,9 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Test;
+namespace Lcobucci\JWT;
 
 use Lcobucci\JWT\Parsing\Encoder;
-use Lcobucci\JWT\Signature;
-use Lcobucci\JWT\Token;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>

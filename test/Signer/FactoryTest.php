@@ -5,12 +5,7 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Test\Signer;
-
-use Lcobucci\JWT\Signer\Factory;
-use Lcobucci\JWT\Signer\Sha256;
-use Lcobucci\JWT\Signer\Sha384;
-use Lcobucci\JWT\Signer\Sha512;
+namespace Lcobucci\JWT\Signer;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>

@@ -5,15 +5,12 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Test;
+namespace Lcobucci\JWT;
 
-use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Parsing\Decoder;
 use Lcobucci\JWT\Parsing\Encoder;
-use RuntimeException;
 use Lcobucci\JWT\Signer\Factory;
-use Lcobucci\JWT\Signer;
-use Lcobucci\JWT\Signature;
+use RuntimeException;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>

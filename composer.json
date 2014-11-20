@@ -21,8 +21,7 @@
     },
     "autoload" : {
         "psr-4" : {
-            "Lcobucci\\JWT\\" : "src",
-            "Lcobucci\\JWT\\Test\\" : "test"
+            "Lcobucci\\JWT\\" : ["src", "test"]
         }
     }
 }
