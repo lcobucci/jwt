@@ -7,9 +7,9 @@
 
 namespace Lcobucci\JWT;
 
+use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
 use Lcobucci\JWT\Parsing\Encoder;
-use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Signer\Factory as SignerFactory;
 use RuntimeException;
 

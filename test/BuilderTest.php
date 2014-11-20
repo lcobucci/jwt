@@ -7,6 +7,7 @@
 
 namespace Lcobucci\JWT;
 
+use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Encoder;
 
 /**
@@ -23,13 +24,35 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     protected $encoder;
 
     /**
+     * @var ClaimFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $claimFactory;
+
+    /**
+     * @var Claim|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $defaultClaim;
+
+    /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->encoder = $this->getMockBuilder(Encoder::class)
-                              ->setMockClassName('EncoderMock')
-                              ->getMock();
+        $this->encoder = $this->getMock(Encoder::class);
+        $this->claimFactory = $this->getMock(ClaimFactory::class, [], [], '', false);
+        $this->defaultClaim = $this->getMock(Claim::class);
+
+        $this->claimFactory->expects($this->any())
+                           ->method('create')
+                           ->willReturn($this->defaultClaim);
+    }
+
+    /**
+     * @return Builder
+     */
+    private function createBuilder()
+    {
+        return new Builder($this->encoder, $this->claimFactory);
     }
 
     /**
@@ -38,12 +61,13 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function constructMustInitializeTheAttributes()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'header', $builder);
         $this->assertAttributeEquals([], 'claims', $builder);
         $this->assertAttributeEquals(null, 'signature', $builder);
         $this->assertAttributeSame($this->encoder, 'encoder', $builder);
+        $this->assertAttributeSame($this->claimFactory, 'claimFactory', $builder);
     }
 
     /**
@@ -55,11 +79,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setAudienceMustChangeTheAudClaim()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setAudience('test');
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'header', $builder);
-        $this->assertAttributeEquals(['aud' => 'test'], 'claims', $builder);
+        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -71,11 +95,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setAudienceCanReplicateItemOnHeader()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setAudience('test', true);
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'aud' => 'test'], 'header', $builder);
-        $this->assertAttributeEquals(['aud' => 'test'], 'claims', $builder);
+        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'aud' => $this->defaultClaim], 'header', $builder);
+        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -87,7 +111,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setAudienceMustKeepAFluentInterface()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
 
         $this->assertSame($builder, $builder->setAudience('test'));
     }
@@ -101,11 +125,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setExpirationMustChangeTheExpClaim()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setExpiration('2');
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'header', $builder);
-        $this->assertAttributeEquals(['exp' => 2], 'claims', $builder);
+        $this->assertAttributeEquals(['exp' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -117,11 +141,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setExpirationCanReplicateItemOnHeader()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setExpiration('2', true);
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'exp' => 2], 'header', $builder);
-        $this->assertAttributeEquals(['exp' => 2], 'claims', $builder);
+        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'exp' => $this->defaultClaim], 'header', $builder);
+        $this->assertAttributeEquals(['exp' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -133,7 +157,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setExpirationMustKeepAFluentInterface()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
 
         $this->assertSame($builder, $builder->setExpiration('2'));
     }
@@ -147,11 +171,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setIdMustChangeTheJtiClaim()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setId('2');
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'header', $builder);
-        $this->assertAttributeEquals(['jti' => '2'], 'claims', $builder);
+        $this->assertAttributeEquals(['jti' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -163,11 +187,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setIdCanReplicateItemOnHeader()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setId('2', true);
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'jti' => '2'], 'header', $builder);
-        $this->assertAttributeEquals(['jti' => '2'], 'claims', $builder);
+        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'jti' => $this->defaultClaim], 'header', $builder);
+        $this->assertAttributeEquals(['jti' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -179,7 +203,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setIdMustKeepAFluentInterface()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
 
         $this->assertSame($builder, $builder->setId('2'));
     }
@@ -193,11 +217,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setIssueAtMustChangeTheIatClaim()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setIssueAt('2');
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'header', $builder);
-        $this->assertAttributeEquals(['iat' => 2], 'claims', $builder);
+        $this->assertAttributeEquals(['iat' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -209,11 +233,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setIssueAtCanReplicateItemOnHeader()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setIssueAt('2', true);
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'iat' => 2], 'header', $builder);
-        $this->assertAttributeEquals(['iat' => 2], 'claims', $builder);
+        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'iat' => $this->defaultClaim], 'header', $builder);
+        $this->assertAttributeEquals(['iat' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -225,7 +249,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setIssueAtMustKeepAFluentInterface()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
 
         $this->assertSame($builder, $builder->setIssueAt('2'));
     }
@@ -239,11 +263,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setIssuerMustChangeTheIssClaim()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setIssuer('2');
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'header', $builder);
-        $this->assertAttributeEquals(['iss' => '2'], 'claims', $builder);
+        $this->assertAttributeEquals(['iss' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -255,11 +279,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setIssuerCanReplicateItemOnHeader()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setIssuer('2', true);
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'iss' => '2'], 'header', $builder);
-        $this->assertAttributeEquals(['iss' => '2'], 'claims', $builder);
+        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'iss' => $this->defaultClaim], 'header', $builder);
+        $this->assertAttributeEquals(['iss' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -271,7 +295,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setIssuerMustKeepAFluentInterface()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
 
         $this->assertSame($builder, $builder->setIssuer('2'));
     }
@@ -285,11 +309,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setNotBeforeMustChangeTheNbfClaim()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setNotBefore('2');
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'header', $builder);
-        $this->assertAttributeEquals(['nbf' => 2], 'claims', $builder);
+        $this->assertAttributeEquals(['nbf' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -301,11 +325,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setNotBeforeCanReplicateItemOnHeader()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setNotBefore('2', true);
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'nbf' => 2], 'header', $builder);
-        $this->assertAttributeEquals(['nbf' => 2], 'claims', $builder);
+        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'nbf' => $this->defaultClaim], 'header', $builder);
+        $this->assertAttributeEquals(['nbf' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -317,7 +341,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setNotBeforeMustKeepAFluentInterface()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
 
         $this->assertSame($builder, $builder->setNotBefore('2'));
     }
@@ -331,11 +355,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setSubjectMustChangeTheSubClaim()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setSubject('2');
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'header', $builder);
-        $this->assertAttributeEquals(['sub' => '2'], 'claims', $builder);
+        $this->assertAttributeEquals(['sub' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -347,11 +371,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setSubjectCanReplicateItemOnHeader()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->setSubject('2', true);
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'sub' => '2'], 'header', $builder);
-        $this->assertAttributeEquals(['sub' => '2'], 'claims', $builder);
+        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT', 'sub' => $this->defaultClaim], 'header', $builder);
+        $this->assertAttributeEquals(['sub' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -363,7 +387,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setSubjectMustKeepAFluentInterface()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
 
         $this->assertSame($builder, $builder->setSubject('2'));
     }
@@ -375,10 +399,10 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setMustConfigureTheGivenClaim()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->set('userId', 2);
 
-        $this->assertAttributeEquals(['userId' => 2], 'claims', $builder);
+        $this->assertAttributeEquals(['userId' => $this->defaultClaim], 'claims', $builder);
     }
 
     /**
@@ -388,7 +412,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setMustKeepAFluentInterface()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
 
         $this->assertSame($builder, $builder->set('userId', 2));
     }
@@ -406,7 +430,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function getTokenMustReturnANewTokenWithCurrentConfiguration()
     {
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $token = $builder->set('test', 123)->getToken();
 
         $this->assertAttributeEquals($token->getHeader(), 'header', $builder);
@@ -438,7 +462,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
                ->method('sign')
                ->willReturn($signature);
 
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->sign($signer, 'test');
 
         $this->assertAttributeSame($signature, 'signature', $builder);
@@ -468,7 +492,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
                ->method('sign')
                ->willReturn($signature);
 
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
 
         $this->assertSame($builder, $builder->sign($signer, 'test'));
 
@@ -524,7 +548,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
                ->method('sign')
                ->willReturn($signature);
 
-        $builder = new Builder($this->encoder);
+        $builder = $this->createBuilder();
         $builder->sign($signer, 'test');
         $builder->set('test', 123);
     }
