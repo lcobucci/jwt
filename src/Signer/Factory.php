@@ -19,7 +19,7 @@ use Lcobucci\JWT\Signer;
 class Factory
 {
     /**
-     * Retrives a signer instance
+     * Retrieves a signer instance
      *
      * @param string $id
      *
