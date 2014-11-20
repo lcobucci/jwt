@@ -143,8 +143,8 @@ class Parser
     {
         $header = $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
-        if (!is_array($header) || isset($header['enc'])) {
-            throw new InvalidArgumentException('That header is not a valid array or uses encryption');
+        if (isset($header['enc'])) {
+            throw new InvalidArgumentException('Encryption is not supported yet');
         }
 
         return $header;
@@ -156,16 +156,10 @@ class Parser
      * @param string $data
      *
      * @return array
-     *
-     * @throws InvalidArgumentException When an invalid claim set is informed
      */
     protected function parseClaims($data)
     {
         $claims = $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
-
-        if (!is_array($claims)) {
-            throw new InvalidArgumentException('That claims are not valid');
-        }
 
         foreach ($claims as $name => &$value) {
             $value = $this->claimFactory->create($name, $value);
