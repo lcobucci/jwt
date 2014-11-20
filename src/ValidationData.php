@@ -25,7 +25,7 @@ class ValidationData
     /**
      * Initializes the object
      *
-     * @param string $currentTime
+     * @param int $currentTime
      */
     public function __construct($currentTime = null)
     {
@@ -63,6 +63,8 @@ class ValidationData
     }
 
     /**
+     * Configures the audience
+     *
      * @param string $audience
      */
     public function setAudience($audience)
@@ -71,6 +73,8 @@ class ValidationData
     }
 
     /**
+     * Configures the subject
+     *
      * @param string $subject
      */
     public function setSubject($subject)
@@ -79,6 +83,8 @@ class ValidationData
     }
 
     /**
+     * Configures the time that "iat", "nbf" and "exp" should be based on
+     *
      * @param int $subject
      */
     public function setCurrentTime($currentTime)
