@@ -125,29 +125,12 @@ class Token
     /**
      * Validates if the token is valid
      *
-     * @param string $issuer
-     * @param string $audience
-     * @param string $subject
-     * @param int $currentTime
+     * @param ValidationData $data
      *
      * @return boolean
      */
-    public function validate(
-        $issuer = null,
-        $audience = null,
-        $subject = null,
-        $currentTime = null
-    ) {
-        $currentTime = $currentTime ?: time();
-        $data = [
-            'iss' => $issuer,
-            'aud' => $audience,
-            'sub' => $subject,
-            'iat' => $currentTime,
-            'nbf' => $currentTime,
-            'exp' => $currentTime
-        ];
-
+    public function validate(ValidationData $data)
+    {
         foreach ($this->getValidatableClaims() as $claim) {
             if (!$claim->validate($data)) {
                 return false;

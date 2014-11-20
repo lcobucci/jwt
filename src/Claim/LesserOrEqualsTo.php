@@ -8,6 +8,7 @@
 namespace Lcobucci\JWT\Claim;
 
 use Lcobucci\JWT\Claim;
+use Lcobucci\JWT\ValidationData;
 
 /**
  * Validatable claim that checks if value is lesser or equals to the given data
@@ -20,10 +21,10 @@ class LesserOrEqualsTo extends Basic implements Claim, Validatable
     /**
      * {@inheritdoc}
      */
-    public function validate(array $data)
+    public function validate(ValidationData $data)
     {
-        if (isset($data[$this->getName()])) {
-            return $this->getValue() <= $data[$this->getName()];
+        if ($data->has($this->getName())) {
+            return $this->getValue() <= $data->get($this->getName());
         }
 
         return true;
