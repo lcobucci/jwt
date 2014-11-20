@@ -32,6 +32,19 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \RuntimeException
      */
+    public function jsonDecodeMustRaiseExceptionWhenResultIsNotAnArray()
+    {
+        $decoder = new Decoder();
+
+        $decoder->jsonDecode('"test"');
+    }
+
+    /**
+     * @test
+     * @covers ::jsonDecode
+     *
+     * @expectedException \RuntimeException
+     */
     public function jsonDecodeMustRaiseExceptionWhenAnErrorHasOccured()
     {
         $decoder = new Decoder();
