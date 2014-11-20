@@ -1,13 +1,14 @@
 # JWT
 
-master [![Build Status](https://secure.travis-ci.org/lcobucci/jwt.png?branch=master)](http://travis-ci.org/#!/lcobucci/jwt)
-develop [![Build Status](https://secure.travis-ci.org/lcobucci/jwt.png?branch=develop)](http://travis-ci.org/#!/lcobucci/jwt)
+master
+[![Build Status](https://secure.travis-ci.org/lcobucci/jwt.png?branch=master)](http://travis-ci.org/#!/lcobucci/jwt)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
 
-master [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
-develop [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=develop)
-
-master [![Code Coverage](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
-develop [![Code Coverage](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=develop)
+develop
+[![Build Status](https://secure.travis-ci.org/lcobucci/jwt.png?branch=develop)](http://travis-ci.org/#!/lcobucci/jwt)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=develop)
+[![Code Coverage](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=develop)
 
 [![Total Downloads](https://poser.pugx.org/lcobucci/jwt/downloads.png)](https://packagist.org/packages/lcobucci/jwt)
 [![Latest Stable Version](https://poser.pugx.org/lcobucci/jwt/v/stable.png)](https://packagist.org/packages/lcobucci/jwt)
