@@ -9,6 +9,7 @@ namespace Lcobucci\JWT;
 
 use BadMethodCallException;
 use Lcobucci\JWT\Parsing\Encoder;
+use Lcobucci\JWT\Claim\Validatable;
 
 /**
  * Basic structure of the JWT
@@ -53,8 +54,11 @@ class Token
      * @param array $claims
      * @param Signature $signature
      */
-    public function __construct(array $header = ['alg' => 'none'], array $claims = [], Signature $signature = null)
-    {
+    public function __construct(
+        array $header = ['alg' => 'none'],
+        array $claims = [],
+        Signature $signature = null
+    ) {
         $this->header = $header;
         $this->claims = $claims;
         $this->signature = $signature;
@@ -125,6 +129,7 @@ class Token
      * @param string $audience
      * @param string $subject
      * @param int $currentTime
+     *
      * @return boolean
      */
     public function validate(
@@ -134,28 +139,36 @@ class Token
         $currentTime = null
     ) {
         $currentTime = $currentTime ?: time();
+        $data = [
+            'iss' => $issuer,
+            'aud' => $audience,
+            'sub' => $subject,
+            'iat' => $currentTime,
+            'nbf' => $currentTime,
+            'exp' => $currentTime
+        ];
 
-        if (isset($this->claims['iss']) && $this->claims['iss'] != $issuer) {
-            return false;
-        }
-
-        if (isset($this->claims['aud']) && $this->claims['aud'] != $audience) {
-            return false;
-        }
-
-        if (isset($this->claims['sub']) && $this->claims['sub'] != $subject) {
-            return false;
-        }
-
-        if (isset($this->claims['nbf']) && $this->claims['nbf'] > $currentTime) {
-            return false;
-        }
-
-        if (isset($this->claims['exp']) && $this->claims['exp'] < $currentTime) {
-            return false;
+        foreach ($this->getValidatableClaims() as $claim) {
+            if (!$claim->validate($data)) {
+                return false;
+            }
         }
 
         return true;
+    }
+
+    /**
+     * Yields the validatable claims
+     *
+     * @return Generator
+     */
+    private function getValidatableClaims()
+    {
+        foreach ($this->claims as $claim) {
+            if ($claim instanceof Validatable) {
+                yield $claim;
+            }
+        }
     }
 
     /**
