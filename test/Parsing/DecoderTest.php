@@ -5,9 +5,7 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Test\Parsing;
-
-use Lcobucci\JWT\Parsing\Decoder;
+namespace Lcobucci\JWT\Parsing;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -26,6 +24,19 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
         $decoder = new Decoder();
 
         $this->assertEquals(['test' => 'test'], $decoder->jsonDecode('{"test":"test"}'));
+    }
+
+    /**
+     * @test
+     * @covers ::jsonDecode
+     *
+     * @expectedException \RuntimeException
+     */
+    public function jsonDecodeMustRaiseExceptionWhenResultIsNotAnArray()
+    {
+        $decoder = new Decoder();
+
+        $decoder->jsonDecode('"test"');
     }
 
     /**

@@ -1,27 +1,27 @@
 {
-	"name" : "lcobucci/jwt",
-	"description" : "A simple library to work with JSON Web Token and JSON Web Signature",
-	"type" : "library",
-	"authors" : [{
-			"name" : "Luís Otávio Cobucci Oblonczyk",
-			"email" : "lcobucci@gmail.com",
+    "name" : "lcobucci/jwt",
+    "description" : "A simple library to work with JSON Web Token and JSON Web Signature",
+    "type" : "library",
+    "authors" : [
+        {
+            "name" : "Luís Otávio Cobucci Obloncz",
+            "email" : "lcobucci@gmail.com",
             "role": "Developer"
-		}
-	],
-	"keywords" : ["JWT", "JWS"],
-	"license" : ["BSD-3-Clause"],
-	"require" : {
-		"php" : ">=5.5"
-	},
-	"require-dev" : {
-		"phpunit/phpunit" : "4.0.x",
-		"squizlabs/php_codesniffer" : "*",
-		"phpmd/phpmd" : "*"
-	},
-	"autoload" : {
-		"psr-4" : {
-			"Lcobucci\\JWT\\" : "src",
-			"Lcobucci\\JWT\\Test\\" : "test"
-		}
-	}
+        }
+    ],
+    "keywords" : ["JWT", "JWS"],
+    "license" : ["BSD-3-Clause"],
+    "require" : {
+        "php" : ">=5.5"
+    },
+    "require-dev" : {
+        "phpunit/phpunit" : "~4.3",
+        "squizlabs/php_codesniffer" : "~1.5",
+        "phpmd/phpmd" : "~2.1"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "Lcobucci\\JWT\\" : ["src", "test"]
+        }
+    }
 }

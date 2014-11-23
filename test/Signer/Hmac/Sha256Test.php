@@ -5,17 +5,15 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Test\Signer;
-
-use Lcobucci\JWT\Signer\Sha512;
+namespace Lcobucci\JWT\Signer\Hmac;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
  *
- * @coversDefaultClass Lcobucci\JWT\Signer\Sha512
+ * @coversDefaultClass Lcobucci\JWT\Signer\Hmac\Sha256
  */
-class Sha512Test extends \PHPUnit_Framework_TestCase
+class Sha256Test extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -23,9 +21,9 @@ class Sha512Test extends \PHPUnit_Framework_TestCase
      */
     public function getAlgorithmIdMustBeCorrect()
     {
-        $signer = new Sha512();
+        $signer = new Sha256();
 
-        $this->assertEquals('HS512', $signer->getAlgorithmId());
+        $this->assertEquals('HS256', $signer->getAlgorithmId());
     }
 
     /**
@@ -34,8 +32,8 @@ class Sha512Test extends \PHPUnit_Framework_TestCase
      */
     public function getAlgorithmMustBeCorrect()
     {
-        $signer = new Sha512();
+        $signer = new Sha256();
 
-        $this->assertEquals('sha512', $signer->getAlgorithm());
+        $this->assertEquals('sha256', $signer->getAlgorithm());
     }
 }

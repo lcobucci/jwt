@@ -5,9 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Test\Signer;
+namespace Lcobucci\JWT\Signer;
 
-use Lcobucci\JWT\Signer\BaseSigner;
 use Lcobucci\JWT\Signature;
 
 /**
@@ -28,9 +27,7 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->signer = $this->getMockBuilder(BaseSigner::class)
-                             ->setMockClassName('BaseSignerMock')
-                             ->getMockForAbstractClass();
+        $this->signer = $this->getMockForAbstractClass(BaseSigner::class);
 
         $this->signer->expects($this->any())
                      ->method('getAlgorithmId')

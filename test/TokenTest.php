@@ -5,11 +5,13 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Test;
+namespace Lcobucci\JWT;
 
 use Lcobucci\JWT\Parsing\Encoder;
-use Lcobucci\JWT\Signature;
-use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Claim\Basic;
+use Lcobucci\JWT\Claim\EqualsTo;
+use Lcobucci\JWT\Claim\GreaterOrEqualsTo;
+use Lcobucci\JWT\Claim\LesserOrEqualsTo;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -29,9 +31,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->encoder = $this->getMockBuilder(Encoder::class)
-                              ->setMockClassName('EncoderMock')
-                              ->getMock();
+        $this->encoder = $this->getMock(Encoder::class);
     }
 
     /**
@@ -91,11 +91,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function getSignatureMustReturnTheConfiguredSignature()
     {
-        $signature = $this->getMockBuilder(Signature::class)
-                          ->setMockClassName('SignatureMock')
-                          ->disableOriginalConstructor()
-                          ->getMock();
-
+        $signature = $this->getMock(Signature::class, [], [], '', false);
         $token = new Token([], [], $signature);
 
         $this->assertSame($signature, $token->getSignature());
@@ -123,10 +119,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyMustDelegateTheValidationToSignature()
     {
-        $signature = $this->getMockBuilder(Signature::class)
-                          ->setMockClassName('SignatureMock')
-                          ->disableOriginalConstructor()
-                          ->getMock();
+        $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signature->expects($this->once())
                   ->method('verify')
@@ -142,95 +135,98 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      * @covers ::__construct
      * @covers ::validate
+     * @covers ::getValidatableClaims
+     * @covers Lcobucci\JWT\ValidationData::__construct
      */
     public function validateShouldReturnTrueWhenClaimsAreEmpty()
     {
         $token = new Token();
 
-        $this->assertTrue($token->validate());
+        $this->assertTrue($token->validate(new ValidationData()));
     }
 
     /**
      * @test
      * @covers ::__construct
      * @covers ::validate
+     * @covers ::getValidatableClaims
+     * @covers Lcobucci\JWT\ValidationData::__construct
+     * @covers Lcobucci\JWT\Claim\Basic::__construct
      */
-    public function validateShouldReturnFalseWhenIssuerIsDiferentThanTheGivenOne()
+    public function validateShouldReturnTrueWhenThereAreNoValidatableClaims()
     {
-        $token = new Token([], ['iss' => 'test']);
+        $token = new Token([], ['testing' => new Basic('testing', 'test')]);
 
-        $this->assertFalse($token->validate('test1'));
+        $this->assertTrue($token->validate(new ValidationData()));
     }
 
     /**
      * @test
      * @covers ::__construct
      * @covers ::validate
+     * @covers ::getValidatableClaims
+     * @covers Lcobucci\JWT\ValidationData::__construct
+     * @covers Lcobucci\JWT\ValidationData::get
+     * @covers Lcobucci\JWT\ValidationData::has
+     * @covers Lcobucci\JWT\ValidationData::setIssuer
+     * @covers Lcobucci\JWT\Claim\Basic::__construct
+     * @covers Lcobucci\JWT\Claim\Basic::getName
+     * @covers Lcobucci\JWT\Claim\Basic::getValue
+     * @covers Lcobucci\JWT\Claim\EqualsTo::__construct
+     * @covers Lcobucci\JWT\Claim\EqualsTo::validate
      */
-    public function validateShouldReturnFalseWhenAudienceIsDiferentThanTheGivenOne()
-    {
-        $token = new Token([], ['aud' => 'test']);
-
-        $this->assertFalse($token->validate(null, 'test1'));
-    }
-
-    /**
-     * @test
-     * @covers ::__construct
-     * @covers ::validate
-     */
-    public function validateShouldReturnFalseWhenSubjectIsDiferentThanTheGivenOne()
-    {
-        $token = new Token([], ['sub' => 'test']);
-
-        $this->assertFalse($token->validate(null, null, 'test1'));
-    }
-
-    /**
-     * @test
-     * @covers ::__construct
-     * @covers ::validate
-     */
-    public function validateShouldReturnFalseWhenTokenCannotYetBeUsed()
-    {
-        $token = new Token([], ['nbf' => strtotime('+2 hours')]);
-
-        $this->assertFalse($token->validate(null, null, null, time()));
-    }
-
-    /**
-     * @test
-     * @covers ::__construct
-     * @covers ::validate
-     */
-    public function validateShouldReturnFalseWhenTokenIsExpired()
-    {
-        $token = new Token([], ['exp' => time()]);
-
-        $this->assertFalse($token->validate(null, null, null, strtotime('+2 hours')));
-    }
-
-    /**
-     * @test
-     * @covers ::__construct
-     * @covers ::validate
-     */
-    public function validateShouldReturnTrueWhenAllInformationsAreRight()
+    public function validateShouldReturnFalseWhenThereIsAtLeastOneFailedValidatableClaim()
     {
         $token = new Token(
             [],
             [
-                'iss' => 'test0',
-                'aud' => 'test1',
-                'sub' => 'test2',
-                'nbf' => time(),
-                'exp' => strtotime('+3 hours')
+                'iss' => new EqualsTo('iss', 'test'),
+                'testing' => new Basic('testing', 'test')
             ]
         );
 
-        $this->assertTrue(
-            $token->validate('test0', 'test1', 'test2', strtotime('+1 hours'))
+        $data = new ValidationData();
+        $data->setIssuer('test1');
+
+        $this->assertFalse($token->validate($data));
+    }
+
+    /**
+     * @test
+     * @covers ::__construct
+     * @covers ::validate
+     * @covers ::getValidatableClaims
+     * @covers Lcobucci\JWT\ValidationData::__construct
+     * @covers Lcobucci\JWT\ValidationData::get
+     * @covers Lcobucci\JWT\ValidationData::has
+     * @covers Lcobucci\JWT\ValidationData::setIssuer
+     * @covers Lcobucci\JWT\Claim\Basic::__construct
+     * @covers Lcobucci\JWT\Claim\Basic::getName
+     * @covers Lcobucci\JWT\Claim\Basic::getValue
+     * @covers Lcobucci\JWT\Claim\EqualsTo::__construct
+     * @covers Lcobucci\JWT\Claim\EqualsTo::validate
+     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::__construct
+     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
+     * @covers Lcobucci\JWT\Claim\GreaterOrEqualsTo::__construct
+     * @covers Lcobucci\JWT\Claim\GreaterOrEqualsTo::validate
+     */
+    public function validateShouldReturnTrueWhenThereAreNoFailedValidatableClaims()
+    {
+        $now = time();
+        $token = new Token(
+            [],
+            [
+                'iss' => new EqualsTo('iss', 'test'),
+                'iat' => new LesserOrEqualsTo('iat', $now),
+                'exp' => new GreaterOrEqualsTo('ext', $now + 500),
+                'testing' => new Basic('testing', 'test')
+            ]
         );
+
+        $data = new ValidationData($now + 10);
+        $data->setIssuer('test');
+
+        $this->assertTrue($token->validate($data));
     }
 
     /**
@@ -272,10 +268,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function toStringMustReturnEncodedData()
     {
-        $signature = $this->getMockBuilder(Signature::class)
-                          ->setMockClassName('SignatureMock')
-                          ->disableOriginalConstructor()
-                          ->getMock();
+        $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signature->expects($this->any())
                   ->method('__toString')

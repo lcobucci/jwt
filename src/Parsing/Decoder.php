@@ -36,6 +36,10 @@ class Decoder
             throw new RuntimeException('Error while decoding to JSON: ' . json_last_error_msg());
         }
 
+        if (!is_array($data)) {
+            throw new RuntimeException('The decoded data must be an array');
+        }
+
         return $data;
     }
 

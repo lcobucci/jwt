@@ -1,16 +1,24 @@
 # JWT
 
-master [![Build Status](https://secure.travis-ci.org/lcobucci/jwt.png?branch=master)](http://travis-ci.org/#!/lcobucci/jwt)
-develop [![Build Status](https://secure.travis-ci.org/lcobucci/jwt.png?branch=develop)](http://travis-ci.org/#!/lcobucci/jwt)
+master
+[![Build Status](https://secure.travis-ci.org/lcobucci/jwt.png?branch=master)](http://travis-ci.org/#!/lcobucci/jwt)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
+
+develop
+[![Build Status](https://secure.travis-ci.org/lcobucci/jwt.png?branch=develop)](http://travis-ci.org/#!/lcobucci/jwt)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=develop)
+[![Code Coverage](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=develop)
 
 [![Total Downloads](https://poser.pugx.org/lcobucci/jwt/downloads.png)](https://packagist.org/packages/lcobucci/jwt)
 [![Latest Stable Version](https://poser.pugx.org/lcobucci/jwt/v/stable.png)](https://packagist.org/packages/lcobucci/jwt)
 
-A simple library to work with JSON Web Token and JSON Web Signature (requires PHP 5.5+)
+A simple library to work with JSON Web Token and JSON Web Signature (requires PHP 5.5+).
+The implementation is based on the [current draft](http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-31).
 
 ## Instalation
 
-Just add to your composer.json: ```"lcobucci/jwt": "~1.0"```
+Just add to your composer.json: ```"lcobucci/jwt": "*"```
 
 ## Basic usage
 
@@ -21,7 +29,7 @@ Just use the builder to create a new JWT/JWS tokens:
 ```php
 <?php
 use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Signer\Sha256;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
 
 $token = (new Builder())->setIssuer('http://example.com') // Configures the issuer (iss claim)
                         ->setAudience('http://example.org') // Configures the audience (aud claim)

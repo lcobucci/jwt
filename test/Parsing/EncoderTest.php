@@ -5,9 +5,7 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Test\Parsing;
-
-use Lcobucci\JWT\Parsing\Encoder;
+namespace Lcobucci\JWT\Parsing;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>

@@ -5,12 +5,11 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Test\Signer;
+namespace Lcobucci\JWT\Signer;
 
-use Lcobucci\JWT\Signer\Factory;
-use Lcobucci\JWT\Signer\Sha256;
-use Lcobucci\JWT\Signer\Sha384;
-use Lcobucci\JWT\Signer\Sha512;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Signer\Hmac\Sha384;
+use Lcobucci\JWT\Signer\Hmac\Sha512;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -22,7 +21,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
+     * @covers ::__construct
      * @covers ::create
+     * @covers ::createHmacSha256
      */
     public function createMustBeAbleReturnASha256Signer()
     {
@@ -33,7 +34,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers ::__construct
      * @covers ::create
+     * @covers ::createHmacSha384
      */
     public function createMustBeAbleReturnASha384Signer()
     {
@@ -44,7 +47,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers ::__construct
      * @covers ::create
+     * @covers ::createHmacSha512
      */
     public function createMustBeAbleReturnASha512Signer()
     {
@@ -55,6 +60,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers ::__construct
      * @covers ::create
      *
      * @expectedException InvalidArgumentException

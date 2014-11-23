@@ -8,6 +8,7 @@
 namespace Lcobucci\JWT;
 
 use BadMethodCallException;
+use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Encoder;
 
 /**
@@ -47,11 +48,24 @@ class Builder
     private $encoder;
 
     /**
-     * Initializes a new builder
+     * The factory of claims
+     *
+     * @var ClaimFactory
      */
-    public function __construct(Encoder $encoder = null)
-    {
+    private $claimFactory;
+
+    /**
+     * Initializes a new builder
+     *
+     * @param Encoder $encoder
+     * @param ClaimFactory $claimFactory
+     */
+    public function __construct(
+        Encoder $encoder = null,
+        ClaimFactory $claimFactory = null
+    ) {
         $this->encoder = $encoder ?: new Encoder();
+        $this->claimFactory = $claimFactory ?: new ClaimFactory();
         $this->header = ['typ'=> 'JWT', 'alg' => 'none'];
         $this->claims = [];
     }
@@ -161,7 +175,7 @@ class Builder
         $this->set($name, $value);
 
         if ($replicate) {
-            $this->header[$name] = $value;
+            $this->header[$name] = $this->claims[$name];
         }
 
         return $this;
@@ -183,7 +197,7 @@ class Builder
             throw new BadMethodCallException('You must unsign before make changes');
         }
 
-        $this->claims[(string) $name] = $value;
+        $this->claims[(string) $name] = $this->claimFactory->create($name, $value);
 
         return $this;
     }

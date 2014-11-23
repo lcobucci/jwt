@@ -5,9 +5,7 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Test\Signer;
-
-use Lcobucci\JWT\Signer\Hmac;
+namespace Lcobucci\JWT\Signer;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -27,9 +25,7 @@ class HmacTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->signer = $this->getMockBuilder(Hmac::class)
-                             ->setMockClassName('HmacMock')
-                             ->getMockForAbstractClass();
+        $this->signer = $this->getMockForAbstractClass(Hmac::class);
 
         $this->signer->expects($this->any())
                      ->method('getAlgorithmId')

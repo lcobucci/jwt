@@ -5,10 +5,7 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Test;
-
-use Lcobucci\JWT\Signer;
-use Lcobucci\JWT\Signature;
+namespace Lcobucci\JWT;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -28,9 +25,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->signer = $this->getMockBuilder(Signer::class)
-                             ->setMockClassName('SignerMock')
-                             ->getMock();
+        $this->signer = $this->getMock(Signer::class);
     }
 
     /**

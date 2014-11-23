@@ -9,6 +9,9 @@ namespace Lcobucci\JWT\Signer;
 
 use InvalidArgumentException;
 use Lcobucci\JWT\Signer;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Signer\Hmac\Sha384;
+use Lcobucci\JWT\Signer\Hmac\Sha512;
 
 /**
  * Factory that returns instance of signers
@@ -19,7 +22,31 @@ use Lcobucci\JWT\Signer;
 class Factory
 {
     /**
-     * Retrives a signer instance
+     * The list of signers callbacks
+     *
+     * @var array
+     */
+    private $callbacks;
+
+    /**
+     * Initializes the factory, registering the default callbacks
+     *
+     * @param array $callbacks
+     */
+    public function __construct(array $callbacks = [])
+    {
+        $this->callbacks = array_merge(
+            [
+                'HS256' => [$this, 'createHmacSha256'],
+                'HS384' => [$this, 'createHmacSha384'],
+                'HS512' => [$this, 'createHmacSha512']
+            ],
+            $callbacks
+        );
+    }
+
+    /**
+     * Retrieves a signer instance
      *
      * @param string $id
      *
@@ -29,18 +56,34 @@ class Factory
      */
     public function create($id)
     {
-        if ($id === 'HS256') {
-            return new Sha256();
-        }
-
-        if ($id === 'HS384') {
-            return new Sha384();
-        }
-
-        if ($id === 'HS512') {
-            return new Sha512();
+        if (isset($this->callbacks[$id])) {
+            return call_user_func($this->callbacks[$id]);
         }
 
         throw new InvalidArgumentException('Invalid signer');
+    }
+
+    /**
+     * @return Sha256
+     */
+    private function createHmacSha256()
+    {
+        return new Sha256();
+    }
+
+    /**
+     * @return Sha384
+     */
+    private function createHmacSha384()
+    {
+        return new Sha384();
+    }
+
+    /**
+     * @return Sha512
+     */
+    private function createHmacSha512()
+    {
+        return new Sha512();
     }
 }

@@ -5,7 +5,9 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Signer;
+namespace Lcobucci\JWT\Signer\Hmac;
+
+use Lcobucci\JWT\Signer\Hmac;
 
 /**
  * Signer for HMAC SHA-512
