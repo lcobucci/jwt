@@ -13,7 +13,8 @@ develop
 [![Total Downloads](https://poser.pugx.org/lcobucci/jwt/downloads.png)](https://packagist.org/packages/lcobucci/jwt)
 [![Latest Stable Version](https://poser.pugx.org/lcobucci/jwt/v/stable.png)](https://packagist.org/packages/lcobucci/jwt)
 
-A simple library to work with JSON Web Token and JSON Web Signature (requires PHP 5.5+)
+A simple library to work with JSON Web Token and JSON Web Signature (requires PHP 5.5+).
+The implementation is based on the [current draft](http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-31).
 
 ## Instalation
 
