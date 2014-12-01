@@ -1,4 +1,5 @@
 # JWT
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/lcobucci/jwt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 master
 [![Build Status](https://secure.travis-ci.org/lcobucci/jwt.png?branch=master)](http://travis-ci.org/#!/lcobucci/jwt)
