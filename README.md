@@ -21,6 +21,10 @@ The implementation is based on the [current draft](http://tools.ietf.org/html/dr
 
 Just add to your composer.json: ```"lcobucci/jwt": "*"```
 
+### Dependencies
+
+- PHP 5.5+
+
 ## Basic usage
 
 ### Creating
@@ -38,7 +42,7 @@ $token = (new Builder())->setIssuer('http://example.com') // Configures the issu
                         ->set('uid', 1) // Configures a new claim, called "uid"
                         ->sign(new Sha256(), 'my key') // Signs the token with HS256 using "my key" as key
                         ->getToken(); // Retrieves the generated token
-                        
+
 echo $token; // The string representation of the object is a JWT string (pretty easy, right?)
 ```
 ### Parsing from strings
