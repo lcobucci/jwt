@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a631bbb387d91587e2e34654e2ce7aea",
+    "hash": "c7ce3421e52c20467e31c61949005c68",
     "packages": [],
     "packages-dev": [
         {
@@ -246,6 +246,52 @@
                 "iterator"
             ],
             "time": "2013-10-10 15:34:57"
+        },
+        {
+            "name": "phpunit/php-invoker",
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/php-invoker.git",
+                "reference": "8696484458cb43eed025ab46260846de5b74655c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-invoker/zipball/8696484458cb43eed025ab46260846de5b74655c",
+                "reference": "8696484458cb43eed025ab46260846de5b74655c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pcntl": "*",
+                "php": ">=5.2.7",
+                "phpunit/php-timer": ">=1.0.4,<1.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "PHP/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                ""
+            ],
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sb@sebastian-bergmann.de",
+                    "role": "lead"
+                }
+            ],
+            "description": "Utility class for invoking callables with a timeout.",
+            "homepage": "https://github.com/sebastianbergmann/php-invoker/",
+            "keywords": [
+                "process"
+            ],
+            "time": "2013-07-16 05:20:21"
         },
         {
             "name": "phpunit/php-text-template",
@@ -1058,6 +1104,7 @@
     "minimum-stability": "stable",
     "stability-flags": [],
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.5"
     },
