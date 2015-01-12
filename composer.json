@@ -20,7 +20,7 @@
         "php": ">=5.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.3",
+        "phpunit/phpunit": "~4.4",
         "squizlabs/php_codesniffer": "~1.5",
         "phpmd/phpmd": "~2.1",
         "phpunit/php-invoker": "~1.1"

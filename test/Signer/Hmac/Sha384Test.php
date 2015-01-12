@@ -10,14 +10,13 @@ namespace Lcobucci\JWT\Signer\Hmac;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
- *
- * @coversDefaultClass Lcobucci\JWT\Signer\Hmac\Sha384
  */
 class Sha384Test extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @covers ::getAlgorithmId
+     *
+     * @covers Lcobucci\JWT\Signer\Hmac\Sha384::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
     {
@@ -28,7 +27,8 @@ class Sha384Test extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::getAlgorithm
+     *
+     * @covers Lcobucci\JWT\Signer\Hmac\Sha384::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {

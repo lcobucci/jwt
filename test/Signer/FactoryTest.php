@@ -14,16 +14,36 @@ use Lcobucci\JWT\Signer\Hmac\Sha512;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
- *
- * @coversDefaultClass Lcobucci\JWT\Signer\Factory
  */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::create
-     * @covers ::createHmacSha256
+     *
+     * @covers Lcobucci\JWT\Signer\Factory::__construct
+     */
+    public function constructMustConfigureTheCallbacks()
+    {
+        $callback = function() {};
+        $factory = new Factory(['test' => $callback]);
+
+        $expected = [
+            'HS256' => [$factory, 'createHmacSha256'],
+            'HS384' => [$factory, 'createHmacSha384'],
+            'HS512' => [$factory, 'createHmacSha512'],
+            'test' => $callback
+        ];
+
+        $this->assertAttributeEquals($expected, 'callbacks', $factory);
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Signer\Factory::__construct
+     *
+     * @covers Lcobucci\JWT\Signer\Factory::create
+     * @covers Lcobucci\JWT\Signer\Factory::createHmacSha256
      */
     public function createMustBeAbleReturnASha256Signer()
     {
@@ -34,9 +54,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::create
-     * @covers ::createHmacSha384
+     *
+     * @uses Lcobucci\JWT\Signer\Factory::__construct
+     *
+     * @covers Lcobucci\JWT\Signer\Factory::create
+     * @covers Lcobucci\JWT\Signer\Factory::createHmacSha384
      */
     public function createMustBeAbleReturnASha384Signer()
     {
@@ -47,9 +69,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::create
-     * @covers ::createHmacSha512
+     *
+     * @uses Lcobucci\JWT\Signer\Factory::__construct
+     *
+     * @covers Lcobucci\JWT\Signer\Factory::create
+     * @covers Lcobucci\JWT\Signer\Factory::createHmacSha512
      */
     public function createMustBeAbleReturnASha512Signer()
     {
@@ -60,8 +84,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::create
+     *
+     * @uses Lcobucci\JWT\Signer\Factory::__construct
+     *
+     * @covers Lcobucci\JWT\Signer\Factory::create
      *
      * @expectedException InvalidArgumentException
      */

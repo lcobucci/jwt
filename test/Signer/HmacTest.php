@@ -10,8 +10,6 @@ namespace Lcobucci\JWT\Signer;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
- *
- * @coversDefaultClass Lcobucci\JWT\Signer\Hmac
  */
 class HmacTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,7 +36,8 @@ class HmacTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::createHash
+     *
+     * @covers Lcobucci\JWT\Signer\Hmac::createHash
      */
     public function createHashMustReturnAHashAccordingWithTheAlgorithm()
     {

@@ -10,8 +10,6 @@ namespace Lcobucci\JWT;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
- *
- * @coversDefaultClass Lcobucci\JWT\Signature
  */
 class SignatureTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +28,8 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::__construct
+     *
+     * @covers Lcobucci\JWT\Signature::__construct
      */
     public function constructorMustConfigureAttributes()
     {
@@ -42,8 +41,10 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::__toString
+     *
+     * @uses Lcobucci\JWT\Signature::__construct
+     *
+     * @covers Lcobucci\JWT\Signature::__toString
      */
     public function toStringMustReturnTheHash()
     {
@@ -54,9 +55,11 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::__toString
-     * @covers ::verify
+     *
+     * @uses Lcobucci\JWT\Signature::__construct
+     * @uses Lcobucci\JWT\Signature::__toString
+     *
+     * @covers Lcobucci\JWT\Signature::verify
      */
     public function verifyMustReturnTrueWhenHashMatches()
     {
@@ -71,9 +74,11 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::__toString
-     * @covers ::verify
+     *
+     * @uses Lcobucci\JWT\Signature::__construct
+     * @uses Lcobucci\JWT\Signature::__toString
+     *
+     * @covers Lcobucci\JWT\Signature::verify
      */
     public function verifyMustReturnFalseWhenHashDoesNotMatch()
     {
