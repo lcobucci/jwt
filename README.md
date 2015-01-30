@@ -1,18 +1,16 @@
 # JWT
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/lcobucci/jwt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://img.shields.io/badge/GITTER-JOIN%20CHAT%20%E2%86%92-brightgreen.svg?style=flat-square)](https://gitter.im/lcobucci/jwt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Total Downloads](https://img.shields.io/packagist/dt/lcobucci/jwt.svg?style=flat-square)](https://packagist.org/packages/lcobucci/jwt) [![Latest Stable Version](https://img.shields.io/packagist/v/lcobucci/jwt.svg?style=flat-square)](https://packagist.org/packages/lcobucci/jwt)
 
-master
-[![Build Status](https://secure.travis-ci.org/lcobucci/jwt.png?branch=master)](http://travis-ci.org/#!/lcobucci/jwt)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
+![Branch master](https://img.shields.io/badge/branch-master-brightgreen.svg?style=flat-square)
+[![Build Status](https://img.shields.io/travis/lcobucci/jwt/master.svg?style=flat-square)](http://travis-ci.org/#!/lcobucci/jwt)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
 
-develop
-[![Build Status](https://secure.travis-ci.org/lcobucci/jwt.png?branch=develop)](http://travis-ci.org/#!/lcobucci/jwt)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=develop)
-[![Code Coverage](https://scrutinizer-ci.com/g/lcobucci/jwt/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=develop)
+![Branch develop](https://img.shields.io/badge/branch-develop-brightgreen.svg?style=flat-square)
+[![Build Status](https://img.shields.io/travis/lcobucci/jwt/develop.svg?style=flat-square)](http://travis-ci.org/#!/lcobucci/jwt)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/lcobucci/jwt/develop.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=develop)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/lcobucci/jwt/develop.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=develop)
 
-[![Total Downloads](https://poser.pugx.org/lcobucci/jwt/downloads.png)](https://packagist.org/packages/lcobucci/jwt)
-[![Latest Stable Version](https://poser.pugx.org/lcobucci/jwt/v/stable.png)](https://packagist.org/packages/lcobucci/jwt)
 
 A simple library to work with JSON Web Token and JSON Web Signature (requires PHP 5.5+).
 The implementation is based on the [current draft](http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-31).
