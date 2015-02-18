@@ -3,3 +3,4 @@
 .settings/
 vendor
 build
+phpunit.xml
