@@ -15,9 +15,14 @@
 A simple library to work with JSON Web Token and JSON Web Signature (requires PHP 5.5+).
 The implementation is based on the [current draft](http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-31).
 
-## Instalation
+## Installation
 
-Just add to your composer.json: ```"lcobucci/jwt": "*"```
+Package is available on [Packagist](http://packagist.org/packages/lcobucci/jwt),
+you can install it using [Composer](http://getcomposer.org).
+
+```shell
+composer require lcobucci/jwt
+```
 
 ### Dependencies
 
@@ -30,7 +35,6 @@ Just add to your composer.json: ```"lcobucci/jwt": "*"```
 Just use the builder to create a new JWT/JWS tokens:
 
 ```php
-<?php
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 
@@ -48,7 +52,6 @@ echo $token; // The string representation of the object is a JWT string (pretty 
 Use the parser to create a new token from a JWT string:
 
 ```php
-<?php
 use Lcobucci\JWT\Parser;
 
 $token = (new Parser())->parse('...'); // Parses from a string
