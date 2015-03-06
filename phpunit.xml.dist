@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit 
-    colors="true" 
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     backupGlobals="false" 
     backupStaticAttributes="false" 
     bootstrap="vendor/autoload.php"
+    colors="true" 
     verbose="true"
-    strict="true">
+    beStrictAboutOutputDuringTests="true"
+    beStrictAboutTestSize="true"
+    beStrictAboutTestsThatDoNotTestAnything="true"
+    beStrictAboutTodoAnnotatedTests="true"
+    checkForUnintentionallyCoveredCode="true"
+    forceCoversAnnotation="true">
 	<testsuites>
 		<testsuite name="JWT Test Suite">
 			<directory>test</directory>
