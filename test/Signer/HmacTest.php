@@ -59,7 +59,7 @@ class HmacTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnTrueWhenExpectedHashWasCreatedWithSameInformation($expected)
     {
-        $this->assertTrue($this->signer->verify($expected, 'test', 123));
+        $this->assertTrue($this->signer->verify($expected, 'test', '123'));
     }
 
     /**
@@ -73,7 +73,7 @@ class HmacTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnFalseWhenExpectedHashWasNotCreatedWithSameInformation($expected)
     {
-        $this->assertFalse($this->signer->verify($expected, 'test', 1234));
+        $this->assertFalse($this->signer->verify($expected, 'test', '1234'));
     }
 
     /**
