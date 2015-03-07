@@ -61,33 +61,14 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Lcobucci\JWT\Signature::verify
      */
-    public function verifyMustReturnTrueWhenHashMatches()
+    public function verifyMustReturnWhatSignerSays()
     {
         $this->signer->expects($this->any())
-                     ->method('createHash')
-                     ->willReturn('test');
+                     ->method('verify')
+                     ->willReturn(true);
 
         $signature = new Signature($this->signer, 'test');
 
         $this->assertTrue($signature->verify('one', 'key'));
-    }
-
-    /**
-     * @test
-     *
-     * @uses Lcobucci\JWT\Signature::__construct
-     * @uses Lcobucci\JWT\Signature::__toString
-     *
-     * @covers Lcobucci\JWT\Signature::verify
-     */
-    public function verifyMustReturnFalseWhenHashDoesNotMatch()
-    {
-        $this->signer->expects($this->any())
-                     ->method('createHash')
-                     ->willReturn('testing');
-
-        $signature = new Signature($this->signer, 'test');
-
-        $this->assertFalse($signature->verify('one', 'key'));
     }
 }

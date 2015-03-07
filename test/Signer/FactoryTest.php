@@ -24,7 +24,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function constructMustConfigureTheCallbacks()
     {
-        $callback = function() {};
+        $callback = function () {
+        };
         $factory = new Factory(['test' => $callback]);
 
         $expected = [
