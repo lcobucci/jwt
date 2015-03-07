@@ -11,6 +11,7 @@ use BadMethodCallException;
 use Generator;
 use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Claim\Validatable;
+use OutOfBoundsException;
 
 /**
  * Basic structure of the JWT
@@ -93,6 +94,24 @@ class Token
     public function getClaims()
     {
         return $this->claims;
+    }
+
+    /**
+     * Returns the value of a token claim
+     *
+     * @param string $name
+     *
+     * @return mixed
+     *
+     * @throws OutOfBoundsException
+     */
+    public function getClaim($name)
+    {
+        if (!isset($this->claims[$name])) {
+            throw new OutOfBoundsException('Requested claim is not configured');
+        }
+
+        return $this->claims[$name]->getValue();
     }
 
     /**

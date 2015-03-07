@@ -104,6 +104,22 @@ trait RsaKeys
     /**
      * @return string
      */
+    protected function encryptedPublicRsaContent()
+    {
+        return '-----BEGIN PUBLIC KEY-----' . PHP_EOL
+               . 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwLpbUP8a9yflt5LKUUS3' . PHP_EOL
+               . 'NPuRM7yEouPWg0VKeY5AURu4i8bqQ20K5jwfRJ+w05FvlywG4EuxpnpTFTVS2/do' . PHP_EOL
+               . 'q3xufzTf/C3KIDOAHEifkdx4140btKxxm4mD9Eu2CQ32adZyScha50KUFlfnAAic' . PHP_EOL
+               . 'Hb8wYxjFyWo3PAbGYmCQCn2z97Ab0Ar6NR1e+V9f8EL9Orr2f04puKJfQTZdWVDF' . PHP_EOL
+               . 'UJR4w7QZ/CPY0LEsiFLW3QQCNraka1mtrLJwPqreBtDEkj8IoISNkrguu/97RQZz' . PHP_EOL
+               . 'miJgBQkVjr6OfqG5WIFr0MzbRZc1/aK9g8ft88nhhQm0E3GqkCxBKTwgA03HtK07' . PHP_EOL
+               . 'qQIDAQAB' . PHP_EOL
+               . '-----END PUBLIC KEY-----';
+    }
+
+    /**
+     * @return string
+     */
     protected function privateRsa()
     {
         return openssl_pkey_get_private($this->privateRsaContent());
@@ -123,5 +139,13 @@ trait RsaKeys
     protected function publicRsa()
     {
         return openssl_pkey_get_public($this->publicRsaContent());
+    }
+
+    /**
+     * @return string
+     */
+    protected function encryptedPublicRsa()
+    {
+        return openssl_pkey_get_public($this->encryptedPublicRsaContent());
     }
 }

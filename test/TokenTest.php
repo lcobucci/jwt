@@ -93,6 +93,38 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     *
+     * @covers Lcobucci\JWT\Token::getClaim
+     *
+     * @expectedException \OutOfBoundsException
+     */
+    public function getClaimShouldRaiseExceptionWhenClaimIsNotConfigured()
+    {
+        $token = new Token();
+        $token->getClaim('testing');
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses Lcobucci\JWT\Claim\Basic::getValue
+     *
+     * @covers Lcobucci\JWT\Token::getClaim
+     */
+    public function getClaimShouldReturnTheClaimValueWhenItExists()
+    {
+        $token = new Token([], ['testing' => new Basic('testing', 'test')]);
+
+        $this->assertEquals('test', $token->getClaim('testing'));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
      *
      * @covers Lcobucci\JWT\Token::getSignature
      */
