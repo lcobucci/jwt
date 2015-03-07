@@ -7,6 +7,8 @@
 
 namespace Lcobucci\JWT;
 
+use InvalidArgumentException;
+
 /**
  * Basic interface for token signers
  *
@@ -36,6 +38,8 @@ interface Signer
      * @param string $key
      *
      * @return Signature
+     *
+     * @throws InvalidArgumentException When given key is invalid
      */
     public function sign($payload, $key);
 
@@ -47,6 +51,8 @@ interface Signer
      * @param string|resource $key
      *
      * @return boolean
+     *
+     * @throws InvalidArgumentException When given key is invalid
      */
     public function verify($expected, $payload, $key);
 }
