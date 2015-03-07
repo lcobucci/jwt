@@ -10,15 +10,13 @@ namespace Lcobucci\JWT\Claim;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.0.0
- *
- * @coversDefaultClass Lcobucci\JWT\Claim\Basic
  */
 class BasicTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
      *
-     * @covers ::__construct
+     * @covers Lcobucci\JWT\Claim\Basic::__construct
      */
     public function constructorShouldConfigureTheAttributes()
     {
@@ -31,8 +29,9 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers ::__construct
-     * @covers ::getName
+     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     *
+     * @covers Lcobucci\JWT\Claim\Basic::getName
      */
     public function getNameShouldReturnTheClaimName()
     {
@@ -44,8 +43,9 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers ::__construct
-     * @covers ::getValue
+     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     *
+     * @covers Lcobucci\JWT\Claim\Basic::getValue
      */
     public function getValueShouldReturnTheClaimValue()
     {
@@ -57,8 +57,9 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers ::__construct
-     * @covers ::jsonSerialize
+     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     *
+     * @covers Lcobucci\JWT\Claim\Basic::jsonSerialize
      */
     public function jsonSerializeShouldReturnTheClaimValue()
     {
@@ -70,8 +71,9 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers ::__construct
-     * @covers ::__toString
+     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     *
+     * @covers Lcobucci\JWT\Claim\Basic::__toString
      */
     public function toStringShouldReturnTheClaimValue()
     {

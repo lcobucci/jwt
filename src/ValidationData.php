@@ -85,7 +85,7 @@ class ValidationData
     /**
      * Configures the time that "iat", "nbf" and "exp" should be based on
      *
-     * @param int $subject
+     * @param int $currentTime
      */
     public function setCurrentTime($currentTime)
     {

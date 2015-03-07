@@ -10,14 +10,13 @@ namespace Lcobucci\JWT\Parsing;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
- *
- * @coversDefaultClass Lcobucci\JWT\Parsing\Encoder
  */
 class EncoderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @covers ::jsonEncode
+     *
+     * @covers Lcobucci\JWT\Parsing\Encoder::jsonEncode
      */
     public function jsonEncodeMustReturnAJSONString()
     {
@@ -28,7 +27,8 @@ class EncoderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::jsonEncode
+     *
+     * @covers Lcobucci\JWT\Parsing\Encoder::jsonEncode
      *
      * @expectedException \RuntimeException
      */
@@ -40,7 +40,8 @@ class EncoderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::base64UrlEncode
+     *
+     * @covers Lcobucci\JWT\Parsing\Encoder::base64UrlEncode
      */
     public function base64UrlEncodeMustReturnAnUrlSafeBase64()
     {

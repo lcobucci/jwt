@@ -52,7 +52,7 @@ class Signature
      */
     public function verify($payload, $key)
     {
-        return $this->hash == $this->signer->createHash($payload, $key);
+        return $this->signer->verify($this->hash, $payload, $key);
     }
 
     /**

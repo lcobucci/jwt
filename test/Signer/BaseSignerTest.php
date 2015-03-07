@@ -12,8 +12,6 @@ use Lcobucci\JWT\Signature;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
- *
- * @coversDefaultClass Lcobucci\JWT\Signer\BaseSigner
  */
 class BaseSignerTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,7 +38,8 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::modifyHeader
+     *
+     * @covers Lcobucci\JWT\Signer\BaseSigner::modifyHeader
      */
     public function modifyHeaderShouldChangeAlgorithmAndType()
     {
@@ -54,8 +53,10 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::sign
-     * @covers Lcobucci\JWT\Signature::__construct
+     *
+     * @uses Lcobucci\JWT\Signature::__construct
+     *
+     * @covers Lcobucci\JWT\Signer\BaseSigner::sign
      */
     public function signMustReturnANewSignature()
     {

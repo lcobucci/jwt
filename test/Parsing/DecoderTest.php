@@ -10,14 +10,13 @@ namespace Lcobucci\JWT\Parsing;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
- *
- * @coversDefaultClass Lcobucci\JWT\Parsing\Decoder
  */
 class DecoderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @covers ::jsonDecode
+     *
+     * @covers Lcobucci\JWT\Parsing\Decoder::jsonDecode
      */
     public function jsonDecodeMustReturnTheDecodedData()
     {
@@ -28,7 +27,8 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::jsonDecode
+     *
+     * @covers Lcobucci\JWT\Parsing\Decoder::jsonDecode
      *
      * @expectedException \RuntimeException
      */
@@ -41,7 +41,8 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::jsonDecode
+     *
+     * @covers Lcobucci\JWT\Parsing\Decoder::jsonDecode
      *
      * @expectedException \RuntimeException
      */
@@ -53,7 +54,8 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers ::base64UrlDecode
+     *
+     * @covers Lcobucci\JWT\Parsing\Decoder::base64UrlDecode
      */
     public function base64UrlDecodeMustReturnTheRightData()
     {

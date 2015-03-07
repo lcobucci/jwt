@@ -34,4 +34,14 @@ abstract class BaseSigner implements Signer
     {
         return new Signature($this, $this->createHash($payload, $key));
     }
+
+    /**
+     * Creates a hash with the given data
+     *
+     * @param string $payload
+     * @param string|resource $key
+     *
+     * @return string
+     */
+    abstract public function createHash($payload, $key);
 }
