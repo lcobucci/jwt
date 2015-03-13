@@ -246,13 +246,13 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::set
      *
-     * @covers Lcobucci\JWT\Builder::setIssueAt
+     * @covers Lcobucci\JWT\Builder::setIssuedAt
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
      */
-    public function setIssueAtMustChangeTheIatClaim()
+    public function setIssuedAtMustChangeTheIatClaim()
     {
         $builder = $this->createBuilder();
-        $builder->setIssueAt('2');
+        $builder->setIssuedAt('2');
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'header', $builder);
         $this->assertAttributeEquals(['iat' => $this->defaultClaim], 'claims', $builder);
@@ -264,13 +264,13 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::set
      *
-     * @covers Lcobucci\JWT\Builder::setIssueAt
+     * @covers Lcobucci\JWT\Builder::setIssuedAt
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
      */
-    public function setIssueAtCanReplicateItemOnHeader()
+    public function setIssuedAtCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
-        $builder->setIssueAt('2', true);
+        $builder->setIssuedAt('2', true);
 
         $this->assertAttributeEquals(['iat' => $this->defaultClaim], 'claims', $builder);
 
@@ -287,14 +287,14 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::set
      *
-     * @covers Lcobucci\JWT\Builder::setIssueAt
+     * @covers Lcobucci\JWT\Builder::setIssuedAt
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
      */
-    public function setIssueAtMustKeepAFluentInterface()
+    public function setIssuedAtMustKeepAFluentInterface()
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->setIssueAt('2'));
+        $this->assertSame($builder, $builder->setIssuedAt('2'));
     }
 
     /**
