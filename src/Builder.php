@@ -117,7 +117,7 @@ class Builder
      *
      * @return Builder
      */
-    public function setIssueAt($issuedAt, $replicateAsHeader = false)
+    public function setIssuedAt($issuedAt, $replicateAsHeader = false)
     {
         return $this->setRegisteredClaim('iat', (int) $issuedAt, $replicateAsHeader);
     }
