@@ -77,11 +77,11 @@ class Token
     }
 
     /**
-     * Returns the token header
+     * Returns the token headers
      *
      * @return array
      */
-    public function getHeader()
+    public function getHeaders()
     {
         return $this->headers;
     }

@@ -66,13 +66,13 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      *
      * @uses Lcobucci\JWT\Token::__construct
      *
-     * @covers Lcobucci\JWT\Token::getHeader
+     * @covers Lcobucci\JWT\Token::getHeaders
      */
-    public function getHeaderMustReturnTheConfiguredHeader()
+    public function getHeadersMustReturnTheConfiguredHeader()
     {
         $token = new Token(['test' => 'testing']);
 
-        $this->assertEquals(['test' => 'testing'], $token->getHeader());
+        $this->assertEquals(['test' => 'testing'], $token->getHeaders());
     }
 
     /**
