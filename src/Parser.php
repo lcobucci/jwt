@@ -11,7 +11,6 @@ use InvalidArgumentException;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
 use Lcobucci\JWT\Parsing\Encoder;
-use Lcobucci\JWT\Signer\Factory as SignerFactory;
 
 /**
  * This class parses the JWT strings and convert them into tokens
@@ -36,13 +35,6 @@ class Parser
     private $decoder;
 
     /**
-     * The signer factory
-     *
-     * @var SignerFactory
-     */
-    private $signerFactory;
-
-    /**
      * The claims factory
      *
      * @var ClaimFactory
@@ -54,18 +46,15 @@ class Parser
      *
      * @param Encoder $encoder
      * @param Decoder $decoder
-     * @param SignerFactory $signerFactory
      * @param ClaimFactory $claimFactory
      */
     public function __construct(
         Encoder $encoder = null,
         Decoder $decoder = null,
-        SignerFactory $signerFactory = null,
         ClaimFactory $claimFactory = null
     ) {
         $this->encoder = $encoder ?: new Encoder();
         $this->decoder = $decoder ?: new Decoder();
-        $this->signerFactory = $signerFactory ?: new SignerFactory();
         $this->claimFactory = $claimFactory ?: new ClaimFactory();
     }
 
@@ -184,6 +173,6 @@ class Parser
 
         $hash = $this->decoder->base64UrlDecode($data);
 
-        return new Signature($this->signerFactory->create($header['alg']), $hash);
+        return new Signature($hash);
     }
 }

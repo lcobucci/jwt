@@ -10,7 +10,6 @@ namespace Lcobucci\JWT;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
 use Lcobucci\JWT\Parsing\Encoder;
-use Lcobucci\JWT\Signer\Factory as SignerFactory;
 use RuntimeException;
 
 /**
@@ -30,11 +29,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     protected $decoder;
 
     /**
-     * @var SignerFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $signerFactory;
-
-    /**
      * @var ClaimFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $claimFactory;
@@ -51,7 +45,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $this->encoder = $this->getMock(Encoder::class);
         $this->decoder = $this->getMock(Decoder::class);
-        $this->signerFactory = $this->getMock(SignerFactory::class, [], [], '', false);
         $this->claimFactory = $this->getMock(ClaimFactory::class, [], [], '', false);
         $this->defaultClaim = $this->getMock(Claim::class);
 
@@ -68,7 +61,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         return new Parser(
             $this->encoder,
             $this->decoder,
-            $this->signerFactory,
             $this->claimFactory
         );
     }
@@ -84,7 +76,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertAttributeSame($this->encoder, 'encoder', $parser);
         $this->assertAttributeSame($this->decoder, 'decoder', $parser);
-        $this->assertAttributeSame($this->signerFactory, 'signerFactory', $parser);
         $this->assertAttributeSame($this->claimFactory, 'claimFactory', $parser);
     }
 
@@ -253,8 +244,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function parseMustReturnASignedTokenWhenSignatureIsInformed()
     {
-        $signer = $this->getMock(Signer::class);
-
         $this->decoder->expects($this->at(1))
                       ->method('jsonDecode')
                       ->willReturn(['typ' => 'JWT', 'alg' => 'HS256']);
@@ -267,16 +256,12 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                       ->method('base64UrlDecode')
                       ->willReturn('aaa');
 
-        $this->signerFactory->expects($this->any())
-                      ->method('create')
-                      ->willReturn($signer);
-
         $parser = $this->createParser();
         $token = $parser->parse('a.a.a');
 
         $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'HS256'], 'header', $token);
         $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
-        $this->assertAttributeEquals(new Signature($signer, 'aaa'), 'signature', $token);
+        $this->assertAttributeEquals(new Signature('aaa'), 'signature', $token);
         $this->assertAttributeSame($this->encoder, 'encoder', $token);
     }
 }
