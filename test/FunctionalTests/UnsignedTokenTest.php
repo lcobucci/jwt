@@ -30,7 +30,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function builderCanGenerateAToken()
     {
-        $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
+        $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
 
         $token = (new Builder())->setId(1)
                               ->setAudience('http://client.abc.com')
@@ -66,6 +66,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
         $read = (new Parser())->parse((string) $generated);
 
         $this->assertEquals($generated, $read);
+        $this->assertEquals('testing', $read->getClaim('user')->name);
     }
 
     /**

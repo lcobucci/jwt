@@ -130,7 +130,7 @@ class Parser
      */
     protected function parseHeader($data)
     {
-        $header = $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
+        $header = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
         if (isset($header['enc'])) {
             throw new InvalidArgumentException('Encryption is not supported yet');
@@ -148,7 +148,7 @@ class Parser
      */
     protected function parseClaims($data)
     {
-        $claims = $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
+        $claims = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
         foreach ($claims as $name => &$value) {
             $value = $this->claimFactory->create($name, $value);

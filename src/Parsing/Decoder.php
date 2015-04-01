@@ -30,14 +30,10 @@ class Decoder
      */
     public function jsonDecode($json)
     {
-        $data = json_decode($json, true);
+        $data = json_decode($json);
 
         if (json_last_error() != JSON_ERROR_NONE) {
             throw new RuntimeException('Error while decoding to JSON: ' . json_last_error_msg());
-        }
-
-        if (!is_array($data)) {
-            throw new RuntimeException('The decoded data must be an array');
         }
 
         return $data;
