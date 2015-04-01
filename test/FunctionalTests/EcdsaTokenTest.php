@@ -13,6 +13,7 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Signature;
 use Lcobucci\JWT\Signer\Ecdsa\Sha256;
 use Lcobucci\JWT\EcdsaKeys;
+use Lcobucci\JWT\Signer\Ecdsa\Sha512;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -21,6 +22,19 @@ use Lcobucci\JWT\EcdsaKeys;
 class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
 {
     use EcdsaKeys;
+
+    /**
+     * @var Sha256
+     */
+    private $signer;
+
+    /**
+     * @before
+     */
+    public function createSigner()
+    {
+        $this->signer = new Sha256();
+    }
 
     /**
      * @test
@@ -44,7 +58,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
                               ->setAudience('http://client.abc.com')
                               ->setIssuer('http://api.abc.com')
                               ->set('user', $user)
-                              ->sign(new Sha256(), $this->privateEcdsa())
+                              ->sign($this->signer, $this->privateEcdsa())
                               ->getToken();
 
         $this->assertAttributeInstanceOf(Signature::class, 'signature', $token);
@@ -68,7 +82,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Parsing\Decoder
-     * @covers Lcobucci\JWT\Signer\Factory
      */
     public function parserCanReadAToken(Token $generated)
     {
@@ -89,14 +102,13 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\Factory
      * @covers Lcobucci\JWT\Signer\OpenSSL
      * @covers Lcobucci\JWT\Signer\Ecdsa
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
     public function verifyShouldReturnFalseWhenKeyIsNotRight(Token $token)
     {
-        $this->assertFalse($token->verify($this->otherPublicEcdsa()));
+        $this->assertFalse($token->verify($this->signer, $this->otherPublicEcdsa()));
     }
 
     /**
@@ -111,13 +123,34 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\Factory
+     * @covers Lcobucci\JWT\Signer\OpenSSL
+     * @covers Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512
+     */
+    public function verifyShouldReturnFalseWhenAlgorithmIsDifferent(Token $token)
+    {
+        $this->assertFalse($token->verify(new Sha512(), $this->publicEcdsa()));
+    }
+
+    /**
+     * @test
+     *
+     * @depends builderCanGenerateAToken
+     *
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Parser
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Signer\OpenSSL
      * @covers Lcobucci\JWT\Signer\Ecdsa
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
     public function verifyShouldReturnTrueWhenKeyIsRight(Token $token)
     {
-        $this->assertTrue($token->verify($this->publicEcdsa()));
+        $this->assertTrue($token->verify($this->signer, $this->publicEcdsa()));
     }
 }
