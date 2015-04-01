@@ -61,7 +61,7 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
     public function signMustReturnANewSignature()
     {
         $this->assertEquals(
-            new Signature($this->signer, 'test'),
+            new Signature('test'),
             $this->signer->sign('test', '123')
         );
     }

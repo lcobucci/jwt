@@ -32,7 +32,7 @@ abstract class BaseSigner implements Signer
      */
     public function sign($payload, $key)
     {
-        return new Signature($this, $this->createHash($payload, $key));
+        return new Signature($this->createHash($payload, $key));
     }
 
     /**
