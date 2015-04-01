@@ -506,7 +506,6 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Token::setEncoder
      * @uses Lcobucci\JWT\Token::getHeader
      * @uses Lcobucci\JWT\Token::getClaims
-     * @uses Lcobucci\JWT\Token::getSignature
      *
      * @covers Lcobucci\JWT\Builder::getToken
      */
@@ -515,9 +514,12 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $builder = $this->createBuilder();
         $token = $builder->set('test', 123)->getToken();
 
+        $signatureAttr = new \ReflectionProperty($token, 'signature');
+        $signatureAttr->setAccessible(true);
+
         $this->assertAttributeEquals($token->getHeader(), 'headers', $builder);
         $this->assertAttributeEquals($token->getClaims(), 'claims', $builder);
-        $this->assertAttributeSame($token->getSignature(), 'signature', $builder);
+        $this->assertAttributeSame($signatureAttr->getValue($token), 'signature', $builder);
     }
 
     /**

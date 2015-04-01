@@ -126,21 +126,6 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      *
      * @uses Lcobucci\JWT\Token::__construct
      *
-     * @covers Lcobucci\JWT\Token::getSignature
-     */
-    public function getSignatureMustReturnTheConfiguredSignature()
-    {
-        $signature = $this->getMock(Signature::class, [], [], '', false);
-        $token = new Token([], [], $signature);
-
-        $this->assertSame($signature, $token->getSignature());
-    }
-
-    /**
-     * @test
-     *
-     * @uses Lcobucci\JWT\Token::__construct
-     *
      * @covers Lcobucci\JWT\Token::verify
      *
      * @expectedException BadMethodCallException

@@ -115,16 +115,6 @@ class Token
     }
 
     /**
-     * Returns the token signature
-     *
-     * @return Signature
-     */
-    public function getSignature()
-    {
-        return $this->signature;
-    }
-
-    /**
      * Verify if the key matches with the one that created the signature
      *
      * @param Signer $signer
