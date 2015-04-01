@@ -183,7 +183,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.a.');
 
-        $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'none'], 'header', $token);
+        $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'none'], 'headers', $token);
         $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
         $this->assertAttributeEquals(null, 'signature', $token);
         $this->assertAttributeSame($this->encoder, 'encoder', $token);
@@ -218,7 +218,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertAttributeEquals(
             ['typ' => 'JWT', 'alg' => 'none', 'aud' => $this->defaultClaim],
-            'header',
+            'headers',
             $token
         );
 
@@ -259,7 +259,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.a.a');
 
-        $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'HS256'], 'header', $token);
+        $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'HS256'], 'headers', $token);
         $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
         $this->assertAttributeEquals(new Signature('aaa'), 'signature', $token);
         $this->assertAttributeSame($this->encoder, 'encoder', $token);

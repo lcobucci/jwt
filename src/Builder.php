@@ -24,7 +24,7 @@ class Builder
      *
      * @var array
      */
-    private $header;
+    private $headers;
 
     /**
      * The token claim set
@@ -66,7 +66,7 @@ class Builder
     ) {
         $this->encoder = $encoder ?: new Encoder();
         $this->claimFactory = $claimFactory ?: new ClaimFactory();
-        $this->header = ['typ'=> 'JWT', 'alg' => 'none'];
+        $this->headers = ['typ'=> 'JWT', 'alg' => 'none'];
         $this->claims = [];
     }
 
@@ -175,7 +175,7 @@ class Builder
         $this->set($name, $value);
 
         if ($replicate) {
-            $this->header[$name] = $this->claims[$name];
+            $this->headers[$name] = $this->claims[$name];
         }
 
         return $this;
@@ -212,7 +212,7 @@ class Builder
      */
     public function sign(Signer $signer, $key)
     {
-        $signer->modifyHeader($this->header);
+        $signer->modifyHeader($this->headers);
 
         $this->signature = $signer->sign(
             $this->getToken()->getPayload(),
@@ -241,7 +241,7 @@ class Builder
      */
     public function getToken()
     {
-        $token = new Token($this->header, $this->claims, $this->signature);
+        $token = new Token($this->headers, $this->claims, $this->signature);
         $token->setEncoder($this->encoder);
 
         return $token;

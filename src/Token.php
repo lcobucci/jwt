@@ -22,11 +22,11 @@ use OutOfBoundsException;
 class Token
 {
     /**
-     * The token header
+     * The token headers
      *
      * @var array
      */
-    private $header;
+    private $headers;
 
     /**
      * The token claim set
@@ -52,16 +52,16 @@ class Token
     /**
      * Initializes the object
      *
-     * @param array $header
+     * @param array $headers
      * @param array $claims
      * @param Signature $signature
      */
     public function __construct(
-        array $header = ['alg' => 'none'],
+        array $headers = ['alg' => 'none'],
         array $claims = [],
         Signature $signature = null
     ) {
-        $this->header = $header;
+        $this->headers = $headers;
         $this->claims = $claims;
         $this->signature = $signature;
     }
@@ -83,7 +83,7 @@ class Token
      */
     public function getHeader()
     {
-        return $this->header;
+        return $this->headers;
     }
 
     /**
@@ -140,7 +140,7 @@ class Token
             throw new BadMethodCallException('This token is not signed');
         }
 
-        if ($this->header['alg'] !== $signer->getAlgorithmId()) {
+        if ($this->headers['alg'] !== $signer->getAlgorithmId()) {
             return false;
         }
 
@@ -194,7 +194,7 @@ class Token
 
         return sprintf(
             '%s.%s',
-            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->header)),
+            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->headers)),
             $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->claims))
         );
     }

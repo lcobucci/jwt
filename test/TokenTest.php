@@ -41,7 +41,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     {
         $token = new Token();
 
-        $this->assertAttributeEquals(['alg' => 'none'], 'header', $token);
+        $this->assertAttributeEquals(['alg' => 'none'], 'headers', $token);
         $this->assertAttributeEquals([], 'claims', $token);
         $this->assertAttributeEquals(null, 'signature', $token);
     }
