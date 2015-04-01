@@ -87,6 +87,30 @@ class Token
     }
 
     /**
+     * Returns the value of a token header
+     *
+     * @param string $name
+     *
+     * @return mixed
+     *
+     * @throws OutOfBoundsException
+     */
+    public function getHeader($name)
+    {
+        if (!isset($this->headers[$name])) {
+            throw new OutOfBoundsException('Requested header is not configured');
+        }
+
+        $header = $this->headers[$name];
+
+        if ($header instanceof Claim) {
+            return $header->getValue();
+        }
+
+        return $header;
+    }
+
+    /**
      * Returns the token claim set
      *
      * @return array

@@ -66,6 +66,52 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      *
      * @uses Lcobucci\JWT\Token::__construct
      *
+     * @covers Lcobucci\JWT\Token::getHeader
+     *
+     * @expectedException \OutOfBoundsException
+     */
+    public function getHeaderMustRaiseExceptionWhenHeaderIsNotConfigured()
+    {
+        $token = new Token(['test' => 'testing']);
+
+        $token->getHeader('testing');
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     *
+     * @covers Lcobucci\JWT\Token::getHeader
+     */
+    public function getHeaderMustReturnTheRequestedHeader()
+    {
+        $token = new Token(['test' => 'testing']);
+
+        $this->assertEquals('testing', $token->getHeader('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses Lcobucci\JWT\Claim\Basic::getValue
+     *
+     * @covers Lcobucci\JWT\Token::getHeader
+     */
+    public function getHeaderMustReturnValueWhenItIsAReplicatedClaim()
+    {
+        $token = new Token(['jti' => new EqualsTo('jti', 1)]);
+
+        $this->assertEquals(1, $token->getHeader('jti'));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     *
      * @covers Lcobucci\JWT\Token::getHeaders
      */
     public function getHeadersMustReturnTheConfiguredHeader()
