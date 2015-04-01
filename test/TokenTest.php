@@ -147,8 +147,37 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyMustRaiseExceptionWhenTokenIsUnsigned()
     {
+        $signer = $this->getMock(Signer::class);
+
         $token = new Token();
-        $token->verify('test');
+        $token->verify($signer, 'test');
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::setEncoder
+     * @uses Lcobucci\JWT\Token::getPayload
+     *
+     * @covers Lcobucci\JWT\Token::verify
+     */
+    public function verifyShouldReturnFalseWhenTokenAlgorithmIsDifferent()
+    {
+        $signer = $this->getMock(Signer::class);
+        $signature = $this->getMock(Signature::class, [], [], '', false);
+
+        $signer->expects($this->any())
+               ->method('getAlgorithmId')
+               ->willReturn('HS256');
+
+        $signature->expects($this->never())
+                  ->method('verify');
+
+        $token = new Token(['alg' => 'RS256'], [], $signature);
+        $token->setEncoder($this->encoder);
+
+        $this->assertFalse($token->verify($signer, 'test'));
     }
 
     /**
@@ -162,16 +191,22 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyMustDelegateTheValidationToSignature()
     {
+        $signer = $this->getMock(Signer::class);
         $signature = $this->getMock(Signature::class, [], [], '', false);
+
+        $signer->expects($this->any())
+               ->method('getAlgorithmId')
+               ->willReturn('HS256');
 
         $signature->expects($this->once())
                   ->method('verify')
+                  ->with($signer, $this->isType('string'), 'test')
                   ->willReturn(true);
 
-        $token = new Token([], [], $signature);
+        $token = new Token(['alg' => 'HS256'], [], $signature);
         $token->setEncoder($this->encoder);
 
-        $this->assertTrue($token->verify('test'));
+        $this->assertTrue($token->verify($signer, 'test'));
     }
 
     /**

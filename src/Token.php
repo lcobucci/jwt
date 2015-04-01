@@ -127,19 +127,24 @@ class Token
     /**
      * Verify if the key matches with the one that created the signature
      *
+     * @param Signer $signer
      * @param string $key
      *
      * @return boolean
      *
      * @throws BadMethodCallException When token is not signed
      */
-    public function verify($key)
+    public function verify(Signer $signer, $key)
     {
         if ($this->signature === null) {
             throw new BadMethodCallException('This token is not signed');
         }
 
-        return $this->signature->verify($this->getPayload(), $key);
+        if ($this->header['alg'] !== $signer->getAlgorithmId()) {
+            return false;
+        }
+
+        return $this->signature->verify($signer, $this->getPayload(), $key);
     }
 
     /**
