@@ -22,11 +22,11 @@ use OutOfBoundsException;
 class Token
 {
     /**
-     * The token header
+     * The token headers
      *
      * @var array
      */
-    private $header;
+    private $headers;
 
     /**
      * The token claim set
@@ -52,16 +52,16 @@ class Token
     /**
      * Initializes the object
      *
-     * @param array $header
+     * @param array $headers
      * @param array $claims
      * @param Signature $signature
      */
     public function __construct(
-        array $header = ['alg' => 'none'],
+        array $headers = ['alg' => 'none'],
         array $claims = [],
         Signature $signature = null
     ) {
-        $this->header = $header;
+        $this->headers = $headers;
         $this->claims = $claims;
         $this->signature = $signature;
     }
@@ -77,13 +77,37 @@ class Token
     }
 
     /**
-     * Returns the token header
+     * Returns the token headers
      *
      * @return array
      */
-    public function getHeader()
+    public function getHeaders()
     {
-        return $this->header;
+        return $this->headers;
+    }
+
+    /**
+     * Returns the value of a token header
+     *
+     * @param string $name
+     *
+     * @return mixed
+     *
+     * @throws OutOfBoundsException
+     */
+    public function getHeader($name)
+    {
+        if (!isset($this->headers[$name])) {
+            throw new OutOfBoundsException('Requested header is not configured');
+        }
+
+        $header = $this->headers[$name];
+
+        if ($header instanceof Claim) {
+            return $header->getValue();
+        }
+
+        return $header;
     }
 
     /**
@@ -115,31 +139,26 @@ class Token
     }
 
     /**
-     * Returns the token signature
-     *
-     * @return Signature
-     */
-    public function getSignature()
-    {
-        return $this->signature;
-    }
-
-    /**
      * Verify if the key matches with the one that created the signature
      *
+     * @param Signer $signer
      * @param string $key
      *
      * @return boolean
      *
      * @throws BadMethodCallException When token is not signed
      */
-    public function verify($key)
+    public function verify(Signer $signer, $key)
     {
         if ($this->signature === null) {
             throw new BadMethodCallException('This token is not signed');
         }
 
-        return $this->signature->verify($this->getPayload(), $key);
+        if ($this->headers['alg'] !== $signer->getAlgorithmId()) {
+            return false;
+        }
+
+        return $this->signature->verify($signer, $this->getPayload(), $key);
     }
 
     /**
@@ -189,7 +208,7 @@ class Token
 
         return sprintf(
             '%s.%s',
-            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->header)),
+            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->headers)),
             $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->claims))
         );
     }

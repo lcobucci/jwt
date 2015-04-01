@@ -33,9 +33,8 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
      */
     public function constructorMustConfigureAttributes()
     {
-        $signature = new Signature($this->signer, 'test');
+        $signature = new Signature('test');
 
-        $this->assertAttributeSame($this->signer, 'signer', $signature);
         $this->assertAttributeEquals('test', 'hash', $signature);
     }
 
@@ -48,7 +47,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
      */
     public function toStringMustReturnTheHash()
     {
-        $signature = new Signature($this->signer, 'test');
+        $signature = new Signature('test');
 
         $this->assertEquals('test', (string) $signature);
     }
@@ -67,8 +66,8 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
                      ->method('verify')
                      ->willReturn(true);
 
-        $signature = new Signature($this->signer, 'test');
+        $signature = new Signature('test');
 
-        $this->assertTrue($signature->verify('one', 'key'));
+        $this->assertTrue($signature->verify($this->signer, 'one', 'key'));
     }
 }

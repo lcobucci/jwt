@@ -16,13 +16,6 @@ namespace Lcobucci\JWT;
 class Signature
 {
     /**
-     * The signer that created this signature
-     *
-     * @var Signer
-     */
-    protected $signer;
-
-    /**
      * The resultant hash
      *
      * @var string
@@ -32,12 +25,10 @@ class Signature
     /**
      * Initializes the object
      *
-     * @param Signer $signer
      * @param string $hash
      */
-    public function __construct(Signer $signer, $hash)
+    public function __construct($hash)
     {
-        $this->signer = $signer;
         $this->hash = $hash;
     }
 
@@ -45,14 +36,15 @@ class Signature
      * Verifies if the current hash matches with with the result of the creation of
      * a new signature with given data
      *
+     * @param Signer $signer
      * @param string $payload
      * @param string $key
      *
      * @return boolean
      */
-    public function verify($payload, $key)
+    public function verify(Signer $signer, $payload, $key)
     {
-        return $this->signer->verify($this->hash, $payload, $key);
+        return $signer->verify($this->hash, $payload, $key);
     }
 
     /**

@@ -30,7 +30,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function builderCanGenerateAToken()
     {
-        $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
+        $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
 
         $token = (new Builder())->setId(1)
                               ->setAudience('http://client.abc.com')
@@ -60,13 +60,13 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Parsing\Decoder
-     * @covers Lcobucci\JWT\Signer\Factory
      */
     public function parserCanReadAToken(Token $generated)
     {
         $read = (new Parser())->parse((string) $generated);
 
         $this->assertEquals($generated, $read);
+        $this->assertEquals('testing', $read->getClaim('user')->name);
     }
 
     /**
@@ -84,9 +84,8 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Claim\GreaterOrEqualsTo
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Parsing\Decoder
-     * @covers Lcobucci\JWT\Signer\Factory
      */
-    public function tokenValidationShouldReturnWhenEverythingIsFile(Token $generated)
+    public function tokenValidationShouldReturnWhenEverythingIsFine(Token $generated)
     {
         $data = new ValidationData(self::CURRENT_TIME - 10);
         $data->setAudience('http://client.abc.com');
@@ -112,7 +111,6 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Claim\GreaterOrEqualsTo
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Parsing\Decoder
-     * @covers Lcobucci\JWT\Signer\Factory
      */
     public function tokenValidationShouldReturnFalseWhenExpectedDataDontMatch(ValidationData $data, Token $generated)
     {

@@ -22,21 +22,10 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
     {
         $decoder = new Decoder();
 
-        $this->assertEquals(['test' => 'test'], $decoder->jsonDecode('{"test":"test"}'));
-    }
-
-    /**
-     * @test
-     *
-     * @covers Lcobucci\JWT\Parsing\Decoder::jsonDecode
-     *
-     * @expectedException \RuntimeException
-     */
-    public function jsonDecodeMustRaiseExceptionWhenResultIsNotAnArray()
-    {
-        $decoder = new Decoder();
-
-        $decoder->jsonDecode('"test"');
+        $this->assertEquals(
+            (object) ['test' => 'test'],
+            $decoder->jsonDecode('{"test":"test"}')
+        );
     }
 
     /**
