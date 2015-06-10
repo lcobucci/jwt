@@ -79,6 +79,16 @@ class HmacTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @covers Lcobucci\JWT\Signer\Hmac::verify
+     */
+    public function verifyShouldReturnFalseWhenExpectedHashIsNotString()
+    {
+        $this->assertFalse($this->signer->verify(false, 'test', '1234'));
+    }
+
+    /**
+     * @test
+     *
      * @covers Lcobucci\JWT\Signer\Hmac::hashEquals
      */
     public function hashEqualsShouldReturnFalseWhenExpectedHashHasDifferentLengthThanGenerated()
