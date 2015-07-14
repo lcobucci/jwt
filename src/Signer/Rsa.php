@@ -7,8 +7,6 @@
 
 namespace Lcobucci\JWT\Signer;
 
-use InvalidArgumentException;
-
 /**
  * Base class for RSASSA-PKCS1 signers
  *
