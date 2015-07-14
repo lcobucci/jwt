@@ -6,12 +6,6 @@
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
 
-![Branch develop](https://img.shields.io/badge/branch-develop-brightgreen.svg?style=flat-square)
-[![Build Status](https://img.shields.io/travis/lcobucci/jwt/develop.svg?style=flat-square)](http://travis-ci.org/#!/lcobucci/jwt)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/lcobucci/jwt/develop.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=develop)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/lcobucci/jwt/develop.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=develop)
-
-
 A simple library to work with JSON Web Token and JSON Web Signature (requires PHP 5.5+).
 The implementation is based on the [current draft](http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32).
 
