@@ -503,7 +503,6 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::set
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::setEncoder
      * @uses Lcobucci\JWT\Token::getHeaders
      * @uses Lcobucci\JWT\Token::getClaims
      *
@@ -528,7 +527,6 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::getToken
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::setEncoder
      * @uses Lcobucci\JWT\Token::getPayload
      *
      * @covers Lcobucci\JWT\Builder::sign
@@ -554,7 +552,6 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::getToken
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::setEncoder
      * @uses Lcobucci\JWT\Token::getPayload
      *
      * @covers Lcobucci\JWT\Builder::sign
@@ -608,7 +605,6 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Builder::sign
      * @uses Lcobucci\JWT\Builder::getToken
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::setEncoder
      * @uses Lcobucci\JWT\Token::getPayload
      *
      * @covers Lcobucci\JWT\Builder::set

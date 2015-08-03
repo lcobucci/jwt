@@ -9,7 +9,6 @@ namespace Lcobucci\JWT;
 
 use BadMethodCallException;
 use Generator;
-use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Claim\Validatable;
 use OutOfBoundsException;
 
@@ -43,37 +42,30 @@ class Token
     private $signature;
 
     /**
-     * The data encoder
+     * The encoded data
      *
-     * @var Encoder
+     * @var array
      */
-    private $encoder;
+    private $payload;
 
     /**
      * Initializes the object
      *
      * @param array $headers
      * @param array $claims
+     * @param array $payload
      * @param Signature $signature
      */
     public function __construct(
         array $headers = ['alg' => 'none'],
         array $claims = [],
-        Signature $signature = null
+        Signature $signature = null,
+        array $payload = ['', '']
     ) {
         $this->headers = $headers;
         $this->claims = $claims;
         $this->signature = $signature;
-    }
-
-    /**
-     * Configures the data encoder
-     *
-     * @param Encoder $encoder
-     */
-    public function setEncoder(Encoder $encoder)
-    {
-        $this->encoder = $encoder;
+        $this->payload = $payload;
     }
 
     /**
@@ -197,20 +189,10 @@ class Token
      * Returns the token payload
      *
      * @return string
-     *
-     * @throws BadMethodCallException When $this->encoder is not configured
      */
     public function getPayload()
     {
-        if ($this->encoder === null) {
-            throw new BadMethodCallException('Encoder must be configured');
-        }
-
-        return sprintf(
-            '%s.%s',
-            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->headers)),
-            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->claims))
-        );
+        return $this->payload[0] . '.' . $this->payload[1];
     }
 
     /**
@@ -220,16 +202,12 @@ class Token
      */
     public function __toString()
     {
-        try {
-            $data = $this->getPayload() . '.';
+        $data = implode('.', $this->payload);
 
-            if ($this->signature) {
-                $data .= $this->encoder->base64UrlEncode($this->signature);
-            }
-
-            return $data;
-        } catch (BadMethodCallException $e) {
-            return '';
+        if ($this->signature === null) {
+            $data .= '.';
         }
+
+        return $data;
     }
 }

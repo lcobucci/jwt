@@ -10,7 +10,6 @@ namespace Lcobucci\JWT;
 use InvalidArgumentException;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
-use Lcobucci\JWT\Parsing\Encoder;
 
 /**
  * This class parses the JWT strings and convert them into tokens
@@ -20,13 +19,6 @@ use Lcobucci\JWT\Parsing\Encoder;
  */
 class Parser
 {
-    /**
-     * The data encoder
-     *
-     * @var Encoder
-     */
-    private $encoder;
-
     /**
      * The data decoder
      *
@@ -44,16 +36,13 @@ class Parser
     /**
      * Initializes the object
      *
-     * @param Encoder $encoder
      * @param Decoder $decoder
      * @param ClaimFactory $claimFactory
      */
     public function __construct(
-        Encoder $encoder = null,
         Decoder $decoder = null,
         ClaimFactory $claimFactory = null
     ) {
-        $this->encoder = $encoder ?: new Encoder();
         $this->decoder = $decoder ?: new Decoder();
         $this->claimFactory = $claimFactory ?: new ClaimFactory();
     }
@@ -67,21 +56,7 @@ class Parser
      */
     public function parse($jwt)
     {
-        $token = $this->createToken($this->splitJwt($jwt));
-        $token->setEncoder($this->encoder);
-
-        return $token;
-    }
-
-    /**
-     * Creates the token from given data
-     *
-     * @param array $data
-     *
-     * @return Token
-     */
-    private function createToken(array $data)
-    {
+        $data = $this->splitJwt($jwt);
         $header = $this->parseHeader($data[0]);
         $claims = $this->parseClaims($data[1]);
         $signature = $this->parseSignature($header, $data[2]);
@@ -92,11 +67,15 @@ class Parser
             }
         }
 
-        return new Token($header, $claims, $signature);
+        if ($signature === null) {
+            unset($data[2]);
+        }
+
+        return new Token($header, $claims, $signature, $data);
     }
 
     /**
-     * Slipts the JWT string into an array
+     * Splits the JWT string into an array
      *
      * @param string $jwt
      *

@@ -27,6 +27,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Parsing\Encoder
      */
     public function builderCanGenerateAToken()
     {
