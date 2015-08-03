@@ -7,7 +7,6 @@
 
 namespace Lcobucci\JWT;
 
-use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Claim\Basic;
 use Lcobucci\JWT\Claim\EqualsTo;
 use Lcobucci\JWT\Claim\GreaterOrEqualsTo;
@@ -20,19 +19,6 @@ use Lcobucci\JWT\Claim\LesserOrEqualsTo;
 class TokenTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Encoder|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $encoder;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        $this->encoder = $this->getMock(Encoder::class);
-    }
-
-    /**
      * @test
      *
      * @covers Lcobucci\JWT\Token::__construct
@@ -44,21 +30,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals(['alg' => 'none'], 'headers', $token);
         $this->assertAttributeEquals([], 'claims', $token);
         $this->assertAttributeEquals(null, 'signature', $token);
-    }
-
-    /**
-     * @test
-     *
-     * @uses Lcobucci\JWT\Token::__construct
-     *
-     * @covers Lcobucci\JWT\Token::setEncoder
-     */
-    public function setEncoderMustConfigureTheEncoderAttribute()
-    {
-        $token = new Token();
-        $token->setEncoder($this->encoder);
-
-        $this->assertAttributeSame($this->encoder, 'encoder', $token);
+        $this->assertAttributeEquals(['', ''], 'payload', $token);
     }
 
     /**
@@ -188,7 +160,6 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::setEncoder
      * @uses Lcobucci\JWT\Token::getPayload
      *
      * @covers Lcobucci\JWT\Token::verify
@@ -206,7 +177,6 @@ class TokenTest extends \PHPUnit_Framework_TestCase
                   ->method('verify');
 
         $token = new Token(['alg' => 'RS256'], [], $signature);
-        $token->setEncoder($this->encoder);
 
         $this->assertFalse($token->verify($signer, 'test'));
     }
@@ -215,7 +185,6 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::setEncoder
      * @uses Lcobucci\JWT\Token::getPayload
      *
      * @covers Lcobucci\JWT\Token::verify
@@ -235,7 +204,6 @@ class TokenTest extends \PHPUnit_Framework_TestCase
                   ->willReturn(true);
 
         $token = new Token(['alg' => 'HS256'], [], $signature);
-        $token->setEncoder($this->encoder);
 
         $this->assertTrue($token->verify($signer, 'test'));
     }
@@ -354,28 +322,9 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Token::__toString
      * @covers Lcobucci\JWT\Token::getPayload
      */
-    public function toStringMustReturnAnEmptyStringWhenEncoderIsNotDefined()
-    {
-        $token = new Token();
-
-        $this->assertEmpty((string) $token);
-    }
-
-    /**
-     * @test
-     *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::setEncoder
-     *
-     * @covers Lcobucci\JWT\Token::__toString
-     * @covers Lcobucci\JWT\Token::getPayload
-     */
     public function toStringMustReturnEncodedDataWithEmptySignature()
     {
-        $token = new Token();
-        $token->setEncoder($this->encoder);
-
-        $this->createMockExpectations();
+        $token = new Token(['alg' => 'none'], [], null, ['test', 'test']);
 
         $this->assertEquals('test.test.', (string) $token);
     }
@@ -384,7 +333,6 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::setEncoder
      *
      * @covers Lcobucci\JWT\Token::__toString
      * @covers Lcobucci\JWT\Token::getPayload
@@ -393,48 +341,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     {
         $signature = $this->getMock(Signature::class, [], [], '', false);
 
-        $signature->expects($this->any())
-                  ->method('__toString')
-                  ->willReturn('test');
-
-        $token = new Token(['alg' => 'none'], [], $signature);
-        $token->setEncoder($this->encoder);
-
-        $this->createMockExpectations('test');
+        $token = new Token(['alg' => 'none'], [], $signature, ['test', 'test', 'test']);
 
         $this->assertEquals('test.test.test', (string) $token);
-    }
-
-    /**
-     * Fill the mock expectations
-     */
-    protected function createMockExpectations($signature = null)
-    {
-        $this->encoder->expects($this->at(0))
-                      ->method('jsonEncode')
-                      ->with(['alg' => 'none'])
-                      ->willReturn('test');
-
-        $this->encoder->expects($this->at(1))
-                      ->method('base64UrlEncode')
-                      ->with('test')
-                      ->willReturn('test');
-
-        $this->encoder->expects($this->at(2))
-                      ->method('jsonEncode')
-                      ->with([])
-                      ->willReturn('test');
-
-        $this->encoder->expects($this->at(3))
-                      ->method('base64UrlEncode')
-                      ->with('test')
-                      ->willReturn('test');
-
-        if ($signature) {
-            $this->encoder->expects($this->at(4))
-                      ->method('base64UrlEncode')
-                      ->with('test')
-                      ->willReturn('test');
-        }
     }
 }

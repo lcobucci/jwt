@@ -241,9 +241,15 @@ class Builder
      */
     public function getToken()
     {
-        $token = new Token($this->headers, $this->claims, $this->signature);
-        $token->setEncoder($this->encoder);
+        $payload = [
+            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->headers)),
+            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->claims))
+        ];
 
-        return $token;
+        if ($this->signature !== null) {
+            $payload[] = $this->encoder->base64UrlEncode($this->signature);
+        }
+
+        return new Token($this->headers, $this->claims, $this->signature, $payload);
     }
 }

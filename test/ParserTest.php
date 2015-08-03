@@ -9,7 +9,6 @@ namespace Lcobucci\JWT;
 
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
-use Lcobucci\JWT\Parsing\Encoder;
 use RuntimeException;
 
 /**
@@ -18,11 +17,6 @@ use RuntimeException;
  */
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Encoder|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $encoder;
-
     /**
      * @var Decoder|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -43,7 +37,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->encoder = $this->getMock(Encoder::class);
         $this->decoder = $this->getMock(Decoder::class);
         $this->claimFactory = $this->getMock(ClaimFactory::class, [], [], '', false);
         $this->defaultClaim = $this->getMock(Claim::class);
@@ -58,11 +51,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     private function createParser()
     {
-        return new Parser(
-            $this->encoder,
-            $this->decoder,
-            $this->claimFactory
-        );
+        return new Parser($this->decoder, $this->claimFactory);
     }
 
     /**
@@ -74,7 +63,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = $this->createParser();
 
-        $this->assertAttributeSame($this->encoder, 'encoder', $parser);
         $this->assertAttributeSame($this->decoder, 'decoder', $parser);
         $this->assertAttributeSame($this->claimFactory, 'claimFactory', $parser);
     }
@@ -118,7 +106,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Lcobucci\JWT\Parser::parse
      * @covers Lcobucci\JWT\Parser::splitJwt
-     * @covers Lcobucci\JWT\Parser::createToken
      * @covers Lcobucci\JWT\Parser::parseHeader
      *
      * @expectedException RuntimeException
@@ -140,7 +127,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Lcobucci\JWT\Parser::parse
      * @covers Lcobucci\JWT\Parser::splitJwt
-     * @covers Lcobucci\JWT\Parser::createToken
      * @covers Lcobucci\JWT\Parser::parseHeader
      *
      * @expectedException InvalidArgumentException
@@ -160,11 +146,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @uses Lcobucci\JWT\Parser::__construct
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::setEncoder
      *
      * @covers Lcobucci\JWT\Parser::parse
      * @covers Lcobucci\JWT\Parser::splitJwt
-     * @covers Lcobucci\JWT\Parser::createToken
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
@@ -186,7 +170,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'none'], 'headers', $token);
         $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
         $this->assertAttributeEquals(null, 'signature', $token);
-        $this->assertAttributeSame($this->encoder, 'encoder', $token);
     }
 
     /**
@@ -194,11 +177,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @uses Lcobucci\JWT\Parser::__construct
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::setEncoder
      *
      * @covers Lcobucci\JWT\Parser::parse
      * @covers Lcobucci\JWT\Parser::splitJwt
-     * @covers Lcobucci\JWT\Parser::createToken
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
@@ -224,7 +205,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
         $this->assertAttributeEquals(null, 'signature', $token);
-        $this->assertAttributeSame($this->encoder, 'encoder', $token);
     }
 
     /**
@@ -232,12 +212,10 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @uses Lcobucci\JWT\Parser::__construct
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::setEncoder
      * @uses Lcobucci\JWT\Signature::__construct
      *
      * @covers Lcobucci\JWT\Parser::parse
      * @covers Lcobucci\JWT\Parser::splitJwt
-     * @covers Lcobucci\JWT\Parser::createToken
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
@@ -262,6 +240,5 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'HS256'], 'headers', $token);
         $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
         $this->assertAttributeEquals(new Signature('aaa'), 'signature', $token);
-        $this->assertAttributeSame($this->encoder, 'encoder', $token);
     }
 }
