@@ -86,6 +86,14 @@ $data->setCurrentTime(time() + 4000); // changing the validation time to future
 var_dump($token->validate($data)); // false, because token is expired since current time is greater than exp
 ```
 
+#### Important
+
+- You have to configure ```ValidationData``` informing all claims you want to validate the token.
+- If ```ValidationData``` contains claims that are not being used in token or token has claims that are not
+configured in ```ValidationData``` they will be ignored by ```Token::validate()```.
+- ```exp```, ```nbf``` and ```iat``` claims are configured by default in ```ValidationData::__construct()```
+with the current UNIX time (```time()```).
+
 ## Token signature
 
 We can use signatures to be able to verify if the token was not modified after its generation. This library implements Hmac, RSA and ECDSA signatures (using 256, 384 and 512).
