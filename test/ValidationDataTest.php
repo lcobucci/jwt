@@ -20,83 +20,82 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function constructorShouldConfigureTheItems()
     {
+        $expected = $this->createExpectedData();
         $data = new ValidationData(1);
-        $items = ['jti' => null, 'iss' => null, 'aud' => null, 'sub' => null];
-        $items['iat'] = $items['nbf'] = $items['exp'] = 1;
 
-        $this->assertAttributeEquals($items, 'items', $data);
+        $this->assertAttributeSame($expected, 'items', $data);
     }
 
     /**
      * @test
+     *
+     * @dataProvider claimValues
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
      *
      * @covers Lcobucci\JWT\ValidationData::setId
      */
-    public function setIdShouldChangeTheId()
+    public function setIdShouldChangeTheId($id)
     {
+        $expected = $this->createExpectedData($id);
         $data = new ValidationData(1);
-        $data->setId(1);
+        $data->setId($id);
 
-        $items = ['jti' => 1, 'iss' => null, 'aud' => null, 'sub' => null];
-        $items['iat'] = $items['nbf'] = $items['exp'] = 1;
-
-        $this->assertAttributeEquals($items, 'items', $data);
+        $this->assertAttributeSame($expected, 'items', $data);
     }
 
     /**
      * @test
+     *
+     * @dataProvider claimValues
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
      *
      * @covers Lcobucci\JWT\ValidationData::setIssuer
      */
-    public function setIssuerShouldChangeTheIssuer()
+    public function setIssuerShouldChangeTheIssuer($iss)
     {
+        $expected = $this->createExpectedData(null, null, $iss);
         $data = new ValidationData(1);
-        $data->setIssuer('test');
+        $data->setIssuer($iss);
 
-        $items = ['jti' => null, 'iss' => 'test', 'aud' => null, 'sub' => null];
-        $items['iat'] = $items['nbf'] = $items['exp'] = 1;
-
-        $this->assertAttributeEquals($items, 'items', $data);
+        $this->assertAttributeSame($expected, 'items', $data);
     }
 
     /**
      * @test
+     *
+     * @dataProvider claimValues
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
      *
      * @covers Lcobucci\JWT\ValidationData::setAudience
      */
-    public function setAudienceShouldChangeTheAudience()
+    public function setAudienceShouldChangeTheAudience($aud)
     {
+        $expected = $this->createExpectedData(null, null, null, $aud);
         $data = new ValidationData(1);
-        $data->setAudience('test');
+        $data->setAudience($aud);
 
-        $items = ['jti' => null, 'iss' => null, 'aud' => 'test', 'sub' => null];
-        $items['iat'] = $items['nbf'] = $items['exp'] = 1;
-
-        $this->assertAttributeEquals($items, 'items', $data);
+        $this->assertAttributeSame($expected, 'items', $data);
     }
 
     /**
      * @test
      *
+     * @dataProvider claimValues
+     *
      * @uses Lcobucci\JWT\ValidationData::__construct
      *
      * @covers Lcobucci\JWT\ValidationData::setSubject
      */
-    public function setSubjectShouldChangeTheSubject()
+    public function setSubjectShouldChangeTheSubject($sub)
     {
+        $expected = $this->createExpectedData(null, $sub);
         $data = new ValidationData(1);
-        $data->setSubject('test');
+        $data->setSubject($sub);
 
-        $items = ['jti' => null, 'iss' => null, 'aud' => null, 'sub' => 'test'];
-        $items['iat'] = $items['nbf'] = $items['exp'] = 1;
-
-        $this->assertAttributeEquals($items, 'items', $data);
+        $this->assertAttributeSame($expected, 'items', $data);
     }
 
     /**
@@ -108,13 +107,11 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function setCurrentTimeShouldChangeTheTimeBasedValues()
     {
+        $expected = $this->createExpectedData(null, null, null, null, 2);
         $data = new ValidationData(1);
         $data->setCurrentTime(2);
 
-        $items = ['jti' => null, 'iss' => null, 'aud' => null, 'sub' => null];
-        $items['iat'] = $items['nbf'] = $items['exp'] = 2;
-
-        $this->assertAttributeEquals($items, 'items', $data);
+        $this->assertAttributeSame($expected, 'items', $data);
     }
 
     /**
@@ -185,5 +182,43 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
 
         $this->assertNull($data->get('test'));
+    }
+
+    /**
+     * @return array
+     */
+    public function claimValues()
+    {
+        return [
+            [1],
+            ['test']
+        ];
+    }
+
+    /**
+     * @param string $id
+     * @param string $sub
+     * @param string $iss
+     * @param string $aud
+     * @param int $time
+     *
+     * @return array
+     */
+    private function createExpectedData(
+        $id = null,
+        $sub = null,
+        $iss = null,
+        $aud = null,
+        $time = 1
+    ) {
+        return [
+            'jti' => $id !== null ? (string) $id : null,
+            'iss' => $iss !== null ? (string) $iss : null,
+            'aud' => $aud !== null ? (string) $aud : null,
+            'sub' => $sub !== null ? (string) $sub : null,
+            'iat' => $time,
+            'nbf' => $time,
+            'exp' => $time
+        ];
     }
 }

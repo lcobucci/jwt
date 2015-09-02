@@ -49,7 +49,7 @@ class ValidationData
      */
     public function setId($id)
     {
-        $this->items['jti'] = $id;
+        $this->items['jti'] = (string) $id;
     }
 
     /**
@@ -59,7 +59,7 @@ class ValidationData
      */
     public function setIssuer($issuer)
     {
-        $this->items['iss'] = $issuer;
+        $this->items['iss'] = (string) $issuer;
     }
 
     /**
@@ -69,7 +69,7 @@ class ValidationData
      */
     public function setAudience($audience)
     {
-        $this->items['aud'] = $audience;
+        $this->items['aud'] = (string) $audience;
     }
 
     /**
@@ -79,7 +79,7 @@ class ValidationData
      */
     public function setSubject($subject)
     {
-        $this->items['sub'] = $subject;
+        $this->items['sub'] = (string) $subject;
     }
 
     /**
@@ -89,9 +89,9 @@ class ValidationData
      */
     public function setCurrentTime($currentTime)
     {
-        $this->items['iat'] = $currentTime;
-        $this->items['nbf'] = $currentTime;
-        $this->items['exp'] = $currentTime;
+        $this->items['iat'] = (int) $currentTime;
+        $this->items['nbf'] = (int) $currentTime;
+        $this->items['exp'] = (int) $currentTime;
     }
 
     /**
