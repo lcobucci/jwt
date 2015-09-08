@@ -148,4 +148,29 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($token->verify($this->signer, 'testing'));
     }
+
+    /**
+     * @test
+     *
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Parser
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Signer\Hmac
+     * @covers Lcobucci\JWT\Signer\Hmac\Sha256
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Parsing\Decoder
+     */
+    public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs()
+    {
+        $data = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.Rh'
+                . '7AEgqCB7zae1PkgIlvOpeyw9Ab8NGTbeOH7heHO0o';
+
+        $token = (new Parser())->parse((string) $data);
+
+        $this->assertEquals('world', $token->getClaim('hello'));
+        $this->assertTrue($token->verify($this->signer, 'testing'));
+    }
 }

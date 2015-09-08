@@ -5,9 +5,9 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Signer;
+namespace Lcobucci\JWT;
 
-use Lcobucci\JWT\RsaKeys;
+use Lcobucci\JWT\Signer\Keychain;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -15,7 +15,7 @@ use Lcobucci\JWT\RsaKeys;
  */
 class KeychainTest extends \PHPUnit_Framework_TestCase
 {
-    use RsaKeys;
+    use Keys;
 
     /**
      * @test
@@ -33,24 +33,20 @@ class KeychainTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\RsaKeys
-     *
      * @covers Lcobucci\JWT\Signer\Keychain::getPrivateKey
      */
     public function getPrivateKeyShouldReturnAValidResource()
     {
         $keychain = new Keychain();
 
-        $privateKey = $keychain->getPrivateKey($this->privateRsaContent());
+        $privateKey = $keychain->getPrivateKey(file_get_contents(__DIR__ . '/rsa/private.key'));
 
         $this->assertInternalType('resource', $privateKey);
-        $this->assertEquals(openssl_pkey_get_details($privateKey), openssl_pkey_get_details($this->privateRsa()));
+        $this->assertEquals(openssl_pkey_get_details($privateKey), openssl_pkey_get_details(static::$rsaKeys['private']));
     }
 
     /**
      * @test
-     *
-     * @uses Lcobucci\JWT\RsaKeys
      *
      * @covers Lcobucci\JWT\Signer\Keychain::getPrivateKey
      */
@@ -58,13 +54,13 @@ class KeychainTest extends \PHPUnit_Framework_TestCase
     {
         $keychain = new Keychain();
 
-        $privateKey = $keychain->getPrivateKey($this->encryptedPrivateRsaContent(), 'testing');
+        $privateKey = $keychain->getPrivateKey(file_get_contents(__DIR__ . '/rsa/encrypted-private.key'), 'testing');
 
         $this->assertInternalType('resource', $privateKey);
 
         $this->assertEquals(
             openssl_pkey_get_details($privateKey),
-            openssl_pkey_get_details($this->encryptedPrivateRsa())
+            openssl_pkey_get_details(static::$rsaKeys['encrypted-private'])
         );
     }
 
@@ -84,17 +80,15 @@ class KeychainTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\RsaKeys
-     *
      * @covers Lcobucci\JWT\Signer\Keychain::getPublicKey
      */
     public function getPublicKeyShouldReturnAValidResource()
     {
         $keychain = new Keychain();
 
-        $publicKey = $keychain->getPublicKey($this->publicRsaContent());
+        $publicKey = $keychain->getPublicKey(file_get_contents(__DIR__ . '/rsa/public.key'));
 
         $this->assertInternalType('resource', $publicKey);
-        $this->assertEquals(openssl_pkey_get_details($publicKey), openssl_pkey_get_details($this->publicRsa()));
+        $this->assertEquals(openssl_pkey_get_details($publicKey), openssl_pkey_get_details(static::$rsaKeys['public']));
     }
 }

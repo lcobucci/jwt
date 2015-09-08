@@ -5,10 +5,9 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
-namespace Lcobucci\JWT\Signer;
+namespace Lcobucci\JWT;
 
-use Lcobucci\JWT\EcdsaKeys;
-use Lcobucci\JWT\RsaKeys;
+use Lcobucci\JWT\Signer\OpenSSL;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -16,7 +15,7 @@ use Lcobucci\JWT\RsaKeys;
  */
 class OpenSSLTest extends \PHPUnit_Framework_TestCase
 {
-    use EcdsaKeys, RsaKeys;
+    use Keys;
 
     /**
      * @var OpenSSL|\PHPUnit_Framework_MockObject_MockObject
@@ -24,9 +23,9 @@ class OpenSSLTest extends \PHPUnit_Framework_TestCase
     protected $signer;
 
     /**
-     * {@inheritdoc}
+     * @before
      */
-    protected function setUp()
+    protected function createSigner()
     {
         $this->signer = $this->getMockForAbstractClass(OpenSSL::class);
 
@@ -46,8 +45,6 @@ class OpenSSLTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\RsaKeys
-     *
      * @covers Lcobucci\JWT\Signer\OpenSSL::validateKey
      * @covers Lcobucci\JWT\Signer\OpenSSL::createHash
      *
@@ -55,20 +52,19 @@ class OpenSSLTest extends \PHPUnit_Framework_TestCase
      */
     public function createHashShouldRaiseExceptionWhenKeyTypeDontMatch()
     {
-        $this->signer->createHash('test', $this->privateEcdsa());
+        $this->signer->createHash('test', static::$ecdsaKeys['private']);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\RsaKeys
      * @uses Lcobucci\JWT\Signer\OpenSSL::validateKey
      *
      * @covers Lcobucci\JWT\Signer\OpenSSL::createHash
      */
     public function createHashShouldReturnASignatureForGivenPayload()
     {
-        $signature = $this->signer->createHash('test', $this->privateRsa());
+        $signature = $this->signer->createHash('test', static::$rsaKeys['private']);
 
         $this->assertInternalType('string', $signature);
         $this->assertNotEmpty($signature);
@@ -79,8 +75,6 @@ class OpenSSLTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\RsaKeys
-     *
      * @covers Lcobucci\JWT\Signer\OpenSSL::validateKey
      * @covers Lcobucci\JWT\Signer\OpenSSL::verify
      *
@@ -88,20 +82,18 @@ class OpenSSLTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldRaiseExceptionWhenKeyTypeDontMatch()
     {
-        $this->signer->verify('test', 'test', $this->publicEcdsa());
+        $this->signer->verify('test', 'test', static::$ecdsaKeys['public1']);
     }
 
     /**
      * @test
-     *
-     * @uses Lcobucci\JWT\RsaKeys
      *
      * @covers Lcobucci\JWT\Signer\OpenSSL::validateKey
      * @covers Lcobucci\JWT\Signer\OpenSSL::verify
      */
     public function verifyShouldReturnFalseWhenSignatureIsDifferent()
     {
-        $this->assertFalse($this->signer->verify('123', 'test', $this->publicRsa()));
+        $this->assertFalse($this->signer->verify('123', 'test', static::$rsaKeys['public']));
     }
 
     /**
@@ -109,13 +101,12 @@ class OpenSSLTest extends \PHPUnit_Framework_TestCase
      *
      * @depends createHashShouldReturnASignatureForGivenPayload
      *
-     * @uses Lcobucci\JWT\RsaKeys
      * @uses Lcobucci\JWT\Signer\OpenSSL::validateKey
      *
      * @covers Lcobucci\JWT\Signer\OpenSSL::verify
      */
     public function verifyShouldReturnTrueWhenSignatureMatches($signature)
     {
-        $this->assertTrue($this->signer->verify($signature, 'test', $this->publicRsa()));
+        $this->assertTrue($this->signer->verify($signature, 'test', static::$rsaKeys['public']));
     }
 }

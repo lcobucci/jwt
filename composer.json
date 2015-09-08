@@ -28,9 +28,14 @@
     },
     "autoload": {
         "psr-4": {
+            "Lcobucci\\JWT\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Lcobucci\\JWT\\": [
-                "src",
-                "test"
+                "test/unit", 
+                "test/functional"
             ]
         }
     },
