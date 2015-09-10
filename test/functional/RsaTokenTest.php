@@ -8,11 +8,11 @@
 namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Signature;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
-use Lcobucci\JWT\RsaKeys;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
 
 /**
@@ -21,7 +21,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha512;
  */
 class RsaTokenTest extends \PHPUnit_Framework_TestCase
 {
-    use RsaKeys;
+    use Keys;
 
     /**
      * @var Sha256
@@ -39,14 +39,41 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @expectedException \InvalidArgumentException
+     *
      * @covers Lcobucci\JWT\Builder
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Signature
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
-     * @covers Lcobucci\JWT\Signer\OpenSSL
+     * @covers Lcobucci\JWT\Signer\Rsa
+     * @covers Lcobucci\JWT\Signer\Rsa\Sha256
+     */
+    public function builderShouldRaiseExceptionWhenKeyIsNotRsaCompatible()
+    {
+        $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
+
+        (new Builder())->setId(1)
+                       ->setAudience('http://client.abc.com')
+                       ->setIssuer('http://api.abc.com')
+                       ->set('user', $user)
+                       ->sign($this->signer, static::$ecdsaKeys['private']);
+    }
+
+    /**
+     * @test
+     *
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Rsa
      * @covers Lcobucci\JWT\Signer\Rsa\Sha256
      */
@@ -58,7 +85,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
                               ->setAudience('http://client.abc.com')
                               ->setIssuer('http://api.abc.com')
                               ->set('user', $user)
-                              ->sign($this->signer, $this->privateRsa())
+                              ->sign($this->signer, static::$rsaKeys['private'])
                               ->getToken();
 
         $this->assertAttributeInstanceOf(Signature::class, 'signature', $token);
@@ -103,13 +130,14 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\OpenSSL
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Rsa
      * @covers Lcobucci\JWT\Signer\Rsa\Sha256
      */
     public function verifyShouldReturnFalseWhenKeyIsNotRight(Token $token)
     {
-        $this->assertFalse($token->verify($this->signer, $this->encryptedPublicRsa()));
+        $this->assertFalse($token->verify($this->signer, self::$rsaKeys['encrypted-public']));
     }
 
     /**
@@ -124,14 +152,39 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\OpenSSL
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Rsa
      * @covers Lcobucci\JWT\Signer\Rsa\Sha256
      * @covers Lcobucci\JWT\Signer\Rsa\Sha512
      */
     public function verifyShouldReturnFalseWhenAlgorithmIsDifferent(Token $token)
     {
-        $this->assertFalse($token->verify(new Sha512(), $this->publicRsa()));
+        $this->assertFalse($token->verify(new Sha512(), self::$rsaKeys['public']));
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \InvalidArgumentException
+     *
+     * @depends builderCanGenerateAToken
+     *
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Parser
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Rsa
+     * @covers Lcobucci\JWT\Signer\Rsa\Sha256
+     */
+    public function verifyShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token)
+    {
+        $this->assertFalse($token->verify($this->signer, self::$ecdsaKeys['public1']));
     }
 
     /**
@@ -146,12 +199,44 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\OpenSSL
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Rsa
      * @covers Lcobucci\JWT\Signer\Rsa\Sha256
      */
     public function verifyShouldReturnTrueWhenKeyIsRight(Token $token)
     {
-        $this->assertTrue($token->verify($this->signer, $this->publicRsa()));
+        $this->assertTrue($token->verify($this->signer, self::$rsaKeys['public']));
+    }
+
+    /**
+     * @test
+     *
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Parser
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Rsa
+     * @covers Lcobucci\JWT\Signer\Rsa\Sha256
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Parsing\Decoder
+     */
+    public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs()
+    {
+        $data = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.s'
+                . 'GYbB1KrmnESNfJ4D9hOe1Zad_BMyxdb8G4p4LNP7StYlOyBWck6q7XPpPj_6gB'
+                . 'Bo1ohD3MA2o0HY42lNIrAStaVhfsFKGdIou8TarwMGZBPcif_3ThUV1pGS3fZc'
+                . 'lFwF2SP7rqCngQis_xcUVCyqa8E1Wa_v28grnl1QZrnmQFO8B5JGGLqcrfUHJO'
+                . 'nJCupP-Lqh4TmIhftIimSCgLNmJg80wyrpUEfZYReE7hPuEmY0ClTqAGIMQoNS'
+                . '98ljwDxwhfbSuL2tAdbV4DekbTpWzspe3dOJ7RSzmPKVZ6NoezaIazKqyqkmHZfcMaHI1lQeGia6LTbHU1bp0gINi74Vw';
+
+        $token = (new Parser())->parse((string) $data);
+
+        $this->assertEquals('world', $token->getClaim('hello'));
+        $this->assertTrue($token->verify($this->signer, self::$rsaKeys['public']));
     }
 }

@@ -13,8 +13,11 @@
     checkForUnintentionallyCoveredCode="true"
     forceCoversAnnotation="true">
 	<testsuites>
-		<testsuite name="JWT Test Suite">
-			<directory>test</directory>
+		<testsuite name="Unit Test Suite">
+			<directory>test/unit</directory>
+		</testsuite>
+		<testsuite name="Integration Test Suite">
+			<directory>test/functional</directory>
 		</testsuite>
 	</testsuites>
     

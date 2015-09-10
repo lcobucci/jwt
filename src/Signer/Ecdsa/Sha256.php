@@ -30,6 +30,14 @@ class Sha256 extends Ecdsa
      */
     public function getAlgorithm()
     {
-        return OPENSSL_ALGO_SHA256;
+        return 'sha256';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSignatureLength()
+    {
+        return 64;
     }
 }

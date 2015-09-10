@@ -11,18 +11,15 @@ use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Signature;
-use Lcobucci\JWT\Signer\Ecdsa\Sha256;
-use Lcobucci\JWT\EcdsaKeys;
-use Lcobucci\JWT\Signer\Ecdsa\Sha512;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Signer\Hmac\Sha512;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
+class HmacTokenTest extends \PHPUnit_Framework_TestCase
 {
-    use EcdsaKeys;
-
     /**
      * @var Sha256
      */
@@ -45,10 +42,10 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
-     * @covers Lcobucci\JWT\Signer\OpenSSL
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers Lcobucci\JWT\Signer\Hmac
+     * @covers Lcobucci\JWT\Signer\Hmac\Sha256
      */
     public function builderCanGenerateAToken()
     {
@@ -58,7 +55,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
                               ->setAudience('http://client.abc.com')
                               ->setIssuer('http://api.abc.com')
                               ->set('user', $user)
-                              ->sign($this->signer, $this->privateEcdsa())
+                              ->sign($this->signer, 'testing')
                               ->getToken();
 
         $this->assertAttributeInstanceOf(Signature::class, 'signature', $token);
@@ -103,13 +100,14 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\OpenSSL
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Hmac
+     * @covers Lcobucci\JWT\Signer\Hmac\Sha256
      */
     public function verifyShouldReturnFalseWhenKeyIsNotRight(Token $token)
     {
-        $this->assertFalse($token->verify($this->signer, $this->otherPublicEcdsa()));
+        $this->assertFalse($token->verify($this->signer, 'testing1'));
     }
 
     /**
@@ -124,14 +122,15 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\OpenSSL
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Hmac
+     * @covers Lcobucci\JWT\Signer\Hmac\Sha256
+     * @covers Lcobucci\JWT\Signer\Hmac\Sha512
      */
     public function verifyShouldReturnFalseWhenAlgorithmIsDifferent(Token $token)
     {
-        $this->assertFalse($token->verify(new Sha512(), $this->publicEcdsa()));
+        $this->assertFalse($token->verify(new Sha512(), 'testing'));
     }
 
     /**
@@ -146,12 +145,40 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\OpenSSL
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Hmac
+     * @covers Lcobucci\JWT\Signer\Hmac\Sha256
      */
     public function verifyShouldReturnTrueWhenKeyIsRight(Token $token)
     {
-        $this->assertTrue($token->verify($this->signer, $this->publicEcdsa()));
+        $this->assertTrue($token->verify($this->signer, 'testing'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Parser
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Hmac
+     * @covers Lcobucci\JWT\Signer\Hmac\Sha256
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Parsing\Decoder
+     */
+    public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs()
+    {
+        $data = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.Rh'
+                . '7AEgqCB7zae1PkgIlvOpeyw9Ab8NGTbeOH7heHO0o';
+
+        $token = (new Parser())->parse((string) $data);
+
+        $this->assertEquals('world', $token->getClaim('hello'));
+        $this->assertTrue($token->verify($this->signer, 'testing'));
     }
 }

@@ -30,6 +30,14 @@ class Sha384 extends Ecdsa
      */
     public function getAlgorithm()
     {
-        return OPENSSL_ALGO_SHA384;
+        return 'sha384';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSignatureLength()
+    {
+        return 96;
     }
 }

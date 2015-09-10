@@ -16,6 +16,9 @@ class Sha256Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     *
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
@@ -28,12 +31,30 @@ class Sha256Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     *
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {
         $signer = new Sha256();
 
-        $this->assertEquals(OPENSSL_ALGO_SHA256, $signer->getAlgorithm());
+        $this->assertEquals('sha256', $signer->getAlgorithm());
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     *
+     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256::getSignatureLength
+     */
+    public function getSignatureLengthMustBeCorrect()
+    {
+        $signer = new Sha256();
+
+        $this->assertEquals(64, $signer->getSignatureLength());
     }
 }

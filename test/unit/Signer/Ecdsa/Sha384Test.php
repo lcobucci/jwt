@@ -16,6 +16,9 @@ class Sha384Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     *
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha384::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
@@ -28,12 +31,30 @@ class Sha384Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     *
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha384::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {
         $signer = new Sha384();
 
-        $this->assertEquals(OPENSSL_ALGO_SHA384, $signer->getAlgorithm());
+        $this->assertEquals('sha384', $signer->getAlgorithm());
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     *
+     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha384::getSignatureLength
+     */
+    public function getSignatureLengthMustBeCorrect()
+    {
+        $signer = new Sha384();
+
+        $this->assertEquals(96, $signer->getSignatureLength());
     }
 }

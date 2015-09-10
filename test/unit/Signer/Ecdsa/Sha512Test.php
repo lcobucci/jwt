@@ -16,6 +16,9 @@ class Sha512Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     *
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
@@ -28,12 +31,30 @@ class Sha512Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     *
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {
         $signer = new Sha512();
 
-        $this->assertEquals(OPENSSL_ALGO_SHA512, $signer->getAlgorithm());
+        $this->assertEquals('sha512', $signer->getAlgorithm());
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     *
+     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512::getSignatureLength
+     */
+    public function getSignatureLengthMustBeCorrect()
+    {
+        $signer = new Sha512();
+
+        $this->assertEquals(132, $signer->getSignatureLength());
     }
 }

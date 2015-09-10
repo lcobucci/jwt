@@ -160,9 +160,9 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::getPayload
      *
      * @covers Lcobucci\JWT\Token::verify
+     * @covers Lcobucci\JWT\Token::getPayload
      */
     public function verifyShouldReturnFalseWhenTokenAlgorithmIsDifferent()
     {
@@ -185,9 +185,9 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::getPayload
      *
      * @covers Lcobucci\JWT\Token::verify
+     * @covers Lcobucci\JWT\Token::getPayload
      */
     public function verifyMustDelegateTheValidationToSignature()
     {
@@ -319,8 +319,22 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      *
      * @uses Lcobucci\JWT\Token::__construct
      *
-     * @covers Lcobucci\JWT\Token::__toString
      * @covers Lcobucci\JWT\Token::getPayload
+     */
+    public function getPayloadShouldReturnAStringWithTheTwoEncodePartsThatGeneratedTheToken()
+    {
+        $token = new Token(['alg' => 'none'], [], null, ['test1', 'test2', 'test3']);
+
+        $this->assertEquals('test1.test2', $token->getPayload());
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::getPayload
+     *
+     * @covers Lcobucci\JWT\Token::__toString
      */
     public function toStringMustReturnEncodedDataWithEmptySignature()
     {
@@ -333,9 +347,9 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::getPayload
      *
      * @covers Lcobucci\JWT\Token::__toString
-     * @covers Lcobucci\JWT\Token::getPayload
      */
     public function toStringMustReturnEncodedData()
     {

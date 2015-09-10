@@ -30,6 +30,14 @@ class Sha512 extends Ecdsa
      */
     public function getAlgorithm()
     {
-        return OPENSSL_ALGO_SHA512;
+        return 'sha512';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSignatureLength()
+    {
+        return 132;
     }
 }

@@ -8,6 +8,7 @@
 namespace Lcobucci\JWT;
 
 use InvalidArgumentException;
+use Lcobucci\JWT\Signer\Key;
 
 /**
  * Basic interface for token signers
@@ -35,7 +36,7 @@ interface Signer
      * Returns a signature for given data
      *
      * @param string $payload
-     * @param string $key
+     * @param Key|string $key
      *
      * @return Signature
      *
@@ -48,7 +49,7 @@ interface Signer
      *
      * @param string $expected
      * @param string $payload
-     * @param string|resource $key
+     * @param Key|string $key
      *
      * @return boolean
      *
