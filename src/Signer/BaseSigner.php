@@ -32,16 +32,48 @@ abstract class BaseSigner implements Signer
      */
     public function sign($payload, $key)
     {
-        return new Signature($this->createHash($payload, $key));
+        return new Signature($this->createHash($payload, $this->getKey($key)));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function verify($expected, $payload, $key)
+    {
+        return $this->doVerify($expected, $payload, $this->getKey($key));
+    }
+
+    /**
+     * @param Key|string $key
+     *
+     * @return Key
+     */
+    private function getKey($key)
+    {
+        if (is_string($key)) {
+            $key = new Key($key);
+        }
+
+        return $key;
     }
 
     /**
      * Creates a hash with the given data
      *
      * @param string $payload
-     * @param string|resource $key
+     * @param Key $key
      *
      * @return string
      */
-    abstract public function createHash($payload, $key);
+    abstract public function createHash($payload, Key $key);
+
+    /**
+     * Creates a hash with the given data
+     *
+     * @param string $payload
+     * @param Key $key
+     *
+     * @return boolean
+     */
+    abstract public function doVerify($expected, $payload, Key $key);
 }

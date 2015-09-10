@@ -7,13 +7,13 @@
 
 namespace Lcobucci\JWT\Signer;
 
-use InvalidArgumentException;
-
 /**
  * A utilitarian class that encapsulates the retrieval of public and private keys
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
+ *
+ * @deprecated Since we've removed OpenSSL from ECDSA there's no reason to use this class
  */
 class Keychain
 {
@@ -23,19 +23,11 @@ class Keychain
      * @param string $key
      * @param string $passphrase
      *
-     * @return resource
-     *
-     * @throws InvalidArgumentException
+     * @return Key
      */
-    public function getPrivateKey($key, $passphrase = '')
+    public function getPrivateKey($key, $passphrase = null)
     {
-        if ($privateKey = openssl_pkey_get_private($key, $passphrase)) {
-            return $privateKey;
-        }
-
-        throw new InvalidArgumentException(
-            'You should provid a valid private key (with its passphrase when used)'
-        );
+        return new Key($key, $passphrase);
     }
 
     /**
@@ -43,16 +35,10 @@ class Keychain
      *
      * @param string $certificate
      *
-     * @return resource
-     *
-     * @throws InvalidArgumentException
+     * @return Key
      */
     public function getPublicKey($certificate)
     {
-        if ($publicKey = openssl_pkey_get_public($certificate)) {
-            return $publicKey;
-        }
-
-        throw new InvalidArgumentException('You should provid a valid certificate');
+        return new Key($certificate);
     }
 }

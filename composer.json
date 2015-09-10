@@ -24,7 +24,8 @@
         "phpunit/phpunit": "~4.5",
         "squizlabs/php_codesniffer": "~2.3",
         "phpmd/phpmd": "~2.2",
-        "phpunit/php-invoker": "~1.1"
+        "phpunit/php-invoker": "~1.1",
+        "mikey179/vfsStream": "~1.5"
     },
     "autoload": {
         "psr-4": {

@@ -501,33 +501,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::set
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::getHeaders
-     * @uses Lcobucci\JWT\Token::getClaims
-     *
-     * @covers Lcobucci\JWT\Builder::getToken
-     */
-    public function getTokenMustReturnANewTokenWithCurrentConfiguration()
-    {
-        $builder = $this->createBuilder();
-        $token = $builder->set('test', 123)->getToken();
-
-        $signatureAttr = new \ReflectionProperty($token, 'signature');
-        $signatureAttr->setAccessible(true);
-
-        $this->assertAttributeEquals($token->getHeaders(), 'headers', $builder);
-        $this->assertAttributeEquals($token->getClaims(), 'claims', $builder);
-        $this->assertAttributeSame($signatureAttr->getValue($token), 'signature', $builder);
-    }
-
-    /**
-     * @test
-     *
-     * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::getToken
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::getPayload
+     * @uses Lcobucci\JWT\Token
      *
      * @covers Lcobucci\JWT\Builder::sign
      */
@@ -551,8 +526,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::getToken
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::getPayload
+     * @uses Lcobucci\JWT\Token
      *
      * @covers Lcobucci\JWT\Builder::sign
      */
@@ -604,8 +578,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::sign
      * @uses Lcobucci\JWT\Builder::getToken
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::getPayload
+     * @uses Lcobucci\JWT\Token
      *
      * @covers Lcobucci\JWT\Builder::set
      *
@@ -623,5 +596,45 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $builder = $this->createBuilder();
         $builder->sign($signer, 'test');
         $builder->set('test', 123);
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Builder::__construct
+     * @uses Lcobucci\JWT\Builder::set
+     * @uses Lcobucci\JWT\Token
+     *
+     * @covers Lcobucci\JWT\Builder::getToken
+     */
+    public function getTokenMustReturnANewTokenWithCurrentConfiguration()
+    {
+        $signature = $this->getMock(Signature::class, [], [], '', false);
+
+        $this->encoder->expects($this->exactly(2))
+                      ->method('jsonEncode')
+                      ->withConsecutive([['typ'=> 'JWT', 'alg' => 'none']], [['test' => $this->defaultClaim]])
+                      ->willReturnOnConsecutiveCalls('1', '2');
+
+        $this->encoder->expects($this->exactly(3))
+                      ->method('base64UrlEncode')
+                      ->withConsecutive(['1'], ['2'], [$signature])
+                      ->willReturnOnConsecutiveCalls('1', '2', '3');
+
+        $builder = $this->createBuilder()->set('test', 123);
+
+        $builderSign = new \ReflectionProperty($builder, 'signature');
+        $builderSign->setAccessible(true);
+        $builderSign->setValue($builder, $signature);
+
+        $token = $builder->getToken();
+
+        $tokenSign = new \ReflectionProperty($token, 'signature');
+        $tokenSign->setAccessible(true);
+
+        $this->assertAttributeEquals(['1', '2', '3'], 'payload', $token);
+        $this->assertAttributeEquals($token->getHeaders(), 'headers', $builder);
+        $this->assertAttributeEquals($token->getClaims(), 'claims', $builder);
+        $this->assertAttributeSame($tokenSign->getValue($token), 'signature', $builder);
     }
 }

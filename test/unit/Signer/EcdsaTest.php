@@ -20,6 +20,7 @@ class EcdsaTest extends \PHPUnit_Framework_TestCase
      */
     public function getTypeMustBeCorrect()
     {
+        $this->markTestSkipped();
         $signer = $this->getMockForAbstractClass(Ecdsa::class);
 
         $this->assertEquals(OPENSSL_KEYTYPE_EC, $signer->getType());
