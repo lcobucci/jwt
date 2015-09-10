@@ -39,6 +39,33 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @expectedException \InvalidArgumentException
+     *
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Rsa
+     * @covers Lcobucci\JWT\Signer\Rsa\Sha256
+     */
+    public function builderShouldRaiseExceptionWhenKeyIsNotRsaCompatible()
+    {
+        $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
+
+        (new Builder())->setId(1)
+                       ->setAudience('http://client.abc.com')
+                       ->setIssuer('http://api.abc.com')
+                       ->set('user', $user)
+                       ->sign($this->signer, static::$ecdsaKeys['private']);
+    }
+
+    /**
+     * @test
+     *
      * @covers Lcobucci\JWT\Builder
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Signature
@@ -134,6 +161,30 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
     public function verifyShouldReturnFalseWhenAlgorithmIsDifferent(Token $token)
     {
         $this->assertFalse($token->verify(new Sha512(), self::$rsaKeys['public']));
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \InvalidArgumentException
+     *
+     * @depends builderCanGenerateAToken
+     *
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Parser
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Rsa
+     * @covers Lcobucci\JWT\Signer\Rsa\Sha256
+     */
+    public function verifyShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token)
+    {
+        $this->assertFalse($token->verify($this->signer, self::$ecdsaKeys['public1']));
     }
 
     /**

@@ -54,7 +54,7 @@ abstract class Rsa extends BaseSigner
         $details = openssl_pkey_get_details($key);
 
         if (!isset($details['key']) || $details['type'] !== OPENSSL_KEYTYPE_RSA) {
-            throw new InvalidArgumentException('The type of given key does not match with this signer');
+            throw new InvalidArgumentException('This key is not compatible with RSA signatures');
         }
     }
 

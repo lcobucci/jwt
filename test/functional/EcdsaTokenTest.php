@@ -40,6 +40,8 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @expectedException \InvalidArgumentException
+     *
      * @covers Lcobucci\JWT\Builder
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Signature
@@ -49,6 +51,33 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     */
+    public function builderShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible()
+    {
+        $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
+
+        (new Builder())->setId(1)
+                       ->setAudience('http://client.abc.com')
+                       ->setIssuer('http://api.abc.com')
+                       ->set('user', $user)
+                       ->sign($this->signer, static::$rsaKeys['private']);
+    }
+
+    /**
+     * @test
+     *
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
     public function builderCanGenerateAToken()
@@ -84,6 +113,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Parsing\Decoder
      * @covers Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      */
     public function parserCanReadAToken(Token $generated)
     {
@@ -108,6 +138,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
     public function verifyShouldReturnFalseWhenKeyIsNotRight(Token $token)
@@ -130,12 +161,38 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512
      */
     public function verifyShouldReturnFalseWhenAlgorithmIsDifferent(Token $token)
     {
         $this->assertFalse($token->verify(new Sha512(), static::$ecdsaKeys['public1']));
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \RuntimeException
+     *
+     * @depends builderCanGenerateAToken
+     *
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Parser
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     */
+    public function verifyShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(Token $token)
+    {
+        $this->assertFalse($token->verify($this->signer, static::$rsaKeys['public']));
     }
 
     /**
@@ -153,6 +210,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
     public function verifyShouldReturnTrueWhenKeyIsRight(Token $token)
@@ -170,6 +228,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512
      * @covers Lcobucci\JWT\Signer\Keychain
      * @covers Lcobucci\JWT\Claim\Factory
