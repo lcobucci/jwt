@@ -8,8 +8,8 @@
 namespace Lcobucci\JWT;
 
 use InvalidArgumentException;
+use Lcobucci\Jose\Parsing\Decoder;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
-use Lcobucci\JWT\Parsing\Decoder;
 
 /**
  * This class parses the JWT strings and convert them into tokens

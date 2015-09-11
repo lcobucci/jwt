@@ -46,7 +46,6 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signature
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Rsa
@@ -71,7 +70,6 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signature
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Rsa
@@ -107,8 +105,6 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signature
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Parsing\Encoder
-     * @covers Lcobucci\JWT\Parsing\Decoder
      */
     public function parserCanReadAToken(Token $generated)
     {
@@ -127,7 +123,6 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parser
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Signer\Key
@@ -149,7 +144,6 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parser
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Signer\Key
@@ -174,7 +168,6 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parser
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Signer\Key
@@ -196,7 +189,6 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parser
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Signer\Key
@@ -222,8 +214,6 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signer\Rsa\Sha256
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Parsing\Encoder
-     * @covers Lcobucci\JWT\Parsing\Decoder
      */
     public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs()
     {

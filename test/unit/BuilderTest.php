@@ -7,8 +7,8 @@
 
 namespace Lcobucci\JWT;
 
+use Lcobucci\Jose\Parsing\Encoder;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
-use Lcobucci\JWT\Parsing\Encoder;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>

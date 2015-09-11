@@ -27,7 +27,6 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Parsing\Encoder
      */
     public function builderCanGenerateAToken()
     {
@@ -59,8 +58,6 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Parsing\Encoder
-     * @covers Lcobucci\JWT\Parsing\Decoder
      */
     public function parserCanReadAToken(Token $generated)
     {
@@ -83,8 +80,6 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Claim\EqualsTo
      * @covers Lcobucci\JWT\Claim\GreaterOrEqualsTo
-     * @covers Lcobucci\JWT\Parsing\Encoder
-     * @covers Lcobucci\JWT\Parsing\Decoder
      */
     public function tokenValidationShouldReturnWhenEverythingIsFine(Token $generated)
     {
@@ -110,8 +105,6 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Claim\EqualsTo
      * @covers Lcobucci\JWT\Claim\GreaterOrEqualsTo
-     * @covers Lcobucci\JWT\Parsing\Encoder
-     * @covers Lcobucci\JWT\Parsing\Decoder
      */
     public function tokenValidationShouldReturnFalseWhenExpectedDataDontMatch(ValidationData $data, Token $generated)
     {

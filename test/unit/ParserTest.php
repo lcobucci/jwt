@@ -7,8 +7,8 @@
 
 namespace Lcobucci\JWT;
 
+use Lcobucci\Jose\Parsing\Decoder;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
-use Lcobucci\JWT\Parsing\Decoder;
 use RuntimeException;
 
 /**

@@ -18,15 +18,15 @@ We accept contributions via pull requests [here](https://github.com/lcobucci/jwt
 - Follow [PSR-2 coding standards](http://www.php-fig.org/psr/psr-2);
 - Follow [PSR-4 autoloading standards](http://www.php-fig.org/psr/psr-4);
 - Follow [semver](http://semver.org);
-- Add tests;
-- Improve documentation;
+- Add tests (everything MUST be well tested);
+- Improve documentation (don't forget to update README.md);
 - Create topic branchs (don't send a PR from your master);
 - One pull request per feature;
 - Send coherent history by rebasing your work before submitting;
 
 ### Branches
 
-- **master**: used to the next minor release (new features)
+- **master**: used to the next major release (new features that breaks BC)
 - **3.0**: used to fix bugs
 - **2.1**: unmaintained (all users should upgrade to +3.0)
 

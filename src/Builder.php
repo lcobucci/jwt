@@ -8,8 +8,8 @@
 namespace Lcobucci\JWT;
 
 use BadMethodCallException;
+use Lcobucci\Jose\Parsing\Encoder;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
-use Lcobucci\JWT\Parsing\Encoder;
 
 /**
  * This class makes easier the token creation process
