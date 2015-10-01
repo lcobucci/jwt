@@ -36,13 +36,13 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Lcobucci\JWT\Signer\BaseSigner::modifyHeader
      */
-    public function modifyHeaderShouldChangeAlgorithmAndType()
+    public function modifyHeaderShouldChangeAlgorithm()
     {
-        $headers = [];
+        $headers = ['typ' => 'JWT'];
 
         $this->signer->modifyHeader($headers);
 
-        $this->assertEquals($headers['typ'], 'JWS');
+        $this->assertEquals($headers['typ'], 'JWT');
         $this->assertEquals($headers['alg'], 'TEST123');
     }
 
