@@ -23,7 +23,6 @@ abstract class BaseSigner implements Signer
      */
     public function modifyHeader(array &$headers)
     {
-        $headers['typ'] = 'JWS';
         $headers['alg'] = $this->getAlgorithmId();
     }
 
