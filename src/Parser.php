@@ -146,7 +146,7 @@ class Parser
      */
     protected function parseSignature(array $header, $data)
     {
-        if ($data == '' || !isset($header['alg']) || $header['alg'] == 'none') {
+        if (empty($data) || !isset($header['alg']) || $header['alg'] == 'none') {
             return null;
         }
 
