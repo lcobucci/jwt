@@ -38,6 +38,34 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      *
      * @uses Lcobucci\JWT\Token::__construct
      *
+     * @covers Lcobucci\JWT\Token::hasHeader
+     */
+    public function hasHeaderMustReturnTrueWhenItIsConfigured()
+    {
+        $token = new Token(['test' => 'testing']);
+
+        $this->assertTrue($token->hasHeader('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     *
+     * @covers Lcobucci\JWT\Token::hasHeader
+     */
+    public function hasHeaderMustReturnFalseWhenItIsNotConfigured()
+    {
+        $token = new Token(['test' => 'testing']);
+
+        $this->assertFalse($token->hasHeader('testing'));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     *
      * @covers Lcobucci\JWT\Token::getHeader
      *
      * @expectedException \OutOfBoundsException
@@ -111,6 +139,36 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
+     *
+     * @covers Lcobucci\JWT\Token::hasClaim
+     */
+    public function hasClaimMustReturnTrueWhenItIsConfigured()
+    {
+        $token = new Token([], ['test' => new Basic('test', 'testing')]);
+
+        $this->assertTrue($token->hasClaim('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     *
+     * @covers Lcobucci\JWT\Token::hasClaim
+     *
+     * @uses Lcobucci\JWT\Claim\Basic
+     */
+    public function hasClaimMustReturnFalseWhenItIsNotConfigured()
+    {
+        $token = new Token([], ['test' => new Basic('test', 'testing')]);
+
+        $this->assertFalse($token->hasClaim('testing'));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
      * @uses Lcobucci\JWT\Claim\Basic::__construct
      *
      * @covers Lcobucci\JWT\Token::getClaim
@@ -127,8 +185,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getValue
+     * @uses Lcobucci\JWT\Claim\Basic
      *
      * @covers Lcobucci\JWT\Token::getClaim
      */

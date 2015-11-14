@@ -79,6 +79,18 @@ class Token
     }
 
     /**
+     * Returns if the header is configured
+     *
+     * @param string $name
+     *
+     * @return boolean
+     */
+    public function hasHeader($name)
+    {
+        return array_key_exists($name, $this->headers);
+    }
+
+    /**
      * Returns the value of a token header
      *
      * @param string $name
@@ -110,6 +122,18 @@ class Token
     public function getClaims()
     {
         return $this->claims;
+    }
+
+    /**
+     * Returns if the claim is configured
+     *
+     * @param string $name
+     *
+     * @return boolean
+     */
+    public function hasClaim($name)
+    {
+        return array_key_exists($name, $this->claims);
     }
 
     /**
