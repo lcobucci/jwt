@@ -65,6 +65,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::hasHeader
      *
      * @covers Lcobucci\JWT\Token::getHeader
      *
@@ -81,8 +82,25 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::hasHeader
      *
      * @covers Lcobucci\JWT\Token::getHeader
+     */
+    public function getHeaderMustReturnTheDefaultValueWhenIsNotConfigured()
+    {
+        $token = new Token(['test' => 'testing']);
+
+        $this->assertEquals('blah', $token->getHeader('testing', 'blah'));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::hasHeader
+     *
+     * @covers Lcobucci\JWT\Token::getHeader
+     * @covers Lcobucci\JWT\Token::getHeaderValue
      */
     public function getHeaderMustReturnTheRequestedHeader()
     {
@@ -95,10 +113,11 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getValue
+     * @uses Lcobucci\JWT\Token::hasHeader
+     * @uses Lcobucci\JWT\Claim\Basic
      *
      * @covers Lcobucci\JWT\Token::getHeader
+     * @covers Lcobucci\JWT\Token::getHeaderValue
      */
     public function getHeaderMustReturnValueWhenItIsAReplicatedClaim()
     {
@@ -139,6 +158,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Claim\Basic
      *
      * @covers Lcobucci\JWT\Token::hasClaim
      */
@@ -153,10 +173,9 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Claim\Basic
      *
      * @covers Lcobucci\JWT\Token::hasClaim
-     *
-     * @uses Lcobucci\JWT\Claim\Basic
      */
     public function hasClaimMustReturnFalseWhenItIsNotConfigured()
     {
@@ -169,7 +188,24 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses Lcobucci\JWT\Token::hasClaim
+     * @uses Lcobucci\JWT\Claim\Basic
+     *
+     * @covers Lcobucci\JWT\Token::getClaim
+     */
+    public function getClaimMustReturnTheDefaultValueWhenIsNotConfigured()
+    {
+        $token = new Token([], ['test' => new Basic('test', 'testing')]);
+
+        $this->assertEquals('blah', $token->getClaim('testing', 'blah'));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::hasClaim
+     * @uses Lcobucci\JWT\Claim\Basic
      *
      * @covers Lcobucci\JWT\Token::getClaim
      *
@@ -185,6 +221,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::hasClaim
      * @uses Lcobucci\JWT\Claim\Basic
      *
      * @covers Lcobucci\JWT\Token::getClaim
@@ -302,15 +339,9 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\ValidationData::__construct
-     * @uses Lcobucci\JWT\ValidationData::get
-     * @uses Lcobucci\JWT\ValidationData::has
-     * @uses Lcobucci\JWT\ValidationData::setIssuer
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getName
-     * @uses Lcobucci\JWT\Claim\Basic::getValue
-     * @uses Lcobucci\JWT\Claim\EqualsTo::__construct
-     * @uses Lcobucci\JWT\Claim\EqualsTo::validate
+     * @uses Lcobucci\JWT\ValidationData
+     * @uses Lcobucci\JWT\Claim\Basic
+     * @uses Lcobucci\JWT\Claim\EqualsTo
      *
      * @covers Lcobucci\JWT\Token::validate
      * @covers Lcobucci\JWT\Token::getValidatableClaims
@@ -335,19 +366,11 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\ValidationData::__construct
-     * @uses Lcobucci\JWT\ValidationData::get
-     * @uses Lcobucci\JWT\ValidationData::has
-     * @uses Lcobucci\JWT\ValidationData::setIssuer
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getName
-     * @uses Lcobucci\JWT\Claim\Basic::getValue
-     * @uses Lcobucci\JWT\Claim\EqualsTo::__construct
-     * @uses Lcobucci\JWT\Claim\EqualsTo::validate
-     * @uses Lcobucci\JWT\Claim\LesserOrEqualsTo::__construct
-     * @uses Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
-     * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo::__construct
-     * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo::validate
+     * @uses Lcobucci\JWT\ValidationData
+     * @uses Lcobucci\JWT\Claim\Basic
+     * @uses Lcobucci\JWT\Claim\EqualsTo
+     * @uses Lcobucci\JWT\Claim\LesserOrEqualsTo
+     * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      *
      * @covers Lcobucci\JWT\Token::validate
      * @covers Lcobucci\JWT\Token::getValidatableClaims
