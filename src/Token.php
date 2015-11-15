@@ -94,17 +94,34 @@ class Token
      * Returns the value of a token header
      *
      * @param string $name
+     * @param mixed $default
      *
      * @return mixed
      *
      * @throws OutOfBoundsException
      */
-    public function getHeader($name)
+    public function getHeader($name, $default = null)
     {
-        if (!isset($this->headers[$name])) {
+        if ($this->hasHeader($name)) {
+            return $this->getHeaderValue($name);
+        }
+
+        if ($default === null) {
             throw new OutOfBoundsException('Requested header is not configured');
         }
 
+        return $default;
+    }
+
+    /**
+     * Returns the value stored in header
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
+    private function getHeaderValue($name)
+    {
         $header = $this->headers[$name];
 
         if ($header instanceof Claim) {
@@ -140,18 +157,23 @@ class Token
      * Returns the value of a token claim
      *
      * @param string $name
+     * @param mixed $default
      *
      * @return mixed
      *
      * @throws OutOfBoundsException
      */
-    public function getClaim($name)
+    public function getClaim($name, $default = null)
     {
-        if (!isset($this->claims[$name])) {
+        if ($this->hasClaim($name)) {
+            return $this->claims[$name]->getValue();
+        }
+
+        if ($default === null) {
             throw new OutOfBoundsException('Requested claim is not configured');
         }
 
-        return $this->claims[$name]->getValue();
+        return $default;
     }
 
     /**
