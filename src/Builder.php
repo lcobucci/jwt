@@ -182,6 +182,27 @@ class Builder
     }
 
     /**
+     * Configures a header item
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return Builder
+     *
+     * @throws BadMethodCallException When data has been already signed
+     */
+    public function setHeader($name, $value)
+    {
+        if ($this->signature) {
+            throw new BadMethodCallException('You must unsign before make changes');
+        }
+
+        $this->headers[(string) $name] = $this->claimFactory->create($name, $value);
+
+        return $this;
+    }
+
+    /**
      * Configures a claim item
      *
      * @param string $name
