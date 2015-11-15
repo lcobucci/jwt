@@ -501,6 +501,39 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
+     *
+     * @covers Lcobucci\JWT\Builder::setHeader
+     */
+    public function setHeaderMustConfigureTheGivenClaim()
+    {
+        $builder = $this->createBuilder();
+        $builder->setHeader('userId', 2);
+
+        $this->assertAttributeEquals(
+            ['alg' => 'none', 'typ' => 'JWT', 'userId' => $this->defaultClaim],
+            'headers',
+            $builder
+        );
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Builder::__construct
+     *
+     * @covers Lcobucci\JWT\Builder::setHeader
+     */
+    public function setHeaderMustKeepAFluentInterface()
+    {
+        $builder = $this->createBuilder();
+
+        $this->assertSame($builder, $builder->setHeader('userId', 2));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::getToken
      * @uses Lcobucci\JWT\Token
      *
@@ -596,6 +629,32 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $builder = $this->createBuilder();
         $builder->sign($signer, 'test');
         $builder->set('test', 123);
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Builder::__construct
+     * @uses Lcobucci\JWT\Builder::sign
+     * @uses Lcobucci\JWT\Builder::getToken
+     * @uses Lcobucci\JWT\Token
+     *
+     * @covers Lcobucci\JWT\Builder::setHeader
+     *
+     * @expectedException BadMethodCallException
+     */
+    public function setHeaderMustRaiseExceptionWhenTokenHasBeenSigned()
+    {
+        $signer = $this->getMock(Signer::class);
+        $signature = $this->getMock(Signature::class, [], [], '', false);
+
+        $signer->expects($this->any())
+               ->method('sign')
+               ->willReturn($signature);
+
+        $builder = $this->createBuilder();
+        $builder->sign($signer, 'test');
+        $builder->setHeader('test', 123);
     }
 
     /**
