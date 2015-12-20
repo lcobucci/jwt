@@ -23,7 +23,7 @@ composer require lcobucci/jwt
 
 ### Dependencies
 
-- PHP 5.5+
+- PHP 5.5+ (v3.1) and PHP 7 (v4.x)
 - OpenSSL Extension
 
 ## Basic usage

@@ -8,7 +8,7 @@
 namespace Lcobucci\JWT;
 
 use InvalidArgumentException;
-use Lcobucci\Jose\Parsing\Decoder;
+use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 
 /**
@@ -22,7 +22,7 @@ class Parser
     /**
      * The data decoder
      *
-     * @var Decoder
+     * @var Parsing\Decoder
      */
     private $decoder;
 
@@ -36,14 +36,14 @@ class Parser
     /**
      * Initializes the object
      *
-     * @param Decoder $decoder
+     * @param Parsing\Decoder $decoder
      * @param ClaimFactory $claimFactory
      */
     public function __construct(
-        Decoder $decoder = null,
+        Parsing\Decoder $decoder = null,
         ClaimFactory $claimFactory = null
     ) {
-        $this->decoder = $decoder ?: new Decoder();
+        $this->decoder = $decoder ?: new Parsing\Parser();
         $this->claimFactory = $claimFactory ?: new ClaimFactory();
     }
 

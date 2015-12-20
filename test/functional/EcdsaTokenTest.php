@@ -55,12 +55,10 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function builderShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible()
     {
-        $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
-
         (new Builder())->setId(1)
                        ->setAudience('http://client.abc.com')
                        ->setIssuer('http://api.abc.com')
-                       ->set('user', $user)
+                       ->set('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
                        ->sign($this->signer, static::$rsaKeys['private']);
     }
 
@@ -80,7 +78,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function builderCanGenerateAToken()
     {
-        $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
+        $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
 
         $token = (new Builder())->setId(1)
                               ->setAudience('http://client.abc.com')
@@ -118,7 +116,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
         $read = (new Parser())->parse((string) $generated);
 
         $this->assertEquals($generated, $read);
-        $this->assertEquals('testing', $read->getClaim('user')->name);
+        $this->assertEquals('testing', $read->getClaim('user')['name']);
     }
 
     /**

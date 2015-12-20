@@ -5,7 +5,7 @@ build:
         redis: false
         rabbitmq: false
         php:
-            version: 5.6
+            version: 7.0
 tools:
     php_sim: true
     php_pdepend: true
