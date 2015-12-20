@@ -8,7 +8,7 @@
 namespace Lcobucci\JWT;
 
 use BadMethodCallException;
-use Lcobucci\Jose\Parsing\Encoder;
+use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 
 /**
@@ -43,7 +43,7 @@ class Builder
     /**
      * The data encoder
      *
-     * @var Encoder
+     * @var Parsing\Encoder
      */
     private $encoder;
 
@@ -57,14 +57,14 @@ class Builder
     /**
      * Initializes a new builder
      *
-     * @param Encoder $encoder
+     * @param Parsing\Encoder $encoder
      * @param ClaimFactory $claimFactory
      */
     public function __construct(
-        Encoder $encoder = null,
+        Parsing\Encoder $encoder = null,
         ClaimFactory $claimFactory = null
     ) {
-        $this->encoder = $encoder ?: new Encoder();
+        $this->encoder = $encoder ?: new Parsing\Parser();
         $this->claimFactory = $claimFactory ?: new ClaimFactory();
         $this->headers = ['typ'=> 'JWT', 'alg' => 'none'];
         $this->claims = [];
