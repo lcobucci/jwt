@@ -239,15 +239,14 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Token::__construct
      *
      * @covers Lcobucci\JWT\Token::verify
-     *
-     * @expectedException BadMethodCallException
      */
-    public function verifyMustRaiseExceptionWhenTokenIsUnsigned()
+    public function verifyShouldReturnFalseWhenTokenIsUnsigned()
     {
         $signer = $this->getMock(Signer::class);
 
         $token = new Token();
-        $token->verify($signer, 'test');
+
+        $this->assertFalse($token->verify($signer, 'test'));
     }
 
     /**

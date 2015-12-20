@@ -183,16 +183,10 @@ class Token
      * @param string $key
      *
      * @return boolean
-     *
-     * @throws BadMethodCallException When token is not signed
      */
     public function verify(Signer $signer, $key)
     {
-        if ($this->signature === null) {
-            throw new BadMethodCallException('This token is not signed');
-        }
-
-        if ($this->headers['alg'] !== $signer->getAlgorithmId()) {
+        if ($this->signature === null || $this->headers['alg'] !== $signer->getAlgorithmId()) {
             return false;
         }
 
