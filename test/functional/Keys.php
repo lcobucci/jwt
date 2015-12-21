@@ -1,7 +1,7 @@
 <?php
 namespace Lcobucci\JWT;
 
-use Lcobucci\JWT\Signer\Keychain;
+use Lcobucci\JWT\Signer\Key;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -23,14 +23,13 @@ trait Keys
      */
     public static function createRsaKeys()
     {
-        $keychain = new Keychain();
         $dir = 'file://' . __DIR__;
 
         static::$rsaKeys = [
-            'private' => $keychain->getPrivateKey($dir . '/rsa/private.key'),
-            'public' => $keychain->getPublicKey($dir . '/rsa/public.key'),
-            'encrypted-private' => $keychain->getPrivateKey($dir . '/rsa/encrypted-private.key', 'testing'),
-            'encrypted-public' => $keychain->getPublicKey($dir . '/rsa/encrypted-public.key')
+            'private' => new Key($dir . '/rsa/private.key'),
+            'public' => new Key($dir . '/rsa/public.key'),
+            'encrypted-private' => new Key($dir . '/rsa/encrypted-private.key', 'testing'),
+            'encrypted-public' => new Key($dir . '/rsa/encrypted-public.key')
         ];
     }
 
@@ -39,13 +38,12 @@ trait Keys
      */
     public static function createEcdsaKeys()
     {
-        $keychain = new Keychain();
         $dir = 'file://' . __DIR__;
 
         static::$ecdsaKeys = [
-            'private' => $keychain->getPrivateKey($dir . '/ecdsa/private.key'),
-            'public1' => $keychain->getPublicKey($dir . '/ecdsa/public1.key'),
-            'public2' => $keychain->getPublicKey($dir . '/ecdsa/public2.key'),
+            'private' => new Key($dir . '/ecdsa/private.key'),
+            'public1' => new Key($dir . '/ecdsa/public1.key'),
+            'public2' => new Key($dir . '/ecdsa/public2.key'),
         ];
     }
 }
