@@ -35,7 +35,7 @@ class Basic implements Claim
      * @param string $name
      * @param mixed $value
      */
-    public function __construct($name, $value)
+    public function __construct(string $name, $value)
     {
         $this->name = $name;
         $this->value = $value;
@@ -44,7 +44,7 @@ class Basic implements Claim
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -68,7 +68,7 @@ class Basic implements Claim
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->value;
     }

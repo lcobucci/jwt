@@ -24,12 +24,12 @@ interface Claim extends JsonSerializable
      *
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * Returns the claim value
      *
-     * @return string
+     * @return mixed
      */
     public function getValue();
 
@@ -38,5 +38,5 @@ interface Claim extends JsonSerializable
      *
      * @return string
      */
-    public function __toString();
+    public function __toString(): string;
 }

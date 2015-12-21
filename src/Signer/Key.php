@@ -31,7 +31,7 @@ final class Key
      * @param string $content
      * @param string $passphrase
      */
-    public function __construct($content, $passphrase = '')
+    public function __construct(string $content, string $passphrase = '')
     {
         $this->setContent($content);
         $this->passphrase = $passphrase;
@@ -42,7 +42,7 @@ final class Key
      *
      * @throws InvalidArgumentException
      */
-    private function setContent($content)
+    private function setContent(string $content)
     {
         if (strpos($content, 'file://') === 0) {
             $content = $this->readFile($content);
@@ -58,7 +58,7 @@ final class Key
      *
      * @throws \InvalidArgumentException
      */
-    private function readFile($content)
+    private function readFile(string $content): string
     {
         $file = substr($content, 7);
 
@@ -72,7 +72,7 @@ final class Key
     /**
      * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -80,7 +80,7 @@ final class Key
     /**
      * @return string
      */
-    public function getPassphrase()
+    public function getPassphrase(): string
     {
         return $this->passphrase;
     }

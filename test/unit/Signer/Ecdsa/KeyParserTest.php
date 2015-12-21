@@ -154,7 +154,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @return Key
      */
-    private function getPrivateKey()
+    private function getPrivateKey(): Key
     {
         return new Key(
             "-----BEGIN EC PRIVATE KEY-----\n"
@@ -168,7 +168,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @return Key
      */
-    private function getPublicKey()
+    private function getPublicKey(): Key
     {
         return new Key(
             "-----BEGIN PUBLIC KEY-----\n"

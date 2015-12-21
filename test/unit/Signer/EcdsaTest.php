@@ -58,7 +58,7 @@ class EcdsaTest extends \PHPUnit_Framework_TestCase
     /**
      * @return Ecdsa
      */
-    private function getSigner()
+    private function getSigner(): Ecdsa
     {
         $signer = $this->getMockForAbstractClass(
             Ecdsa::class,

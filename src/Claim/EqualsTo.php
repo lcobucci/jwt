@@ -23,7 +23,7 @@ class EqualsTo extends Basic implements Claim, Validatable
     /**
      * {@inheritdoc}
      */
-    public function validate(ValidationData $data)
+    public function validate(ValidationData $data): bool
     {
         if ($data->has($this->getName())) {
             return $this->getValue() === $data->get($this->getName());

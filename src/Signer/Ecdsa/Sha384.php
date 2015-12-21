@@ -22,7 +22,7 @@ class Sha384 extends Ecdsa
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithmId()
+    public function getAlgorithmId(): string
     {
         return 'ES384';
     }
@@ -30,7 +30,7 @@ class Sha384 extends Ecdsa
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithm()
+    public function getAlgorithm(): string
     {
         return 'sha384';
     }
@@ -38,7 +38,7 @@ class Sha384 extends Ecdsa
     /**
      * {@inheritdoc}
      */
-    public function getSignatureLength()
+    public function getSignatureLength(): int
     {
         return 96;
     }

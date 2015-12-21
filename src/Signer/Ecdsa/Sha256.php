@@ -22,7 +22,7 @@ class Sha256 extends Ecdsa
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithmId()
+    public function getAlgorithmId(): string
     {
         return 'ES256';
     }
@@ -30,7 +30,7 @@ class Sha256 extends Ecdsa
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithm()
+    public function getAlgorithm(): string
     {
         return 'sha256';
     }
@@ -38,7 +38,7 @@ class Sha256 extends Ecdsa
     /**
      * {@inheritdoc}
      */
-    public function getSignatureLength()
+    public function getSignatureLength(): int
     {
         return 64;
     }

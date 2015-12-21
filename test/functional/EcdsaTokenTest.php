@@ -58,7 +58,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function builderShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible()
     {
-        (new Builder())->setId(1)
+        (new Builder())->setId('1')
                        ->setAudience('http://client.abc.com')
                        ->setIssuer('http://api.abc.com')
                        ->set('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
@@ -83,7 +83,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
     {
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
 
-        $token = (new Builder())->setId(1)
+        $token = (new Builder())->setId('1')
                               ->setAudience('http://client.abc.com')
                               ->setIssuer('http://api.abc.com')
                               ->set('user', $user)

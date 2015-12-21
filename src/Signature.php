@@ -29,7 +29,7 @@ class Signature
      *
      * @param string $hash
      */
-    public function __construct($hash)
+    public function __construct(string $hash)
     {
         $this->hash = $hash;
     }
@@ -40,11 +40,11 @@ class Signature
      *
      * @param Signer $signer
      * @param string $payload
-     * @param string $key
+     * @param Key|string $key
      *
-     * @return boolean
+     * @return bool
      */
-    public function verify(Signer $signer, $payload, $key)
+    public function verify(Signer $signer, string $payload, $key): bool
     {
         return $signer->verify($this->hash, $payload, $key);
     }
@@ -54,7 +54,7 @@ class Signature
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->hash;
     }

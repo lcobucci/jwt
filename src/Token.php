@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
-use BadMethodCallException;
 use Generator;
 use Lcobucci\JWT\Claim\Validatable;
+use Lcobucci\JWT\Signer\Key;
 use OutOfBoundsException;
 
 /**
@@ -55,7 +55,7 @@ class Token
      *
      * @param array $headers
      * @param array $claims
-     * @param Signature $signature
+     * @param Signature|null $signature
      * @param array $payload
      */
     public function __construct(
@@ -75,7 +75,7 @@ class Token
      *
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
@@ -85,9 +85,9 @@ class Token
      *
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasHeader($name)
+    public function hasHeader(string $name): bool
     {
         return array_key_exists($name, $this->headers);
     }
@@ -102,7 +102,7 @@ class Token
      *
      * @throws OutOfBoundsException
      */
-    public function getHeader($name, $default = null)
+    public function getHeader(string $name, $default = null)
     {
         if ($this->hasHeader($name)) {
             return $this->getHeaderValue($name);
@@ -122,7 +122,7 @@ class Token
      *
      * @return mixed
      */
-    private function getHeaderValue($name)
+    private function getHeaderValue(string $name)
     {
         $header = $this->headers[$name];
 
@@ -138,7 +138,7 @@ class Token
      *
      * @return array
      */
-    public function getClaims()
+    public function getClaims(): array
     {
         return $this->claims;
     }
@@ -148,9 +148,9 @@ class Token
      *
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasClaim($name)
+    public function hasClaim(string $name): bool
     {
         return array_key_exists($name, $this->claims);
     }
@@ -165,7 +165,7 @@ class Token
      *
      * @throws OutOfBoundsException
      */
-    public function getClaim($name, $default = null)
+    public function getClaim(string $name, $default = null)
     {
         if ($this->hasClaim($name)) {
             return $this->claims[$name]->getValue();
@@ -182,11 +182,11 @@ class Token
      * Verify if the key matches with the one that created the signature
      *
      * @param Signer $signer
-     * @param string $key
+     * @param Key|string $key
      *
-     * @return boolean
+     * @return bool
      */
-    public function verify(Signer $signer, $key)
+    public function verify(Signer $signer, $key): bool
     {
         if ($this->signature === null || $this->headers['alg'] !== $signer->getAlgorithmId()) {
             return false;
@@ -200,9 +200,9 @@ class Token
      *
      * @param ValidationData $data
      *
-     * @return boolean
+     * @return bool
      */
-    public function validate(ValidationData $data)
+    public function validate(ValidationData $data): bool
     {
         foreach ($this->getValidatableClaims() as $claim) {
             if (!$claim->validate($data)) {
@@ -218,7 +218,7 @@ class Token
      *
      * @return Generator
      */
-    private function getValidatableClaims()
+    private function getValidatableClaims(): Generator
     {
         foreach ($this->claims as $claim) {
             if ($claim instanceof Validatable) {
@@ -232,7 +232,7 @@ class Token
      *
      * @return string
      */
-    public function getPayload()
+    public function getPayload(): string
     {
         return $this->payload[0] . '.' . $this->payload[1];
     }
@@ -242,7 +242,7 @@ class Token
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $data = implode('.', $this->payload);
 

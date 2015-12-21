@@ -22,7 +22,7 @@ abstract class Rsa extends BaseSigner
     /**
      * {@inheritdoc}
      */
-    public function createHash($payload, Key $key)
+    public function createHash(string $payload, Key $key): string
     {
         $key = openssl_get_privatekey($key->getContent(), $key->getPassphrase());
         $this->validateKey($key);
@@ -36,7 +36,7 @@ abstract class Rsa extends BaseSigner
     /**
      * {@inheritdoc}
      */
-    public function doVerify($expected, $payload, Key $key)
+    public function doVerify(string $expected, string $payload, Key $key): bool
     {
         $key = openssl_get_publickey($key->getContent());
         $this->validateKey($key);
@@ -45,11 +45,11 @@ abstract class Rsa extends BaseSigner
     }
 
     /**
-     * Returns if the key type is equals with expected type
+     * Raise an exception when the key type is not the expected type
      *
      * @param resource $key
      *
-     * @return boolean
+     * @expectedException InvalidArgumentException
      */
     private function validateKey($key)
     {
@@ -63,7 +63,7 @@ abstract class Rsa extends BaseSigner
     /**
      * Returns the algorithm name
      *
-     * @return string
+     * @return int
      */
-    abstract public function getAlgorithm();
+    abstract public function getAlgorithm(): int;
 }

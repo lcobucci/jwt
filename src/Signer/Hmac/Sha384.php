@@ -22,7 +22,7 @@ class Sha384 extends Hmac
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithmId()
+    public function getAlgorithmId(): string
     {
         return 'HS384';
     }
@@ -30,7 +30,7 @@ class Sha384 extends Hmac
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithm()
+    public function getAlgorithm(): string
     {
         return 'sha384';
     }

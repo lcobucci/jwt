@@ -34,7 +34,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
     {
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
 
-        $token = (new Builder())->setId(1)
+        $token = (new Builder())->setId('1')
                               ->setAudience('http://client.abc.com')
                               ->setIssuer('http://api.abc.com')
                               ->setExpiration(self::CURRENT_TIME + 3000)

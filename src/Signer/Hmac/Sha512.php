@@ -22,7 +22,7 @@ class Sha512 extends Hmac
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithmId()
+    public function getAlgorithmId(): string
     {
         return 'HS512';
     }
@@ -30,7 +30,7 @@ class Sha512 extends Hmac
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithm()
+    public function getAlgorithm(): string
     {
         return 'sha512';
     }

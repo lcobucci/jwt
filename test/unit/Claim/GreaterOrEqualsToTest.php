@@ -49,10 +49,8 @@ class GreaterOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValueIsGreaterThanValidationData()
     {
-        $claim = new GreaterOrEqualsTo('iss', 11);
-
-        $data = new ValidationData();
-        $data->setIssuer(10);
+        $claim = new GreaterOrEqualsTo('iat', 11);
+        $data = new ValidationData(10);
 
         $this->assertTrue($claim->validate($data));
     }
@@ -72,10 +70,8 @@ class GreaterOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValueIsEqualsToValidationData()
     {
-        $claim = new GreaterOrEqualsTo('iss', 10);
-
-        $data = new ValidationData();
-        $data->setIssuer(10);
+        $claim = new GreaterOrEqualsTo('iat', 10);
+        $data = new ValidationData(10);
 
         $this->assertTrue($claim->validate($data));
     }
@@ -95,10 +91,8 @@ class GreaterOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnFalseWhenValueIsLesserThanValidationData()
     {
-        $claim = new GreaterOrEqualsTo('iss', 10);
-
-        $data = new ValidationData();
-        $data->setIssuer(11);
+        $claim = new GreaterOrEqualsTo('iat', 10);
+        $data = new ValidationData(11);
 
         $this->assertFalse($claim->validate($data));
     }

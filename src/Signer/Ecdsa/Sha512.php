@@ -22,7 +22,7 @@ class Sha512 extends Ecdsa
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithmId()
+    public function getAlgorithmId(): string
     {
         return 'ES512';
     }
@@ -30,7 +30,7 @@ class Sha512 extends Ecdsa
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithm()
+    public function getAlgorithm(): string
     {
         return 'sha512';
     }
@@ -38,7 +38,7 @@ class Sha512 extends Ecdsa
     /**
      * {@inheritdoc}
      */
-    public function getSignatureLength()
+    public function getSignatureLength(): int
     {
         return 132;
     }
