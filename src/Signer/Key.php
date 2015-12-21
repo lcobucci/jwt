@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Signer;
 
 use InvalidArgumentException;
@@ -29,7 +31,7 @@ final class Key
      * @param string $content
      * @param string $passphrase
      */
-    public function __construct($content, $passphrase = null)
+    public function __construct($content, $passphrase = '')
     {
         $this->setContent($content);
         $this->passphrase = $passphrase;

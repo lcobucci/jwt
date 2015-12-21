@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT;
 
 use BadMethodCallException;
@@ -268,7 +270,7 @@ class Builder
         ];
 
         if ($this->signature !== null) {
-            $payload[] = $this->encoder->base64UrlEncode($this->signature);
+            $payload[] = $this->encoder->base64UrlEncode((string) $this->signature);
         }
 
         return new Token($this->headers, $this->claims, $this->signature, $payload);
