@@ -101,6 +101,14 @@ with the current UNIX time (```time()```).
 
 We can use signatures to be able to verify if the token was not modified after its generation. This library implements Hmac, RSA and ECDSA signatures (using 256, 384 and 512).
 
+### Important
+
+Do not allow the string sent to the Parser to dictate which signature algorithm
+to use, or else your application will be vulnerable to a [critical JWT security vulnerability](https://auth0.com/blog/2015/03/31/critical-vulnerabilities-in-json-web-token-libraries).
+
+The examples below are safe because the choice in `Signer` is hard-coded and
+cannot be influenced by malicious users.
+
 ### Hmac
 
 Hmac signatures are really simple to be used:
