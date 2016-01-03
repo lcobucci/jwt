@@ -163,3 +163,10 @@ var_dump($token->verify($signer, $publicKey)); // true when the public key was g
 ```
 
 **It's important to say that if you're using RSA keys you shouldn't invoke ECDSA signers (and vice-versa), otherwise ```sign()``` and ```verify()``` will raise an exception!**
+
+## Security
+
+Because of the awesome guys of [Paragon Initiative](https://paragonie.com) and the
+PHP community's support we had a security audit for this library (thanks a lot guys)!
+
+Check the result [here](https://paragonie.com/audit/UGCwpFmaIkQ085l7)!
