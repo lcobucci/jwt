@@ -53,8 +53,8 @@ class Token
      *
      * @param array $headers
      * @param array $claims
-     * @param array $payload
      * @param Signature $signature
+     * @param array $payload
      */
     public function __construct(
         array $headers = ['alg' => 'none'],
