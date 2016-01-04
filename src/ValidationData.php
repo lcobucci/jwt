@@ -105,7 +105,7 @@ class ValidationData
      */
     public function get(string $name)
     {
-        return isset($this->items[$name]) ? $this->items[$name] : null;
+        return $this->items[$name] ?? null;
     }
 
     /**
