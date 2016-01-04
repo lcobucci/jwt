@@ -64,11 +64,11 @@ class Builder
      * @param ClaimFactory $claimFactory
      */
     public function __construct(
-        Parsing\Encoder $encoder = null,
-        ClaimFactory $claimFactory = null
+        Parsing\Encoder $encoder,
+        ClaimFactory $claimFactory
     ) {
-        $this->encoder = $encoder ?: new Parsing\Parser();
-        $this->claimFactory = $claimFactory ?: new ClaimFactory();
+        $this->encoder = $encoder;
+        $this->claimFactory = $claimFactory;
         $this->headers = ['typ'=> 'JWT', 'alg' => 'none'];
         $this->claims = [];
     }
