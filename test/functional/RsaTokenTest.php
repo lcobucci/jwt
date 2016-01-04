@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Builder;
@@ -53,7 +55,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function builderShouldRaiseExceptionWhenKeyIsNotRsaCompatible()
     {
-        (new Builder())->setId(1)
+        (new Builder())->setId('1')
                        ->setAudience('http://client.abc.com')
                        ->setIssuer('http://api.abc.com')
                        ->set('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
@@ -77,7 +79,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
     {
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
 
-        $token = (new Builder())->setId(1)
+        $token = (new Builder())->setId('1')
                               ->setAudience('http://client.abc.com')
                               ->setIssuer('http://api.abc.com')
                               ->set('user', $user)

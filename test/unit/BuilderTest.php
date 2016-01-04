@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT;
 
 use Lcobucci\Jose\Parsing\Encoder;
@@ -48,7 +50,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @return Builder
      */
-    private function createBuilder()
+    private function createBuilder(): Builder
     {
         return new Builder($this->encoder, $this->claimFactory);
     }
@@ -138,7 +140,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     public function setExpirationMustChangeTheExpClaim()
     {
         $builder = $this->createBuilder();
-        $builder->setExpiration('2');
+        $builder->setExpiration(2);
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
         $this->assertAttributeEquals(['exp' => $this->defaultClaim], 'claims', $builder);
@@ -156,7 +158,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     public function setExpirationCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
-        $builder->setExpiration('2', true);
+        $builder->setExpiration(2, true);
 
         $this->assertAttributeEquals(['exp' => $this->defaultClaim], 'claims', $builder);
 
@@ -180,7 +182,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->setExpiration('2'));
+        $this->assertSame($builder, $builder->setExpiration(2));
     }
 
     /**
@@ -252,7 +254,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     public function setIssuedAtMustChangeTheIatClaim()
     {
         $builder = $this->createBuilder();
-        $builder->setIssuedAt('2');
+        $builder->setIssuedAt(2);
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
         $this->assertAttributeEquals(['iat' => $this->defaultClaim], 'claims', $builder);
@@ -270,7 +272,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     public function setIssuedAtCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
-        $builder->setIssuedAt('2', true);
+        $builder->setIssuedAt(2, true);
 
         $this->assertAttributeEquals(['iat' => $this->defaultClaim], 'claims', $builder);
 
@@ -294,7 +296,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->setIssuedAt('2'));
+        $this->assertSame($builder, $builder->setIssuedAt(2));
     }
 
     /**
@@ -366,7 +368,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     public function setNotBeforeMustChangeTheNbfClaim()
     {
         $builder = $this->createBuilder();
-        $builder->setNotBefore('2');
+        $builder->setNotBefore(2);
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
         $this->assertAttributeEquals(['nbf' => $this->defaultClaim], 'claims', $builder);
@@ -384,7 +386,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     public function setNotBeforeCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
-        $builder->setNotBefore('2', true);
+        $builder->setNotBefore(2, true);
 
         $this->assertAttributeEquals(['nbf' => $this->defaultClaim], 'claims', $builder);
 
@@ -408,7 +410,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->setNotBefore('2'));
+        $this->assertSame($builder, $builder->setNotBefore(2));
     }
 
     /**
@@ -563,7 +565,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Lcobucci\JWT\Builder::sign
      */
-    public function signMustKeepAFluentInterface()
+    public function signMustKeepAFluentInterface(): Builder
     {
         $signer = $this->getMock(Signer::class);
         $signature = $this->getMock(Signature::class, [], [], '', false);

@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT;
 
 use Lcobucci\Jose\Parsing\Decoder;
@@ -49,7 +51,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @return Parser
      */
-    private function createParser()
+    private function createParser(): Parser
     {
         return new Parser($this->decoder, $this->claimFactory);
     }
@@ -65,22 +67,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertAttributeSame($this->decoder, 'decoder', $parser);
         $this->assertAttributeSame($this->claimFactory, 'claimFactory', $parser);
-    }
-
-    /**
-     * @test
-     *
-     * @uses Lcobucci\JWT\Parser::__construct
-     *
-     * @covers Lcobucci\JWT\Parser::parse
-     * @covers Lcobucci\JWT\Parser::splitJwt
-     *
-     * @expectedException InvalidArgumentException
-     */
-    public function parseMustRaiseExceptionWhenJWSIsNotAString()
-    {
-        $parser = $this->createParser();
-        $parser->parse(['asdasd']);
     }
 
     /**

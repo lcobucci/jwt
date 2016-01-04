@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Signer\Ecdsa\KeyParser;
@@ -39,9 +41,9 @@ abstract class Ecdsa extends BaseSigner
     private $parser;
 
     /**
-     * @param Adapter $adapter
-     * @param EcdsaSigner $signer
-     * @param KeyParser $parser
+     * @param Adapter|null $adapter
+     * @param EcdsaSigner|null $signer
+     * @param KeyParser|null $parser
      */
     public function __construct(Adapter $adapter = null, Signer $signer = null, KeyParser $parser = null)
     {
@@ -54,10 +56,10 @@ abstract class Ecdsa extends BaseSigner
      * {@inheritdoc}
      */
     public function createHash(
-        $payload,
+        string $payload,
         Key $key,
         RandomNumberGeneratorInterface $generator = null
-    ) {
+    ): string {
         $privateKey = $this->parser->getPrivateKey($key);
         $generator = $generator ?: RandomGeneratorFactory::getRandomGenerator();
 
@@ -77,7 +79,7 @@ abstract class Ecdsa extends BaseSigner
      *
      * @return string
      */
-    private function createSignatureHash(Signature $signature)
+    private function createSignatureHash(Signature $signature): string
     {
         $length = $this->getSignatureLength();
 
@@ -98,7 +100,7 @@ abstract class Ecdsa extends BaseSigner
      *
      * @return int|string
      */
-    private function createSigningHash($payload)
+    private function createSigningHash(string $payload)
     {
         return $this->adapter->hexDec(hash($this->getAlgorithm(), $payload));
     }
@@ -106,7 +108,7 @@ abstract class Ecdsa extends BaseSigner
     /**
      * {@inheritdoc}
      */
-    public function doVerify($expected, $payload, Key $key)
+    public function doVerify(string $expected, string $payload, Key $key): bool
     {
         return $this->signer->verify(
             $this->parser->getPublicKey($key),
@@ -122,7 +124,7 @@ abstract class Ecdsa extends BaseSigner
      *
      * @return \Mdanter\Ecc\Crypto\Signature\Signature
      */
-    private function extractSignature($value)
+    private function extractSignature(string $value): \Mdanter\Ecc\Crypto\Signature\Signature
     {
         $length = $this->getSignatureLength();
         $value = unpack('H*', $value)[1];
@@ -138,12 +140,12 @@ abstract class Ecdsa extends BaseSigner
      *
      * @return int
      */
-    abstract public function getSignatureLength();
+    abstract public function getSignatureLength(): int;
 
     /**
      * Returns the name of algorithm to be used to create the signing hash
      *
      * @return string
      */
-    abstract public function getAlgorithm();
+    abstract public function getAlgorithm(): string;
 }

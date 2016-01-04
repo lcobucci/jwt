@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Signer\Rsa;
 
 use Lcobucci\JWT\Signer\Rsa;
@@ -20,7 +22,7 @@ class Sha384 extends Rsa
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithmId()
+    public function getAlgorithmId(): string
     {
         return 'RS384';
     }
@@ -28,7 +30,7 @@ class Sha384 extends Rsa
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithm()
+    public function getAlgorithm(): int
     {
         return OPENSSL_ALGO_SHA384;
     }

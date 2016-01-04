@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Builder;
@@ -14,7 +16,7 @@ use Lcobucci\JWT\Signature;
 use Lcobucci\JWT\Signer\Ecdsa\Sha256;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512;
 use Lcobucci\JWT\Signer\Hmac\Sha512 as HS512;
-use Lcobucci\JWT\Signer\Keychain;
+use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Keys;
 
 /**
@@ -56,7 +58,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function builderShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible()
     {
-        (new Builder())->setId(1)
+        (new Builder())->setId('1')
                        ->setAudience('http://client.abc.com')
                        ->setIssuer('http://api.abc.com')
                        ->set('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
@@ -81,7 +83,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
     {
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
 
-        $token = (new Builder())->setId(1)
+        $token = (new Builder())->setId('1')
                               ->setAudience('http://client.abc.com')
                               ->setIssuer('http://api.abc.com')
                               ->set('user', $user)
@@ -223,7 +225,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signer\Ecdsa
      * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512
-     * @covers Lcobucci\JWT\Signer\Keychain
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
      */
@@ -241,13 +242,13 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
                . 'mZudf1zCUZ8/4eodlHU=' . PHP_EOL
                . '-----END PUBLIC KEY-----';
 
-        $keychain = new Keychain();
+        $key = new Key($key);
         $token = (new Parser())->parse((string) $data);
 
         $this->assertEquals('world', $token->getClaim('hello'));
-        $this->assertTrue($token->verify(new Sha512(), $keychain->getPublicKey($key)));
+        $this->assertTrue($token->verify(new Sha512(), $key));
     }
-    
+
     /**
      * @test
      *
@@ -278,16 +279,16 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
                . 'e86IvFeQSFrJdCc0K8NfiH2G1loIk3fiR+YLqlXk6FAeKtpXJKxR1pCQCAM+vBCs' . PHP_EOL
                . 'mZudf1zCUZ8/4eodlHU=' . PHP_EOL
                . '-----END PUBLIC KEY-----';
-        
+
         $dec = new \Lcobucci\Jose\Parsing\Parser;
-        
+
         /**
          * Let's let the attacker tamper with our message!
-         * 
+         *
          * @ref https://auth0.com/blog/2015/03/31/critical-vulnerabilities-in-json-web-token-libraries/
          */
         $asplode = explode('.', $data);
-        
+
         // The user is lying; we insist that we're using HMAC-SHA512, with the
         // public key as the HMAC secret key. This just builds a forged message:
         $asplode[0] = $dec->base64UrlEncode('{"alg":"HS512","typ":"JWT"}');
@@ -299,22 +300,21 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
         );
         $asplode[2] = $dec->base64UrlEncode($hmac);
         $bad = implode('.', $asplode);
-        
+
         /**
          * At this point, we have our forged message in $bad for testing...
-         * 
+         *
          * Now, if we allow the attacker to dictate what Signer we use
          * (e.g. HMAC-SHA512 instead of ECDSA), they can forge messages!
          */
-        $keychain = new Keychain();
         $token = (new Parser())->parse((string) $bad);
         $this->assertEquals('world', $token->getClaim('hello'));
         // Note we're using HS512() here:
-        $this->assertTrue($token->verify(new HS512(), $keychain->getPublicKey($key)));
-        
+        $this->assertTrue($token->verify(new HS512(), new Key($key)));
+
         /**
          * Fortunately, we're passing a separate Signer, so this fails:
          */
-        $this->assertFalse($token->verify(new Sha512(), $keychain->getPublicKey($key)));
+        $this->assertFalse($token->verify(new Sha512(), new Key($key)));
     }
 }

@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT;
 
 use JsonSerializable;
@@ -22,12 +24,12 @@ interface Claim extends JsonSerializable
      *
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * Returns the claim value
      *
-     * @return string
+     * @return mixed
      */
     public function getValue();
 
@@ -36,5 +38,5 @@ interface Claim extends JsonSerializable
      *
      * @return string
      */
-    public function __toString();
+    public function __toString(): string;
 }

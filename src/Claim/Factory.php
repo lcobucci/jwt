@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Claim;
 
 use Lcobucci\JWT\Claim;
@@ -53,7 +55,7 @@ class Factory
      *
      * @return Claim
      */
-    public function create($name, $value)
+    public function create(string $name, $value): Claim
     {
         if (!empty($this->callbacks[$name])) {
             return call_user_func($this->callbacks[$name], $name, $value);
@@ -70,7 +72,7 @@ class Factory
      *
      * @return GreaterOrEqualsTo
      */
-    private function createGreaterOrEqualsTo($name, $value)
+    private function createGreaterOrEqualsTo(string $name, $value): GreaterOrEqualsTo
     {
         return new GreaterOrEqualsTo($name, $value);
     }
@@ -83,7 +85,7 @@ class Factory
      *
      * @return LesserOrEqualsTo
      */
-    private function createLesserOrEqualsTo($name, $value)
+    private function createLesserOrEqualsTo(string $name, $value): LesserOrEqualsTo
     {
         return new LesserOrEqualsTo($name, $value);
     }
@@ -96,7 +98,7 @@ class Factory
      *
      * @return EqualsTo
      */
-    private function createEqualsTo($name, $value)
+    private function createEqualsTo(string $name, $value): EqualsTo
     {
         return new EqualsTo($name, $value);
     }
@@ -109,7 +111,7 @@ class Factory
      *
      * @return Basic
      */
-    private function createBasic($name, $value)
+    private function createBasic(string $name, $value): Basic
     {
         return new Basic($name, $value);
     }
