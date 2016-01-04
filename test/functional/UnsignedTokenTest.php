@@ -13,6 +13,7 @@ use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\ValidationData;
+use Lcobucci\JWT\Configuration;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -21,6 +22,19 @@ use Lcobucci\JWT\ValidationData;
 class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
 {
     const CURRENT_TIME = 100000;
+
+    /**
+     * @var Configuration
+     */
+    private $config;
+
+    /**
+     * @before
+     */
+    public function createConfiguration()
+    {
+        $this->config = new Configuration();
+    }
 
     /**
      * @test
@@ -33,13 +47,14 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
     public function builderCanGenerateAToken()
     {
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
+        $builder = $this->config->createBuilder();
 
-        $token = (new Builder())->setId('1')
-                              ->setAudience('http://client.abc.com')
-                              ->setIssuer('http://api.abc.com')
-                              ->setExpiration(self::CURRENT_TIME + 3000)
-                              ->set('user', $user)
-                              ->getToken();
+        $token = $builder->setId('1')
+                         ->setAudience('http://client.abc.com')
+                         ->setIssuer('http://api.abc.com')
+                         ->setExpiration(self::CURRENT_TIME + 3000)
+                         ->set('user', $user)
+                         ->getToken();
 
         $this->assertAttributeEquals(null, 'signature', $token);
         $this->assertEquals('http://client.abc.com', $token->getClaim('aud'));
@@ -63,7 +78,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function parserCanReadAToken(Token $generated)
     {
-        $read = (new Parser())->parse((string) $generated);
+        $read = $this->config->getParser()->parse((string) $generated);
 
         $this->assertEquals($generated, $read);
         $this->assertEquals('testing', $read->getClaim('user')['name']);

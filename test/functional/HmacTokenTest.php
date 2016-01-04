@@ -15,6 +15,7 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Signature;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
+use Lcobucci\JWT\Configuration;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -23,16 +24,16 @@ use Lcobucci\JWT\Signer\Hmac\Sha512;
 class HmacTokenTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Sha256
+     * @var Configuration
      */
-    private $signer;
+    private $config;
 
     /**
      * @before
      */
-    public function createSigner()
+    public function createConfiguration()
     {
-        $this->signer = new Sha256();
+        $this->config = new Configuration();
     }
 
     /**
@@ -51,14 +52,15 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
     public function builderCanGenerateAToken()
     {
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
+        $builder = $this->config->createBuilder();
 
-        $token = (new Builder())->setId('1')
-                              ->setAudience('http://client.abc.com')
-                              ->setIssuer('http://api.abc.com')
-                              ->set('user', $user)
-                              ->setHeader('jki', '1234')
-                              ->sign($this->signer, 'testing')
-                              ->getToken();
+        $token = $builder->setId('1')
+                         ->setAudience('http://client.abc.com')
+                         ->setIssuer('http://api.abc.com')
+                         ->set('user', $user)
+                         ->setHeader('jki', '1234')
+                         ->sign($this->config->getSigner(), 'testing')
+                         ->getToken();
 
         $this->assertAttributeInstanceOf(Signature::class, 'signature', $token);
         $this->assertEquals('1234', $token->getHeader('jki'));
@@ -83,7 +85,7 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function parserCanReadAToken(Token $generated)
     {
-        $read = (new Parser())->parse((string) $generated);
+        $read = $this->config->getParser()->parse((string) $generated);
 
         $this->assertEquals($generated, $read);
         $this->assertEquals('testing', $read->getClaim('user')['name']);
@@ -107,7 +109,7 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnFalseWhenKeyIsNotRight(Token $token)
     {
-        $this->assertFalse($token->verify($this->signer, 'testing1'));
+        $this->assertFalse($token->verify($this->config->getSigner(), 'testing1'));
     }
 
     /**
@@ -150,7 +152,7 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnTrueWhenKeyIsRight(Token $token)
     {
-        $this->assertTrue($token->verify($this->signer, 'testing'));
+        $this->assertTrue($token->verify($this->config->getSigner(), 'testing'));
     }
 
     /**
@@ -172,9 +174,9 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
         $data = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.Rh'
                 . '7AEgqCB7zae1PkgIlvOpeyw9Ab8NGTbeOH7heHO0o';
 
-        $token = (new Parser())->parse((string) $data);
+        $token = $this->config->getParser()->parse((string) $data);
 
         $this->assertEquals('world', $token->getClaim('hello'));
-        $this->assertTrue($token->verify($this->signer, 'testing'));
+        $this->assertTrue($token->verify($this->config->getSigner(), 'testing'));
     }
 }
