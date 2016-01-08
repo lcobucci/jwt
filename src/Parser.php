@@ -69,7 +69,7 @@ class Parser
             }
         }
 
-        if (null === $signature) {
+        if ($signature === null) {
             unset($data[2]);
         }
 
@@ -144,7 +144,7 @@ class Parser
      */
     protected function parseSignature(array $header, string $data)
     {
-        if ('' == $data || !isset($header['alg']) || 'none' == $header['alg']) {
+        if ($data == '' || !isset($header['alg']) || $header['alg'] == 'none') {
             return null;
         }
 
