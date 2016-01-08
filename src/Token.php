@@ -108,7 +108,7 @@ class Token
             return $this->getHeaderValue($name);
         }
 
-        if ($default === null) {
+        if (null === $default) {
             throw new OutOfBoundsException('Requested header is not configured');
         }
 
@@ -188,7 +188,7 @@ class Token
      */
     public function verify(Signer $signer, $key): bool
     {
-        if ($this->signature === null || $this->headers['alg'] !== $signer->getAlgorithmId()) {
+        if (null === $this->signature || $this->headers['alg'] !== $signer->getAlgorithmId()) {
             return false;
         }
 

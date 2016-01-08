@@ -100,7 +100,10 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function tokenValidationShouldReturnWhenEverythingIsFine(Token $generated)
     {
-        $data = new ValidationData(self::CURRENT_TIME - 10);
+        $time = new \DateTime();
+        $time->setTimestamp(self::CURRENT_TIME + 10);
+
+        $data = new ValidationData($time);
         $data->setAudience('http://client.abc.com');
         $data->setIssuer('http://api.abc.com');
 
@@ -130,15 +133,17 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
 
     public function invalidValidationData()
     {
-        $expired = new ValidationData(self::CURRENT_TIME + 3020);
+        $time = new \DateTime();
+
+        $expired = new ValidationData($time->setTimestamp(self::CURRENT_TIME + 3020));
         $expired->setAudience('http://client.abc.com');
         $expired->setIssuer('http://api.abc.com');
 
-        $invalidAudience = new ValidationData(self::CURRENT_TIME - 10);
+        $invalidAudience = new ValidationData($time->setTimestamp(self::CURRENT_TIME - 10));
         $invalidAudience->setAudience('http://cclient.abc.com');
         $invalidAudience->setIssuer('http://api.abc.com');
 
-        $invalidIssuer = new ValidationData(self::CURRENT_TIME - 10);
+        $invalidIssuer = new ValidationData($time->setTimestamp(self::CURRENT_TIME - 10));
         $invalidIssuer->setAudience('http://client.abc.com');
         $invalidIssuer->setIssuer('http://aapi.abc.com');
 

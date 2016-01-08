@@ -389,7 +389,11 @@ class TokenTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $data = new ValidationData($now + 10);
+        $time = new \DateTime();
+        $time->setTimestamp($now);
+        $time->modify('+10 second');
+
+        $data = new ValidationData($time);
         $data->setIssuer('test');
 
         $this->assertTrue($token->validate($data));
