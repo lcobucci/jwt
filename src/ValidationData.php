@@ -27,11 +27,11 @@ class ValidationData
     /**
      * Initializes the object
      *
-     * @param int|null $currentTime
+     * @param \DateTimeInterface|null $currentTime
      */
-    public function __construct(int $currentTime = null)
+    public function __construct(\DateTimeInterface $currentTime = null)
     {
-        $currentTime = $currentTime ?: time();
+        $currentTime = $currentTime ?: new \DateTime();
 
         $this->items = [
             'jti' => null,
@@ -87,9 +87,9 @@ class ValidationData
     /**
      * Configures the time that "iat", "nbf" and "exp" should be based on
      *
-     * @param int $currentTime
+     * @param \DateTimeInterface $currentTime
      */
-    public function setCurrentTime(int $currentTime)
+    public function setCurrentTime(\DateTimeInterface $currentTime)
     {
         $this->items['iat'] = $currentTime;
         $this->items['nbf'] = $currentTime;
@@ -105,7 +105,11 @@ class ValidationData
      */
     public function get(string $name)
     {
-        return isset($this->items[$name]) ? $this->items[$name] : null;
+        if (!$this->has($name)) {
+            return null;
+        }
+
+        return $this->items[$name];
     }
 
     /**
@@ -117,6 +121,6 @@ class ValidationData
      */
     public function has(string $name): bool
     {
-        return !empty($this->items[$name]);
+        return isset($this->items[$name]);
     }
 }

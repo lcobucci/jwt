@@ -22,8 +22,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function constructorShouldConfigureTheItems()
     {
+        $time = new \DateTime();
         $expected = $this->createExpectedData();
-        $data = new ValidationData(1);
+        $data = new ValidationData($time->setTimestamp(1));
 
         $this->assertAttributeSame($expected, 'items', $data);
     }
@@ -37,8 +38,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function setIdShouldChangeTheId()
     {
+        $time = new \DateTime();
         $expected = $this->createExpectedData('test');
-        $data = new ValidationData(1);
+        $data = new ValidationData($time->setTimestamp(1));
         $data->setId('test');
 
         $this->assertAttributeSame($expected, 'items', $data);
@@ -53,8 +55,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function setIssuerShouldChangeTheIssuer()
     {
+        $time = new \DateTime();
         $expected = $this->createExpectedData(null, null, 'test');
-        $data = new ValidationData(1);
+        $data = new ValidationData($time->setTimestamp(1));
         $data->setIssuer('test');
 
         $this->assertAttributeSame($expected, 'items', $data);
@@ -69,8 +72,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function setAudienceShouldChangeTheAudience()
     {
+        $time = new \DateTime();
         $expected = $this->createExpectedData(null, null, null, 'test');
-        $data = new ValidationData(1);
+        $data = new ValidationData($time->setTimestamp(1));
         $data->setAudience('test');
 
         $this->assertAttributeSame($expected, 'items', $data);
@@ -85,8 +89,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function setSubjectShouldChangeTheSubject()
     {
+        $time = new \DateTime();
         $expected = $this->createExpectedData(null, 'test');
-        $data = new ValidationData(1);
+        $data = new ValidationData($time->setTimestamp(1));
         $data->setSubject('test');
 
         $this->assertAttributeSame($expected, 'items', $data);
@@ -101,9 +106,10 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function setCurrentTimeShouldChangeTheTimeBasedValues()
     {
+        $time = new \DateTime();
         $expected = $this->createExpectedData(null, null, null, null, 2);
-        $data = new ValidationData(1);
-        $data->setCurrentTime(2);
+        $data = new ValidationData($time->setTimestamp(1));
+        $data->setCurrentTime($time->setTimestamp(2));
 
         $this->assertAttributeSame($expected, 'items', $data);
     }
@@ -117,7 +123,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function hasShouldReturnTrueWhenItemIsNotEmpty()
     {
-        $data = new ValidationData(1);
+        $data = new ValidationData(new \DateTime());
 
         $this->assertTrue($data->has('iat'));
     }
@@ -131,7 +137,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function hasShouldReturnFalseWhenItemIsEmpty()
     {
-        $data = new ValidationData(1);
+        $data = new ValidationData(new \DateTime());
 
         $this->assertFalse($data->has('jti'));
     }
@@ -145,7 +151,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function hasShouldReturnFalseWhenItemIsNotDefined()
     {
-        $data = new ValidationData(1);
+        $data = new ValidationData(new \DateTime());
 
         $this->assertFalse($data->has('test'));
     }
@@ -159,7 +165,8 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function getShouldReturnTheItemValue()
     {
-        $data = new ValidationData(1);
+        $time = new \DateTime();
+        $data = new ValidationData($time->setTimestamp(1));
 
         $this->assertEquals(1, $data->get('iat'));
     }
@@ -173,7 +180,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      */
     public function getShouldReturnNullWhenItemIsNotDefined()
     {
-        $data = new ValidationData(1);
+        $data = new ValidationData(new \DateTime());
 
         $this->assertNull($data->get('test'));
     }
