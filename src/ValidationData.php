@@ -27,9 +27,9 @@ class ValidationData
     /**
      * Initializes the object
      *
-     * @param \DateTime|null $currentTime
+     * @param \DateTimeInterface|null $currentTime
      */
-    public function __construct(\DateTime $currentTime = null)
+    public function __construct(\DateTimeInterface $currentTime = null)
     {
         $currentTime = $currentTime ?: new \DateTime();
 
@@ -37,10 +37,11 @@ class ValidationData
             'jti' => null,
             'iss' => null,
             'aud' => null,
-            'sub' => null
+            'sub' => null,
+            'iat' => $currentTime,
+            'nbf' => $currentTime,
+            'exp' => $currentTime
         ];
-
-        $this->setCurrentTime($currentTime);
     }
 
     /**
@@ -86,12 +87,10 @@ class ValidationData
     /**
      * Configures the time that "iat", "nbf" and "exp" should be based on
      *
-     * @param \DateTime $currentTime
+     * @param \DateTimeInterface $currentTime
      */
-    public function setCurrentTime(\DateTime $currentTime)
+    public function setCurrentTime(\DateTimeInterface $currentTime)
     {
-        $currentTime = $currentTime->getTimestamp();
-
         $this->items['iat'] = $currentTime;
         $this->items['nbf'] = $currentTime;
         $this->items['exp'] = $currentTime;
