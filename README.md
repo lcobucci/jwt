@@ -140,7 +140,7 @@ RSA and ECDSA signatures are based on public and private keys so you have to gen
 
 ```php
 use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Signer\Keychain; // just to make our life simpler
+use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256; // you can use Lcobucci\JWT\Signer\Ecdsa\Sha256 if you're using ECDSA keys
 
 $signer = new Sha256();
