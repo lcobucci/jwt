@@ -27,18 +27,15 @@ class Validator
     public function validate(Token $token, ValidationData $data): bool
     {
         $this->errors = [];
+
         foreach ($this->getValidatableClaims($token) as $claim) {
 
-            if (! $data->has($claim->getName())) {
-                continue;
-            }
-
-            if (!$claim->validate($data)) {
+            if ($data->has($claim->getName()) && !$claim->validate($data)) {
                 $this->errors[$claim->getName()] = false;
             }
         }
 
-        return count($this->errors) ? false : true;
+        return count($this->errors) === 0;
     }
 
     /**
