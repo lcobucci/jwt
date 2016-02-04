@@ -315,8 +315,9 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     public function validateShouldReturnTrueWhenClaimsAreEmpty()
     {
         $token = new Token();
+        $validator = new Validator();
 
-        $this->assertTrue($token->validate(new ValidationData()));
+        $this->assertTrue($validator->validate($token, new ValidationData()));
     }
 
     /**
@@ -332,8 +333,9 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     public function validateShouldReturnTrueWhenThereAreNoValidatableClaims()
     {
         $token = new Token([], ['testing' => new Basic('testing', 'test')]);
+        $validator = new Validator();
 
-        $this->assertTrue($token->validate(new ValidationData()));
+        $this->assertTrue($validator->validate($token, new ValidationData()));
     }
 
     /**
@@ -357,10 +359,11 @@ class TokenTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
+        $validator = new Validator();
         $data = new ValidationData();
         $data->setIssuer('test1');
 
-        $this->assertFalse($token->validate($data));
+        $this->assertFalse($validator->validate($token, $data));
     }
 
     /**
@@ -389,10 +392,11 @@ class TokenTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
+        $validator = new Validator();
         $data = new ValidationData($now + 10);
         $data->setIssuer('test');
 
-        $this->assertTrue($token->validate($data));
+        $this->assertTrue($validator->validate($token, $data));
     }
 
     /**

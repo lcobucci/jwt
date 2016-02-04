@@ -196,38 +196,6 @@ class Token
     }
 
     /**
-     * Validates if the token is valid
-     *
-     * @param ValidationData $data
-     *
-     * @return bool
-     */
-    public function validate(ValidationData $data): bool
-    {
-        foreach ($this->getValidatableClaims() as $claim) {
-            if (!$claim->validate($data)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Yields the validatable claims
-     *
-     * @return Generator
-     */
-    private function getValidatableClaims(): Generator
-    {
-        foreach ($this->claims as $claim) {
-            if ($claim instanceof Validatable) {
-                yield $claim;
-            }
-        }
-    }
-
-    /**
      * Returns the token payload
      *
      * @return string
