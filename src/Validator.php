@@ -17,7 +17,7 @@ use Lcobucci\JWT\Claim\Validatable;
  */
 class Validator
 {
-    protected $errors = [];
+    private $errors = [];
 
     /**
      * @param Token $token
@@ -47,12 +47,10 @@ class Validator
     }
 
     /**
-     * Yields the validatable claims
-     *
      * @param Token $token
      * @return Generator
      */
-    private function getValidatableClaims(Token $token)
+    private function getValidatableClaims(Token $token): Generator
     {
         foreach ($token->getClaims() as $claim) {
             if ($claim instanceof Validatable) {
