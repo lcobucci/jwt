@@ -86,12 +86,14 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function tokenValidationShouldReturnWhenEverythingIsFine(Token $generated)
     {
-        $validator = new Validator();
         $data = new ValidationData(self::CURRENT_TIME - 10);
         $data->setAudience('http://client.abc.com');
         $data->setIssuer('http://api.abc.com');
 
-        $this->assertTrue($validator->validate($generated, $data));
+        $validator = new Validator($data);
+        $results = $validator->validate($generated);
+
+        $this->assertTrue($results->valid());
     }
 
     /**
@@ -112,8 +114,9 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function tokenValidationShouldReturnFalseWhenExpectedDataDontMatch(ValidationData $data, Token $generated)
     {
-        $validator = new Validator();
-        $this->assertFalse($validator->validate($generated, $data));
+        $validator = new Validator($data);
+        $results = $validator->validate($generated);
+        $this->assertFalse($results->valid());
     }
 
     public function invalidValidationData()
