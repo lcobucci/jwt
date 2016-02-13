@@ -75,21 +75,47 @@ echo $token->getClaim('uid'); // will print "1"
 We can easily validate if the token is valid (using the previous token as example):
 
 ```php
-use Lcobucci\JWT\Validator;
+use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Validation\Results;
 use Lcobucci\JWT\ValidationData;
+use Lcobucci\JWT\Validator;
 
-$validator = new Validator();
+include 'vendor/autoload.php';
+
+$token = (new Builder())->setIssuer('http://example.com') // Configures the issuer (iss claim)
+->setAudience('http://example.org') // Configures the audience (aud claim)
+->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
+->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
+->set('uid', 1) // Configures a new claim, called 'uid'
+->getToken(); // Retrieves the generated token
+
+
 $data = new ValidationData(); // It will use the current time to validate (iat, nbf and exp)
 $data->setIssuer('http://example.com');
 $data->setAudience('http://example.org');
 $data->setId('4f1g23a12aa');
 
-var_dump($validator->validate($token, $data)); // true, because validation information is equals to data contained on the token
+$results = (new Validator($data))->validate($token);
+
+echo ($results->valid() ? 'Data is valid' : 'Data is not valid!') . PHP_EOL . PHP_EOL;
 
 $data->setCurrentTime(time() + 4000); // changing the validation time to future
+$data->setAudience('http://wrong.example.org');
+$results = (new Validator($data))->validate($token);
 
-var_dump($validator->validate($token, $data)); // false, because token is expired since current time is greater than exp
-var_dump($validator->getErrors()); // returns an array with ['exp' => false] revealing the data is invalid on exp
+if ($results->valid()) {
+    echo 'Data is valid' . PHP_EOL;
+} else {
+
+    // false, because token is expired since current time is greater than exp
+    if (($results instanceof Results) && $results->isExpired()) {
+        echo 'Data is expired' . PHP_EOL;
+    }
+
+    // returns an array with [<name> => <message>] revealing the data is invalid on aud and exp
+    var_dump($results->errors());
+}
 ```
 
 #### Important

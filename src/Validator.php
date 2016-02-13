@@ -9,41 +9,44 @@ namespace Lcobucci\JWT;
 
 use Generator;
 use Lcobucci\JWT\Claim\Validatable;
+use Lcobucci\JWT\Exception\InvalidClaimException;
+use Lcobucci\JWT\Validation\Results;
+use Lcobucci\JWT\Validation\ResultsInterface;
 
 /**
  * Class that validates token with defined validationData
  *
  * @author Danny Dörfel <danny.dorfel@gmail.com>
  */
-class Validator
+class Validator implements ValidatorInterface
 {
-    private $errors = [];
-
     /**
-     * @param Token $token
-     * @param ValidationData $data
-     * @return bool
+     * @var ValidationData
      */
-    public function validate(Token $token, ValidationData $data): bool
+    private $data;
+
+    public function __construct(ValidationData $data)
     {
-        $this->errors = [];
-
-        foreach ($this->getValidatableClaims($token) as $claim) {
-
-            if ($data->has($claim->getName()) && !$claim->validate($data)) {
-                $this->errors[$claim->getName()] = false;
-            }
-        }
-
-        return count($this->errors) === 0;
+        $this->data = $data;
     }
 
     /**
-     * @return array
+     * @param Token $token
+     * @return ResultsInterface
      */
-    public function getErrors(): array
+    public function validate(Token $token): ResultsInterface
     {
-        return $this->errors;
+        $results = new Results();
+
+        foreach ($this->getValidatableClaims($token) as $claim) {
+            try {
+                $claim->validate($this->data);
+            } catch (InvalidClaimException $exception) {
+                $results->addError($claim->getName(), $exception->getMessage());
+            }
+        }
+
+        return $results;
     }
 
     /**

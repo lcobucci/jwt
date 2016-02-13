@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Claim;
 
+use Lcobucci\JWT\Exception\InvalidClaimException;
 use Lcobucci\JWT\ValidationData;
 
 /**
@@ -20,11 +21,11 @@ use Lcobucci\JWT\ValidationData;
 interface Validatable
 {
     /**
-     * Returns if claim is valid according with given data
+     * Throws an InvalidClaimException if the given data is invalid to  claim
      *
      * @param ValidationData $data
      *
-     * @return bool
+     * @throws InvalidClaimException
      */
-    public function validate(ValidationData $data): bool;
+    public function validate(ValidationData $data);
 }
