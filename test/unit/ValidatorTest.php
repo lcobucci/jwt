@@ -24,8 +24,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $token = $this->getToken(['iss' => 'test']);
         $data = $this->getValidationData();
 
-        $validator = new Validator();
-        $this->assertTrue($validator->validate($token, $data));
+        $validator = new Validator($data);
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultsInterface', $validator->validate($token));
     }
 
     /**
@@ -35,13 +35,14 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Lcobucci\JWT\Validator::validate
      */
-    public function validatorShouldReturnFalseOnErrors()
+    public function validatorResultsShouldReturnFalseOnErrors()
     {
         $token = $this->getToken(['iss' => 'tester']);
         $data = $this->getValidationData();
 
-        $validator = new Validator();
-        $this->assertFalse($validator->validate($token, $data));
+        $validator = new Validator($data);
+        $results = $validator->validate($token);
+        $this->assertFalse($results->valid());
     }
 
     /**
@@ -56,9 +57,11 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $token = $this->getToken(['iss' => 'tester']);
         $data = $this->getValidationData();
 
-        $validator = new Validator();
-        $this->assertFalse($validator->validate($token, $data));
-        $this->assertEquals(['iss' => false], $validator->getErrors());
+        $validator = new Validator($data);
+        $results = $validator->validate($token);
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultsInterface', $results);
+        $this->assertFalse($results->valid());
+        $this->assertArrayHasKey('iss', $results->errors());
     }
 
     public function getValidationData()
