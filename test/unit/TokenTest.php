@@ -315,9 +315,11 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     public function validateShouldReturnTrueWhenClaimsAreEmpty()
     {
         $token = new Token();
-        $validator = new Validator();
+        $validator = new Validator(new ValidationData());
 
-        $this->assertTrue($validator->validate($token, new ValidationData()));
+        $results = $validator->validate($token);
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultsInterface', $results);
+        $this->assertTrue($results->valid());
     }
 
     /**
@@ -333,9 +335,11 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     public function validateShouldReturnTrueWhenThereAreNoValidatableClaims()
     {
         $token = new Token([], ['testing' => new Basic('testing', 'test')]);
-        $validator = new Validator();
+        $validator = new Validator(new ValidationData());
 
-        $this->assertTrue($validator->validate($token, new ValidationData()));
+        $results = $validator->validate($token);
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultsInterface', $results);
+        $this->assertTrue($results->valid());
     }
 
     /**
@@ -359,11 +363,14 @@ class TokenTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $validator = new Validator();
         $data = new ValidationData();
         $data->setIssuer('test1');
+        $validator = new Validator($data);
 
-        $this->assertFalse($validator->validate($token, $data));
+        $results = $validator->validate($token);
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultsInterface', $results);
+        $this->assertFalse($results->valid());
+        $this->assertArrayHasKey('iss', $results->errors());
     }
 
     /**
@@ -392,11 +399,13 @@ class TokenTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $validator = new Validator();
         $data = new ValidationData($now + 10);
         $data->setIssuer('test');
+        $validator = new Validator($data);
 
-        $this->assertTrue($validator->validate($token, $data));
+        $results = $validator->validate($token);
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultsInterface', $results);
+        $this->assertTrue($results->valid());
     }
 
     /**
