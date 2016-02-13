@@ -37,8 +37,5 @@ class GreaterOrEqualsTo extends Basic implements Claim, Validatable
                 )
             );
         }
-
-
-        return true;
     }
 }
