@@ -30,7 +30,7 @@ class GreaterOrEqualsTo extends Basic implements Claim, Validatable
         if ($data->has($name) && ($this->getValue() < $data->get($name))) {
             throw new InvalidClaimException(
                 sprintf(
-                    "The value of '%s' (%d) is not greater than or equals the claim value (%d)",
+                    "The value of '%s' (%d) is not greater than or equals the validation value (%d)",
                     $name,
                     $data->get($name),
                     $this->getValue()
