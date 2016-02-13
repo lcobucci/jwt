@@ -1,8 +1,22 @@
 <?php
+/**
+ * This file is part of Lcobucci\JWT, a simple library to handle JWT and JWS
+ *
+ * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ */
+
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Validation;
 
+/**
+ * Results returned by validation
+ */
 class Results implements ResultsInterface
 {
+    /**
+     * @var array
+     */
     private $errors = [];
 
     /**
@@ -14,13 +28,17 @@ class Results implements ResultsInterface
         $this->errors[$name] = $message;
     }
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     */
     public function valid(): bool
     {
         return empty($this->errors);
     }
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     */
     public function errors(): array
     {
         return $this->errors;

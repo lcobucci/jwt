@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT;
 
 use Generator;
@@ -14,7 +16,7 @@ use Lcobucci\JWT\Validation\Results;
 use Lcobucci\JWT\Validation\ResultsInterface;
 
 /**
- * Class that validates token with defined validationData
+ * This Class validates a token with defined validationData
  *
  * @author Danny Dörfel <danny.dorfel@gmail.com>
  */
