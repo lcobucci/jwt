@@ -98,23 +98,23 @@ $data->setId('4f1g23a12aa');
 
 $results = (new Validator($data))->validate($token);
 
-echo ($results->valid() ? 'Data is valid' : 'Data is not valid!') . PHP_EOL . PHP_EOL;
+echo ($results->isValid() ? 'Data is valid' : 'Data is not valid!') . PHP_EOL . PHP_EOL;
 
 $data->setCurrentTime(time() + 4000); // changing the validation time to future
 $data->setAudience('http://wrong.example.org');
 $results = (new Validator($data))->validate($token);
 
-if ($results->valid()) {
+if ($results->isValid()) {
     echo 'Data is valid' . PHP_EOL;
 } else {
 
+    $errors = $results->getErrors();
     // false, because token is expired since current time is greater than exp
-    if (($results instanceof Results) && $results->isExpired()) {
+    if (isset($errors['exp'])) {
         echo 'Data is expired' . PHP_EOL;
     }
-
-    // returns an array with [<name> => <message>] revealing the data is invalid on aud and exp
-    var_dump($results->errors());
+    
+    var_dump($errors);
 }
 ```
 

@@ -43,12 +43,4 @@ class Results implements ResultInterface
     {
         return $this->errors;
     }
-
-    /**
-     * @return bool
-     */
-    public function isExpired(): bool
-    {
-        return isset($this->errors['exp']);
-    }
 }

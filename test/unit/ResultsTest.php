@@ -55,24 +55,4 @@ class ResultsTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('iss', $results->getErrors());
         $this->assertEquals('Value is not valid', $errors['iss']);
     }
-
-    /**
-     * @test
-     *
-     * @uses Lcobucci\JWT\Validator::__construct
-     *
-     * @covers Lcobucci\JWT\Validation\Results::addError
-     * @covers Lcobucci\JWT\Validation\Results::valid
-     */
-    public function isExpiredShouldReturnTrueIfExpErrorIsSet()
-    {
-        $results = new Results();
-        $results->addError('exp', 'Expired');
-
-        $errors = $results->getErrors();
-        $this->assertFalse($results->isValid());
-        $this->assertArrayHasKey('exp', $results->getErrors());
-        $this->assertEquals('Expired', $errors['exp']);
-        $this->assertTrue($results->isExpired());
-    }
 }
