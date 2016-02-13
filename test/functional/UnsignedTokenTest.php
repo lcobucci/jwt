@@ -93,7 +93,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
         $validator = new Validator($data);
         $results = $validator->validate($generated);
 
-        $this->assertTrue($results->valid());
+        $this->assertTrue($results->isValid());
     }
 
     /**
@@ -116,7 +116,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
     {
         $validator = new Validator($data);
         $results = $validator->validate($generated);
-        $this->assertFalse($results->valid());
+        $this->assertFalse($results->isValid());
     }
 
     public function invalidValidationData()

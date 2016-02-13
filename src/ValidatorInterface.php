@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
-use Lcobucci\JWT\Validation\ResultsInterface;
+use Lcobucci\JWT\Validation\ResultInterface;
 
 /**
  * Basic interface describing the validator api
@@ -18,7 +18,7 @@ interface ValidatorInterface
 {
     /**
      * @param Token $token
-     * @return ResultsInterface
+     * @return ResultInterface
      */
-    public function validate(Token $token): ResultsInterface;
+    public function validate(Token $token): ResultInterface;
 }

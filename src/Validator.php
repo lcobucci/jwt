@@ -13,7 +13,7 @@ use Generator;
 use Lcobucci\JWT\Claim\Validatable;
 use Lcobucci\JWT\Exception\InvalidClaimException;
 use Lcobucci\JWT\Validation\Results;
-use Lcobucci\JWT\Validation\ResultsInterface;
+use Lcobucci\JWT\Validation\ResultInterface;
 
 /**
  * This Class validates a token with defined validationData
@@ -34,9 +34,9 @@ class Validator implements ValidatorInterface
 
     /**
      * @param Token $token
-     * @return ResultsInterface
+     * @return ResultInterface
      */
-    public function validate(Token $token): ResultsInterface
+    public function validate(Token $token): ResultInterface
     {
         $results = new Results();
 

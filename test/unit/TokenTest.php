@@ -318,8 +318,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $validator = new Validator(new ValidationData());
 
         $results = $validator->validate($token);
-        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultsInterface', $results);
-        $this->assertTrue($results->valid());
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultInterface', $results);
+        $this->assertTrue($results->isValid());
     }
 
     /**
@@ -338,8 +338,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $validator = new Validator(new ValidationData());
 
         $results = $validator->validate($token);
-        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultsInterface', $results);
-        $this->assertTrue($results->valid());
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultInterface', $results);
+        $this->assertTrue($results->isValid());
     }
 
     /**
@@ -368,9 +368,9 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $validator = new Validator($data);
 
         $results = $validator->validate($token);
-        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultsInterface', $results);
-        $this->assertFalse($results->valid());
-        $this->assertArrayHasKey('iss', $results->errors());
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultInterface', $results);
+        $this->assertFalse($results->isValid());
+        $this->assertArrayHasKey('iss', $results->getErrors());
     }
 
     /**
@@ -404,8 +404,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $validator = new Validator($data);
 
         $results = $validator->validate($token);
-        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultsInterface', $results);
-        $this->assertTrue($results->valid());
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultInterface', $results);
+        $this->assertTrue($results->isValid());
     }
 
     /**

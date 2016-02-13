@@ -21,7 +21,7 @@ class ResultsTest extends \PHPUnit_Framework_TestCase
     public function resultsShouldBeEmptyOnCreation()
     {
         $results = new Results();
-        $this->assertEmpty($results->errors());
+        $this->assertEmpty($results->getErrors());
     }
 
     /**
@@ -34,7 +34,7 @@ class ResultsTest extends \PHPUnit_Framework_TestCase
     public function resultsShouldBeValidOnNoErrors()
     {
         $results = new Results();
-        $this->assertTrue($results->valid());
+        $this->assertTrue($results->isValid());
     }
 
     /**
@@ -50,9 +50,9 @@ class ResultsTest extends \PHPUnit_Framework_TestCase
         $results = new Results();
         $results->addError('iss', 'Value is not valid');
 
-        $errors = $results->errors();
-        $this->assertFalse($results->valid());
-        $this->assertArrayHasKey('iss', $results->errors());
+        $errors = $results->getErrors();
+        $this->assertFalse($results->isValid());
+        $this->assertArrayHasKey('iss', $results->getErrors());
         $this->assertEquals('Value is not valid', $errors['iss']);
     }
 
@@ -69,9 +69,9 @@ class ResultsTest extends \PHPUnit_Framework_TestCase
         $results = new Results();
         $results->addError('exp', 'Expired');
 
-        $errors = $results->errors();
-        $this->assertFalse($results->valid());
-        $this->assertArrayHasKey('exp', $results->errors());
+        $errors = $results->getErrors();
+        $this->assertFalse($results->isValid());
+        $this->assertArrayHasKey('exp', $results->getErrors());
         $this->assertEquals('Expired', $errors['exp']);
         $this->assertTrue($results->isExpired());
     }

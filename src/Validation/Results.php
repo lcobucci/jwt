@@ -12,7 +12,7 @@ namespace Lcobucci\JWT\Validation;
 /**
  * Results returned by validation
  */
-class Results implements ResultsInterface
+class Results implements ResultInterface
 {
     /**
      * @var array
@@ -31,7 +31,7 @@ class Results implements ResultsInterface
     /**
      * @inheritdoc
      */
-    public function valid(): bool
+    public function isValid(): bool
     {
         return empty($this->errors);
     }
@@ -39,7 +39,7 @@ class Results implements ResultsInterface
     /**
      * @inheritdoc
      */
-    public function errors(): array
+    public function getErrors(): array
     {
         return $this->errors;
     }

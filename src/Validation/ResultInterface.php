@@ -12,19 +12,19 @@ namespace Lcobucci\JWT\Validation;
 /**
  * Basic interface describing validation results
  */
-interface ResultsInterface
+interface ResultInterface
 {
     /**
      * Returns true on valid results
      *
      * @return bool
      */
-    public function valid(): bool;
+    public function isValid(): bool;
 
     /**
      * Returns an array with name => message
      *
      * @return array
      */
-    public function errors(): array;
+    public function getErrors(): array;
 }
