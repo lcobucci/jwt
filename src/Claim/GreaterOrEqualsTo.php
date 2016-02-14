@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Claim;
 
 use Lcobucci\JWT\Claim;
-use Lcobucci\JWT\Exception\InvalidClaimException;
+use Lcobucci\JWT\Exception\RangeException;
 use Lcobucci\JWT\ValidationData;
 
 /**
@@ -28,14 +28,7 @@ class GreaterOrEqualsTo extends Basic implements Claim, Validatable
     {
         $name = $this->getName();
         if ($data->has($name) && ($this->getValue() < $data->get($name))) {
-            throw new InvalidClaimException(
-                sprintf(
-                    "The value of '%s' (%d) is not greater than or equals the validation value (%d)",
-                    $name,
-                    $data->get($name),
-                    $this->getValue()
-                )
-            );
+            throw new RangeException($name, "The claim value should be greater than the validation value");
         }
     }
 }

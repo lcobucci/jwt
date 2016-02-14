@@ -28,14 +28,7 @@ class EqualsTo extends Basic implements Claim, Validatable
     {
         $name = $this->getName();
         if ($data->has($name) && ($this->getValue() != $data->get($name))) {
-            throw new InvalidClaimException(
-                sprintf(
-                    "The value of '%s' (%s) does not equal the validation value (%s)",
-                    $name,
-                    $data->get($name),
-                    $this->getValue()
-                )
-            );
+            throw new InvalidClaimException($name, "The claim value does not equal the validation value");
         }
     }
 }

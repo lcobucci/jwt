@@ -44,7 +44,7 @@ class Validator implements ValidatorInterface
             try {
                 $claim->validate($this->data);
             } catch (InvalidClaimException $exception) {
-                $results->addError($claim->getName(), $exception->getMessage());
+                $results->addError($exception);
             }
         }
 

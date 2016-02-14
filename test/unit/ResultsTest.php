@@ -7,6 +7,7 @@
 
 namespace Lcobucci\JWT;
 
+use Lcobucci\JWT\Exception\InvalidClaimException;
 use Lcobucci\JWT\Validation\Results;
 
 class ResultsTest extends \PHPUnit_Framework_TestCase
@@ -48,7 +49,7 @@ class ResultsTest extends \PHPUnit_Framework_TestCase
     public function resultsShouldBeInvalidOnErrors()
     {
         $results = new Results();
-        $results->addError('iss', 'Value is not valid');
+        $results->addError(new InvalidClaimException('iss', 'Value is not valid'));
 
         $errors = $results->getErrors();
         $this->assertFalse($results->isValid());

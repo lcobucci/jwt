@@ -8,6 +8,7 @@
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Validation;
+use Lcobucci\JWT\Exception\InvalidClaimException;
 
 /**
  * Results returned by validation
@@ -20,12 +21,11 @@ class Results implements ResultInterface
     private $errors = [];
 
     /**
-     * @param string $name
-     * @param string $message
+     * @param InvalidClaimException $exception
      */
-    public function addError(string $name, string $message)
+    public function addError(InvalidClaimException $exception)
     {
-        $this->errors[$name] = $message;
+        $this->errors[$exception->getClaim()] = $exception->getMessage();
     }
 
     /**
