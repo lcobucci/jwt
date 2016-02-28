@@ -111,7 +111,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Claim\Factory::create
      * @covers Lcobucci\JWT\Claim\Factory::createContainedEqualsTo
      */
-    public function createShouldReturnAnEqualsToClaimForIssuer()
+    public function createShouldReturnAContainedEqualsToClaimForIssuer()
     {
         $claim = new Factory();
 
@@ -127,7 +127,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Claim\Factory::create
      * @covers Lcobucci\JWT\Claim\Factory::createContainsEqualsTo
      */
-    public function createShouldReturnAnEqualsToClaimForAudience()
+    public function createShouldReturnAContainsEqualsToClaimForAudience()
     {
         $claim = new Factory();
 
