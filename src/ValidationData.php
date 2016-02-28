@@ -55,11 +55,18 @@ class ValidationData
     /**
      * Configures the issuer
      *
-     * @param string $issuer
+     * @param string|array $issuer
      */
     public function setIssuer($issuer)
     {
-        $this->items['iss'] = (string) $issuer;
+        if (is_array($issuer)) {
+            foreach($issuer as $key => $member) {
+                $issuer[$key] = (string) $member;
+            }
+            $this->items['iss'] = $issuer;
+        } else {
+            $this->items['iss'] = [(string) $issuer];
+        }
     }
 
     /**
