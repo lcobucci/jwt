@@ -36,7 +36,7 @@ class Factory
                 'iat' => [$this, 'createLesserOrEqualsTo'],
                 'nbf' => [$this, 'createLesserOrEqualsTo'],
                 'exp' => [$this, 'createGreaterOrEqualsTo'],
-                'iss' => [$this, 'createEqualsTo'],
+                'iss' => [$this, 'createContainedEqualsTo'],
                 'aud' => [$this, 'createEqualsTo'],
                 'sub' => [$this, 'createEqualsTo'],
                 'jti' => [$this, 'createEqualsTo']
