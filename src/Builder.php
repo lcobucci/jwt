@@ -73,14 +73,21 @@ class Builder
     /**
      * Configures the audience
      *
-     * @param string $audience
+     * @param string|array $audience
      * @param boolean $replicateAsHeader
      *
      * @return Builder
      */
     public function setAudience($audience, $replicateAsHeader = false)
     {
-        return $this->setRegisteredClaim('aud', (string) $audience, $replicateAsHeader);
+        if (is_array($audience)) {
+            foreach($audience as $key => $member) {
+                $audience[$key] = (string) $member;
+            }
+            return $this->setRegisteredClaim('aud', $audience, $replicateAsHeader);
+        } else {
+            return $this->setRegisteredClaim('aud', [(string) $audience], $replicateAsHeader);
+        }
     }
 
     /**
