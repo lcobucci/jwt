@@ -24,8 +24,8 @@ class ContainedEqualsTo extends Basic implements Claim, Validatable
     public function validate(ValidationData $data)
     {
         if ($data->has($this->getName())) {
-            foreach ($this->getValue() as $value) {
-                if ($value === $data->get($this->getName())) {
+            foreach ($data->get($this->getName()) as $validationValue) {
+                if ($this->getValue() === $validationValue) {
                     return true;
                 }
             }
