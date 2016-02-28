@@ -381,7 +381,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $token = new Token(
             [],
             [
-                'iss' => new EqualsTo('iss', 'test'),
+                'iss' => new ContainedEqualsTo('iss', 'test'),
                 'iat' => new LesserOrEqualsTo('iat', $now),
                 'exp' => new GreaterOrEqualsTo('ext', $now + 500),
                 'testing' => new Basic('testing', 'test')
