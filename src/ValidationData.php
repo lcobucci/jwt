@@ -67,7 +67,7 @@ class ValidationData
             }
             $this->items['iss'] = $issuer;
         } else {
-            $this->items['iss'] = (string) $issuer;
+            $this->items['iss'] = [(string) $issuer];
         }
     }
 
