@@ -229,7 +229,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     ) {
         return [
             'jti' => $id !== null ? (string) $id : null,
-            'iss' => $iss !== null ? (string) $iss : null,
+            'iss' => $iss !== null ? (array) $iss : null,
             'aud' => $aud !== null ? (string) $aud : null,
             'sub' => $sub !== null ? (string) $sub : null,
             'iat' => $time,
