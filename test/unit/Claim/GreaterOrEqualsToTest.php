@@ -27,7 +27,7 @@ class GreaterOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValidationDontHaveTheClaim()
     {
-        $claim = new GreaterOrEqualsTo('iat', 10);
+        $claim = new GreaterOrEqualsTo('jti', 10);
 
         $this->assertTrue($claim->validate(new ValidationData()));
     }
@@ -47,7 +47,7 @@ class GreaterOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValueIsGreaterThanValidationData()
     {
-        $claim = new GreaterOrEqualsTo('iat', 11);
+        $claim = new GreaterOrEqualsTo('jti', 11);
 
         $data = new ValidationData();
         $data->setCurrentTime(10);
@@ -70,7 +70,7 @@ class GreaterOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValueIsEqualsToValidationData()
     {
-        $claim = new GreaterOrEqualsTo('iat', 10);
+        $claim = new GreaterOrEqualsTo('jti', 10);
 
         $data = new ValidationData();
         $data->setCurrentTime(10);
@@ -93,7 +93,7 @@ class GreaterOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnFalseWhenValueIsLesserThanValidationData()
     {
-        $claim = new GreaterOrEqualsTo('iat', 10);
+        $claim = new GreaterOrEqualsTo('jti', 10);
 
         $data = new ValidationData();
         $data->setCurrentTime(11);
