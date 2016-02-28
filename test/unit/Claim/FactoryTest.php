@@ -109,13 +109,13 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Claim\Basic::__construct
      *
      * @covers Lcobucci\JWT\Claim\Factory::create
-     * @covers Lcobucci\JWT\Claim\Factory::createEqualsTo
+     * @covers Lcobucci\JWT\Claim\Factory::createContainedEqualsTo
      */
     public function createShouldReturnAnEqualsToClaimForIssuer()
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(EqualsTo::class, $claim->create('iss', 1));
+        $this->assertInstanceOf(ContainedEqualsTo::class, $claim->create('iss', 1));
     }
 
     /**
@@ -125,13 +125,13 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Claim\Basic::__construct
      *
      * @covers Lcobucci\JWT\Claim\Factory::create
-     * @covers Lcobucci\JWT\Claim\Factory::createEqualsTo
+     * @covers Lcobucci\JWT\Claim\Factory::createContainsEqualsTo
      */
     public function createShouldReturnAnEqualsToClaimForAudience()
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(EqualsTo::class, $claim->create('aud', 1));
+        $this->assertInstanceOf(ContainsEqualsTo::class, $claim->create('aud', 1));
     }
 
     /**
