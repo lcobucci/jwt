@@ -65,6 +65,22 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @uses Lcobucci\JWT\ValidationData::__construct
+     *
+     * @covers Lcobucci\JWT\ValidationData::setIssuer
+     */
+    public function setIssuerMustAcceptArrayOfValues()
+    {
+        $expected = $this->createExpectedData(null, null, ['test', 'test2']);
+        $data = new ValidationData(1);
+        $data->setIssuer(['test', 'test2']);
+
+        $this->assertAttributeSame($expected, 'items', $data);
+    }
+
+    /**
+     * @test
+     *
      * @dataProvider claimValues
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
