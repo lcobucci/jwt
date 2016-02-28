@@ -227,9 +227,15 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $aud = null,
         $time = 1
     ) {
+        if ($iss !== null) {
+            $iss = (array) $iss;
+            foreach ($iss as $key => $member) {
+                $iss[$key] = (string) $member;
+            }
+        }
         return [
             'jti' => $id !== null ? (string) $id : null,
-            'iss' => $iss !== null ? (array) $iss : null,
+            'iss' => $iss,
             'aud' => $aud !== null ? (string) $aud : null,
             'sub' => $sub !== null ? (string) $sub : null,
             'iat' => $time,
