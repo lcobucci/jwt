@@ -28,8 +28,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'iat' => [$factory, 'createLesserOrEqualsTo'],
             'nbf' => [$factory, 'createLesserOrEqualsTo'],
             'exp' => [$factory, 'createGreaterOrEqualsTo'],
-            'iss' => [$factory, 'createEqualsTo'],
-            'aud' => [$factory, 'createEqualsTo'],
+            'iss' => [$factory, 'createContainedEqualsTo'],
+            'aud' => [$factory, 'createContainsEqualsTo'],
             'sub' => [$factory, 'createEqualsTo'],
             'jti' => [$factory, 'createEqualsTo'],
             'test' => $callback
