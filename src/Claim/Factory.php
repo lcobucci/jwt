@@ -102,6 +102,32 @@ class Factory
     }
 
     /**
+     * Creates a claim that can be compared (contained equals).
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return ContainedEqualsTo
+     */
+    protected function createContainedEqualsTo(string $name, $value)
+    {
+        return new ContainedEqualsTo($name, $value);
+    }
+
+    /**
+     * Creates a claim that can be compared (contains equals).
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return ContainsEqualsTo
+     */
+    protected function createContainsEqualsTo(string $name, $value)
+    {
+        return new ContainsEqualsTo($name, $value);
+    }
+
+    /**
      * Creates a basic claim
      *
      * @param string $name
