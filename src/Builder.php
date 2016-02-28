@@ -89,7 +89,7 @@ class Builder
             }
             return $this->setRegisteredClaim('aud', $audience, $replicateAsHeader);
         } else {
-            return $this->setRegisteredClaim('aud', (string) $audience, $replicateAsHeader);
+            return $this->setRegisteredClaim('aud', [(string) $audience], $replicateAsHeader);
         }
     }
 
