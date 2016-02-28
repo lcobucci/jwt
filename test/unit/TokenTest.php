@@ -11,6 +11,8 @@ use Lcobucci\JWT\Claim\Basic;
 use Lcobucci\JWT\Claim\EqualsTo;
 use Lcobucci\JWT\Claim\GreaterOrEqualsTo;
 use Lcobucci\JWT\Claim\LesserOrEqualsTo;
+use Lcobucci\JWT\Claim\ContainedEqualsTo;
+use Lcobucci\JWT\Claim\ContainsEqualsTo;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
