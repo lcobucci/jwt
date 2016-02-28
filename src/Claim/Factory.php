@@ -109,7 +109,7 @@ class Factory
      *
      * @return ContainedEqualsTo
      */
-    protected function createContainedEqualsTo(string $name, $value)
+    protected function createContainedEqualsTo($name, $value)
     {
         return new ContainedEqualsTo($name, $value);
     }
@@ -122,7 +122,7 @@ class Factory
      *
      * @return ContainsEqualsTo
      */
-    protected function createContainsEqualsTo(string $name, $value)
+    protected function createContainsEqualsTo($name, $value)
     {
         return new ContainsEqualsTo($name, $value);
     }
