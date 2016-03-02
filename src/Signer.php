@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT;
 
 use InvalidArgumentException;
@@ -23,7 +25,7 @@ interface Signer
      *
      * @return string
      */
-    public function getAlgorithmId();
+    public function getAlgorithmId(): string;
 
     /**
      * Apply changes on headers according with algorithm
@@ -42,7 +44,7 @@ interface Signer
      *
      * @throws InvalidArgumentException When given key is invalid
      */
-    public function sign($payload, $key);
+    public function sign(string $payload, $key): Signature;
 
     /**
      * Returns if the expected hash matches with the data and key
@@ -51,9 +53,9 @@ interface Signer
      * @param string $payload
      * @param Key|string $key
      *
-     * @return boolean
+     * @return bool
      *
      * @throws InvalidArgumentException When given key is invalid
      */
-    public function verify($expected, $payload, $key);
+    public function verify(string $expected, string $payload, $key): bool;
 }

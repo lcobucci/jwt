@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT;
 
 /**
@@ -29,35 +31,31 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @dataProvider claimValues
-     *
      * @uses Lcobucci\JWT\ValidationData::__construct
      *
      * @covers Lcobucci\JWT\ValidationData::setId
      */
-    public function setIdShouldChangeTheId($id)
+    public function setIdShouldChangeTheId()
     {
-        $expected = $this->createExpectedData($id);
+        $expected = $this->createExpectedData('test');
         $data = new ValidationData(1);
-        $data->setId($id);
+        $data->setId('test');
 
         $this->assertAttributeSame($expected, 'items', $data);
     }
 
     /**
      * @test
-     *
-     * @dataProvider claimValues
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
      *
      * @covers Lcobucci\JWT\ValidationData::setIssuer
      */
-    public function setIssuerShouldChangeTheIssuer($iss)
+    public function setIssuerShouldChangeTheIssuer()
     {
-        $expected = $this->createExpectedData(null, null, $iss);
+        $expected = $this->createExpectedData(null, null, 'test');
         $data = new ValidationData(1);
-        $data->setIssuer($iss);
+        $data->setIssuer('test');
 
         $this->assertAttributeSame($expected, 'items', $data);
     }
@@ -65,17 +63,31 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @dataProvider claimValues
+     * @uses Lcobucci\JWT\ValidationData::__construct
+     *
+     * @covers Lcobucci\JWT\ValidationData::setIssuer
+     */
+    public function setIssuerMustAcceptArrayOfValues()
+    {
+        $expected = $this->createExpectedData(null, null, ['test', 'test2']);
+        $data = new ValidationData(1);
+        $data->setIssuer(['test', 'test2']);
+
+        $this->assertAttributeSame($expected, 'items', $data);
+    }
+
+    /**
+     * @test
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
      *
      * @covers Lcobucci\JWT\ValidationData::setAudience
      */
-    public function setAudienceShouldChangeTheAudience($aud)
+    public function setAudienceShouldChangeTheAudience()
     {
-        $expected = $this->createExpectedData(null, null, null, $aud);
+        $expected = $this->createExpectedData(null, null, null, 'test');
         $data = new ValidationData(1);
-        $data->setAudience($aud);
+        $data->setAudience('test');
 
         $this->assertAttributeSame($expected, 'items', $data);
     }
@@ -83,17 +95,15 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @dataProvider claimValues
-     *
      * @uses Lcobucci\JWT\ValidationData::__construct
      *
      * @covers Lcobucci\JWT\ValidationData::setSubject
      */
-    public function setSubjectShouldChangeTheSubject($sub)
+    public function setSubjectShouldChangeTheSubject()
     {
-        $expected = $this->createExpectedData(null, $sub);
+        $expected = $this->createExpectedData(null, 'test');
         $data = new ValidationData(1);
-        $data->setSubject($sub);
+        $data->setSubject('test');
 
         $this->assertAttributeSame($expected, 'items', $data);
     }
@@ -185,17 +195,6 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return array
-     */
-    public function claimValues()
-    {
-        return [
-            [1],
-            ['test']
-        ];
-    }
-
-    /**
      * @param string $id
      * @param string $sub
      * @param string $iss
@@ -211,9 +210,15 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $aud = null,
         $time = 1
     ) {
+        if ($iss !== null) {
+            $iss = (array) $iss;
+            foreach ($iss as $key => $member) {
+                $iss[$key] = (string) $member;
+            }
+        }
         return [
             'jti' => $id !== null ? (string) $id : null,
-            'iss' => $iss !== null ? (string) $iss : null,
+            'iss' => $iss,
             'aud' => $aud !== null ? (string) $aud : null,
             'sub' => $sub !== null ? (string) $sub : null,
             'iat' => $time,

@@ -5,10 +5,14 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Signer\Ecdsa;
 
 use InvalidArgumentException;
 use Lcobucci\JWT\Signer\Key;
+use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
+use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
 use Mdanter\Ecc\Math\MathAdapterInterface;
 use Mdanter\Ecc\Serializer\PrivateKey\DerPrivateKeySerializer;
 use Mdanter\Ecc\Serializer\PrivateKey\PemPrivateKeySerializer;
@@ -54,9 +58,9 @@ class KeyParser
      *
      * @param Key $key
      *
-     * @return \Mdanter\Ecc\Crypto\Key\PublicKeyInterface
+     * @return PublicKeyInterface
      */
-    public function getPublicKey(Key $key)
+    public function getPublicKey(Key $key): PublicKeyInterface
     {
         return $this->publicKeySerializer->parse($this->getKeyContent($key, 'PUBLIC KEY'));
     }
@@ -66,9 +70,9 @@ class KeyParser
      *
      * @param Key $key
      *
-     * @return \Mdanter\Ecc\Crypto\Key\PrivateKeyInterface
+     * @return PrivateKeyInterface
      */
-    public function getPrivateKey(Key $key)
+    public function getPrivateKey(Key $key): PrivateKeyInterface
     {
         return $this->privateKeySerializer->parse($this->getKeyContent($key, 'EC PRIVATE KEY'));
     }
@@ -83,7 +87,7 @@ class KeyParser
      *
      * @throws InvalidArgumentException When given key is not a ECDSA key
      */
-    private function getKeyContent(Key $key, $header)
+    private function getKeyContent(Key $key, string $header): string
     {
         $match = null;
 

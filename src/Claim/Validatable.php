@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Claim;
 
 use Lcobucci\JWT\ValidationData;
@@ -22,7 +24,7 @@ interface Validatable
      *
      * @param ValidationData $data
      *
-     * @return boolean
+     * @return bool
      */
-    public function validate(ValidationData $data);
+    public function validate(ValidationData $data): bool;
 }

@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Builder;
@@ -27,13 +29,12 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Parsing\Encoder
      */
     public function builderCanGenerateAToken()
     {
-        $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
+        $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
 
-        $token = (new Builder())->setId(1)
+        $token = (new Builder())->setId('1')
                               ->setAudience('http://client.abc.com')
                               ->setIssuer('http://api.abc.com')
                               ->setExpiration(self::CURRENT_TIME + 3000)
@@ -41,7 +42,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
                               ->getToken();
 
         $this->assertAttributeEquals(null, 'signature', $token);
-        $this->assertEquals('http://client.abc.com', $token->getClaim('aud'));
+        $this->assertEquals(['http://client.abc.com'], $token->getClaim('aud'));
         $this->assertEquals('http://api.abc.com', $token->getClaim('iss'));
         $this->assertEquals(self::CURRENT_TIME + 3000, $token->getClaim('exp'));
         $this->assertEquals($user, $token->getClaim('user'));
@@ -59,15 +60,13 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Parsing\Encoder
-     * @covers Lcobucci\JWT\Parsing\Decoder
      */
     public function parserCanReadAToken(Token $generated)
     {
         $read = (new Parser())->parse((string) $generated);
 
         $this->assertEquals($generated, $read);
-        $this->assertEquals('testing', $read->getClaim('user')->name);
+        $this->assertEquals('testing', $read->getClaim('user')['name']);
     }
 
     /**
@@ -83,8 +82,6 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Claim\EqualsTo
      * @covers Lcobucci\JWT\Claim\GreaterOrEqualsTo
-     * @covers Lcobucci\JWT\Parsing\Encoder
-     * @covers Lcobucci\JWT\Parsing\Decoder
      */
     public function tokenValidationShouldReturnWhenEverythingIsFine(Token $generated)
     {
@@ -110,8 +107,6 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Claim\EqualsTo
      * @covers Lcobucci\JWT\Claim\GreaterOrEqualsTo
-     * @covers Lcobucci\JWT\Parsing\Encoder
-     * @covers Lcobucci\JWT\Parsing\Decoder
      */
     public function tokenValidationShouldReturnFalseWhenExpectedDataDontMatch(ValidationData $data, Token $generated)
     {

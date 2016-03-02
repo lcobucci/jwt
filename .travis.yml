@@ -1,13 +1,14 @@
 language: php
+sudo: false
+
 php:
-  - 5.5
-  - 5.6
   - 7.0
   - hhvm
   - hhvm-nightly
 
 matrix:
   allow_failures:
+    - php: hhvm
     - php: hhvm-nightly
 
 before_script:

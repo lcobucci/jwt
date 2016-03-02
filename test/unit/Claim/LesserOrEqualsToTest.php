@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Claim;
 
 use Lcobucci\JWT\ValidationData;
@@ -27,7 +29,7 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValidationDontHaveTheClaim()
     {
-        $claim = new LesserOrEqualsTo('iss', 10);
+        $claim = new LesserOrEqualsTo('jti', 10);
 
         $this->assertTrue($claim->validate(new ValidationData()));
     }
@@ -47,10 +49,10 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValueIsLesserThanValidationData()
     {
-        $claim = new LesserOrEqualsTo('iss', 10);
+        $claim = new LesserOrEqualsTo('jti', 10);
 
         $data = new ValidationData();
-        $data->setIssuer(11);
+        $data->setId(11);
 
         $this->assertTrue($claim->validate($data));
     }
@@ -70,10 +72,10 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValueIsEqualsToValidationData()
     {
-        $claim = new LesserOrEqualsTo('iss', 10);
+        $claim = new LesserOrEqualsTo('jti', 10);
 
         $data = new ValidationData();
-        $data->setIssuer(10);
+        $data->setId(10);
 
         $this->assertTrue($claim->validate($data));
     }
@@ -93,10 +95,10 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnFalseWhenValueIsGreaterThanValidationData()
     {
-        $claim = new LesserOrEqualsTo('iss', 11);
+        $claim = new LesserOrEqualsTo('jti', 11);
 
         $data = new ValidationData();
-        $data->setIssuer(10);
+        $data->setId(10);
 
         $this->assertFalse($claim->validate($data));
     }
