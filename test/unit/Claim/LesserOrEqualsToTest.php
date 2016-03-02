@@ -29,7 +29,7 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValidationDontHaveTheClaim()
     {
-        $claim = new LesserOrEqualsTo('iss', 10);
+        $claim = new LesserOrEqualsTo('jti', 10);
 
         $this->assertTrue($claim->validate(new ValidationData()));
     }
@@ -49,8 +49,10 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValueIsLesserThanValidationData()
     {
-        $claim = new LesserOrEqualsTo('iat', 10);
-        $data = new ValidationData(11);
+        $claim = new LesserOrEqualsTo('jti', 10);
+
+        $data = new ValidationData();
+        $data->setId(11);
 
         $this->assertTrue($claim->validate($data));
     }
@@ -70,8 +72,10 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValueIsEqualsToValidationData()
     {
-        $claim = new LesserOrEqualsTo('iat', 10);
-        $data = new ValidationData(10);
+        $claim = new LesserOrEqualsTo('jti', 10);
+
+        $data = new ValidationData();
+        $data->setId(10);
 
         $this->assertTrue($claim->validate($data));
     }
@@ -91,8 +95,10 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnFalseWhenValueIsGreaterThanValidationData()
     {
-        $claim = new LesserOrEqualsTo('iat', 11);
-        $data = new ValidationData(10);
+        $claim = new LesserOrEqualsTo('jti', 11);
+
+        $data = new ValidationData();
+        $data->setId(10);
 
         $this->assertFalse($claim->validate($data));
     }

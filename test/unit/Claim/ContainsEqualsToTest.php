@@ -12,10 +12,10 @@ namespace Lcobucci\JWT\Claim;
 use Lcobucci\JWT\ValidationData;
 
 /**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.0.0
+ * @author Matthew John Marshall <matthew.marshall96@yahoo.co.uk>
+ * @since x.x.x
  */
-class EqualsToTest extends \PHPUnit_Framework_TestCase
+class ContainsEqualsToTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -25,11 +25,11 @@ class EqualsToTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\ValidationData::__construct
      * @uses Lcobucci\JWT\ValidationData::has
      *
-     * @covers Lcobucci\JWT\Claim\EqualsTo::validate
+     * @covers Lcobucci\JWT\Claim\ContainsEqualsTo::validate
      */
-    public function validateShouldReturnTrueWhenValidationDontHaveTheClaim()
+    public function validateShouldReturnTrueWhenValidationDoesntHaveTheClaim()
     {
-        $claim = new EqualsTo('sub', 'test');
+        $claim = new ContainsEqualsTo('aud', ['test', 'test2']);
 
         $this->assertTrue($claim->validate(new ValidationData()));
     }
@@ -45,14 +45,14 @@ class EqualsToTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\ValidationData::has
      * @uses Lcobucci\JWT\ValidationData::get
      *
-     * @covers Lcobucci\JWT\Claim\EqualsTo::validate
+     * @covers Lcobucci\JWT\Claim\ContainsEqualsTo::validate
      */
-    public function validateShouldReturnTrueWhenValueIsEqualsToValidationData()
+    public function validateShouldReturnTrueWhenValidationDataValueIsContained()
     {
-        $claim = new EqualsTo('sub', 'test');
+        $claim = new ContainsEqualsTo('aud', ['test', 'test2']);
 
         $data = new ValidationData();
-        $data->setSubject('test');
+        $data->setAudience('test');
 
         $this->assertTrue($claim->validate($data));
     }
@@ -68,14 +68,14 @@ class EqualsToTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\ValidationData::has
      * @uses Lcobucci\JWT\ValidationData::get
      *
-     * @covers Lcobucci\JWT\Claim\EqualsTo::validate
+     * @covers Lcobucci\JWT\Claim\ContainsEqualsTo::validate
      */
-    public function validateShouldReturnFalseWhenValueIsNotEqualsToValidationData()
+    public function validateShouldReturnFalseWhenValidationDataValueIsNotContained()
     {
-        $claim = new EqualsTo('sub', 'test');
+        $claim = new EqualsTo('aud', ['test', 'test2']);
 
         $data = new ValidationData();
-        $data->setSubject('test1');
+        $data->setAudience('test3');
 
         $this->assertFalse($claim->validate($data));
     }
