@@ -106,11 +106,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
         $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $builder);
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> origin/master
     /**
      * @test
      *

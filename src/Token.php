@@ -85,15 +85,9 @@ class Token
      *
      * @param string $name
      *
-<<<<<<< HEAD
-     * @return boolean
-     */
-    public function hasHeader($name)
-=======
      * @return bool
      */
     public function hasHeader(string $name): bool
->>>>>>> origin/master
     {
         return array_key_exists($name, $this->headers);
     }
@@ -108,11 +102,7 @@ class Token
      *
      * @throws OutOfBoundsException
      */
-<<<<<<< HEAD
-    public function getHeader($name, $default = null)
-=======
     public function getHeader(string $name, $default = null)
->>>>>>> origin/master
     {
         if ($this->hasHeader($name)) {
             return $this->getHeaderValue($name);
@@ -132,11 +122,7 @@ class Token
      *
      * @return mixed
      */
-<<<<<<< HEAD
-    private function getHeaderValue($name)
-=======
     private function getHeaderValue(string $name)
->>>>>>> origin/master
     {
         $header = $this->headers[$name];
 
@@ -162,15 +148,9 @@ class Token
      *
      * @param string $name
      *
-<<<<<<< HEAD
-     * @return boolean
-     */
-    public function hasClaim($name)
-=======
      * @return bool
      */
     public function hasClaim(string $name): bool
->>>>>>> origin/master
     {
         return array_key_exists($name, $this->claims);
     }
@@ -185,11 +165,7 @@ class Token
      *
      * @throws OutOfBoundsException
      */
-<<<<<<< HEAD
-    public function getClaim($name, $default = null)
-=======
     public function getClaim(string $name, $default = null)
->>>>>>> origin/master
     {
         if ($this->hasClaim($name)) {
             return $this->claims[$name]->getValue();
