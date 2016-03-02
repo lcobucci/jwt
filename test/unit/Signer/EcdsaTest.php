@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Signer\Ecdsa\KeyParser;
@@ -56,7 +58,7 @@ class EcdsaTest extends \PHPUnit_Framework_TestCase
     /**
      * @return Ecdsa
      */
-    private function getSigner()
+    private function getSigner(): Ecdsa
     {
         $signer = $this->getMockForAbstractClass(
             Ecdsa::class,

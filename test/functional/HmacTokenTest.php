@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Builder;
@@ -41,7 +43,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signature
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Hmac
@@ -49,9 +50,9 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function builderCanGenerateAToken()
     {
-        $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
+        $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
 
-        $token = (new Builder())->setId(1)
+        $token = (new Builder())->setId('1')
                               ->setAudience('http://client.abc.com')
                               ->setIssuer('http://api.abc.com')
                               ->set('user', $user)
@@ -79,15 +80,13 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signature
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Parsing\Encoder
-     * @covers Lcobucci\JWT\Parsing\Decoder
      */
     public function parserCanReadAToken(Token $generated)
     {
         $read = (new Parser())->parse((string) $generated);
 
         $this->assertEquals($generated, $read);
-        $this->assertEquals('testing', $read->getClaim('user')->name);
+        $this->assertEquals('testing', $read->getClaim('user')['name']);
     }
 
     /**
@@ -99,7 +98,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parser
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Signer\Key
@@ -121,7 +119,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parser
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Signer\Key
@@ -144,7 +141,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parser
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
      * @covers Lcobucci\JWT\Signer\Key
@@ -170,8 +166,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signer\Hmac\Sha256
      * @covers Lcobucci\JWT\Claim\Factory
      * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Parsing\Encoder
-     * @covers Lcobucci\JWT\Parsing\Decoder
      */
     public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs()
     {

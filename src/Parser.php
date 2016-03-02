@@ -5,11 +5,13 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT;
 
 use InvalidArgumentException;
+use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
-use Lcobucci\JWT\Parsing\Decoder;
 
 /**
  * This class parses the JWT strings and convert them into tokens
@@ -22,7 +24,7 @@ class Parser
     /**
      * The data decoder
      *
-     * @var Decoder
+     * @var Parsing\Decoder
      */
     private $decoder;
 
@@ -36,14 +38,14 @@ class Parser
     /**
      * Initializes the object
      *
-     * @param Decoder $decoder
+     * @param Parsing\Decoder $decoder
      * @param ClaimFactory $claimFactory
      */
     public function __construct(
-        Decoder $decoder = null,
+        Parsing\Decoder $decoder = null,
         ClaimFactory $claimFactory = null
     ) {
-        $this->decoder = $decoder ?: new Decoder();
+        $this->decoder = $decoder ?: new Parsing\Parser();
         $this->claimFactory = $claimFactory ?: new ClaimFactory();
     }
 
@@ -54,7 +56,7 @@ class Parser
      *
      * @return Token
      */
-    public function parse($jwt)
+    public function parse(string $jwt): Token
     {
         $data = $this->splitJwt($jwt);
         $header = $this->parseHeader($data[0]);
@@ -81,14 +83,10 @@ class Parser
      *
      * @return array
      *
-     * @throws InvalidArgumentException When JWT is not a string or is invalid
+     * @throws InvalidArgumentException When JWT don't have all parts
      */
-    protected function splitJwt($jwt)
+    protected function splitJwt(string $jwt): array
     {
-        if (!is_string($jwt)) {
-            throw new InvalidArgumentException('The JWT string must have two dots');
-        }
-
         $data = explode('.', $jwt);
 
         if (count($data) != 3) {
@@ -107,7 +105,7 @@ class Parser
      *
      * @throws InvalidArgumentException When an invalid header is informed
      */
-    protected function parseHeader($data)
+    protected function parseHeader(string $data): array
     {
         $header = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
@@ -125,7 +123,7 @@ class Parser
      *
      * @return array
      */
-    protected function parseClaims($data)
+    protected function parseClaims(string $data): array
     {
         $claims = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
@@ -142,9 +140,9 @@ class Parser
      * @param array $header
      * @param string $data
      *
-     * @return Signature
+     * @return Signature|null
      */
-    protected function parseSignature(array $header, $data)
+    protected function parseSignature(array $header, string $data)
     {
         if ($data == '' || !isset($header['alg']) || $header['alg'] == 'none') {
             return null;

@@ -5,13 +5,15 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Claim;
 
 use Lcobucci\JWT\ValidationData;
 
 /**
  * @author Matthew John Marshall <matthew.marshall96@yahoo.co.uk>
- * @since 3.2.0
+ * @since x.x.x
  */
 class ContainedEqualsToTest extends \PHPUnit_Framework_TestCase
 {

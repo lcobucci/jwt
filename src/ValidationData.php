@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT;
 
 /**
@@ -25,9 +27,9 @@ class ValidationData
     /**
      * Initializes the object
      *
-     * @param int $currentTime
+     * @param int|null $currentTime
      */
-    public function __construct($currentTime = null)
+    public function __construct(int $currentTime = null)
     {
         $currentTime = $currentTime ?: time();
 
@@ -47,9 +49,9 @@ class ValidationData
      *
      * @param string $id
      */
-    public function setId($id)
+    public function setId(string $id)
     {
-        $this->items['jti'] = (string) $id;
+        $this->items['jti'] = $id;
     }
 
     /**
@@ -74,9 +76,9 @@ class ValidationData
      *
      * @param string $audience
      */
-    public function setAudience($audience)
+    public function setAudience(string $audience)
     {
-        $this->items['aud'] = (string) $audience;
+        $this->items['aud'] = $audience;
     }
 
     /**
@@ -84,9 +86,9 @@ class ValidationData
      *
      * @param string $subject
      */
-    public function setSubject($subject)
+    public function setSubject(string $subject)
     {
-        $this->items['sub'] = (string) $subject;
+        $this->items['sub'] = $subject;
     }
 
     /**
@@ -94,11 +96,11 @@ class ValidationData
      *
      * @param int $currentTime
      */
-    public function setCurrentTime($currentTime)
+    public function setCurrentTime(int $currentTime)
     {
-        $this->items['iat'] = (int) $currentTime;
-        $this->items['nbf'] = (int) $currentTime;
-        $this->items['exp'] = (int) $currentTime;
+        $this->items['iat'] = $currentTime;
+        $this->items['nbf'] = $currentTime;
+        $this->items['exp'] = $currentTime;
     }
 
     /**
@@ -108,9 +110,9 @@ class ValidationData
      *
      * @return mixed
      */
-    public function get($name)
+    public function get(string $name)
     {
-        return isset($this->items[$name]) ? $this->items[$name] : null;
+        return $this->items[$name] ?? null;
     }
 
     /**
@@ -118,9 +120,9 @@ class ValidationData
      *
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
-    public function has($name)
+    public function has(string $name): bool
     {
         return !empty($this->items[$name]);
     }

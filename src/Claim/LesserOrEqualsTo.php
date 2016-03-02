@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Claim;
 
 use Lcobucci\JWT\Claim;
@@ -21,7 +23,7 @@ class LesserOrEqualsTo extends Basic implements Claim, Validatable
     /**
      * {@inheritdoc}
      */
-    public function validate(ValidationData $data)
+    public function validate(ValidationData $data): bool
     {
         if ($data->has($this->getName())) {
             return $this->getValue() <= $data->get($this->getName());

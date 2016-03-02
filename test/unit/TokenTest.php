@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT;
 
 use Lcobucci\JWT\Claim\Basic;
@@ -87,6 +89,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Token::hasHeader
      *
      * @covers Lcobucci\JWT\Token::getHeader
+     * @covers Lcobucci\JWT\Token::getHeaderValue
      */
     public function getHeaderMustReturnTheDefaultValueWhenIsNotConfigured()
     {
@@ -241,15 +244,14 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Token::__construct
      *
      * @covers Lcobucci\JWT\Token::verify
-     *
-     * @expectedException BadMethodCallException
      */
-    public function verifyMustRaiseExceptionWhenTokenIsUnsigned()
+    public function verifyShouldReturnFalseWhenTokenIsUnsigned()
     {
         $signer = $this->getMock(Signer::class);
 
         $token = new Token();
-        $token->verify($signer, 'test');
+
+        $this->assertFalse($token->verify($signer, 'test'));
     }
 
     /**
