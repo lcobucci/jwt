@@ -54,6 +54,19 @@ echo $token->getClaim('uid'); // will print "1"
 echo $token; // The string representation of the object is a JWT string (pretty easy, right?)
 ```
 
+If we have multiple possible members in the audience of a given token, we can set multiple audience members like so:
+
+```php
+$token = (new Builder())->setIssuer('http://example.com')
+                        ->setAudience(['http://example.org', 'http://example.com', 'http://example.io']) // Sets all three as audience members of this token.
+                        ->setId('4f1g23a12aa', true)
+                        ->setIssuedAt(time())
+                        ->setNotBefore(time() + 60)
+                        ->setExpiration(time() + 3600)
+                        ->set('uid', 1)
+                        ->getToken();
+```
+
 ### Parsing from strings
 
 Use the parser to create a new token from a JWT string (using the previous token as example):
@@ -66,7 +79,7 @@ $token->getHeaders(); // Retrieves the token header
 $token->getClaims(); // Retrieves the token claims
 
 echo $token->getHeader('jti'); // will print "4f1g23a12aa"
-echo $token->getClaim('iss'); // will print "http://example.com"
+echo $token->getClaim('iss')[0]; // will print "http://example.org"
 echo $token->getClaim('uid'); // will print "1"
 ```
 
@@ -87,6 +100,14 @@ var_dump($token->validate($data)); // true, because validation information is eq
 $data->setCurrentTime(time() + 4000); // changing the validation time to future
 
 var_dump($token->validate($data)); // false, because token is expired since current time is greater than exp
+```
+
+If we have multiple possible issuers of an equivalent token, then it is possible to set multiple issuers to the ```ValidationData``` object:
+
+```php
+$data = new ValidationData();
+$data->setIssuer(['http://example.com', 'http://example.io']);
+$data->setAudience('http://example.org');
 ```
 
 #### Important
