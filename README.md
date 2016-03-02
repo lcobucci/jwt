@@ -102,7 +102,6 @@ $data->setCurrentTime(time() + 4000); // changing the validation time to future
 var_dump($token->validate($data)); // false, because token is expired since current time is greater than exp
 ```
 
-<<<<<<< HEAD
 If we have multiple possible issuers of an equivalent token, then it is possible to set multiple issuers to the ```ValidationData``` object:
 
 ```php
@@ -110,7 +109,7 @@ $data = new ValidationData();
 $data->setIssuer(['http://example.com', 'http://example.io']);
 $data->setAudience('http://example.org');
 ```
-=======
+
 #### Important
 
 - You have to configure ```ValidationData``` informing all claims you want to validate the token.
@@ -118,7 +117,6 @@ $data->setAudience('http://example.org');
 configured in ```ValidationData``` they will be ignored by ```Token::validate()```.
 - ```exp```, ```nbf``` and ```iat``` claims are configured by default in ```ValidationData::__construct()```
 with the current UNIX time (```time()```).
->>>>>>> origin/master
 
 ## Token signature
 
