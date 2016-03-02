@@ -29,7 +29,7 @@ class EqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValidationDontHaveTheClaim()
     {
-        $claim = new EqualsTo('iss', 'test');
+        $claim = new EqualsTo('sub', 'test');
 
         $this->assertTrue($claim->validate(new ValidationData()));
     }
@@ -49,10 +49,10 @@ class EqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValueIsEqualsToValidationData()
     {
-        $claim = new EqualsTo('iss', 'test');
+        $claim = new EqualsTo('sub', 'test');
 
         $data = new ValidationData();
-        $data->setIssuer('test');
+        $data->setSubject('test');
 
         $this->assertTrue($claim->validate($data));
     }
@@ -72,10 +72,10 @@ class EqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnFalseWhenValueIsNotEqualsToValidationData()
     {
-        $claim = new EqualsTo('iss', 'test');
+        $claim = new EqualsTo('sub', 'test');
 
         $data = new ValidationData();
-        $data->setIssuer('test1');
+        $data->setSubject('test1');
 
         $this->assertFalse($claim->validate($data));
     }

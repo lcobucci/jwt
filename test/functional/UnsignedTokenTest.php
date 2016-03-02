@@ -42,7 +42,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
                               ->getToken();
 
         $this->assertAttributeEquals(null, 'signature', $token);
-        $this->assertEquals('http://client.abc.com', $token->getClaim('aud'));
+        $this->assertEquals(['http://client.abc.com'], $token->getClaim('aud'));
         $this->assertEquals('http://api.abc.com', $token->getClaim('iss'));
         $this->assertEquals(self::CURRENT_TIME + 3000, $token->getClaim('exp'));
         $this->assertEquals($user, $token->getClaim('user'));
