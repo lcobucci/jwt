@@ -218,7 +218,7 @@ class Builder
     public function set(string $name, $value): Builder
     {
         if ($this->signature) {
-            throw new BadMethodCallException('You must unsign before make changes');
+            throw new BadMethodCallException('You must unsign before making changes');
         }
 
         $this->claims[$name] = $this->claimFactory->create($name, $value);
