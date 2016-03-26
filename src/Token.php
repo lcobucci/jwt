@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * This file is part of Lcobucci\JWT, a simple library to handle JWT and JWS
  *
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
-use Generator;
-use Lcobucci\JWT\Claim\Validatable;
 use Lcobucci\JWT\Signer\Key;
 use OutOfBoundsException;
 
@@ -193,38 +191,6 @@ class Token
         }
 
         return $this->signature->verify($signer, $this->getPayload(), $key);
-    }
-
-    /**
-     * Validates if the token is valid
-     *
-     * @param ValidationData $data
-     *
-     * @return bool
-     */
-    public function validate(ValidationData $data): bool
-    {
-        foreach ($this->getValidatableClaims() as $claim) {
-            if (!$claim->validate($data)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Yields the validatable claims
-     *
-     * @return Generator
-     */
-    private function getValidatableClaims(): Generator
-    {
-        foreach ($this->claims as $claim) {
-            if ($claim instanceof Validatable) {
-                yield $claim;
-            }
-        }
     }
 
     /**

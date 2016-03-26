@@ -13,6 +13,7 @@ use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\ValidationData;
+use Lcobucci\JWT\Validator;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -89,7 +90,10 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
         $data->setAudience('http://client.abc.com');
         $data->setIssuer('http://api.abc.com');
 
-        $this->assertTrue($generated->validate($data));
+        $validator = new Validator($data);
+        $results = $validator->validate($generated);
+
+        $this->assertTrue($results->isValid());
     }
 
     /**
@@ -110,7 +114,9 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function tokenValidationShouldReturnFalseWhenExpectedDataDontMatch(ValidationData $data, Token $generated)
     {
-        $this->assertFalse($generated->validate($data));
+        $validator = new Validator($data);
+        $results = $validator->validate($generated);
+        $this->assertFalse($results->isValid());
     }
 
     public function invalidValidationData()

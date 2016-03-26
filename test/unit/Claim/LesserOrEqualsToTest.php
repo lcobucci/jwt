@@ -27,11 +27,11 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
      */
-    public function validateShouldReturnTrueWhenValidationDontHaveTheClaim()
+    public function validateShouldReturnWhenValidationDontHaveTheClaim()
     {
         $claim = new LesserOrEqualsTo('iss', 10);
 
-        $this->assertTrue($claim->validate(new ValidationData()));
+        $this->assertNull($claim->validate(new ValidationData()));
     }
 
     /**
@@ -47,12 +47,12 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
      */
-    public function validateShouldReturnTrueWhenValueIsLesserThanValidationData()
+    public function validateShouldReturnWhenValueIsLesserThanValidationData()
     {
         $claim = new LesserOrEqualsTo('iat', 10);
         $data = new ValidationData(11);
 
-        $this->assertTrue($claim->validate($data));
+        $this->assertNull($claim->validate($data));
     }
 
     /**
@@ -68,16 +68,17 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
      */
-    public function validateShouldReturnTrueWhenValueIsEqualsToValidationData()
+    public function validateShouldReturnWhenValueIsEqualsToValidationData()
     {
         $claim = new LesserOrEqualsTo('iat', 10);
         $data = new ValidationData(10);
 
-        $this->assertTrue($claim->validate($data));
+        $this->assertNull($claim->validate($data));
     }
 
     /**
      * @test
+     * @expectedException \Lcobucci\JWT\Exception\InvalidClaimException
      *
      * @uses Lcobucci\JWT\Claim\Basic::__construct
      * @uses Lcobucci\JWT\Claim\Basic::getName
@@ -89,7 +90,7 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
      */
-    public function validateShouldReturnFalseWhenValueIsGreaterThanValidationData()
+    public function validateShouldRaiseExceptionWhenValueIsGreaterThanValidationData()
     {
         $claim = new LesserOrEqualsTo('iat', 11);
         $data = new ValidationData(10);

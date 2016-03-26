@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Claim;
 
 use Lcobucci\JWT\Claim;
+use Lcobucci\JWT\Exception\RangeException;
 use Lcobucci\JWT\ValidationData;
 
 /**
@@ -23,12 +24,11 @@ class LesserOrEqualsTo extends Basic implements Claim, Validatable
     /**
      * {@inheritdoc}
      */
-    public function validate(ValidationData $data): bool
+    public function validate(ValidationData $data)
     {
-        if ($data->has($this->getName())) {
-            return $this->getValue() <= $data->get($this->getName());
+        $name = $this->getName();
+        if ($data->has($name) && ($this->getValue() > $data->get($name))) {
+            throw new RangeException($name, "The claim value should be less than the validation value");
         }
-
-        return true;
     }
 }

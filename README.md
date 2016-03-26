@@ -75,25 +75,54 @@ echo $token->getClaim('uid'); // will print "1"
 We can easily validate if the token is valid (using the previous token as example):
 
 ```php
+use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Validation\Results;
 use Lcobucci\JWT\ValidationData;
+use Lcobucci\JWT\Validator;
+
+include 'vendor/autoload.php';
+
+$token = (new Builder())->setIssuer('http://example.com') // Configures the issuer (iss claim)
+->setAudience('http://example.org') // Configures the audience (aud claim)
+->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
+->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
+->set('uid', 1) // Configures a new claim, called 'uid'
+->getToken(); // Retrieves the generated token
+
 
 $data = new ValidationData(); // It will use the current time to validate (iat, nbf and exp)
 $data->setIssuer('http://example.com');
 $data->setAudience('http://example.org');
 $data->setId('4f1g23a12aa');
 
-var_dump($token->validate($data)); // true, because validation information is equals to data contained on the token
+$results = (new Validator($data))->validate($token);
+
+echo ($results->isValid() ? 'Data is valid' : 'Data is not valid!') . PHP_EOL . PHP_EOL;
 
 $data->setCurrentTime(time() + 4000); // changing the validation time to future
+$data->setAudience('http://wrong.example.org');
+$results = (new Validator($data))->validate($token);
 
-var_dump($token->validate($data)); // false, because token is expired since current time is greater than exp
+if ($results->isValid()) {
+    echo 'Data is valid' . PHP_EOL;
+} else {
+
+    $errors = $results->getErrors();
+    // false, because token is expired since current time is greater than exp
+    if (isset($errors['exp'])) {
+        echo 'Data is expired' . PHP_EOL;
+    }
+    
+    var_dump($errors);
+}
 ```
 
 #### Important
 
 - You have to configure ```ValidationData``` informing all claims you want to validate the token.
 - If ```ValidationData``` contains claims that are not being used in token or token has claims that are not
-configured in ```ValidationData``` they will be ignored by ```Token::validate()```.
+configured in ```ValidationData``` they will be ignored by ```Validator::validate()```.
 - ```exp```, ```nbf``` and ```iat``` claims are configured by default in ```ValidationData::__construct()```
 with the current UNIX time (```time()```).
 

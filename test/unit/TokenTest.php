@@ -315,8 +315,11 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     public function validateShouldReturnTrueWhenClaimsAreEmpty()
     {
         $token = new Token();
+        $validator = new Validator(new ValidationData());
 
-        $this->assertTrue($token->validate(new ValidationData()));
+        $results = $validator->validate($token);
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultInterface', $results);
+        $this->assertTrue($results->isValid());
     }
 
     /**
@@ -332,8 +335,11 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     public function validateShouldReturnTrueWhenThereAreNoValidatableClaims()
     {
         $token = new Token([], ['testing' => new Basic('testing', 'test')]);
+        $validator = new Validator(new ValidationData());
 
-        $this->assertTrue($token->validate(new ValidationData()));
+        $results = $validator->validate($token);
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultInterface', $results);
+        $this->assertTrue($results->isValid());
     }
 
     /**
@@ -359,8 +365,12 @@ class TokenTest extends \PHPUnit_Framework_TestCase
 
         $data = new ValidationData();
         $data->setIssuer('test1');
+        $validator = new Validator($data);
 
-        $this->assertFalse($token->validate($data));
+        $results = $validator->validate($token);
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultInterface', $results);
+        $this->assertFalse($results->isValid());
+        $this->assertArrayHasKey('iss', $results->getErrors());
     }
 
     /**
@@ -391,8 +401,11 @@ class TokenTest extends \PHPUnit_Framework_TestCase
 
         $data = new ValidationData($now + 10);
         $data->setIssuer('test');
+        $validator = new Validator($data);
 
-        $this->assertTrue($token->validate($data));
+        $results = $validator->validate($token);
+        $this->assertInstanceOf('\\Lcobucci\\JWT\\Validation\\ResultInterface', $results);
+        $this->assertTrue($results->isValid());
     }
 
     /**
