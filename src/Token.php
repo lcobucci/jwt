@@ -224,11 +224,14 @@ class Token
      */
     private function getValidatableClaims()
     {
+        $validatableClaims = array();
         foreach ($this->claims as $claim) {
             if ($claim instanceof Validatable) {
-                yield $claim;
+                $validatableClaims[] = $claim;
             }
         }
+
+        return $validatableClaims;
     }
 
     /**
