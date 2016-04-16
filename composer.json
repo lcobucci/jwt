@@ -22,11 +22,11 @@
         "lcobucci/jose-parsing": "~2.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.1",
-        "squizlabs/php_codesniffer": "~2.3",
-        "phpmd/phpmd": "~2.2",
+        "phpunit/phpunit": "~5.3",
+        "squizlabs/php_codesniffer": "~2.6",
+        "phpmd/phpmd": "~2.4",
         "phpunit/php-invoker": "~1.1",
-        "mikey179/vfsStream": "~1.5",
+        "mikey179/vfsStream": "~1.6",
         "mdanter/ecc": "~0.3"
     },
     "suggest":{

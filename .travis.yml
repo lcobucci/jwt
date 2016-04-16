@@ -4,13 +4,18 @@ sudo: false
 php:
   - 7.0
   - hhvm
-  - hhvm-nightly
 
 matrix:
   allow_failures:
     - php: hhvm
-    - php: hhvm-nightly
 
 before_script:
-  - composer selfupdate
   - composer install --prefer-dist -o
+
+script:
+  - ./vendor/bin/phpunit --coverage-clover ./clover.xml test/unit
+  - ./vendor/bin/phpunit test/functional
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover ./clover.xml
