@@ -11,10 +11,21 @@ tools:
     php_pdepend: true
     php_analyzer: true
     php_changetracking: true
+    sensiolabs_security_checker: true
+    php_mess_detector: true
+    php_code_coverage: true
+    external_code_coverage:
+        timeout: 1800
     php_code_sniffer:
+        enabled: true
         config:
             standard: "PSR2"
-    php_mess_detector: true
+    php_cpd:
+        enabled: true
+        excluded_dirs: ["test", "vendor"]
+    php_loc:
+        enabled: true
+        excluded_dirs: ["test", "vendor"]
 checks:
     php:
         code_rating: true
@@ -50,7 +61,6 @@ checks:
         verify_access_scope_valid: true
         verify_argument_usable_as_reference: true
         verify_property_names: true
-
 filter:
     excluded_paths:
         - test/*
