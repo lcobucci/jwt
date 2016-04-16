@@ -9,11 +9,9 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
 
-use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\ValidationData;
-use Lcobucci\JWT\Configuration;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>

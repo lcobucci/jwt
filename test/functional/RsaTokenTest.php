@@ -9,14 +9,12 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
 
-use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Keys;
-use Lcobucci\JWT\Parser;
-use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Signature;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
-use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Token;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
