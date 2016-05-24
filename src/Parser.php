@@ -42,11 +42,11 @@ class Parser
      * @param ClaimFactory $claimFactory
      */
     public function __construct(
-        Parsing\Decoder $decoder = null,
-        ClaimFactory $claimFactory = null
+        Parsing\Decoder $decoder,
+        ClaimFactory $claimFactory
     ) {
-        $this->decoder = $decoder ?: new Parsing\Parser();
-        $this->claimFactory = $claimFactory ?: new ClaimFactory();
+        $this->decoder = $decoder;
+        $this->claimFactory = $claimFactory;
     }
 
     /**

@@ -9,8 +9,8 @@
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/9c90ed7d-17de-4ba0-9ee0-3cf9c2f43f66/mini.png)](https://insight.sensiolabs.com/projects/9c90ed7d-17de-4ba0-9ee0-3cf9c2f43f66)
 
-A simple library to work with JSON Web Token and JSON Web Signature (version 3.1.1 and above requires PHP 7.0+).
-The implementation is based on the [current draft](http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32).
+A simple library to work with JSON Web Token and JSON Web Signature.
+The implementation is based on the [RFC 7519](https://tools.ietf.org/html/rfc7519).
 
 ## Installation
 
@@ -33,16 +33,19 @@ composer require lcobucci/jwt
 Just use the builder to create a new JWT/JWS tokens:
 
 ```php
-use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Configuration;
 
-$token = (new Builder())->setIssuer('http://example.com') // Configures the issuer (iss claim)
-                        ->setAudience('http://example.org') // Configures the audience (aud claim)
-                        ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                        ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                        ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
-                        ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
-                        ->set('uid', 1) // Configures a new claim, called "uid"
-                        ->getToken(); // Retrieves the generated token
+$config = new Configuration(); // This object helps to simplify the creation of the dependencies
+                               // instead of using "?:" on constructors.
+
+$token = $config->createBuilder()->setIssuer('http://example.com') // Configures the issuer (iss claim)
+                                 ->setAudience('http://example.org') // Configures the audience (aud claim)
+                                 ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                                 ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
+                                 ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
+                                 ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
+                                 ->set('uid', 1) // Configures a new claim, called "uid"
+                                 ->getToken(); // Retrieves the generated token
 
 
 $token->getHeaders(); // Retrieves the token headers
@@ -59,9 +62,10 @@ echo $token; // The string representation of the object is a JWT string (pretty 
 Use the parser to create a new token from a JWT string (using the previous token as example):
 
 ```php
-use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Configuration;
 
-$token = (new Parser())->parse((string) $token); // Parses from a string
+$config = new Configuration();
+$token = $config->getParser()->parse((string) $token); // Parses from a string
 $token->getHeaders(); // Retrieves the token header
 $token->getClaims(); // Retrieves the token claims
 
@@ -82,7 +86,11 @@ $data->setIssuer('http://example.com');
 $data->setAudience('http://example.org');
 $data->setId('4f1g23a12aa');
 
-var_dump($token->validate($data)); // true, because validation information is equals to data contained on the token
+var_dump($token->validate($data)); // false, because token cannot be used before of now() + 60
+
+$data->setCurrentTime(time() + 61); // changing the validation time to future
+
+var_dump($token->validate($data)); // true, because current time is between "nbf" and "exp" claims
 
 $data->setCurrentTime(time() + 4000); // changing the validation time to future
 
@@ -114,20 +122,20 @@ cannot be influenced by malicious users.
 Hmac signatures are really simple to be used:
 
 ```php
-use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Configuration;
 
-$signer = new Sha256();
+$config = new Configuration();
+$signer = $config->getSigner(); // Default signer is HMAC SHA256
 
-$token = (new Builder())->setIssuer('http://example.com') // Configures the issuer (iss claim)
-                        ->setAudience('http://example.org') // Configures the audience (aud claim)
-                        ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                        ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                        ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
-                        ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
-                        ->set('uid', 1) // Configures a new claim, called "uid"
-                        ->sign($signer, 'testing') // creates a signature using "testing" as key
-                        ->getToken(); // Retrieves the generated token
+$token = $config->createBuilder()->setIssuer('http://example.com') // Configures the issuer (iss claim)
+                                 ->setAudience('http://example.org') // Configures the audience (aud claim)
+                                 ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                                 ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
+                                 ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
+                                 ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
+                                 ->set('uid', 1) // Configures a new claim, called "uid"
+                                 ->sign($signer, 'testing') // creates a signature using "testing" as key
+                                 ->getToken(); // Retrieves the generated token
 
 
 var_dump($token->verify($signer, 'testing 1')); // false, because the key is different
@@ -139,23 +147,24 @@ var_dump($token->verify($signer, 'testing')); // true, because the key is the sa
 RSA and ECDSA signatures are based on public and private keys so you have to generate using the private key and verify using the public key:
 
 ```php
-use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256; // you can use Lcobucci\JWT\Signer\Ecdsa\Sha256 if you're using ECDSA keys
 
-$signer = new Sha256();
+$config = new Configuration();
+$config->setSigner(new Sha256()); // Change the signer to RSA SHA256
 
+$signer = $config->getSigner();
 $privateKey = new Key('file://{path to your private key}');
 
-$token = (new Builder())->setIssuer('http://example.com') // Configures the issuer (iss claim)
-                        ->setAudience('http://example.org') // Configures the audience (aud claim)
-                        ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                        ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                        ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
-                        ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
-                        ->set('uid', 1) // Configures a new claim, called "uid"
-                        ->sign($signer,  $privateKey) // creates a signature using your private key
-                        ->getToken(); // Retrieves the generated token
+$token = $config->createBuilder()->setIssuer('http://example.com') // Configures the issuer (iss claim)
+                                 ->setAudience('http://example.org') // Configures the audience (aud claim)
+                                 ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                                 ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
+                                 ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
+                                 ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
+                                 ->set('uid', 1) // Configures a new claim, called "uid"
+                                 ->sign($signer,  $privateKey) // creates a signature using your private key
+                                 ->getToken(); // Retrieves the generated token
 
 $publicKey = new Key('file://{path to your public key}');
 
