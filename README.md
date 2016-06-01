@@ -38,14 +38,15 @@ use Lcobucci\JWT\Configuration;
 $config = new Configuration(); // This object helps to simplify the creation of the dependencies
                                // instead of using "?:" on constructors.
 
-$token = $config->createBuilder()->setIssuer('http://example.com') // Configures the issuer (iss claim)
-                                 ->setAudience('http://example.org') // Configures the audience (aud claim)
-                                 ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                                 ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                                 ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
-                                 ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
-                                 ->set('uid', 1) // Configures a new claim, called "uid"
-                                 ->getToken(); // Retrieves the generated token
+$token = $config->createBuilder()
+                ->setIssuer('http://example.com') // Configures the issuer (iss claim)
+                ->setAudience('http://example.org') // Configures the audience (aud claim)
+                ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
+                ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
+                ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
+                ->set('uid', 1) // Configures a new claim, called "uid"
+                ->getToken(); // Retrieves the generated token
 
 
 $token->getHeaders(); // Retrieves the token headers
@@ -127,15 +128,16 @@ use Lcobucci\JWT\Configuration;
 $config = new Configuration();
 $signer = $config->getSigner(); // Default signer is HMAC SHA256
 
-$token = $config->createBuilder()->setIssuer('http://example.com') // Configures the issuer (iss claim)
-                                 ->setAudience('http://example.org') // Configures the audience (aud claim)
-                                 ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                                 ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                                 ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
-                                 ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
-                                 ->set('uid', 1) // Configures a new claim, called "uid"
-                                 ->sign($signer, 'testing') // creates a signature using "testing" as key
-                                 ->getToken(); // Retrieves the generated token
+$token = $config->createBuilder()
+                ->setIssuer('http://example.com') // Configures the issuer (iss claim)
+                ->setAudience('http://example.org') // Configures the audience (aud claim)
+                ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
+                ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
+                ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
+                ->set('uid', 1) // Configures a new claim, called "uid"
+                ->sign($signer, 'testing') // creates a signature using "testing" as key
+                ->getToken(); // Retrieves the generated token
 
 
 var_dump($token->verify($signer, 'testing 1')); // false, because the key is different
@@ -156,15 +158,16 @@ $config->setSigner(new Sha256()); // Change the signer to RSA SHA256
 $signer = $config->getSigner();
 $privateKey = new Key('file://{path to your private key}');
 
-$token = $config->createBuilder()->setIssuer('http://example.com') // Configures the issuer (iss claim)
-                                 ->setAudience('http://example.org') // Configures the audience (aud claim)
-                                 ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                                 ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                                 ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
-                                 ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
-                                 ->set('uid', 1) // Configures a new claim, called "uid"
-                                 ->sign($signer,  $privateKey) // creates a signature using your private key
-                                 ->getToken(); // Retrieves the generated token
+$token = $config->createBuilder()
+                ->setIssuer('http://example.com') // Configures the issuer (iss claim)
+                ->setAudience('http://example.org') // Configures the audience (aud claim)
+                ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
+                ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
+                ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
+                ->set('uid', 1) // Configures a new claim, called "uid"
+                ->sign($signer,  $privateKey) // creates a signature using your private key
+                ->getToken(); // Retrieves the generated token
 
 $publicKey = new Key('file://{path to your public key}');
 
