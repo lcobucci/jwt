@@ -42,7 +42,7 @@ abstract class Ecdsa extends BaseSigner
 
     /**
      * @param Adapter|null $adapter
-     * @param EcdsaSigner|null $signer
+     * @param Signer|null $signer
      * @param KeyParser|null $parser
      */
     public function __construct(Adapter $adapter = null, Signer $signer = null, KeyParser $parser = null)

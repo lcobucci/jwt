@@ -66,7 +66,7 @@ class EcdsaTest extends \PHPUnit_Framework_TestCase
         );
 
         $signer->method('getSignatureLength')
-               ->willReturn(64);
+               ->willReturn(10);
 
         $signer->method('getAlgorithm')
                ->willReturn('sha256');
@@ -161,13 +161,23 @@ class EcdsaTest extends \PHPUnit_Framework_TestCase
                      ->with($key)
                      ->willReturn($publicKey);
 
-        $this->adapter->expects($this->exactly(3))
+        $this->adapter->expects($this->at(0))
                       ->method('hexDec')
-                      ->willReturn('123');
+                      ->with('7465737469')
+                      ->willReturn('a');
+
+        $this->adapter->expects($this->at(1))
+                      ->method('hexDec')
+                      ->with('6e67')
+                      ->willReturn('b');
+
+        $this->adapter->expects($this->at(2))
+                      ->method('hexDec')
+                      ->willReturn('c');
 
         $this->signer->expects($this->once())
                      ->method('verify')
-                     ->with($publicKey, $this->isInstanceOf(Signature::class), $this->isType('string'))
+                     ->with($publicKey, new Signature('a', 'b'), 'c')
                      ->willReturn(true);
 
         $this->assertTrue($signer->doVerify('testing', 'testing2', $key));
