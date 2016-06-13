@@ -9,8 +9,7 @@
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/9c90ed7d-17de-4ba0-9ee0-3cf9c2f43f66/mini.png)](https://insight.sensiolabs.com/projects/9c90ed7d-17de-4ba0-9ee0-3cf9c2f43f66)
 
-A simple library to work with JSON Web Token and JSON Web Signature.
-The implementation is based on the [RFC 7519](https://tools.ietf.org/html/rfc7519).
+A simple library to work with JSON Web Token and JSON Web Signature based on the [RFC 7519](https://tools.ietf.org/html/rfc7519).
 
 ## Installation
 
@@ -27,6 +26,10 @@ composer require lcobucci/jwt
 - OpenSSL Extension
 
 ## Basic usage
+
+**Important:** this is the documentation of our next major release (v4) and
+it **WILL** change. If you are using the **stable** version you should
+go to branch [3.1](https://github.com/lcobucci/jwt/blob/3.1/README.md).
 
 ### Creating
 
