@@ -15,10 +15,10 @@
     beStrictAboutResourceUsageDuringSmallTests="true"
     forceCoversAnnotation="true">
 	<testsuites>
-		<testsuite name="Unit Test Suite">
+		<testsuite name="unit">
 			<directory>test/unit</directory>
 		</testsuite>
-		<testsuite name="Integration Test Suite">
+		<testsuite name="functional">
 			<directory>test/functional</directory>
 		</testsuite>
 	</testsuites>
