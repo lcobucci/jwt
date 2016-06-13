@@ -97,7 +97,7 @@ class KeyParser
             $match
         );
 
-        if (isset($match[1])) {
+        if (count($match) === 2) {
             return $match[1];
         }
 
