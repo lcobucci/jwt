@@ -44,8 +44,10 @@ trait Keys
 
         static::$ecdsaKeys = [
             'private' => $keychain->getPrivateKey($dir . '/ecdsa/private.key'),
+            'private-params' => $keychain->getPrivateKey($dir . '/ecdsa/private2.key'),
             'public1' => $keychain->getPublicKey($dir . '/ecdsa/public1.key'),
             'public2' => $keychain->getPublicKey($dir . '/ecdsa/public2.key'),
+            'public-params' => $keychain->getPublicKey($dir . '/ecdsa/public3.key'),
         ];
     }
 }
