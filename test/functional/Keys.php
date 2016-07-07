@@ -50,8 +50,10 @@ trait Keys
 
         static::$ecdsaKeys = [
             'private' => new Key($dir . '/ecdsa/private.key'),
+            'private-params' => new Key($dir . '/ecdsa/private2.key'),
             'public1' => new Key($dir . '/ecdsa/public1.key'),
             'public2' => new Key($dir . '/ecdsa/public2.key'),
+            'public-params' => new Key($dir . '/ecdsa/public3.key'),
         ];
     }
 }
