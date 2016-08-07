@@ -42,9 +42,9 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
      */
     public function createDependencies()
     {
-        $this->adapter = $this->getMock(MathAdapterInterface::class);
-        $this->privateKeySerializer = $this->getMock(PrivateKeySerializerInterface::class);
-        $this->publicKeySerializer = $this->getMock(PublicKeySerializerInterface::class);
+        $this->adapter = $this->createMock(MathAdapterInterface::class);
+        $this->privateKeySerializer = $this->createMock(PrivateKeySerializerInterface::class);
+        $this->publicKeySerializer = $this->createMock(PublicKeySerializerInterface::class);
     }
 
     /**
@@ -71,7 +71,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
      */
     public function getPrivateKeyShouldAskSerializerToParseTheKey()
     {
-        $privateKey = $this->getMock(PrivateKeyInterface::class);
+        $privateKey = $this->createMock(PrivateKeyInterface::class);
 
         $keyContent = 'MHcCAQEEIBGpMoZJ64MMSzuo5JbmXpf9V4qSWdLIl/8RmJLcfn/qoAoGC'
                       . 'CqGSM49AwEHoUQDQgAE7it/EKmcv9bfpcV1fBreLMRXxWpnd0wxa2iF'
@@ -117,7 +117,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
      */
     public function getPublicKeyShouldAskSerializerToParseTheKey()
     {
-        $publicKey = $this->getMock(PublicKeyInterface::class);
+        $publicKey = $this->createMock(PublicKeyInterface::class);
 
         $keyContent = 'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE7it/EKmcv9bfpcV1fBreLMRXxWpn'
                       . 'd0wxa2iFruiI2tsEdGFTLTsyU+GeRqC7zN0aTnTQajarUylKJ3UWr/r1kg==';

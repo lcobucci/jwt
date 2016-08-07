@@ -21,11 +21,11 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     protected $signer;
 
     /**
-     * {@inheritdoc}
+     * @before
      */
-    protected function setUp()
+    public function initializeDependencies()
     {
-        $this->signer = $this->getMock(Signer::class);
+        $this->signer = $this->createMock(Signer::class);
     }
 
     /**

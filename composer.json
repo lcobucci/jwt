@@ -22,12 +22,12 @@
         "lcobucci/jose-parsing": "~2.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.3",
+        "phpunit/phpunit": "~5.5",
         "squizlabs/php_codesniffer": "~2.6",
         "phpmd/phpmd": "~2.4",
         "phpunit/php-invoker": "~1.1",
         "mikey179/vfsStream": "~1.6",
-        "mdanter/ecc": "~0.3"
+        "mdanter/ecc": "~0.4"
     },
     "suggest":{
         "mdanter/ecc": "Required to use Elliptic Curves based algorithms."
@@ -40,7 +40,7 @@
     "autoload-dev": {
         "psr-4": {
             "Lcobucci\\JWT\\": [
-                "test/unit", 
+                "test/unit",
                 "test/functional"
             ]
         }

@@ -34,13 +34,13 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     protected $defaultClaim;
 
     /**
-     * {@inheritdoc}
+     * @before
      */
-    protected function setUp()
+    public function initializeDependencies()
     {
-        $this->encoder = $this->getMock(Encoder::class);
-        $this->claimFactory = $this->getMock(ClaimFactory::class, [], [], '', false);
-        $this->defaultClaim = $this->getMock(Claim::class);
+        $this->encoder = $this->createMock(Encoder::class);
+        $this->claimFactory = $this->createMock(ClaimFactory::class);
+        $this->defaultClaim = $this->createMock(Claim::class);
 
         $this->claimFactory->expects($this->any())
                            ->method('create')
@@ -543,8 +543,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function signMustChangeTheSignature()
     {
-        $signer = $this->getMock(Signer::class);
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class);
 
         $signer->expects($this->any())
                ->method('sign')
@@ -567,8 +567,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function signMustKeepAFluentInterface(): Builder
     {
-        $signer = $this->getMock(Signer::class);
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class);
 
         $signer->expects($this->any())
                ->method('sign')
@@ -621,8 +621,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setMustRaiseExceptionWhenTokenHasBeenSigned()
     {
-        $signer = $this->getMock(Signer::class);
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class);
 
         $signer->expects($this->any())
                ->method('sign')
@@ -647,8 +647,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setHeaderMustRaiseExceptionWhenTokenHasBeenSigned()
     {
-        $signer = $this->getMock(Signer::class);
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class);
 
         $signer->expects($this->any())
                ->method('sign')
@@ -670,7 +670,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function getTokenMustReturnANewTokenWithCurrentConfiguration()
     {
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signature = $this->createMock(Signature::class);
 
         $this->encoder->expects($this->exactly(2))
                       ->method('jsonEncode')

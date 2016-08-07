@@ -49,10 +49,10 @@ class EcdsaTest extends \PHPUnit_Framework_TestCase
      */
     public function createDependencies()
     {
-        $this->adapter = $this->getMock(Adapter::class);
-        $this->signer = $this->getMock(Signer::class, [], [$this->adapter]);
-        $this->randomGenerator = $this->getMock(RandomNumberGeneratorInterface::class);
-        $this->parser = $this->getMock(KeyParser::class, [], [], '', false);
+        $this->adapter = $this->createMock(Adapter::class);
+        $this->signer = $this->createMock(Signer::class, [], [$this->adapter]);
+        $this->randomGenerator = $this->createMock(RandomNumberGeneratorInterface::class);
+        $this->parser = $this->createMock(KeyParser::class, [], [], '', false);
     }
 
     /**
@@ -105,8 +105,8 @@ class EcdsaTest extends \PHPUnit_Framework_TestCase
     {
         $signer = $this->getSigner();
         $key = new Key('testing');
-        $privateKey = $this->getMock(PrivateKeyInterface::class);
-        $point = $this->getMock(PointInterface::class);
+        $privateKey = $this->createMock(PrivateKeyInterface::class);
+        $point = $this->createMock(PointInterface::class);
 
         $privateKey->method('getPoint')
                    ->willReturn($point);
@@ -154,7 +154,7 @@ class EcdsaTest extends \PHPUnit_Framework_TestCase
     {
         $signer = $this->getSigner();
         $key = new Key('testing');
-        $publicKey = $this->getMock(PublicKeyInterface::class);
+        $publicKey = $this->createMock(PublicKeyInterface::class);
 
         $this->parser->expects($this->once())
                      ->method('getPublicKey')

@@ -244,7 +244,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnFalseWhenTokenIsUnsigned()
     {
-        $signer = $this->getMock(Signer::class);
+        $signer = $this->createMock(Signer::class);
 
         $token = new Token();
 
@@ -261,8 +261,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnFalseWhenTokenAlgorithmIsDifferent()
     {
-        $signer = $this->getMock(Signer::class);
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class);
 
         $signer->expects($this->any())
                ->method('getAlgorithmId')
@@ -286,8 +286,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyMustDelegateTheValidationToSignature()
     {
-        $signer = $this->getMock(Signer::class);
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class);
 
         $signer->expects($this->any())
                ->method('getAlgorithmId')
@@ -434,7 +434,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function toStringMustReturnEncodedData()
     {
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signature = $this->createMock(Signature::class);
 
         $token = new Token(['alg' => 'none'], [], $signature, ['test', 'test', 'test']);
 
