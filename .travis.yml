@@ -4,6 +4,7 @@ sudo: false
 php:
   - 7.0
   - hhvm
+  - nightly
 
 matrix:
   allow_failures:
