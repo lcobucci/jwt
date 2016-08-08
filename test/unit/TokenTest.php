@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
+use DateInterval;
+use DateTime;
 use Lcobucci\JWT\Claim\Basic;
 use Lcobucci\JWT\Claim\EqualsTo;
 use Lcobucci\JWT\Claim\GreaterOrEqualsTo;
@@ -384,7 +386,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
             [
                 'iss' => new EqualsTo('iss', 'test'),
                 'iat' => new LesserOrEqualsTo('iat', $now),
-                'exp' => new GreaterOrEqualsTo('ext', $now + 500),
+                'exp' => new GreaterOrEqualsTo('exp', $now + 500),
                 'testing' => new Basic('testing', 'test')
             ]
         );
@@ -393,6 +395,44 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $data->setIssuer('test');
 
         $this->assertTrue($token->validate($data));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::isExpired
+     * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
+     *
+     * @covers Lcobucci\JWT\Token::isExpired
+     */
+    public function isExpiredShouldReturnFalseWhenTokenIsNotExpired()
+    {
+        $token = new Token(
+            ['alg' => 'none'],
+            ['exp' => new GreaterOrEqualsTo('exp', time() + 500)]
+        );
+
+        $this->assertFalse($token->isExpired());
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::isExpired
+     * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
+     *
+     * @covers Lcobucci\JWT\Token::isExpired
+     */
+    public function isExpiredShouldReturnTrueAfterTokenExpires()
+    {
+        $token = new Token(
+            ['alg' => 'none'],
+            ['exp' => new GreaterOrEqualsTo('exp', time())]
+        );
+
+        $this->assertTrue($token->isExpired(new DateTime('+10 days')));
     }
 
     /**
