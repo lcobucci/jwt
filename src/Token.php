@@ -8,6 +8,7 @@
 namespace Lcobucci\JWT;
 
 use BadMethodCallException;
+use DateTime;
 use Generator;
 use Lcobucci\JWT\Claim\Validatable;
 use OutOfBoundsException;
@@ -215,6 +216,32 @@ class Token
         }
 
         return true;
+    }
+
+    /**
+     * Determine if the token is expired.
+     *
+     * @param DateTime $now Defaults to the current time.
+     *
+     * @return boolean
+     */
+    public function isExpired(DateTime $now = null)
+    {
+        $exp = $this->getClaim('exp', false);
+
+        if ($exp === false) {
+            // No expiration value, token never expires.
+            return false;
+        }
+
+        $expiresAt = new DateTime();
+        $expiresAt->setTimestamp($exp);
+
+        if ($now === null) {
+            $now = new DateTime();
+        }
+
+        return $now > $expiresAt;
     }
 
     /**
