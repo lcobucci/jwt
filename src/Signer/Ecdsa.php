@@ -9,13 +9,10 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
-use Lcobucci\JWT\Signer\Ecdsa\KeyParser;
-use Mdanter\Ecc\Crypto\Signature\Signature;
-use Mdanter\Ecc\Crypto\Signature\Signer;
+use Lcobucci\JWT\Signer\Ecdsa\EccAdapter;
 use Mdanter\Ecc\EccFactory;
-use Mdanter\Ecc\Math\MathAdapterInterface as Adapter;
-use Mdanter\Ecc\Random\RandomGeneratorFactory;
-use Mdanter\Ecc\Random\RandomNumberGeneratorInterface;
+use Mdanter\Ecc\Math\GmpMathInterface;
+use Lcobucci\JWT\Signer\Ecdsa\KeyParser;
 
 /**
  * Base class for ECDSA signers
@@ -26,83 +23,41 @@ use Mdanter\Ecc\Random\RandomNumberGeneratorInterface;
 abstract class Ecdsa extends BaseSigner
 {
     /**
-     * @var Adapter
+     * @var EccAdapter
      */
     private $adapter;
 
     /**
-     * @var Signer
-     */
-    private $signer;
-
-    /**
      * @var KeyParser
      */
-    private $parser;
+    private $keyParser;
 
-    /**
-     * @param Adapter|null $adapter
-     * @param Signer|null $signer
-     * @param KeyParser|null $parser
-     */
-    public function __construct(Adapter $adapter = null, Signer $signer = null, KeyParser $parser = null)
+    public static function create(): Ecdsa
     {
-        $this->adapter = $adapter ?: EccFactory::getAdapter();
-        $this->signer = $signer ?: EccFactory::getSigner($this->adapter);
-        $this->parser = $parser ?: new KeyParser($this->adapter);
+        $mathInterface = EccFactory::getAdapter();
+
+        return new static(
+            EccAdapter::create($mathInterface),
+            KeyParser::create($mathInterface)
+        );
+    }
+
+    public function __construct(EccAdapter $adapter, KeyParser $keyParser)
+    {
+        $this->adapter = $adapter;
+        $this->keyParser = $keyParser;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createHash(
-        string $payload,
-        Key $key,
-        RandomNumberGeneratorInterface $generator = null
-    ): string {
-        $privateKey = $this->parser->getPrivateKey($key);
-        $generator = $generator ?: RandomGeneratorFactory::getRandomGenerator();
-
-        return $this->createSignatureHash(
-            $this->signer->sign(
-                $privateKey,
-                $this->createSigningHash($payload),
-                $generator->generate($privateKey->getPoint()->getOrder())
-            )
-        );
-    }
-
-    /**
-     * Creates a binary signature with R and S coordinates
-     *
-     * @param Signature $signature
-     *
-     * @return string
-     */
-    private function createSignatureHash(Signature $signature): string
+    public function createHash(string $payload, Key $key): string
     {
-        $length = $this->getSignatureLength();
-
-        return pack(
-            'H*',
-            sprintf(
-                '%s%s',
-                str_pad($this->adapter->decHex($signature->getR()), $length, '0', STR_PAD_LEFT),
-                str_pad($this->adapter->decHex($signature->getS()), $length, '0', STR_PAD_LEFT)
-            )
+        return $this->adapter->createHash(
+            $this->keyParser->getPrivateKey($key),
+            $this->adapter->createSigningHash($payload, $this->getAlgorithm()),
+            $this->getAlgorithm()
         );
-    }
-
-    /**
-     * Creates a hash using the signer algorithm with given payload
-     *
-     * @param string $payload
-     *
-     * @return int|string
-     */
-    private function createSigningHash(string $payload)
-    {
-        return $this->adapter->hexDec(hash($this->getAlgorithm(), $payload));
     }
 
     /**
@@ -110,37 +65,13 @@ abstract class Ecdsa extends BaseSigner
      */
     public function doVerify(string $expected, string $payload, Key $key): bool
     {
-        return $this->signer->verify(
-            $this->parser->getPublicKey($key),
-            $this->extractSignature($expected),
-            $this->createSigningHash($payload)
+        return $this->adapter->verifyHash(
+            $expected,
+            $this->keyParser->getPublicKey($key),
+            $this->adapter->createSigningHash($payload, $this->getAlgorithm()),
+            $this->getAlgorithm()
         );
     }
-
-    /**
-     * Extracts R and S values from given data
-     *
-     * @param string $value
-     *
-     * @return \Mdanter\Ecc\Crypto\Signature\Signature
-     */
-    private function extractSignature(string $value): \Mdanter\Ecc\Crypto\Signature\Signature
-    {
-        $length = $this->getSignatureLength();
-        $value = unpack('H*', $value)[1];
-
-        return new Signature(
-            $this->adapter->hexDec(substr($value, 0, $length)),
-            $this->adapter->hexDec(substr($value, $length))
-        );
-    }
-
-    /**
-     * Returns the lenght of signature parts
-     *
-     * @return int
-     */
-    abstract public function getSignatureLength(): int;
 
     /**
      * Returns the name of algorithm to be used to create the signing hash

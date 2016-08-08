@@ -13,50 +13,49 @@ namespace Lcobucci\JWT\Signer\Ecdsa;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-class Sha512Test extends \PHPUnit_Framework_TestCase
+class Sha512Test extends BaseTestCase
 {
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa::create
+     * @covers Lcobucci\JWT\Signer\Ecdsa::__construct
+     *
+     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter
      * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @uses Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     */
+    public function createShouldReturnAValidInstance()
+    {
+        $this->assertInstanceOf(Sha512::class, Sha512::create());
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Signer\Ecdsa
      *
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
     {
-        $signer = new Sha512();
-
-        $this->assertEquals('ES512', $signer->getAlgorithmId());
+        $this->assertEquals('ES512', $this->getSigner()->getAlgorithmId());
     }
 
     /**
      * @test
      *
      * @uses Lcobucci\JWT\Signer\Ecdsa
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
      *
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {
-        $signer = new Sha512();
-
-        $this->assertEquals('sha512', $signer->getAlgorithm());
+        $this->assertEquals('sha512', $this->getSigner()->getAlgorithm());
     }
 
-    /**
-     * @test
-     *
-     * @uses Lcobucci\JWT\Signer\Ecdsa
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512::getSignatureLength
-     */
-    public function getSignatureLengthMustBeCorrect()
+    private function getSigner(): Sha512
     {
-        $signer = new Sha512();
-
-        $this->assertEquals(132, $signer->getSignatureLength());
+        return new Sha512($this->adapter, $this->keyParser);
     }
 }

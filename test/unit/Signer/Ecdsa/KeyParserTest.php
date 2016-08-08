@@ -11,6 +11,7 @@ namespace Lcobucci\JWT\Signer\Ecdsa;
 
 use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
 use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
+use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Math\MathAdapterInterface;
 use Mdanter\Ecc\Serializer\PrivateKey\PrivateKeySerializerInterface;
 use Mdanter\Ecc\Serializer\PublicKey\PublicKeySerializerInterface;
@@ -23,7 +24,7 @@ use Lcobucci\JWT\Signer\Key;
 class KeyParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var MathAdapterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var GmpMathInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $adapter;
 
@@ -42,7 +43,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
      */
     public function createDependencies()
     {
-        $this->adapter = $this->createMock(MathAdapterInterface::class);
+        $this->adapter = $this->createMock(GmpMathInterface::class);
         $this->privateKeySerializer = $this->createMock(PrivateKeySerializerInterface::class);
         $this->publicKeySerializer = $this->createMock(PublicKeySerializerInterface::class);
     }
@@ -54,10 +55,34 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
      */
     public function constructShouldConfigureDependencies()
     {
-        $parser = new KeyParser($this->adapter, $this->privateKeySerializer, $this->publicKeySerializer);
+        $parser = new KeyParser($this->privateKeySerializer, $this->publicKeySerializer);
 
         $this->assertAttributeSame($this->privateKeySerializer, 'privateKeySerializer', $parser);
         $this->assertAttributeSame($this->publicKeySerializer, 'publicKeySerializer', $parser);
+    }
+
+    /**
+     * @test
+     *
+     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::create
+     *
+     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     */
+    public function createShouldReturnAValidInstanceBasedOnTheMathAdapter()
+    {
+        $parser = KeyParser::create($this->adapter);
+
+        $this->assertAttributeInstanceOf(
+            PrivateKeySerializerInterface::class,
+            'privateKeySerializer',
+            $parser
+        );
+
+        $this->assertAttributeInstanceOf(
+            PublicKeySerializerInterface::class,
+            'publicKeySerializer',
+            $parser
+        );
     }
 
     /**
@@ -82,7 +107,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
                                    ->with($keyContent)
                                    ->willReturn($privateKey);
 
-        $parser = new KeyParser($this->adapter, $this->privateKeySerializer, $this->publicKeySerializer);
+        $parser = new KeyParser($this->privateKeySerializer, $this->publicKeySerializer);
         $this->assertSame($privateKey, $parser->getPrivateKey($this->getPrivateKey()));
     }
 
@@ -102,7 +127,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
         $this->privateKeySerializer->expects($this->never())
                                    ->method('parse');
 
-        $parser = new KeyParser($this->adapter, $this->privateKeySerializer, $this->publicKeySerializer);
+        $parser = new KeyParser($this->privateKeySerializer, $this->publicKeySerializer);
         $parser->getPrivateKey($this->getPublicKey());
     }
 
@@ -127,7 +152,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
                                   ->with($keyContent)
                                   ->willReturn($publicKey);
 
-        $parser = new KeyParser($this->adapter, $this->privateKeySerializer, $this->publicKeySerializer);
+        $parser = new KeyParser($this->privateKeySerializer, $this->publicKeySerializer);
         $this->assertSame($publicKey, $parser->getPublicKey($this->getPublicKey()));
     }
 
@@ -147,7 +172,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
         $this->publicKeySerializer->expects($this->never())
                                   ->method('parse');
 
-        $parser = new KeyParser($this->adapter, $this->privateKeySerializer, $this->publicKeySerializer);
+        $parser = new KeyParser($this->privateKeySerializer, $this->publicKeySerializer);
         $parser->getPublicKey($this->getPrivateKey());
     }
 
