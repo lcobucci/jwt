@@ -12,10 +12,10 @@ namespace Lcobucci\JWT\Claim;
 use Lcobucci\JWT\ValidationData;
 
 /**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.0.0
+ * @author Matthew John Marshall <matthew.marshall96@yahoo.co.uk>
+ * @since x.x.x
  */
-class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
+class ContainsEqualsToTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -25,11 +25,11 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\ValidationData::__construct
      * @uses Lcobucci\JWT\ValidationData::has
      *
-     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
+     * @covers Lcobucci\JWT\Claim\ContainsEqualsTo::validate
      */
-    public function validateShouldReturnTrueWhenValidationDontHaveTheClaim()
+    public function validateShouldReturnTrueWhenValidationDoesntHaveTheClaim()
     {
-        $claim = new LesserOrEqualsTo('jti', 10);
+        $claim = new ContainsEqualsTo('aud', ['test', 'test2']);
 
         $this->assertTrue($claim->validate(new ValidationData()));
     }
@@ -45,12 +45,14 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\ValidationData::has
      * @uses Lcobucci\JWT\ValidationData::get
      *
-     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
+     * @covers Lcobucci\JWT\Claim\ContainsEqualsTo::validate
      */
-    public function validateShouldReturnTrueWhenValueIsLesserThanValidationData()
+    public function validateShouldReturnTrueWhenValidationDataValueIsContained()
     {
-        $claim = new LesserOrEqualsTo('iat', 10);
-        $data = new ValidationData(11);
+        $claim = new ContainsEqualsTo('aud', ['test', 'test2']);
+
+        $data = new ValidationData();
+        $data->setAudience('test');
 
         $this->assertTrue($claim->validate($data));
     }
@@ -66,33 +68,14 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\ValidationData::has
      * @uses Lcobucci\JWT\ValidationData::get
      *
-     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
+     * @covers Lcobucci\JWT\Claim\ContainsEqualsTo::validate
      */
-    public function validateShouldReturnTrueWhenValueIsEqualsToValidationData()
+    public function validateShouldReturnFalseWhenValidationDataValueIsNotContained()
     {
-        $claim = new LesserOrEqualsTo('iat', 10);
-        $data = new ValidationData(10);
+        $claim = new EqualsTo('aud', ['test', 'test2']);
 
-        $this->assertTrue($claim->validate($data));
-    }
-
-    /**
-     * @test
-     *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getName
-     * @uses Lcobucci\JWT\Claim\Basic::getValue
-     * @uses Lcobucci\JWT\ValidationData::__construct
-     * @uses Lcobucci\JWT\ValidationData::setIssuer
-     * @uses Lcobucci\JWT\ValidationData::has
-     * @uses Lcobucci\JWT\ValidationData::get
-     *
-     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
-     */
-    public function validateShouldReturnFalseWhenValueIsGreaterThanValidationData()
-    {
-        $claim = new LesserOrEqualsTo('iat', 11);
-        $data = new ValidationData(10);
+        $data = new ValidationData();
+        $data->setAudience('test3');
 
         $this->assertFalse($claim->validate($data));
     }

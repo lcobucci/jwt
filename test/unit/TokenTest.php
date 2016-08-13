@@ -15,6 +15,8 @@ use Lcobucci\JWT\Claim\Basic;
 use Lcobucci\JWT\Claim\EqualsTo;
 use Lcobucci\JWT\Claim\GreaterOrEqualsTo;
 use Lcobucci\JWT\Claim\LesserOrEqualsTo;
+use Lcobucci\JWT\Claim\ContainedEqualsTo;
+use Lcobucci\JWT\Claim\ContainsEqualsTo;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -89,6 +91,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @uses Lcobucci\JWT\Token::hasHeader
      *
      * @covers Lcobucci\JWT\Token::getHeader
+     * @covers Lcobucci\JWT\Token::getHeaderValue
      */
     public function getHeaderMustReturnTheDefaultValueWhenIsNotConfigured()
     {
@@ -384,7 +387,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $token = new Token(
             [],
             [
-                'iss' => new EqualsTo('iss', 'test'),
+                'iss' => new ContainedEqualsTo('iss', 'test'),
                 'iat' => new LesserOrEqualsTo('iat', $now),
                 'exp' => new GreaterOrEqualsTo('exp', $now + 500),
                 'testing' => new Basic('testing', 'test')

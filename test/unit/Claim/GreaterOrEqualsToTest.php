@@ -29,7 +29,7 @@ class GreaterOrEqualsToTest extends \PHPUnit_Framework_TestCase
      */
     public function validateShouldReturnTrueWhenValidationDontHaveTheClaim()
     {
-        $claim = new GreaterOrEqualsTo('iss', 10);
+        $claim = new GreaterOrEqualsTo('jti', 10);
 
         $this->assertTrue($claim->validate(new ValidationData()));
     }
