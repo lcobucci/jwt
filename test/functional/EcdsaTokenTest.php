@@ -60,6 +60,36 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
+    public function builderShouldRaiseExceptionWhenKeyIsInvalid()
+    {
+        $builder = $this->config->createBuilder();
+
+        $builder->setId('1')
+                ->setAudience('http://client.abc.com')
+                ->setIssuer('http://api.abc.com')
+                ->set('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
+                ->sign($this->config->getSigner(), new Key('testing'));
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \InvalidArgumentException
+     *
+     * @covers Lcobucci\JWT\Configuration
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     */
     public function builderShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible()
     {
         $builder = $this->config->createBuilder();

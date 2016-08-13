@@ -12,6 +12,7 @@ namespace Lcobucci\JWT\FunctionalTests;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signature;
+use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
 use Lcobucci\JWT\Token;
@@ -36,6 +37,33 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
     {
         $this->config = new Configuration();
         $this->config->setSigner(new Sha256());
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \InvalidArgumentException
+     *
+     * @covers Lcobucci\JWT\Configuration
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Rsa
+     * @covers Lcobucci\JWT\Signer\Rsa\Sha256
+     */
+    public function builderShouldRaiseExceptionWhenKeyIsInvalid()
+    {
+        $builder = $this->config->createBuilder();
+
+        $builder->setId('1')
+                ->setAudience('http://client.abc.com')
+                ->setIssuer('http://api.abc.com')
+                ->set('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
+                ->sign($this->config->getSigner(), new Key('testing'));
     }
 
     /**

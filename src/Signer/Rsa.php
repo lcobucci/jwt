@@ -53,6 +53,12 @@ abstract class Rsa extends BaseSigner
      */
     private function validateKey($key)
     {
+        if ($key === false) {
+            throw new InvalidArgumentException(
+                'It was not possible to parse your key, reason: ' . openssl_error_string()
+            );
+        }
+
         $details = openssl_pkey_get_details($key);
 
         if (!isset($details['key']) || $details['type'] !== OPENSSL_KEYTYPE_RSA) {
