@@ -273,6 +273,39 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Lcobucci\JWT\Configuration
      * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     */
+    public function everythingShouldWorkWithAKeyWithParams()
+    {
+        $builder = $this->config->createBuilder();
+        $signer = $this->config->getSigner();
+
+        $token = $builder->setId('1')
+                         ->setAudience('http://client.abc.com')
+                         ->setIssuer('http://api.abc.com')
+                         ->set('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
+                         ->setHeader('jki', '1234')
+                         ->sign($signer, static::$ecdsaKeys['private-params'])
+                         ->getToken();
+
+        $this->assertTrue($token->verify($signer, static::$ecdsaKeys['public-params']));
+    }
+
+    /**
+     * @test
+     *
+     * @covers Lcobucci\JWT\Configuration
+     * @covers Lcobucci\JWT\Builder
      * @covers Lcobucci\JWT\Parser
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Signature
