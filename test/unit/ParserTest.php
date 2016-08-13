@@ -39,9 +39,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function createDependencies()
     {
-        $this->decoder = $this->getMock(Decoder::class);
-        $this->claimFactory = $this->getMock(ClaimFactory::class, [], [], '', false);
-        $this->defaultClaim = $this->getMock(Claim::class);
+        $this->decoder = $this->createMock(Decoder::class);
+        $this->claimFactory = $this->createMock(ClaimFactory::class);
+        $this->defaultClaim = $this->createMock(Claim::class);
 
         $this->claimFactory->method('create')
                            ->willReturn($this->defaultClaim);

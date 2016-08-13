@@ -21,9 +21,9 @@ class HmacTest extends \PHPUnit_Framework_TestCase
     protected $signer;
 
     /**
-     * {@inheritdoc}
+     * @before
      */
-    protected function setUp()
+    public function initializeDependencies()
     {
         $this->signer = $this->getMockForAbstractClass(Hmac::class);
 

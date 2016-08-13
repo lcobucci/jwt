@@ -34,12 +34,4 @@ class Sha512 extends Ecdsa
     {
         return 'sha512';
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSignatureLength(): int
-    {
-        return 132;
-    }
 }

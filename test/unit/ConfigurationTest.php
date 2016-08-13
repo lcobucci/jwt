@@ -47,9 +47,9 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function createDependencies()
     {
-        $this->signer = $this->getMock(Signer::class);
-        $this->encoder = $this->getMock(Parsing\Encoder::class);
-        $this->decoder = $this->getMock(Parsing\Decoder::class);
+        $this->signer = $this->createMock(Signer::class);
+        $this->encoder = $this->createMock(Parsing\Encoder::class);
+        $this->decoder = $this->createMock(Parsing\Decoder::class);
         $this->claimFactory = new ClaimFactory();
         $this->parser = new Parser($this->decoder, $this->claimFactory);
     }

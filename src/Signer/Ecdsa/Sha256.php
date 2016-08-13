@@ -34,12 +34,4 @@ class Sha256 extends Ecdsa
     {
         return 'sha256';
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSignatureLength(): int
-    {
-        return 64;
-    }
 }
