@@ -253,6 +253,36 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Ecdsa
+     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     */
+    public function everythingShouldWorkWithAKeyWithParams()
+    {
+        $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
+
+        $token = (new Builder())->setId(1)
+                                ->setAudience('http://client.abc.com')
+                                ->setIssuer('http://api.abc.com')
+                                ->set('user', $user)
+                                ->setHeader('jki', '1234')
+                                ->sign($this->signer, static::$ecdsaKeys['private-params'])
+                                ->getToken();
+
+        $this->assertTrue($token->verify($this->signer, static::$ecdsaKeys['public-params']));
+    }
+
+    /**
+     * @test
+     *
+     * @covers Lcobucci\JWT\Builder
      * @covers Lcobucci\JWT\Parser
      * @covers Lcobucci\JWT\Token
      * @covers Lcobucci\JWT\Signature
