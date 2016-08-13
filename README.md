@@ -22,14 +22,14 @@ composer require lcobucci/jwt
 
 ### Dependencies
 
-- PHP 5.5+ (v3.1) and PHP 7 (v4.x)
+- PHP 5.5+ (v3.2) and PHP 7 (v4.x)
 - OpenSSL Extension
 
 ## Basic usage
 
 **Important:** this is the documentation of our next major release (v4) and
 it **WILL** change. If you are using the **stable** version you should
-go to branch [3.1](https://github.com/lcobucci/jwt/blob/3.1/README.md).
+go to branch [3.2](https://github.com/lcobucci/jwt/blob/3.2/README.md).
 
 ### Creating
 
