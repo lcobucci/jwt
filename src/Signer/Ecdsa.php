@@ -11,7 +11,6 @@ namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Signer\Ecdsa\EccAdapter;
 use Mdanter\Ecc\EccFactory;
-use Mdanter\Ecc\Math\GmpMathInterface;
 use Lcobucci\JWT\Signer\Ecdsa\KeyParser;
 
 /**
