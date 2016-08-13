@@ -399,11 +399,29 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @covers Lcobucci\JWT\Token::isExpired
+     *
      * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::isExpired
-     * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
+     * @uses Lcobucci\JWT\Token::getClaim
+     * @uses Lcobucci\JWT\Token::hasClaim
+     */
+    public function isExpiredShouldReturnFalseWhenTokenDoesNotExpires()
+    {
+        $token = new Token(['alg' => 'none']);
+
+        $this->assertFalse($token->isExpired());
+    }
+
+    /**
+     * @test
      *
      * @covers Lcobucci\JWT\Token::isExpired
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::getClaim
+     * @uses Lcobucci\JWT\Token::hasClaim
+     * @uses Lcobucci\JWT\Claim\Basic
+     * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      */
     public function isExpiredShouldReturnFalseWhenTokenIsNotExpired()
     {
@@ -418,11 +436,13 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::isExpired
-     * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
-     *
      * @covers Lcobucci\JWT\Token::isExpired
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::getClaim
+     * @uses Lcobucci\JWT\Token::hasClaim
+     * @uses Lcobucci\JWT\Claim\Basic
+     * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      */
     public function isExpiredShouldReturnTrueAfterTokenExpires()
     {

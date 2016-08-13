@@ -43,14 +43,22 @@ abstract class Rsa extends BaseSigner
     }
 
     /**
-     * Returns if the key type is equals with expected type
+     * Validates if the given key is a valid RSA public/private key
      *
      * @param resource $key
      *
      * @return boolean
+     *
+     * @throws InvalidArgumentException
      */
     private function validateKey($key)
     {
+        if ($key === false) {
+            throw new InvalidArgumentException(
+                'It was not possible to parse your key, reason: ' . openssl_error_string()
+            );
+        }
+
         $details = openssl_pkey_get_details($key);
 
         if (!isset($details['key']) || $details['type'] !== OPENSSL_KEYTYPE_RSA) {

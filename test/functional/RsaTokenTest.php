@@ -10,6 +10,7 @@ namespace Lcobucci\JWT\FunctionalTests;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Signature;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
@@ -34,6 +35,33 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
     public function createSigner()
     {
         $this->signer = new Sha256();
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \InvalidArgumentException
+     *
+     * @covers Lcobucci\JWT\Builder
+     * @covers Lcobucci\JWT\Token
+     * @covers Lcobucci\JWT\Signature
+     * @covers Lcobucci\JWT\Claim\Factory
+     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers Lcobucci\JWT\Parsing\Encoder
+     * @covers Lcobucci\JWT\Signer\Key
+     * @covers Lcobucci\JWT\Signer\BaseSigner
+     * @covers Lcobucci\JWT\Signer\Rsa
+     * @covers Lcobucci\JWT\Signer\Rsa\Sha256
+     */
+    public function builderShouldRaiseExceptionWhenKeyIsInvalid()
+    {
+        $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
+
+        (new Builder())->setId(1)
+                       ->setAudience('http://client.abc.com')
+                       ->setIssuer('http://api.abc.com')
+                       ->set('user', $user)
+                       ->sign($this->signer, new Key('testing'));
     }
 
     /**
