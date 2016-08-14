@@ -65,6 +65,22 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
      *
+     * @covers Lcobucci\JWT\ValidationData::setIssuer
+     */
+    public function setIssuerMustAcceptArrayOfValues()
+    {
+        $expected = $this->createExpectedData(null, null, ['test', 'test2']);
+        $data = new ValidationData(1);
+        $data->setIssuer(['test', 'test2']);
+
+        $this->assertAttributeSame($expected, 'items', $data);
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\ValidationData::__construct
+     *
      * @covers Lcobucci\JWT\ValidationData::setAudience
      */
     public function setAudienceShouldChangeTheAudience()
@@ -188,17 +204,23 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @return array
      */
     private function createExpectedData(
-        string $id = null,
-        string $sub = null,
-        string $iss = null,
-        string $aud = null,
-        int $time = 1
-    ): array {
+        $id = null,
+        $sub = null,
+        $iss = null,
+        $aud = null,
+        $time = 1
+    ) {
+        if ($iss !== null) {
+            $iss = (array) $iss;
+            foreach ($iss as $key => $member) {
+                $iss[$key] = (string) $member;
+            }
+        }
         return [
-            'jti' => $id,
+            'jti' => $id !== null ? (string) $id : null,
             'iss' => $iss,
-            'aud' => $aud,
-            'sub' => $sub,
+            'aud' => $aud !== null ? (string) $aud : null,
+            'sub' => $sub !== null ? (string) $sub : null,
             'iat' => $time,
             'nbf' => $time,
             'exp' => $time

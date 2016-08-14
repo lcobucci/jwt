@@ -38,8 +38,8 @@ class Factory
                 'iat' => [$this, 'createLesserOrEqualsTo'],
                 'nbf' => [$this, 'createLesserOrEqualsTo'],
                 'exp' => [$this, 'createGreaterOrEqualsTo'],
-                'iss' => [$this, 'createEqualsTo'],
-                'aud' => [$this, 'createEqualsTo'],
+                'iss' => [$this, 'createContainedEqualsTo'],
+                'aud' => [$this, 'createContainsEqualsTo'],
                 'sub' => [$this, 'createEqualsTo'],
                 'jti' => [$this, 'createEqualsTo']
             ],
@@ -101,6 +101,32 @@ class Factory
     private function createEqualsTo(string $name, $value): EqualsTo
     {
         return new EqualsTo($name, $value);
+    }
+
+    /**
+     * Creates a claim that can be compared (contained equals).
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return ContainedEqualsTo
+     */
+    protected function createContainedEqualsTo(string $name, $value): ContainedEqualsTo
+    {
+        return new ContainedEqualsTo($name, $value);
+    }
+
+    /**
+     * Creates a claim that can be compared (contains equals).
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return ContainsEqualsTo
+     */
+    protected function createContainsEqualsTo(string $name, $value): ContainsEqualsTo
+    {
+        return new ContainsEqualsTo($name, $value);
     }
 
     /**
