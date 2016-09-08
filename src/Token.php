@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use DateTime;
+use DateTimeInterface;
 use Generator;
 use Lcobucci\JWT\Claim\Validatable;
 use Lcobucci\JWT\Signer\Key;
@@ -217,11 +218,11 @@ class Token
     /**
      * Determine if the token is expired.
      *
-     * @param DateTime $now Defaults to the current time.
+     * @param DateTimeInterface $now Defaults to the current time.
      *
      * @return bool
      */
-    public function isExpired(DateTime $now = null)
+    public function isExpired(DateTimeInterface $now = null)
     {
         $exp = $this->getClaim('exp', false);
 
