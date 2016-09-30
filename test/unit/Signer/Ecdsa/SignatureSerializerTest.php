@@ -70,7 +70,7 @@ final class SignatureSerializerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::__construct
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::__construct
      */
     public function constructShouldConfigureDependencies()
     {
@@ -84,10 +84,10 @@ final class SignatureSerializerTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider algorithms
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::serialize
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::addPadding
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::serialize
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::addPadding
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::__construct
      */
     public function serializeShouldReturnReturnABinarySignatureBasedOnSignaturePoints(string $algorithm)
     {
@@ -104,9 +104,9 @@ final class SignatureSerializerTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider algorithms
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::parse
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::parse
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::__construct
      */
     public function parseShouldExtractASignatureBasedOnTheHash(string $algorithm)
     {

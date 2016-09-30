@@ -31,7 +31,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signature::__construct
+     * @covers \Lcobucci\JWT\Signature::__construct
      */
     public function constructorMustConfigureAttributes()
     {
@@ -43,9 +43,9 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Signature::__construct
      *
-     * @covers Lcobucci\JWT\Signature::__toString
+     * @covers \Lcobucci\JWT\Signature::__toString
      */
     public function toStringMustReturnTheHash()
     {
@@ -57,10 +57,10 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signature::__construct
-     * @uses Lcobucci\JWT\Signature::__toString
+     * @uses \Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Signature::__toString
      *
-     * @covers Lcobucci\JWT\Signature::verify
+     * @covers \Lcobucci\JWT\Signature::verify
      */
     public function verifyMustReturnWhatSignerSays()
     {

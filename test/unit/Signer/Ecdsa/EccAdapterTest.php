@@ -64,7 +64,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
     public function constructShouldConfigureDependencies()
     {
@@ -79,10 +79,10 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::create
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::create
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
-     * @uses Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      */
     public function createShouldBuildObjectFromTheMathInterface()
     {
@@ -97,9 +97,9 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::createHash
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::createHash
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
     public function createHashShouldReturnASerializedSignature()
     {
@@ -140,9 +140,9 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::verifyHash
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::verifyHash
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
     public function verifyHashShouldReturnTheSignerResult()
     {
@@ -172,10 +172,10 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::createSigningHash
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::generatorPoint
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::createSigningHash
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::generatorPoint
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
     public function createSigningHashShouldRaiseExceptionWhenAlgorithmIsInvalid()
     {
@@ -186,10 +186,10 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::createSigningHash
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::generatorPoint
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::createSigningHash
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::generatorPoint
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
     public function createSigningHashShouldReturnTheSignerResult()
     {

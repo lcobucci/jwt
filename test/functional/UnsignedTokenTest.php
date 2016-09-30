@@ -37,11 +37,11 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
      */
     public function builderCanGenerateAToken()
     {
@@ -69,12 +69,12 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @depends builderCanGenerateAToken
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Parser
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Parser
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
      */
     public function parserCanReadAToken(Token $generated)
     {
@@ -89,15 +89,17 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @depends builderCanGenerateAToken
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Parser
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\ValidationData
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Claim\EqualsTo
-     * @covers Lcobucci\JWT\Claim\GreaterOrEqualsTo
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Parser
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\ValidationData
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Claim\EqualsTo
+     * @covers \Lcobucci\JWT\Claim\GreaterOrEqualsTo
+     * @covers \Lcobucci\JWT\Claim\ContainedEqualsTo
+     * @covers \Lcobucci\JWT\Claim\ContainsEqualsTo
      */
     public function tokenValidationShouldReturnWhenEverythingIsFine(Token $generated)
     {
@@ -115,15 +117,17 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @depends builderCanGenerateAToken
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Parser
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\ValidationData
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Claim\EqualsTo
-     * @covers Lcobucci\JWT\Claim\GreaterOrEqualsTo
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Parser
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\ValidationData
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Claim\EqualsTo
+     * @covers \Lcobucci\JWT\Claim\GreaterOrEqualsTo
+     * @covers \Lcobucci\JWT\Claim\ContainedEqualsTo
+     * @covers \Lcobucci\JWT\Claim\ContainsEqualsTo
      */
     public function tokenValidationShouldReturnFalseWhenExpectedDataDontMatch(ValidationData $data, Token $generated)
     {

@@ -20,10 +20,10 @@ class EqualsToTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic
-     * @uses Lcobucci\JWT\ValidationData
+     * @uses \Lcobucci\JWT\Claim\Basic
+     * @uses \Lcobucci\JWT\ValidationData
      *
-     * @covers Lcobucci\JWT\Claim\EqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\EqualsTo::validate
      */
     public function validateShouldReturnTrueWhenValidationDontHaveTheClaim()
     {
@@ -35,10 +35,10 @@ class EqualsToTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic
-     * @uses Lcobucci\JWT\ValidationData
+     * @uses \Lcobucci\JWT\Claim\Basic
+     * @uses \Lcobucci\JWT\ValidationData
      *
-     * @covers Lcobucci\JWT\Claim\EqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\EqualsTo::validate
      */
     public function validateShouldReturnTrueWhenValueIsEqualsToValidationData()
     {
@@ -53,10 +53,10 @@ class EqualsToTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic
-     * @uses Lcobucci\JWT\ValidationData
+     * @uses \Lcobucci\JWT\Claim\Basic
+     * @uses \Lcobucci\JWT\ValidationData
      *
-     * @covers Lcobucci\JWT\Claim\EqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\EqualsTo::validate
      */
     public function validateShouldReturnFalseWhenValueIsNotEqualsToValidationData()
     {

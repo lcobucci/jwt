@@ -57,13 +57,13 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::createBuilder
-     * @covers Lcobucci\JWT\Configuration::getEncoder
-     * @covers Lcobucci\JWT\Configuration::getClaimFactory
+     * @covers \Lcobucci\JWT\Configuration::createBuilder
+     * @covers \Lcobucci\JWT\Configuration::getEncoder
+     * @covers \Lcobucci\JWT\Configuration::getClaimFactory
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
      */
     public function createBuilderShouldCreateABuilderWithDefaultEncoderAndClaimFactory()
     {
@@ -78,15 +78,15 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::createBuilder
-     * @covers Lcobucci\JWT\Configuration::setEncoder
-     * @covers Lcobucci\JWT\Configuration::getEncoder
-     * @covers Lcobucci\JWT\Configuration::getClaimFactory
-     * @covers Lcobucci\JWT\Configuration::setClaimFactory
+     * @covers \Lcobucci\JWT\Configuration::createBuilder
+     * @covers \Lcobucci\JWT\Configuration::setEncoder
+     * @covers \Lcobucci\JWT\Configuration::getEncoder
+     * @covers \Lcobucci\JWT\Configuration::getClaimFactory
+     * @covers \Lcobucci\JWT\Configuration::setClaimFactory
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
      */
     public function createBuilderShouldCreateABuilderWithCustomizedEncoderAndClaimFactory()
     {
@@ -104,13 +104,13 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::getParser
-     * @covers Lcobucci\JWT\Configuration::getDecoder
-     * @covers Lcobucci\JWT\Configuration::getClaimFactory
+     * @covers \Lcobucci\JWT\Configuration::getParser
+     * @covers \Lcobucci\JWT\Configuration::getDecoder
+     * @covers \Lcobucci\JWT\Configuration::getClaimFactory
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
      */
     public function getParserShouldReturnAParserWithDefaultDecoderAndClaimFactory()
     {
@@ -125,15 +125,15 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::getParser
-     * @covers Lcobucci\JWT\Configuration::setDecoder
-     * @covers Lcobucci\JWT\Configuration::getDecoder
-     * @covers Lcobucci\JWT\Configuration::getClaimFactory
-     * @covers Lcobucci\JWT\Configuration::setClaimFactory
+     * @covers \Lcobucci\JWT\Configuration::getParser
+     * @covers \Lcobucci\JWT\Configuration::setDecoder
+     * @covers \Lcobucci\JWT\Configuration::getDecoder
+     * @covers \Lcobucci\JWT\Configuration::getClaimFactory
+     * @covers \Lcobucci\JWT\Configuration::setClaimFactory
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
      */
     public function getParserShouldReturnAParserWithCustomizedDecoderAndClaimFactory()
     {
@@ -151,12 +151,12 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::getParser
-     * @covers Lcobucci\JWT\Configuration::setParser
+     * @covers \Lcobucci\JWT\Configuration::getParser
+     * @covers \Lcobucci\JWT\Configuration::setParser
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
      */
     public function getParserShouldNotCreateAnInstanceIfItWasConfigured()
     {
@@ -169,12 +169,12 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::getSigner
+     * @covers \Lcobucci\JWT\Configuration::getSigner
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
-     * @uses Lcobucci\JWT\Signer\Hmac\Sha256
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Signer\Hmac\Sha256
      */
     public function getSignerShouldReturnTheDefaultWhenItWasNotConfigured()
     {
@@ -186,12 +186,12 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::getSigner
-     * @covers Lcobucci\JWT\Configuration::setSigner
+     * @covers \Lcobucci\JWT\Configuration::getSigner
+     * @covers \Lcobucci\JWT\Configuration::setSigner
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
      */
     public function getSignerShouldReturnTheConfiguredSigner()
     {

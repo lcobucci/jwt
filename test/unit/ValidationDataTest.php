@@ -18,7 +18,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\ValidationData::__construct
+     * @covers \Lcobucci\JWT\ValidationData::__construct
      */
     public function constructorShouldConfigureTheItems()
     {
@@ -31,9 +31,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::setId
+     * @covers \Lcobucci\JWT\ValidationData::setId
      */
     public function setIdShouldChangeTheId()
     {
@@ -47,9 +47,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::setIssuer
+     * @covers \Lcobucci\JWT\ValidationData::setIssuer
      */
     public function setIssuerShouldChangeTheIssuer()
     {
@@ -63,9 +63,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::setIssuer
+     * @covers \Lcobucci\JWT\ValidationData::setIssuer
      */
     public function setIssuerMustAcceptArrayOfValues()
     {
@@ -79,9 +79,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::setAudience
+     * @covers \Lcobucci\JWT\ValidationData::setAudience
      */
     public function setAudienceShouldChangeTheAudience()
     {
@@ -95,9 +95,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::setSubject
+     * @covers \Lcobucci\JWT\ValidationData::setSubject
      */
     public function setSubjectShouldChangeTheSubject()
     {
@@ -111,9 +111,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::setCurrentTime
+     * @covers \Lcobucci\JWT\ValidationData::setCurrentTime
      */
     public function setCurrentTimeShouldChangeTheTimeBasedValues()
     {
@@ -127,9 +127,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::has
+     * @covers \Lcobucci\JWT\ValidationData::has
      */
     public function hasShouldReturnTrueWhenItemIsNotEmpty()
     {
@@ -141,9 +141,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::has
+     * @covers \Lcobucci\JWT\ValidationData::has
      */
     public function hasShouldReturnFalseWhenItemIsEmpty()
     {
@@ -155,9 +155,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::has
+     * @covers \Lcobucci\JWT\ValidationData::has
      */
     public function hasShouldReturnFalseWhenItemIsNotDefined()
     {
@@ -169,9 +169,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::get
+     * @covers \Lcobucci\JWT\ValidationData::get
      */
     public function getShouldReturnTheItemValue()
     {
@@ -183,9 +183,9 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::get
+     * @covers \Lcobucci\JWT\ValidationData::get
      */
     public function getShouldReturnNullWhenItemIsNotDefined()
     {

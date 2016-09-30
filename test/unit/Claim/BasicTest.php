@@ -18,7 +18,7 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Claim\Basic::__construct
+     * @covers \Lcobucci\JWT\Claim\Basic::__construct
      */
     public function constructorShouldConfigureTheAttributes()
     {
@@ -31,9 +31,9 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Basic::getName
+     * @covers \Lcobucci\JWT\Claim\Basic::getName
      */
     public function getNameShouldReturnTheClaimName()
     {
@@ -45,9 +45,9 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Basic::getValue
+     * @covers \Lcobucci\JWT\Claim\Basic::getValue
      */
     public function getValueShouldReturnTheClaimValue()
     {
@@ -59,9 +59,9 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Basic::jsonSerialize
+     * @covers \Lcobucci\JWT\Claim\Basic::jsonSerialize
      */
     public function jsonSerializeShouldReturnTheClaimValue()
     {
@@ -73,9 +73,9 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Basic::__toString
+     * @covers \Lcobucci\JWT\Claim\Basic::__toString
      */
     public function toStringShouldReturnTheClaimValue()
     {

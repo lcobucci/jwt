@@ -32,8 +32,8 @@ class KeyTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Key::__construct
-     * @covers Lcobucci\JWT\Signer\Key::setContent
+     * @covers \Lcobucci\JWT\Signer\Key::__construct
+     * @covers \Lcobucci\JWT\Signer\Key::setContent
      */
     public function constructShouldConfigureContentAndPassphrase()
     {
@@ -46,9 +46,9 @@ class KeyTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Key::__construct
-     * @covers Lcobucci\JWT\Signer\Key::setContent
-     * @covers Lcobucci\JWT\Signer\Key::readFile
+     * @covers \Lcobucci\JWT\Signer\Key::__construct
+     * @covers \Lcobucci\JWT\Signer\Key::setContent
+     * @covers \Lcobucci\JWT\Signer\Key::readFile
      */
     public function constructShouldBeAbleToConfigureContentFromFile()
     {
@@ -63,9 +63,9 @@ class KeyTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      *
-     * @covers Lcobucci\JWT\Signer\Key::__construct
-     * @covers Lcobucci\JWT\Signer\Key::setContent
-     * @covers Lcobucci\JWT\Signer\Key::readFile
+     * @covers \Lcobucci\JWT\Signer\Key::__construct
+     * @covers \Lcobucci\JWT\Signer\Key::setContent
+     * @covers \Lcobucci\JWT\Signer\Key::readFile
      */
     public function constructShouldRaiseExceptionWhenFileDoesNotExists()
     {
@@ -75,10 +75,10 @@ class KeyTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Key::__construct
-     * @uses Lcobucci\JWT\Signer\Key::setContent
+     * @uses \Lcobucci\JWT\Signer\Key::__construct
+     * @uses \Lcobucci\JWT\Signer\Key::setContent
      *
-     * @covers Lcobucci\JWT\Signer\Key::getContent
+     * @covers \Lcobucci\JWT\Signer\Key::getContent
      */
     public function getContentShouldReturnConfiguredData()
     {
@@ -90,10 +90,10 @@ class KeyTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Key::__construct
-     * @uses Lcobucci\JWT\Signer\Key::setContent
+     * @uses \Lcobucci\JWT\Signer\Key::__construct
+     * @uses \Lcobucci\JWT\Signer\Key::setContent
      *
-     * @covers Lcobucci\JWT\Signer\Key::getPassphrase
+     * @covers \Lcobucci\JWT\Signer\Key::getPassphrase
      */
     public function getPassphraseShouldReturnConfiguredData()
     {

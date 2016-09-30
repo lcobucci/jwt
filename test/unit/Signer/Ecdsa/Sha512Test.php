@@ -18,12 +18,12 @@ class Sha512Test extends BaseTestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa::create
-     * @covers Lcobucci\JWT\Signer\Ecdsa::__construct
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::create
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::__construct
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @uses Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      */
     public function createShouldReturnAValidInstance()
     {
@@ -33,9 +33,9 @@ class Sha512Test extends BaseTestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses \Lcobucci\JWT\Signer\Ecdsa
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithmId
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
     {
@@ -45,9 +45,9 @@ class Sha512Test extends BaseTestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses \Lcobucci\JWT\Signer\Ecdsa
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithm
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {

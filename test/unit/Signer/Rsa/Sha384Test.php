@@ -18,7 +18,7 @@ class Sha384Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Rsa\Sha384::getAlgorithmId
+     * @covers \Lcobucci\JWT\Signer\Rsa\Sha384::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
     {
@@ -30,7 +30,7 @@ class Sha384Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Rsa\Sha384::getAlgorithm
+     * @covers \Lcobucci\JWT\Signer\Rsa\Sha384::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {

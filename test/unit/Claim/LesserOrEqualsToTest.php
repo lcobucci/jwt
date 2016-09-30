@@ -20,12 +20,12 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getName
-     * @uses Lcobucci\JWT\ValidationData::__construct
-     * @uses Lcobucci\JWT\ValidationData::has
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::getName
+     * @uses \Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::has
      *
-     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
      */
     public function validateShouldReturnTrueWhenValidationDontHaveTheClaim()
     {
@@ -37,15 +37,15 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getName
-     * @uses Lcobucci\JWT\Claim\Basic::getValue
-     * @uses Lcobucci\JWT\ValidationData::__construct
-     * @uses Lcobucci\JWT\ValidationData::setIssuer
-     * @uses Lcobucci\JWT\ValidationData::has
-     * @uses Lcobucci\JWT\ValidationData::get
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::getName
+     * @uses \Lcobucci\JWT\Claim\Basic::getValue
+     * @uses \Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::setIssuer
+     * @uses \Lcobucci\JWT\ValidationData::has
+     * @uses \Lcobucci\JWT\ValidationData::get
      *
-     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
      */
     public function validateShouldReturnTrueWhenValueIsLesserThanValidationData()
     {
@@ -58,15 +58,15 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getName
-     * @uses Lcobucci\JWT\Claim\Basic::getValue
-     * @uses Lcobucci\JWT\ValidationData::__construct
-     * @uses Lcobucci\JWT\ValidationData::setIssuer
-     * @uses Lcobucci\JWT\ValidationData::has
-     * @uses Lcobucci\JWT\ValidationData::get
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::getName
+     * @uses \Lcobucci\JWT\Claim\Basic::getValue
+     * @uses \Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::setIssuer
+     * @uses \Lcobucci\JWT\ValidationData::has
+     * @uses \Lcobucci\JWT\ValidationData::get
      *
-     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
      */
     public function validateShouldReturnTrueWhenValueIsEqualsToValidationData()
     {
@@ -79,15 +79,15 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getName
-     * @uses Lcobucci\JWT\Claim\Basic::getValue
-     * @uses Lcobucci\JWT\ValidationData::__construct
-     * @uses Lcobucci\JWT\ValidationData::setIssuer
-     * @uses Lcobucci\JWT\ValidationData::has
-     * @uses Lcobucci\JWT\ValidationData::get
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::getName
+     * @uses \Lcobucci\JWT\Claim\Basic::getValue
+     * @uses \Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::setIssuer
+     * @uses \Lcobucci\JWT\ValidationData::has
+     * @uses \Lcobucci\JWT\ValidationData::get
      *
-     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
      */
     public function validateShouldReturnFalseWhenValueIsGreaterThanValidationData()
     {

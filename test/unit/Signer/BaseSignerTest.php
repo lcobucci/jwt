@@ -36,7 +36,7 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\BaseSigner::modifyHeader
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::modifyHeader
      */
     public function modifyHeaderShouldChangeAlgorithm()
     {
@@ -51,11 +51,11 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signature::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\BaseSigner::sign
-     * @covers Lcobucci\JWT\Signer\BaseSigner::getKey
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::sign
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::getKey
      */
     public function signMustReturnANewSignature()
     {
@@ -72,11 +72,11 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signature::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\BaseSigner::sign
-     * @covers Lcobucci\JWT\Signer\BaseSigner::getKey
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::sign
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::getKey
      */
     public function signShouldConvertKeyWhenItsNotAnObject()
     {
@@ -91,11 +91,11 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signature::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\BaseSigner::verify
-     * @covers Lcobucci\JWT\Signer\BaseSigner::getKey
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::verify
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::getKey
      */
     public function verifyShouldDelegateTheCallToAbstractMethod()
     {
@@ -112,11 +112,11 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signature::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\BaseSigner::verify
-     * @covers Lcobucci\JWT\Signer\BaseSigner::getKey
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::verify
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::getKey
      */
     public function verifyShouldConvertKeyWhenItsNotAnObject()
     {

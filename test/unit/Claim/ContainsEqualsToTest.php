@@ -20,10 +20,10 @@ class ContainsEqualsToTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic
-     * @uses Lcobucci\JWT\ValidationData
+     * @uses \Lcobucci\JWT\Claim\Basic
+     * @uses \Lcobucci\JWT\ValidationData
      *
-     * @covers Lcobucci\JWT\Claim\ContainsEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\ContainsEqualsTo::validate
      */
     public function validateShouldReturnTrueWhenValidationDoesntHaveTheClaim()
     {
@@ -35,10 +35,10 @@ class ContainsEqualsToTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic
-     * @uses Lcobucci\JWT\ValidationData
+     * @uses \Lcobucci\JWT\Claim\Basic
+     * @uses \Lcobucci\JWT\ValidationData
      *
-     * @covers Lcobucci\JWT\Claim\ContainsEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\ContainsEqualsTo::validate
      */
     public function validateShouldReturnTrueWhenValidationDataValueIsContained()
     {
@@ -53,10 +53,10 @@ class ContainsEqualsToTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic
-     * @uses Lcobucci\JWT\ValidationData
+     * @uses \Lcobucci\JWT\Claim\Basic
+     * @uses \Lcobucci\JWT\ValidationData
      *
-     * @covers Lcobucci\JWT\Claim\ContainsEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\ContainsEqualsTo::validate
      */
     public function validateShouldReturnFalseWhenValidationDataValueIsNotContained()
     {

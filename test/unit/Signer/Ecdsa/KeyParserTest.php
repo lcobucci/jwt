@@ -51,7 +51,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
      */
     public function constructShouldConfigureDependencies()
     {
@@ -64,9 +64,9 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::create
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::create
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
      */
     public function createShouldReturnAValidInstanceBasedOnTheMathAdapter()
     {
@@ -88,11 +88,11 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPrivateKey
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPrivateKey
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
      */
     public function getPrivateKeyShouldAskSerializerToParseTheKey()
     {
@@ -116,11 +116,11 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPrivateKey
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPrivateKey
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
      */
     public function getPrivateKeyShouldRaiseExceptionWhenAWrongKeyWasGiven()
     {
@@ -134,11 +134,11 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPublicKey
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPublicKey
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
      */
     public function getPublicKeyShouldAskSerializerToParseTheKey()
     {
@@ -161,11 +161,11 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPublicKey
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPublicKey
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
      */
     public function getPublicKeyShouldRaiseExceptionWhenAWrongKeyWasGiven()
     {

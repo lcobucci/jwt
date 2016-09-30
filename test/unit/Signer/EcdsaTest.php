@@ -41,7 +41,7 @@ class EcdsaTest extends BaseTestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa::__construct
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::__construct
      */
     public function constructShouldConfigureDependencies()
     {
@@ -53,10 +53,10 @@ class EcdsaTest extends BaseTestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa::createHash
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::createHash
      */
     public function createHashShouldReturnAHashUsingPrivateKey()
     {
@@ -86,10 +86,10 @@ class EcdsaTest extends BaseTestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa::doVerify
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::doVerify
      */
     public function doVerifyShouldDelegateToEcdsaSignerUsingPublicKey()
     {

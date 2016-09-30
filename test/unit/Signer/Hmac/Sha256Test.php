@@ -18,7 +18,7 @@ class Sha256Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Hmac\Sha256::getAlgorithmId
+     * @covers \Lcobucci\JWT\Signer\Hmac\Sha256::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
     {
@@ -30,7 +30,7 @@ class Sha256Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Hmac\Sha256::getAlgorithm
+     * @covers \Lcobucci\JWT\Signer\Hmac\Sha256::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {

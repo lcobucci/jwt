@@ -18,12 +18,12 @@ class Sha256Test extends BaseTestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa::create
-     * @covers Lcobucci\JWT\Signer\Ecdsa::__construct
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::create
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::__construct
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @uses Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      */
     public function createShouldReturnAValidInstance()
     {
@@ -33,9 +33,9 @@ class Sha256Test extends BaseTestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses \Lcobucci\JWT\Signer\Ecdsa
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256::getAlgorithmId
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
     {
@@ -45,9 +45,9 @@ class Sha256Test extends BaseTestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses \Lcobucci\JWT\Signer\Ecdsa
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256::getAlgorithm
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {

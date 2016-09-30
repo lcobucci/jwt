@@ -39,9 +39,9 @@ class HmacTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Hmac::createHash
+     * @covers \Lcobucci\JWT\Signer\Hmac::createHash
      */
     public function createHashMustReturnAHashAccordingWithTheAlgorithm(): string
     {
@@ -57,10 +57,10 @@ class HmacTest extends \PHPUnit_Framework_TestCase
      *
      * @depends createHashMustReturnAHashAccordingWithTheAlgorithm
      *
-     * @uses Lcobucci\JWT\Signer\Hmac::createHash
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Hmac::createHash
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Hmac::doVerify
+     * @covers \Lcobucci\JWT\Signer\Hmac::doVerify
      */
     public function doVerifyShouldReturnTrueWhenExpectedHashWasCreatedWithSameInformation(string $expected)
     {
@@ -72,10 +72,10 @@ class HmacTest extends \PHPUnit_Framework_TestCase
      *
      * @depends createHashMustReturnAHashAccordingWithTheAlgorithm
      *
-     * @uses Lcobucci\JWT\Signer\Hmac::createHash
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Hmac::createHash
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Hmac::doVerify
+     * @covers \Lcobucci\JWT\Signer\Hmac::doVerify
      */
     public function doVerifyShouldReturnFalseWhenExpectedHashWasNotCreatedWithSameInformation($expected)
     {
