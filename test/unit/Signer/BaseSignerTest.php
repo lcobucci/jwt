@@ -36,7 +36,7 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\BaseSigner::modifyHeader
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::modifyHeader
      */
     public function modifyHeaderShouldChangeAlgorithm()
     {
@@ -44,18 +44,18 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
 
         $this->signer->modifyHeader($headers);
 
-        $this->assertEquals($headers['typ'], 'JWT');
-        $this->assertEquals($headers['alg'], 'TEST123');
+        self::assertEquals($headers['typ'], 'JWT');
+        self::assertEquals($headers['alg'], 'TEST123');
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signature::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\BaseSigner::sign
-     * @covers Lcobucci\JWT\Signer\BaseSigner::getKey
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::sign
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::getKey
      */
     public function signMustReturnANewSignature()
     {
@@ -66,17 +66,17 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
                      ->with('test', $key)
                      ->willReturn('test');
 
-        $this->assertEquals(new Signature('test'), $this->signer->sign('test', $key));
+        self::assertEquals(new Signature('test'), $this->signer->sign('test', $key));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signature::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\BaseSigner::sign
-     * @covers Lcobucci\JWT\Signer\BaseSigner::getKey
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::sign
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::getKey
      */
     public function signShouldConvertKeyWhenItsNotAnObject()
     {
@@ -85,17 +85,17 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
                      ->with('test', new Key('123'))
                      ->willReturn('test');
 
-        $this->assertEquals(new Signature('test'), $this->signer->sign('test', '123'));
+        self::assertEquals(new Signature('test'), $this->signer->sign('test', '123'));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signature::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\BaseSigner::verify
-     * @covers Lcobucci\JWT\Signer\BaseSigner::getKey
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::verify
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::getKey
      */
     public function verifyShouldDelegateTheCallToAbstractMethod()
     {
@@ -106,17 +106,17 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
                      ->with('test', 'test', $key)
                      ->willReturn(true);
 
-        $this->assertTrue($this->signer->verify('test', 'test', $key));
+        self::assertTrue($this->signer->verify('test', 'test', $key));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signature::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\BaseSigner::verify
-     * @covers Lcobucci\JWT\Signer\BaseSigner::getKey
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::verify
+     * @covers \Lcobucci\JWT\Signer\BaseSigner::getKey
      */
     public function verifyShouldConvertKeyWhenItsNotAnObject()
     {
@@ -125,6 +125,6 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
                      ->with('test', 'test', new Key('123'))
                      ->willReturn(true);
 
-        $this->assertTrue($this->signer->verify('test', 'test', '123'));
+        self::assertTrue($this->signer->verify('test', 'test', '123'));
     }
 }

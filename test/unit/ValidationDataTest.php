@@ -18,22 +18,22 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\ValidationData::__construct
+     * @covers \Lcobucci\JWT\ValidationData::__construct
      */
     public function constructorShouldConfigureTheItems()
     {
         $expected = $this->createExpectedData();
         $data = new ValidationData(1);
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::setId
+     * @covers \Lcobucci\JWT\ValidationData::setId
      */
     public function setIdShouldChangeTheId()
     {
@@ -41,15 +41,15 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
         $data->setId('test');
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::setIssuer
+     * @covers \Lcobucci\JWT\ValidationData::setIssuer
      */
     public function setIssuerShouldChangeTheIssuer()
     {
@@ -57,15 +57,15 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
         $data->setIssuer('test');
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::setIssuer
+     * @covers \Lcobucci\JWT\ValidationData::setIssuer
      */
     public function setIssuerMustAcceptArrayOfValues()
     {
@@ -73,15 +73,15 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
         $data->setIssuer(['test', 'test2']);
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::setAudience
+     * @covers \Lcobucci\JWT\ValidationData::setAudience
      */
     public function setAudienceShouldChangeTheAudience()
     {
@@ -89,15 +89,15 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
         $data->setAudience('test');
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::setSubject
+     * @covers \Lcobucci\JWT\ValidationData::setSubject
      */
     public function setSubjectShouldChangeTheSubject()
     {
@@ -105,15 +105,15 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
         $data->setSubject('test');
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::setCurrentTime
+     * @covers \Lcobucci\JWT\ValidationData::setCurrentTime
      */
     public function setCurrentTimeShouldChangeTheTimeBasedValues()
     {
@@ -121,77 +121,77 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
         $data->setCurrentTime(2);
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::has
+     * @covers \Lcobucci\JWT\ValidationData::has
      */
     public function hasShouldReturnTrueWhenItemIsNotEmpty()
     {
         $data = new ValidationData(1);
 
-        $this->assertTrue($data->has('iat'));
+        self::assertTrue($data->has('iat'));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::has
+     * @covers \Lcobucci\JWT\ValidationData::has
      */
     public function hasShouldReturnFalseWhenItemIsEmpty()
     {
         $data = new ValidationData(1);
 
-        $this->assertFalse($data->has('jti'));
+        self::assertFalse($data->has('jti'));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::has
+     * @covers \Lcobucci\JWT\ValidationData::has
      */
     public function hasShouldReturnFalseWhenItemIsNotDefined()
     {
         $data = new ValidationData(1);
 
-        $this->assertFalse($data->has('test'));
+        self::assertFalse($data->has('test'));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::get
+     * @covers \Lcobucci\JWT\ValidationData::get
      */
     public function getShouldReturnTheItemValue()
     {
         $data = new ValidationData(1);
 
-        $this->assertEquals(1, $data->get('iat'));
+        self::assertEquals(1, $data->get('iat'));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::__construct
      *
-     * @covers Lcobucci\JWT\ValidationData::get
+     * @covers \Lcobucci\JWT\ValidationData::get
      */
     public function getShouldReturnNullWhenItemIsNotDefined()
     {
         $data = new ValidationData(1);
 
-        $this->assertNull($data->get('test'));
+        self::assertNull($data->get('test'));
     }
 
     /**

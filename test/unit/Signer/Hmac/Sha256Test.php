@@ -18,24 +18,24 @@ class Sha256Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Hmac\Sha256::getAlgorithmId
+     * @covers \Lcobucci\JWT\Signer\Hmac\Sha256::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
     {
         $signer = new Sha256();
 
-        $this->assertEquals('HS256', $signer->getAlgorithmId());
+        self::assertEquals('HS256', $signer->getAlgorithmId());
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Hmac\Sha256::getAlgorithm
+     * @covers \Lcobucci\JWT\Signer\Hmac\Sha256::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {
         $signer = new Sha256();
 
-        $this->assertEquals('sha256', $signer->getAlgorithm());
+        self::assertEquals('sha256', $signer->getAlgorithm());
     }
 }

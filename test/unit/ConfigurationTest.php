@@ -57,36 +57,36 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::createBuilder
-     * @covers Lcobucci\JWT\Configuration::getEncoder
-     * @covers Lcobucci\JWT\Configuration::getClaimFactory
+     * @covers \Lcobucci\JWT\Configuration::createBuilder
+     * @covers \Lcobucci\JWT\Configuration::getEncoder
+     * @covers \Lcobucci\JWT\Configuration::getClaimFactory
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
      */
     public function createBuilderShouldCreateABuilderWithDefaultEncoderAndClaimFactory()
     {
         $config = new Configuration();
         $builder = $config->createBuilder();
 
-        $this->assertInstanceOf(Builder::class, $builder);
-        $this->assertAttributeNotSame($this->encoder, 'encoder', $builder);
-        $this->assertAttributeNotSame($this->claimFactory, 'claimFactory', $builder);
+        self::assertInstanceOf(Builder::class, $builder);
+        self::assertAttributeNotSame($this->encoder, 'encoder', $builder);
+        self::assertAttributeNotSame($this->claimFactory, 'claimFactory', $builder);
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::createBuilder
-     * @covers Lcobucci\JWT\Configuration::setEncoder
-     * @covers Lcobucci\JWT\Configuration::getEncoder
-     * @covers Lcobucci\JWT\Configuration::getClaimFactory
-     * @covers Lcobucci\JWT\Configuration::setClaimFactory
+     * @covers \Lcobucci\JWT\Configuration::createBuilder
+     * @covers \Lcobucci\JWT\Configuration::setEncoder
+     * @covers \Lcobucci\JWT\Configuration::getEncoder
+     * @covers \Lcobucci\JWT\Configuration::getClaimFactory
+     * @covers \Lcobucci\JWT\Configuration::setClaimFactory
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
      */
     public function createBuilderShouldCreateABuilderWithCustomizedEncoderAndClaimFactory()
     {
@@ -96,44 +96,44 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $builder = $config->createBuilder();
 
-        $this->assertInstanceOf(Builder::class, $builder);
-        $this->assertAttributeSame($this->encoder, 'encoder', $builder);
-        $this->assertAttributeSame($this->claimFactory, 'claimFactory', $builder);
+        self::assertInstanceOf(Builder::class, $builder);
+        self::assertAttributeSame($this->encoder, 'encoder', $builder);
+        self::assertAttributeSame($this->claimFactory, 'claimFactory', $builder);
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::getParser
-     * @covers Lcobucci\JWT\Configuration::getDecoder
-     * @covers Lcobucci\JWT\Configuration::getClaimFactory
+     * @covers \Lcobucci\JWT\Configuration::getParser
+     * @covers \Lcobucci\JWT\Configuration::getDecoder
+     * @covers \Lcobucci\JWT\Configuration::getClaimFactory
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
      */
     public function getParserShouldReturnAParserWithDefaultDecoderAndClaimFactory()
     {
         $config = new Configuration();
         $parser = $config->getParser();
 
-        $this->assertInstanceOf(Parser::class, $parser);
-        $this->assertAttributeNotSame($this->decoder, 'decoder', $parser);
-        $this->assertAttributeNotSame($this->claimFactory, 'claimFactory', $parser);
+        self::assertInstanceOf(Parser::class, $parser);
+        self::assertAttributeNotSame($this->decoder, 'decoder', $parser);
+        self::assertAttributeNotSame($this->claimFactory, 'claimFactory', $parser);
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::getParser
-     * @covers Lcobucci\JWT\Configuration::setDecoder
-     * @covers Lcobucci\JWT\Configuration::getDecoder
-     * @covers Lcobucci\JWT\Configuration::getClaimFactory
-     * @covers Lcobucci\JWT\Configuration::setClaimFactory
+     * @covers \Lcobucci\JWT\Configuration::getParser
+     * @covers \Lcobucci\JWT\Configuration::setDecoder
+     * @covers \Lcobucci\JWT\Configuration::getDecoder
+     * @covers \Lcobucci\JWT\Configuration::getClaimFactory
+     * @covers \Lcobucci\JWT\Configuration::setClaimFactory
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
      */
     public function getParserShouldReturnAParserWithCustomizedDecoderAndClaimFactory()
     {
@@ -143,61 +143,61 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $parser = $config->getParser();
 
-        $this->assertInstanceOf(Parser::class, $parser);
-        $this->assertAttributeSame($this->decoder, 'decoder', $parser);
-        $this->assertAttributeSame($this->claimFactory, 'claimFactory', $parser);
+        self::assertInstanceOf(Parser::class, $parser);
+        self::assertAttributeSame($this->decoder, 'decoder', $parser);
+        self::assertAttributeSame($this->claimFactory, 'claimFactory', $parser);
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::getParser
-     * @covers Lcobucci\JWT\Configuration::setParser
+     * @covers \Lcobucci\JWT\Configuration::getParser
+     * @covers \Lcobucci\JWT\Configuration::setParser
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
      */
     public function getParserShouldNotCreateAnInstanceIfItWasConfigured()
     {
         $config = new Configuration();
         $config->setParser($this->parser);
 
-        $this->assertSame($this->parser, $config->getParser());
+        self::assertSame($this->parser, $config->getParser());
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::getSigner
+     * @covers \Lcobucci\JWT\Configuration::getSigner
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
-     * @uses Lcobucci\JWT\Signer\Hmac\Sha256
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Signer\Hmac\Sha256
      */
     public function getSignerShouldReturnTheDefaultWhenItWasNotConfigured()
     {
         $config = new Configuration();
 
-        $this->assertInstanceOf(Sha256::class, $config->getSigner());
+        self::assertInstanceOf(Sha256::class, $config->getSigner());
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration::getSigner
-     * @covers Lcobucci\JWT\Configuration::setSigner
+     * @covers \Lcobucci\JWT\Configuration::getSigner
+     * @covers \Lcobucci\JWT\Configuration::setSigner
      *
-     * @uses Lcobucci\JWT\Builder
-     * @uses Lcobucci\JWT\Claim\Factory
-     * @uses Lcobucci\JWT\Parser
+     * @uses \Lcobucci\JWT\Builder
+     * @uses \Lcobucci\JWT\Claim\Factory
+     * @uses \Lcobucci\JWT\Parser
      */
     public function getSignerShouldReturnTheConfiguredSigner()
     {
         $config = new Configuration();
         $config->setSigner($this->signer);
 
-        $this->assertSame($this->signer, $config->getSigner());
+        self::assertSame($this->signer, $config->getSigner());
     }
 }

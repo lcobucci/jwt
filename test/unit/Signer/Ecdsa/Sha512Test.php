@@ -18,40 +18,40 @@ class Sha512Test extends BaseTestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa::create
-     * @covers Lcobucci\JWT\Signer\Ecdsa::__construct
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::create
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::__construct
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @uses Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      */
     public function createShouldReturnAValidInstance()
     {
-        $this->assertInstanceOf(Sha512::class, Sha512::create());
+        self::assertInstanceOf(Sha512::class, Sha512::create());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses \Lcobucci\JWT\Signer\Ecdsa
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithmId
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
     {
-        $this->assertEquals('ES512', $this->getSigner()->getAlgorithmId());
+        self::assertEquals('ES512', $this->getSigner()->getAlgorithmId());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa
+     * @uses \Lcobucci\JWT\Signer\Ecdsa
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithm
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {
-        $this->assertEquals('sha512', $this->getSigner()->getAlgorithm());
+        self::assertEquals('sha512', $this->getSigner()->getAlgorithm());
     }
 
     private function getSigner(): Sha512

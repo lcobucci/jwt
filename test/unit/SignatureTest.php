@@ -31,36 +31,36 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signature::__construct
+     * @covers \Lcobucci\JWT\Signature::__construct
      */
     public function constructorMustConfigureAttributes()
     {
         $signature = new Signature('test');
 
-        $this->assertAttributeEquals('test', 'hash', $signature);
+        self::assertAttributeEquals('test', 'hash', $signature);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Signature::__construct
      *
-     * @covers Lcobucci\JWT\Signature::__toString
+     * @covers \Lcobucci\JWT\Signature::__toString
      */
     public function toStringMustReturnTheHash()
     {
         $signature = new Signature('test');
 
-        $this->assertEquals('test', (string) $signature);
+        self::assertEquals('test', (string) $signature);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signature::__construct
-     * @uses Lcobucci\JWT\Signature::__toString
+     * @uses \Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Signature::__toString
      *
-     * @covers Lcobucci\JWT\Signature::verify
+     * @covers \Lcobucci\JWT\Signature::verify
      */
     public function verifyMustReturnWhatSignerSays()
     {
@@ -70,6 +70,6 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
 
         $signature = new Signature('test');
 
-        $this->assertTrue($signature->verify($this->signer, 'one', 'key'));
+        self::assertTrue($signature->verify($this->signer, 'one', 'key'));
     }
 }

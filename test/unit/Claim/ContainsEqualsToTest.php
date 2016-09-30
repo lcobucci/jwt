@@ -20,25 +20,25 @@ class ContainsEqualsToTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic
-     * @uses Lcobucci\JWT\ValidationData
+     * @uses \Lcobucci\JWT\Claim\Basic
+     * @uses \Lcobucci\JWT\ValidationData
      *
-     * @covers Lcobucci\JWT\Claim\ContainsEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\ContainsEqualsTo::validate
      */
     public function validateShouldReturnTrueWhenValidationDoesntHaveTheClaim()
     {
         $claim = new ContainsEqualsTo('aud', ['test', 'test2']);
 
-        $this->assertTrue($claim->validate(new ValidationData()));
+        self::assertTrue($claim->validate(new ValidationData()));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic
-     * @uses Lcobucci\JWT\ValidationData
+     * @uses \Lcobucci\JWT\Claim\Basic
+     * @uses \Lcobucci\JWT\ValidationData
      *
-     * @covers Lcobucci\JWT\Claim\ContainsEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\ContainsEqualsTo::validate
      */
     public function validateShouldReturnTrueWhenValidationDataValueIsContained()
     {
@@ -47,16 +47,16 @@ class ContainsEqualsToTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData();
         $data->setAudience('test');
 
-        $this->assertTrue($claim->validate($data));
+        self::assertTrue($claim->validate($data));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic
-     * @uses Lcobucci\JWT\ValidationData
+     * @uses \Lcobucci\JWT\Claim\Basic
+     * @uses \Lcobucci\JWT\ValidationData
      *
-     * @covers Lcobucci\JWT\Claim\ContainsEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\ContainsEqualsTo::validate
      */
     public function validateShouldReturnFalseWhenValidationDataValueIsNotContained()
     {
@@ -65,6 +65,6 @@ class ContainsEqualsToTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData();
         $data->setAudience('test3');
 
-        $this->assertFalse($claim->validate($data));
+        self::assertFalse($claim->validate($data));
     }
 }

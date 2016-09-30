@@ -46,19 +46,19 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\Key
-     * @covers Lcobucci\JWT\Signer\BaseSigner
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Signature
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\BaseSigner
+     * @covers \Lcobucci\JWT\Signer\Ecdsa
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
     public function builderShouldRaiseExceptionWhenKeyIsInvalid()
     {
@@ -76,19 +76,19 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\Key
-     * @covers Lcobucci\JWT\Signer\BaseSigner
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Signature
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\BaseSigner
+     * @covers \Lcobucci\JWT\Signer\Ecdsa
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
     public function builderShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible()
     {
@@ -104,19 +104,19 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\Key
-     * @covers Lcobucci\JWT\Signer\BaseSigner
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Signature
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\BaseSigner
+     * @covers \Lcobucci\JWT\Signer\Ecdsa
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
     public function builderCanGenerateAToken()
     {
@@ -132,11 +132,11 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
                          ->sign($this->config->getSigner(), static::$ecdsaKeys['private'])
                          ->getToken();
 
-        $this->assertAttributeInstanceOf(Signature::class, 'signature', $token);
-        $this->assertEquals('1234', $token->getHeader('jki'));
-        $this->assertEquals(['http://client.abc.com', 'http://client2.abc.com', ], $token->getClaim('aud'));
-        $this->assertEquals('http://api.abc.com', $token->getClaim('iss'));
-        $this->assertEquals($user, $token->getClaim('user'));
+        self::assertAttributeInstanceOf(Signature::class, 'signature', $token);
+        self::assertEquals('1234', $token->getHeader('jki'));
+        self::assertEquals(['http://client.abc.com', 'http://client2.abc.com'], $token->getClaim('aud'));
+        self::assertEquals('http://api.abc.com', $token->getClaim('iss'));
+        self::assertEquals($user, $token->getClaim('user'));
 
         return $token;
     }
@@ -146,24 +146,24 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @depends builderCanGenerateAToken
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Parser
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Parser
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Signature
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Signer\Ecdsa
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      */
     public function parserCanReadAToken(Token $generated)
     {
         $read = $this->config->getParser()->parse((string) $generated);
 
-        $this->assertEquals($generated, $read);
-        $this->assertEquals('testing', $read->getClaim('user')['name']);
+        self::assertEquals($generated, $read);
+        self::assertEquals('testing', $read->getClaim('user')['name']);
     }
 
     /**
@@ -171,24 +171,24 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @depends builderCanGenerateAToken
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Parser
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\Key
-     * @covers Lcobucci\JWT\Signer\BaseSigner
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Parser
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Signature
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\BaseSigner
+     * @covers \Lcobucci\JWT\Signer\Ecdsa
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
     public function verifyShouldReturnFalseWhenKeyIsNotRight(Token $token)
     {
-        $this->assertFalse($token->verify($this->config->getSigner(), static::$ecdsaKeys['public2']));
+        self::assertFalse($token->verify($this->config->getSigner(), static::$ecdsaKeys['public2']));
     }
 
     /**
@@ -196,25 +196,25 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @depends builderCanGenerateAToken
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Parser
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\Key
-     * @covers Lcobucci\JWT\Signer\BaseSigner
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Parser
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Signature
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\BaseSigner
+     * @covers \Lcobucci\JWT\Signer\Ecdsa
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
      */
     public function verifyShouldReturnFalseWhenAlgorithmIsDifferent(Token $token)
     {
-        $this->assertFalse($token->verify(Sha512::create(), static::$ecdsaKeys['public1']));
+        self::assertFalse($token->verify(Sha512::create(), static::$ecdsaKeys['public1']));
     }
 
     /**
@@ -224,24 +224,24 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @depends builderCanGenerateAToken
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Parser
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\Key
-     * @covers Lcobucci\JWT\Signer\BaseSigner
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Parser
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Signature
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\BaseSigner
+     * @covers \Lcobucci\JWT\Signer\Ecdsa
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
     public function verifyShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(Token $token)
     {
-        $this->assertFalse($token->verify($this->config->getSigner(), static::$rsaKeys['public']));
+        self::assertFalse($token->verify($this->config->getSigner(), static::$rsaKeys['public']));
     }
 
     /**
@@ -249,42 +249,42 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @depends builderCanGenerateAToken
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Parser
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\Key
-     * @covers Lcobucci\JWT\Signer\BaseSigner
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Parser
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Signature
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\BaseSigner
+     * @covers \Lcobucci\JWT\Signer\Ecdsa
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
     public function verifyShouldReturnTrueWhenKeyIsRight(Token $token)
     {
-        $this->assertTrue($token->verify($this->config->getSigner(), static::$ecdsaKeys['public1']));
+        self::assertTrue($token->verify($this->config->getSigner(), static::$ecdsaKeys['public1']));
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
-     * @covers Lcobucci\JWT\Signer\Key
-     * @covers Lcobucci\JWT\Signer\BaseSigner
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Signature
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\BaseSigner
+     * @covers \Lcobucci\JWT\Signer\Ecdsa
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
     public function everythingShouldWorkWithAKeyWithParams()
     {
@@ -299,26 +299,26 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
                          ->sign($signer, static::$ecdsaKeys['private-params'])
                          ->getToken();
 
-        $this->assertTrue($token->verify($signer, static::$ecdsaKeys['public-params']));
+        self::assertTrue($token->verify($signer, static::$ecdsaKeys['public-params']));
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Parser
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Signer\Key
-     * @covers Lcobucci\JWT\Signer\BaseSigner
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Parser
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Signature
+     * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\BaseSigner
+     * @covers \Lcobucci\JWT\Signer\Ecdsa
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
      */
     public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs()
     {
@@ -337,29 +337,29 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
         $key = new Key($key);
         $token = $this->config->getParser()->parse((string) $data);
 
-        $this->assertEquals('world', $token->getClaim('hello'));
-        $this->assertTrue($token->verify(Sha512::create(), $key));
+        self::assertEquals('world', $token->getClaim('hello'));
+        self::assertTrue($token->verify(Sha512::create(), $key));
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Configuration
-     * @covers Lcobucci\JWT\Builder
-     * @covers Lcobucci\JWT\Parser
-     * @covers Lcobucci\JWT\Token
-     * @covers Lcobucci\JWT\Signature
-     * @covers Lcobucci\JWT\Signer\Key
-     * @covers Lcobucci\JWT\Signer\BaseSigner
-     * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512
-     * @covers Lcobucci\JWT\Signer\Hmac
-     * @covers Lcobucci\JWT\Signer\Hmac\Sha512
-     * @covers Lcobucci\JWT\Claim\Factory
-     * @covers Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Builder
+     * @covers \Lcobucci\JWT\Parser
+     * @covers \Lcobucci\JWT\Token
+     * @covers \Lcobucci\JWT\Signature
+     * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\BaseSigner
+     * @covers \Lcobucci\JWT\Signer\Ecdsa
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
+     * @covers \Lcobucci\JWT\Signer\Hmac
+     * @covers \Lcobucci\JWT\Signer\Hmac\Sha512
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
      */
     public function preventRegressionsThatAllowsMaliciousTampering()
     {
@@ -388,10 +388,10 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
          */
         $token = $this->config->getParser()->parse((string) $bad);
 
-        $this->assertEquals('world', $token->getClaim('hello'), 'The claim content should not be modified');
-        $this->assertTrue($token->verify(new HS512(), $key), 'Using the attackers signer should make things unsafe');
+        self::assertEquals('world', $token->getClaim('hello'), 'The claim content should not be modified');
+        self::assertTrue($token->verify(new HS512(), $key), 'Using the attackers signer should make things unsafe');
 
-        $this->assertFalse(
+        self::assertFalse(
             $token->verify(Sha512::create(), $key),
             'But we know which Signer should be used so the attack fails'
         );

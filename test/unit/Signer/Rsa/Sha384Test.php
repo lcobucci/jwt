@@ -18,24 +18,24 @@ class Sha384Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Rsa\Sha384::getAlgorithmId
+     * @covers \Lcobucci\JWT\Signer\Rsa\Sha384::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
     {
         $signer = new Sha384();
 
-        $this->assertEquals('RS384', $signer->getAlgorithmId());
+        self::assertEquals('RS384', $signer->getAlgorithmId());
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Rsa\Sha384::getAlgorithm
+     * @covers \Lcobucci\JWT\Signer\Rsa\Sha384::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {
         $signer = new Sha384();
 
-        $this->assertEquals(OPENSSL_ALGO_SHA384, $signer->getAlgorithm());
+        self::assertEquals(OPENSSL_ALGO_SHA384, $signer->getAlgorithm());
     }
 }

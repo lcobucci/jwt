@@ -18,7 +18,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Claim\Factory::__construct
+     * @covers \Lcobucci\JWT\Claim\Factory::__construct
      */
     public function constructMustConfigureTheCallbacks()
     {
@@ -37,134 +37,134 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'test' => $callback
         ];
 
-        $this->assertAttributeEquals($expected, 'callbacks', $factory);
+        self::assertAttributeEquals($expected, 'callbacks', $factory);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Factory::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Factory::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Factory::create
-     * @covers Lcobucci\JWT\Claim\Factory::createLesserOrEqualsTo
+     * @covers \Lcobucci\JWT\Claim\Factory::create
+     * @covers \Lcobucci\JWT\Claim\Factory::createLesserOrEqualsTo
      */
     public function createShouldReturnALesserOrEqualsToClaimForIssuedAt()
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(LesserOrEqualsTo::class, $claim->create('iat', 1));
+        self::assertInstanceOf(LesserOrEqualsTo::class, $claim->create('iat', 1));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Factory::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Factory::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Factory::create
-     * @covers Lcobucci\JWT\Claim\Factory::createLesserOrEqualsTo
+     * @covers \Lcobucci\JWT\Claim\Factory::create
+     * @covers \Lcobucci\JWT\Claim\Factory::createLesserOrEqualsTo
      */
     public function createShouldReturnALesserOrEqualsToClaimForNotBefore()
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(LesserOrEqualsTo::class, $claim->create('nbf', 1));
+        self::assertInstanceOf(LesserOrEqualsTo::class, $claim->create('nbf', 1));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Factory::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Factory::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Factory::create
-     * @covers Lcobucci\JWT\Claim\Factory::createGreaterOrEqualsTo
+     * @covers \Lcobucci\JWT\Claim\Factory::create
+     * @covers \Lcobucci\JWT\Claim\Factory::createGreaterOrEqualsTo
      */
     public function createShouldReturnAGreaterOrEqualsToClaimForExpiration()
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(GreaterOrEqualsTo::class, $claim->create('exp', 1));
+        self::assertInstanceOf(GreaterOrEqualsTo::class, $claim->create('exp', 1));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Factory::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Factory::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Factory::create
-     * @covers Lcobucci\JWT\Claim\Factory::createEqualsTo
+     * @covers \Lcobucci\JWT\Claim\Factory::create
+     * @covers \Lcobucci\JWT\Claim\Factory::createEqualsTo
      */
     public function createShouldReturnAnEqualsToClaimForId()
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(EqualsTo::class, $claim->create('jti', 1));
+        self::assertInstanceOf(EqualsTo::class, $claim->create('jti', 1));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Factory::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Factory::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Factory::create
-     * @covers Lcobucci\JWT\Claim\Factory::createContainedEqualsTo
+     * @covers \Lcobucci\JWT\Claim\Factory::create
+     * @covers \Lcobucci\JWT\Claim\Factory::createContainedEqualsTo
      */
     public function createShouldReturnAContainedEqualsToClaimForIssuer()
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(ContainedEqualsTo::class, $claim->create('iss', 1));
+        self::assertInstanceOf(ContainedEqualsTo::class, $claim->create('iss', 1));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Factory::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Factory::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Factory::create
-     * @covers Lcobucci\JWT\Claim\Factory::createContainsEqualsTo
+     * @covers \Lcobucci\JWT\Claim\Factory::create
+     * @covers \Lcobucci\JWT\Claim\Factory::createContainsEqualsTo
      */
     public function createShouldReturnAContainsEqualsToClaimForAudience()
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(ContainsEqualsTo::class, $claim->create('aud', 1));
+        self::assertInstanceOf(ContainsEqualsTo::class, $claim->create('aud', 1));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Factory::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Factory::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Factory::create
-     * @covers Lcobucci\JWT\Claim\Factory::createEqualsTo
+     * @covers \Lcobucci\JWT\Claim\Factory::create
+     * @covers \Lcobucci\JWT\Claim\Factory::createEqualsTo
      */
     public function createShouldReturnAnEqualsToClaimForSubject()
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(EqualsTo::class, $claim->create('sub', 1));
+        self::assertInstanceOf(EqualsTo::class, $claim->create('sub', 1));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Factory::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Factory::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Factory::create
-     * @covers Lcobucci\JWT\Claim\Factory::createBasic
+     * @covers \Lcobucci\JWT\Claim\Factory::create
+     * @covers \Lcobucci\JWT\Claim\Factory::createBasic
      */
     public function createShouldReturnABasiclaimForOtherClaims()
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(Basic::class, $claim->create('test', 1));
+        self::assertInstanceOf(Basic::class, $claim->create('test', 1));
     }
 }

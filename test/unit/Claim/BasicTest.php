@@ -18,69 +18,69 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Claim\Basic::__construct
+     * @covers \Lcobucci\JWT\Claim\Basic::__construct
      */
     public function constructorShouldConfigureTheAttributes()
     {
         $claim = new Basic('test', 1);
 
-        $this->assertAttributeEquals('test', 'name', $claim);
-        $this->assertAttributeEquals(1, 'value', $claim);
+        self::assertAttributeEquals('test', 'name', $claim);
+        self::assertAttributeEquals(1, 'value', $claim);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Basic::getName
+     * @covers \Lcobucci\JWT\Claim\Basic::getName
      */
     public function getNameShouldReturnTheClaimName()
     {
         $claim = new Basic('test', 1);
 
-        $this->assertEquals('test', $claim->getName());
+        self::assertEquals('test', $claim->getName());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Basic::getValue
+     * @covers \Lcobucci\JWT\Claim\Basic::getValue
      */
     public function getValueShouldReturnTheClaimValue()
     {
         $claim = new Basic('test', 1);
 
-        $this->assertEquals(1, $claim->getValue());
+        self::assertEquals(1, $claim->getValue());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Basic::jsonSerialize
+     * @covers \Lcobucci\JWT\Claim\Basic::jsonSerialize
      */
     public function jsonSerializeShouldReturnTheClaimValue()
     {
         $claim = new Basic('test', 1);
 
-        $this->assertEquals(1, $claim->jsonSerialize());
+        self::assertEquals(1, $claim->jsonSerialize());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Claim\Basic::__toString
+     * @covers \Lcobucci\JWT\Claim\Basic::__toString
      */
     public function toStringShouldReturnTheClaimValue()
     {
         $claim = new Basic('test', 1);
 
-        $this->assertEquals('1', (string) $claim);
+        self::assertEquals('1', (string) $claim);
     }
 }

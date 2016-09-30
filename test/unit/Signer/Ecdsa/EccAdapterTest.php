@@ -64,42 +64,42 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
     public function constructShouldConfigureDependencies()
     {
         $adapter = $this->createAdapter();
 
-        $this->assertAttributeSame($this->signer, 'signer', $adapter);
-        $this->assertAttributeSame($this->nistCurve, 'nistCurve', $adapter);
-        $this->assertAttributeSame($this->serializer, 'serializer', $adapter);
-        $this->assertAttributeSame($this->numberGenerator, 'numberGenerator', $adapter);
+        self::assertAttributeSame($this->signer, 'signer', $adapter);
+        self::assertAttributeSame($this->nistCurve, 'nistCurve', $adapter);
+        self::assertAttributeSame($this->serializer, 'serializer', $adapter);
+        self::assertAttributeSame($this->numberGenerator, 'numberGenerator', $adapter);
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::create
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::create
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
-     * @uses Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      */
     public function createShouldBuildObjectFromTheMathInterface()
     {
         $adapter = EccAdapter::create($this->mathInterface);
 
-        $this->assertAttributeInstanceOf(Signer::class, 'signer', $adapter);
-        $this->assertAttributeInstanceOf(NistCurve::class, 'nistCurve', $adapter);
-        $this->assertAttributeInstanceOf(SignatureSerializer::class, 'serializer', $adapter);
-        $this->assertAttributeInstanceOf(RandomNumberGeneratorInterface::class, 'numberGenerator', $adapter);
+        self::assertAttributeInstanceOf(Signer::class, 'signer', $adapter);
+        self::assertAttributeInstanceOf(NistCurve::class, 'nistCurve', $adapter);
+        self::assertAttributeInstanceOf(SignatureSerializer::class, 'serializer', $adapter);
+        self::assertAttributeInstanceOf(RandomNumberGeneratorInterface::class, 'numberGenerator', $adapter);
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::createHash
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::createHash
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
     public function createHashShouldReturnASerializedSignature()
     {
@@ -131,7 +131,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
 
         $adapter = $this->createAdapter();
 
-        $this->assertEquals(
+        self::assertEquals(
             'serialized_signature',
             $adapter->createHash($key, $signingHash, 'sha256')
         );
@@ -140,9 +140,9 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::verifyHash
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::verifyHash
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
     public function verifyHashShouldReturnTheSignerResult()
     {
@@ -162,7 +162,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
 
         $adapter = $this->createAdapter();
 
-        $this->assertTrue(
+        self::assertTrue(
             $adapter->verifyHash('test', $key, $signingHash, 'sha256')
         );
     }
@@ -172,10 +172,10 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::createSigningHash
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::generatorPoint
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::createSigningHash
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::generatorPoint
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
     public function createSigningHashShouldRaiseExceptionWhenAlgorithmIsInvalid()
     {
@@ -186,10 +186,10 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::createSigningHash
-     * @covers Lcobucci\JWT\Signer\Ecdsa\EccAdapter::generatorPoint
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::createSigningHash
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::generatorPoint
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
     public function createSigningHashShouldReturnTheSignerResult()
     {
@@ -207,7 +207,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
 
         $adapter = $this->createAdapter();
 
-        $this->assertSame(
+        self::assertSame(
             $signingHash,
             $adapter->createSigningHash('testing', 'sha256')
         );

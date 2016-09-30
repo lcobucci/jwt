@@ -27,7 +27,8 @@
         "phpmd/phpmd": "~2.4",
         "phpunit/php-invoker": "~1.1",
         "mikey179/vfsStream": "~1.6",
-        "mdanter/ecc": "~0.4"
+        "mdanter/ecc": "~0.4",
+        "humbug/humbug": "dev-master@dev"
     },
     "suggest":{
         "mdanter/ecc": "Required to use Elliptic Curves based algorithms."

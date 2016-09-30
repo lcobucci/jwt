@@ -39,15 +39,15 @@ class HmacTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Hmac::createHash
+     * @covers \Lcobucci\JWT\Signer\Hmac::createHash
      */
     public function createHashMustReturnAHashAccordingWithTheAlgorithm(): string
     {
         $hash = hash_hmac('sha256', 'test', '123', true);
 
-        $this->assertEquals($hash, $this->signer->createHash('test', new Key('123')));
+        self::assertEquals($hash, $this->signer->createHash('test', new Key('123')));
 
         return $hash;
     }
@@ -57,14 +57,14 @@ class HmacTest extends \PHPUnit_Framework_TestCase
      *
      * @depends createHashMustReturnAHashAccordingWithTheAlgorithm
      *
-     * @uses Lcobucci\JWT\Signer\Hmac::createHash
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Hmac::createHash
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Hmac::doVerify
+     * @covers \Lcobucci\JWT\Signer\Hmac::doVerify
      */
     public function doVerifyShouldReturnTrueWhenExpectedHashWasCreatedWithSameInformation(string $expected)
     {
-        $this->assertTrue($this->signer->doVerify($expected, 'test', new Key('123')));
+        self::assertTrue($this->signer->doVerify($expected, 'test', new Key('123')));
     }
 
     /**
@@ -72,13 +72,13 @@ class HmacTest extends \PHPUnit_Framework_TestCase
      *
      * @depends createHashMustReturnAHashAccordingWithTheAlgorithm
      *
-     * @uses Lcobucci\JWT\Signer\Hmac::createHash
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Hmac::createHash
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Hmac::doVerify
+     * @covers \Lcobucci\JWT\Signer\Hmac::doVerify
      */
     public function doVerifyShouldReturnFalseWhenExpectedHashWasNotCreatedWithSameInformation($expected)
     {
-        $this->assertFalse($this->signer->doVerify($expected, 'test', new Key('1234')));
+        self::assertFalse($this->signer->doVerify($expected, 'test', new Key('1234')));
     }
 }

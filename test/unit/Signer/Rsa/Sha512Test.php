@@ -18,24 +18,24 @@ class Sha512Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Rsa\Sha512::getAlgorithmId
+     * @covers \Lcobucci\JWT\Signer\Rsa\Sha512::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect()
     {
         $signer = new Sha512();
 
-        $this->assertEquals('RS512', $signer->getAlgorithmId());
+        self::assertEquals('RS512', $signer->getAlgorithmId());
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Rsa\Sha512::getAlgorithm
+     * @covers \Lcobucci\JWT\Signer\Rsa\Sha512::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect()
     {
         $signer = new Sha512();
 
-        $this->assertEquals(OPENSSL_ALGO_SHA512, $signer->getAlgorithm());
+        self::assertEquals(OPENSSL_ALGO_SHA512, $signer->getAlgorithm());
     }
 }

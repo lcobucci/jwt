@@ -20,80 +20,80 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getName
-     * @uses Lcobucci\JWT\ValidationData::__construct
-     * @uses Lcobucci\JWT\ValidationData::has
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::getName
+     * @uses \Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::has
      *
-     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
      */
     public function validateShouldReturnTrueWhenValidationDontHaveTheClaim()
     {
         $claim = new LesserOrEqualsTo('jti', 10);
 
-        $this->assertTrue($claim->validate(new ValidationData()));
+        self::assertTrue($claim->validate(new ValidationData()));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getName
-     * @uses Lcobucci\JWT\Claim\Basic::getValue
-     * @uses Lcobucci\JWT\ValidationData::__construct
-     * @uses Lcobucci\JWT\ValidationData::setIssuer
-     * @uses Lcobucci\JWT\ValidationData::has
-     * @uses Lcobucci\JWT\ValidationData::get
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::getName
+     * @uses \Lcobucci\JWT\Claim\Basic::getValue
+     * @uses \Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::setIssuer
+     * @uses \Lcobucci\JWT\ValidationData::has
+     * @uses \Lcobucci\JWT\ValidationData::get
      *
-     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
      */
     public function validateShouldReturnTrueWhenValueIsLesserThanValidationData()
     {
         $claim = new LesserOrEqualsTo('iat', 10);
         $data = new ValidationData(11);
 
-        $this->assertTrue($claim->validate($data));
+        self::assertTrue($claim->validate($data));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getName
-     * @uses Lcobucci\JWT\Claim\Basic::getValue
-     * @uses Lcobucci\JWT\ValidationData::__construct
-     * @uses Lcobucci\JWT\ValidationData::setIssuer
-     * @uses Lcobucci\JWT\ValidationData::has
-     * @uses Lcobucci\JWT\ValidationData::get
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::getName
+     * @uses \Lcobucci\JWT\Claim\Basic::getValue
+     * @uses \Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::setIssuer
+     * @uses \Lcobucci\JWT\ValidationData::has
+     * @uses \Lcobucci\JWT\ValidationData::get
      *
-     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
      */
     public function validateShouldReturnTrueWhenValueIsEqualsToValidationData()
     {
         $claim = new LesserOrEqualsTo('iat', 10);
         $data = new ValidationData(10);
 
-        $this->assertTrue($claim->validate($data));
+        self::assertTrue($claim->validate($data));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Claim\Basic::__construct
-     * @uses Lcobucci\JWT\Claim\Basic::getName
-     * @uses Lcobucci\JWT\Claim\Basic::getValue
-     * @uses Lcobucci\JWT\ValidationData::__construct
-     * @uses Lcobucci\JWT\ValidationData::setIssuer
-     * @uses Lcobucci\JWT\ValidationData::has
-     * @uses Lcobucci\JWT\ValidationData::get
+     * @uses \Lcobucci\JWT\Claim\Basic::__construct
+     * @uses \Lcobucci\JWT\Claim\Basic::getName
+     * @uses \Lcobucci\JWT\Claim\Basic::getValue
+     * @uses \Lcobucci\JWT\ValidationData::__construct
+     * @uses \Lcobucci\JWT\ValidationData::setIssuer
+     * @uses \Lcobucci\JWT\ValidationData::has
+     * @uses \Lcobucci\JWT\ValidationData::get
      *
-     * @covers Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
+     * @covers \Lcobucci\JWT\Claim\LesserOrEqualsTo::validate
      */
     public function validateShouldReturnFalseWhenValueIsGreaterThanValidationData()
     {
         $claim = new LesserOrEqualsTo('iat', 11);
         $data = new ValidationData(10);
 
-        $this->assertFalse($claim->validate($data));
+        self::assertFalse($claim->validate($data));
     }
 }

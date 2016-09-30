@@ -51,34 +51,34 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
      */
     public function constructShouldConfigureDependencies()
     {
         $parser = new KeyParser($this->privateKeySerializer, $this->publicKeySerializer);
 
-        $this->assertAttributeSame($this->privateKeySerializer, 'privateKeySerializer', $parser);
-        $this->assertAttributeSame($this->publicKeySerializer, 'publicKeySerializer', $parser);
+        self::assertAttributeSame($this->privateKeySerializer, 'privateKeySerializer', $parser);
+        self::assertAttributeSame($this->publicKeySerializer, 'publicKeySerializer', $parser);
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::create
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::create
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
      */
     public function createShouldReturnAValidInstanceBasedOnTheMathAdapter()
     {
         $parser = KeyParser::create($this->adapter);
 
-        $this->assertAttributeInstanceOf(
+        self::assertAttributeInstanceOf(
             PrivateKeySerializerInterface::class,
             'privateKeySerializer',
             $parser
         );
 
-        $this->assertAttributeInstanceOf(
+        self::assertAttributeInstanceOf(
             PublicKeySerializerInterface::class,
             'publicKeySerializer',
             $parser
@@ -88,11 +88,11 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPrivateKey
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPrivateKey
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
      */
     public function getPrivateKeyShouldAskSerializerToParseTheKey()
     {
@@ -108,7 +108,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
                                    ->willReturn($privateKey);
 
         $parser = new KeyParser($this->privateKeySerializer, $this->publicKeySerializer);
-        $this->assertSame($privateKey, $parser->getPrivateKey($this->getPrivateKey()));
+        self::assertSame($privateKey, $parser->getPrivateKey($this->getPrivateKey()));
     }
 
     /**
@@ -116,11 +116,11 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPrivateKey
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPrivateKey
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
      */
     public function getPrivateKeyShouldRaiseExceptionWhenAWrongKeyWasGiven()
     {
@@ -134,11 +134,11 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPublicKey
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPublicKey
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
      */
     public function getPublicKeyShouldAskSerializerToParseTheKey()
     {
@@ -153,7 +153,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
                                   ->willReturn($publicKey);
 
         $parser = new KeyParser($this->privateKeySerializer, $this->publicKeySerializer);
-        $this->assertSame($publicKey, $parser->getPublicKey($this->getPublicKey()));
+        self::assertSame($publicKey, $parser->getPublicKey($this->getPublicKey()));
     }
 
     /**
@@ -161,11 +161,11 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      *
-     * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
-     * @uses Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPublicKey
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPublicKey
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
      */
     public function getPublicKeyShouldRaiseExceptionWhenAWrongKeyWasGiven()
     {
