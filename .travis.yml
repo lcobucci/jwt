@@ -3,12 +3,8 @@ sudo: false
 
 php:
   - 7.0
-  - hhvm
+  - 7.1
   - nightly
-
-matrix:
-  allow_failures:
-    - php: hhvm
 
 before_script:
   - composer install --prefer-dist -o
