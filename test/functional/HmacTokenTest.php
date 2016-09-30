@@ -12,6 +12,7 @@ namespace Lcobucci\JWT\FunctionalTests;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signature;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
+use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
 
 /**
@@ -52,12 +53,12 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->createBuilder();
 
-        $token = $builder->setId('1')
-                         ->setAudience('http://client.abc.com')
-                         ->setIssuer('http://api.abc.com')
-                         ->set('user', $user)
-                         ->setHeader('jki', '1234')
-                         ->sign($this->config->getSigner(), 'testing')
+        $token = $builder->withId('1')
+                         ->canOnlyBeUsedBy('http://client.abc.com')
+                         ->issuedBy('http://api.abc.com')
+                         ->with('user', $user)
+                         ->withHeader('jki', '1234')
+                         ->sign($this->config->getSigner(), new Key('testing'))
                          ->getToken();
 
         $this->assertAttributeInstanceOf(Signature::class, 'signature', $token);

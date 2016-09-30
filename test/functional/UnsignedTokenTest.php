@@ -48,11 +48,11 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->createBuilder();
 
-        $token = $builder->setId('1')
-                         ->setAudience('http://client.abc.com')
-                         ->setIssuer('http://api.abc.com')
-                         ->setExpiration(self::CURRENT_TIME + 3000)
-                         ->set('user', $user)
+        $token = $builder->withId('1')
+                         ->canOnlyBeUsedBy('http://client.abc.com')
+                         ->issuedBy('http://api.abc.com')
+                         ->expiresAt(self::CURRENT_TIME + 3000)
+                         ->with('user', $user)
                          ->getToken();
 
         $this->assertAttributeEquals(null, 'signature', $token);
