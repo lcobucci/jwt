@@ -77,20 +77,20 @@ class Builder
      * Configures the audience
      *
      * @param string|array $audience
-     * @param bool $replicateAsHeader
+     * @param bool $addHeader
      *
      * @return Builder
      */
-    public function setAudience($audience, bool $replicateAsHeader = false): Builder
+    public function canOnlyBeUsedBy(string $audience, bool $addHeader = false): Builder
     {
-        if (!is_array($audience)) {
-            $audience = [$audience];
-        }
+        $audiences = isset($this->claims['aud'])
+            ? array_merge($this->claims['aud']->getValue(), [$audience])
+            : [$audience];
 
         return $this->setRegisteredClaim(
             'aud',
-            array_values(array_map('strval', $audience)),
-            $replicateAsHeader
+            array_values(array_map('strval', $audiences)),
+            $addHeader
         );
     }
 
@@ -98,78 +98,78 @@ class Builder
      * Configures the expiration time
      *
      * @param int $expiration
-     * @param bool $replicateAsHeader
+     * @param bool $addHeader
      *
      * @return Builder
      */
-    public function setExpiration(int $expiration, bool $replicateAsHeader = false): Builder
+    public function expiresAt(int $expiration, bool $addHeader = false): Builder
     {
-        return $this->setRegisteredClaim('exp', $expiration, $replicateAsHeader);
+        return $this->setRegisteredClaim('exp', $expiration, $addHeader);
     }
 
     /**
      * Configures the token id
      *
      * @param string $id
-     * @param boolean $replicateAsHeader
+     * @param boolean $addHeader
      *
      * @return Builder
      */
-    public function setId(string $id, bool $replicateAsHeader = false): Builder
+    public function withId(string $id, bool $addHeader = false): Builder
     {
-        return $this->setRegisteredClaim('jti', $id, $replicateAsHeader);
+        return $this->setRegisteredClaim('jti', $id, $addHeader);
     }
 
     /**
      * Configures the time that the token was issued
      *
      * @param int $issuedAt
-     * @param bool $replicateAsHeader
+     * @param bool $addHeader
      *
      * @return Builder
      */
-    public function setIssuedAt(int $issuedAt, bool $replicateAsHeader = false): Builder
+    public function issuedAt(int $issuedAt, bool $addHeader = false): Builder
     {
-        return $this->setRegisteredClaim('iat', (int) $issuedAt, $replicateAsHeader);
+        return $this->setRegisteredClaim('iat', (int) $issuedAt, $addHeader);
     }
 
     /**
      * Configures the issuer
      *
      * @param string $issuer
-     * @param bool $replicateAsHeader
+     * @param bool $addHeader
      *
      * @return Builder
      */
-    public function setIssuer(string $issuer, bool $replicateAsHeader = false): Builder
+    public function issuedBy(string $issuer, bool $addHeader = false): Builder
     {
-        return $this->setRegisteredClaim('iss', $issuer, $replicateAsHeader);
+        return $this->setRegisteredClaim('iss', $issuer, $addHeader);
     }
 
     /**
      * Configures the time before which the token cannot be accepted
      *
      * @param int $notBefore
-     * @param bool $replicateAsHeader
+     * @param bool $addHeader
      *
      * @return Builder
      */
-    public function setNotBefore(int $notBefore, bool $replicateAsHeader = false): Builder
+    public function canOnlyBeUsedAfter(int $notBefore, bool $addHeader = false): Builder
     {
-        return $this->setRegisteredClaim('nbf', $notBefore, $replicateAsHeader);
+        return $this->setRegisteredClaim('nbf', $notBefore, $addHeader);
     }
 
     /**
      * Configures the subject
      *
      * @param string $subject
-     * @param bool $replicateAsHeader
+     * @param bool $addHeader
      *
      * @return Builder
      */
-    public function setSubject(string $subject, bool $replicateAsHeader = false): Builder
+    public function relatedTo(string $subject, bool $addHeader = false): Builder
     {
-        return $this->setRegisteredClaim('sub', $subject, $replicateAsHeader);
+        return $this->setRegisteredClaim('sub', $subject, $addHeader);
     }
 
     /**
@@ -177,15 +177,15 @@ class Builder
      *
      * @param string $name
      * @param mixed $value
-     * @param bool $replicate
+     * @param bool $addHeader
      *
      * @return Builder
      */
-    protected function setRegisteredClaim(string $name, $value, bool $replicate): Builder
+    protected function setRegisteredClaim(string $name, $value, bool $addHeader): Builder
     {
-        $this->set($name, $value);
+        $this->with($name, $value);
 
-        if ($replicate) {
+        if ($addHeader) {
             $this->headers[$name] = $this->claims[$name];
         }
 
@@ -202,7 +202,7 @@ class Builder
      *
      * @throws BadMethodCallException When data has been already signed
      */
-    public function setHeader(string $name, $value): Builder
+    public function withHeader(string $name, $value): Builder
     {
         if ($this->signature) {
             throw new BadMethodCallException('You must unsign before make changes');
@@ -223,7 +223,7 @@ class Builder
      *
      * @throws BadMethodCallException When data has been already signed
      */
-    public function set(string $name, $value): Builder
+    public function with(string $name, $value): Builder
     {
         if ($this->signature) {
             throw new BadMethodCallException('You must unsign before making changes');
@@ -238,11 +238,11 @@ class Builder
      * Signs the data
      *
      * @param Signer $signer
-     * @param Key|string $key
+     * @param Key $key
      *
      * @return Builder
      */
-    public function sign(Signer $signer, $key): Builder
+    public function sign(Signer $signer, Key $key): Builder
     {
         $signer->modifyHeader($this->headers);
 

@@ -42,13 +42,13 @@ $config = new Configuration(); // This object helps to simplify the creation of 
                                // instead of using "?:" on constructors.
 
 $token = $config->createBuilder()
-                ->setIssuer('http://example.com') // Configures the issuer (iss claim)
-                ->setAudience('http://example.org') // Configures the audience (aud claim)
-                ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
-                ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
-                ->set('uid', 1) // Configures a new claim, called "uid"
+                ->issuedBy('http://example.com') // Configures the issuer (iss claim)
+                ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
+                ->withId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                ->issuedAt(time()) // Configures the time that the token was issue (iat claim)
+                ->canOnlyBeUsedAfter(time() + 60) // Configures the time that the token can be used (nbf claim)
+                ->expiresAt(time() + 3600) // Configures the expiration time of the token (exp claim)
+                ->with('uid', 1) // Configures a new claim, called "uid"
                 ->getToken(); // Retrieves the generated token
 
 
@@ -70,13 +70,15 @@ $config = new Configuration(); // This object helps to simplify the creation of 
                                // instead of using "?:" on constructors.
 
 $token = $config->createBuilder()
-                ->setIssuer('http://example.com')
-                ->setAudience(['http://example.org', 'http://example.com', 'http://example.io']) // Sets all three as audience members of this token.
-                ->setId('4f1g23a12aa', true)
-                ->setIssuedAt(time())
-                ->setNotBefore(time() + 60)
-                ->setExpiration(time() + 3600)
-                ->set('uid', 1)
+                ->issuedBy('http://example.com')
+                ->canOnlyBeUsedBy('http://example.org')
+                ->canOnlyBeUsedBy('http://example.com')
+                ->canOnlyBeUsedBy('http://example.io') // Sets all three as audience members of this token.
+                ->withId('4f1g23a12aa', true)
+                ->issuedAt(time())
+                ->canOnlyBeUsedAfter(time() + 60)
+                ->expiresAt(time() + 3600)
+                ->with('uid', 1)
                 ->getToken();
 ```
 
@@ -106,9 +108,9 @@ We can easily validate if the token is valid (using the previous token as exampl
 use Lcobucci\JWT\ValidationData;
 
 $data = new ValidationData(); // It will use the current time to validate (iat, nbf and exp)
-$data->setIssuer('http://example.com');
-$data->setAudience('http://example.org');
-$data->setId('4f1g23a12aa');
+$data->issuedBy('http://example.com');
+$data->canOnlyBeUsedBy('http://example.org');
+$data->withId('4f1g23a12aa');
 
 var_dump($token->validate($data)); // false, because token cannot be used before of now() + 60
 
@@ -125,8 +127,8 @@ If we have multiple possible issuers of an equivalent token, then it is possible
 
 ```php
 $data = new ValidationData();
-$data->setIssuer(['http://example.com', 'http://example.io']);
-$data->setAudience('http://example.org');
+$data->issuedBy(['http://example.com', 'http://example.io']);
+$data->canOnlyBeUsedBy('http://example.org');
 ```
 
 #### Important
@@ -160,13 +162,13 @@ $config = new Configuration();
 $signer = $config->getSigner(); // Default signer is HMAC SHA256
 
 $token = $config->createBuilder()
-                ->setIssuer('http://example.com') // Configures the issuer (iss claim)
-                ->setAudience('http://example.org') // Configures the audience (aud claim)
-                ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
-                ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
-                ->set('uid', 1) // Configures a new claim, called "uid"
+                ->issuedBy('http://example.com') // Configures the issuer (iss claim)
+                ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
+                ->withId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                ->issuedAt(time()) // Configures the time that the token was issue (iat claim)
+                ->canOnlyBeUsedAfter(time() + 60) // Configures the time that the token can be used (nbf claim)
+                ->expiresAt(time() + 3600) // Configures the expiration time of the token (exp claim)
+                ->with('uid', 1) // Configures a new claim, called "uid"
                 ->sign($signer, 'testing') // creates a signature using "testing" as key
                 ->getToken(); // Retrieves the generated token
 
@@ -190,13 +192,13 @@ $signer = $config->getSigner();
 $privateKey = new Key('file://{path to your private key}');
 
 $token = $config->createBuilder()
-                ->setIssuer('http://example.com') // Configures the issuer (iss claim)
-                ->setAudience('http://example.org') // Configures the audience (aud claim)
-                ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
-                ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
-                ->set('uid', 1) // Configures a new claim, called "uid"
+                ->issuedBy('http://example.com') // Configures the issuer (iss claim)
+                ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
+                ->withId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                ->issuedAt(time()) // Configures the time that the token was issue (iat claim)
+                ->canOnlyBeUsedAfter(time() + 60) // Configures the time that the token can be used (nbf claim)
+                ->expiresAt(time() + 3600) // Configures the expiration time of the token (exp claim)
+                ->with('uid', 1) // Configures a new claim, called "uid"
                 ->sign($signer,  $privateKey) // creates a signature using your private key
                 ->getToken(); // Retrieves the generated token
 

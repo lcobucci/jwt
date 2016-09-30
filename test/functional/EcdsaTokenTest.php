@@ -64,10 +64,10 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
     {
         $builder = $this->config->createBuilder();
 
-        $builder->setId('1')
-                ->setAudience('http://client.abc.com')
-                ->setIssuer('http://api.abc.com')
-                ->set('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
+        $builder->withId('1')
+                ->canOnlyBeUsedBy('http://client.abc.com')
+                ->issuedBy('http://api.abc.com')
+                ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
                 ->sign($this->config->getSigner(), new Key('testing'));
     }
 
@@ -94,10 +94,10 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
     {
         $builder = $this->config->createBuilder();
 
-        $builder->setId('1')
-                ->setAudience('http://client.abc.com')
-                ->setIssuer('http://api.abc.com')
-                ->set('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
+        $builder->withId('1')
+                ->canOnlyBeUsedBy('http://client.abc.com')
+                ->issuedBy('http://api.abc.com')
+                ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
                 ->sign($this->config->getSigner(), static::$rsaKeys['private']);
     }
 
@@ -123,17 +123,18 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->createBuilder();
 
-        $token = $builder->setId('1')
-                         ->setAudience('http://client.abc.com')
-                         ->setIssuer('http://api.abc.com')
-                         ->set('user', $user)
-                         ->setHeader('jki', '1234')
+        $token = $builder->withId('1')
+                         ->canOnlyBeUsedBy('http://client.abc.com')
+                         ->canOnlyBeUsedBy('http://client2.abc.com')
+                         ->issuedBy('http://api.abc.com')
+                         ->with('user', $user)
+                         ->withHeader('jki', '1234')
                          ->sign($this->config->getSigner(), static::$ecdsaKeys['private'])
                          ->getToken();
 
         $this->assertAttributeInstanceOf(Signature::class, 'signature', $token);
         $this->assertEquals('1234', $token->getHeader('jki'));
-        $this->assertEquals(['http://client.abc.com'], $token->getClaim('aud'));
+        $this->assertEquals(['http://client.abc.com', 'http://client2.abc.com', ], $token->getClaim('aud'));
         $this->assertEquals('http://api.abc.com', $token->getClaim('iss'));
         $this->assertEquals($user, $token->getClaim('user'));
 
@@ -290,11 +291,11 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
         $builder = $this->config->createBuilder();
         $signer = $this->config->getSigner();
 
-        $token = $builder->setId('1')
-                         ->setAudience('http://client.abc.com')
-                         ->setIssuer('http://api.abc.com')
-                         ->set('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-                         ->setHeader('jki', '1234')
+        $token = $builder->withId('1')
+                         ->canOnlyBeUsedBy('http://client.abc.com')
+                         ->issuedBy('http://api.abc.com')
+                         ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
+                         ->withHeader('jki', '1234')
                          ->sign($signer, static::$ecdsaKeys['private-params'])
                          ->getToken();
 
