@@ -10,10 +10,10 @@ before_script:
   - composer install --prefer-dist -o
 
 script:
-  - ./vendor/bin/phpunit --coverage-clover ./clover.xml test/unit
+  - ./vendor/bin/phpunit --coverage-clover ./clover.xml --testsuite=unit
   - ./vendor/bin/phpunit test/functional
   - if php -i |grep -qE xdebug; then ./vendor/bin/humbug --options='--testsuite=unit'; fi
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover ./clover.xml
+  - if [ -f clover.xml ]; then php ocular.phar code-coverage:upload --format=php-clover ./clover.xml; fi
