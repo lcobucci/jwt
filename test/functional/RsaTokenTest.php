@@ -120,11 +120,11 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
                          ->sign($this->config->getSigner(), static::$rsaKeys['private'])
                          ->getToken();
 
-        $this->assertAttributeInstanceOf(Signature::class, 'signature', $token);
-        $this->assertEquals('1234', $token->getHeader('jki'));
-        $this->assertEquals(['http://client.abc.com'], $token->getClaim('aud'));
-        $this->assertEquals('http://api.abc.com', $token->getClaim('iss'));
-        $this->assertEquals($user, $token->getClaim('user'));
+        self::assertAttributeInstanceOf(Signature::class, 'signature', $token);
+        self::assertEquals('1234', $token->getHeader('jki'));
+        self::assertEquals(['http://client.abc.com'], $token->getClaim('aud'));
+        self::assertEquals('http://api.abc.com', $token->getClaim('iss'));
+        self::assertEquals($user, $token->getClaim('user'));
 
         return $token;
     }
@@ -146,8 +146,8 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
     {
         $read = $this->config->getParser()->parse((string) $generated);
 
-        $this->assertEquals($generated, $read);
-        $this->assertEquals('testing', $read->getClaim('user')['name']);
+        self::assertEquals($generated, $read);
+        self::assertEquals('testing', $read->getClaim('user')['name']);
     }
 
     /**
@@ -169,7 +169,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnFalseWhenKeyIsNotRight(Token $token)
     {
-        $this->assertFalse($token->verify($this->config->getSigner(), self::$rsaKeys['encrypted-public']));
+        self::assertFalse($token->verify($this->config->getSigner(), self::$rsaKeys['encrypted-public']));
     }
 
     /**
@@ -192,7 +192,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnFalseWhenAlgorithmIsDifferent(Token $token)
     {
-        $this->assertFalse($token->verify(new Sha512(), self::$rsaKeys['public']));
+        self::assertFalse($token->verify(new Sha512(), self::$rsaKeys['public']));
     }
 
     /**
@@ -216,7 +216,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token)
     {
-        $this->assertFalse($token->verify($this->config->getSigner(), self::$ecdsaKeys['public1']));
+        self::assertFalse($token->verify($this->config->getSigner(), self::$ecdsaKeys['public1']));
     }
 
     /**
@@ -238,7 +238,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnTrueWhenKeyIsRight(Token $token)
     {
-        $this->assertTrue($token->verify($this->config->getSigner(), self::$rsaKeys['public']));
+        self::assertTrue($token->verify($this->config->getSigner(), self::$rsaKeys['public']));
     }
 
     /**
@@ -267,7 +267,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
 
         $token = $this->config->getParser()->parse((string) $data);
 
-        $this->assertEquals('world', $token->getClaim('hello'));
-        $this->assertTrue($token->verify($this->config->getSigner(), self::$rsaKeys['public']));
+        self::assertEquals('world', $token->getClaim('hello'));
+        self::assertTrue($token->verify($this->config->getSigner(), self::$rsaKeys['public']));
     }
 }

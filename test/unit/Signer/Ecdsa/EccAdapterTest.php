@@ -70,10 +70,10 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $adapter = $this->createAdapter();
 
-        $this->assertAttributeSame($this->signer, 'signer', $adapter);
-        $this->assertAttributeSame($this->nistCurve, 'nistCurve', $adapter);
-        $this->assertAttributeSame($this->serializer, 'serializer', $adapter);
-        $this->assertAttributeSame($this->numberGenerator, 'numberGenerator', $adapter);
+        self::assertAttributeSame($this->signer, 'signer', $adapter);
+        self::assertAttributeSame($this->nistCurve, 'nistCurve', $adapter);
+        self::assertAttributeSame($this->serializer, 'serializer', $adapter);
+        self::assertAttributeSame($this->numberGenerator, 'numberGenerator', $adapter);
     }
 
     /**
@@ -88,10 +88,10 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $adapter = EccAdapter::create($this->mathInterface);
 
-        $this->assertAttributeInstanceOf(Signer::class, 'signer', $adapter);
-        $this->assertAttributeInstanceOf(NistCurve::class, 'nistCurve', $adapter);
-        $this->assertAttributeInstanceOf(SignatureSerializer::class, 'serializer', $adapter);
-        $this->assertAttributeInstanceOf(RandomNumberGeneratorInterface::class, 'numberGenerator', $adapter);
+        self::assertAttributeInstanceOf(Signer::class, 'signer', $adapter);
+        self::assertAttributeInstanceOf(NistCurve::class, 'nistCurve', $adapter);
+        self::assertAttributeInstanceOf(SignatureSerializer::class, 'serializer', $adapter);
+        self::assertAttributeInstanceOf(RandomNumberGeneratorInterface::class, 'numberGenerator', $adapter);
     }
 
     /**
@@ -131,7 +131,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
 
         $adapter = $this->createAdapter();
 
-        $this->assertEquals(
+        self::assertEquals(
             'serialized_signature',
             $adapter->createHash($key, $signingHash, 'sha256')
         );
@@ -162,7 +162,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
 
         $adapter = $this->createAdapter();
 
-        $this->assertTrue(
+        self::assertTrue(
             $adapter->verifyHash('test', $key, $signingHash, 'sha256')
         );
     }
@@ -207,7 +207,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
 
         $adapter = $this->createAdapter();
 
-        $this->assertSame(
+        self::assertSame(
             $signingHash,
             $adapter->createSigningHash('testing', 'sha256')
         );

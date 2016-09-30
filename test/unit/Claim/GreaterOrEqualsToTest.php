@@ -31,7 +31,7 @@ class GreaterOrEqualsToTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new GreaterOrEqualsTo('jti', 10);
 
-        $this->assertTrue($claim->validate(new ValidationData()));
+        self::assertTrue($claim->validate(new ValidationData()));
     }
 
     /**
@@ -52,7 +52,7 @@ class GreaterOrEqualsToTest extends \PHPUnit_Framework_TestCase
         $claim = new GreaterOrEqualsTo('iat', 11);
         $data = new ValidationData(10);
 
-        $this->assertTrue($claim->validate($data));
+        self::assertTrue($claim->validate($data));
     }
 
     /**
@@ -73,7 +73,7 @@ class GreaterOrEqualsToTest extends \PHPUnit_Framework_TestCase
         $claim = new GreaterOrEqualsTo('iat', 10);
         $data = new ValidationData(10);
 
-        $this->assertTrue($claim->validate($data));
+        self::assertTrue($claim->validate($data));
     }
 
     /**
@@ -94,6 +94,6 @@ class GreaterOrEqualsToTest extends \PHPUnit_Framework_TestCase
         $claim = new GreaterOrEqualsTo('iat', 10);
         $data = new ValidationData(11);
 
-        $this->assertFalse($claim->validate($data));
+        self::assertFalse($claim->validate($data));
     }
 }

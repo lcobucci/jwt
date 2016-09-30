@@ -27,7 +27,7 @@ class Sha384Test extends BaseTestCase
      */
     public function createShouldReturnAValidInstance()
     {
-        $this->assertInstanceOf(Sha384::class, Sha384::create());
+        self::assertInstanceOf(Sha384::class, Sha384::create());
     }
 
     /**
@@ -39,7 +39,7 @@ class Sha384Test extends BaseTestCase
      */
     public function getAlgorithmIdMustBeCorrect()
     {
-        $this->assertEquals('ES384', $this->getSigner()->getAlgorithmId());
+        self::assertEquals('ES384', $this->getSigner()->getAlgorithmId());
     }
 
     /**
@@ -51,7 +51,7 @@ class Sha384Test extends BaseTestCase
      */
     public function getAlgorithmMustBeCorrect()
     {
-        $this->assertEquals('sha384', $this->getSigner()->getAlgorithm());
+        self::assertEquals('sha384', $this->getSigner()->getAlgorithm());
     }
 
     private function getSigner(): Sha384

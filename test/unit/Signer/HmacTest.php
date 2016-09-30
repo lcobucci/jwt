@@ -47,7 +47,7 @@ class HmacTest extends \PHPUnit_Framework_TestCase
     {
         $hash = hash_hmac('sha256', 'test', '123', true);
 
-        $this->assertEquals($hash, $this->signer->createHash('test', new Key('123')));
+        self::assertEquals($hash, $this->signer->createHash('test', new Key('123')));
 
         return $hash;
     }
@@ -64,7 +64,7 @@ class HmacTest extends \PHPUnit_Framework_TestCase
      */
     public function doVerifyShouldReturnTrueWhenExpectedHashWasCreatedWithSameInformation(string $expected)
     {
-        $this->assertTrue($this->signer->doVerify($expected, 'test', new Key('123')));
+        self::assertTrue($this->signer->doVerify($expected, 'test', new Key('123')));
     }
 
     /**
@@ -79,6 +79,6 @@ class HmacTest extends \PHPUnit_Framework_TestCase
      */
     public function doVerifyShouldReturnFalseWhenExpectedHashWasNotCreatedWithSameInformation($expected)
     {
-        $this->assertFalse($this->signer->doVerify($expected, 'test', new Key('1234')));
+        self::assertFalse($this->signer->doVerify($expected, 'test', new Key('1234')));
     }
 }

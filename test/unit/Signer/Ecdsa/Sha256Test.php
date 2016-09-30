@@ -27,7 +27,7 @@ class Sha256Test extends BaseTestCase
      */
     public function createShouldReturnAValidInstance()
     {
-        $this->assertInstanceOf(Sha256::class, Sha256::create());
+        self::assertInstanceOf(Sha256::class, Sha256::create());
     }
 
     /**
@@ -39,7 +39,7 @@ class Sha256Test extends BaseTestCase
      */
     public function getAlgorithmIdMustBeCorrect()
     {
-        $this->assertEquals('ES256', $this->getSigner()->getAlgorithmId());
+        self::assertEquals('ES256', $this->getSigner()->getAlgorithmId());
     }
 
     /**
@@ -51,7 +51,7 @@ class Sha256Test extends BaseTestCase
      */
     public function getAlgorithmMustBeCorrect()
     {
-        $this->assertEquals('sha256', $this->getSigner()->getAlgorithm());
+        self::assertEquals('sha256', $this->getSigner()->getAlgorithm());
     }
 
     private function getSigner(): Sha256

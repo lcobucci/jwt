@@ -55,11 +55,11 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
                          ->with('user', $user)
                          ->getToken();
 
-        $this->assertAttributeEquals(null, 'signature', $token);
-        $this->assertEquals(['http://client.abc.com'], $token->getClaim('aud'));
-        $this->assertEquals('http://api.abc.com', $token->getClaim('iss'));
-        $this->assertEquals(self::CURRENT_TIME + 3000, $token->getClaim('exp'));
-        $this->assertEquals($user, $token->getClaim('user'));
+        self::assertAttributeEquals(null, 'signature', $token);
+        self::assertEquals(['http://client.abc.com'], $token->getClaim('aud'));
+        self::assertEquals('http://api.abc.com', $token->getClaim('iss'));
+        self::assertEquals(self::CURRENT_TIME + 3000, $token->getClaim('exp'));
+        self::assertEquals($user, $token->getClaim('user'));
 
         return $token;
     }
@@ -80,8 +80,8 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
     {
         $read = $this->config->getParser()->parse((string) $generated);
 
-        $this->assertEquals($generated, $read);
-        $this->assertEquals('testing', $read->getClaim('user')['name']);
+        self::assertEquals($generated, $read);
+        self::assertEquals('testing', $read->getClaim('user')['name']);
     }
 
     /**
@@ -107,7 +107,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
         $data->setAudience('http://client.abc.com');
         $data->setIssuer('http://api.abc.com');
 
-        $this->assertTrue($generated->validate($data));
+        self::assertTrue($generated->validate($data));
     }
 
     /**
@@ -131,7 +131,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function tokenValidationShouldReturnFalseWhenExpectedDataDontMatch(ValidationData $data, Token $generated)
     {
-        $this->assertFalse($generated->validate($data));
+        self::assertFalse($generated->validate($data));
     }
 
     public function invalidValidationData()

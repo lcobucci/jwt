@@ -39,8 +39,8 @@ class KeyTest extends \PHPUnit_Framework_TestCase
     {
         $key = new Key('testing', 'test');
 
-        $this->assertAttributeEquals('testing', 'content', $key);
-        $this->assertAttributeEquals('test', 'passphrase', $key);
+        self::assertAttributeEquals('testing', 'content', $key);
+        self::assertAttributeEquals('test', 'passphrase', $key);
     }
 
     /**
@@ -54,8 +54,8 @@ class KeyTest extends \PHPUnit_Framework_TestCase
     {
         $key = new Key('file://' . vfsStream::url('root/test.pem'));
 
-        $this->assertAttributeEquals('testing', 'content', $key);
-        $this->assertAttributeEquals(null, 'passphrase', $key);
+        self::assertAttributeEquals('testing', 'content', $key);
+        self::assertAttributeEquals(null, 'passphrase', $key);
     }
 
     /**
@@ -84,7 +84,7 @@ class KeyTest extends \PHPUnit_Framework_TestCase
     {
         $key = new Key('testing', 'test');
 
-        $this->assertEquals('testing', $key->getContent());
+        self::assertEquals('testing', $key->getContent());
     }
 
     /**
@@ -99,6 +99,6 @@ class KeyTest extends \PHPUnit_Framework_TestCase
     {
         $key = new Key('testing', 'test');
 
-        $this->assertEquals('test', $key->getPassphrase());
+        self::assertEquals('test', $key->getPassphrase());
     }
 }

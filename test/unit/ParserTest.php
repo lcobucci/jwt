@@ -64,8 +64,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = $this->createParser();
 
-        $this->assertAttributeSame($this->decoder, 'decoder', $parser);
-        $this->assertAttributeSame($this->claimFactory, 'claimFactory', $parser);
+        self::assertAttributeSame($this->decoder, 'decoder', $parser);
+        self::assertAttributeSame($this->claimFactory, 'claimFactory', $parser);
     }
 
     /**
@@ -167,10 +167,10 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.b.');
 
-        $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'none'], 'headers', $token);
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
-        $this->assertAttributeEquals(null, 'signature', $token);
-        $this->assertAttributeEquals(['a', 'b'], 'payload', $token);
+        self::assertAttributeEquals(['typ' => 'JWT', 'alg' => 'none'], 'headers', $token);
+        self::assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
+        self::assertAttributeEquals(null, 'signature', $token);
+        self::assertAttributeEquals(['a', 'b'], 'payload', $token);
     }
 
     /**
@@ -210,15 +210,15 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.b.');
 
-        $this->assertAttributeEquals(
+        self::assertAttributeEquals(
             ['typ' => 'JWT', 'alg' => 'none', 'aud' => $this->defaultClaim],
             'headers',
             $token
         );
 
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
-        $this->assertAttributeEquals(null, 'signature', $token);
-        $this->assertAttributeEquals(['a', 'b'], 'payload', $token);
+        self::assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
+        self::assertAttributeEquals(null, 'signature', $token);
+        self::assertAttributeEquals(['a', 'b'], 'payload', $token);
     }
 
     /**
@@ -258,10 +258,10 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.b.c');
 
-        $this->assertAttributeEquals(['typ' => 'JWT'], 'headers', $token);
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
-        $this->assertAttributeEquals(null, 'signature', $token);
-        $this->assertAttributeEquals(['a', 'b'], 'payload', $token);
+        self::assertAttributeEquals(['typ' => 'JWT'], 'headers', $token);
+        self::assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
+        self::assertAttributeEquals(null, 'signature', $token);
+        self::assertAttributeEquals(['a', 'b'], 'payload', $token);
     }
 
     /**
@@ -301,10 +301,10 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.b.c');
 
-        $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'none'], 'headers', $token);
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
-        $this->assertAttributeEquals(null, 'signature', $token);
-        $this->assertAttributeEquals(['a', 'b'], 'payload', $token);
+        self::assertAttributeEquals(['typ' => 'JWT', 'alg' => 'none'], 'headers', $token);
+        self::assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
+        self::assertAttributeEquals(null, 'signature', $token);
+        self::assertAttributeEquals(['a', 'b'], 'payload', $token);
     }
 
     /**
@@ -350,9 +350,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.b.c');
 
-        $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'HS256'], 'headers', $token);
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
-        $this->assertAttributeEquals(new Signature('c_dec'), 'signature', $token);
-        $this->assertAttributeEquals(['a', 'b', 'c'], 'payload', $token);
+        self::assertAttributeEquals(['typ' => 'JWT', 'alg' => 'HS256'], 'headers', $token);
+        self::assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
+        self::assertAttributeEquals(new Signature('c_dec'), 'signature', $token);
+        self::assertAttributeEquals(['a', 'b', 'c'], 'payload', $token);
     }
 }

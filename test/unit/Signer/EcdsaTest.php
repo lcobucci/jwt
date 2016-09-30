@@ -47,7 +47,7 @@ class EcdsaTest extends BaseTestCase
     {
         $signer = $this->getSigner();
 
-        $this->assertAttributeSame($this->adapter, 'adapter', $signer);
+        self::assertAttributeSame($this->adapter, 'adapter', $signer);
     }
 
     /**
@@ -80,7 +80,7 @@ class EcdsaTest extends BaseTestCase
                       ->with($privateKey, $signingHash)
                       ->willReturn('string');
 
-        $this->assertInternalType('string', $signer->createHash('testing', $key));
+        self::assertInternalType('string', $signer->createHash('testing', $key));
     }
 
     /**
@@ -113,6 +113,6 @@ class EcdsaTest extends BaseTestCase
                       ->with('testing', $publicKey, $signingHash)
                       ->willReturn(true);
 
-        $this->assertTrue($signer->doVerify('testing', 'testing2', $key));
+        self::assertTrue($signer->doVerify('testing', 'testing2', $key));
     }
 }

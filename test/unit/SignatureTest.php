@@ -37,7 +37,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     {
         $signature = new Signature('test');
 
-        $this->assertAttributeEquals('test', 'hash', $signature);
+        self::assertAttributeEquals('test', 'hash', $signature);
     }
 
     /**
@@ -51,7 +51,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     {
         $signature = new Signature('test');
 
-        $this->assertEquals('test', (string) $signature);
+        self::assertEquals('test', (string) $signature);
     }
 
     /**
@@ -70,6 +70,6 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
 
         $signature = new Signature('test');
 
-        $this->assertTrue($signature->verify($this->signer, 'one', 'key'));
+        self::assertTrue($signature->verify($this->signer, 'one', 'key'));
     }
 }

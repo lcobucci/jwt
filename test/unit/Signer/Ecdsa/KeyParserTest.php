@@ -57,8 +57,8 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = new KeyParser($this->privateKeySerializer, $this->publicKeySerializer);
 
-        $this->assertAttributeSame($this->privateKeySerializer, 'privateKeySerializer', $parser);
-        $this->assertAttributeSame($this->publicKeySerializer, 'publicKeySerializer', $parser);
+        self::assertAttributeSame($this->privateKeySerializer, 'privateKeySerializer', $parser);
+        self::assertAttributeSame($this->publicKeySerializer, 'publicKeySerializer', $parser);
     }
 
     /**
@@ -72,13 +72,13 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = KeyParser::create($this->adapter);
 
-        $this->assertAttributeInstanceOf(
+        self::assertAttributeInstanceOf(
             PrivateKeySerializerInterface::class,
             'privateKeySerializer',
             $parser
         );
 
-        $this->assertAttributeInstanceOf(
+        self::assertAttributeInstanceOf(
             PublicKeySerializerInterface::class,
             'publicKeySerializer',
             $parser
@@ -108,7 +108,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
                                    ->willReturn($privateKey);
 
         $parser = new KeyParser($this->privateKeySerializer, $this->publicKeySerializer);
-        $this->assertSame($privateKey, $parser->getPrivateKey($this->getPrivateKey()));
+        self::assertSame($privateKey, $parser->getPrivateKey($this->getPrivateKey()));
     }
 
     /**
@@ -153,7 +153,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
                                   ->willReturn($publicKey);
 
         $parser = new KeyParser($this->privateKeySerializer, $this->publicKeySerializer);
-        $this->assertSame($publicKey, $parser->getPublicKey($this->getPublicKey()));
+        self::assertSame($publicKey, $parser->getPublicKey($this->getPublicKey()));
     }
 
     /**

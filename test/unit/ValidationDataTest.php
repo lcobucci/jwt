@@ -25,7 +25,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $expected = $this->createExpectedData();
         $data = new ValidationData(1);
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
@@ -41,7 +41,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
         $data->setId('test');
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
@@ -57,7 +57,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
         $data->setIssuer('test');
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
@@ -73,7 +73,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
         $data->setIssuer(['test', 'test2']);
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
@@ -89,7 +89,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
         $data->setAudience('test');
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
@@ -105,7 +105,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
         $data->setSubject('test');
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
@@ -121,7 +121,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData(1);
         $data->setCurrentTime(2);
 
-        $this->assertAttributeSame($expected, 'items', $data);
+        self::assertAttributeSame($expected, 'items', $data);
     }
 
     /**
@@ -135,7 +135,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     {
         $data = new ValidationData(1);
 
-        $this->assertTrue($data->has('iat'));
+        self::assertTrue($data->has('iat'));
     }
 
     /**
@@ -149,7 +149,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     {
         $data = new ValidationData(1);
 
-        $this->assertFalse($data->has('jti'));
+        self::assertFalse($data->has('jti'));
     }
 
     /**
@@ -163,7 +163,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     {
         $data = new ValidationData(1);
 
-        $this->assertFalse($data->has('test'));
+        self::assertFalse($data->has('test'));
     }
 
     /**
@@ -177,7 +177,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     {
         $data = new ValidationData(1);
 
-        $this->assertEquals(1, $data->get('iat'));
+        self::assertEquals(1, $data->get('iat'));
     }
 
     /**
@@ -191,7 +191,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     {
         $data = new ValidationData(1);
 
-        $this->assertNull($data->get('test'));
+        self::assertNull($data->get('test'));
     }
 
     /**

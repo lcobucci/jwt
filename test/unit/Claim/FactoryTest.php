@@ -37,7 +37,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'test' => $callback
         ];
 
-        $this->assertAttributeEquals($expected, 'callbacks', $factory);
+        self::assertAttributeEquals($expected, 'callbacks', $factory);
     }
 
     /**
@@ -53,7 +53,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(LesserOrEqualsTo::class, $claim->create('iat', 1));
+        self::assertInstanceOf(LesserOrEqualsTo::class, $claim->create('iat', 1));
     }
 
     /**
@@ -69,7 +69,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(LesserOrEqualsTo::class, $claim->create('nbf', 1));
+        self::assertInstanceOf(LesserOrEqualsTo::class, $claim->create('nbf', 1));
     }
 
     /**
@@ -85,7 +85,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(GreaterOrEqualsTo::class, $claim->create('exp', 1));
+        self::assertInstanceOf(GreaterOrEqualsTo::class, $claim->create('exp', 1));
     }
 
     /**
@@ -101,7 +101,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(EqualsTo::class, $claim->create('jti', 1));
+        self::assertInstanceOf(EqualsTo::class, $claim->create('jti', 1));
     }
 
     /**
@@ -117,7 +117,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(ContainedEqualsTo::class, $claim->create('iss', 1));
+        self::assertInstanceOf(ContainedEqualsTo::class, $claim->create('iss', 1));
     }
 
     /**
@@ -133,7 +133,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(ContainsEqualsTo::class, $claim->create('aud', 1));
+        self::assertInstanceOf(ContainsEqualsTo::class, $claim->create('aud', 1));
     }
 
     /**
@@ -149,7 +149,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(EqualsTo::class, $claim->create('sub', 1));
+        self::assertInstanceOf(EqualsTo::class, $claim->create('sub', 1));
     }
 
     /**
@@ -165,6 +165,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Factory();
 
-        $this->assertInstanceOf(Basic::class, $claim->create('test', 1));
+        self::assertInstanceOf(Basic::class, $claim->create('test', 1));
     }
 }

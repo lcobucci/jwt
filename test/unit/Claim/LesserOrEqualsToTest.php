@@ -31,7 +31,7 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new LesserOrEqualsTo('jti', 10);
 
-        $this->assertTrue($claim->validate(new ValidationData()));
+        self::assertTrue($claim->validate(new ValidationData()));
     }
 
     /**
@@ -52,7 +52,7 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
         $claim = new LesserOrEqualsTo('iat', 10);
         $data = new ValidationData(11);
 
-        $this->assertTrue($claim->validate($data));
+        self::assertTrue($claim->validate($data));
     }
 
     /**
@@ -73,7 +73,7 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
         $claim = new LesserOrEqualsTo('iat', 10);
         $data = new ValidationData(10);
 
-        $this->assertTrue($claim->validate($data));
+        self::assertTrue($claim->validate($data));
     }
 
     /**
@@ -94,6 +94,6 @@ class LesserOrEqualsToTest extends \PHPUnit_Framework_TestCase
         $claim = new LesserOrEqualsTo('iat', 11);
         $data = new ValidationData(10);
 
-        $this->assertFalse($claim->validate($data));
+        self::assertFalse($claim->validate($data));
     }
 }

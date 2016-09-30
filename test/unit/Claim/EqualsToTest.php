@@ -29,7 +29,7 @@ class EqualsToTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new EqualsTo('sub', 'test');
 
-        $this->assertTrue($claim->validate(new ValidationData()));
+        self::assertTrue($claim->validate(new ValidationData()));
     }
 
     /**
@@ -47,7 +47,7 @@ class EqualsToTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData();
         $data->setSubject('test');
 
-        $this->assertTrue($claim->validate($data));
+        self::assertTrue($claim->validate($data));
     }
 
     /**
@@ -65,6 +65,6 @@ class EqualsToTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData();
         $data->setSubject('test1');
 
-        $this->assertFalse($claim->validate($data));
+        self::assertFalse($claim->validate($data));
     }
 }

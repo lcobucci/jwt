@@ -24,8 +24,8 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Basic('test', 1);
 
-        $this->assertAttributeEquals('test', 'name', $claim);
-        $this->assertAttributeEquals(1, 'value', $claim);
+        self::assertAttributeEquals('test', 'name', $claim);
+        self::assertAttributeEquals(1, 'value', $claim);
     }
 
     /**
@@ -39,7 +39,7 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Basic('test', 1);
 
-        $this->assertEquals('test', $claim->getName());
+        self::assertEquals('test', $claim->getName());
     }
 
     /**
@@ -53,7 +53,7 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Basic('test', 1);
 
-        $this->assertEquals(1, $claim->getValue());
+        self::assertEquals(1, $claim->getValue());
     }
 
     /**
@@ -67,7 +67,7 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Basic('test', 1);
 
-        $this->assertEquals(1, $claim->jsonSerialize());
+        self::assertEquals(1, $claim->jsonSerialize());
     }
 
     /**
@@ -81,6 +81,6 @@ class BasicTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new Basic('test', 1);
 
-        $this->assertEquals('1', (string) $claim);
+        self::assertEquals('1', (string) $claim);
     }
 }

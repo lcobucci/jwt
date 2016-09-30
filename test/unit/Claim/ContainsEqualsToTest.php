@@ -29,7 +29,7 @@ class ContainsEqualsToTest extends \PHPUnit_Framework_TestCase
     {
         $claim = new ContainsEqualsTo('aud', ['test', 'test2']);
 
-        $this->assertTrue($claim->validate(new ValidationData()));
+        self::assertTrue($claim->validate(new ValidationData()));
     }
 
     /**
@@ -47,7 +47,7 @@ class ContainsEqualsToTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData();
         $data->setAudience('test');
 
-        $this->assertTrue($claim->validate($data));
+        self::assertTrue($claim->validate($data));
     }
 
     /**
@@ -65,6 +65,6 @@ class ContainsEqualsToTest extends \PHPUnit_Framework_TestCase
         $data = new ValidationData();
         $data->setAudience('test3');
 
-        $this->assertFalse($claim->validate($data));
+        self::assertFalse($claim->validate($data));
     }
 }

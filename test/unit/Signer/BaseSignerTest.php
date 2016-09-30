@@ -44,8 +44,8 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
 
         $this->signer->modifyHeader($headers);
 
-        $this->assertEquals($headers['typ'], 'JWT');
-        $this->assertEquals($headers['alg'], 'TEST123');
+        self::assertEquals($headers['typ'], 'JWT');
+        self::assertEquals($headers['alg'], 'TEST123');
     }
 
     /**
@@ -66,7 +66,7 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
                      ->with('test', $key)
                      ->willReturn('test');
 
-        $this->assertEquals(new Signature('test'), $this->signer->sign('test', $key));
+        self::assertEquals(new Signature('test'), $this->signer->sign('test', $key));
     }
 
     /**
@@ -85,7 +85,7 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
                      ->with('test', new Key('123'))
                      ->willReturn('test');
 
-        $this->assertEquals(new Signature('test'), $this->signer->sign('test', '123'));
+        self::assertEquals(new Signature('test'), $this->signer->sign('test', '123'));
     }
 
     /**
@@ -106,7 +106,7 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
                      ->with('test', 'test', $key)
                      ->willReturn(true);
 
-        $this->assertTrue($this->signer->verify('test', 'test', $key));
+        self::assertTrue($this->signer->verify('test', 'test', $key));
     }
 
     /**
@@ -125,6 +125,6 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
                      ->with('test', 'test', new Key('123'))
                      ->willReturn(true);
 
-        $this->assertTrue($this->signer->verify('test', 'test', '123'));
+        self::assertTrue($this->signer->verify('test', 'test', '123'));
     }
 }

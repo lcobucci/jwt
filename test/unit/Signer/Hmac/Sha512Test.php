@@ -24,7 +24,7 @@ class Sha512Test extends \PHPUnit_Framework_TestCase
     {
         $signer = new Sha512();
 
-        $this->assertEquals('HS512', $signer->getAlgorithmId());
+        self::assertEquals('HS512', $signer->getAlgorithmId());
     }
 
     /**
@@ -36,6 +36,6 @@ class Sha512Test extends \PHPUnit_Framework_TestCase
     {
         $signer = new Sha512();
 
-        $this->assertEquals('sha512', $signer->getAlgorithm());
+        self::assertEquals('sha512', $signer->getAlgorithm());
     }
 }

@@ -24,7 +24,7 @@ class Sha256Test extends \PHPUnit_Framework_TestCase
     {
         $signer = new Sha256();
 
-        $this->assertEquals('HS256', $signer->getAlgorithmId());
+        self::assertEquals('HS256', $signer->getAlgorithmId());
     }
 
     /**
@@ -36,6 +36,6 @@ class Sha256Test extends \PHPUnit_Framework_TestCase
     {
         $signer = new Sha256();
 
-        $this->assertEquals('sha256', $signer->getAlgorithm());
+        self::assertEquals('sha256', $signer->getAlgorithm());
     }
 }

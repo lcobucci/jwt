@@ -70,9 +70,9 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $config = new Configuration();
         $builder = $config->createBuilder();
 
-        $this->assertInstanceOf(Builder::class, $builder);
-        $this->assertAttributeNotSame($this->encoder, 'encoder', $builder);
-        $this->assertAttributeNotSame($this->claimFactory, 'claimFactory', $builder);
+        self::assertInstanceOf(Builder::class, $builder);
+        self::assertAttributeNotSame($this->encoder, 'encoder', $builder);
+        self::assertAttributeNotSame($this->claimFactory, 'claimFactory', $builder);
     }
 
     /**
@@ -96,9 +96,9 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $builder = $config->createBuilder();
 
-        $this->assertInstanceOf(Builder::class, $builder);
-        $this->assertAttributeSame($this->encoder, 'encoder', $builder);
-        $this->assertAttributeSame($this->claimFactory, 'claimFactory', $builder);
+        self::assertInstanceOf(Builder::class, $builder);
+        self::assertAttributeSame($this->encoder, 'encoder', $builder);
+        self::assertAttributeSame($this->claimFactory, 'claimFactory', $builder);
     }
 
     /**
@@ -117,9 +117,9 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $config = new Configuration();
         $parser = $config->getParser();
 
-        $this->assertInstanceOf(Parser::class, $parser);
-        $this->assertAttributeNotSame($this->decoder, 'decoder', $parser);
-        $this->assertAttributeNotSame($this->claimFactory, 'claimFactory', $parser);
+        self::assertInstanceOf(Parser::class, $parser);
+        self::assertAttributeNotSame($this->decoder, 'decoder', $parser);
+        self::assertAttributeNotSame($this->claimFactory, 'claimFactory', $parser);
     }
 
     /**
@@ -143,9 +143,9 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $parser = $config->getParser();
 
-        $this->assertInstanceOf(Parser::class, $parser);
-        $this->assertAttributeSame($this->decoder, 'decoder', $parser);
-        $this->assertAttributeSame($this->claimFactory, 'claimFactory', $parser);
+        self::assertInstanceOf(Parser::class, $parser);
+        self::assertAttributeSame($this->decoder, 'decoder', $parser);
+        self::assertAttributeSame($this->claimFactory, 'claimFactory', $parser);
     }
 
     /**
@@ -163,7 +163,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $config = new Configuration();
         $config->setParser($this->parser);
 
-        $this->assertSame($this->parser, $config->getParser());
+        self::assertSame($this->parser, $config->getParser());
     }
 
     /**
@@ -180,7 +180,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $config = new Configuration();
 
-        $this->assertInstanceOf(Sha256::class, $config->getSigner());
+        self::assertInstanceOf(Sha256::class, $config->getSigner());
     }
 
     /**
@@ -198,6 +198,6 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $config = new Configuration();
         $config->setSigner($this->signer);
 
-        $this->assertSame($this->signer, $config->getSigner());
+        self::assertSame($this->signer, $config->getSigner());
     }
 }

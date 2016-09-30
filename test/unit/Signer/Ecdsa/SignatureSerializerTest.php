@@ -76,7 +76,7 @@ final class SignatureSerializerTest extends \PHPUnit_Framework_TestCase
     {
         $serializer = new SignatureSerializer($this->mathInterface);
 
-        $this->assertAttributeSame($this->mathInterface, 'mathInterface', $serializer);
+        self::assertAttributeSame($this->mathInterface, 'mathInterface', $serializer);
     }
 
     /**
@@ -93,7 +93,7 @@ final class SignatureSerializerTest extends \PHPUnit_Framework_TestCase
     {
         $serializer = new SignatureSerializer($this->mathInterface);
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->signatureData[$algorithm],
             $serializer->serialize($this->signature, $algorithm)
         );
@@ -112,7 +112,7 @@ final class SignatureSerializerTest extends \PHPUnit_Framework_TestCase
     {
         $serializer = new SignatureSerializer($this->mathInterface);
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->signature,
             $serializer->parse($this->signatureData[$algorithm], $algorithm)
         );

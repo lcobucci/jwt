@@ -27,7 +27,7 @@ class Sha512Test extends BaseTestCase
      */
     public function createShouldReturnAValidInstance()
     {
-        $this->assertInstanceOf(Sha512::class, Sha512::create());
+        self::assertInstanceOf(Sha512::class, Sha512::create());
     }
 
     /**
@@ -39,7 +39,7 @@ class Sha512Test extends BaseTestCase
      */
     public function getAlgorithmIdMustBeCorrect()
     {
-        $this->assertEquals('ES512', $this->getSigner()->getAlgorithmId());
+        self::assertEquals('ES512', $this->getSigner()->getAlgorithmId());
     }
 
     /**
@@ -51,7 +51,7 @@ class Sha512Test extends BaseTestCase
      */
     public function getAlgorithmMustBeCorrect()
     {
-        $this->assertEquals('sha512', $this->getSigner()->getAlgorithm());
+        self::assertEquals('sha512', $this->getSigner()->getAlgorithm());
     }
 
     private function getSigner(): Sha512
