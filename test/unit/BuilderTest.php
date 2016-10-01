@@ -81,9 +81,10 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Builder::canOnlyBeUsedBy
      * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByMustChangeTheAudClaim()
+    public function canOnlyBeUsedByMustAppendToTheAudClaim()
     {
         $builder = $this->createBuilder();
+        $builder->canOnlyBeUsedBy('test');
         $builder->canOnlyBeUsedBy('test');
 
         self::assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
