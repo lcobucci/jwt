@@ -110,7 +110,7 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnFalseWhenKeyIsNotRight(Token $token)
     {
-        self::assertFalse($token->verify($this->config->getSigner(), 'testing1'));
+        self::assertFalse($token->verify($this->config->getSigner(), new Key('testing1')));
     }
 
     /**
@@ -133,7 +133,7 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnFalseWhenAlgorithmIsDifferent(Token $token)
     {
-        self::assertFalse($token->verify(new Sha512(), 'testing'));
+        self::assertFalse($token->verify(new Sha512(), new Key('testing')));
     }
 
     /**
@@ -155,7 +155,7 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnTrueWhenKeyIsRight(Token $token)
     {
-        self::assertTrue($token->verify($this->config->getSigner(), 'testing'));
+        self::assertTrue($token->verify($this->config->getSigner(), new Key('testing')));
     }
 
     /**
@@ -181,6 +181,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
         $token = $this->config->getParser()->parse((string) $data);
 
         self::assertEquals('world', $token->getClaim('hello'));
-        self::assertTrue($token->verify($this->config->getSigner(), 'testing'));
+        self::assertTrue($token->verify($this->config->getSigner(), new Key('testing')));
     }
 }

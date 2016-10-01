@@ -35,6 +35,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     protected $defaultClaim;
 
     /**
+     * @var Signer|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $signer;
+
+    /**
      * @before
      */
     public function initializeDependencies()
@@ -42,6 +47,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->encoder = $this->createMock(Encoder::class);
         $this->claimFactory = $this->createMock(ClaimFactory::class);
         $this->defaultClaim = $this->createMock(Claim::class);
+        $this->signer = $this->createMock(Signer::class);
 
         $this->claimFactory->expects($this->any())
                            ->method('create')
@@ -546,17 +552,12 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function signMustChangeTheSignature()
     {
-        $signer = $this->createMock(Signer::class);
-        $signature = $this->createMock(Signature::class);
-
-        $signer->expects($this->any())
-            ->method('sign')
-            ->willReturn($signature);
+        $this->signer->method('sign')->willReturn('testing');
 
         $builder = $this->createBuilder();
-        $builder->sign($signer, new Key('test'));
+        $builder->sign($this->signer, new Key('test'));
 
-        self::assertAttributeSame($signature, 'signature', $builder);
+        self::assertAttributeEquals('testing', 'signature', $builder);
     }
 
     /**
@@ -571,16 +572,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function signMustKeepAFluentInterface(): Builder
     {
-        $signer = $this->createMock(Signer::class);
-        $signature = $this->createMock(Signature::class);
-
-        $signer->expects($this->any())
-               ->method('sign')
-               ->willReturn($signature);
+        $this->signer->method('sign')->willReturn('testing');
 
         $builder = $this->createBuilder();
 
-        self::assertSame($builder, $builder->sign($signer, new Key('test')));
+        self::assertSame($builder, $builder->sign($this->signer, new Key('test')));
 
         return $builder;
     }
@@ -626,15 +622,10 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setMustRaiseExceptionWhenTokenHasBeenSigned()
     {
-        $signer = $this->createMock(Signer::class);
-        $signature = $this->createMock(Signature::class);
-
-        $signer->expects($this->any())
-               ->method('sign')
-               ->willReturn($signature);
+        $this->signer->method('sign')->willReturn('testing');
 
         $builder = $this->createBuilder();
-        $builder->sign($signer, new Key('test'));
+        $builder->sign($this->signer, new Key('test'));
         $builder->with('test', 123);
     }
 
@@ -653,15 +644,10 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setHeaderMustRaiseExceptionWhenTokenHasBeenSigned()
     {
-        $signer = $this->createMock(Signer::class);
-        $signature = $this->createMock(Signature::class);
-
-        $signer->expects($this->any())
-               ->method('sign')
-               ->willReturn($signature);
+        $this->signer->method('sign')->willReturn('testing');
 
         $builder = $this->createBuilder();
-        $builder->sign($signer, new Key('test'));
+        $builder->sign($this->signer, new Key('test'));
         $builder->withHeader('test', 123);
     }
 
@@ -670,13 +656,15 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Builder::__construct
      * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Builder::sign
      * @uses \Lcobucci\JWT\Token
+     * @uses \Lcobucci\JWT\Signature
      *
      * @covers \Lcobucci\JWT\Builder::getToken
      */
     public function getTokenMustReturnANewTokenWithCurrentConfiguration()
     {
-        $signature = $this->createMock(Signature::class);
+        $this->signer->method('sign')->willReturn('testing');
 
         $this->encoder->expects($this->exactly(2))
                       ->method('jsonEncode')
@@ -685,23 +673,20 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->encoder->expects($this->exactly(3))
                       ->method('base64UrlEncode')
-                      ->withConsecutive(['1'], ['2'], [$signature])
+                      ->withConsecutive(['1'], ['2'], ['testing'])
                       ->willReturnOnConsecutiveCalls('1', '2', '3');
 
         $builder = $this->createBuilder()->with('test', 123);
 
         $builderSign = new \ReflectionProperty($builder, 'signature');
         $builderSign->setAccessible(true);
-        $builderSign->setValue($builder, $signature);
+        $builderSign->setValue($builder, 'testing');
 
         $token = $builder->getToken();
-
-        $tokenSign = new \ReflectionProperty($token, 'signature');
-        $tokenSign->setAccessible(true);
 
         self::assertAttributeEquals(['1', '2', '3'], 'payload', $token);
         self::assertAttributeEquals($token->getHeaders(), 'headers', $builder);
         self::assertAttributeEquals($token->getClaims(), 'claims', $builder);
-        self::assertAttributeSame($tokenSign->getValue($token), 'signature', $builder);
+        self::assertAttributeNotEmpty('signature', $builder);
     }
 }

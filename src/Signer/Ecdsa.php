@@ -50,7 +50,7 @@ abstract class Ecdsa extends BaseSigner
     /**
      * {@inheritdoc}
      */
-    public function createHash(string $payload, Key $key): string
+    public function sign(string $payload, Key $key): string
     {
         return $this->adapter->createHash(
             $this->keyParser->getPrivateKey($key),
@@ -62,7 +62,7 @@ abstract class Ecdsa extends BaseSigner
     /**
      * {@inheritdoc}
      */
-    public function doVerify(string $expected, string $payload, Key $key): bool
+    public function verify(string $expected, string $payload, Key $key): bool
     {
         return $this->adapter->verifyHash(
             $expected,

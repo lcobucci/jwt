@@ -184,11 +184,11 @@ class Token
      * Verify if the key matches with the one that created the signature
      *
      * @param Signer $signer
-     * @param Key|string $key
+     * @param Key $key
      *
      * @return bool
      */
-    public function verify(Signer $signer, $key): bool
+    public function verify(Signer $signer, Key $key): bool
     {
         if ($this->signature === null || $this->headers['alg'] !== $signer->getAlgorithmId()) {
             return false;

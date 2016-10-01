@@ -20,7 +20,7 @@ abstract class Hmac extends BaseSigner
     /**
      * {@inheritdoc}
      */
-    public function createHash(string $payload, Key $key): string
+    public function sign(string $payload, Key $key): string
     {
         return hash_hmac($this->getAlgorithm(), $payload, $key->getContent(), true);
     }
@@ -28,9 +28,9 @@ abstract class Hmac extends BaseSigner
     /**
      * {@inheritdoc}
      */
-    public function doVerify(string $expected, string $payload, Key $key): bool
+    public function verify(string $expected, string $payload, Key $key): bool
     {
-        return hash_equals($expected, $this->createHash($payload, $key));
+        return hash_equals($expected, $this->sign($payload, $key));
     }
 
     /**

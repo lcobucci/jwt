@@ -22,7 +22,7 @@ abstract class Rsa extends BaseSigner
     /**
      * {@inheritdoc}
      */
-    public function createHash(string $payload, Key $key): string
+    public function sign(string $payload, Key $key): string
     {
         $key = openssl_get_privatekey($key->getContent(), $key->getPassphrase());
         $this->validateKey($key);
@@ -36,7 +36,7 @@ abstract class Rsa extends BaseSigner
     /**
      * {@inheritdoc}
      */
-    public function doVerify(string $expected, string $payload, Key $key): bool
+    public function verify(string $expected, string $payload, Key $key): bool
     {
         $key = openssl_get_publickey($key->getContent());
         $this->validateKey($key);

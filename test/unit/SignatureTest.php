@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
+use Lcobucci\JWT\Signer\Key;
+
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
@@ -59,6 +61,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signature::__construct
      * @uses \Lcobucci\JWT\Signature::__toString
+     * @uses \Lcobucci\JWT\Signer\Key
      *
      * @covers \Lcobucci\JWT\Signature::verify
      */
@@ -70,6 +73,6 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
 
         $signature = new Signature('test');
 
-        self::assertTrue($signature->verify($this->signer, 'one', 'key'));
+        self::assertTrue($signature->verify($this->signer, 'one', new Key('key')));
     }
 }

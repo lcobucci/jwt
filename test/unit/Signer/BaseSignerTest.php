@@ -40,91 +40,9 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
      */
     public function modifyHeaderShouldChangeAlgorithm()
     {
-        $headers = ['typ' => 'JWT'];
-
-        $this->signer->modifyHeader($headers);
+        $headers = $this->signer->modifyHeader(['typ' => 'JWT']);
 
         self::assertEquals($headers['typ'], 'JWT');
         self::assertEquals($headers['alg'], 'TEST123');
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Signature::__construct
-     * @uses \Lcobucci\JWT\Signer\Key
-     *
-     * @covers \Lcobucci\JWT\Signer\BaseSigner::sign
-     * @covers \Lcobucci\JWT\Signer\BaseSigner::getKey
-     */
-    public function signMustReturnANewSignature()
-    {
-        $key = new Key('123');
-
-        $this->signer->expects($this->once())
-                     ->method('createHash')
-                     ->with('test', $key)
-                     ->willReturn('test');
-
-        self::assertEquals(new Signature('test'), $this->signer->sign('test', $key));
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Signature::__construct
-     * @uses \Lcobucci\JWT\Signer\Key
-     *
-     * @covers \Lcobucci\JWT\Signer\BaseSigner::sign
-     * @covers \Lcobucci\JWT\Signer\BaseSigner::getKey
-     */
-    public function signShouldConvertKeyWhenItsNotAnObject()
-    {
-        $this->signer->expects($this->once())
-                     ->method('createHash')
-                     ->with('test', new Key('123'))
-                     ->willReturn('test');
-
-        self::assertEquals(new Signature('test'), $this->signer->sign('test', '123'));
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Signature::__construct
-     * @uses \Lcobucci\JWT\Signer\Key
-     *
-     * @covers \Lcobucci\JWT\Signer\BaseSigner::verify
-     * @covers \Lcobucci\JWT\Signer\BaseSigner::getKey
-     */
-    public function verifyShouldDelegateTheCallToAbstractMethod()
-    {
-        $key = new Key('123');
-
-        $this->signer->expects($this->once())
-                     ->method('doVerify')
-                     ->with('test', 'test', $key)
-                     ->willReturn(true);
-
-        self::assertTrue($this->signer->verify('test', 'test', $key));
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Signature::__construct
-     * @uses \Lcobucci\JWT\Signer\Key
-     *
-     * @covers \Lcobucci\JWT\Signer\BaseSigner::verify
-     * @covers \Lcobucci\JWT\Signer\BaseSigner::getKey
-     */
-    public function verifyShouldConvertKeyWhenItsNotAnObject()
-    {
-        $this->signer->expects($this->once())
-                     ->method('doVerify')
-                     ->with('test', 'test', new Key('123'))
-                     ->willReturn(true);
-
-        self::assertTrue($this->signer->verify('test', 'test', '123'));
     }
 }
