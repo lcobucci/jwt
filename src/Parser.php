@@ -11,7 +11,6 @@ namespace Lcobucci\JWT;
 
 use InvalidArgumentException;
 use Lcobucci\Jose\Parsing;
-use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 
 /**
  * This class parses the JWT strings and convert them into tokens
@@ -29,24 +28,11 @@ class Parser
     private $decoder;
 
     /**
-     * The claims factory
-     *
-     * @var ClaimFactory
-     */
-    private $claimFactory;
-
-    /**
      * Initializes the object
-     *
-     * @param Parsing\Decoder $decoder
-     * @param ClaimFactory $claimFactory
      */
-    public function __construct(
-        Parsing\Decoder $decoder,
-        ClaimFactory $claimFactory
-    ) {
+    public function __construct(Parsing\Decoder $decoder)
+    {
         $this->decoder = $decoder;
-        $this->claimFactory = $claimFactory;
     }
 
     /**
@@ -125,13 +111,7 @@ class Parser
      */
     protected function parseClaims(string $data): array
     {
-        $claims = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
-
-        foreach ($claims as $name => &$value) {
-            $value = $this->claimFactory->create($name, $value);
-        }
-
-        return $claims;
+        return (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
     }
 
     /**

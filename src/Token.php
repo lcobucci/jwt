@@ -11,8 +11,6 @@ namespace Lcobucci\JWT;
 
 use DateTime;
 use DateTimeInterface;
-use Generator;
-use Lcobucci\JWT\Claim\Validatable;
 use Lcobucci\JWT\Signer\Key;
 use OutOfBoundsException;
 
@@ -107,7 +105,7 @@ class Token
     public function getHeader(string $name, $default = null)
     {
         if ($this->hasHeader($name)) {
-            return $this->getHeaderValue($name);
+            return $this->headers[$name];
         }
 
         if ($default === null) {
@@ -115,24 +113,6 @@ class Token
         }
 
         return $default;
-    }
-
-    /**
-     * Returns the value stored in header
-     *
-     * @param string $name
-     *
-     * @return mixed
-     */
-    private function getHeaderValue(string $name)
-    {
-        $header = $this->headers[$name];
-
-        if ($header instanceof Claim) {
-            return $header->getValue();
-        }
-
-        return $header;
     }
 
     /**
@@ -170,7 +150,7 @@ class Token
     public function getClaim(string $name, $default = null)
     {
         if ($this->hasClaim($name)) {
-            return $this->claims[$name]->getValue();
+            return $this->claims[$name];
         }
 
         if ($default === null) {
@@ -198,24 +178,6 @@ class Token
     }
 
     /**
-     * Validates if the token is valid
-     *
-     * @param ValidationData $data
-     *
-     * @return bool
-     */
-    public function validate(ValidationData $data): bool
-    {
-        foreach ($this->getValidatableClaims() as $claim) {
-            if (!$claim->validate($data)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Determine if the token is expired.
      *
      * @param DateTimeInterface $now Defaults to the current time.
@@ -231,20 +193,6 @@ class Token
         $now = $now ?: new DateTime();
 
         return $now->getTimestamp() > $this->getClaim('exp');
-    }
-
-    /**
-     * Yields the validatable claims
-     *
-     * @return Generator
-     */
-    private function getValidatableClaims(): Generator
-    {
-        foreach ($this->claims as $claim) {
-            if ($claim instanceof Validatable) {
-                yield $claim;
-            }
-        }
     }
 
     /**
