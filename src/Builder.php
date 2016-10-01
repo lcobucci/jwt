@@ -83,9 +83,8 @@ class Builder
      */
     public function canOnlyBeUsedBy(string $audience, bool $addHeader = false): Builder
     {
-        $audiences = isset($this->claims['aud'])
-            ? array_merge($this->claims['aud']->getValue(), [$audience])
-            : [$audience];
+        $audiences = isset($this->claims['aud']) ? $this->claims['aud']->getValue() : [];
+        $audiences[] = $audience;
 
         return $this->setRegisteredClaim(
             'aud',
