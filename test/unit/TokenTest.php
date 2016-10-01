@@ -17,6 +17,7 @@ use Lcobucci\JWT\Claim\GreaterOrEqualsTo;
 use Lcobucci\JWT\Claim\LesserOrEqualsTo;
 use Lcobucci\JWT\Claim\ContainedEqualsTo;
 use Lcobucci\JWT\Claim\ContainsEqualsTo;
+use Lcobucci\JWT\Signer\Key;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -244,6 +245,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
      * @covers \Lcobucci\JWT\Token::verify
      */
@@ -253,13 +255,14 @@ class TokenTest extends \PHPUnit_Framework_TestCase
 
         $token = new Token();
 
-        self::assertFalse($token->verify($signer, 'test'));
+        self::assertFalse($token->verify($signer, new Key('test')));
     }
 
     /**
      * @test
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
      * @covers \Lcobucci\JWT\Token::verify
      * @covers \Lcobucci\JWT\Token::getPayload
@@ -278,13 +281,14 @@ class TokenTest extends \PHPUnit_Framework_TestCase
 
         $token = new Token(['alg' => 'RS256'], [], $signature);
 
-        self::assertFalse($token->verify($signer, 'test'));
+        self::assertFalse($token->verify($signer, new Key('test')));
     }
 
     /**
      * @test
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Signer\Key
      *
      * @covers \Lcobucci\JWT\Token::verify
      * @covers \Lcobucci\JWT\Token::getPayload
@@ -293,6 +297,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     {
         $signer = $this->createMock(Signer::class);
         $signature = $this->createMock(Signature::class);
+        $key = new Key('test');
 
         $signer->expects($this->any())
                ->method('getAlgorithmId')
@@ -300,12 +305,12 @@ class TokenTest extends \PHPUnit_Framework_TestCase
 
         $signature->expects($this->once())
                   ->method('verify')
-                  ->with($signer, $this->isType('string'), 'test')
+                  ->with($signer, $this->isType('string'), $key)
                   ->willReturn(true);
 
         $token = new Token(['alg' => 'HS256'], [], $signature);
 
-        self::assertTrue($token->verify($signer, 'test'));
+        self::assertTrue($token->verify($signer, $key));
     }
 
     /**

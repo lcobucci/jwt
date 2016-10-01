@@ -29,33 +29,31 @@ interface Signer
 
     /**
      * Apply changes on headers according with algorithm
-     *
-     * @param array $headers
      */
-    public function modifyHeader(array &$headers);
+    public function modifyHeader(array $headers): array;
 
     /**
-     * Returns a signature for given data
+     * Creates a hash for the given payload
      *
      * @param string $payload
-     * @param Key|string $key
+     * @param Key $key
      *
-     * @return Signature
+     * @return string
      *
      * @throws InvalidArgumentException When given key is invalid
      */
-    public function sign(string $payload, $key): Signature;
+    public function sign(string $payload, Key $key): string;
 
     /**
      * Returns if the expected hash matches with the data and key
      *
      * @param string $expected
      * @param string $payload
-     * @param Key|string $key
+     * @param Key $key
      *
      * @return bool
      *
      * @throws InvalidArgumentException When given key is invalid
      */
-    public function verify(string $expected, string $payload, $key): bool;
+    public function verify(string $expected, string $payload, Key $key): bool;
 }

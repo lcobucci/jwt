@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
+use Lcobucci\JWT\Signer\Key;
+
 /**
  * This class represents a token signature
  *
@@ -40,11 +42,11 @@ class Signature
      *
      * @param Signer $signer
      * @param string $payload
-     * @param Key|string $key
+     * @param Key $key
      *
      * @return bool
      */
-    public function verify(Signer $signer, string $payload, $key): bool
+    public function verify(Signer $signer, string $payload, Key $key): bool
     {
         return $signer->verify($this->hash, $payload, $key);
     }
