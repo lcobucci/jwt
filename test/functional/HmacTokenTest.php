@@ -44,7 +44,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
      */
@@ -104,7 +103,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
      */
@@ -126,7 +124,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha512
@@ -149,7 +146,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
      */
@@ -167,7 +163,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
      * @covers \Lcobucci\JWT\Claim\Factory

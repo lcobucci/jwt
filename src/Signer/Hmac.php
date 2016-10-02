@@ -9,13 +9,15 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
+use Lcobucci\JWT\Signer;
+
 /**
  * Base class for hmac signers
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
  */
-abstract class Hmac extends BaseSigner
+abstract class Hmac implements Signer
 {
     /**
      * {@inheritdoc}
