@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Signer;
 
 use InvalidArgumentException;
+use Lcobucci\JWT\Signer;
 
 /**
  * Base class for RSASSA-PKCS1 signers
@@ -17,7 +18,7 @@ use InvalidArgumentException;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-abstract class Rsa extends BaseSigner
+abstract class Rsa implements Signer
 {
     /**
      * {@inheritdoc}

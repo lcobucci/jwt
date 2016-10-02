@@ -243,7 +243,7 @@ class Builder
      */
     public function sign(Signer $signer, Key $key): Builder
     {
-        $this->headers = $signer->modifyHeader($this->headers);
+        $this->headers['alg'] = $signer->getAlgorithmId();
 
         $this->signature = $signer->sign(
             $this->getToken()->getPayload(),

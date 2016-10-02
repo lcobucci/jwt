@@ -28,11 +28,6 @@ interface Signer
     public function getAlgorithmId(): string;
 
     /**
-     * Apply changes on headers according with algorithm
-     */
-    public function modifyHeader(array $headers): array;
-
-    /**
      * Creates a hash for the given payload
      *
      * @param string $payload

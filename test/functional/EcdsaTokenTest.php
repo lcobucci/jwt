@@ -53,7 +53,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
@@ -83,7 +82,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
@@ -111,7 +109,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
@@ -179,7 +176,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
@@ -204,7 +200,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
@@ -232,7 +227,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
@@ -257,7 +251,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
@@ -279,7 +272,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
@@ -311,7 +303,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
@@ -350,7 +341,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
