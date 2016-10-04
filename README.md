@@ -79,6 +79,10 @@ $data->setIssuer('http://example.com');
 $data->setAudience('http://example.org');
 $data->setId('4f1g23a12aa');
 
+var_dump($token->validate($data)); // false, because we created a token that cannot be used before of `time() + 60`
+
+$data->setCurrentTime(time() + 60); // changing the validation time to future
+
 var_dump($token->validate($data)); // true, because validation information is equals to data contained on the token
 
 $data->setCurrentTime(time() + 4000); // changing the validation time to future
