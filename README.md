@@ -108,9 +108,9 @@ We can easily validate if the token is valid (using the previous token as exampl
 use Lcobucci\JWT\ValidationData;
 
 $data = new ValidationData(); // It will use the current time to validate (iat, nbf and exp)
-$data->issuedBy('http://example.com');
-$data->canOnlyBeUsedBy('http://example.org');
-$data->withId('4f1g23a12aa');
+$data->setIssuer('http://example.com');
+$data->setAudience('http://example.org');
+$data->setId('4f1g23a12aa');
 
 var_dump($token->validate($data)); // false, because token cannot be used before of now() + 60
 
@@ -127,8 +127,8 @@ If we have multiple possible issuers of an equivalent token, then it is possible
 
 ```php
 $data = new ValidationData();
-$data->issuedBy(['http://example.com', 'http://example.io']);
-$data->canOnlyBeUsedBy('http://example.org');
+$data->setIssuer(['http://example.com', 'http://example.io']);
+$data->setAudience('http://example.org');
 ```
 
 #### Important
