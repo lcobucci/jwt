@@ -232,10 +232,7 @@ class Token
 
         $now = $now ?: new DateTime();
 
-        $expiresAt = new DateTime();
-        $expiresAt->setTimestamp($exp);
-
-        return $now > $expiresAt;
+        return $now->getTimestamp() > $exp;
     }
 
     /**
