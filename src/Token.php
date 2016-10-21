@@ -224,15 +224,13 @@ class Token
      */
     public function isExpired(DateTimeInterface $now = null)
     {
-        $exp = $this->getClaim('exp', false);
-
-        if ($exp === false) {
+        if (!$this->hasClaim('exp')) {
             return false;
         }
 
         $now = $now ?: new DateTime();
 
-        return $now->getTimestamp() > $exp;
+        return $now->getTimestamp() > $this->getClaim('exp');
     }
 
     /**
