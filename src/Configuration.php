@@ -11,6 +11,7 @@ namespace Lcobucci\JWT;
 
 use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Token;
 
 /**
  * Configuration container for the JWT Builder and Parser
@@ -45,13 +46,13 @@ final class Configuration
 
     public function createBuilder(): Builder
     {
-        return new Builder($this->getEncoder());
+        return new Token\Builder($this->getEncoder());
     }
 
     public function getParser(): Parser
     {
         if ($this->parser === null) {
-            $this->parser = new Parser($this->getDecoder());
+            $this->parser = new Token\Parser($this->getDecoder());
         }
 
         return $this->parser;

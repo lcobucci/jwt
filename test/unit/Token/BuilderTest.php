@@ -7,9 +7,10 @@
 
 declare(strict_types=1);
 
-namespace Lcobucci\JWT;
+namespace Lcobucci\JWT\Token;
 
 use Lcobucci\Jose\Parsing\Encoder;
+use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 
 /**
@@ -48,7 +49,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Builder::__construct
+     * @covers \Lcobucci\JWT\Token\Builder::__construct
      */
     public function constructMustInitializeTheAttributes()
     {
@@ -63,11 +64,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::canOnlyBeUsedBy
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function canOnlyBeUsedByMustAppendToTheAudClaim()
     {
@@ -82,11 +83,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::canOnlyBeUsedBy
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setAudienceCanReplicateItemOnHeader()
     {
@@ -105,11 +106,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::canOnlyBeUsedBy
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setAudienceMustKeepAFluentInterface()
     {
@@ -121,11 +122,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::expiresAt
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::expiresAt
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function expiresAtMustChangeTheExpClaim()
     {
@@ -139,11 +140,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::expiresAt
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::expiresAt
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function expiresAtCanReplicateItemOnHeader()
     {
@@ -162,11 +163,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::expiresAt
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::expiresAt
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function expiresAtMustKeepAFluentInterface()
     {
@@ -178,11 +179,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::identifiedBy
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setIdMustChangeTheJtiClaim()
     {
@@ -196,11 +197,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::identifiedBy
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setIdCanReplicateItemOnHeader()
     {
@@ -219,11 +220,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::identifiedBy
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setIdMustKeepAFluentInterface()
     {
@@ -235,11 +236,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::issuedAt
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::issuedAt
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setIssuedAtMustChangeTheIatClaim()
     {
@@ -253,11 +254,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::issuedAt
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::issuedAt
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setIssuedAtCanReplicateItemOnHeader()
     {
@@ -276,11 +277,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::issuedAt
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::issuedAt
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setIssuedAtMustKeepAFluentInterface()
     {
@@ -292,11 +293,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::issuedBy
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::issuedBy
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setIssuerMustChangeTheIssClaim()
     {
@@ -310,11 +311,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::issuedBy
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::issuedBy
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setIssuerCanReplicateItemOnHeader()
     {
@@ -333,11 +334,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::issuedBy
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::issuedBy
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setIssuerMustKeepAFluentInterface()
     {
@@ -349,11 +350,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::canOnlyBeUsedAfter
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setNotBeforeMustChangeTheNbfClaim()
     {
@@ -367,11 +368,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::canOnlyBeUsedAfter
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setNotBeforeCanReplicateItemOnHeader()
     {
@@ -390,11 +391,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::canOnlyBeUsedAfter
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setNotBeforeMustKeepAFluentInterface()
     {
@@ -406,11 +407,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::relatedTo
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::relatedTo
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setSubjectMustChangeTheSubClaim()
     {
@@ -424,11 +425,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::relatedTo
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::relatedTo
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setSubjectCanReplicateItemOnHeader()
     {
@@ -447,11 +448,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::relatedTo
-     * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::relatedTo
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
     public function setSubjectMustKeepAFluentInterface()
     {
@@ -463,9 +464,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      *
-     * @covers \Lcobucci\JWT\Builder::with
+     * @covers \Lcobucci\JWT\Token\Builder::with
      */
     public function setMustConfigureTheGivenClaim()
     {
@@ -478,9 +479,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      *
-     * @covers \Lcobucci\JWT\Builder::with
+     * @covers \Lcobucci\JWT\Token\Builder::with
      */
     public function setMustKeepAFluentInterface()
     {
@@ -492,9 +493,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      *
-     * @covers \Lcobucci\JWT\Builder::withHeader
+     * @covers \Lcobucci\JWT\Token\Builder::withHeader
      */
     public function setHeaderMustConfigureTheGivenClaim()
     {
@@ -511,9 +512,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      *
-     * @covers \Lcobucci\JWT\Builder::withHeader
+     * @covers \Lcobucci\JWT\Token\Builder::withHeader
      */
     public function setHeaderMustKeepAFluentInterface()
     {
@@ -525,12 +526,15 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::getToken
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::getToken
+     * @uses \Lcobucci\JWT\Token\Builder::encodeClaims
+     * @uses \Lcobucci\JWT\Token\Builder::encodeHeaders
      * @uses \Lcobucci\JWT\Signer\Key
-     * @uses \Lcobucci\JWT\Token
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\DataSet
      *
-     * @covers \Lcobucci\JWT\Builder::sign
+     * @covers \Lcobucci\JWT\Token\Builder::sign
      */
     public function signMustChangeTheSignature()
     {
@@ -545,12 +549,15 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::getToken
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::getToken
+     * @uses \Lcobucci\JWT\Token\Builder::encodeClaims
+     * @uses \Lcobucci\JWT\Token\Builder::encodeHeaders
      * @uses \Lcobucci\JWT\Signer\Key
-     * @uses \Lcobucci\JWT\Token
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\DataSet
      *
-     * @covers \Lcobucci\JWT\Builder::sign
+     * @covers \Lcobucci\JWT\Token\Builder::sign
      */
     public function signMustKeepAFluentInterface(): Builder
     {
@@ -568,7 +575,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @depends signMustKeepAFluentInterface
      *
-     * @covers \Lcobucci\JWT\Builder::unsign
+     * @covers \Lcobucci\JWT\Token\Builder::unsign
      */
     public function unsignMustRemoveTheSignature(Builder $builder)
     {
@@ -582,7 +589,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @depends signMustKeepAFluentInterface
      *
-     * @covers \Lcobucci\JWT\Builder::unsign
+     * @covers \Lcobucci\JWT\Token\Builder::unsign
      */
     public function unsignMustKeepAFluentInterface(Builder $builder)
     {
@@ -592,13 +599,16 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::sign
-     * @uses \Lcobucci\JWT\Builder::getToken
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::sign
+     * @uses \Lcobucci\JWT\Token\Builder::getToken
+     * @uses \Lcobucci\JWT\Token\Builder::encodeClaims
+     * @uses \Lcobucci\JWT\Token\Builder::encodeHeaders
      * @uses \Lcobucci\JWT\Signer\Key
-     * @uses \Lcobucci\JWT\Token
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\DataSet
      *
-     * @covers \Lcobucci\JWT\Builder::with
+     * @covers \Lcobucci\JWT\Token\Builder::with
      *
      * @expectedException \BadMethodCallException
      */
@@ -614,13 +624,16 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::sign
-     * @uses \Lcobucci\JWT\Builder::getToken
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::sign
+     * @uses \Lcobucci\JWT\Token\Builder::getToken
+     * @uses \Lcobucci\JWT\Token\Builder::encodeClaims
+     * @uses \Lcobucci\JWT\Token\Builder::encodeHeaders
      * @uses \Lcobucci\JWT\Signer\Key
-     * @uses \Lcobucci\JWT\Token
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\DataSet
      *
-     * @covers \Lcobucci\JWT\Builder::withHeader
+     * @covers \Lcobucci\JWT\Token\Builder::withHeader
      *
      * @expectedException \BadMethodCallException
      */
@@ -636,13 +649,16 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Builder::__construct
-     * @uses \Lcobucci\JWT\Builder::with
-     * @uses \Lcobucci\JWT\Builder::sign
-     * @uses \Lcobucci\JWT\Token
-     * @uses \Lcobucci\JWT\Signature
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
      *
-     * @covers \Lcobucci\JWT\Builder::getToken
+     * @covers \Lcobucci\JWT\Token\Builder::getToken
+     * @covers \Lcobucci\JWT\Token\Builder::encodeClaims
+     * @covers \Lcobucci\JWT\Token\Builder::encodeHeaders
      */
     public function getTokenMustReturnANewTokenWithCurrentConfiguration()
     {
@@ -666,9 +682,46 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 
         $token = $builder->getToken();
 
-        self::assertAttributeEquals(['1', '2', '3'], 'payload', $token);
-        self::assertAttributeEquals($token->getHeaders(), 'headers', $builder);
-        self::assertAttributeEquals($token->getClaims(), 'claims', $builder);
+        self::assertAttributeEquals($token->headers()->all(), 'headers', $builder);
+        self::assertAttributeEquals($token->claims()->all(), 'claims', $builder);
         self::assertAttributeNotEmpty('signature', $builder);
+    }
+
+    /**
+     * @test
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
+     *
+     * @covers \Lcobucci\JWT\Token\Builder::getToken
+     * @covers \Lcobucci\JWT\Token\Builder::encodeClaims
+     * @covers \Lcobucci\JWT\Token\Builder::encodeHeaders
+     */
+    public function getTokenShouldBeAbleToReturnAnUnsignedToken()
+    {
+        $this->signer->method('sign')->willReturn('testing');
+
+        $this->encoder->expects($this->exactly(2))
+                      ->method('jsonEncode')
+                      ->withConsecutive([['typ'=> 'JWT', 'alg' => 'none']], [['test' => 123]])
+                      ->willReturnOnConsecutiveCalls('1', '2');
+
+        $this->encoder->expects($this->exactly(2))
+                      ->method('base64UrlEncode')
+                      ->withConsecutive(['1'], ['2'])
+                      ->willReturnOnConsecutiveCalls('1', '2');
+
+        $builder = $this->createBuilder()->with('test', 123);
+
+        $token = $builder->getToken();
+
+        self::assertAttributeEquals($token->headers()->all(), 'headers', $builder);
+        self::assertAttributeEquals($token->claims()->all(), 'claims', $builder);
+        self::assertNull($token->signature());
+        self::assertAttributeEmpty('signature', $builder);
     }
 }

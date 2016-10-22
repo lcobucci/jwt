@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Lcobucci\JWT;
+namespace Lcobucci\JWT\Token;
 
 use Lcobucci\Jose\Parsing\Decoder;
 use RuntimeException;
@@ -42,7 +42,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Parser::__construct
+     * @covers \Lcobucci\JWT\Token\Parser::__construct
      */
     public function constructMustConfigureTheAttributes()
     {
@@ -54,10 +54,10 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
      *
-     * @covers \Lcobucci\JWT\Parser::parse
-     * @covers \Lcobucci\JWT\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      *
      * @expectedException \InvalidArgumentException
      */
@@ -70,11 +70,11 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
      *
-     * @covers \Lcobucci\JWT\Parser::parse
-     * @covers \Lcobucci\JWT\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Parser::parseHeader
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      *
      * @expectedException \RuntimeException
      */
@@ -95,11 +95,11 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
      *
-     * @covers \Lcobucci\JWT\Parser::parse
-     * @covers \Lcobucci\JWT\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Parser::parseHeader
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      *
      * @expectedException \InvalidArgumentException
      */
@@ -115,14 +115,15 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Parser::__construct
-     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\DataSet
      *
-     * @covers \Lcobucci\JWT\Parser::parse
-     * @covers \Lcobucci\JWT\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Parser::parseSignature
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
+     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
      *
      */
     public function parseMustReturnANonSignedTokenWhenSignatureIsNotInformed()
@@ -150,23 +151,26 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.b.');
 
-        self::assertAttributeEquals(['typ' => 'JWT', 'alg' => 'none'], 'headers', $token);
-        self::assertAttributeEquals(['aud' => 'test'], 'claims', $token);
+        $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
+        $claims = new DataSet(['aud' => 'test'], 'b');
+
+        self::assertAttributeEquals($headers, 'headers', $token);
+        self::assertAttributeEquals($claims, 'claims', $token);
         self::assertAttributeEquals(null, 'signature', $token);
-        self::assertAttributeEquals(['a', 'b'], 'payload', $token);
     }
 
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Parser::__construct
-     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\DataSet
      *
-     * @covers \Lcobucci\JWT\Parser::parse
-     * @covers \Lcobucci\JWT\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Parser::parseSignature
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
+     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
      */
     public function parseShouldReplicateClaimValueOnHeaderWhenNeeded()
     {
@@ -193,28 +197,26 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.b.');
 
-        self::assertAttributeEquals(
-            ['typ' => 'JWT', 'alg' => 'none', 'aud' => 'test'],
-            'headers',
-            $token
-        );
+        $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none', 'aud' => 'test'], 'a');
+        $claims = new DataSet(['aud' => 'test'], 'b');
 
-        self::assertAttributeEquals(['aud' => 'test'], 'claims', $token);
+        self::assertAttributeEquals($headers, 'headers', $token);
+        self::assertAttributeEquals($claims, 'claims', $token);
         self::assertAttributeEquals(null, 'signature', $token);
-        self::assertAttributeEquals(['a', 'b'], 'payload', $token);
     }
 
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Parser::__construct
-     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\DataSet
      *
-     * @covers \Lcobucci\JWT\Parser::parse
-     * @covers \Lcobucci\JWT\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Parser::parseSignature
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
+     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
      */
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsMissing()
     {
@@ -241,23 +243,26 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.b.c');
 
-        self::assertAttributeEquals(['typ' => 'JWT'], 'headers', $token);
-        self::assertAttributeEquals(['aud' => 'test'], 'claims', $token);
+        $headers = new DataSet(['typ' => 'JWT'], 'a');
+        $claims = new DataSet(['aud' => 'test'], 'b');
+
+        self::assertAttributeEquals($headers, 'headers', $token);
+        self::assertAttributeEquals($claims, 'claims', $token);
         self::assertAttributeEquals(null, 'signature', $token);
-        self::assertAttributeEquals(['a', 'b'], 'payload', $token);
     }
 
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Parser::__construct
-     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\DataSet
      *
-     * @covers \Lcobucci\JWT\Parser::parse
-     * @covers \Lcobucci\JWT\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Parser::parseSignature
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
+     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
      */
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsNone()
     {
@@ -284,24 +289,27 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.b.c');
 
-        self::assertAttributeEquals(['typ' => 'JWT', 'alg' => 'none'], 'headers', $token);
-        self::assertAttributeEquals(['aud' => 'test'], 'claims', $token);
+        $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
+        $claims = new DataSet(['aud' => 'test'], 'b');
+
+        self::assertAttributeEquals($headers, 'headers', $token);
+        self::assertAttributeEquals($claims, 'claims', $token);
         self::assertAttributeEquals(null, 'signature', $token);
-        self::assertAttributeEquals(['a', 'b'], 'payload', $token);
     }
 
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Parser::__construct
-     * @uses \Lcobucci\JWT\Token::__construct
-     * @uses \Lcobucci\JWT\Signature::__construct
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
      *
-     * @covers \Lcobucci\JWT\Parser::parse
-     * @covers \Lcobucci\JWT\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Parser::parseSignature
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
+     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
      */
     public function parseMustReturnASignedTokenWhenSignatureIsInformed()
     {
@@ -333,9 +341,12 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.b.c');
 
-        self::assertAttributeEquals(['typ' => 'JWT', 'alg' => 'HS256'], 'headers', $token);
-        self::assertAttributeEquals(['aud' => 'test'], 'claims', $token);
-        self::assertAttributeEquals(new Signature('c_dec'), 'signature', $token);
-        self::assertAttributeEquals(['a', 'b', 'c'], 'payload', $token);
+        $headers = new DataSet(['typ' => 'JWT', 'alg' => 'HS256'], 'a');
+        $claims = new DataSet(['aud' => 'test'], 'b');
+        $signature = new Signature('c_dec', 'c');
+
+        self::assertAttributeEquals($headers, 'headers', $token);
+        self::assertAttributeEquals($claims, 'claims', $token);
+        self::assertAttributeEquals($signature, 'signature', $token);
     }
 }
