@@ -17,7 +17,7 @@ use Lcobucci\JWT\Signer\Hmac;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
  */
-class Sha256 extends Hmac
+final class Sha256 extends Hmac
 {
     /**
      * {@inheritdoc}
