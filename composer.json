@@ -41,6 +41,7 @@
     "autoload-dev": {
         "psr-4": {
             "Lcobucci\\JWT\\": [
+                "test/_keys",
                 "test/unit",
                 "test/functional"
             ]
