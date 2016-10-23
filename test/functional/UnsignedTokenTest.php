@@ -11,6 +11,12 @@ namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Validation\Constraint;
+use Lcobucci\JWT\Validation\Constraint\AllowedTo;
+use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
+use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+use Lcobucci\JWT\Validation\Constraint\ValidAt;
+use Lcobucci\JWT\Validation\ConstraintViolationException;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -39,6 +45,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Plain
+     * @covers \Lcobucci\JWT\Token\DataSet
      */
     public function builderCanGenerateAToken()
     {
@@ -70,6 +77,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
+     * @covers \Lcobucci\JWT\Token\DataSet
      */
     public function parserCanReadAToken(Token $generated)
     {
@@ -88,10 +96,23 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
+     * @covers \Lcobucci\JWT\Token\DataSet
+     * @covers \Lcobucci\JWT\Validation\Validator
+     * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy
+     * @covers \Lcobucci\JWT\Validation\Constraint\AllowedTo
+     * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
+     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt
      */
-    public function tokenValidationShouldReturnWhenEverythingIsFine(Token $generated)
+    public function tokenValidationShouldPassEverythingIsFine(Token $generated)
     {
-        $this->markTestIncomplete('Validation API being improved');
+        $constraints = [
+            new IdentifiedBy('1'),
+            new AllowedTo('http://client.abc.com'),
+            new IssuedBy('http://issuer.abc.com', 'http://api.abc.com'),
+            new ValidAt(new \DateTimeImmutable('@' . self::CURRENT_TIME))
+        ];
+
+        self::assertTrue($this->config->getValidator()->validate($generated, ...$constraints));
     }
 
     /**
@@ -103,9 +124,63 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
+     * @covers \Lcobucci\JWT\Token\DataSet
+     * @covers \Lcobucci\JWT\Validation\Validator
      */
-    public function tokenValidationShouldReturnFalseWhenExpectedDataDontMatch(Token $generated)
+    public function tokenValidationShouldAllowCustomConstraint(Token $generated)
     {
-        $this->markTestIncomplete('Validation API being improved');
+        self::assertTrue($this->config->getValidator()->validate($generated, $this->validUserConstraint()));
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
+     *
+     * @depends builderCanGenerateAToken
+     *
+     * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Token\Builder
+     * @covers \Lcobucci\JWT\Token\Parser
+     * @covers \Lcobucci\JWT\Token\Plain
+     * @covers \Lcobucci\JWT\Token\DataSet
+     * @covers \Lcobucci\JWT\Validation\Validator
+     * @covers \Lcobucci\JWT\Validation\InvalidTokenException
+     * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy
+     * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
+     */
+    public function tokenAssertionShouldRaiseExceptionWhenOneOfTheConstraintsFails(Token $generated)
+    {
+        $constraints = [
+            new IdentifiedBy('1'),
+            new IssuedBy('http://issuer.abc.com')
+        ];
+
+        $this->config->getValidator()->assert($generated, ...$constraints);
+    }
+
+    private function validUserConstraint(): Constraint
+    {
+        return new class() implements Constraint
+        {
+            public function assert(Token $token)
+            {
+                if (!$token instanceof Token\Plain) {
+                    throw new ConstraintViolationException();
+                }
+
+                $claims = $token->claims();
+
+                if (!$claims->has('user')) {
+                    throw new ConstraintViolationException();
+                }
+
+                $user = $claims->get('user');
+
+                if (empty($user['name']) || empty($user['email'])) {
+                    throw new ConstraintViolationException();
+                }
+            }
+        };
     }
 }

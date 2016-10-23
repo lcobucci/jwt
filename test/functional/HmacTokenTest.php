@@ -14,6 +14,7 @@ use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -40,6 +41,7 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Plain
+     * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Hmac
@@ -76,6 +78,7 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
+     * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      */
     public function parserCanReadAToken(Token $generated)
@@ -91,20 +94,27 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @depends builderCanGenerateAToken
      *
+     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
+     *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
+     * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
+     * @covers \Lcobucci\JWT\Validation\Validator
+     * @covers \Lcobucci\JWT\Validation\InvalidTokenException
+     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function verifyShouldReturnFalseWhenKeyIsNotRight(Token $token)
+    public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token)
     {
-        $this->markTestIncomplete('Validation API refactor');
-
-        self::assertFalse($token->verify($this->config->getSigner(), new Key('testing1')));
+        $this->config->getValidator()->assert(
+            $token,
+            new SignedWith($this->config->getSigner(), new Key('testing1'))
+        );
     }
 
     /**
@@ -112,21 +122,28 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      *
      * @depends builderCanGenerateAToken
      *
+     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
+     *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
+     * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha512
+     * @covers \Lcobucci\JWT\Validation\Validator
+     * @covers \Lcobucci\JWT\Validation\InvalidTokenException
+     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function verifyShouldReturnFalseWhenAlgorithmIsDifferent(Token $token)
+    public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token)
     {
-        $this->markTestIncomplete('Validation API refactor');
-
-        self::assertFalse($token->verify(new Sha512(), new Key('testing')));
+        $this->config->getValidator()->assert(
+            $token,
+            new SignedWith(new Sha512(), new Key('testing'))
+        );
     }
 
     /**
@@ -138,16 +155,19 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
+     * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
+     * @covers \Lcobucci\JWT\Validation\Validator
+     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function verifyShouldReturnTrueWhenKeyIsRight(Token $token)
+    public function signatureValidationShouldSucceedWhenKeyIsRight(Token $token)
     {
-        $this->markTestIncomplete('Validation API refactor');
+        $constraint = new SignedWith($this->config->getSigner(), new Key('testing'));
 
-        self::assertTrue($token->verify($this->config->getSigner(), new Key('testing')));
+        self::assertTrue($this->config->getValidator()->validate($token, $constraint));
     }
 
     /**
@@ -157,21 +177,23 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
+     * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
+     * @covers \Lcobucci\JWT\Validation\Validator
+     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
     public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs()
     {
-        $this->markTestIncomplete('Validation API refactor');
-
         $data = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.Rh'
                 . '7AEgqCB7zae1PkgIlvOpeyw9Ab8NGTbeOH7heHO0o';
 
         $token = $this->config->getParser()->parse((string) $data);
+        $constraint = new SignedWith($this->config->getSigner(), new Key('testing'));
 
+        self::assertTrue($this->config->getValidator()->validate($token, $constraint));
         self::assertEquals('world', $token->claims()->get('hello'));
-        self::assertTrue($token->verify($this->config->getSigner(), new Key('testing')));
     }
 }

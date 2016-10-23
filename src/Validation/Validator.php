@@ -29,7 +29,7 @@ final class Validator implements \Lcobucci\JWT\Validator
             $this->checkConstraint($constraint, $token, $violations);
         }
 
-        if (!empty($violations)) {
+        if ($violations) {
             throw InvalidTokenException::fromViolations(...$violations);
         }
     }
