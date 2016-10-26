@@ -89,6 +89,25 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
+    public function canOnlyBeUsedByShouldPreventDuplicatedEntries()
+    {
+        $builder = $this->createBuilder();
+        $builder->canOnlyBeUsedBy('test');
+        $builder->canOnlyBeUsedBy('test');
+
+        self::assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
+        self::assertAttributeEquals(['aud' => ['test']], 'claims', $builder);
+    }
+
+    /**
+     * @test
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     * @uses \Lcobucci\JWT\Token\Builder::with
+     *
+     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
+     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     */
     public function canOnlyBeUsedByCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();

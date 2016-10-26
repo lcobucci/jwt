@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
-use BadMethodCallException;
 use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Builder as BuilderInterface;
 use Lcobucci\JWT\Signer;
@@ -59,13 +58,12 @@ final class Builder implements BuilderInterface
     public function canOnlyBeUsedBy(string $audience, bool $addHeader = false): BuilderInterface
     {
         $audiences = $this->claims['aud'] ?? [];
-        $audiences[] = $audience;
 
-        return $this->setRegisteredClaim(
-            'aud',
-            array_values(array_map('strval', $audiences)),
-            $addHeader
-        );
+        if (!in_array($audience, $audiences)) {
+            $audiences[] = $audience;
+        }
+
+        return $this->setRegisteredClaim('aud', $audiences, $addHeader);
     }
 
     /**
