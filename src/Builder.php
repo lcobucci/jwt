@@ -115,7 +115,7 @@ class Builder
      *
      * @return Builder
      */
-    public function withId(string $id, bool $addHeader = false): Builder
+    public function identifiedBy(string $id, bool $addHeader = false): Builder
     {
         return $this->setRegisteredClaim('jti', $id, $addHeader);
     }

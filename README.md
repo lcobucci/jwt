@@ -44,7 +44,7 @@ $config = new Configuration(); // This object helps to simplify the creation of 
 $token = $config->createBuilder()
                 ->issuedBy('http://example.com') // Configures the issuer (iss claim)
                 ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
-                ->withId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
                 ->issuedAt(time()) // Configures the time that the token was issue (iat claim)
                 ->canOnlyBeUsedAfter(time() + 60) // Configures the time that the token can be used (nbf claim)
                 ->expiresAt(time() + 3600) // Configures the expiration time of the token (exp claim)
@@ -74,7 +74,7 @@ $token = $config->createBuilder()
                 ->canOnlyBeUsedBy('http://example.org')
                 ->canOnlyBeUsedBy('http://example.com')
                 ->canOnlyBeUsedBy('http://example.io') // Sets all three as audience members of this token.
-                ->withId('4f1g23a12aa', true)
+                ->identifiedBy('4f1g23a12aa', true)
                 ->issuedAt(time())
                 ->canOnlyBeUsedAfter(time() + 60)
                 ->expiresAt(time() + 3600)
@@ -164,7 +164,7 @@ $signer = $config->getSigner(); // Default signer is HMAC SHA256
 $token = $config->createBuilder()
                 ->issuedBy('http://example.com') // Configures the issuer (iss claim)
                 ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
-                ->withId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
                 ->issuedAt(time()) // Configures the time that the token was issue (iat claim)
                 ->canOnlyBeUsedAfter(time() + 60) // Configures the time that the token can be used (nbf claim)
                 ->expiresAt(time() + 3600) // Configures the expiration time of the token (exp claim)
@@ -194,7 +194,7 @@ $privateKey = new Key('file://{path to your private key}');
 $token = $config->createBuilder()
                 ->issuedBy('http://example.com') // Configures the issuer (iss claim)
                 ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
-                ->withId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
                 ->issuedAt(time()) // Configures the time that the token was issue (iat claim)
                 ->canOnlyBeUsedAfter(time() + 60) // Configures the time that the token can be used (nbf claim)
                 ->expiresAt(time() + 3600) // Configures the expiration time of the token (exp claim)

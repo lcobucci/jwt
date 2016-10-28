@@ -192,13 +192,13 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Builder::__construct
      * @uses \Lcobucci\JWT\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::withId
+     * @covers \Lcobucci\JWT\Builder::identifiedBy
      * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
      */
     public function setIdMustChangeTheJtiClaim()
     {
         $builder = $this->createBuilder();
-        $builder->withId('2');
+        $builder->identifiedBy('2');
 
         self::assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
         self::assertAttributeEquals(['jti' => $this->defaultClaim], 'claims', $builder);
@@ -210,13 +210,13 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Builder::__construct
      * @uses \Lcobucci\JWT\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::withId
+     * @covers \Lcobucci\JWT\Builder::identifiedBy
      * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
      */
     public function setIdCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
-        $builder->withId('2', true);
+        $builder->identifiedBy('2', true);
 
         self::assertAttributeEquals(['jti' => $this->defaultClaim], 'claims', $builder);
 
@@ -233,14 +233,14 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Builder::__construct
      * @uses \Lcobucci\JWT\Builder::with
      *
-     * @covers \Lcobucci\JWT\Builder::withId
+     * @covers \Lcobucci\JWT\Builder::identifiedBy
      * @covers \Lcobucci\JWT\Builder::setRegisteredClaim
      */
     public function setIdMustKeepAFluentInterface()
     {
         $builder = $this->createBuilder();
 
-        self::assertSame($builder, $builder->withId('2'));
+        self::assertSame($builder, $builder->identifiedBy('2'));
     }
 
     /**

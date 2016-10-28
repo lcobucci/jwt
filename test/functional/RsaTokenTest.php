@@ -59,7 +59,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
     {
         $builder = $this->config->createBuilder();
 
-        $builder->withId('1')
+        $builder->identifiedBy('1')
                 ->canOnlyBeUsedBy('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
                 ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
@@ -86,7 +86,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
     {
         $builder = $this->config->createBuilder();
 
-        $builder->withId('1')
+        $builder->identifiedBy('1')
                 ->canOnlyBeUsedBy('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
                 ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
@@ -112,7 +112,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->createBuilder();
 
-        $token = $builder->withId('1')
+        $token = $builder->identifiedBy('1')
                          ->canOnlyBeUsedBy('http://client.abc.com')
                          ->issuedBy('http://api.abc.com')
                          ->with('user', $user)
