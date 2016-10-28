@@ -7,7 +7,7 @@
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
 
 A simple library to work with JSON Web Token and JSON Web Signature (requires PHP 5.5+).
-The implementation is based on the [current draft](http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32).
+The implementation is based on the [RFC 7519](https://tools.ietf.org/html/rfc7519).
 
 ## Installation
 
@@ -32,13 +32,13 @@ Just use the builder to create a new JWT/JWS tokens:
 ```php
 use Lcobucci\JWT\Builder;
 
-$token = (new Builder())->setIssuer('http://example.com') // Configures the issuer (iss claim)
-                        ->setAudience('http://example.org') // Configures the audience (aud claim)
-                        ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                        ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                        ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
-                        ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
-                        ->set('uid', 1) // Configures a new claim, called "uid"
+$token = (new Builder())->issuedBy('http://example.com') // Configures the issuer (iss claim)
+                        ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
+                        ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                        ->issuedAt(time()) // Configures the time that the token was issue (iat claim)
+                        ->canOnlyBeUsedAfter(time() + 60) // Configures the time that the token can be used (nbf claim)
+                        ->expiresAt(time() + 3600) // Configures the expiration time of the token (exp claim)
+                        ->with('uid', 1) // Configures a new claim, called "uid"
                         ->getToken(); // Retrieves the generated token
 
 
@@ -79,20 +79,36 @@ $data->setIssuer('http://example.com');
 $data->setAudience('http://example.org');
 $data->setId('4f1g23a12aa');
 
-var_dump($token->validate($data)); // false, because we created a token that cannot be used before of `time() + 60`
+var_dump($token->validate($data)); // false, because token cannot be used before of now() + 60
 
-$data->setCurrentTime(time() + 60); // changing the validation time to future
+$data->setCurrentTime(time() + 61); // changing the validation time to future
 
-var_dump($token->validate($data)); // true, because validation information is equals to data contained on the token
+var_dump($token->validate($data)); // true, because current time is between "nbf" and "exp" claims
 
 $data->setCurrentTime(time() + 4000); // changing the validation time to future
 
 var_dump($token->validate($data)); // false, because token is expired since current time is greater than exp
 ```
 
+#### Important
+
+- You have to configure ```ValidationData``` informing all claims you want to validate the token.
+- If ```ValidationData``` contains claims that are not being used in token or token has claims that are not
+configured in ```ValidationData``` they will be ignored by ```Token::validate()```.
+- ```exp```, ```nbf``` and ```iat``` claims are configured by default in ```ValidationData::__construct()```
+with the current UNIX time (```time()```).
+
 ## Token signature
 
 We can use signatures to be able to verify if the token was not modified after its generation. This library implements Hmac, RSA and ECDSA signatures (using 256, 384 and 512).
+
+### Important
+
+Do not allow the string sent to the Parser to dictate which signature algorithm
+to use, or else your application will be vulnerable to a [critical JWT security vulnerability](https://auth0.com/blog/2015/03/31/critical-vulnerabilities-in-json-web-token-libraries).
+
+The examples below are safe because the choice in `Signer` is hard-coded and
+cannot be influenced by malicious users.
 
 ### Hmac
 
@@ -104,13 +120,13 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 
 $signer = new Sha256();
 
-$token = (new Builder())->setIssuer('http://example.com') // Configures the issuer (iss claim)
-                        ->setAudience('http://example.org') // Configures the audience (aud claim)
-                        ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                        ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                        ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
-                        ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
-                        ->set('uid', 1) // Configures a new claim, called "uid"
+$token = (new Builder())->issuedBy('http://example.com') // Configures the issuer (iss claim)
+                        ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
+                        ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                        ->issuedAt(time()) // Configures the time that the token was issue (iat claim)
+                        ->canOnlyBeUsedAfter(time() + 60) // Configures the time that the token can be used (nbf claim)
+                        ->expiresAt(time() + 3600) // Configures the expiration time of the token (exp claim)
+                        ->with('uid', 1) // Configures a new claim, called "uid"
                         ->sign($signer, 'testing') // creates a signature using "testing" as key
                         ->getToken(); // Retrieves the generated token
 
@@ -125,25 +141,25 @@ RSA and ECDSA signatures are based on public and private keys so you have to gen
 
 ```php
 use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Signer\Keychain; // just to make our life simpler
+use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256; // you can use Lcobucci\JWT\Signer\Ecdsa\Sha256 if you're using ECDSA keys
 
 $signer = new Sha256();
+$privateKey = new Key('file://{path to your private key}');
 
-$keychain = new Keychain();
-
-$token = (new Builder())->setIssuer('http://example.com') // Configures the issuer (iss claim)
-                        ->setAudience('http://example.org') // Configures the audience (aud claim)
-                        ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                        ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                        ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
-                        ->setExpiration(time() + 3600) // Configures the expiration time of the token (nbf claim)
-                        ->set('uid', 1) // Configures a new claim, called "uid"
-                        ->sign($signer,  $keychain->getPrivateKey('file://{path to your private key}')) // creates a signature using your private key
+$token = (new Builder())->issuedBy('http://example.com') // Configures the issuer (iss claim)
+                        ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
+                        ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                        ->issuedAt(time()) // Configures the time that the token was issue (iat claim)
+                        ->canOnlyBeUsedAfter(time() + 60) // Configures the time that the token can be used (nbf claim)
+                        ->expiresAt(time() + 3600) // Configures the expiration time of the token (exp claim)
+                        ->with('uid', 1) // Configures a new claim, called "uid"
+                        ->sign($signer,  $privateKey) // creates a signature using your private key
                         ->getToken(); // Retrieves the generated token
 
+$publicKey = new Key('file://{path to your public key}');
 
-var_dump($token->verify($signer, $keychain->getPublicKey('file://{path to your public key}'))); // true when the public key was generated by the private one =)
+var_dump($token->verify($signer, $publicKey)); // true when the public key was generated by the private one =)
 ```
 
 **It's important to say that if you're using RSA keys you shouldn't invoke ECDSA signers (and vice-versa), otherwise ```sign()``` and ```verify()``` will raise an exception!**
