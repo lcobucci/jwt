@@ -26,7 +26,12 @@ abstract class Rsa extends BaseSigner
         $this->validateKey($key);
 
         $signature = '';
-        openssl_sign($payload, $signature, $key, $this->getAlgorithm());
+
+        if (!openssl_sign($payload, $signature, $key, $this->getAlgorithm())) {
+            throw new InvalidArgumentException(
+                'There was an error while creating the signature: ' . openssl_error_string()
+            );
+        }
 
         return $signature;
     }
@@ -46,8 +51,6 @@ abstract class Rsa extends BaseSigner
      * Validates if the given key is a valid RSA public/private key
      *
      * @param resource $key
-     *
-     * @return boolean
      *
      * @throws InvalidArgumentException
      */
