@@ -27,8 +27,8 @@ We accept contributions via pull requests [here](https://github.com/lcobucci/jwt
 ### Branches
 
 - **master**: used to the next major release (new features that breaks BC)
-- **3.0**: used to fix bugs
-- **2.1**: unmaintained (all users should upgrade to +3.0)
+- **3.x**: used to fix bugs
+- **2.1**: unmaintained (all users should upgrade to +3.x)
 
 **Thank you and happy coding!**
 
