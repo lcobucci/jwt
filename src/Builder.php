@@ -69,17 +69,12 @@ interface Builder
     public function with(string $name, $value): Builder;
 
     /**
-     * Signs the data
+     * Returns a signed token to be used
      */
-    public function sign(Signer $signer, Key $key): Builder;
+    public function getToken(Signer $signer, Key $key): Plain;
 
     /**
-     * Removes the signature from the builder
+     * Returns an unsecured token (not recommended)
      */
-    public function unsign(): Builder;
-
-    /**
-     * Returns the resultant token
-     */
-    public function getToken(): Plain;
+    public function getUnsecuredToken(): Plain;
 }

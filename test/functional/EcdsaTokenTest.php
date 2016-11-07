@@ -65,7 +65,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
                 ->canOnlyBeUsedBy('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
                 ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-                ->sign($this->config->getSigner(), new Key('testing'));
+                ->getToken($this->config->getSigner(), new Key('testing'));
     }
 
     /**
@@ -93,7 +93,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
                 ->canOnlyBeUsedBy('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
                 ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-                ->sign($this->config->getSigner(), static::$rsaKeys['private']);
+                ->getToken($this->config->getSigner(), static::$rsaKeys['private']);
     }
 
     /**
@@ -122,8 +122,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
                          ->issuedBy('http://api.abc.com')
                          ->with('user', $user)
                          ->withHeader('jki', '1234')
-                         ->sign($this->config->getSigner(), static::$ecdsaKeys['private'])
-                         ->getToken();
+                         ->getToken($this->config->getSigner(), static::$ecdsaKeys['private']);
 
         self::assertAttributeInstanceOf(Signature::class, 'signature', $token);
         self::assertEquals('1234', $token->headers()->get('jki'));
@@ -317,8 +316,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
                          ->issuedBy('http://api.abc.com')
                          ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
                          ->withHeader('jki', '1234')
-                         ->sign($signer, static::$ecdsaKeys['private-params'])
-                         ->getToken();
+                         ->getToken($signer, static::$ecdsaKeys['private-params']);
 
         $constraint = new SignedWith(
             $this->config->getSigner(),

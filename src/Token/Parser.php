@@ -54,11 +54,23 @@ final class Parser implements ParserInterface
             }
         }
 
-        return new Plain(
+        return $this->createToken(
             new DataSet($header, $encodedHeaders),
             new DataSet($claims, $encodedClaims),
             $signature
         );
+    }
+
+    private function createToken(
+        DataSet $headers,
+        DataSet $claims,
+        Signature $signature = null
+    ): Plain {
+        if ($signature) {
+            return Plain::signed($headers, $claims, $signature);
+        }
+
+        return Plain::unsecured($headers, $claims);
     }
 
     /**

@@ -57,7 +57,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
                          ->issuedBy('http://api.abc.com')
                          ->expiresAt(self::CURRENT_TIME + 3000)
                          ->with('user', $user)
-                         ->getToken();
+                         ->getUnsecuredToken();
 
         self::assertAttributeEquals(null, 'signature', $token);
         self::assertEquals(['http://client.abc.com'], $token->claims()->get('aud'));

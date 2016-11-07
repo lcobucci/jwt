@@ -11,7 +11,6 @@ namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Keys;
-use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
@@ -63,7 +62,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
                 ->canOnlyBeUsedBy('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
                 ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-                ->sign($this->config->getSigner(), new Key('testing'));
+                ->getToken($this->config->getSigner(), new Key('testing'));
     }
 
     /**
@@ -88,7 +87,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
                 ->canOnlyBeUsedBy('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
                 ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-                ->sign($this->config->getSigner(), static::$ecdsaKeys['private']);
+                ->getToken($this->config->getSigner(), static::$ecdsaKeys['private']);
     }
 
     /**
@@ -113,8 +112,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
                          ->issuedBy('http://api.abc.com')
                          ->with('user', $user)
                          ->withHeader('jki', '1234')
-                         ->sign($this->config->getSigner(), static::$rsaKeys['private'])
-                         ->getToken();
+                         ->getToken($this->config->getSigner(), static::$rsaKeys['private']);
 
         self::assertAttributeInstanceOf(Signature::class, 'signature', $token);
         self::assertEquals('1234', $token->headers()->get('jki'));

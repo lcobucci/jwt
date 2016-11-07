@@ -39,13 +39,6 @@ final class Builder implements BuilderInterface
     private $claims = [];
 
     /**
-     * The token signature
-     *
-     * @var string|null
-     */
-    private $signature;
-
-    /**
      * The data encoder
      *
      * @var Parsing\Encoder
@@ -142,10 +135,6 @@ final class Builder implements BuilderInterface
      */
     public function withHeader(string $name, $value): BuilderInterface
     {
-        if ($this->signature !== null) {
-            throw new BadMethodCallException('You must unsign before make changes');
-        }
-
         $this->headers[$name] = $value;
 
         return $this;
@@ -156,74 +145,47 @@ final class Builder implements BuilderInterface
      */
     public function with(string $name, $value): BuilderInterface
     {
-        if ($this->signature !== null) {
-            throw new BadMethodCallException('You must unsign before making changes');
-        }
-
         $this->claims[$name] = $value;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function sign(Signer $signer, Key $key): BuilderInterface
-    {
-        $this->headers['alg'] = $signer->getAlgorithmId();
-
-        $this->signature = $signer->sign(
-            $this->getToken()->payload(),
-            $key
-        );
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function unsign(): BuilderInterface
-    {
-        $this->headers['alg'] = 'none';
-        $this->signature = null;
-
-        return $this;
-    }
-
-    private function encodeHeaders(): string
+    private function encode(array $items): string
     {
         return $this->encoder->base64UrlEncode(
-            $this->encoder->jsonEncode($this->headers)
-        );
-    }
-
-    private function encodeClaims(): string
-    {
-        return $this->encoder->base64UrlEncode(
-            $this->encoder->jsonEncode($this->claims)
+            $this->encoder->jsonEncode($items)
         );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getToken(): Plain
+    public function getToken(Signer $signer, Key $key): Plain
     {
-        $headers = new DataSet($this->headers, $this->encodeHeaders());
-        $claims = new DataSet($this->claims, $this->encodeClaims());
+        $headers = $this->headers;
+        $headers['alg'] = $signer->getAlgorithmId();
 
-        if ($this->signature === null) {
-            return new Plain($headers, $claims);
-        }
+        $encodedHeaders = $this->encode($headers);
+        $encodedClaims = $this->encode($this->claims);
 
-        return new Plain(
-            $headers,
-            $claims,
-            new Signature(
-                $this->signature,
-                $this->encoder->base64UrlEncode($this->signature)
-            )
+        $signature = $signer->sign($encodedHeaders . '.' . $encodedClaims, $key);
+        $encodedSignature = $this->encoder->base64UrlEncode($signature);
+
+        return Plain::signed(
+            new DataSet($headers, $encodedHeaders),
+            new DataSet($this->claims, $encodedClaims),
+            new Signature($signature, $encodedSignature)
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUnsecuredToken(): Plain
+    {
+        return Plain::unsecured(
+            new DataSet($this->headers, $this->encode($this->headers)),
+            new DataSet($this->claims, $this->encode($this->claims))
         );
     }
 }

@@ -120,13 +120,14 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::createToken
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
      *
      */
-    public function parseMustReturnANonSignedTokenWhenSignatureIsNotInformed()
+    public function parseMustReturnAnUnsecuredTokenWhenSignatureIsNotInformed()
     {
         $this->decoder->expects($this->at(0))
                       ->method('base64UrlDecode')
@@ -167,6 +168,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::createToken
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
@@ -213,6 +215,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::createToken
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
@@ -259,6 +262,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::createToken
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
@@ -306,6 +310,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::createToken
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
