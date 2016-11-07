@@ -12,6 +12,7 @@ namespace Lcobucci\JWT;
 use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Validation;
 
 /**
  * Configuration container for the JWT Builder and Parser
@@ -43,6 +44,11 @@ final class Configuration
      * @var Parsing\Decoder|null
      */
     private $decoder;
+
+    /**
+     * @var Validator|null
+     */
+    private $validator;
 
     public function createBuilder(): Builder
     {
@@ -103,5 +109,19 @@ final class Configuration
     public function setDecoder(Parsing\Decoder $decoder)
     {
         $this->decoder = $decoder;
+    }
+
+    public function getValidator(): Validator
+    {
+        if ($this->validator === null) {
+            $this->validator = new Validation\Validator();
+        }
+
+        return $this->validator;
+    }
+
+    public function setValidator(Validator $validator)
+    {
+        $this->validator = $validator;
     }
 }

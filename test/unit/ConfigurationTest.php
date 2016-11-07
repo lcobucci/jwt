@@ -38,6 +38,11 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     private $decoder;
 
     /**
+     * @var Validator|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $validator;
+
+    /**
      * @before
      */
     public function createDependencies()
@@ -46,6 +51,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->encoder = $this->createMock(Parsing\Encoder::class);
         $this->decoder = $this->createMock(Parsing\Decoder::class);
         $this->parser = $this->createMock(Parser::class);
+        $this->validator = $this->createMock(Validator::class);
     }
 
     /**
@@ -174,5 +180,38 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $config->setSigner($this->signer);
 
         self::assertSame($this->signer, $config->getSigner());
+    }
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Configuration::getValidator
+     *
+     * @uses \Lcobucci\JWT\Token\Builder
+     * @uses \Lcobucci\JWT\Token\Parser
+     */
+    public function getValidatorShouldReturnTheDefaultWhenItWasNotConfigured()
+    {
+        $config = new Configuration();
+        $validator = $config->getValidator();
+
+        self::assertNotSame($this->validator, $validator);
+    }
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Configuration::getValidator
+     * @covers \Lcobucci\JWT\Configuration::setValidator
+     *
+     * @uses \Lcobucci\JWT\Token\Builder
+     * @uses \Lcobucci\JWT\Token\Parser
+     */
+    public function getValidatorShouldReturnTheConfiguredValidator()
+    {
+        $config = new Configuration();
+        $config->setValidator($this->validator);
+
+        self::assertSame($this->validator, $config->getValidator());
     }
 }
