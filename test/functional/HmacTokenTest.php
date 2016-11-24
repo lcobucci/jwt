@@ -44,7 +44,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
      */
@@ -104,13 +103,12 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
      */
     public function verifyShouldReturnFalseWhenKeyIsNotRight(Token $token)
     {
-        self::assertFalse($token->verify($this->config->getSigner(), 'testing1'));
+        self::assertFalse($token->verify($this->config->getSigner(), new Key('testing1')));
     }
 
     /**
@@ -126,14 +124,13 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha512
      */
     public function verifyShouldReturnFalseWhenAlgorithmIsDifferent(Token $token)
     {
-        self::assertFalse($token->verify(new Sha512(), 'testing'));
+        self::assertFalse($token->verify(new Sha512(), new Key('testing')));
     }
 
     /**
@@ -149,13 +146,12 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
      */
     public function verifyShouldReturnTrueWhenKeyIsRight(Token $token)
     {
-        self::assertTrue($token->verify($this->config->getSigner(), 'testing'));
+        self::assertTrue($token->verify($this->config->getSigner(), new Key('testing')));
     }
 
     /**
@@ -167,7 +163,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
      * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
      * @covers \Lcobucci\JWT\Claim\Factory
@@ -181,6 +176,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
         $token = $this->config->getParser()->parse((string) $data);
 
         self::assertEquals('world', $token->getClaim('hello'));
-        self::assertTrue($token->verify($this->config->getSigner(), 'testing'));
+        self::assertTrue($token->verify($this->config->getSigner(), new Key('testing')));
     }
 }

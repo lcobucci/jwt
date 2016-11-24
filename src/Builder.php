@@ -39,7 +39,7 @@ class Builder
     /**
      * The token signature
      *
-     * @var Signature
+     * @var string|null
      */
     private $signature;
 
@@ -83,9 +83,8 @@ class Builder
      */
     public function canOnlyBeUsedBy(string $audience, bool $addHeader = false): Builder
     {
-        $audiences = isset($this->claims['aud'])
-            ? array_merge($this->claims['aud']->getValue(), [$audience])
-            : [$audience];
+        $audiences = isset($this->claims['aud']) ? $this->claims['aud']->getValue() : [];
+        $audiences[] = $audience;
 
         return $this->setRegisteredClaim(
             'aud',
@@ -204,7 +203,7 @@ class Builder
      */
     public function withHeader(string $name, $value): Builder
     {
-        if ($this->signature) {
+        if ($this->signature !== null) {
             throw new BadMethodCallException('You must unsign before make changes');
         }
 
@@ -225,7 +224,7 @@ class Builder
      */
     public function with(string $name, $value): Builder
     {
-        if ($this->signature) {
+        if ($this->signature !== null) {
             throw new BadMethodCallException('You must unsign before making changes');
         }
 
@@ -244,7 +243,7 @@ class Builder
      */
     public function sign(Signer $signer, Key $key): Builder
     {
-        $signer->modifyHeader($this->headers);
+        $this->headers['alg'] = $signer->getAlgorithmId();
 
         $this->signature = $signer->sign(
             $this->getToken()->getPayload(),
@@ -261,6 +260,7 @@ class Builder
      */
     public function unsign(): Builder
     {
+        $this->headers['alg'] = 'none';
         $this->signature = null;
 
         return $this;
@@ -273,15 +273,22 @@ class Builder
      */
     public function getToken(): Token
     {
+        $signature = null;
         $payload = [
             $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->headers)),
             $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->claims))
         ];
 
         if ($this->signature !== null) {
-            $payload[] = $this->encoder->base64UrlEncode((string) $this->signature);
+            $payload[] = $this->encoder->base64UrlEncode($this->signature);
+            $signature = new Signature($this->signature);
         }
 
-        return new Token($this->headers, $this->claims, $this->signature, $payload);
+        return new Token(
+            $this->headers,
+            $this->claims,
+            $signature,
+            $payload
+        );
     }
 }

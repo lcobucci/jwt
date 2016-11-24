@@ -56,9 +56,9 @@ class EcdsaTest extends BaseTestCase
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
      * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::createHash
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::sign
      */
-    public function createHashShouldReturnAHashUsingPrivateKey()
+    public function signShouldReturnAHashUsingPrivateKey()
     {
         $signer = $this->getSigner();
         $key = new Key('testing');
@@ -80,7 +80,7 @@ class EcdsaTest extends BaseTestCase
                       ->with($privateKey, $signingHash)
                       ->willReturn('string');
 
-        self::assertInternalType('string', $signer->createHash('testing', $key));
+        self::assertInternalType('string', $signer->sign('testing', $key));
     }
 
     /**
@@ -89,9 +89,9 @@ class EcdsaTest extends BaseTestCase
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
      * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::doVerify
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::verify
      */
-    public function doVerifyShouldDelegateToEcdsaSignerUsingPublicKey()
+    public function verifyShouldDelegateToEcdsaSignerUsingPublicKey()
     {
         $signer = $this->getSigner();
         $key = new Key('testing');
@@ -113,6 +113,6 @@ class EcdsaTest extends BaseTestCase
                       ->with('testing', $publicKey, $signingHash)
                       ->willReturn(true);
 
-        self::assertTrue($signer->doVerify('testing', 'testing2', $key));
+        self::assertTrue($signer->verify('testing', 'testing2', $key));
     }
 }
