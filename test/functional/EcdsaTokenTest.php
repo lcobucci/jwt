@@ -50,8 +50,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Builder
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
@@ -80,8 +78,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Builder
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
@@ -108,8 +104,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Builder
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
@@ -151,8 +145,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Parser
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
@@ -176,8 +168,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Parser
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
@@ -201,8 +191,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Parser
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
@@ -229,8 +217,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Parser
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
@@ -254,8 +240,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Parser
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
@@ -276,8 +260,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Builder
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Ecdsa
@@ -317,8 +299,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
      * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      */
     public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs()
     {
@@ -358,8 +338,6 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha512
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      */
     public function preventRegressionsThatAllowsMaliciousTampering()
     {

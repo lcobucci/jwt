@@ -11,7 +11,6 @@ namespace Lcobucci\JWT;
 
 use BadMethodCallException;
 use Lcobucci\Jose\Parsing;
-use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Signer\Key;
 
 /**
@@ -51,24 +50,11 @@ class Builder
     private $encoder;
 
     /**
-     * The factory of claims
-     *
-     * @var ClaimFactory
-     */
-    private $claimFactory;
-
-    /**
      * Initializes a new builder
-     *
-     * @param Parsing\Encoder $encoder
-     * @param ClaimFactory $claimFactory
      */
-    public function __construct(
-        Parsing\Encoder $encoder,
-        ClaimFactory $claimFactory
-    ) {
+    public function __construct(Parsing\Encoder $encoder)
+    {
         $this->encoder = $encoder;
-        $this->claimFactory = $claimFactory;
         $this->headers = ['typ'=> 'JWT', 'alg' => 'none'];
         $this->claims = [];
     }
@@ -83,9 +69,8 @@ class Builder
      */
     public function canOnlyBeUsedBy(string $audience, bool $addHeader = false): Builder
     {
-        $audiences = isset($this->claims['aud'])
-            ? array_merge($this->claims['aud']->getValue(), [$audience])
-            : [$audience];
+        $audiences = $this->claims['aud'] ?? [];
+        $audiences[] = $audience;
 
         return $this->setRegisteredClaim(
             'aud',
@@ -208,7 +193,7 @@ class Builder
             throw new BadMethodCallException('You must unsign before make changes');
         }
 
-        $this->headers[$name] = $this->claimFactory->create($name, $value);
+        $this->headers[$name] = $value;
 
         return $this;
     }
@@ -229,7 +214,7 @@ class Builder
             throw new BadMethodCallException('You must unsign before making changes');
         }
 
-        $this->claims[$name] = $this->claimFactory->create($name, $value);
+        $this->claims[$name] = $value;
 
         return $this;
     }

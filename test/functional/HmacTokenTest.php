@@ -41,8 +41,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Builder
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
@@ -80,8 +78,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Parser
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      */
     public function parserCanReadAToken(Token $generated)
     {
@@ -101,8 +97,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Parser
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
@@ -123,8 +117,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Parser
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
@@ -146,8 +138,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Parser
      * @covers \Lcobucci\JWT\Token
      * @covers \Lcobucci\JWT\Signature
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
@@ -170,8 +160,6 @@ class HmacTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\BaseSigner
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
-     * @covers \Lcobucci\JWT\Claim\Factory
-     * @covers \Lcobucci\JWT\Claim\Basic
      */
     public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs()
     {
