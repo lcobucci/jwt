@@ -17,7 +17,7 @@ use Lcobucci\JWT\Signer\Ecdsa;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-class Sha512 extends Ecdsa
+final class Sha512 extends Ecdsa
 {
     /**
      * {@inheritdoc}
