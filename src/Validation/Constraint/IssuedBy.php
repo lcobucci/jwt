@@ -32,7 +32,7 @@ final class IssuedBy implements Constraint
     /**
      * {@inheritdoc}
      */
-    public function assert(Token $token)
+    public function assert(Token $token): void
     {
         if (!$token->hasBeenIssuedBy(...$this->issuers)) {
             throw new ConstraintViolationException(

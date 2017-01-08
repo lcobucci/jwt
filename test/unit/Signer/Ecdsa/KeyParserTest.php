@@ -41,7 +41,7 @@ final class KeyParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function createDependencies()
+    public function createDependencies(): void
     {
         $this->adapter = $this->createMock(GmpMathInterface::class);
         $this->privateKeySerializer = $this->createMock(PrivateKeySerializerInterface::class);
@@ -53,7 +53,7 @@ final class KeyParserTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
      */
-    public function constructShouldConfigureDependencies()
+    public function constructShouldConfigureDependencies(): void
     {
         $parser = new KeyParser($this->privateKeySerializer, $this->publicKeySerializer);
 
@@ -68,7 +68,7 @@ final class KeyParserTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser::__construct
      */
-    public function createShouldReturnAValidInstanceBasedOnTheMathAdapter()
+    public function createShouldReturnAValidInstanceBasedOnTheMathAdapter(): void
     {
         $parser = KeyParser::create($this->adapter);
 
@@ -94,7 +94,7 @@ final class KeyParserTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPrivateKey
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
      */
-    public function getPrivateKeyShouldAskSerializerToParseTheKey()
+    public function getPrivateKeyShouldAskSerializerToParseTheKey(): void
     {
         $privateKey = $this->createMock(PrivateKeyInterface::class);
 
@@ -122,7 +122,7 @@ final class KeyParserTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPrivateKey
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
      */
-    public function getPrivateKeyShouldRaiseExceptionWhenAWrongKeyWasGiven()
+    public function getPrivateKeyShouldRaiseExceptionWhenAWrongKeyWasGiven(): void
     {
         $this->privateKeySerializer->expects($this->never())
                                    ->method('parse');
@@ -140,7 +140,7 @@ final class KeyParserTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPublicKey
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
      */
-    public function getPublicKeyShouldAskSerializerToParseTheKey()
+    public function getPublicKeyShouldAskSerializerToParseTheKey(): void
     {
         $publicKey = $this->createMock(PublicKeyInterface::class);
 
@@ -167,7 +167,7 @@ final class KeyParserTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getPublicKey
      * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser::getKeyContent
      */
-    public function getPublicKeyShouldRaiseExceptionWhenAWrongKeyWasGiven()
+    public function getPublicKeyShouldRaiseExceptionWhenAWrongKeyWasGiven(): void
     {
         $this->publicKeySerializer->expects($this->never())
                                   ->method('parse');

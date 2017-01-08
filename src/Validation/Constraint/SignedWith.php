@@ -39,7 +39,7 @@ final class SignedWith implements Constraint
     /**
      * {@inheritdoc}
      */
-    public function assert(Token $token)
+    public function assert(Token $token): void
     {
         if (!$token instanceof Token\Plain) {
             throw new ConstraintViolationException('You should pass a plain token');

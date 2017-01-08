@@ -50,9 +50,9 @@ abstract class Rsa implements Signer
      *
      * @param resource $key
      *
-     * @expectedException InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    private function validateKey($key)
+    private function validateKey($key): void
     {
         if ($key === false) {
             throw new InvalidArgumentException(

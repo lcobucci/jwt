@@ -33,7 +33,7 @@ final class AllowedTo implements Constraint
     /**
      * {@inheritdoc}
      */
-    public function assert(Token $token)
+    public function assert(Token $token): void
     {
         if (!$token->isAllowedTo($this->audience)) {
             throw new ConstraintViolationException(

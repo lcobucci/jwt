@@ -31,7 +31,7 @@ final class SignedWithTest extends ConstraintTestCase
     /**
      * @before
      */
-    public function createDependencies()
+    public function createDependencies(): void
     {
         $this->signer = $this->createMock(Signer::class);
         $this->signer->method('getAlgorithmId')->willReturn('RS256');
@@ -54,7 +54,7 @@ final class SignedWithTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\Signature
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken()
+    public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
         $constraint = new SignedWith($this->signer, $this->key);
         $constraint->assert($this->createMock(Token::class));
@@ -74,7 +74,7 @@ final class SignedWithTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\Signature
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function assertShouldRaiseExceptionWhenTokenIsUnsigned()
+    public function assertShouldRaiseExceptionWhenTokenIsUnsigned(): void
     {
         $constraint = new SignedWith($this->signer, $this->key);
         $constraint->assert($this->buildToken());
@@ -93,7 +93,7 @@ final class SignedWithTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function assertShouldRaiseExceptionWhenSignerIsNotTheSame()
+    public function assertShouldRaiseExceptionWhenSignerIsNotTheSame(): void
     {
         $token = $this->buildToken([], ['alg' => 'test'], $this->signature);
 
@@ -116,7 +116,7 @@ final class SignedWithTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function assertShouldRaiseExceptionWhenSignatureIsInvalid()
+    public function assertShouldRaiseExceptionWhenSignatureIsInvalid(): void
     {
         $token = $this->buildToken([], ['alg' => 'RS256'], $this->signature);
 
@@ -140,7 +140,7 @@ final class SignedWithTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function assertShouldRaiseExceptionWhenSignatureIsValid()
+    public function assertShouldRaiseExceptionWhenSignatureIsValid(): void
     {
         $token = $this->buildToken([], ['alg' => 'RS256'], $this->signature);
 

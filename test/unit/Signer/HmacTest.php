@@ -23,7 +23,7 @@ final class HmacTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function initializeDependencies()
+    public function initializeDependencies(): void
     {
         $this->signer = $this->getMockForAbstractClass(Hmac::class);
 
@@ -62,7 +62,7 @@ final class HmacTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Hmac::verify
      */
-    public function verifyShouldReturnTrueWhenExpectedHashWasCreatedWithSameInformation(string $expected)
+    public function verifyShouldReturnTrueWhenExpectedHashWasCreatedWithSameInformation(string $expected): void
     {
         self::assertTrue($this->signer->verify($expected, 'test', new Key('123')));
     }
@@ -77,7 +77,7 @@ final class HmacTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Hmac::verify
      */
-    public function verifyShouldReturnFalseWhenExpectedHashWasNotCreatedWithSameInformation($expected)
+    public function verifyShouldReturnFalseWhenExpectedHashWasNotCreatedWithSameInformation(string $expected): void
     {
         self::assertFalse($this->signer->verify($expected, 'test', new Key('1234')));
     }

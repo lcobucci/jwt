@@ -17,7 +17,7 @@ final class DataSetTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet::has
      */
-    public function getShouldReturnTheConfiguredValue()
+    public function getShouldReturnTheConfiguredValue(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
 
@@ -32,7 +32,7 @@ final class DataSetTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet::has
      */
-    public function getShouldReturnTheFallbackValueWhenItWasGiven()
+    public function getShouldReturnTheFallbackValueWhenItWasGiven(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
 
@@ -47,7 +47,7 @@ final class DataSetTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet::has
      */
-    public function getShouldReturnNullWhenFallbackValueWasNotGiven()
+    public function getShouldReturnNullWhenFallbackValueWasNotGiven(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
 
@@ -60,7 +60,7 @@ final class DataSetTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\DataSet::__construct
      * @covers \Lcobucci\JWT\Token\DataSet::has
      */
-    public function hasShouldReturnTrueWhenItemWasConfigured()
+    public function hasShouldReturnTrueWhenItemWasConfigured(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
 
@@ -73,7 +73,7 @@ final class DataSetTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\DataSet::__construct
      * @covers \Lcobucci\JWT\Token\DataSet::has
      */
-    public function hasShouldReturnFalseWhenItemWasNotConfigured()
+    public function hasShouldReturnFalseWhenItemWasNotConfigured(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
 
@@ -86,7 +86,7 @@ final class DataSetTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\DataSet::__construct
      * @covers \Lcobucci\JWT\Token\DataSet::all
      */
-    public function allShouldReturnAllConfiguredItems()
+    public function allShouldReturnAllConfiguredItems(): void
     {
         $items = ['one' => 1, 'two' => 2];
         $set = new DataSet($items, 'one=1');
@@ -100,7 +100,7 @@ final class DataSetTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\DataSet::__construct
      * @covers \Lcobucci\JWT\Token\DataSet::__toString
      */
-    public function toStringShouldReturnTheEncodedData()
+    public function toStringShouldReturnTheEncodedData(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
 

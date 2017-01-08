@@ -45,7 +45,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function createDependencies()
+    public function createDependencies(): void
     {
         $this->signer = $this->createMock(Signer::class);
         $this->encoder = $this->createMock(Parsing\Encoder::class);
@@ -63,7 +63,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Token\Parser
      */
-    public function createBuilderShouldCreateABuilderWithDefaultEncoderAndClaimFactory()
+    public function createBuilderShouldCreateABuilderWithDefaultEncoderAndClaimFactory(): void
     {
         $config = new Configuration();
         $builder = $config->createBuilder();
@@ -82,7 +82,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Token\Parser
      */
-    public function createBuilderShouldCreateABuilderWithCustomizedEncoderAndClaimFactory()
+    public function createBuilderShouldCreateABuilderWithCustomizedEncoderAndClaimFactory(): void
     {
         $config = new Configuration();
         $config->setEncoder($this->encoder);
@@ -102,7 +102,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Token\Parser
      */
-    public function getParserShouldReturnAParserWithDefaultDecoder()
+    public function getParserShouldReturnAParserWithDefaultDecoder(): void
     {
         $config = new Configuration();
         $parser = $config->getParser();
@@ -121,7 +121,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Token\Parser
      */
-    public function getParserShouldReturnAParserWithCustomizedDecoderAndClaimFactory()
+    public function getParserShouldReturnAParserWithCustomizedDecoderAndClaimFactory(): void
     {
         $config = new Configuration();
         $config->setDecoder($this->decoder);
@@ -141,7 +141,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Token\Parser
      */
-    public function getParserShouldNotCreateAnInstanceIfItWasConfigured()
+    public function getParserShouldNotCreateAnInstanceIfItWasConfigured(): void
     {
         $config = new Configuration();
         $config->setParser($this->parser);
@@ -158,7 +158,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\Hmac\Sha256
      */
-    public function getSignerShouldReturnTheDefaultWhenItWasNotConfigured()
+    public function getSignerShouldReturnTheDefaultWhenItWasNotConfigured(): void
     {
         $config = new Configuration();
 
@@ -174,7 +174,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Token\Parser
      */
-    public function getSignerShouldReturnTheConfiguredSigner()
+    public function getSignerShouldReturnTheConfiguredSigner(): void
     {
         $config = new Configuration();
         $config->setSigner($this->signer);
@@ -190,7 +190,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Token\Parser
      */
-    public function getValidatorShouldReturnTheDefaultWhenItWasNotConfigured()
+    public function getValidatorShouldReturnTheDefaultWhenItWasNotConfigured(): void
     {
         $config = new Configuration();
         $validator = $config->getValidator();
@@ -207,7 +207,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Token\Parser
      */
-    public function getValidatorShouldReturnTheConfiguredValidator()
+    public function getValidatorShouldReturnTheConfiguredValidator(): void
     {
         $config = new Configuration();
         $config->setValidator($this->validator);

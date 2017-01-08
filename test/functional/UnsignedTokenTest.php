@@ -34,7 +34,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function createConfiguration()
+    public function createConfiguration(): void
     {
         $this->config = new Configuration();
     }
@@ -47,7 +47,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
      */
-    public function builderCanGenerateAToken()
+    public function builderCanGenerateAToken(): Token
     {
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->createBuilder();
@@ -79,7 +79,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
      */
-    public function parserCanReadAToken(Token $generated)
+    public function parserCanReadAToken(Token $generated): void
     {
         $read = $this->config->getParser()->parse((string) $generated);
 
@@ -103,7 +103,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt
      */
-    public function tokenValidationShouldPassEverythingIsFine(Token $generated)
+    public function tokenValidationShouldPassEverythingIsFine(Token $generated): void
     {
         $constraints = [
             new IdentifiedBy('1'),
@@ -127,7 +127,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Validation\Validator
      */
-    public function tokenValidationShouldAllowCustomConstraint(Token $generated)
+    public function tokenValidationShouldAllowCustomConstraint(Token $generated): void
     {
         self::assertTrue($this->config->getValidator()->validate($generated, $this->validUserConstraint()));
     }
@@ -149,7 +149,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy
      * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
      */
-    public function tokenAssertionShouldRaiseExceptionWhenOneOfTheConstraintsFails(Token $generated)
+    public function tokenAssertionShouldRaiseExceptionWhenOneOfTheConstraintsFails(Token $generated): void
     {
         $constraints = [
             new IdentifiedBy('1'),
@@ -163,7 +163,7 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
     {
         return new class() implements Constraint
         {
-            public function assert(Token $token)
+            public function assert(Token $token): void
             {
                 if (!$token instanceof Token\Plain) {
                     throw new ConstraintViolationException();

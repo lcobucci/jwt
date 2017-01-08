@@ -42,7 +42,7 @@ final class Key
      *
      * @throws InvalidArgumentException
      */
-    private function setContent(string $content)
+    private function setContent(string $content): void
     {
         if (strpos($content, 'file://') === 0) {
             $content = $this->readFile($content);

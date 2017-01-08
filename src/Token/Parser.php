@@ -133,7 +133,7 @@ final class Parser implements ParserInterface
      *
      * @return Signature|null
      */
-    private function parseSignature(array $header, string $data)
+    private function parseSignature(array $header, string $data): ?Signature
     {
         if ($data === '' || !isset($header['alg']) || $header['alg'] === 'none') {
             return null;

@@ -25,7 +25,7 @@ final class Sha256Test extends BaseTestCase
      * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      */
-    public function createShouldReturnAValidInstance()
+    public function createShouldReturnAValidInstance(): void
     {
         self::assertInstanceOf(Sha256::class, Sha256::create());
     }
@@ -37,7 +37,7 @@ final class Sha256Test extends BaseTestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256::getAlgorithmId
      */
-    public function getAlgorithmIdMustBeCorrect()
+    public function getAlgorithmIdMustBeCorrect(): void
     {
         self::assertEquals('ES256', $this->getSigner()->getAlgorithmId());
     }
@@ -49,7 +49,7 @@ final class Sha256Test extends BaseTestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256::getAlgorithm
      */
-    public function getAlgorithmMustBeCorrect()
+    public function getAlgorithmMustBeCorrect(): void
     {
         self::assertEquals('sha256', $this->getSigner()->getAlgorithm());
     }

@@ -29,7 +29,7 @@ final class RsaTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
-    public function signShouldReturnAValidOpensslSignature()
+    public function signShouldReturnAValidOpensslSignature(): void
     {
         $payload = 'testing';
 
@@ -52,7 +52,7 @@ final class RsaTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
-    public function signShouldRaiseAnExceptionWhenKeyIsNotParseable()
+    public function signShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $signer = $this->getSigner();
         $signer->sign('testing', new Key('blablabla'));
@@ -70,7 +70,7 @@ final class RsaTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
-    public function signShouldRaiseAnExceptionWhenKeyTypeIsNotRsa()
+    public function signShouldRaiseAnExceptionWhenKeyTypeIsNotRsa(): void
     {
         $signer = $this->getSigner();
         $signer->sign('testing', self::$ecdsaKeys['private']);
@@ -86,7 +86,7 @@ final class RsaTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
-    public function verifyShouldReturnAValidOpensslSignature()
+    public function verifyShouldReturnAValidOpensslSignature(): void
     {
         $payload = 'testing';
         $privateKey = openssl_get_privatekey(self::$rsaKeys['private']->getContent());
@@ -110,7 +110,7 @@ final class RsaTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
-    public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable()
+    public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $signer = $this->getSigner();
         $signer->verify('testing', 'testing', new Key('blablabla'));
@@ -128,7 +128,7 @@ final class RsaTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
-    public function verifyShouldRaiseAnExceptionWhenKeyTypeIsNotRsa()
+    public function verifyShouldRaiseAnExceptionWhenKeyTypeIsNotRsa(): void
     {
         $signer = $this->getSigner();
         $signer->verify('testing', 'testing', self::$ecdsaKeys['private']);

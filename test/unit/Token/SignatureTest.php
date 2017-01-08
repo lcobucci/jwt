@@ -21,7 +21,7 @@ final class SignatureTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Signature::__construct
      * @covers \Lcobucci\JWT\Token\Signature::hash
      */
-    public function hashShouldReturnTheHash()
+    public function hashShouldReturnTheHash(): void
     {
         $signature = new Signature('test', 'encoded');
 
@@ -34,7 +34,7 @@ final class SignatureTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Signature::__construct
      * @covers \Lcobucci\JWT\Token\Signature::__toString
      */
-    public function toStringMustReturnTheEncodedData()
+    public function toStringMustReturnTheEncodedData(): void
     {
         $signature = new Signature('test', 'encoded');
 

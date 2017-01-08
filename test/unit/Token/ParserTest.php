@@ -26,7 +26,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function createDependencies()
+    public function createDependencies(): void
     {
         $this->decoder = $this->createMock(Decoder::class);
     }
@@ -44,7 +44,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Token\Parser::__construct
      */
-    public function constructMustConfigureTheAttributes()
+    public function constructMustConfigureTheAttributes(): void
     {
         $parser = $this->createParser();
 
@@ -61,7 +61,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      */
-    public function parseMustRaiseExceptionWhenJWSDoNotHaveThreeParts()
+    public function parseMustRaiseExceptionWhenJWSDoNotHaveThreeParts(): void
     {
         $parser = $this->createParser();
         $parser->parse('');
@@ -78,7 +78,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \RuntimeException
      */
-    public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded()
+    public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded(): void
     {
         $this->decoder->method('base64UrlDecode')
                       ->with('a')
@@ -103,7 +103,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      */
-    public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken()
+    public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
     {
         $this->decoder->method('jsonDecode')
                       ->willReturn(['enc' => 'AAA']);
@@ -125,9 +125,8 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
-     *
      */
-    public function parseMustReturnAnUnsecuredTokenWhenSignatureIsNotInformed()
+    public function parseMustReturnAnUnsecuredTokenWhenSignatureIsNotInformed(): void
     {
         $this->decoder->expects($this->at(0))
                       ->method('base64UrlDecode')
@@ -174,7 +173,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
      */
-    public function parseShouldReplicateClaimValueOnHeaderWhenNeeded()
+    public function parseShouldReplicateClaimValueOnHeaderWhenNeeded(): void
     {
         $this->decoder->expects($this->at(0))
                       ->method('base64UrlDecode')
@@ -221,7 +220,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
      */
-    public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsMissing()
+    public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsMissing(): void
     {
         $this->decoder->expects($this->at(0))
                       ->method('base64UrlDecode')
@@ -268,7 +267,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
      */
-    public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsNone()
+    public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsNone(): void
     {
         $this->decoder->expects($this->at(0))
                       ->method('base64UrlDecode')
@@ -316,7 +315,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
      */
-    public function parseMustReturnASignedTokenWhenSignatureIsInformed()
+    public function parseMustReturnASignedTokenWhenSignatureIsInformed(): void
     {
         $this->decoder->expects($this->at(0))
                       ->method('base64UrlDecode')

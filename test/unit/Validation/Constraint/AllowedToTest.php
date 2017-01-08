@@ -20,7 +20,7 @@ final class AllowedToTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenAudienceIsNotSet()
+    public function assertShouldRaiseExceptionWhenAudienceIsNotSet(): void
     {
         $constraint = new AllowedTo('test.com');
         $constraint->assert($this->buildToken());
@@ -37,7 +37,7 @@ final class AllowedToTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenAudienceValueDoesNotMatch()
+    public function assertShouldRaiseExceptionWhenAudienceValueDoesNotMatch(): void
     {
         $constraint = new AllowedTo('test.com');
         $constraint->assert($this->buildToken(['aud' => ['aa.com']]));
@@ -54,7 +54,7 @@ final class AllowedToTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenAudienceTypeDoesNotMatch()
+    public function assertShouldRaiseExceptionWhenAudienceTypeDoesNotMatch(): void
     {
         $constraint = new AllowedTo('123');
         $constraint->assert($this->buildToken(['aud' => [123]]));
@@ -69,7 +69,7 @@ final class AllowedToTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldNotRaiseExceptionWhenAudienceMatches()
+    public function assertShouldNotRaiseExceptionWhenAudienceMatches(): void
     {
         $token = $this->buildToken(['aud' => ['aa.com', 'test.com']]);
         $constraint = new AllowedTo('test.com');
@@ -86,7 +86,7 @@ final class AllowedToTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldNotRaiseExceptionWhenAudienceMatchesAsString()
+    public function assertShouldNotRaiseExceptionWhenAudienceMatchesAsString(): void
     {
         $token = $this->buildToken(['aud' => 'test.com']);
         $constraint = new AllowedTo('test.com');

@@ -34,7 +34,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function createConfiguration()
+    public function createConfiguration(): void
     {
         $this->config = new Configuration();
         $this->config->setSigner(Sha256::create());
@@ -57,7 +57,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
-    public function builderShouldRaiseExceptionWhenKeyIsInvalid()
+    public function builderShouldRaiseExceptionWhenKeyIsInvalid(): void
     {
         $builder = $this->config->createBuilder();
 
@@ -85,7 +85,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
-    public function builderShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible()
+    public function builderShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(): void
     {
         $builder = $this->config->createBuilder();
 
@@ -111,7 +111,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      */
-    public function builderCanGenerateAToken()
+    public function builderCanGenerateAToken(): Token
     {
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->createBuilder();
@@ -149,7 +149,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
      * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      */
-    public function parserCanReadAToken(Token $generated)
+    public function parserCanReadAToken(Token $generated): void
     {
         $read = $this->config->getParser()->parse((string) $generated);
 
@@ -180,7 +180,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\InvalidTokenException
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token)
+    public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
         $this->config->getValidator()->assert(
             $token,
@@ -215,7 +215,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\InvalidTokenException
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token)
+    public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
         $this->config->getValidator()->assert(
             $token,
@@ -251,7 +251,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\InvalidTokenException
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(Token $token)
+    public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(Token $token): void
     {
         $this->config->getValidator()->assert(
             $token,
@@ -279,7 +279,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function signatureValidationShouldSucceedWhenKeyIsRight(Token $token)
+    public function signatureValidationShouldSucceedWhenKeyIsRight(Token $token): void
     {
         $constraint = new SignedWith(
             $this->config->getSigner(),
@@ -306,7 +306,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function everythingShouldWorkWithAKeyWithParams()
+    public function everythingShouldWorkWithAKeyWithParams(): void
     {
         $builder = $this->config->createBuilder();
         $signer = $this->config->getSigner();
@@ -344,7 +344,7 @@ class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs()
+    public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs(): void
     {
         $data = 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJoZWxsbyI6IndvcmxkIn0.'
                 . 'AQx1MqdTni6KuzfOoedg2-7NUiwe-b88SWbdmviz40GTwrM0Mybp1i1tVtm'

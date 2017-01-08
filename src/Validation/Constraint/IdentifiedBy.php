@@ -30,7 +30,7 @@ final class IdentifiedBy implements Constraint
     /**
      * {@inheritdoc}
      */
-    public function assert(Token $token)
+    public function assert(Token $token): void
     {
         if (!$token->isIdentifiedBy($this->id)) {
             throw new ConstraintViolationException(
