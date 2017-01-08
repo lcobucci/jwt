@@ -64,7 +64,7 @@ final class Configuration
         return $this->parser;
     }
 
-    public function setParser(Parser $parser)
+    public function setParser(Parser $parser): void
     {
         $this->parser = $parser;
     }
@@ -78,7 +78,7 @@ final class Configuration
         return $this->signer;
     }
 
-    public function setSigner(Signer $signer)
+    public function setSigner(Signer $signer): void
     {
         $this->signer = $signer;
     }
@@ -92,7 +92,7 @@ final class Configuration
         return $this->encoder;
     }
 
-    public function setEncoder(Parsing\Encoder $encoder)
+    public function setEncoder(Parsing\Encoder $encoder): void
     {
         $this->encoder = $encoder;
     }
@@ -106,7 +106,7 @@ final class Configuration
         return $this->decoder;
     }
 
-    public function setDecoder(Parsing\Decoder $decoder)
+    public function setDecoder(Parsing\Decoder $decoder): void
     {
         $this->decoder = $decoder;
     }
@@ -120,7 +120,7 @@ final class Configuration
         return $this->validator;
     }
 
-    public function setValidator(Validator $validator)
+    public function setValidator(Validator $validator): void
     {
         $this->validator = $validator;
     }

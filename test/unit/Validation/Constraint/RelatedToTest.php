@@ -20,7 +20,7 @@ final class RelatedToTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenSubjectIsNotSet()
+    public function assertShouldRaiseExceptionWhenSubjectIsNotSet(): void
     {
         $constraint = new RelatedTo('user-auth');
         $constraint->assert($this->buildToken());
@@ -37,7 +37,7 @@ final class RelatedToTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenSubjectDoesNotMatch()
+    public function assertShouldRaiseExceptionWhenSubjectDoesNotMatch(): void
     {
         $constraint = new RelatedTo('user-auth');
         $constraint->assert($this->buildToken(['sub' => 'password-recovery']));
@@ -52,7 +52,7 @@ final class RelatedToTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldNotRaiseExceptionWhenSubjectMatches()
+    public function assertShouldNotRaiseExceptionWhenSubjectMatches(): void
     {
         $token = $this->buildToken(['sub' => 'user-auth']);
 

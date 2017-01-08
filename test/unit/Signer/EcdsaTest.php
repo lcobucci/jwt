@@ -43,7 +43,7 @@ final class EcdsaTest extends BaseTestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa::__construct
      */
-    public function constructShouldConfigureDependencies()
+    public function constructShouldConfigureDependencies(): void
     {
         $signer = $this->getSigner();
 
@@ -58,7 +58,7 @@ final class EcdsaTest extends BaseTestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa::sign
      */
-    public function signShouldReturnAHashUsingPrivateKey()
+    public function signShouldReturnAHashUsingPrivateKey(): void
     {
         $signer = $this->getSigner();
         $key = new Key('testing');
@@ -91,7 +91,7 @@ final class EcdsaTest extends BaseTestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa::verify
      */
-    public function verifyShouldDelegateToEcdsaSignerUsingPublicKey()
+    public function verifyShouldDelegateToEcdsaSignerUsingPublicKey(): void
     {
         $signer = $this->getSigner();
         $key = new Key('testing');

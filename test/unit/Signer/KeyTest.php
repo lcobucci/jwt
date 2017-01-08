@@ -20,7 +20,7 @@ final class KeyTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function configureRootDir()
+    public function configureRootDir(): void
     {
         vfsStream::setup(
             'root',
@@ -35,7 +35,7 @@ final class KeyTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Key::__construct
      * @covers \Lcobucci\JWT\Signer\Key::setContent
      */
-    public function constructShouldConfigureContentAndPassphrase()
+    public function constructShouldConfigureContentAndPassphrase(): void
     {
         $key = new Key('testing', 'test');
 
@@ -50,7 +50,7 @@ final class KeyTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Key::setContent
      * @covers \Lcobucci\JWT\Signer\Key::readFile
      */
-    public function constructShouldBeAbleToConfigureContentFromFile()
+    public function constructShouldBeAbleToConfigureContentFromFile(): void
     {
         $key = new Key('file://' . vfsStream::url('root/test.pem'));
 
@@ -67,7 +67,7 @@ final class KeyTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Key::setContent
      * @covers \Lcobucci\JWT\Signer\Key::readFile
      */
-    public function constructShouldRaiseExceptionWhenFileDoesNotExists()
+    public function constructShouldRaiseExceptionWhenFileDoesNotExists(): void
     {
         new Key('file://' . vfsStream::url('root/test2.pem'));
     }
@@ -80,7 +80,7 @@ final class KeyTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Key::getContent
      */
-    public function getContentShouldReturnConfiguredData()
+    public function getContentShouldReturnConfiguredData(): void
     {
         $key = new Key('testing', 'test');
 
@@ -95,7 +95,7 @@ final class KeyTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Key::getPassphrase
      */
-    public function getPassphraseShouldReturnConfiguredData()
+    public function getPassphraseShouldReturnConfiguredData(): void
     {
         $key = new Key('testing', 'test');
 

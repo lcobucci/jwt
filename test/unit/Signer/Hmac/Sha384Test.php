@@ -20,7 +20,7 @@ final class Sha384Test extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha384::getAlgorithmId
      */
-    public function getAlgorithmIdMustBeCorrect()
+    public function getAlgorithmIdMustBeCorrect(): void
     {
         $signer = new Sha384();
 
@@ -32,7 +32,7 @@ final class Sha384Test extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha384::getAlgorithm
      */
-    public function getAlgorithmMustBeCorrect()
+    public function getAlgorithmMustBeCorrect(): void
     {
         $signer = new Sha384();
 

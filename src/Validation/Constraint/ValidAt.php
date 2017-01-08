@@ -33,7 +33,7 @@ final class ValidAt implements Constraint
     /**
      * {@inheritdoc}
      */
-    public function assert(Token $token)
+    public function assert(Token $token): void
     {
         $this->assertIssueTime($token);
         $this->assertMinimumTime($token);
@@ -43,7 +43,7 @@ final class ValidAt implements Constraint
     /**
      * @throws ConstraintViolationException
      */
-    private function assertExpiration(Token $token)
+    private function assertExpiration(Token $token): void
     {
         if ($token->isExpired($this->now)) {
             throw new ConstraintViolationException('The token is expired');
@@ -53,7 +53,7 @@ final class ValidAt implements Constraint
     /**
      * @throws ConstraintViolationException
      */
-    private function assertMinimumTime(Token $token)
+    private function assertMinimumTime(Token $token): void
     {
         if (!$token->isMinimumTimeBefore($this->now)) {
             throw new ConstraintViolationException('The token cannot be used yet');
@@ -63,7 +63,7 @@ final class ValidAt implements Constraint
     /**
      * @throws ConstraintViolationException
      */
-    private function assertIssueTime(Token $token)
+    private function assertIssueTime(Token $token): void
     {
         if (!$token->hasBeenIssuedBefore($this->now)) {
             throw new ConstraintViolationException('The token was issued in the future');

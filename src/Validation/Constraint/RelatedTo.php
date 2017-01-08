@@ -30,7 +30,7 @@ final class RelatedTo implements Constraint
     /**
      * {@inheritdoc}
      */
-    public function assert(Token $token)
+    public function assert(Token $token): void
     {
         if (!$token->isRelatedTo($this->subject)) {
             throw new ConstraintViolationException(

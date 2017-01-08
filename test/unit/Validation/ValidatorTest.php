@@ -19,7 +19,7 @@ final class ValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function createDependencies()
+    public function createDependencies(): void
     {
         $this->token = $this->createMock(Token::class);
     }
@@ -34,7 +34,7 @@ final class ValidatorTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Validation\InvalidTokenException
      */
-    public function assertShouldRaiseExceptionWhenAtLeastOneConstraintFails()
+    public function assertShouldRaiseExceptionWhenAtLeastOneConstraintFails(): void
     {
         $failedConstraint = $this->createMock(Constraint::class);
         $successfulConstraint = $this->createMock(Constraint::class);
@@ -61,7 +61,7 @@ final class ValidatorTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\Validator::assert
      * @covers \Lcobucci\JWT\Validation\Validator::checkConstraint
      */
-    public function assertShouldNotRaiseExceptionWhenNoConstraintFails()
+    public function assertShouldNotRaiseExceptionWhenNoConstraintFails(): void
     {
         $constraint = $this->createMock(Constraint::class);
         $constraint->expects($this->once())->method('assert');
@@ -75,7 +75,7 @@ final class ValidatorTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Validation\Validator::validate
      */
-    public function validateShouldReturnFalseWhenAtLeastOneConstraintFails()
+    public function validateShouldReturnFalseWhenAtLeastOneConstraintFails(): void
     {
         $failedConstraint = $this->createMock(Constraint::class);
         $successfulConstraint = $this->createMock(Constraint::class);
@@ -103,7 +103,7 @@ final class ValidatorTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Validation\Validator::validate
      */
-    public function validateShouldReturnTrueWhenNoConstraintFails()
+    public function validateShouldReturnTrueWhenNoConstraintFails(): void
     {
         $constraint = $this->createMock(Constraint::class);
         $constraint->expects($this->once())->method('assert');

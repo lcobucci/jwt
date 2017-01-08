@@ -20,7 +20,7 @@ final class Sha256Test extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256::getAlgorithmId
      */
-    public function getAlgorithmIdMustBeCorrect()
+    public function getAlgorithmIdMustBeCorrect(): void
     {
         $signer = new Sha256();
 
@@ -32,7 +32,7 @@ final class Sha256Test extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256::getAlgorithm
      */
-    public function getAlgorithmMustBeCorrect()
+    public function getAlgorithmMustBeCorrect(): void
     {
         $signer = new Sha256();
 

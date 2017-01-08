@@ -32,7 +32,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function initializeDependencies()
+    public function initializeDependencies(): void
     {
         $this->encoder = $this->createMock(Encoder::class);
         $this->signer = $this->createMock(Signer::class);
@@ -52,7 +52,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Token\Builder::__construct
      */
-    public function constructMustInitializeTheAttributes()
+    public function constructMustInitializeTheAttributes(): void
     {
         $builder = $this->createBuilder();
 
@@ -70,7 +70,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByMustAppendToTheAudClaim()
+    public function canOnlyBeUsedByMustAppendToTheAudClaim(): void
     {
         $builder = $this->createBuilder();
         $builder->canOnlyBeUsedBy('test');
@@ -89,7 +89,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByShouldPreventDuplicatedEntries()
+    public function canOnlyBeUsedByShouldPreventDuplicatedEntries(): void
     {
         $builder = $this->createBuilder();
         $builder->canOnlyBeUsedBy('test');
@@ -108,7 +108,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByCanReplicateItemOnHeader()
+    public function canOnlyBeUsedByCanReplicateItemOnHeader(): void
     {
         $builder = $this->createBuilder();
         $builder->canOnlyBeUsedBy('test', true);
@@ -131,7 +131,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByMustKeepAFluentInterface()
+    public function canOnlyBeUsedByMustKeepAFluentInterface(): void
     {
         $builder = $this->createBuilder();
 
@@ -147,7 +147,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::expiresAt
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function expiresAtMustChangeTheExpClaim()
+    public function expiresAtMustChangeTheExpClaim(): void
     {
         $builder = $this->createBuilder();
         $builder->expiresAt(2);
@@ -165,7 +165,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::expiresAt
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function expiresAtCanReplicateItemOnHeader()
+    public function expiresAtCanReplicateItemOnHeader(): void
     {
         $builder = $this->createBuilder();
         $builder->expiresAt(2, true);
@@ -188,7 +188,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::expiresAt
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function expiresAtMustKeepAFluentInterface()
+    public function expiresAtMustKeepAFluentInterface(): void
     {
         $builder = $this->createBuilder();
 
@@ -204,7 +204,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function withIdMustChangeTheJtiClaim()
+    public function withIdMustChangeTheJtiClaim(): void
     {
         $builder = $this->createBuilder();
         $builder->identifiedBy('2');
@@ -222,7 +222,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function withIdCanReplicateItemOnHeader()
+    public function withIdCanReplicateItemOnHeader(): void
     {
         $builder = $this->createBuilder();
         $builder->identifiedBy('2', true);
@@ -245,7 +245,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function withIdMustKeepAFluentInterface()
+    public function withIdMustKeepAFluentInterface(): void
     {
         $builder = $this->createBuilder();
 
@@ -261,7 +261,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::issuedAt
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function issuedAtMustChangeTheIatClaim()
+    public function issuedAtMustChangeTheIatClaim(): void
     {
         $builder = $this->createBuilder();
         $builder->issuedAt(2);
@@ -279,7 +279,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::issuedAt
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function issuedAtCanReplicateItemOnHeader()
+    public function issuedAtCanReplicateItemOnHeader(): void
     {
         $builder = $this->createBuilder();
         $builder->issuedAt(2, true);
@@ -302,7 +302,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::issuedAt
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function issuedAtMustKeepAFluentInterface()
+    public function issuedAtMustKeepAFluentInterface(): void
     {
         $builder = $this->createBuilder();
 
@@ -318,7 +318,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::issuedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function issuedByMustChangeTheIssClaim()
+    public function issuedByMustChangeTheIssClaim(): void
     {
         $builder = $this->createBuilder();
         $builder->issuedBy('2');
@@ -336,7 +336,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::issuedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function issuedByCanReplicateItemOnHeader()
+    public function issuedByCanReplicateItemOnHeader(): void
     {
         $builder = $this->createBuilder();
         $builder->issuedBy('2', true);
@@ -359,7 +359,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::issuedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function issuedByMustKeepAFluentInterface()
+    public function issuedByMustKeepAFluentInterface(): void
     {
         $builder = $this->createBuilder();
 
@@ -375,7 +375,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedAfterMustChangeTheNbfClaim()
+    public function canOnlyBeUsedAfterMustChangeTheNbfClaim(): void
     {
         $builder = $this->createBuilder();
         $builder->canOnlyBeUsedAfter(2);
@@ -393,7 +393,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedAfterCanReplicateItemOnHeader()
+    public function canOnlyBeUsedAfterCanReplicateItemOnHeader(): void
     {
         $builder = $this->createBuilder();
         $builder->canOnlyBeUsedAfter(2, true);
@@ -416,7 +416,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedAfterMustKeepAFluentInterface()
+    public function canOnlyBeUsedAfterMustKeepAFluentInterface(): void
     {
         $builder = $this->createBuilder();
 
@@ -432,7 +432,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::relatedTo
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function relatedToMustChangeTheSubClaim()
+    public function relatedToMustChangeTheSubClaim(): void
     {
         $builder = $this->createBuilder();
         $builder->relatedTo('2');
@@ -450,7 +450,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::relatedTo
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function relatedToCanReplicateItemOnHeader()
+    public function relatedToCanReplicateItemOnHeader(): void
     {
         $builder = $this->createBuilder();
         $builder->relatedTo('2', true);
@@ -473,7 +473,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::relatedTo
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function relatedToMustKeepAFluentInterface()
+    public function relatedToMustKeepAFluentInterface(): void
     {
         $builder = $this->createBuilder();
 
@@ -487,7 +487,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Token\Builder::with
      */
-    public function withMustConfigureTheGivenClaim()
+    public function withMustConfigureTheGivenClaim(): void
     {
         $builder = $this->createBuilder();
         $builder->with('userId', 2);
@@ -502,7 +502,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Token\Builder::with
      */
-    public function withMustKeepAFluentInterface()
+    public function withMustKeepAFluentInterface(): void
     {
         $builder = $this->createBuilder();
 
@@ -516,7 +516,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Token\Builder::withHeader
      */
-    public function withHeaderMustConfigureTheGivenClaim()
+    public function withHeaderMustConfigureTheGivenClaim(): void
     {
         $builder = $this->createBuilder();
         $builder->withHeader('userId', 2);
@@ -535,7 +535,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Token\Builder::withHeader
      */
-    public function withHeaderMustKeepAFluentInterface()
+    public function withHeaderMustKeepAFluentInterface(): void
     {
         $builder = $this->createBuilder();
 
@@ -555,7 +555,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::getToken
      * @covers \Lcobucci\JWT\Token\Builder::encode
      */
-    public function getTokenMustReturnANewTokenWithCurrentConfiguration()
+    public function getTokenMustReturnANewTokenWithCurrentConfiguration(): void
     {
         $this->signer->method('sign')->willReturn('testing');
 
@@ -591,7 +591,7 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\Builder::getUnsecuredToken
      * @covers \Lcobucci\JWT\Token\Builder::encode
      */
-    public function getUnsecuredTokenShouldReturnATokenWithoutSignature()
+    public function getUnsecuredTokenShouldReturnATokenWithoutSignature(): void
     {
         $this->encoder->expects($this->exactly(2))
                       ->method('jsonEncode')

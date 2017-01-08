@@ -28,7 +28,7 @@ final class MaliciousTamperingPreventionTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function createConfiguration()
+    public function createConfiguration(): void
     {
         $this->config = new Configuration();
         $this->config->setSigner(ES512::create());
@@ -54,7 +54,7 @@ final class MaliciousTamperingPreventionTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      * @covers \Lcobucci\JWT\Validation\Validator
      */
-    public function preventRegressionsThatAllowsMaliciousTampering()
+    public function preventRegressionsThatAllowsMaliciousTampering(): void
     {
         $data = 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJoZWxsbyI6IndvcmxkIn0.'
             . 'AQx1MqdTni6KuzfOoedg2-7NUiwe-b88SWbdmviz40GTwrM0Mybp1i1tVtm'

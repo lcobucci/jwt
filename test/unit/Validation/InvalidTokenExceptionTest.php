@@ -15,7 +15,7 @@ final class InvalidTokenExceptionTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\InvalidTokenException::fromViolations
      * @covers \Lcobucci\JWT\Validation\InvalidTokenException::buildMessage
      */
-    public function fromViolationsShouldConfigureMessageAndViolationList()
+    public function fromViolationsShouldConfigureMessageAndViolationList(): void
     {
         $violation = new ConstraintViolationException('testing');
         $exception = InvalidTokenException::fromViolations($violation);
@@ -37,7 +37,7 @@ final class InvalidTokenExceptionTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Validation\InvalidTokenException::fromViolations
      * @uses \Lcobucci\JWT\Validation\InvalidTokenException::buildMessage
      */
-    public function violationsShouldReturnTheViolationList()
+    public function violationsShouldReturnTheViolationList(): void
     {
         $violation = new ConstraintViolationException('testing');
         $exception = InvalidTokenException::fromViolations($violation);

@@ -21,7 +21,7 @@ final class Validator implements \Lcobucci\JWT\Validator
     /**
      * {@inheritdoc}
      */
-    public function assert(Token $token, Constraint ...$constraints)
+    public function assert(Token $token, Constraint ...$constraints): void
     {
         $violations = [];
 
@@ -38,7 +38,7 @@ final class Validator implements \Lcobucci\JWT\Validator
         Constraint $constraint,
         Token $token,
         array &$violations
-    ) {
+    ): void {
         try {
             $constraint->assert($token);
         } catch (ConstraintViolationException $e) {

@@ -20,7 +20,7 @@ final class IssuedByTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenIssuerIsNotSet()
+    public function assertShouldRaiseExceptionWhenIssuerIsNotSet(): void
     {
         $constraint = new IssuedBy('test.com', 'test.net');
         $constraint->assert($this->buildToken());
@@ -37,7 +37,7 @@ final class IssuedByTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenIssuerValueDoesNotMatch()
+    public function assertShouldRaiseExceptionWhenIssuerValueDoesNotMatch(): void
     {
         $constraint = new IssuedBy('test.com', 'test.net');
         $constraint->assert($this->buildToken(['iss' => 'example.com']));
@@ -54,7 +54,7 @@ final class IssuedByTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenIssuerTypeValueDoesNotMatch()
+    public function assertShouldRaiseExceptionWhenIssuerTypeValueDoesNotMatch(): void
     {
         $constraint = new IssuedBy('test.com', '123');
         $constraint->assert($this->buildToken(['iss' => 123]));
@@ -69,7 +69,7 @@ final class IssuedByTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldNotRaiseExceptionWhenIssuerMatches()
+    public function assertShouldNotRaiseExceptionWhenIssuerMatches(): void
     {
         $token = $this->buildToken(['iss' => 'test.com']);
         $constraint = new IssuedBy('test.com', 'test.net');

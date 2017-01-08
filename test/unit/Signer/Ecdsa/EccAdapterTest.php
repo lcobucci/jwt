@@ -52,7 +52,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function createDependencies()
+    public function createDependencies(): void
     {
         $this->mathInterface = $this->createMock(GmpMathInterface::class);
         $this->signer = $this->createMock(Signer::class);
@@ -66,7 +66,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
-    public function constructShouldConfigureDependencies()
+    public function constructShouldConfigureDependencies(): void
     {
         $adapter = $this->createAdapter();
 
@@ -84,7 +84,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      */
-    public function createShouldBuildObjectFromTheMathInterface()
+    public function createShouldBuildObjectFromTheMathInterface(): void
     {
         $adapter = EccAdapter::create($this->mathInterface);
 
@@ -101,7 +101,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
-    public function createHashShouldReturnASerializedSignature()
+    public function createHashShouldReturnASerializedSignature(): void
     {
         $key = $this->createMock(PrivateKeyInterface::class);
         $point = $this->createMock(GeneratorPoint::class);
@@ -144,7 +144,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
-    public function verifyHashShouldReturnTheSignerResult()
+    public function verifyHashShouldReturnTheSignerResult(): void
     {
         $key = $this->createMock(PublicKeyInterface::class);
         $signature = $this->createMock(SignatureInterface::class);
@@ -177,7 +177,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
-    public function createSigningHashShouldRaiseExceptionWhenAlgorithmIsInvalid()
+    public function createSigningHashShouldRaiseExceptionWhenAlgorithmIsInvalid(): void
     {
         $adapter = $this->createAdapter();
         $adapter->createSigningHash('testing', 'testing');
@@ -191,7 +191,7 @@ final class EccAdapterTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter::__construct
      */
-    public function createSigningHashShouldReturnTheSignerResult()
+    public function createSigningHashShouldReturnTheSignerResult(): void
     {
         $signingHash = gmp_init(1, 10);
         $generatorPoint = $this->createMock(GeneratorPoint::class);

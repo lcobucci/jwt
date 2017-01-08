@@ -20,7 +20,7 @@ final class IdentifiedByTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenIdIsNotSet()
+    public function assertShouldRaiseExceptionWhenIdIsNotSet(): void
     {
         $constraint = new IdentifiedBy('123456');
         $constraint->assert($this->buildToken());
@@ -37,7 +37,7 @@ final class IdentifiedByTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenIdDoesNotMatch()
+    public function assertShouldRaiseExceptionWhenIdDoesNotMatch(): void
     {
         $constraint = new IdentifiedBy('123456');
         $constraint->assert($this->buildToken(['jti' => 15]));
@@ -52,7 +52,7 @@ final class IdentifiedByTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldNotRaiseExceptionWhenIdMatches()
+    public function assertShouldNotRaiseExceptionWhenIdMatches(): void
     {
         $token = $this->buildToken(['jti' => '123456']);
 

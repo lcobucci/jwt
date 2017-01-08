@@ -23,5 +23,5 @@ interface Constraint
      *
      * @throws ConstraintViolationException
      */
-    public function assert(Token $token);
+    public function assert(Token $token): void;
 }

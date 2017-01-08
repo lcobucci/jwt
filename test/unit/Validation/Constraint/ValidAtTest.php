@@ -19,7 +19,7 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @before
      */
-    public function createDependencies()
+    public function createDependencies(): void
     {
         $this->now = new DateTimeImmutable();
     }
@@ -38,7 +38,7 @@ final class ValidAtTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenTokenIsExpired()
+    public function assertShouldRaiseExceptionWhenTokenIsExpired(): void
     {
         $currentTime = $this->now->getTimestamp();
 
@@ -66,7 +66,7 @@ final class ValidAtTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenMinimumTimeIsNotMet()
+    public function assertShouldRaiseExceptionWhenMinimumTimeIsNotMet(): void
     {
         $currentTime = $this->now->getTimestamp();
 
@@ -93,7 +93,7 @@ final class ValidAtTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldRaiseExceptionWhenTokenWasIssuedInTheFuture()
+    public function assertShouldRaiseExceptionWhenTokenWasIssuedInTheFuture(): void
     {
         $currentTime = $this->now->getTimestamp();
 
@@ -119,7 +119,7 @@ final class ValidAtTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldNotRaiseExceptionWhenTokenIsUsedInTheRightMoment()
+    public function assertShouldNotRaiseExceptionWhenTokenIsUsedInTheRightMoment(): void
     {
         $currentTime = $this->now->getTimestamp();
         $constraint = new ValidAt($this->now);
@@ -157,7 +157,7 @@ final class ValidAtTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      */
-    public function assertShouldNotRaiseExceptionWhenTokenDoesNotHaveTimeClaims()
+    public function assertShouldNotRaiseExceptionWhenTokenDoesNotHaveTimeClaims(): void
     {
         $token = $this->buildToken();
         $constraint = new ValidAt($this->now);

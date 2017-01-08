@@ -34,7 +34,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function createConfiguration()
+    public function createConfiguration(): void
     {
         $this->config = new Configuration();
         $this->config->setSigner(new Sha256());
@@ -54,7 +54,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      */
-    public function builderShouldRaiseExceptionWhenKeyIsInvalid()
+    public function builderShouldRaiseExceptionWhenKeyIsInvalid(): void
     {
         $builder = $this->config->createBuilder();
 
@@ -79,7 +79,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      */
-    public function builderShouldRaiseExceptionWhenKeyIsNotRsaCompatible()
+    public function builderShouldRaiseExceptionWhenKeyIsNotRsaCompatible(): void
     {
         $builder = $this->config->createBuilder();
 
@@ -102,7 +102,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      */
-    public function builderCanGenerateAToken()
+    public function builderCanGenerateAToken(): Token
     {
         $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->createBuilder();
@@ -135,7 +135,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      */
-    public function parserCanReadAToken(Token $generated)
+    public function parserCanReadAToken(Token $generated): void
     {
         $read = $this->config->getParser()->parse((string) $generated);
 
@@ -163,7 +163,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      * @covers \Lcobucci\JWT\Validation\InvalidTokenException
      */
-    public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token)
+    public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
         $this->config->getValidator()->assert(
             $token,
@@ -192,7 +192,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\InvalidTokenException
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token)
+    public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
         $this->config->getValidator()->assert(
             $token,
@@ -222,7 +222,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\InvalidTokenException
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token)
+    public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token): void
     {
         $this->config->getValidator()->assert(
             $token,
@@ -250,7 +250,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function signatureValidationShouldSucceedWhenKeyIsRight(Token $token)
+    public function signatureValidationShouldSucceedWhenKeyIsRight(Token $token): void
     {
         $constraint = new SignedWith($this->config->getSigner(), self::$rsaKeys['public']);
 
@@ -272,7 +272,7 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
-    public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs()
+    public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs(): void
     {
         $data = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.s'
                 . 'GYbB1KrmnESNfJ4D9hOe1Zad_BMyxdb8G4p4LNP7StYlOyBWck6q7XPpPj_6gB'
