@@ -15,7 +15,7 @@ use DateTime;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
  */
-class PlainTest extends \PHPUnit_Framework_TestCase
+final class PlainTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var DataSet

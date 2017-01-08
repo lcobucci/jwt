@@ -17,7 +17,7 @@ use Lcobucci\JWT\Signer\Key;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
  */
-class BuilderTest extends \PHPUnit_Framework_TestCase
+final class BuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Encoder|\PHPUnit_Framework_MockObject_MockObject

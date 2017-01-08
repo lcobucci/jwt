@@ -15,7 +15,7 @@ use Lcobucci\JWT\Keys;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 4.0.0
  */
-class RsaTest extends \PHPUnit_Framework_TestCase
+final class RsaTest extends \PHPUnit_Framework_TestCase
 {
     use Keys;
 

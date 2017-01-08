@@ -13,7 +13,7 @@ namespace Lcobucci\JWT\Signer\Ecdsa;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-class Sha384Test extends BaseTestCase
+final class Sha384Test extends BaseTestCase
 {
     /**
      * @test

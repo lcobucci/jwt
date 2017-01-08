@@ -21,7 +21,7 @@ use Lcobucci\JWT\Signer\Key;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 3.0.4
  */
-class KeyParserTest extends \PHPUnit_Framework_TestCase
+final class KeyParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var GmpMathInterface|\PHPUnit_Framework_MockObject_MockObject
