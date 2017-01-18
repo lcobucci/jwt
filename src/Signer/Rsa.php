@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Signer;
 
 use InvalidArgumentException;
+use Lcobucci\JWT\Signer;
 
 /**
  * Base class for RSASSA-PKCS1 signers
@@ -17,12 +18,12 @@ use InvalidArgumentException;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-abstract class Rsa extends BaseSigner
+abstract class Rsa implements Signer
 {
     /**
      * {@inheritdoc}
      */
-    public function createHash(string $payload, Key $key): string
+    public function sign(string $payload, Key $key): string
     {
         $key = openssl_get_privatekey($key->getContent(), $key->getPassphrase());
         $this->validateKey($key);
@@ -36,7 +37,7 @@ abstract class Rsa extends BaseSigner
     /**
      * {@inheritdoc}
      */
-    public function doVerify(string $expected, string $payload, Key $key): bool
+    public function verify(string $expected, string $payload, Key $key): bool
     {
         $key = openssl_get_publickey($key->getContent());
         $this->validateKey($key);
@@ -49,9 +50,9 @@ abstract class Rsa extends BaseSigner
      *
      * @param resource $key
      *
-     * @expectedException InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    private function validateKey($key)
+    private function validateKey($key): void
     {
         if ($key === false) {
             throw new InvalidArgumentException(

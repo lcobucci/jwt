@@ -17,7 +17,7 @@ use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-class EcdsaTest extends BaseTestCase
+final class EcdsaTest extends BaseTestCase
 {
     /**
      * @return Ecdsa
@@ -43,7 +43,7 @@ class EcdsaTest extends BaseTestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa::__construct
      */
-    public function constructShouldConfigureDependencies()
+    public function constructShouldConfigureDependencies(): void
     {
         $signer = $this->getSigner();
 
@@ -56,9 +56,9 @@ class EcdsaTest extends BaseTestCase
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
      * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::createHash
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::sign
      */
-    public function createHashShouldReturnAHashUsingPrivateKey()
+    public function signShouldReturnAHashUsingPrivateKey(): void
     {
         $signer = $this->getSigner();
         $key = new Key('testing');
@@ -80,7 +80,7 @@ class EcdsaTest extends BaseTestCase
                       ->with($privateKey, $signingHash)
                       ->willReturn('string');
 
-        self::assertInternalType('string', $signer->createHash('testing', $key));
+        self::assertInternalType('string', $signer->sign('testing', $key));
     }
 
     /**
@@ -89,9 +89,9 @@ class EcdsaTest extends BaseTestCase
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
      * @uses \Lcobucci\JWT\Signer\Key
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::doVerify
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::verify
      */
-    public function doVerifyShouldDelegateToEcdsaSignerUsingPublicKey()
+    public function verifyShouldDelegateToEcdsaSignerUsingPublicKey(): void
     {
         $signer = $this->getSigner();
         $key = new Key('testing');
@@ -113,6 +113,6 @@ class EcdsaTest extends BaseTestCase
                       ->with('testing', $publicKey, $signingHash)
                       ->willReturn(true);
 
-        self::assertTrue($signer->doVerify('testing', 'testing2', $key));
+        self::assertTrue($signer->verify('testing', 'testing2', $key));
     }
 }

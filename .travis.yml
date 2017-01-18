@@ -2,12 +2,11 @@ language: php
 sudo: false
 
 php:
-  - 7.0
   - 7.1
   - nightly
 
 before_script:
-  - composer install --prefer-dist -o
+  - composer install
 
 script:
   - ./vendor/bin/phpunit --coverage-clover ./clover.xml --testsuite=unit

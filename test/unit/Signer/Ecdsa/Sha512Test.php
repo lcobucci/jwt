@@ -13,7 +13,7 @@ namespace Lcobucci\JWT\Signer\Ecdsa;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-class Sha512Test extends BaseTestCase
+final class Sha512Test extends BaseTestCase
 {
     /**
      * @test
@@ -25,7 +25,7 @@ class Sha512Test extends BaseTestCase
      * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
      */
-    public function createShouldReturnAValidInstance()
+    public function createShouldReturnAValidInstance(): void
     {
         self::assertInstanceOf(Sha512::class, Sha512::create());
     }
@@ -37,7 +37,7 @@ class Sha512Test extends BaseTestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithmId
      */
-    public function getAlgorithmIdMustBeCorrect()
+    public function getAlgorithmIdMustBeCorrect(): void
     {
         self::assertEquals('ES512', $this->getSigner()->getAlgorithmId());
     }
@@ -49,7 +49,7 @@ class Sha512Test extends BaseTestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithm
      */
-    public function getAlgorithmMustBeCorrect()
+    public function getAlgorithmMustBeCorrect(): void
     {
         self::assertEquals('sha512', $this->getSigner()->getAlgorithm());
     }

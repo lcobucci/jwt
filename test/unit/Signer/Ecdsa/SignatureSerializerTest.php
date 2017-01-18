@@ -37,7 +37,7 @@ final class SignatureSerializerTest extends \PHPUnit_Framework_TestCase
     /**
      * @before
      */
-    public function createDependencies()
+    public function createDependencies(): void
     {
         $this->mathInterface = new GmpMath();
 
@@ -72,7 +72,7 @@ final class SignatureSerializerTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::__construct
      */
-    public function constructShouldConfigureDependencies()
+    public function constructShouldConfigureDependencies(): void
     {
         $serializer = new SignatureSerializer($this->mathInterface);
 
@@ -89,7 +89,7 @@ final class SignatureSerializerTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::__construct
      */
-    public function serializeShouldReturnReturnABinarySignatureBasedOnSignaturePoints(string $algorithm)
+    public function serializeShouldReturnReturnABinarySignatureBasedOnSignaturePoints(string $algorithm): void
     {
         $serializer = new SignatureSerializer($this->mathInterface);
 
@@ -108,7 +108,7 @@ final class SignatureSerializerTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer::__construct
      */
-    public function parseShouldExtractASignatureBasedOnTheHash(string $algorithm)
+    public function parseShouldExtractASignatureBasedOnTheHash(string $algorithm): void
     {
         $serializer = new SignatureSerializer($this->mathInterface);
 
@@ -118,7 +118,7 @@ final class SignatureSerializerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function algorithms()
+    public function algorithms(): array
     {
         return [
             ['sha256'],

@@ -10,8 +10,9 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use Lcobucci\Jose\Parsing;
-use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Validation;
 
 /**
  * Configuration container for the JWT Builder and Parser
@@ -35,11 +36,6 @@ final class Configuration
     private $signer;
 
     /**
-     * @var ClaimFactory|null
-     */
-    private $claimFactory;
-
-    /**
      * @var Parsing\Encoder|null
      */
     private $encoder;
@@ -49,21 +45,26 @@ final class Configuration
      */
     private $decoder;
 
+    /**
+     * @var Validator|null
+     */
+    private $validator;
+
     public function createBuilder(): Builder
     {
-        return new Builder($this->getEncoder(), $this->getClaimFactory());
+        return new Token\Builder($this->getEncoder());
     }
 
     public function getParser(): Parser
     {
         if ($this->parser === null) {
-            $this->parser = new Parser($this->getDecoder(), $this->getClaimFactory());
+            $this->parser = new Token\Parser($this->getDecoder());
         }
 
         return $this->parser;
     }
 
-    public function setParser(Parser $parser)
+    public function setParser(Parser $parser): void
     {
         $this->parser = $parser;
     }
@@ -77,23 +78,9 @@ final class Configuration
         return $this->signer;
     }
 
-    public function setSigner(Signer $signer)
+    public function setSigner(Signer $signer): void
     {
         $this->signer = $signer;
-    }
-
-    private function getClaimFactory(): ClaimFactory
-    {
-        if ($this->claimFactory === null) {
-            $this->claimFactory = new ClaimFactory();
-        }
-
-        return $this->claimFactory;
-    }
-
-    public function setClaimFactory(ClaimFactory $claimFactory)
-    {
-        $this->claimFactory = $claimFactory;
     }
 
     private function getEncoder(): Parsing\Encoder
@@ -105,7 +92,7 @@ final class Configuration
         return $this->encoder;
     }
 
-    public function setEncoder(Parsing\Encoder $encoder)
+    public function setEncoder(Parsing\Encoder $encoder): void
     {
         $this->encoder = $encoder;
     }
@@ -119,8 +106,22 @@ final class Configuration
         return $this->decoder;
     }
 
-    public function setDecoder(Parsing\Decoder $decoder)
+    public function setDecoder(Parsing\Decoder $decoder): void
     {
         $this->decoder = $decoder;
+    }
+
+    public function getValidator(): Validator
+    {
+        if ($this->validator === null) {
+            $this->validator = new Validation\Validator();
+        }
+
+        return $this->validator;
+    }
+
+    public function setValidator(Validator $validator): void
+    {
+        $this->validator = $validator;
     }
 }

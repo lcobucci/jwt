@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
+use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Ecdsa\EccAdapter;
 use Mdanter\Ecc\EccFactory;
 use Lcobucci\JWT\Signer\Ecdsa\KeyParser;
@@ -19,7 +20,7 @@ use Lcobucci\JWT\Signer\Ecdsa\KeyParser;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-abstract class Ecdsa extends BaseSigner
+abstract class Ecdsa implements Signer
 {
     /**
      * @var EccAdapter
@@ -50,7 +51,7 @@ abstract class Ecdsa extends BaseSigner
     /**
      * {@inheritdoc}
      */
-    public function createHash(string $payload, Key $key): string
+    public function sign(string $payload, Key $key): string
     {
         return $this->adapter->createHash(
             $this->keyParser->getPrivateKey($key),
@@ -62,7 +63,7 @@ abstract class Ecdsa extends BaseSigner
     /**
      * {@inheritdoc}
      */
-    public function doVerify(string $expected, string $payload, Key $key): bool
+    public function verify(string $expected, string $payload, Key $key): bool
     {
         return $this->adapter->verifyHash(
             $expected,
