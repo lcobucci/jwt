@@ -7,6 +7,8 @@
 
 namespace Lcobucci\JWT\Validation\Constraint;
 
+use Lcobucci\JWT\Token\RegisteredClaims;
+
 final class AllowedToTest extends ConstraintTestCase
 {
     /**
@@ -40,7 +42,7 @@ final class AllowedToTest extends ConstraintTestCase
     public function assertShouldRaiseExceptionWhenAudienceValueDoesNotMatch(): void
     {
         $constraint = new AllowedTo('test.com');
-        $constraint->assert($this->buildToken(['aud' => ['aa.com']]));
+        $constraint->assert($this->buildToken([RegisteredClaims::AUDIENCE => ['aa.com']]));
     }
 
     /**
@@ -57,7 +59,7 @@ final class AllowedToTest extends ConstraintTestCase
     public function assertShouldRaiseExceptionWhenAudienceTypeDoesNotMatch(): void
     {
         $constraint = new AllowedTo('123');
-        $constraint->assert($this->buildToken(['aud' => [123]]));
+        $constraint->assert($this->buildToken([RegisteredClaims::AUDIENCE => [123]]));
     }
 
     /**
@@ -71,7 +73,7 @@ final class AllowedToTest extends ConstraintTestCase
      */
     public function assertShouldNotRaiseExceptionWhenAudienceMatches(): void
     {
-        $token = $this->buildToken(['aud' => ['aa.com', 'test.com']]);
+        $token = $this->buildToken([RegisteredClaims::AUDIENCE => ['aa.com', 'test.com']]);
         $constraint = new AllowedTo('test.com');
 
         self::assertNull($constraint->assert($token));
@@ -88,7 +90,7 @@ final class AllowedToTest extends ConstraintTestCase
      */
     public function assertShouldNotRaiseExceptionWhenAudienceMatchesAsString(): void
     {
-        $token = $this->buildToken(['aud' => 'test.com']);
+        $token = $this->buildToken([RegisteredClaims::AUDIENCE => 'test.com']);
         $constraint = new AllowedTo('test.com');
 
         self::assertNull($constraint->assert($token));

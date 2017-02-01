@@ -57,13 +57,13 @@ final class Builder implements BuilderInterface
      */
     public function canOnlyBeUsedBy(string $audience, bool $addHeader = false): BuilderInterface
     {
-        $audiences = $this->claims['aud'] ?? [];
+        $audiences = $this->claims[RegisteredClaims::AUDIENCE] ?? [];
 
         if (!in_array($audience, $audiences)) {
             $audiences[] = $audience;
         }
 
-        return $this->setRegisteredClaim('aud', $audiences, $addHeader);
+        return $this->setRegisteredClaim(RegisteredClaims::AUDIENCE, $audiences, $addHeader);
     }
 
     /**
@@ -71,7 +71,7 @@ final class Builder implements BuilderInterface
      */
     public function expiresAt(int $expiration, bool $addHeader = false): BuilderInterface
     {
-        return $this->setRegisteredClaim('exp', $expiration, $addHeader);
+        return $this->setRegisteredClaim(RegisteredClaims::EXPIRATION_TIME, $expiration, $addHeader);
     }
 
     /**
@@ -79,7 +79,7 @@ final class Builder implements BuilderInterface
      */
     public function identifiedBy(string $id, bool $addHeader = false): BuilderInterface
     {
-        return $this->setRegisteredClaim('jti', $id, $addHeader);
+        return $this->setRegisteredClaim(RegisteredClaims::ID, $id, $addHeader);
     }
 
     /**
@@ -87,7 +87,7 @@ final class Builder implements BuilderInterface
      */
     public function issuedAt(int $issuedAt, bool $addHeader = false): BuilderInterface
     {
-        return $this->setRegisteredClaim('iat', (int) $issuedAt, $addHeader);
+        return $this->setRegisteredClaim(RegisteredClaims::ISSUED_AT, (int) $issuedAt, $addHeader);
     }
 
     /**
@@ -95,7 +95,7 @@ final class Builder implements BuilderInterface
      */
     public function issuedBy(string $issuer, bool $addHeader = false): BuilderInterface
     {
-        return $this->setRegisteredClaim('iss', $issuer, $addHeader);
+        return $this->setRegisteredClaim(RegisteredClaims::ISSUER, $issuer, $addHeader);
     }
 
     /**
@@ -103,7 +103,7 @@ final class Builder implements BuilderInterface
      */
     public function canOnlyBeUsedAfter(int $notBefore, bool $addHeader = false): BuilderInterface
     {
-        return $this->setRegisteredClaim('nbf', $notBefore, $addHeader);
+        return $this->setRegisteredClaim(RegisteredClaims::NOT_BEFORE, $notBefore, $addHeader);
     }
 
     /**
@@ -111,7 +111,7 @@ final class Builder implements BuilderInterface
      */
     public function relatedTo(string $subject, bool $addHeader = false): BuilderInterface
     {
-        return $this->setRegisteredClaim('sub', $subject, $addHeader);
+        return $this->setRegisteredClaim(RegisteredClaims::SUBJECT, $subject, $addHeader);
     }
 
     /**

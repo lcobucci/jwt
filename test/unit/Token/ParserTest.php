@@ -146,13 +146,13 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
         $this->decoder->expects($this->at(3))
                       ->method('jsonDecode')
                       ->with('b_dec')
-                      ->willReturn(['aud' => 'test']);
+                      ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
 
         $parser = $this->createParser();
         $token = $parser->parse('a.b.');
 
         $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
-        $claims = new DataSet(['aud' => 'test'], 'b');
+        $claims = new DataSet([RegisteredClaims::AUDIENCE => 'test'], 'b');
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
@@ -183,7 +183,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
         $this->decoder->expects($this->at(1))
                       ->method('jsonDecode')
                       ->with('a_dec')
-                      ->willReturn(['typ' => 'JWT', 'alg' => 'none', 'aud' => 'test']);
+                      ->willReturn(['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test']);
 
         $this->decoder->expects($this->at(2))
                       ->method('base64UrlDecode')
@@ -193,13 +193,13 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
         $this->decoder->expects($this->at(3))
                       ->method('jsonDecode')
                       ->with('b_dec')
-                      ->willReturn(['aud' => 'test']);
+                      ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
 
         $parser = $this->createParser();
         $token = $parser->parse('a.b.');
 
-        $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none', 'aud' => 'test'], 'a');
-        $claims = new DataSet(['aud' => 'test'], 'b');
+        $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test'], 'a');
+        $claims = new DataSet([RegisteredClaims::AUDIENCE => 'test'], 'b');
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
@@ -240,13 +240,13 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
         $this->decoder->expects($this->at(3))
                       ->method('jsonDecode')
                       ->with('b_dec')
-                      ->willReturn(['aud' => 'test']);
+                      ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
 
         $parser = $this->createParser();
         $token = $parser->parse('a.b.c');
 
         $headers = new DataSet(['typ' => 'JWT'], 'a');
-        $claims = new DataSet(['aud' => 'test'], 'b');
+        $claims = new DataSet([RegisteredClaims::AUDIENCE => 'test'], 'b');
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
@@ -287,13 +287,13 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
         $this->decoder->expects($this->at(3))
                       ->method('jsonDecode')
                       ->with('b_dec')
-                      ->willReturn(['aud' => 'test']);
+                      ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
 
         $parser = $this->createParser();
         $token = $parser->parse('a.b.c');
 
         $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
-        $claims = new DataSet(['aud' => 'test'], 'b');
+        $claims = new DataSet([RegisteredClaims::AUDIENCE => 'test'], 'b');
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
@@ -335,7 +335,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
         $this->decoder->expects($this->at(3))
                       ->method('jsonDecode')
                       ->with('b_dec')
-                      ->willReturn(['aud' => 'test']);
+                      ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
 
         $this->decoder->expects($this->at(4))
                       ->method('base64UrlDecode')
@@ -346,7 +346,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
         $token = $parser->parse('a.b.c');
 
         $headers = new DataSet(['typ' => 'JWT', 'alg' => 'HS256'], 'a');
-        $claims = new DataSet(['aud' => 'test'], 'b');
+        $claims = new DataSet([RegisteredClaims::AUDIENCE => 'test'], 'b');
         $signature = new Signature('c_dec', 'c');
 
         self::assertAttributeEquals($headers, 'headers', $token);

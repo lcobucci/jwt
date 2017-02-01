@@ -8,6 +8,7 @@
 namespace Lcobucci\JWT\Validation\Constraint;
 
 use DateTimeImmutable;
+use Lcobucci\JWT\Token\RegisteredClaims;
 
 final class ValidAtTest extends ConstraintTestCase
 {
@@ -43,9 +44,9 @@ final class ValidAtTest extends ConstraintTestCase
         $currentTime = $this->now->getTimestamp();
 
         $claims = [
-            'iat' => $currentTime - 20,
-            'nbf' => $currentTime - 10,
-            'exp' => $currentTime - 10,
+            RegisteredClaims::ISSUED_AT => $currentTime - 20,
+            RegisteredClaims::NOT_BEFORE => $currentTime - 10,
+            RegisteredClaims::EXPIRATION_TIME => $currentTime - 10,
         ];
 
         $constraint = new ValidAt($this->now);
@@ -71,9 +72,9 @@ final class ValidAtTest extends ConstraintTestCase
         $currentTime = $this->now->getTimestamp();
 
         $claims = [
-            'iat' => $currentTime - 20,
-            'nbf' => $currentTime + 40,
-            'exp' => $currentTime + 60,
+            RegisteredClaims::ISSUED_AT => $currentTime - 20,
+            RegisteredClaims::NOT_BEFORE => $currentTime + 40,
+            RegisteredClaims::EXPIRATION_TIME => $currentTime + 60,
         ];
 
         $constraint = new ValidAt($this->now);
@@ -98,9 +99,9 @@ final class ValidAtTest extends ConstraintTestCase
         $currentTime = $this->now->getTimestamp();
 
         $claims = [
-            'iat' => $currentTime + 20,
-            'nbf' => $currentTime + 40,
-            'exp' => $currentTime + 60,
+            RegisteredClaims::ISSUED_AT => $currentTime + 20,
+            RegisteredClaims::NOT_BEFORE => $currentTime + 40,
+            RegisteredClaims::EXPIRATION_TIME => $currentTime + 60,
         ];
 
         $constraint = new ValidAt($this->now);
@@ -126,9 +127,9 @@ final class ValidAtTest extends ConstraintTestCase
 
         $token = $this->buildToken(
             [
-                'iat' => $currentTime - 40,
-                'nbf' => $currentTime - 20,
-                'exp' => $currentTime + 60,
+                RegisteredClaims::ISSUED_AT => $currentTime - 40,
+                RegisteredClaims::NOT_BEFORE => $currentTime - 20,
+                RegisteredClaims::EXPIRATION_TIME => $currentTime + 60,
             ]
         );
 
@@ -136,9 +137,9 @@ final class ValidAtTest extends ConstraintTestCase
 
         $token = $this->buildToken(
             [
-                'iat' => $currentTime,
-                'nbf' => $currentTime,
-                'exp' => $currentTime + 60,
+                RegisteredClaims::ISSUED_AT => $currentTime,
+                RegisteredClaims::NOT_BEFORE => $currentTime,
+                RegisteredClaims::EXPIRATION_TIME => $currentTime + 60,
             ]
         );
 
