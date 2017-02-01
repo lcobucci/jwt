@@ -21,11 +21,8 @@ abstract class ConstraintTestCase extends \PHPUnit_Framework_TestCase
     ): TokenInterface {
         $headers = new DataSet($headers, '');
         $claims = new DataSet($claims, '');
+        $signature = $signature ?? new Signature('', '');
 
-        if ($signature) {
-            return Plain::signed($headers, $claims, $signature);
-        }
-
-        return Plain::unsecured($headers, $claims);
+        return new Plain($headers, $claims, $signature);
     }
 }

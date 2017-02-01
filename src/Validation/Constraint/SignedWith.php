@@ -45,17 +45,11 @@ final class SignedWith implements Constraint
             throw new ConstraintViolationException('You should pass a plain token');
         }
 
-        $signature = $token->signature();
-
-        if (!$signature) {
-            throw new ConstraintViolationException('The token is not signed');
-        }
-
         if ($token->headers()->get('alg') !== $this->signer->getAlgorithmId()) {
             throw new ConstraintViolationException('Token signer mismatch');
         }
 
-        if (!$this->signer->verify($signature->hash(), $token->payload(), $this->key)) {
+        if (!$this->signer->verify($token->signature()->hash(), $token->payload(), $this->key)) {
             throw new ConstraintViolationException('Token signature mismatch');
         }
     }

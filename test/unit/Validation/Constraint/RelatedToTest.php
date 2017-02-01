@@ -21,6 +21,7 @@ final class RelatedToTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldRaiseExceptionWhenSubjectIsNotSet(): void
     {
@@ -38,6 +39,7 @@ final class RelatedToTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldRaiseExceptionWhenSubjectDoesNotMatch(): void
     {
@@ -53,6 +55,7 @@ final class RelatedToTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldNotRaiseExceptionWhenSubjectMatches(): void
     {

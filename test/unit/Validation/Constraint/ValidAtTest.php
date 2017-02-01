@@ -38,6 +38,7 @@ final class ValidAtTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldRaiseExceptionWhenTokenIsExpired(): void
     {
@@ -66,6 +67,7 @@ final class ValidAtTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldRaiseExceptionWhenMinimumTimeIsNotMet(): void
     {
@@ -93,6 +95,7 @@ final class ValidAtTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldRaiseExceptionWhenTokenWasIssuedInTheFuture(): void
     {
@@ -119,6 +122,7 @@ final class ValidAtTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldNotRaiseExceptionWhenTokenIsUsedInTheRightMoment(): void
     {
@@ -157,6 +161,7 @@ final class ValidAtTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldNotRaiseExceptionWhenTokenDoesNotHaveTimeClaims(): void
     {

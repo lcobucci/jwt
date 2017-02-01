@@ -54,23 +54,11 @@ final class Parser implements ParserInterface
             }
         }
 
-        return $this->createToken(
+        return new Plain(
             new DataSet($header, $encodedHeaders),
             new DataSet($claims, $encodedClaims),
             $signature
         );
-    }
-
-    private function createToken(
-        DataSet $headers,
-        DataSet $claims,
-        Signature $signature = null
-    ): Plain {
-        if ($signature) {
-            return Plain::signed($headers, $claims, $signature);
-        }
-
-        return Plain::unsecured($headers, $claims);
     }
 
     /**
@@ -131,12 +119,12 @@ final class Parser implements ParserInterface
      * @param array $header
      * @param string $data
      *
-     * @return Signature|null
+     * @return Signature
      */
-    private function parseSignature(array $header, string $data): ?Signature
+    private function parseSignature(array $header, string $data): Signature
     {
         if ($data === '' || !isset($header['alg']) || $header['alg'] === 'none') {
-            return null;
+            return new Signature('', '');
         }
 
         $hash = $this->decoder->base64UrlDecode($data);

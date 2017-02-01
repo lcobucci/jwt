@@ -37,27 +37,14 @@ final class Plain implements TokenInterface
     /**
      * The token signature
      *
-     * @var Signature|null
+     * @var Signature
      */
     private $signature;
 
-    public static function unsecured(DataSet $headers, DataSet $claims): self
-    {
-        return new self($headers, $claims, null);
-    }
-
-    public static function signed(
+    public function __construct(
         DataSet $headers,
         DataSet $claims,
         Signature $signature
-    ): self {
-        return new self($headers, $claims, $signature);
-    }
-
-    private function __construct(
-        DataSet $headers,
-        DataSet $claims,
-        ?Signature $signature
     ) {
         $this->headers = $headers;
         $this->claims = $claims;
@@ -83,7 +70,7 @@ final class Plain implements TokenInterface
     /**
      * {@inheritdoc}
      */
-    public function signature(): ?Signature
+    public function signature(): Signature
     {
         return $this->signature;
     }
