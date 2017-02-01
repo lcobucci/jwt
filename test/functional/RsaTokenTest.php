@@ -116,8 +116,8 @@ class RsaTokenTest extends \PHPUnit_Framework_TestCase
 
         self::assertAttributeInstanceOf(Signature::class, 'signature', $token);
         self::assertEquals('1234', $token->headers()->get('jki'));
-        self::assertEquals(['http://client.abc.com'], $token->claims()->get('aud'));
-        self::assertEquals('http://api.abc.com', $token->claims()->get('iss'));
+        self::assertEquals(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
+        self::assertEquals('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
         self::assertEquals($user, $token->claims()->get('user'));
 
         return $token;

@@ -7,6 +7,8 @@
 
 namespace Lcobucci\JWT\Validation\Constraint;
 
+use Lcobucci\JWT\Token\RegisteredClaims;
+
 final class IssuedByTest extends ConstraintTestCase
 {
     /**
@@ -40,7 +42,7 @@ final class IssuedByTest extends ConstraintTestCase
     public function assertShouldRaiseExceptionWhenIssuerValueDoesNotMatch(): void
     {
         $constraint = new IssuedBy('test.com', 'test.net');
-        $constraint->assert($this->buildToken(['iss' => 'example.com']));
+        $constraint->assert($this->buildToken([RegisteredClaims::ISSUER => 'example.com']));
     }
 
     /**
@@ -57,7 +59,7 @@ final class IssuedByTest extends ConstraintTestCase
     public function assertShouldRaiseExceptionWhenIssuerTypeValueDoesNotMatch(): void
     {
         $constraint = new IssuedBy('test.com', '123');
-        $constraint->assert($this->buildToken(['iss' => 123]));
+        $constraint->assert($this->buildToken([RegisteredClaims::ISSUER => 123]));
     }
 
     /**
@@ -71,7 +73,7 @@ final class IssuedByTest extends ConstraintTestCase
      */
     public function assertShouldNotRaiseExceptionWhenIssuerMatches(): void
     {
-        $token = $this->buildToken(['iss' => 'test.com']);
+        $token = $this->buildToken([RegisteredClaims::ISSUER => 'test.com']);
         $constraint = new IssuedBy('test.com', 'test.net');
 
         self::assertNull($constraint->assert($token));

@@ -183,7 +183,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['aud' => 'test'], '')
+            new DataSet([RegisteredClaims::AUDIENCE => 'test'], '')
         );
 
         self::assertFalse($token->isAllowedTo('testing'));
@@ -202,7 +202,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['aud' => ['test', 'test2']], '')
+            new DataSet([RegisteredClaims::AUDIENCE => ['test', 'test2']], '')
         );
 
         self::assertFalse($token->isAllowedTo('testing'));
@@ -221,7 +221,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['aud' => 10], '')
+            new DataSet([RegisteredClaims::AUDIENCE => 10], '')
         );
 
         self::assertFalse($token->isAllowedTo('10'));
@@ -240,7 +240,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['aud' => 'testing'], '')
+            new DataSet([RegisteredClaims::AUDIENCE => 'testing'], '')
         );
 
         self::assertTrue($token->isAllowedTo('testing'));
@@ -259,7 +259,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['aud' => ['testing', 'test']], '')
+            new DataSet([RegisteredClaims::AUDIENCE => ['testing', 'test']], '')
         );
 
         self::assertTrue($token->isAllowedTo('testing'));
@@ -294,7 +294,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['jti' => 'testing'], '')
+            new DataSet([RegisteredClaims::ID => 'testing'], '')
         );
 
         self::assertFalse($token->isIdentifiedBy('test'));
@@ -313,7 +313,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['jti' => 'test'], '')
+            new DataSet([RegisteredClaims::ID => 'test'], '')
         );
 
         self::assertTrue($token->isIdentifiedBy('test'));
@@ -348,7 +348,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['sub' => 'testing'], '')
+            new DataSet([RegisteredClaims::SUBJECT => 'testing'], '')
         );
 
         self::assertFalse($token->isRelatedTo('test'));
@@ -367,7 +367,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['sub' => 'test'], '')
+            new DataSet([RegisteredClaims::SUBJECT => 'test'], '')
         );
 
         self::assertTrue($token->isRelatedTo('test'));
@@ -402,7 +402,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['iss' => 10], '')
+            new DataSet([RegisteredClaims::ISSUER => 10], '')
         );
 
         self::assertFalse($token->hasBeenIssuedBy('10'));
@@ -421,7 +421,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['iss' => 'test'], '')
+            new DataSet([RegisteredClaims::ISSUER => 'test'], '')
         );
 
         self::assertFalse($token->hasBeenIssuedBy('testing1', 'testing2'));
@@ -440,7 +440,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['iss' => 'test'], '')
+            new DataSet([RegisteredClaims::ISSUER => 'test'], '')
         );
 
         self::assertTrue($token->hasBeenIssuedBy('testing1', 'testing2', 'test'));
@@ -476,7 +476,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
         $now = new DateTime();
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['iat' => $now->getTimestamp() - 100], '')
+            new DataSet([RegisteredClaims::ISSUED_AT => $now->getTimestamp() - 100], '')
         );
 
         self::assertTrue($token->hasBeenIssuedBefore($now));
@@ -496,7 +496,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
         $now = new DateTime();
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['iat' => $now->getTimestamp()], '')
+            new DataSet([RegisteredClaims::ISSUED_AT => $now->getTimestamp()], '')
         );
 
         self::assertTrue($token->hasBeenIssuedBefore($now));
@@ -516,7 +516,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
         $now = new DateTime();
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['iat' => $now->getTimestamp() + 100], '')
+            new DataSet([RegisteredClaims::ISSUED_AT => $now->getTimestamp() + 100], '')
         );
 
         self::assertFalse($token->hasBeenIssuedBefore($now));
@@ -552,7 +552,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
         $now = new DateTime();
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['nbf' => $now->getTimestamp() - 100], '')
+            new DataSet([RegisteredClaims::NOT_BEFORE => $now->getTimestamp() - 100], '')
         );
 
         self::assertTrue($token->isMinimumTimeBefore($now));
@@ -572,7 +572,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
         $now = new DateTime();
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['nbf' => $now->getTimestamp()], '')
+            new DataSet([RegisteredClaims::NOT_BEFORE => $now->getTimestamp()], '')
         );
 
         self::assertTrue($token->isMinimumTimeBefore($now));
@@ -592,7 +592,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
         $now = new DateTime();
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['nbf' => $now->getTimestamp() + 100], '')
+            new DataSet([RegisteredClaims::NOT_BEFORE => $now->getTimestamp() + 100], '')
         );
 
         self::assertFalse($token->isMinimumTimeBefore($now));
@@ -627,7 +627,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['exp' => time() + 500], '')
+            new DataSet([RegisteredClaims::EXPIRATION_TIME => time() + 500], '')
         );
 
         self::assertFalse($token->isExpired(new DateTime()));
@@ -647,7 +647,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
         $now = new DateTime();
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['exp' => $now->getTimestamp()], '')
+            new DataSet([RegisteredClaims::EXPIRATION_TIME => $now->getTimestamp()], '')
         );
 
         self::assertFalse($token->isExpired($now));
@@ -666,7 +666,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
     {
         $token = Plain::unsecured(
             $this->headers,
-            new DataSet(['exp' => time()], '')
+            new DataSet([RegisteredClaims::EXPIRATION_TIME => time()], '')
         );
 
         self::assertTrue($token->isExpired(new DateTime('+10 days')));

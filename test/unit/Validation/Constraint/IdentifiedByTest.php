@@ -7,6 +7,8 @@
 
 namespace Lcobucci\JWT\Validation\Constraint;
 
+use Lcobucci\JWT\Token\RegisteredClaims;
+
 final class IdentifiedByTest extends ConstraintTestCase
 {
     /**
@@ -40,7 +42,7 @@ final class IdentifiedByTest extends ConstraintTestCase
     public function assertShouldRaiseExceptionWhenIdDoesNotMatch(): void
     {
         $constraint = new IdentifiedBy('123456');
-        $constraint->assert($this->buildToken(['jti' => 15]));
+        $constraint->assert($this->buildToken([RegisteredClaims::ID => 15]));
     }
 
     /**
@@ -54,7 +56,7 @@ final class IdentifiedByTest extends ConstraintTestCase
      */
     public function assertShouldNotRaiseExceptionWhenIdMatches(): void
     {
-        $token = $this->buildToken(['jti' => '123456']);
+        $token = $this->buildToken([RegisteredClaims::ID => '123456']);
 
         $constraint = new IdentifiedBy('123456');
         self::assertNull($constraint->assert($token));

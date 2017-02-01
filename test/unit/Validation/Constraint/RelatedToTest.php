@@ -7,6 +7,8 @@
 
 namespace Lcobucci\JWT\Validation\Constraint;
 
+use Lcobucci\JWT\Token\RegisteredClaims;
+
 final class RelatedToTest extends ConstraintTestCase
 {
     /**
@@ -40,7 +42,7 @@ final class RelatedToTest extends ConstraintTestCase
     public function assertShouldRaiseExceptionWhenSubjectDoesNotMatch(): void
     {
         $constraint = new RelatedTo('user-auth');
-        $constraint->assert($this->buildToken(['sub' => 'password-recovery']));
+        $constraint->assert($this->buildToken([RegisteredClaims::SUBJECT => 'password-recovery']));
     }
 
     /**
@@ -54,7 +56,7 @@ final class RelatedToTest extends ConstraintTestCase
      */
     public function assertShouldNotRaiseExceptionWhenSubjectMatches(): void
     {
-        $token = $this->buildToken(['sub' => 'user-auth']);
+        $token = $this->buildToken([RegisteredClaims::SUBJECT => 'user-auth']);
 
         $constraint = new RelatedTo('user-auth');
         self::assertNull($constraint->assert($token));

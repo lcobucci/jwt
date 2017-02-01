@@ -101,7 +101,7 @@ final class Plain implements TokenInterface
      */
     public function isAllowedTo(string $audience): bool
     {
-        return in_array($audience, (array) $this->claims->get('aud'), true);
+        return in_array($audience, (array) $this->claims->get(RegisteredClaims::AUDIENCE), true);
     }
 
     /**
@@ -109,7 +109,7 @@ final class Plain implements TokenInterface
      */
     public function isIdentifiedBy(string $id): bool
     {
-        return $this->claims->get('jti') === $id;
+        return $this->claims->get(RegisteredClaims::ID) === $id;
     }
 
     /**
@@ -117,7 +117,7 @@ final class Plain implements TokenInterface
      */
     public function isRelatedTo(string $subject): bool
     {
-        return $this->claims->get('sub') === $subject;
+        return $this->claims->get(RegisteredClaims::SUBJECT) === $subject;
     }
 
     /**
@@ -125,7 +125,7 @@ final class Plain implements TokenInterface
      */
     public function hasBeenIssuedBy(string ...$issuers): bool
     {
-        return in_array($this->claims->get('iss'), $issuers, true);
+        return in_array($this->claims->get(RegisteredClaims::ISSUER), $issuers, true);
     }
 
     /**
@@ -133,7 +133,7 @@ final class Plain implements TokenInterface
      */
     public function hasBeenIssuedBefore(DateTimeInterface $now): bool
     {
-        return $now->getTimestamp() >= $this->claims->get('iat');
+        return $now->getTimestamp() >= $this->claims->get(RegisteredClaims::ISSUED_AT);
     }
 
     /**
@@ -141,7 +141,7 @@ final class Plain implements TokenInterface
      */
     public function isMinimumTimeBefore(DateTimeInterface $now): bool
     {
-        return $now->getTimestamp() >= $this->claims->get('nbf');
+        return $now->getTimestamp() >= $this->claims->get(RegisteredClaims::NOT_BEFORE);
     }
 
     /**
@@ -149,11 +149,11 @@ final class Plain implements TokenInterface
      */
     public function isExpired(DateTimeInterface $now): bool
     {
-        if (!$this->claims->has('exp')) {
+        if (!$this->claims->has(RegisteredClaims::EXPIRATION_TIME)) {
             return false;
         }
 
-        return $now->getTimestamp() > $this->claims->get('exp');
+        return $now->getTimestamp() > $this->claims->get(RegisteredClaims::EXPIRATION_TIME);
     }
 
     /**
