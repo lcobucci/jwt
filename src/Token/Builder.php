@@ -175,15 +175,4 @@ final class Builder implements BuilderInterface
             new Signature($signature, $encodedSignature)
         );
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUnsecuredToken(): Plain
-    {
-        return Plain::unsecured(
-            new DataSet($this->headers, $this->encode($this->headers)),
-            new DataSet($this->claims, $this->encode($this->claims))
-        );
-    }
 }

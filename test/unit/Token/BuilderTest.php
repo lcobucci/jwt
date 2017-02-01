@@ -577,39 +577,4 @@ final class BuilderTest extends \PHPUnit_Framework_TestCase
         self::assertSame(123, $token->claims()->get('test'));
         self::assertNotNull($token->signature());
     }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
-     * @uses \Lcobucci\JWT\Signer\Key
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     *
-     * @covers \Lcobucci\JWT\Token\Builder::getUnsecuredToken
-     * @covers \Lcobucci\JWT\Token\Builder::encode
-     */
-    public function getUnsecuredTokenShouldReturnATokenWithoutSignature(): void
-    {
-        $this->encoder->expects($this->exactly(2))
-                      ->method('jsonEncode')
-                      ->withConsecutive([['typ'=> 'JWT', 'alg' => 'none']], [['test' => 123]])
-                      ->willReturnOnConsecutiveCalls('1', '2');
-
-        $this->encoder->expects($this->exactly(2))
-                      ->method('base64UrlEncode')
-                      ->withConsecutive(['1'], ['2'])
-                      ->willReturnOnConsecutiveCalls('1', '2');
-
-        $builder = $this->createBuilder()->with('test', 123);
-
-        $token = $builder->getUnsecuredToken();
-
-        self::assertSame('JWT', $token->headers()->get('typ'));
-        self::assertSame('none', $token->headers()->get('alg'));
-        self::assertSame(123, $token->claims()->get('test'));
-        self::assertNull($token->signature());
-    }
 }
