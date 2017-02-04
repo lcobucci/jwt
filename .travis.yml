@@ -11,7 +11,7 @@ before_script:
 script:
   - ./vendor/bin/phpunit --coverage-clover ./clover.xml --testsuite=unit
   - ./vendor/bin/phpunit test/functional
-  - if php -i |grep -qE xdebug; then ./vendor/bin/humbug --options='--testsuite=unit'; fi
+#  - if php -i |grep -qE xdebug; then ./vendor/bin/humbug --options='--testsuite=unit'; fi
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
