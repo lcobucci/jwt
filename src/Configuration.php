@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use Lcobucci\Jose\Parsing;
-use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation;
 
@@ -72,7 +72,7 @@ final class Configuration
     public function getSigner(): Signer
     {
         if ($this->signer === null) {
-            $this->signer = new Sha256();
+            $this->signer = new None();
         }
 
         return $this->signer;

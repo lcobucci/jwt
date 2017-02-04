@@ -8,7 +8,7 @@
 namespace Lcobucci\JWT;
 
 use Lcobucci\Jose\Parsing;
-use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token\Builder;
 
 /**
@@ -156,13 +156,13 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Token\Parser
-     * @uses \Lcobucci\JWT\Signer\Hmac\Sha256
+     * @uses \Lcobucci\JWT\Signer\None
      */
     public function getSignerShouldReturnTheDefaultWhenItWasNotConfigured(): void
     {
         $config = new Configuration();
 
-        self::assertInstanceOf(Sha256::class, $config->getSigner());
+        self::assertInstanceOf(None::class, $config->getSigner());
     }
 
     /**
