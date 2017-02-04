@@ -22,7 +22,7 @@
         "lcobucci/jose-parsing": "~2.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7",
+        "phpunit/phpunit": "^6.0",
         "squizlabs/php_codesniffer": "^2.7",
         "phpmd/phpmd": "^2.5",
         "phpunit/php-invoker": "^1.1",

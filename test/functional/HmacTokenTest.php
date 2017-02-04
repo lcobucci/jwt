@@ -21,7 +21,7 @@ use Lcobucci\JWT\Validation\Constraint\SignedWith;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-class HmacTokenTest extends \PHPUnit_Framework_TestCase
+class HmacTokenTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Configuration

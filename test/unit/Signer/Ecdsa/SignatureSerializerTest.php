@@ -17,7 +17,7 @@ use Mdanter\Ecc\Math\GmpMathInterface;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 4.0.0
  */
-final class SignatureSerializerTest extends \PHPUnit_Framework_TestCase
+final class SignatureSerializerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var GmpMathInterface

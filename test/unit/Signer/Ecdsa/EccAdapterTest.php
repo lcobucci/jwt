@@ -22,7 +22,7 @@ use Mdanter\Ecc\Random\RandomNumberGeneratorInterface;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 4.0.0
  */
-final class EccAdapterTest extends \PHPUnit_Framework_TestCase
+final class EccAdapterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var GmpMathInterface|\PHPUnit_Framework_MockObject_MockObject

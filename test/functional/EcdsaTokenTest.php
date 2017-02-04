@@ -22,7 +22,7 @@ use Lcobucci\JWT\Validation\Constraint\SignedWith;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-class EcdsaTokenTest extends \PHPUnit_Framework_TestCase
+class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
 {
     use Keys;
 

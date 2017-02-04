@@ -16,7 +16,7 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\InvalidTokenException;
 
-final class MaliciousTamperingPreventionTest extends \PHPUnit_Framework_TestCase
+final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
 {
     use Keys;
 

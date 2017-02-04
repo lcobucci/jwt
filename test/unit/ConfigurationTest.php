@@ -15,7 +15,7 @@ use Lcobucci\JWT\Token\Builder;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 4.0.0
  */
-final class ConfigurationTest extends \PHPUnit_Framework_TestCase
+final class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Parser|\PHPUnit_Framework_MockObject_MockObject

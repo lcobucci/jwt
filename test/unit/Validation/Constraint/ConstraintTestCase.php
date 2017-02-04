@@ -12,7 +12,7 @@ use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token as TokenInterface;
 
-abstract class ConstraintTestCase extends \PHPUnit_Framework_TestCase
+abstract class ConstraintTestCase extends \PHPUnit\Framework\TestCase
 {
     protected function buildToken(
         array $claims = [],

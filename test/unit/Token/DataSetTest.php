@@ -7,7 +7,7 @@
 
 namespace Lcobucci\JWT\Token;
 
-final class DataSetTest extends \PHPUnit_Framework_TestCase
+final class DataSetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

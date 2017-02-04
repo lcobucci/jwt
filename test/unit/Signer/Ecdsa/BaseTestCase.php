@@ -13,7 +13,7 @@ namespace Lcobucci\JWT\Signer\Ecdsa;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 4.0.0
  */
-abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
+abstract class BaseTestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var EccAdapter|\PHPUnit_Framework_MockObject_MockObject
