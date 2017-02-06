@@ -61,7 +61,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      */
-    public function parseMustRaiseExceptionWhenJWSDoNotHaveThreeParts(): void
+    public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
     {
         $parser = $this->createParser();
         $parser->parse('');
