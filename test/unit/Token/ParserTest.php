@@ -156,7 +156,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
-        self::assertAttributeEquals(new Signature('', ''), 'signature', $token);
+        self::assertAttributeEquals(Signature::fromEmptyData(), 'signature', $token);
     }
 
     /**
@@ -203,7 +203,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
-        self::assertAttributeEquals(new Signature('', ''), 'signature', $token);
+        self::assertAttributeEquals(Signature::fromEmptyData(), 'signature', $token);
     }
 
     /**
@@ -250,7 +250,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
-        self::assertAttributeEquals(new Signature('', ''), 'signature', $token);
+        self::assertAttributeEquals(Signature::fromEmptyData(), 'signature', $token);
     }
 
     /**
@@ -297,7 +297,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
-        self::assertAttributeEquals(new Signature('', ''), 'signature', $token);
+        self::assertAttributeEquals(Signature::fromEmptyData(), 'signature', $token);
     }
 
     /**

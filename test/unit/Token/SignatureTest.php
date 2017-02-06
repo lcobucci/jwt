@@ -19,6 +19,20 @@ final class SignatureTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @covers \Lcobucci\JWT\Token\Signature::__construct
+     * @covers \Lcobucci\JWT\Token\Signature::fromEmptyData
+     */
+    public function fromEmptyDataShouldReturnAnEmptySignature(): void
+    {
+        $signature = Signature::fromEmptyData();
+
+        self::assertAttributeEmpty('hash', $signature);
+        self::assertAttributeEmpty('encoded', $signature);
+    }
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Token\Signature::__construct
      * @covers \Lcobucci\JWT\Token\Signature::hash
      */
     public function hashShouldReturnTheHash(): void

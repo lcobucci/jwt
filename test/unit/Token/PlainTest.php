@@ -665,7 +665,7 @@ final class PlainTest extends \PHPUnit_Framework_TestCase
      */
     public function toStringMustReturnEncodedDataWithEmptySignature(): void
     {
-        $token = $this->createToken(null, null, new Signature('', ''));
+        $token = $this->createToken(null, null, Signature::fromEmptyData());
 
         self::assertEquals('headers.claims.', (string) $token);
     }
