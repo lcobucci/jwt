@@ -72,9 +72,4 @@ interface Builder
      * Returns a signed token to be used
      */
     public function getToken(Signer $signer, Key $key): Plain;
-
-    /**
-     * Returns an unsecured token (not recommended)
-     */
-    public function getUnsecuredToken(): Plain;
 }

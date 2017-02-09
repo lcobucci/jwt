@@ -21,6 +21,7 @@ final class AllowedToTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldRaiseExceptionWhenAudienceIsNotSet(): void
     {
@@ -38,6 +39,7 @@ final class AllowedToTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldRaiseExceptionWhenAudienceValueDoesNotMatch(): void
     {
@@ -55,6 +57,7 @@ final class AllowedToTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldRaiseExceptionWhenAudienceTypeDoesNotMatch(): void
     {
@@ -70,6 +73,7 @@ final class AllowedToTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldNotRaiseExceptionWhenAudienceMatches(): void
     {
@@ -87,6 +91,7 @@ final class AllowedToTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldNotRaiseExceptionWhenAudienceMatchesAsString(): void
     {

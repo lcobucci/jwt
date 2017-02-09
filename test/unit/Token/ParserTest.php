@@ -61,7 +61,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      */
-    public function parseMustRaiseExceptionWhenJWSDoNotHaveThreeParts(): void
+    public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
     {
         $parser = $this->createParser();
         $parser->parse('');
@@ -117,10 +117,10 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Token\Parser::__construct
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      * @uses \Lcobucci\JWT\Token\DataSet
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::createToken
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
@@ -156,7 +156,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
-        self::assertAttributeEquals(null, 'signature', $token);
+        self::assertAttributeEquals(Signature::fromEmptyData(), 'signature', $token);
     }
 
     /**
@@ -164,10 +164,10 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Token\Parser::__construct
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      * @uses \Lcobucci\JWT\Token\DataSet
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::createToken
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
@@ -203,7 +203,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
-        self::assertAttributeEquals(null, 'signature', $token);
+        self::assertAttributeEquals(Signature::fromEmptyData(), 'signature', $token);
     }
 
     /**
@@ -211,10 +211,10 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Token\Parser::__construct
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      * @uses \Lcobucci\JWT\Token\DataSet
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::createToken
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
@@ -250,7 +250,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
-        self::assertAttributeEquals(null, 'signature', $token);
+        self::assertAttributeEquals(Signature::fromEmptyData(), 'signature', $token);
     }
 
     /**
@@ -258,10 +258,10 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @uses \Lcobucci\JWT\Token\Parser::__construct
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      * @uses \Lcobucci\JWT\Token\DataSet
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::createToken
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
@@ -297,7 +297,7 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
-        self::assertAttributeEquals(null, 'signature', $token);
+        self::assertAttributeEquals(Signature::fromEmptyData(), 'signature', $token);
     }
 
     /**
@@ -309,7 +309,6 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::createToken
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims

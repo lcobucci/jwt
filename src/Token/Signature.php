@@ -27,6 +27,11 @@ final class Signature
      */
     private $encoded;
 
+    public static function fromEmptyData(): self
+    {
+        return new self('', '');
+    }
+
     public function __construct(string $hash, string $encoded)
     {
         $this->hash = $hash;

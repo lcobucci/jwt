@@ -21,6 +21,7 @@ final class IssuedByTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldRaiseExceptionWhenIssuerIsNotSet(): void
     {
@@ -38,6 +39,7 @@ final class IssuedByTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldRaiseExceptionWhenIssuerValueDoesNotMatch(): void
     {
@@ -55,6 +57,7 @@ final class IssuedByTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldRaiseExceptionWhenIssuerTypeValueDoesNotMatch(): void
     {
@@ -70,6 +73,7 @@ final class IssuedByTest extends ConstraintTestCase
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldNotRaiseExceptionWhenIssuerMatches(): void
     {

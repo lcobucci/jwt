@@ -52,32 +52,11 @@ final class SignedWithTest extends ConstraintTestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
         $constraint = new SignedWith($this->signer, $this->key);
         $constraint->assert($this->createMock(Token::class));
-    }
-
-    /**
-     * @test
-     *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
-     *
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::assert
-     *
-     * @uses \Lcobucci\JWT\Signer\Key
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
-    public function assertShouldRaiseExceptionWhenTokenIsUnsigned(): void
-    {
-        $constraint = new SignedWith($this->signer, $this->key);
-        $constraint->assert($this->buildToken());
     }
 
     /**

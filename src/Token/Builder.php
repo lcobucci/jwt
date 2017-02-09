@@ -169,21 +169,10 @@ final class Builder implements BuilderInterface
         $signature = $signer->sign($encodedHeaders . '.' . $encodedClaims, $key);
         $encodedSignature = $this->encoder->base64UrlEncode($signature);
 
-        return Plain::signed(
+        return new Plain(
             new DataSet($headers, $encodedHeaders),
             new DataSet($this->claims, $encodedClaims),
             new Signature($signature, $encodedSignature)
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUnsecuredToken(): Plain
-    {
-        return Plain::unsecured(
-            new DataSet($this->headers, $this->encode($this->headers)),
-            new DataSet($this->claims, $this->encode($this->claims))
         );
     }
 }

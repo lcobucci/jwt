@@ -45,48 +45,24 @@ final class Parser implements ParserInterface
         list($encodedHeaders, $encodedClaims, $encodedSignature) = $this->splitJwt($jwt);
 
         $header = $this->parseHeader($encodedHeaders);
-        $claims = $this->parseClaims($encodedClaims);
-        $signature = $this->parseSignature($header, $encodedSignature);
 
-        foreach ($claims as $name => $value) {
-            if (isset($header[$name])) {
-                $header[$name] = $value;
-            }
-        }
-
-        return $this->createToken(
+        return new Plain(
             new DataSet($header, $encodedHeaders),
-            new DataSet($claims, $encodedClaims),
-            $signature
+            new DataSet($this->parseClaims($encodedClaims), $encodedClaims),
+            $this->parseSignature($header, $encodedSignature)
         );
-    }
-
-    private function createToken(
-        DataSet $headers,
-        DataSet $claims,
-        Signature $signature = null
-    ): Plain {
-        if ($signature) {
-            return Plain::signed($headers, $claims, $signature);
-        }
-
-        return Plain::unsecured($headers, $claims);
     }
 
     /**
      * Splits the JWT string into an array
      *
-     * @param string $jwt
-     *
-     * @return array
-     *
-     * @throws InvalidArgumentException When JWT don't have all parts
+     * @throws InvalidArgumentException When JWT doesn't have all parts
      */
     private function splitJwt(string $jwt): array
     {
         $data = explode('.', $jwt);
 
-        if (count($data) != 3) {
+        if (count($data) !== 3) {
             throw new InvalidArgumentException('The JWT string must have two dots');
         }
 
@@ -95,10 +71,6 @@ final class Parser implements ParserInterface
 
     /**
      * Parses the header from a string
-     *
-     * @param string $data
-     *
-     * @return array
      *
      * @throws InvalidArgumentException When an invalid header is informed
      */
@@ -115,10 +87,6 @@ final class Parser implements ParserInterface
 
     /**
      * Parses the claim set from a string
-     *
-     * @param string $data
-     *
-     * @return array
      */
     private function parseClaims(string $data): array
     {
@@ -127,16 +95,11 @@ final class Parser implements ParserInterface
 
     /**
      * Returns the signature from given data
-     *
-     * @param array $header
-     * @param string $data
-     *
-     * @return Signature|null
      */
-    private function parseSignature(array $header, string $data): ?Signature
+    private function parseSignature(array $header, string $data): Signature
     {
         if ($data === '' || !isset($header['alg']) || $header['alg'] === 'none') {
-            return null;
+            return Signature::fromEmptyData();
         }
 
         $hash = $this->decoder->base64UrlDecode($data);

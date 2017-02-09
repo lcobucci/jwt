@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\Constraint\AllowedTo;
@@ -57,9 +59,9 @@ class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
                          ->issuedBy('http://api.abc.com')
                          ->expiresAt(self::CURRENT_TIME + 3000)
                          ->with('user', $user)
-                         ->getUnsecuredToken();
+                         ->getToken(new None(), new Key('test'));
 
-        self::assertAttributeEquals(null, 'signature', $token);
+        self::assertAttributeEquals(new Token\Signature('', ''), 'signature', $token);
         self::assertEquals(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
         self::assertEquals('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
         self::assertEquals(self::CURRENT_TIME + 3000, $token->claims()->get(Token\RegisteredClaims::EXPIRATION_TIME));
