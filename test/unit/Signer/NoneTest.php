@@ -11,7 +11,7 @@ namespace Lcobucci\JWT\Signer;
  * @author Luís Cobucci <lcobucci@gmail.com>
  * @since 4.0.0
  */
-final class NoneTest extends \PHPUnit_Framework_TestCase
+final class NoneTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

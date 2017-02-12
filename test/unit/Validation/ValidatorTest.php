@@ -9,7 +9,7 @@ namespace Lcobucci\JWT\Validation;
 
 use Lcobucci\JWT\Token;
 
-final class ValidatorTest extends \PHPUnit_Framework_TestCase
+final class ValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Token|\PHPUnit_Framework_MockObject_MockObject

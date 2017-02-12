@@ -13,7 +13,7 @@ namespace Lcobucci\JWT\Signer\Rsa;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-final class Sha512Test extends \PHPUnit_Framework_TestCase
+final class Sha512Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

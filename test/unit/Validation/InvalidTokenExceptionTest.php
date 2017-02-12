@@ -7,7 +7,7 @@
 
 namespace Lcobucci\JWT\Validation;
 
-final class InvalidTokenExceptionTest extends \PHPUnit_Framework_TestCase
+final class InvalidTokenExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
