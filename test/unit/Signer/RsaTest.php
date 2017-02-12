@@ -52,6 +52,32 @@ final class RsaTest extends \PHPUnit\Framework\TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
+    public function signShouldRaiseAnExceptionWhenKeyIsInvalid(): void
+    {
+        $key = <<<KEY
+-----BEGIN RSA PRIVATE KEY-----
+MGECAQACEQC4MRKSVsq5XnRBrJoX6+rnAgMBAAECECO8SZkgw6Yg66A6SUly/3kC
+CQDtPXZtCQWJuwIJAMbBu17GDOrFAggopfhNlFcjkwIIVjb7G+U0/TECCEERyvxP
+TWdN
+-----END RSA PRIVATE KEY-----
+KEY;
+
+        $signer = $this->getSigner();
+        $signer->sign('testing', new Key($key));
+    }
+
+    /**
+     * @test
+     *
+     * @requires extension openssl
+     *
+     * @expectedException \InvalidArgumentException
+     *
+     * @covers \Lcobucci\JWT\Signer\Rsa::sign
+     * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
+     *
+     * @uses \Lcobucci\JWT\Signer\Key
+     */
     public function signShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $signer = $this->getSigner();
