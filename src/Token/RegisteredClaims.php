@@ -17,6 +17,16 @@ namespace Lcobucci\JWT\Token;
  */
 interface RegisteredClaims
 {
+    const ALL = [
+        self::AUDIENCE,
+        self::EXPIRATION_TIME,
+        self::ID,
+        self::ISSUED_AT,
+        self::ISSUER,
+        self::NOT_BEFORE,
+        self::SUBJECT
+    ];
+
     /**
      * Identifies the recipients that the JWT is intended for
      *

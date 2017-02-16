@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
-use BadMethodCallException;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\Plain;
 
@@ -56,15 +55,13 @@ interface Builder
 
     /**
      * Configures a header item
-     *
-     * @throws BadMethodCallException When data has been already signed
      */
     public function withHeader(string $name, $value): Builder;
 
     /**
      * Configures a claim item
      *
-     * @throws BadMethodCallException When data has been already signed
+     * @throws \InvalidArgumentException When trying to set a registered claim
      */
     public function withClaim(string $name, $value): Builder;
 

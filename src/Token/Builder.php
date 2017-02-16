@@ -63,7 +63,7 @@ final class Builder implements BuilderInterface
             $audiences[] = $audience;
         }
 
-        return $this->withClaim(RegisteredClaims::AUDIENCE, $audiences);
+        return $this->setClaim(RegisteredClaims::AUDIENCE, $audiences);
     }
 
     /**
@@ -71,7 +71,7 @@ final class Builder implements BuilderInterface
      */
     public function expiresAt(int $expiration): BuilderInterface
     {
-        return $this->withClaim(RegisteredClaims::EXPIRATION_TIME, $expiration);
+        return $this->setClaim(RegisteredClaims::EXPIRATION_TIME, $expiration);
     }
 
     /**
@@ -79,7 +79,7 @@ final class Builder implements BuilderInterface
      */
     public function identifiedBy(string $id): BuilderInterface
     {
-        return $this->withClaim(RegisteredClaims::ID, $id);
+        return $this->setClaim(RegisteredClaims::ID, $id);
     }
 
     /**
@@ -87,7 +87,7 @@ final class Builder implements BuilderInterface
      */
     public function issuedAt(int $issuedAt): BuilderInterface
     {
-        return $this->withClaim(RegisteredClaims::ISSUED_AT, $issuedAt);
+        return $this->setClaim(RegisteredClaims::ISSUED_AT, $issuedAt);
     }
 
     /**
@@ -95,7 +95,7 @@ final class Builder implements BuilderInterface
      */
     public function issuedBy(string $issuer): BuilderInterface
     {
-        return $this->withClaim(RegisteredClaims::ISSUER, $issuer);
+        return $this->setClaim(RegisteredClaims::ISSUER, $issuer);
     }
 
     /**
@@ -103,7 +103,7 @@ final class Builder implements BuilderInterface
      */
     public function canOnlyBeUsedAfter(int $notBefore): BuilderInterface
     {
-        return $this->withClaim(RegisteredClaims::NOT_BEFORE, $notBefore);
+        return $this->setClaim(RegisteredClaims::NOT_BEFORE, $notBefore);
     }
 
     /**
@@ -111,7 +111,7 @@ final class Builder implements BuilderInterface
      */
     public function relatedTo(string $subject): BuilderInterface
     {
-        return $this->withClaim(RegisteredClaims::SUBJECT, $subject);
+        return $this->setClaim(RegisteredClaims::SUBJECT, $subject);
     }
 
     /**
@@ -128,6 +128,15 @@ final class Builder implements BuilderInterface
      * {@inheritdoc}
      */
     public function withClaim(string $name, $value): BuilderInterface
+    {
+        if (in_array($name, RegisteredClaims::ALL, true)) {
+            throw new \InvalidArgumentException('You should use the correct methods to set registered claims');
+        }
+
+        return $this->setClaim($name, $value);
+    }
+
+    private function setClaim(string $name, $value): BuilderInterface
     {
         $this->claims[$name] = $value;
 
