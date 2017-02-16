@@ -59,7 +59,7 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
         $builder = $this->config->createBuilder();
 
         $builder->identifiedBy('1')
-                ->canOnlyBeUsedBy('http://client.abc.com')
+                ->permittedFor('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
                 ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
                 ->getToken($this->config->getSigner(), new Key('testing'));
@@ -84,7 +84,7 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
         $builder = $this->config->createBuilder();
 
         $builder->identifiedBy('1')
-                ->canOnlyBeUsedBy('http://client.abc.com')
+                ->permittedFor('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
                 ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
                 ->getToken($this->config->getSigner(), static::$ecdsaKeys['private']);
@@ -108,7 +108,7 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
         $builder = $this->config->createBuilder();
 
         $token = $builder->identifiedBy('1')
-                         ->canOnlyBeUsedBy('http://client.abc.com')
+                         ->permittedFor('http://client.abc.com')
                          ->issuedBy('http://api.abc.com')
                          ->with('user', $user)
                          ->withHeader('jki', '1234')

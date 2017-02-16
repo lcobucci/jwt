@@ -67,14 +67,14 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses \Lcobucci\JWT\Token\Builder::__construct
      * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
+     * @covers \Lcobucci\JWT\Token\Builder::permittedFor
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByMustAppendToTheAudClaim(): void
+    public function permittedForMustAppendToTheAudClaim(): void
     {
         $builder = $this->createBuilder();
-        $builder->canOnlyBeUsedBy('test');
-        $builder->canOnlyBeUsedBy('test2');
+        $builder->permittedFor('test');
+        $builder->permittedFor('test2');
 
         self::assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
         self::assertAttributeEquals([RegisteredClaims::AUDIENCE => ['test', 'test2']], 'claims', $builder);
@@ -86,14 +86,14 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses \Lcobucci\JWT\Token\Builder::__construct
      * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
+     * @covers \Lcobucci\JWT\Token\Builder::permittedFor
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByShouldPreventDuplicatedEntries(): void
+    public function permittedForShouldPreventDuplicatedEntries(): void
     {
         $builder = $this->createBuilder();
-        $builder->canOnlyBeUsedBy('test');
-        $builder->canOnlyBeUsedBy('test');
+        $builder->permittedFor('test');
+        $builder->permittedFor('test');
 
         self::assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
         self::assertAttributeEquals([RegisteredClaims::AUDIENCE => ['test']], 'claims', $builder);
@@ -105,13 +105,13 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses \Lcobucci\JWT\Token\Builder::__construct
      * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
+     * @covers \Lcobucci\JWT\Token\Builder::permittedFor
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByCanReplicateItemOnHeader(): void
+    public function permittedForCanReplicateItemOnHeader(): void
     {
         $builder = $this->createBuilder();
-        $builder->canOnlyBeUsedBy('test', true);
+        $builder->permittedFor('test', true);
 
         self::assertAttributeEquals([RegisteredClaims::AUDIENCE => ['test']], 'claims', $builder);
 
@@ -128,14 +128,14 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses \Lcobucci\JWT\Token\Builder::__construct
      * @uses \Lcobucci\JWT\Token\Builder::with
      *
-     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
+     * @covers \Lcobucci\JWT\Token\Builder::permittedFor
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByMustKeepAFluentInterface(): void
+    public function permittedForMustKeepAFluentInterface(): void
     {
         $builder = $this->createBuilder();
 
-        self::assertSame($builder, $builder->canOnlyBeUsedBy('test'));
+        self::assertSame($builder, $builder->permittedFor('test'));
     }
 
     /**

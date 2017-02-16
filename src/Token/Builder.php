@@ -55,7 +55,7 @@ final class Builder implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function canOnlyBeUsedBy(string $audience, bool $addHeader = false): BuilderInterface
+    public function permittedFor(string $audience, bool $addHeader = false): BuilderInterface
     {
         $audiences = $this->claims[RegisteredClaims::AUDIENCE] ?? [];
 

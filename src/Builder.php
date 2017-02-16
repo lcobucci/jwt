@@ -22,7 +22,7 @@ interface Builder
     /**
      * Appends a new audience
      */
-    public function canOnlyBeUsedBy(string $audience, bool $addHeader = false): Builder;
+    public function permittedFor(string $audience, bool $addHeader = false): Builder;
 
     /**
      * Configures the expiration time
