@@ -65,10 +65,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::permittedFor
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function permittedForMustAppendToTheAudClaim(): void
     {
@@ -84,10 +83,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::permittedFor
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function permittedForShouldPreventDuplicatedEntries(): void
     {
@@ -103,33 +101,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::permittedFor
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
-     */
-    public function permittedForCanReplicateItemOnHeader(): void
-    {
-        $builder = $this->createBuilder();
-        $builder->permittedFor('test', true);
-
-        self::assertAttributeEquals([RegisteredClaims::AUDIENCE => ['test']], 'claims', $builder);
-
-        self::assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', RegisteredClaims::AUDIENCE => ['test']],
-            'headers',
-            $builder
-        );
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
-     *
-     * @covers \Lcobucci\JWT\Token\Builder::permittedFor
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function permittedForMustKeepAFluentInterface(): void
     {
@@ -142,10 +116,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::expiresAt
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function expiresAtMustChangeTheExpClaim(): void
     {
@@ -160,33 +133,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::expiresAt
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
-     */
-    public function expiresAtCanReplicateItemOnHeader(): void
-    {
-        $builder = $this->createBuilder();
-        $builder->expiresAt(2, true);
-
-        self::assertAttributeEquals([RegisteredClaims::EXPIRATION_TIME => 2], 'claims', $builder);
-
-        self::assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', RegisteredClaims::EXPIRATION_TIME => 2],
-            'headers',
-            $builder
-        );
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
-     *
-     * @covers \Lcobucci\JWT\Token\Builder::expiresAt
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function expiresAtMustKeepAFluentInterface(): void
     {
@@ -199,10 +148,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function withIdMustChangeTheJtiClaim(): void
     {
@@ -217,33 +165,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
-     */
-    public function withIdCanReplicateItemOnHeader(): void
-    {
-        $builder = $this->createBuilder();
-        $builder->identifiedBy('2', true);
-
-        self::assertAttributeEquals([RegisteredClaims::ID => '2'], 'claims', $builder);
-
-        self::assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', RegisteredClaims::ID => '2'],
-            'headers',
-            $builder
-        );
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
-     *
-     * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function withIdMustKeepAFluentInterface(): void
     {
@@ -256,10 +180,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::issuedAt
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function issuedAtMustChangeTheIatClaim(): void
     {
@@ -274,33 +197,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::issuedAt
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
-     */
-    public function issuedAtCanReplicateItemOnHeader(): void
-    {
-        $builder = $this->createBuilder();
-        $builder->issuedAt(2, true);
-
-        self::assertAttributeEquals([RegisteredClaims::ISSUED_AT => 2], 'claims', $builder);
-
-        self::assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', RegisteredClaims::ISSUED_AT => 2],
-            'headers',
-            $builder
-        );
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
-     *
-     * @covers \Lcobucci\JWT\Token\Builder::issuedAt
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function issuedAtMustKeepAFluentInterface(): void
     {
@@ -313,10 +212,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::issuedBy
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function issuedByMustChangeTheIssClaim(): void
     {
@@ -331,33 +229,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::issuedBy
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
-     */
-    public function issuedByCanReplicateItemOnHeader(): void
-    {
-        $builder = $this->createBuilder();
-        $builder->issuedBy('2', true);
-
-        self::assertAttributeEquals([RegisteredClaims::ISSUER => '2'], 'claims', $builder);
-
-        self::assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', RegisteredClaims::ISSUER => '2'],
-            'headers',
-            $builder
-        );
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
-     *
-     * @covers \Lcobucci\JWT\Token\Builder::issuedBy
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function issuedByMustKeepAFluentInterface(): void
     {
@@ -370,10 +244,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function canOnlyBeUsedAfterMustChangeTheNbfClaim(): void
     {
@@ -388,33 +261,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
-     */
-    public function canOnlyBeUsedAfterCanReplicateItemOnHeader(): void
-    {
-        $builder = $this->createBuilder();
-        $builder->canOnlyBeUsedAfter(2, true);
-
-        self::assertAttributeEquals([RegisteredClaims::NOT_BEFORE => 2], 'claims', $builder);
-
-        self::assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', RegisteredClaims::NOT_BEFORE => 2],
-            'headers',
-            $builder
-        );
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
-     *
-     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function canOnlyBeUsedAfterMustKeepAFluentInterface(): void
     {
@@ -427,10 +276,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::relatedTo
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function relatedToMustChangeTheSubClaim(): void
     {
@@ -445,33 +293,9 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::relatedTo
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
-     */
-    public function relatedToCanReplicateItemOnHeader(): void
-    {
-        $builder = $this->createBuilder();
-        $builder->relatedTo('2', true);
-
-        self::assertAttributeEquals([RegisteredClaims::SUBJECT => '2'], 'claims', $builder);
-
-        self::assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', RegisteredClaims::SUBJECT => '2'],
-            'headers',
-            $builder
-        );
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::withClaim
-     *
-     * @covers \Lcobucci\JWT\Token\Builder::relatedTo
-     * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function relatedToMustKeepAFluentInterface(): void
     {
@@ -483,9 +307,25 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
+     * @expectedException \InvalidArgumentException
+     *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
      *
      * @covers \Lcobucci\JWT\Token\Builder::withClaim
+     */
+    public function withClaimShouldRaiseExceptionWhenTryingToConfigureARegisteredClaim(): void
+    {
+        $builder = $this->createBuilder();
+        $builder->withClaim(RegisteredClaims::ISSUER, 'me');
+    }
+
+    /**
+     * @test
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
+     *
+     * @covers \Lcobucci\JWT\Token\Builder::withClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function withClaimMustConfigureTheGivenClaim(): void
     {
@@ -501,6 +341,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses \Lcobucci\JWT\Token\Builder::__construct
      *
      * @covers \Lcobucci\JWT\Token\Builder::withClaim
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function withClaimMustKeepAFluentInterface(): void
     {
@@ -515,6 +356,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses \Lcobucci\JWT\Token\Builder::__construct
      *
      * @covers \Lcobucci\JWT\Token\Builder::withHeader
+     * @covers \Lcobucci\JWT\Token\Builder::setClaim
      */
     public function withHeaderMustConfigureTheGivenClaim(): void
     {
@@ -547,6 +389,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
      * @uses \Lcobucci\JWT\Token\Builder::withClaim
+     * @uses \Lcobucci\JWT\Token\Builder::setClaim
      * @uses \Lcobucci\JWT\Signer\Key
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
