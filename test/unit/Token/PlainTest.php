@@ -138,112 +138,112 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isAllowedTo
+     * @covers \Lcobucci\JWT\Token\Plain::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function isAllowedToShouldReturnFalseWhenNoAudienceIsConfigured(): void
+    public function isPermittedForShouldReturnFalseWhenNoAudienceIsConfigured(): void
     {
         $token = $this->createToken();
 
-        self::assertFalse($token->isAllowedTo('testing'));
+        self::assertFalse($token->isPermittedFor('testing'));
     }
 
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isAllowedTo
+     * @covers \Lcobucci\JWT\Token\Plain::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function isAllowedToShouldReturnFalseWhenAudienceDoesNotMatchAsString(): void
+    public function isPermittedForShouldReturnFalseWhenAudienceDoesNotMatchAsString(): void
     {
         $token = $this->createToken(
             null,
             new DataSet([RegisteredClaims::AUDIENCE => 'test'], '')
         );
 
-        self::assertFalse($token->isAllowedTo('testing'));
+        self::assertFalse($token->isPermittedFor('testing'));
     }
 
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isAllowedTo
+     * @covers \Lcobucci\JWT\Token\Plain::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function isAllowedToShouldReturnFalseWhenAudienceDoesNotMatchAsArray(): void
+    public function isPermittedForShouldReturnFalseWhenAudienceDoesNotMatchAsArray(): void
     {
         $token = $this->createToken(
             null,
             new DataSet([RegisteredClaims::AUDIENCE => ['test', 'test2']], '')
         );
 
-        self::assertFalse($token->isAllowedTo('testing'));
+        self::assertFalse($token->isPermittedFor('testing'));
     }
 
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isAllowedTo
+     * @covers \Lcobucci\JWT\Token\Plain::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function isAllowedToShouldReturnFalseWhenAudienceTypeDoesNotMatch(): void
+    public function isPermittedForShouldReturnFalseWhenAudienceTypeDoesNotMatch(): void
     {
         $token = $this->createToken(
             null,
             new DataSet([RegisteredClaims::AUDIENCE => 10], '')
         );
 
-        self::assertFalse($token->isAllowedTo('10'));
+        self::assertFalse($token->isPermittedFor('10'));
     }
 
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isAllowedTo
+     * @covers \Lcobucci\JWT\Token\Plain::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function isAllowedToShouldReturnTrueWhenAudienceMatchesAsString(): void
+    public function isPermittedForShouldReturnTrueWhenAudienceMatchesAsString(): void
     {
         $token = $this->createToken(
             null,
             new DataSet([RegisteredClaims::AUDIENCE => 'testing'], '')
         );
 
-        self::assertTrue($token->isAllowedTo('testing'));
+        self::assertTrue($token->isPermittedFor('testing'));
     }
 
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isAllowedTo
+     * @covers \Lcobucci\JWT\Token\Plain::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function isAllowedToShouldReturnTrueWhenAudienceMatchesAsArray(): void
+    public function isPermittedForShouldReturnTrueWhenAudienceMatchesAsArray(): void
     {
         $token = $this->createToken(
             null,
             new DataSet([RegisteredClaims::AUDIENCE => ['testing', 'test']], '')
         );
 
-        self::assertTrue($token->isAllowedTo('testing'));
+        self::assertTrue($token->isPermittedFor('testing'));
     }
 
     /**

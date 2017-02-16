@@ -14,7 +14,7 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
-use Lcobucci\JWT\Validation\Constraint\AllowedTo;
+use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\ValidAt;
@@ -55,10 +55,10 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
         $builder = $this->config->createBuilder();
 
         $token = $builder->identifiedBy('1')
-                         ->canOnlyBeUsedBy('http://client.abc.com')
+                         ->permittedFor('http://client.abc.com')
                          ->issuedBy('http://api.abc.com')
                          ->expiresAt(self::CURRENT_TIME + 3000)
-                         ->with('user', $user)
+                         ->withClaim('user', $user)
                          ->getToken(new None(), new Key('test'));
 
         self::assertAttributeEquals(new Token\Signature('', ''), 'signature', $token);
@@ -101,7 +101,7 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy
-     * @covers \Lcobucci\JWT\Validation\Constraint\AllowedTo
+     * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor
      * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt
      */
@@ -109,7 +109,7 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
     {
         $constraints = [
             new IdentifiedBy('1'),
-            new AllowedTo('http://client.abc.com'),
+            new PermittedFor('http://client.abc.com'),
             new IssuedBy('http://issuer.abc.com', 'http://api.abc.com'),
             new ValidAt(new \DateTimeImmutable('@' . self::CURRENT_TIME))
         ];

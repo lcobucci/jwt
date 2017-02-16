@@ -65,16 +65,16 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
-     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
+     * @covers \Lcobucci\JWT\Token\Builder::permittedFor
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByMustAppendToTheAudClaim(): void
+    public function permittedForMustAppendToTheAudClaim(): void
     {
         $builder = $this->createBuilder();
-        $builder->canOnlyBeUsedBy('test');
-        $builder->canOnlyBeUsedBy('test2');
+        $builder->permittedFor('test');
+        $builder->permittedFor('test2');
 
         self::assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
         self::assertAttributeEquals([RegisteredClaims::AUDIENCE => ['test', 'test2']], 'claims', $builder);
@@ -84,16 +84,16 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
-     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
+     * @covers \Lcobucci\JWT\Token\Builder::permittedFor
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByShouldPreventDuplicatedEntries(): void
+    public function permittedForShouldPreventDuplicatedEntries(): void
     {
         $builder = $this->createBuilder();
-        $builder->canOnlyBeUsedBy('test');
-        $builder->canOnlyBeUsedBy('test');
+        $builder->permittedFor('test');
+        $builder->permittedFor('test');
 
         self::assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
         self::assertAttributeEquals([RegisteredClaims::AUDIENCE => ['test']], 'claims', $builder);
@@ -103,15 +103,15 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
-     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
+     * @covers \Lcobucci\JWT\Token\Builder::permittedFor
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByCanReplicateItemOnHeader(): void
+    public function permittedForCanReplicateItemOnHeader(): void
     {
         $builder = $this->createBuilder();
-        $builder->canOnlyBeUsedBy('test', true);
+        $builder->permittedFor('test', true);
 
         self::assertAttributeEquals([RegisteredClaims::AUDIENCE => ['test']], 'claims', $builder);
 
@@ -126,23 +126,23 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
-     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedBy
+     * @covers \Lcobucci\JWT\Token\Builder::permittedFor
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByMustKeepAFluentInterface(): void
+    public function permittedForMustKeepAFluentInterface(): void
     {
         $builder = $this->createBuilder();
 
-        self::assertSame($builder, $builder->canOnlyBeUsedBy('test'));
+        self::assertSame($builder, $builder->permittedFor('test'));
     }
 
     /**
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::expiresAt
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -160,7 +160,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::expiresAt
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -183,7 +183,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::expiresAt
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -199,7 +199,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -217,7 +217,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -240,7 +240,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -256,7 +256,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::issuedAt
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -274,7 +274,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::issuedAt
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -297,7 +297,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::issuedAt
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -313,7 +313,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::issuedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -331,7 +331,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::issuedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -354,7 +354,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::issuedBy
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -370,7 +370,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -388,7 +388,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -411,7 +411,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -427,7 +427,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::relatedTo
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -445,7 +445,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::relatedTo
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -468,7 +468,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @covers \Lcobucci\JWT\Token\Builder::relatedTo
      * @covers \Lcobucci\JWT\Token\Builder::setRegisteredClaim
@@ -485,12 +485,12 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
      *
-     * @covers \Lcobucci\JWT\Token\Builder::with
+     * @covers \Lcobucci\JWT\Token\Builder::withClaim
      */
-    public function withMustConfigureTheGivenClaim(): void
+    public function withClaimMustConfigureTheGivenClaim(): void
     {
         $builder = $this->createBuilder();
-        $builder->with('userId', 2);
+        $builder->withClaim('userId', 2);
 
         self::assertAttributeEquals(['userId' => 2], 'claims', $builder);
     }
@@ -500,13 +500,13 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
      *
-     * @covers \Lcobucci\JWT\Token\Builder::with
+     * @covers \Lcobucci\JWT\Token\Builder::withClaim
      */
-    public function withMustKeepAFluentInterface(): void
+    public function withClaimMustKeepAFluentInterface(): void
     {
         $builder = $this->createBuilder();
 
-        self::assertSame($builder, $builder->with('userId', 2));
+        self::assertSame($builder, $builder->withClaim('userId', 2));
     }
 
     /**
@@ -546,7 +546,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
-     * @uses \Lcobucci\JWT\Token\Builder::with
+     * @uses \Lcobucci\JWT\Token\Builder::withClaim
      * @uses \Lcobucci\JWT\Signer\Key
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -569,7 +569,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
                       ->withConsecutive(['1'], ['2'], ['testing'])
                       ->willReturnOnConsecutiveCalls('1', '2', '3');
 
-        $builder = $this->createBuilder()->with('test', 123);
+        $builder = $this->createBuilder()->withClaim('test', 123);
         $token = $builder->getToken($this->signer, new Key('123'));
 
         self::assertSame('JWT', $token->headers()->get('typ'));

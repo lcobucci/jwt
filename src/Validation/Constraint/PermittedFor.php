@@ -18,7 +18,7 @@ use Lcobucci\JWT\Validation\Constraint;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 4.0.0
  */
-final class AllowedTo implements Constraint
+final class PermittedFor implements Constraint
 {
     /**
      * @var string
@@ -35,7 +35,7 @@ final class AllowedTo implements Constraint
      */
     public function assert(Token $token): void
     {
-        if (!$token->isAllowedTo($this->audience)) {
+        if (!$token->isPermittedFor($this->audience)) {
             throw new ConstraintViolationException(
                 'The token is not allowed to be used by this audience'
             );

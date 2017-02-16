@@ -22,7 +22,7 @@ interface Builder
     /**
      * Appends a new audience
      */
-    public function canOnlyBeUsedBy(string $audience, bool $addHeader = false): Builder;
+    public function permittedFor(string $audience, bool $addHeader = false): Builder;
 
     /**
      * Configures the expiration time
@@ -66,7 +66,7 @@ interface Builder
      *
      * @throws BadMethodCallException When data has been already signed
      */
-    public function with(string $name, $value): Builder;
+    public function withClaim(string $name, $value): Builder;
 
     /**
      * Returns a signed token to be used
