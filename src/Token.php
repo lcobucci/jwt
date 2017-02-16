@@ -28,7 +28,7 @@ interface Token
     /**
      * Returns if the token is allowed to be used by the audience
      */
-    public function isAllowedTo(string $audience): bool;
+    public function isPermittedFor(string $audience): bool;
 
     /**
      * Returns if the token has the given id
