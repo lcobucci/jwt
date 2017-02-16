@@ -55,7 +55,7 @@ final class Builder implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function permittedFor(string $audience, bool $addHeader = false): BuilderInterface
+    public function permittedFor(string $audience): BuilderInterface
     {
         $audiences = $this->claims[RegisteredClaims::AUDIENCE] ?? [];
 
@@ -63,69 +63,55 @@ final class Builder implements BuilderInterface
             $audiences[] = $audience;
         }
 
-        return $this->setRegisteredClaim(RegisteredClaims::AUDIENCE, $audiences, $addHeader);
+        return $this->withClaim(RegisteredClaims::AUDIENCE, $audiences);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function expiresAt(int $expiration, bool $addHeader = false): BuilderInterface
+    public function expiresAt(int $expiration): BuilderInterface
     {
-        return $this->setRegisteredClaim(RegisteredClaims::EXPIRATION_TIME, $expiration, $addHeader);
+        return $this->withClaim(RegisteredClaims::EXPIRATION_TIME, $expiration);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function identifiedBy(string $id, bool $addHeader = false): BuilderInterface
+    public function identifiedBy(string $id): BuilderInterface
     {
-        return $this->setRegisteredClaim(RegisteredClaims::ID, $id, $addHeader);
+        return $this->withClaim(RegisteredClaims::ID, $id);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function issuedAt(int $issuedAt, bool $addHeader = false): BuilderInterface
+    public function issuedAt(int $issuedAt): BuilderInterface
     {
-        return $this->setRegisteredClaim(RegisteredClaims::ISSUED_AT, (int) $issuedAt, $addHeader);
+        return $this->withClaim(RegisteredClaims::ISSUED_AT, $issuedAt);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function issuedBy(string $issuer, bool $addHeader = false): BuilderInterface
+    public function issuedBy(string $issuer): BuilderInterface
     {
-        return $this->setRegisteredClaim(RegisteredClaims::ISSUER, $issuer, $addHeader);
+        return $this->withClaim(RegisteredClaims::ISSUER, $issuer);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function canOnlyBeUsedAfter(int $notBefore, bool $addHeader = false): BuilderInterface
+    public function canOnlyBeUsedAfter(int $notBefore): BuilderInterface
     {
-        return $this->setRegisteredClaim(RegisteredClaims::NOT_BEFORE, $notBefore, $addHeader);
+        return $this->withClaim(RegisteredClaims::NOT_BEFORE, $notBefore);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function relatedTo(string $subject, bool $addHeader = false): BuilderInterface
+    public function relatedTo(string $subject): BuilderInterface
     {
-        return $this->setRegisteredClaim(RegisteredClaims::SUBJECT, $subject, $addHeader);
-    }
-
-    /**
-     * Configures a registered claim
-     */
-    private function setRegisteredClaim(string $name, $value, bool $addHeader): BuilderInterface
-    {
-        $this->withClaim($name, $value);
-
-        if ($addHeader) {
-            $this->headers[$name] = $this->claims[$name];
-        }
-
-        return $this;
+        return $this->withClaim(RegisteredClaims::SUBJECT, $subject);
     }
 
     /**

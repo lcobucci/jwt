@@ -22,37 +22,37 @@ interface Builder
     /**
      * Appends a new audience
      */
-    public function permittedFor(string $audience, bool $addHeader = false): Builder;
+    public function permittedFor(string $audience): Builder;
 
     /**
      * Configures the expiration time
      */
-    public function expiresAt(int $expiration, bool $addHeader = false): Builder;
+    public function expiresAt(int $expiration): Builder;
 
     /**
      * Configures the token id
      */
-    public function identifiedBy(string $id, bool $addHeader = false): Builder;
+    public function identifiedBy(string $id): Builder;
 
     /**
      * Configures the time that the token was issued
      */
-    public function issuedAt(int $issuedAt, bool $addHeader = false): Builder;
+    public function issuedAt(int $issuedAt): Builder;
 
     /**
      * Configures the issuer
      */
-    public function issuedBy(string $issuer, bool $addHeader = false): Builder;
+    public function issuedBy(string $issuer): Builder;
 
     /**
      * Configures the time before which the token cannot be accepted
      */
-    public function canOnlyBeUsedAfter(int $notBefore, bool $addHeader = false): Builder;
+    public function canOnlyBeUsedAfter(int $notBefore): Builder;
 
     /**
      * Configures the subject
      */
-    public function relatedTo(string $subject, bool $addHeader = false): Builder;
+    public function relatedTo(string $subject): Builder;
 
     /**
      * Configures a header item
