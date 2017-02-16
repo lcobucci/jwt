@@ -18,7 +18,7 @@ use Lcobucci\JWT\Validation\Constraint;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 4.0.0
  */
-final class AllowedTo implements Constraint
+final class PermittedFor implements Constraint
 {
     /**
      * @var string
