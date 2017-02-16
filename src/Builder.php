@@ -66,7 +66,7 @@ interface Builder
      *
      * @throws BadMethodCallException When data has been already signed
      */
-    public function with(string $name, $value): Builder;
+    public function withClaim(string $name, $value): Builder;
 
     /**
      * Returns a signed token to be used

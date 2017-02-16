@@ -57,7 +57,7 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
         $token = $builder->identifiedBy('1')
                          ->permittedFor('http://client.abc.com')
                          ->issuedBy('http://api.abc.com')
-                         ->with('user', $user)
+                         ->withClaim('user', $user)
                          ->withHeader('jki', '1234')
                          ->getToken($this->config->getSigner(), new Key('testing'));
 

@@ -119,7 +119,7 @@ final class Builder implements BuilderInterface
      */
     private function setRegisteredClaim(string $name, $value, bool $addHeader): BuilderInterface
     {
-        $this->with($name, $value);
+        $this->withClaim($name, $value);
 
         if ($addHeader) {
             $this->headers[$name] = $this->claims[$name];
@@ -141,7 +141,7 @@ final class Builder implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function with(string $name, $value): BuilderInterface
+    public function withClaim(string $name, $value): BuilderInterface
     {
         $this->claims[$name] = $value;
 

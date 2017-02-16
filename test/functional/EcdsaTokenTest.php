@@ -64,7 +64,7 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
         $builder->identifiedBy('1')
                 ->permittedFor('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
-                ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
+                ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
                 ->getToken($this->config->getSigner(), new Key('testing'));
     }
 
@@ -92,7 +92,7 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
         $builder->identifiedBy('1')
                 ->permittedFor('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
-                ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
+                ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
                 ->getToken($this->config->getSigner(), static::$rsaKeys['private']);
     }
 
@@ -120,7 +120,7 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
                          ->permittedFor('http://client.abc.com')
                          ->permittedFor('http://client2.abc.com')
                          ->issuedBy('http://api.abc.com')
-                         ->with('user', $user)
+                         ->withClaim('user', $user)
                          ->withHeader('jki', '1234')
                          ->getToken($this->config->getSigner(), static::$ecdsaKeys['private']);
 
@@ -314,7 +314,7 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
         $token = $builder->identifiedBy('1')
                          ->permittedFor('http://client.abc.com')
                          ->issuedBy('http://api.abc.com')
-                         ->with('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
+                         ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
                          ->withHeader('jki', '1234')
                          ->getToken($signer, static::$ecdsaKeys['private-params']);
 
