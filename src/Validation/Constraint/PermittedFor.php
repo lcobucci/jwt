@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Validation\Constraint;
 
-use DateTimeInterface;
 use Lcobucci\JWT\Validation\ConstraintViolationException;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;

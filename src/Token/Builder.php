@@ -13,7 +13,6 @@ use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Builder as BuilderInterface;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Token as TokenInterface;
 
 /**
  * This class makes easier the token creation process
