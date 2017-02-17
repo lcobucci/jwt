@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
+use DateTimeImmutable;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\Plain;
 
@@ -26,7 +27,7 @@ interface Builder
     /**
      * Configures the expiration time
      */
-    public function expiresAt(int $expiration): Builder;
+    public function expiresAt(DateTimeImmutable $expiration): Builder;
 
     /**
      * Configures the token id
@@ -36,7 +37,7 @@ interface Builder
     /**
      * Configures the time that the token was issued
      */
-    public function issuedAt(int $issuedAt): Builder;
+    public function issuedAt(DateTimeImmutable $issuedAt): Builder;
 
     /**
      * Configures the issuer
@@ -46,7 +47,7 @@ interface Builder
     /**
      * Configures the time before which the token cannot be accepted
      */
-    public function canOnlyBeUsedAfter(int $notBefore): Builder;
+    public function canOnlyBeUsedAfter(DateTimeImmutable $notBefore): Builder;
 
     /**
      * Configures the subject
