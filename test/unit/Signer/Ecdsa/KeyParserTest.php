@@ -12,7 +12,6 @@ namespace Lcobucci\JWT\Signer\Ecdsa;
 use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
 use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
 use Mdanter\Ecc\Math\GmpMathInterface;
-use Mdanter\Ecc\Math\MathAdapterInterface;
 use Mdanter\Ecc\Serializer\PrivateKey\PrivateKeySerializerInterface;
 use Mdanter\Ecc\Serializer\PublicKey\PublicKeySerializerInterface;
 use Lcobucci\JWT\Signer\Key;

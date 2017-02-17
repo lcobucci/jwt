@@ -12,8 +12,6 @@ namespace Lcobucci\JWT;
 use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
-use Lcobucci\JWT\Token;
-use Lcobucci\JWT\Validation;
 
 /**
  * Configuration container for the JWT Builder and Parser
