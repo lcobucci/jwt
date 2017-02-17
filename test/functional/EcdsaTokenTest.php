@@ -36,8 +36,11 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function createConfiguration(): void
     {
-        $this->config = new Configuration();
-        $this->config->setSigner(Sha256::create());
+        $this->config = Configuration::forAsymmetricSigner(
+            Sha256::create(),
+            static::$ecdsaKeys['private'],
+            static::$ecdsaKeys['public1']
+        );
     }
 
     /**
@@ -122,7 +125,7 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
                          ->issuedBy('http://api.abc.com')
                          ->withClaim('user', $user)
                          ->withHeader('jki', '1234')
-                         ->getToken($this->config->getSigner(), static::$ecdsaKeys['private']);
+                         ->getToken($this->config->getSigner(), $this->config->getSigningKey());
 
         self::assertAttributeInstanceOf(Signature::class, 'signature', $token);
         self::assertEquals('1234', $token->headers()->get('jki'));
@@ -283,7 +286,7 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
     {
         $constraint = new SignedWith(
             $this->config->getSigner(),
-            static::$ecdsaKeys['public1']
+            $this->config->getVerificationKey()
         );
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));

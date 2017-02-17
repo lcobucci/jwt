@@ -36,8 +36,11 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function createConfiguration(): void
     {
-        $this->config = new Configuration();
-        $this->config->setSigner(new Sha256());
+        $this->config = Configuration::forAsymmetricSigner(
+            new Sha256(),
+            static::$rsaKeys['private'],
+            static::$rsaKeys['public']
+        );
     }
 
     /**
@@ -112,7 +115,7 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
                          ->issuedBy('http://api.abc.com')
                          ->withClaim('user', $user)
                          ->withHeader('jki', '1234')
-                         ->getToken($this->config->getSigner(), static::$rsaKeys['private']);
+                         ->getToken($this->config->getSigner(), $this->config->getSigningKey());
 
         self::assertAttributeInstanceOf(Signature::class, 'signature', $token);
         self::assertEquals('1234', $token->headers()->get('jki'));
@@ -196,7 +199,7 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
     {
         $this->config->getValidator()->assert(
             $token,
-            new SignedWith(new Sha512(), self::$rsaKeys['public'])
+            new SignedWith(new Sha512(), $this->config->getVerificationKey())
         );
     }
 
@@ -252,7 +255,7 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function signatureValidationShouldSucceedWhenKeyIsRight(Token $token): void
     {
-        $constraint = new SignedWith($this->config->getSigner(), self::$rsaKeys['public']);
+        $constraint = new SignedWith($this->config->getSigner(), $this->config->getVerificationKey());
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));
     }
@@ -282,7 +285,7 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
                 . '98ljwDxwhfbSuL2tAdbV4DekbTpWzspe3dOJ7RSzmPKVZ6NoezaIazKqyqkmHZfcMaHI1lQeGia6LTbHU1bp0gINi74Vw';
 
         $token = $this->config->getParser()->parse((string) $data);
-        $constraint = new SignedWith($this->config->getSigner(), self::$rsaKeys['public']);
+        $constraint = new SignedWith($this->config->getSigner(), $this->config->getVerificationKey());
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));
         self::assertEquals('world', $token->claims()->get('hello'));

@@ -14,7 +14,6 @@ use Lcobucci\JWT\Signer\Ecdsa\Sha512 as ES512;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HS512;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
-use Lcobucci\JWT\Validation\InvalidTokenException;
 
 final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
 {
@@ -30,9 +29,20 @@ final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
      */
     public function createConfiguration(): void
     {
-        $this->config = new Configuration();
-        $this->config->setSigner(ES512::create());
+        $this->config = Configuration::forAsymmetricSigner(
+            ES512::create(),
+            new Key('my-private-key'),
+            new Key(
+                '-----BEGIN PUBLIC KEY-----' . PHP_EOL
+                . 'MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAcpkss6wI7PPlxj3t7A1RqMH3nvL4' . PHP_EOL
+                . 'L5Tzxze/XeeYZnHqxiX+gle70DlGRMqqOq+PJ6RYX7vK0PJFdiAIXlyPQq0B3KaU' . PHP_EOL
+                . 'e86IvFeQSFrJdCc0K8NfiH2G1loIk3fiR+YLqlXk6FAeKtpXJKxR1pCQCAM+vBCs' . PHP_EOL
+                . 'mZudf1zCUZ8/4eodlHU=' . PHP_EOL
+                . '-----END PUBLIC KEY-----'
+            )
+        );
     }
+
     /**
      * @test
      *
@@ -61,17 +71,8 @@ final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
             . 'TSQ91oEXGXBdtwsN6yalzP9J-sp2YATX_Tv4h-BednbdSvYxZsYnUoZ--ZU'
             . 'dL10t7g8Yt3y9hdY_diOjIptcha6ajX8yzkDGYG42iSe3f5LywSuD6FO5c';
 
-        $key = new Key(
-            '-----BEGIN PUBLIC KEY-----' . PHP_EOL
-            . 'MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAcpkss6wI7PPlxj3t7A1RqMH3nvL4' . PHP_EOL
-            . 'L5Tzxze/XeeYZnHqxiX+gle70DlGRMqqOq+PJ6RYX7vK0PJFdiAIXlyPQq0B3KaU' . PHP_EOL
-            . 'e86IvFeQSFrJdCc0K8NfiH2G1loIk3fiR+YLqlXk6FAeKtpXJKxR1pCQCAM+vBCs' . PHP_EOL
-            . 'mZudf1zCUZ8/4eodlHU=' . PHP_EOL
-            . '-----END PUBLIC KEY-----'
-        );
-
         // Let's let the attacker tamper with our message!
-        $bad = $this->createMaliciousToken($data, $key);
+        $bad = $this->createMaliciousToken($data);
 
         /**
          * At this point, we have our forged message in $bad for testing...
@@ -86,25 +87,20 @@ final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
         $validator = $this->config->getValidator();
 
         self::assertFalse(
-            $validator->validate($token, new SignedWith(new HS512(), $key)),
+            $validator->validate($token, new SignedWith(new HS512(), $this->config->getVerificationKey())),
             'Using the attackers signer should make things unsafe'
         );
 
         self::assertFalse(
-            $validator->validate($token, new SignedWith($this->config->getSigner(), $key)),
+            $validator->validate($token, new SignedWith($this->config->getSigner(), $this->config->getVerificationKey())),
             'But we know which Signer should be used so the attack fails'
         );
     }
 
     /**
      * @ref https://auth0.com/blog/2015/03/31/critical-vulnerabilities-in-json-web-token-libraries/
-     *
-     * @param string $token
-     * @param Key $key
-     *
-     * @return string
      */
-    private function createMaliciousToken(string $token, Key $key): string
+    private function createMaliciousToken(string $token): string
     {
         $dec = new Parser();
         $asplode = explode('.', $token);
@@ -116,7 +112,7 @@ final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
         $hmac = hash_hmac(
             'sha512',
             $asplode[0] . '.' . $asplode[1],
-            $key->getContent(),
+            $this->config->getVerificationKey()->getContent(),
             true
         );
 
