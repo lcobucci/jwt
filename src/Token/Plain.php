@@ -88,7 +88,7 @@ final class Plain implements TokenInterface
      */
     public function isPermittedFor(string $audience): bool
     {
-        return in_array($audience, (array) $this->claims->get(RegisteredClaims::AUDIENCE), true);
+        return in_array($audience, $this->claims->get(RegisteredClaims::AUDIENCE, []), true);
     }
 
     /**

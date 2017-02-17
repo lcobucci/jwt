@@ -93,6 +93,10 @@ final class Parser implements ParserInterface
     {
         $claims = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
+        if (isset($claims[RegisteredClaims::AUDIENCE])) {
+            $claims[RegisteredClaims::AUDIENCE] = (array) $claims[RegisteredClaims::AUDIENCE];
+        }
+
         foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
             $claims[$claim] = $this->convertDate((string) $claims[$claim]);
         }

@@ -82,22 +82,4 @@ final class PermittedForTest extends ConstraintTestCase
 
         self::assertNull($constraint->assert($token));
     }
-
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor::assert
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
-    public function assertShouldNotRaiseExceptionWhenAudienceMatchesAsString(): void
-    {
-        $token = $this->buildToken([RegisteredClaims::AUDIENCE => 'test.com']);
-        $constraint = new PermittedFor('test.com');
-
-        self::assertNull($constraint->assert($token));
-    }
 }

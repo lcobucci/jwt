@@ -160,25 +160,6 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function isPermittedForShouldReturnFalseWhenAudienceDoesNotMatchAsString(): void
-    {
-        $token = $this->createToken(
-            null,
-            new DataSet([RegisteredClaims::AUDIENCE => 'test'], '')
-        );
-
-        self::assertFalse($token->isPermittedFor('testing'));
-    }
-
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::isPermittedFor
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
     public function isPermittedForShouldReturnFalseWhenAudienceDoesNotMatchAsArray(): void
     {
         $token = $this->createToken(
@@ -202,29 +183,10 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
     {
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::AUDIENCE => 10], '')
+            new DataSet([RegisteredClaims::AUDIENCE => [10]], '')
         );
 
         self::assertFalse($token->isPermittedFor('10'));
-    }
-
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::isPermittedFor
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
-    public function isPermittedForShouldReturnTrueWhenAudienceMatchesAsString(): void
-    {
-        $token = $this->createToken(
-            null,
-            new DataSet([RegisteredClaims::AUDIENCE => 'testing'], '')
-        );
-
-        self::assertTrue($token->isPermittedFor('testing'));
     }
 
     /**
