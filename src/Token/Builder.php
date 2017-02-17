@@ -173,6 +173,10 @@ final class Builder implements BuilderInterface
 
     private function formatClaims(array $claims): array
     {
+        if (isset($claims[RegisteredClaims::AUDIENCE][0]) && !isset($claims[RegisteredClaims::AUDIENCE][1])) {
+            $claims[RegisteredClaims::AUDIENCE] = $claims[RegisteredClaims::AUDIENCE][0];
+        }
+
         foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
             $claims[$claim] = $this->convertDate($claims[$claim]);
         }
