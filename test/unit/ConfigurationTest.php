@@ -143,7 +143,6 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
      * @uses \Lcobucci\JWT\Token\Builder
-     * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -166,7 +165,6 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
@@ -189,12 +187,11 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
      */
-    public function getParserShouldReturnAParserWithCustomizedDecoderAndClaimFactory(): void
+    public function getParserShouldReturnAParserWithCustomizedDecoder(): void
     {
         $config = Configuration::forUnsecuredSigner();
         $config->setDecoder($this->decoder);
@@ -213,7 +210,6 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
@@ -233,8 +229,6 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      *
      * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Token\Builder
-     * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -290,8 +284,6 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Token\Builder
-     * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -311,8 +303,6 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Token\Builder
-     * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
      */
