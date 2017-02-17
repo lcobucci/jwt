@@ -33,8 +33,7 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function createConfiguration(): void
     {
-        $this->config = new Configuration();
-        $this->config->setSigner(new Sha256());
+        $this->config = Configuration::forSymmetricSigner(new Sha256(), new Key('testing'));
     }
 
     /**
@@ -59,7 +58,7 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
                          ->issuedBy('http://api.abc.com')
                          ->withClaim('user', $user)
                          ->withHeader('jki', '1234')
-                         ->getToken($this->config->getSigner(), new Key('testing'));
+                         ->getToken($this->config->getSigner(), $this->config->getSigningKey());
 
         self::assertAttributeInstanceOf(Signature::class, 'signature', $token);
         self::assertEquals('1234', $token->headers()->get('jki'));
@@ -81,6 +80,7 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
+     * @covers \Lcobucci\JWT\Signer\Key
      */
     public function parserCanReadAToken(Token $generated): void
     {
@@ -143,7 +143,7 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
     {
         $this->config->getValidator()->assert(
             $token,
-            new SignedWith(new Sha512(), new Key('testing'))
+            new SignedWith(new Sha512(), $this->config->getVerificationKey())
         );
     }
 
@@ -166,7 +166,7 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function signatureValidationShouldSucceedWhenKeyIsRight(Token $token): void
     {
-        $constraint = new SignedWith($this->config->getSigner(), new Key('testing'));
+        $constraint = new SignedWith($this->config->getSigner(), $this->config->getVerificationKey());
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));
     }
@@ -192,7 +192,7 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
                 . '7AEgqCB7zae1PkgIlvOpeyw9Ab8NGTbeOH7heHO0o';
 
         $token = $this->config->getParser()->parse((string) $data);
-        $constraint = new SignedWith($this->config->getSigner(), new Key('testing'));
+        $constraint = new SignedWith($this->config->getSigner(), $this->config->getVerificationKey());
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));
         self::assertEquals('world', $token->claims()->get('hello'));

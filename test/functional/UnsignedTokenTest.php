@@ -10,13 +10,11 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
-use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolationException;
 
@@ -38,7 +36,7 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function createConfiguration(): void
     {
-        $this->config = new Configuration();
+        $this->config = Configuration::forUnsecuredSigner();
     }
 
     /**
@@ -48,6 +46,9 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
+     * @covers \Lcobucci\JWT\Token\Signature
+     * @covers \Lcobucci\JWT\Signer\None
+     * @covers \Lcobucci\JWT\Signer\Key
      */
     public function builderCanGenerateAToken(): Token
     {
@@ -59,7 +60,7 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
                          ->issuedBy('http://api.abc.com')
                          ->expiresAt(self::CURRENT_TIME + 3000)
                          ->withClaim('user', $user)
-                         ->getToken(new None(), new Key('test'));
+                         ->getToken($this->config->getSigner(), $this->config->getSigningKey());
 
         self::assertAttributeEquals(new Token\Signature('', ''), 'signature', $token);
         self::assertEquals(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
@@ -80,6 +81,9 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
+     * @covers \Lcobucci\JWT\Token\Signature
+     * @covers \Lcobucci\JWT\Signer\None
+     * @covers \Lcobucci\JWT\Signer\Key
      */
     public function parserCanReadAToken(Token $generated): void
     {
@@ -99,13 +103,16 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
+     * @covers \Lcobucci\JWT\Token\Signature
+     * @covers \Lcobucci\JWT\Signer\None
+     * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy
      * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor
      * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt
      */
-    public function tokenValidationShouldPassEverythingIsFine(Token $generated): void
+    public function tokenValidationShouldPassWhenEverythingIsFine(Token $generated): void
     {
         $constraints = [
             new IdentifiedBy('1'),
@@ -127,6 +134,9 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
+     * @covers \Lcobucci\JWT\Token\Signature
+     * @covers \Lcobucci\JWT\Signer\None
+     * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Validation\Validator
      */
     public function tokenValidationShouldAllowCustomConstraint(Token $generated): void
@@ -146,6 +156,9 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
+     * @covers \Lcobucci\JWT\Token\Signature
+     * @covers \Lcobucci\JWT\Signer\None
+     * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\InvalidTokenException
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy

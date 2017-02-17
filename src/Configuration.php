@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use Lcobucci\Jose\Parsing;
+use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation;
@@ -31,9 +32,19 @@ final class Configuration
     private $parser;
 
     /**
-     * @var Signer|null
+     * @var Signer
      */
     private $signer;
+
+    /**
+     * @var Key
+     */
+    private $signingKey;
+
+    /**
+     * @var Key
+     */
+    private $verificationKey;
 
     /**
      * @var Parsing\Encoder|null
@@ -49,6 +60,36 @@ final class Configuration
      * @var Validator|null
      */
     private $validator;
+
+    public static function forAsymmetricSigner(
+        Signer $signer,
+        Key $signingKey,
+        Key $verificationKey
+    ): self {
+        return new self($signer, $signingKey, $verificationKey);
+    }
+
+    public static function forSymmetricSigner(Signer $signer, Key $key): self
+    {
+        return new self($signer, $key, $key);
+    }
+
+    public static function forUnsecuredSigner(): self
+    {
+        $key = new Key('');
+
+        return new self(new None(), $key, $key);
+    }
+
+    private function __construct(
+        Signer $signer,
+        Key $signingKey,
+        Key $verificationKey
+    ) {
+        $this->signer = $signer;
+        $this->signingKey = $signingKey;
+        $this->verificationKey = $verificationKey;
+    }
 
     public function createBuilder(): Builder
     {
@@ -71,16 +112,17 @@ final class Configuration
 
     public function getSigner(): Signer
     {
-        if ($this->signer === null) {
-            $this->signer = new None();
-        }
-
         return $this->signer;
     }
 
-    public function setSigner(Signer $signer): void
+    public function getSigningKey(): Key
     {
-        $this->signer = $signer;
+        return $this->signingKey;
+    }
+
+    public function getVerificationKey(): Key
+    {
+        return $this->verificationKey;
     }
 
     private function getEncoder(): Parsing\Encoder
