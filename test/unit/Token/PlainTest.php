@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
-use DateTime;
+use DateTimeImmutable;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -440,7 +440,7 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
     {
         $token = $this->createToken();
 
-        self::assertTrue($token->hasBeenIssuedBefore(new DateTime()));
+        self::assertTrue($token->hasBeenIssuedBefore(new DateTimeImmutable()));
     }
 
     /**
@@ -454,10 +454,10 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsBeforeThanNow(): void
     {
-        $now = new DateTime();
+        $now = new DateTimeImmutable();
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::ISSUED_AT => $now->getTimestamp() - 100], '')
+            new DataSet([RegisteredClaims::ISSUED_AT => $now->modify('-100 seconds')], '')
         );
 
         self::assertTrue($token->hasBeenIssuedBefore($now));
@@ -474,10 +474,10 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsEqualsToNow(): void
     {
-        $now = new DateTime();
+        $now = new DateTimeImmutable();
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::ISSUED_AT => $now->getTimestamp()], '')
+            new DataSet([RegisteredClaims::ISSUED_AT => $now], '')
         );
 
         self::assertTrue($token->hasBeenIssuedBefore($now));
@@ -494,10 +494,10 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function hasBeenIssuedBeforeShouldReturnFalseWhenIssueTimeIsGreaterThanNow(): void
     {
-        $now = new DateTime();
+        $now = new DateTimeImmutable();
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::ISSUED_AT => $now->getTimestamp() + 100], '')
+            new DataSet([RegisteredClaims::ISSUED_AT => $now->modify('+100 seconds')], '')
         );
 
         self::assertFalse($token->hasBeenIssuedBefore($now));
@@ -516,7 +516,7 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
     {
         $token = $this->createToken();
 
-        self::assertTrue($token->isMinimumTimeBefore(new DateTime()));
+        self::assertTrue($token->isMinimumTimeBefore(new DateTimeImmutable()));
     }
 
     /**
@@ -530,10 +530,10 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsBeforeThanNow(): void
     {
-        $now = new DateTime();
+        $now = new DateTimeImmutable();
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::NOT_BEFORE => $now->getTimestamp() - 100], '')
+            new DataSet([RegisteredClaims::NOT_BEFORE => $now->modify('-100 seconds')], '')
         );
 
         self::assertTrue($token->isMinimumTimeBefore($now));
@@ -550,10 +550,10 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsEqualsToNow(): void
     {
-        $now = new DateTime();
+        $now = new DateTimeImmutable();
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::NOT_BEFORE => $now->getTimestamp()], '')
+            new DataSet([RegisteredClaims::NOT_BEFORE => $now], '')
         );
 
         self::assertTrue($token->isMinimumTimeBefore($now));
@@ -570,10 +570,10 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function isMinimumTimeBeforeShouldReturnFalseWhenNotBeforeClaimIsGreaterThanNow(): void
     {
-        $now = new DateTime();
+        $now = new DateTimeImmutable();
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::NOT_BEFORE => $now->getTimestamp() + 100], '')
+            new DataSet([RegisteredClaims::NOT_BEFORE => $now->modify('100 seconds')], '')
         );
 
         self::assertFalse($token->isMinimumTimeBefore($now));
@@ -592,7 +592,7 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
     {
         $token = $this->createToken();
 
-        self::assertFalse($token->isExpired(new DateTime()));
+        self::assertFalse($token->isExpired(new DateTimeImmutable()));
     }
 
     /**
@@ -606,12 +606,14 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function isExpiredShouldReturnFalseWhenTokenIsNotExpired(): void
     {
+        $now = new DateTimeImmutable();
+
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::EXPIRATION_TIME => time() + 500], '')
+            new DataSet([RegisteredClaims::EXPIRATION_TIME => $now->modify('+500 seconds')], '')
         );
 
-        self::assertFalse($token->isExpired(new DateTime()));
+        self::assertFalse($token->isExpired($now));
     }
 
     /**
@@ -625,10 +627,11 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function isExpiredShouldReturnFalseWhenExpirationIsEqualsToNow(): void
     {
-        $now = new DateTime();
+        $now = new DateTimeImmutable();
+
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::EXPIRATION_TIME => $now->getTimestamp()], '')
+            new DataSet([RegisteredClaims::EXPIRATION_TIME => $now], '')
         );
 
         self::assertFalse($token->isExpired($now));
@@ -645,12 +648,14 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function isExpiredShouldReturnTrueAfterTokenExpires(): void
     {
+        $now = new DateTimeImmutable();
+
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::EXPIRATION_TIME => time()], '')
+            new DataSet([RegisteredClaims::EXPIRATION_TIME => $now], '')
         );
 
-        self::assertTrue($token->isExpired(new DateTime('+10 days')));
+        self::assertTrue($token->isExpired($now->modify('+10 days')));
     }
 
     /**

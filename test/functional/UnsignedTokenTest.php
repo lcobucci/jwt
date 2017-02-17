@@ -117,13 +117,11 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function tokenValidationShouldPassWhenEverythingIsFine(Token $generated): void
     {
-        self::markTestSkipped('API being refactored');
-
         $constraints = [
             new IdentifiedBy('1'),
             new PermittedFor('http://client.abc.com'),
             new IssuedBy('http://issuer.abc.com', 'http://api.abc.com'),
-            new ValidAt(new \DateTimeImmutable('@' . self::CURRENT_TIME))
+            new ValidAt(new DateTimeImmutable('@' . self::CURRENT_TIME))
         ];
 
         self::assertTrue($this->config->getValidator()->validate($generated, ...$constraints));
