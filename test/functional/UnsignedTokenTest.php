@@ -90,8 +90,6 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
-        self::markTestSkipped('API being refactored');
-
         $read = $this->config->getParser()->parse((string) $generated);
 
         self::assertEquals($generated, $read);

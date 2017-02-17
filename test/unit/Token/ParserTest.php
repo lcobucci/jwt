@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
+use DateTimeImmutable;
 use Lcobucci\Jose\Parsing\Decoder;
 use RuntimeException;
 
@@ -352,4 +353,58 @@ final class ParserTest extends \PHPUnit\Framework\TestCase
         self::assertAttributeEquals($claims, 'claims', $token);
         self::assertAttributeEquals($signature, 'signature', $token);
     }
+
+    /**
+     * @test
+     *
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
+     *
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
+     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     * @covers \Lcobucci\JWT\Token\Parser::convertDate
+     */
+    public function parseMustConvertDateClaimsToObjects(): void
+    {
+        $data = [
+            RegisteredClaims::ISSUED_AT => 1486930663,
+            RegisteredClaims::NOT_BEFORE => 1486930663,
+            RegisteredClaims::EXPIRATION_TIME => '1486930757.023055'
+        ];
+
+        $this->decoder->expects($this->at(0))
+                      ->method('base64UrlDecode')
+                      ->with('a')
+                      ->willReturn('a_dec');
+
+        $this->decoder->expects($this->at(1))
+                      ->method('jsonDecode')
+                      ->with('a_dec')
+                      ->willReturn(['typ' => 'JWT', 'alg' => 'HS256']);
+
+        $this->decoder->expects($this->at(2))
+                      ->method('base64UrlDecode')
+                      ->with('b')
+                      ->willReturn('b_dec');
+
+        $this->decoder->expects($this->at(3))
+                      ->method('jsonDecode')
+                      ->with('b_dec')
+                      ->willReturn($data);
+
+        $parser = $this->createParser();
+        $claims = $parser->parse('a.b.')->claims();
+
+        self::assertEquals(DateTimeImmutable::createFromFormat('U', '1486930663'), $claims->get(RegisteredClaims::ISSUED_AT));
+        self::assertEquals(DateTimeImmutable::createFromFormat('U', '1486930663'), $claims->get(RegisteredClaims::NOT_BEFORE));
+        self::assertEquals(DateTimeImmutable::createFromFormat('U.u', '1486930757.023055'), $claims->get(RegisteredClaims::EXPIRATION_TIME));
+    }
+
+    public function from() {}
+    public function to() {}
 }
