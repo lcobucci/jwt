@@ -5,6 +5,10 @@ php:
   - 7.1
   - nightly
 
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 before_script:
   - composer install
 
