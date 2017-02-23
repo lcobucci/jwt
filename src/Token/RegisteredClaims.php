@@ -27,6 +27,12 @@ interface RegisteredClaims
         self::SUBJECT
     ];
 
+    const DATE_CLAIMS = [
+        self::ISSUED_AT,
+        self::NOT_BEFORE,
+        self::EXPIRATION_TIME
+    ];
+
     /**
      * Identifies the recipients that the JWT is intended for
      *

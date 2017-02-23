@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
+use DateTimeImmutable;
 use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Builder as BuilderInterface;
 use Lcobucci\JWT\Signer;
@@ -68,7 +69,7 @@ final class Builder implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function expiresAt(int $expiration): BuilderInterface
+    public function expiresAt(DateTimeImmutable $expiration): BuilderInterface
     {
         return $this->setClaim(RegisteredClaims::EXPIRATION_TIME, $expiration);
     }
@@ -84,7 +85,7 @@ final class Builder implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function issuedAt(int $issuedAt): BuilderInterface
+    public function issuedAt(DateTimeImmutable $issuedAt): BuilderInterface
     {
         return $this->setClaim(RegisteredClaims::ISSUED_AT, $issuedAt);
     }
@@ -100,7 +101,7 @@ final class Builder implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function canOnlyBeUsedAfter(int $notBefore): BuilderInterface
+    public function canOnlyBeUsedAfter(DateTimeImmutable $notBefore): BuilderInterface
     {
         return $this->setClaim(RegisteredClaims::NOT_BEFORE, $notBefore);
     }
@@ -158,7 +159,7 @@ final class Builder implements BuilderInterface
         $headers['alg'] = $signer->getAlgorithmId();
 
         $encodedHeaders = $this->encode($headers);
-        $encodedClaims = $this->encode($this->claims);
+        $encodedClaims = $this->encode($this->formatClaims($this->claims));
 
         $signature = $signer->sign($encodedHeaders . '.' . $encodedClaims, $key);
         $encodedSignature = $this->encoder->base64UrlEncode($signature);
@@ -168,5 +169,33 @@ final class Builder implements BuilderInterface
             new DataSet($this->claims, $encodedClaims),
             new Signature($signature, $encodedSignature)
         );
+    }
+
+    private function formatClaims(array $claims): array
+    {
+        if (isset($claims[RegisteredClaims::AUDIENCE][0]) && !isset($claims[RegisteredClaims::AUDIENCE][1])) {
+            $claims[RegisteredClaims::AUDIENCE] = $claims[RegisteredClaims::AUDIENCE][0];
+        }
+
+        foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
+            $claims[$claim] = $this->convertDate($claims[$claim]);
+        }
+
+        return $claims;
+    }
+
+    /**
+     * @return int|string
+     */
+    private function convertDate(DateTimeImmutable $date)
+    {
+        $seconds = $date->format('U');
+        $microseconds = $date->format('u');
+
+        if ((int) $microseconds === 0) {
+            return (int) $seconds;
+        }
+
+        return $seconds . '.' . $microseconds;
     }
 }

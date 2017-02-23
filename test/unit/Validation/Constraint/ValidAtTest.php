@@ -42,12 +42,10 @@ final class ValidAtTest extends ConstraintTestCase
      */
     public function assertShouldRaiseExceptionWhenTokenIsExpired(): void
     {
-        $currentTime = $this->now->getTimestamp();
-
         $claims = [
-            RegisteredClaims::ISSUED_AT => $currentTime - 20,
-            RegisteredClaims::NOT_BEFORE => $currentTime - 10,
-            RegisteredClaims::EXPIRATION_TIME => $currentTime - 10,
+            RegisteredClaims::ISSUED_AT => $this->now->modify('-20 seconds'),
+            RegisteredClaims::NOT_BEFORE => $this->now->modify('-10 seconds'),
+            RegisteredClaims::EXPIRATION_TIME => $this->now->modify('-10 seconds'),
         ];
 
         $constraint = new ValidAt($this->now);
@@ -71,12 +69,10 @@ final class ValidAtTest extends ConstraintTestCase
      */
     public function assertShouldRaiseExceptionWhenMinimumTimeIsNotMet(): void
     {
-        $currentTime = $this->now->getTimestamp();
-
         $claims = [
-            RegisteredClaims::ISSUED_AT => $currentTime - 20,
-            RegisteredClaims::NOT_BEFORE => $currentTime + 40,
-            RegisteredClaims::EXPIRATION_TIME => $currentTime + 60,
+            RegisteredClaims::ISSUED_AT => $this->now->modify('-20 seconds'),
+            RegisteredClaims::NOT_BEFORE => $this->now->modify('+40 seconds'),
+            RegisteredClaims::EXPIRATION_TIME => $this->now->modify('+60 seconds'),
         ];
 
         $constraint = new ValidAt($this->now);
@@ -99,12 +95,10 @@ final class ValidAtTest extends ConstraintTestCase
      */
     public function assertShouldRaiseExceptionWhenTokenWasIssuedInTheFuture(): void
     {
-        $currentTime = $this->now->getTimestamp();
-
         $claims = [
-            RegisteredClaims::ISSUED_AT => $currentTime + 20,
-            RegisteredClaims::NOT_BEFORE => $currentTime + 40,
-            RegisteredClaims::EXPIRATION_TIME => $currentTime + 60,
+            RegisteredClaims::ISSUED_AT => $this->now->modify('+20 seconds'),
+            RegisteredClaims::NOT_BEFORE => $this->now->modify('+40 seconds'),
+            RegisteredClaims::EXPIRATION_TIME => $this->now->modify('+60 seconds'),
         ];
 
         $constraint = new ValidAt($this->now);
@@ -126,14 +120,13 @@ final class ValidAtTest extends ConstraintTestCase
      */
     public function assertShouldNotRaiseExceptionWhenTokenIsUsedInTheRightMoment(): void
     {
-        $currentTime = $this->now->getTimestamp();
         $constraint = new ValidAt($this->now);
 
         $token = $this->buildToken(
             [
-                RegisteredClaims::ISSUED_AT => $currentTime - 40,
-                RegisteredClaims::NOT_BEFORE => $currentTime - 20,
-                RegisteredClaims::EXPIRATION_TIME => $currentTime + 60,
+                RegisteredClaims::ISSUED_AT => $this->now->modify('-40 seconds'),
+                RegisteredClaims::NOT_BEFORE => $this->now->modify('-20 seconds'),
+                RegisteredClaims::EXPIRATION_TIME => $this->now->modify('+60 seconds'),
             ]
         );
 
@@ -141,9 +134,9 @@ final class ValidAtTest extends ConstraintTestCase
 
         $token = $this->buildToken(
             [
-                RegisteredClaims::ISSUED_AT => $currentTime,
-                RegisteredClaims::NOT_BEFORE => $currentTime,
-                RegisteredClaims::EXPIRATION_TIME => $currentTime + 60,
+                RegisteredClaims::ISSUED_AT => $this->now,
+                RegisteredClaims::NOT_BEFORE => $this->now,
+                RegisteredClaims::EXPIRATION_TIME => $this->now->modify('+60 seconds'),
             ]
         );
 

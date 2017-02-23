@@ -88,7 +88,7 @@ final class Plain implements TokenInterface
      */
     public function isPermittedFor(string $audience): bool
     {
-        return in_array($audience, (array) $this->claims->get(RegisteredClaims::AUDIENCE), true);
+        return in_array($audience, $this->claims->get(RegisteredClaims::AUDIENCE, []), true);
     }
 
     /**
@@ -120,7 +120,7 @@ final class Plain implements TokenInterface
      */
     public function hasBeenIssuedBefore(DateTimeInterface $now): bool
     {
-        return $now->getTimestamp() >= $this->claims->get(RegisteredClaims::ISSUED_AT);
+        return $now >= $this->claims->get(RegisteredClaims::ISSUED_AT);
     }
 
     /**
@@ -128,7 +128,7 @@ final class Plain implements TokenInterface
      */
     public function isMinimumTimeBefore(DateTimeInterface $now): bool
     {
-        return $now->getTimestamp() >= $this->claims->get(RegisteredClaims::NOT_BEFORE);
+        return $now >= $this->claims->get(RegisteredClaims::NOT_BEFORE);
     }
 
     /**
@@ -140,7 +140,7 @@ final class Plain implements TokenInterface
             return false;
         }
 
-        return $now->getTimestamp() > $this->claims->get(RegisteredClaims::EXPIRATION_TIME);
+        return $now > $this->claims->get(RegisteredClaims::EXPIRATION_TIME);
     }
 
     /**

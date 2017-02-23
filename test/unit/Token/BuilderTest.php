@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
+use DateTimeImmutable;
 use Lcobucci\Jose\Parsing\Encoder;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
@@ -122,11 +123,13 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function expiresAtMustChangeTheExpClaim(): void
     {
+        $now = new DateTimeImmutable();
+
         $builder = $this->createBuilder();
-        $builder->expiresAt(2);
+        $builder->expiresAt($now);
 
         self::assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
-        self::assertAttributeEquals([RegisteredClaims::EXPIRATION_TIME => 2], 'claims', $builder);
+        self::assertAttributeEquals([RegisteredClaims::EXPIRATION_TIME => $now], 'claims', $builder);
     }
 
     /**
@@ -141,7 +144,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
     {
         $builder = $this->createBuilder();
 
-        self::assertSame($builder, $builder->expiresAt(2));
+        self::assertSame($builder, $builder->expiresAt(new DateTimeImmutable()));
     }
 
     /**
@@ -186,11 +189,13 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function issuedAtMustChangeTheIatClaim(): void
     {
+        $now = new DateTimeImmutable();
+
         $builder = $this->createBuilder();
-        $builder->issuedAt(2);
+        $builder->issuedAt($now);
 
         self::assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
-        self::assertAttributeEquals([RegisteredClaims::ISSUED_AT => 2], 'claims', $builder);
+        self::assertAttributeEquals([RegisteredClaims::ISSUED_AT => $now], 'claims', $builder);
     }
 
     /**
@@ -205,7 +210,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
     {
         $builder = $this->createBuilder();
 
-        self::assertSame($builder, $builder->issuedAt(2));
+        self::assertSame($builder, $builder->issuedAt(new DateTimeImmutable()));
     }
 
     /**
@@ -250,11 +255,13 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function canOnlyBeUsedAfterMustChangeTheNbfClaim(): void
     {
+        $now = new DateTimeImmutable();
+
         $builder = $this->createBuilder();
-        $builder->canOnlyBeUsedAfter(2);
+        $builder->canOnlyBeUsedAfter($now);
 
         self::assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
-        self::assertAttributeEquals([RegisteredClaims::NOT_BEFORE => 2], 'claims', $builder);
+        self::assertAttributeEquals([RegisteredClaims::NOT_BEFORE => $now], 'claims', $builder);
     }
 
     /**
@@ -269,7 +276,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
     {
         $builder = $this->createBuilder();
 
-        self::assertSame($builder, $builder->canOnlyBeUsedAfter(2));
+        self::assertSame($builder, $builder->canOnlyBeUsedAfter(new DateTimeImmutable()));
     }
 
     /**
@@ -390,6 +397,8 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses \Lcobucci\JWT\Token\Builder::__construct
      * @uses \Lcobucci\JWT\Token\Builder::withClaim
      * @uses \Lcobucci\JWT\Token\Builder::setClaim
+     * @uses \Lcobucci\JWT\Token\Builder::issuedAt
+     * @uses \Lcobucci\JWT\Token\Builder::expiresAt
      * @uses \Lcobucci\JWT\Signer\Key
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -397,14 +406,21 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      *
      * @covers \Lcobucci\JWT\Token\Builder::getToken
      * @covers \Lcobucci\JWT\Token\Builder::encode
+     * @covers \Lcobucci\JWT\Token\Builder::formatClaims
+     * @covers \Lcobucci\JWT\Token\Builder::convertDate
      */
     public function getTokenMustReturnANewTokenWithCurrentConfiguration(): void
     {
         $this->signer->method('sign')->willReturn('testing');
 
+        $issuedAt = new DateTimeImmutable('@1487285080');
+        $expiration = DateTimeImmutable::createFromFormat('U.u', '1487285080.123456');
+        $headers = ['typ' => 'JWT', 'alg' => 'RS256'];
+        $claims = ['iat' => 1487285080, 'exp' => '1487285080.123456', 'aud' => 'test', 'test' => 123];
+
         $this->encoder->expects($this->exactly(2))
                       ->method('jsonEncode')
-                      ->withConsecutive([['typ'=> 'JWT', 'alg' => 'RS256']], [['test' => 123]])
+                      ->withConsecutive([self::identicalTo($headers)], [self::identicalTo($claims)])
                       ->willReturnOnConsecutiveCalls('1', '2');
 
         $this->encoder->expects($this->exactly(3))
@@ -412,12 +428,18 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
                       ->withConsecutive(['1'], ['2'], ['testing'])
                       ->willReturnOnConsecutiveCalls('1', '2', '3');
 
-        $builder = $this->createBuilder()->withClaim('test', 123);
-        $token = $builder->getToken($this->signer, new Key('123'));
+        $token = $this->createBuilder()
+                      ->issuedAt($issuedAt)
+                      ->expiresAt($expiration)
+                      ->permittedFor('test')
+                      ->withClaim('test', 123)
+                      ->getToken($this->signer, new Key('123'));
 
         self::assertSame('JWT', $token->headers()->get('typ'));
         self::assertSame('RS256', $token->headers()->get('alg'));
         self::assertSame(123, $token->claims()->get('test'));
+        self::assertSame($issuedAt, $token->claims()->get('iat'));
+        self::assertSame($expiration, $token->claims()->get('exp'));
         self::assertNotNull($token->signature());
     }
 }
