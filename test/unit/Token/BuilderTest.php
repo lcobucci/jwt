@@ -399,6 +399,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses \Lcobucci\JWT\Token\Builder::setClaim
      * @uses \Lcobucci\JWT\Token\Builder::issuedAt
      * @uses \Lcobucci\JWT\Token\Builder::expiresAt
+     * @uses \Lcobucci\JWT\Token\Builder::permittedFor
      * @uses \Lcobucci\JWT\Signer\Key
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
