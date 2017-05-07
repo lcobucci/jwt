@@ -19,6 +19,7 @@
     "require": {
         "php": "^7.1",
         "ext-openssl": "*",
+        "lcobucci/clock": "^1.0",
         "lcobucci/jose-parsing": "~2.1"
     },
     "require-dev": {

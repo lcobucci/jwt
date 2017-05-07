@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\FunctionalTests;
 
 use DateTimeImmutable;
+use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
@@ -117,11 +118,13 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function tokenValidationShouldPassWhenEverythingIsFine(Token $generated): void
     {
+        $clock = new FrozenClock(new DateTimeImmutable('@' . self::CURRENT_TIME));
+
         $constraints = [
             new IdentifiedBy('1'),
             new PermittedFor('http://client.abc.com'),
             new IssuedBy('http://issuer.abc.com', 'http://api.abc.com'),
-            new ValidAt(new DateTimeImmutable('@' . self::CURRENT_TIME))
+            new ValidAt($clock)
         ];
 
         self::assertTrue($this->config->getValidator()->validate($generated, ...$constraints));
