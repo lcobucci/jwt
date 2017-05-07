@@ -2,6 +2,7 @@
 [![Gitter](https://img.shields.io/badge/GITTER-JOIN%20CHAT%20%E2%86%92-brightgreen.svg?style=flat-square)](https://gitter.im/lcobucci/jwt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Total Downloads](https://img.shields.io/packagist/dt/lcobucci/jwt.svg?style=flat-square)](https://packagist.org/packages/lcobucci/jwt)
 [![Latest Stable Version](https://img.shields.io/packagist/v/lcobucci/jwt.svg?style=flat-square)](https://packagist.org/packages/lcobucci/jwt)
+[![Unstable Version](https://img.shields.io/packagist/vpre/lcobucci/jwt.svg?style=flat-square)](https://packagist.org/packages/lcobucci/jwt)
 
 ![Branch master](https://img.shields.io/badge/branch-master-brightgreen.svg?style=flat-square)
 [![Build Status](https://img.shields.io/travis/lcobucci/jwt/master.svg?style=flat-square)](http://travis-ci.org/#!/lcobucci/jwt)
