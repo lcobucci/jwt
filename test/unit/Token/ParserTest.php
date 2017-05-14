@@ -400,11 +400,19 @@ final class ParserTest extends \PHPUnit\Framework\TestCase
         $parser = $this->createParser();
         $claims = $parser->parse('a.b.')->claims();
 
-        self::assertEquals(DateTimeImmutable::createFromFormat('U', '1486930663'), $claims->get(RegisteredClaims::ISSUED_AT));
-        self::assertEquals(DateTimeImmutable::createFromFormat('U', '1486930663'), $claims->get(RegisteredClaims::NOT_BEFORE));
-        self::assertEquals(DateTimeImmutable::createFromFormat('U.u', '1486930757.023055'), $claims->get(RegisteredClaims::EXPIRATION_TIME));
-    }
+        self::assertEquals(
+            DateTimeImmutable::createFromFormat('U', '1486930663'),
+            $claims->get(RegisteredClaims::ISSUED_AT)
+        );
 
-    public function from() {}
-    public function to() {}
+        self::assertEquals(
+            DateTimeImmutable::createFromFormat('U', '1486930663'),
+            $claims->get(RegisteredClaims::NOT_BEFORE)
+        );
+
+        self::assertEquals(
+            DateTimeImmutable::createFromFormat('U.u', '1486930757.023055'),
+            $claims->get(RegisteredClaims::EXPIRATION_TIME)
+        );
+    }
 }

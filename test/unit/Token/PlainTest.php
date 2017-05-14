@@ -37,8 +37,8 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function createDependencies(): void
     {
-        $this->headers = new DataSet(['alg' => 'none'],  'headers');
-        $this->claims = new DataSet([],  'claims');
+        $this->headers = new DataSet(['alg' => 'none'], 'headers');
+        $this->claims = new DataSet([], 'claims');
         $this->signature = new Signature('hash', 'signature');
     }
 

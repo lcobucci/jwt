@@ -92,7 +92,13 @@ final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
         );
 
         self::assertFalse(
-            $validator->validate($token, new SignedWith($this->config->getSigner(), $this->config->getVerificationKey())),
+            $validator->validate(
+                $token,
+                new SignedWith(
+                    $this->config->getSigner(),
+                    $this->config->getVerificationKey()
+                )
+            ),
             'But we know which Signer should be used so the attack fails'
         );
     }

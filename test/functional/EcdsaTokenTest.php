@@ -129,9 +129,13 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
 
         self::assertAttributeInstanceOf(Signature::class, 'signature', $token);
         self::assertEquals('1234', $token->headers()->get('jki'));
-        self::assertEquals(['http://client.abc.com', 'http://client2.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
         self::assertEquals('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
         self::assertEquals($user, $token->claims()->get('user'));
+
+        self::assertEquals(
+            ['http://client.abc.com', 'http://client2.abc.com'],
+            $token->claims()->get(Token\RegisteredClaims::AUDIENCE)
+        );
 
         return $token;
     }
