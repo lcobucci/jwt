@@ -23,7 +23,7 @@ abstract class Rsa implements Signer
     /**
      * {@inheritdoc}
      */
-    public function sign(string $payload, Key $key): string
+    final public function sign(string $payload, Key $key): string
     {
         $key = openssl_get_privatekey($key->getContent(), $key->getPassphrase());
         $this->validateKey($key);
@@ -42,7 +42,7 @@ abstract class Rsa implements Signer
     /**
      * {@inheritdoc}
      */
-    public function verify(string $expected, string $payload, Key $key): bool
+    final public function verify(string $expected, string $payload, Key $key): bool
     {
         $key = openssl_get_publickey($key->getContent());
         $this->validateKey($key);

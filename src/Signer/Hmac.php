@@ -22,7 +22,7 @@ abstract class Hmac implements Signer
     /**
      * {@inheritdoc}
      */
-    public function sign(string $payload, Key $key): string
+    final public function sign(string $payload, Key $key): string
     {
         return hash_hmac($this->getAlgorithm(), $payload, $key->getContent(), true);
     }
@@ -30,7 +30,7 @@ abstract class Hmac implements Signer
     /**
      * {@inheritdoc}
      */
-    public function verify(string $expected, string $payload, Key $key): bool
+    final public function verify(string $expected, string $payload, Key $key): bool
     {
         return hash_equals($expected, $this->sign($payload, $key));
     }
