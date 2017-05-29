@@ -29,7 +29,7 @@ composer require lcobucci/jwt
 ## Basic usage
 
 **Important:** our next major release (v4) is currently not documented
-(that will be addressed on #37). 
+(that will be addressed on [#37](https://github.com/lcobucci/jwt/issues/37)). 
 
 
 The documentation of the **stable** version is on branch
