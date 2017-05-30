@@ -44,7 +44,7 @@ final class Key
      */
     private function setContent(string $content): void
     {
-        if (strpos($content, 'file://') === 0) {
+        if (strpos($content, '://') === false) {
             $content = $this->readFile($content);
         }
 
