@@ -263,7 +263,7 @@ class Token
      */
     public function getPayload()
     {
-        return $this->payload[0] . '.' . $this->payload[1];
+        return implode('.', $this->payload);
     }
 
     /**
