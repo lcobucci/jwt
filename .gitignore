@@ -3,3 +3,4 @@ phpunit.xml
 composer.lock
 humbuglog.txt
 coverage
+.idea

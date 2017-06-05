@@ -26,6 +26,11 @@ interface Token
     public function headers(): DataSet;
 
     /**
+     * Returns the token claims
+     */
+    public function claims(): DataSet;
+
+    /**
      * Returns if the token is allowed to be used by the audience
      */
     public function isPermittedFor(string $audience): bool;
