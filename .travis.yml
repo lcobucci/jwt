@@ -1,22 +1,45 @@
-language: php
+dist: trusty
 sudo: false
+language: php
 
 php:
   - 7.1
+  - 7.2
   - nightly
 
 cache:
   directories:
     - $HOME/.composer/cache
 
-before_script:
-  - composer install
+before_install:
+  - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{,.disabled} || echo "xdebug not available"
+  - composer self-update
+
+install: travis_retry composer install
 
 script:
-  - ./vendor/bin/phpunit --coverage-clover ./clover.xml --testsuite=unit
-  - ./vendor/bin/phpunit test/functional
-#  - if php -i |grep -qE xdebug; then ./vendor/bin/humbug --options='--testsuite=unit'; fi
+  - ./vendor/bin/phpunit --testsuite=unit
+  - ./vendor/bin/phpunit --testsuite=functional
 
-after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - if [ -f clover.xml ]; then php ocular.phar code-coverage:upload --format=php-clover ./clover.xml; fi
+jobs:
+  allow_failures:
+    - php: 7.2
+    - php: nightly
+
+  include:
+    - stage: Coverage
+      before_script:
+        - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
+        - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
+      script:
+        - ./vendor/bin/phpunit --testsuite=unit --coverage-clover ./clover.xml
+      after_script:
+        - wget https://scrutinizer-ci.com/ocular.phar
+        - php ocular.phar code-coverage:upload --format=php-clover ./clover.xml
+
+#    - stage: Mutation
+#      before_script:
+#        - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
+#        - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
+#      script:
+#        - ./vendor/bin/humbug --options='--testsuite=unit'
