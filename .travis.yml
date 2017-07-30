@@ -37,6 +37,10 @@ jobs:
         - wget https://scrutinizer-ci.com/ocular.phar
         - php ocular.phar code-coverage:upload --format=php-clover ./clover.xml
 
+    - stage: Performance
+      script:
+        - ./vendor/bin/phpbench run -l dots --report aggregate
+
 #    - stage: Mutation
 #      before_script:
 #        - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}

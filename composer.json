@@ -25,6 +25,7 @@
     "require-dev": {
         "mdanter/ecc": "^0.4",
         "mikey179/vfsStream": "^1.6",
+        "phpbench/phpbench": "dev-master@dev",
         "phpmd/phpmd": "^2.5",
         "phpunit/php-invoker": "^1.1",
         "phpunit/phpunit": "^6.0",
@@ -43,7 +44,8 @@
             "Lcobucci\\JWT\\": [
                 "test/_keys",
                 "test/unit",
-                "test/functional"
+                "test/functional",
+                "test/performance"
             ]
         }
     },
