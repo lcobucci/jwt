@@ -10,6 +10,7 @@ namespace Lcobucci\JWT;
 use BadMethodCallException;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Encoder;
+use Lcobucci\JWT\Signer\Key;
 
 /**
  * This class makes easier the token creation process
@@ -227,7 +228,7 @@ class Builder
      * Signs the data
      *
      * @param Signer $signer
-     * @param string $key
+     * @param Key|string $key
      *
      * @return Builder
      */
