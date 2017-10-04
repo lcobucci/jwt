@@ -41,6 +41,10 @@ jobs:
       script:
         - ./vendor/bin/phpbench run -l dots --report aggregate
 
+    - stage: Code-style
+      script:
+        - ./vendor/bin/phpcs
+
 #    - stage: Mutation
 #      before_script:
 #        - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
