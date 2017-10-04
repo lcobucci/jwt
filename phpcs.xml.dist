@@ -1,15 +1,32 @@
 <?xml version="1.0"?>
-<ruleset name="JWT style">
-    <description>The coding standard for lcobucci/jwt.</description>
-
-    <arg name="basepath" value="."/>
-    <arg name="extensions" value="php"/>
+<ruleset>
+    <arg name="basepath" value="." />
+    <arg name="extensions" value="php" />
     <arg name="parallel" value="80" />
     <arg name="colors" />
-    <arg value="np"/>
+    <arg name="cache" value=".phpcs.cache" />
+    <arg value="p" />
 
     <file>src</file>
     <file>test</file>
 
     <rule ref="PSR2"/>
+
+    <rule ref="Generic.Formatting.MultipleStatementAlignment">
+        <properties>
+            <property name="error" value="true"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Formatting.SpaceAfterCast" />
+    <rule ref="Generic.Formatting.SpaceAfterNot" />
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
 </ruleset>
+

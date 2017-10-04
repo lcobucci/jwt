@@ -4,3 +4,4 @@ composer.lock
 humbuglog.txt
 coverage
 phpcs.xml
+/.phpcs.cache
