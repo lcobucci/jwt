@@ -35,7 +35,7 @@ abstract class SignerBench
      */
     private $signature;
 
-    public final function init(): void
+    final public function init(): void
     {
         $this->signer          = $this->signer();
         $this->signingKey      = $this->signingKey();
@@ -43,12 +43,12 @@ abstract class SignerBench
         $this->signature       = $this->signer->sign(self::PAYLOAD, $this->signingKey);
     }
 
-    public final function benchSignature(): void
+    final public function benchSignature(): void
     {
         $this->signer->sign(self::PAYLOAD, $this->signingKey);
     }
 
-    public final function benchVerification(): void
+    final public function benchVerification(): void
     {
         $this->signer->verify($this->signature, self::PAYLOAD, $this->verificationKey);
     }
