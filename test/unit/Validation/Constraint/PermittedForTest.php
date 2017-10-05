@@ -77,7 +77,7 @@ final class PermittedForTest extends ConstraintTestCase
      */
     public function assertShouldNotRaiseExceptionWhenAudienceMatches(): void
     {
-        $token = $this->buildToken([RegisteredClaims::AUDIENCE => ['aa.com', 'test.com']]);
+        $token      = $this->buildToken([RegisteredClaims::AUDIENCE => ['aa.com', 'test.com']]);
         $constraint = new PermittedFor('test.com');
 
         self::assertNull($constraint->assert($token));

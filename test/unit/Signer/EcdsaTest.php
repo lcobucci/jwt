@@ -60,9 +60,9 @@ final class EcdsaTest extends BaseTestCase
      */
     public function signShouldReturnAHashUsingPrivateKey(): void
     {
-        $signer = $this->getSigner();
-        $key = new Key('testing');
-        $privateKey = $this->createMock(PrivateKeyInterface::class);
+        $signer      = $this->getSigner();
+        $key         = new Key('testing');
+        $privateKey  = $this->createMock(PrivateKeyInterface::class);
         $signingHash = gmp_init(10, 10);
 
         $this->keyParser->expects($this->once())
@@ -93,9 +93,9 @@ final class EcdsaTest extends BaseTestCase
      */
     public function verifyShouldDelegateToEcdsaSignerUsingPublicKey(): void
     {
-        $signer = $this->getSigner();
-        $key = new Key('testing');
-        $publicKey = $this->createMock(PublicKeyInterface::class);
+        $signer      = $this->getSigner();
+        $key         = new Key('testing');
+        $publicKey   = $this->createMock(PublicKeyInterface::class);
         $signingHash = gmp_init(10, 10);
 
         $this->keyParser->expects($this->once())

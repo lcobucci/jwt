@@ -50,7 +50,7 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function builderCanGenerateAToken(): Token
     {
-        $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
+        $user    = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->createBuilder();
 
         $token = $builder->identifiedBy('1')
@@ -191,7 +191,7 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
         $data = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.Rh'
                 . '7AEgqCB7zae1PkgIlvOpeyw9Ab8NGTbeOH7heHO0o';
 
-        $token = $this->config->getParser()->parse((string) $data);
+        $token      = $this->config->getParser()->parse((string) $data);
         $constraint = new SignedWith($this->config->getSigner(), $this->config->getVerificationKey());
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));

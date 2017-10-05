@@ -62,7 +62,7 @@ final class Key
     {
         $file = substr($content, 7);
 
-        if (!is_readable($file)) {
+        if (! is_readable($file)) {
             throw new \InvalidArgumentException('You must inform a valid key file');
         }
 

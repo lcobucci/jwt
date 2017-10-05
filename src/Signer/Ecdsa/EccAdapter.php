@@ -71,9 +71,9 @@ class EccAdapter
         SignatureSerializer $serializer,
         RandomNumberGeneratorInterface $numberGenerator
     ) {
-        $this->signer = $signer;
-        $this->nistCurve = $nistCurve;
-        $this->serializer = $serializer;
+        $this->signer          = $signer;
+        $this->nistCurve       = $nistCurve;
+        $this->serializer      = $serializer;
         $this->numberGenerator = $numberGenerator;
     }
 
@@ -118,7 +118,7 @@ class EccAdapter
 
     private function generatorPoint(string $algorithm): GeneratorPoint
     {
-        if (!array_key_exists($algorithm, self::GENERATOR_POINTS)) {
+        if (! array_key_exists($algorithm, self::GENERATOR_POINTS)) {
             throw new InvalidArgumentException('Unknown algorithm');
         }
 

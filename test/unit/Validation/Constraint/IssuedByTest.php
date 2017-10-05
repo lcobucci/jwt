@@ -77,7 +77,7 @@ final class IssuedByTest extends ConstraintTestCase
      */
     public function assertShouldNotRaiseExceptionWhenIssuerMatches(): void
     {
-        $token = $this->buildToken([RegisteredClaims::ISSUER => 'test.com']);
+        $token      = $this->buildToken([RegisteredClaims::ISSUER => 'test.com']);
         $constraint = new IssuedBy('test.com', 'test.net');
 
         self::assertNull($constraint->assert($token));

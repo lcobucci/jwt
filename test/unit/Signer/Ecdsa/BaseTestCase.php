@@ -30,7 +30,7 @@ abstract class BaseTestCase extends \PHPUnit\Framework\TestCase
      */
     public function createDependencies(): void
     {
-        $this->adapter = $this->createMock(EccAdapter::class);
+        $this->adapter   = $this->createMock(EccAdapter::class);
         $this->keyParser = $this->createMock(KeyParser::class);
     }
 }

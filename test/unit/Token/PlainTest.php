@@ -37,8 +37,8 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function createDependencies(): void
     {
-        $this->headers = new DataSet(['alg' => 'none'], 'headers');
-        $this->claims = new DataSet([], 'claims');
+        $this->headers   = new DataSet(['alg' => 'none'], 'headers');
+        $this->claims    = new DataSet([], 'claims');
         $this->signature = new Signature('hash', 'signature');
     }
 
@@ -416,7 +416,7 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsBeforeThanNow(): void
     {
-        $now = new DateTimeImmutable();
+        $now   = new DateTimeImmutable();
         $token = $this->createToken(
             null,
             new DataSet([RegisteredClaims::ISSUED_AT => $now->modify('-100 seconds')], '')
@@ -436,7 +436,7 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsEqualsToNow(): void
     {
-        $now = new DateTimeImmutable();
+        $now   = new DateTimeImmutable();
         $token = $this->createToken(
             null,
             new DataSet([RegisteredClaims::ISSUED_AT => $now], '')
@@ -456,7 +456,7 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function hasBeenIssuedBeforeShouldReturnFalseWhenIssueTimeIsGreaterThanNow(): void
     {
-        $now = new DateTimeImmutable();
+        $now   = new DateTimeImmutable();
         $token = $this->createToken(
             null,
             new DataSet([RegisteredClaims::ISSUED_AT => $now->modify('+100 seconds')], '')
@@ -492,7 +492,7 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsBeforeThanNow(): void
     {
-        $now = new DateTimeImmutable();
+        $now   = new DateTimeImmutable();
         $token = $this->createToken(
             null,
             new DataSet([RegisteredClaims::NOT_BEFORE => $now->modify('-100 seconds')], '')
@@ -512,7 +512,7 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsEqualsToNow(): void
     {
-        $now = new DateTimeImmutable();
+        $now   = new DateTimeImmutable();
         $token = $this->createToken(
             null,
             new DataSet([RegisteredClaims::NOT_BEFORE => $now], '')
@@ -532,7 +532,7 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
      */
     public function isMinimumTimeBeforeShouldReturnFalseWhenNotBeforeClaimIsGreaterThanNow(): void
     {
-        $now = new DateTimeImmutable();
+        $now   = new DateTimeImmutable();
         $token = $this->createToken(
             null,
             new DataSet([RegisteredClaims::NOT_BEFORE => $now->modify('100 seconds')], '')

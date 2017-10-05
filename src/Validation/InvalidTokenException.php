@@ -23,7 +23,7 @@ final class InvalidTokenException extends Exception
 
     public static function fromViolations(ConstraintViolationException ...$violations): self
     {
-        $exception = new self(self::buildMessage($violations));
+        $exception             = new self(self::buildMessage($violations));
         $exception->violations = $violations;
 
         return $exception;
@@ -38,7 +38,7 @@ final class InvalidTokenException extends Exception
             $violations
         );
 
-        $message = "The token violates some mandatory constraints, details:\n";
+        $message  = "The token violates some mandatory constraints, details:\n";
         $message .= implode("\n", $violations);
 
         return $message;

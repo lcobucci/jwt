@@ -30,7 +30,7 @@ abstract class Rsa implements Signer
 
         $signature = '';
 
-        if (!openssl_sign($payload, $signature, $key, $this->getAlgorithm())) {
+        if (! openssl_sign($payload, $signature, $key, $this->getAlgorithm())) {
             throw new InvalidArgumentException(
                 'There was an error while creating the signature: ' . openssl_error_string()
             );
@@ -67,7 +67,7 @@ abstract class Rsa implements Signer
 
         $details = openssl_pkey_get_details($key);
 
-        if (!isset($details['key']) || $details['type'] !== OPENSSL_KEYTYPE_RSA) {
+        if (! isset($details['key']) || $details['type'] !== OPENSSL_KEYTYPE_RSA) {
             throw new InvalidArgumentException('This key is not compatible with RSA signatures');
         }
     }

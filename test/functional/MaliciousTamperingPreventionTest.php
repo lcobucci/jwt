@@ -108,7 +108,7 @@ final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
      */
     private function createMaliciousToken(string $token): string
     {
-        $dec = new Parser();
+        $dec     = new Parser();
         $asplode = explode('.', $token);
 
         // The user is lying; we insist that we're using HMAC-SHA512, with the

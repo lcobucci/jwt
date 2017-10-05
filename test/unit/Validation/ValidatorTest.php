@@ -36,7 +36,7 @@ final class ValidatorTest extends \PHPUnit\Framework\TestCase
      */
     public function assertShouldRaiseExceptionWhenAtLeastOneConstraintFails(): void
     {
-        $failedConstraint = $this->createMock(Constraint::class);
+        $failedConstraint     = $this->createMock(Constraint::class);
         $successfulConstraint = $this->createMock(Constraint::class);
 
         $failedConstraint->expects($this->once())
@@ -77,7 +77,7 @@ final class ValidatorTest extends \PHPUnit\Framework\TestCase
      */
     public function validateShouldReturnFalseWhenAtLeastOneConstraintFails(): void
     {
-        $failedConstraint = $this->createMock(Constraint::class);
+        $failedConstraint     = $this->createMock(Constraint::class);
         $successfulConstraint = $this->createMock(Constraint::class);
 
         $failedConstraint->expects($this->once())

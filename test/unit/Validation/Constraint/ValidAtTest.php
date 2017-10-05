@@ -167,7 +167,7 @@ final class ValidAtTest extends ConstraintTestCase
      */
     public function assertShouldNotRaiseExceptionWhenTokenDoesNotHaveTimeClaims(): void
     {
-        $token = $this->buildToken();
+        $token      = $this->buildToken();
         $constraint = new ValidAt($this->clock);
         self::assertNull($constraint->assert($token));
     }

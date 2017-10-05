@@ -48,10 +48,10 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      */
     public function createDependencies(): void
     {
-        $this->signer = $this->createMock(Signer::class);
-        $this->encoder = $this->createMock(Parsing\Encoder::class);
-        $this->decoder = $this->createMock(Parsing\Decoder::class);
-        $this->parser = $this->createMock(Parser::class);
+        $this->signer    = $this->createMock(Signer::class);
+        $this->encoder   = $this->createMock(Parsing\Encoder::class);
+        $this->decoder   = $this->createMock(Parsing\Decoder::class);
+        $this->parser    = $this->createMock(Parser::class);
         $this->validator = $this->createMock(Validator::class);
     }
 
@@ -65,7 +65,7 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      */
     public function forAsymmetricSignerShouldConfigureSignerAndBothKeys(): void
     {
-        $signingKey = new Key('private');
+        $signingKey      = new Key('private');
         $verificationKey = new Key('public');
 
         $config = Configuration::forAsymmetricSigner($this->signer, $signingKey, $verificationKey);
@@ -85,7 +85,7 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      */
     public function forSymmetricSignerShouldConfigureSignerAndBothKeys(): void
     {
-        $key = new Key('private');
+        $key    = new Key('private');
         $config = Configuration::forSymmetricSigner($this->signer, $key);
 
         self::assertAttributeSame($this->signer, 'signer', $config);
@@ -103,7 +103,7 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      */
     public function forUnsecuredSignerShouldConfigureSignerAndBothKeys(): void
     {
-        $key = new Key('');
+        $key    = new Key('');
         $config = Configuration::forUnsecuredSigner();
 
         self::assertAttributeInstanceOf(None::class, 'signer', $config);
@@ -126,7 +126,7 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      */
     public function createBuilderShouldCreateABuilderWithDefaultEncoderAndClaimFactory(): void
     {
-        $config = Configuration::forUnsecuredSigner();
+        $config  = Configuration::forUnsecuredSigner();
         $builder = $config->createBuilder();
 
         self::assertInstanceOf(Builder::class, $builder);
@@ -250,7 +250,7 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      */
     public function getSigningKeyShouldReturnTheConfiguredKey(): void
     {
-        $signingKey = new Key('private');
+        $signingKey      = new Key('private');
         $verificationKey = new Key('public');
 
         $config = Configuration::forAsymmetricSigner($this->signer, $signingKey, $verificationKey);
@@ -269,7 +269,7 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      */
     public function getVerificationKeyShouldReturnTheConfiguredKey(): void
     {
-        $signingKey = new Key('private');
+        $signingKey      = new Key('private');
         $verificationKey = new Key('public');
 
         $config = Configuration::forAsymmetricSigner($this->signer, $signingKey, $verificationKey);
@@ -289,7 +289,7 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
      */
     public function getValidatorShouldReturnTheDefaultWhenItWasNotConfigured(): void
     {
-        $config = Configuration::forUnsecuredSigner();
+        $config    = Configuration::forUnsecuredSigner();
         $validator = $config->getValidator();
 
         self::assertNotSame($this->validator, $validator);

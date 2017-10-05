@@ -44,7 +44,7 @@ abstract class Ecdsa implements Signer
 
     public function __construct(EccAdapter $adapter, KeyParser $keyParser)
     {
-        $this->adapter = $adapter;
+        $this->adapter   = $adapter;
         $this->keyParser = $keyParser;
     }
 

@@ -116,7 +116,7 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function builderCanGenerateAToken(): Token
     {
-        $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
+        $user    = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->createBuilder();
 
         $token = $builder->identifiedBy('1')
@@ -316,7 +316,7 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
     public function everythingShouldWorkWithAKeyWithParams(): void
     {
         $builder = $this->config->createBuilder();
-        $signer = $this->config->getSigner();
+        $signer  = $this->config->getSigner();
 
         $token = $builder->identifiedBy('1')
                          ->permittedFor('http://client.abc.com')
@@ -365,7 +365,7 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
                . 'mZudf1zCUZ8/4eodlHU=' . PHP_EOL
                . '-----END PUBLIC KEY-----';
 
-        $token = $this->config->getParser()->parse((string) $data);
+        $token      = $this->config->getParser()->parse((string) $data);
         $constraint = new SignedWith(Sha512::create(), new Key($key));
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));

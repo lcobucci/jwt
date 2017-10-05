@@ -118,7 +118,7 @@ final class Parser implements ParserInterface
      */
     private function parseSignature(array $header, string $data): Signature
     {
-        if ($data === '' || !isset($header['alg']) || $header['alg'] === 'none') {
+        if ($data === '' || ! isset($header['alg']) || $header['alg'] === 'none') {
             return Signature::fromEmptyData();
         }
 

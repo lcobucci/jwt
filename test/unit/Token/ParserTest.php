@@ -150,10 +150,10 @@ final class ParserTest extends \PHPUnit\Framework\TestCase
                       ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
 
         $parser = $this->createParser();
-        $token = $parser->parse('a.b.');
+        $token  = $parser->parse('a.b.');
 
         $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
-        $claims = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
@@ -197,10 +197,10 @@ final class ParserTest extends \PHPUnit\Framework\TestCase
                       ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
 
         $parser = $this->createParser();
-        $token = $parser->parse('a.b.');
+        $token  = $parser->parse('a.b.');
 
         $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test'], 'a');
-        $claims = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
@@ -244,10 +244,10 @@ final class ParserTest extends \PHPUnit\Framework\TestCase
                       ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
 
         $parser = $this->createParser();
-        $token = $parser->parse('a.b.c');
+        $token  = $parser->parse('a.b.c');
 
         $headers = new DataSet(['typ' => 'JWT'], 'a');
-        $claims = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
@@ -291,10 +291,10 @@ final class ParserTest extends \PHPUnit\Framework\TestCase
                       ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
 
         $parser = $this->createParser();
-        $token = $parser->parse('a.b.c');
+        $token  = $parser->parse('a.b.c');
 
         $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
-        $claims = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
 
         self::assertAttributeEquals($headers, 'headers', $token);
         self::assertAttributeEquals($claims, 'claims', $token);
@@ -343,10 +343,10 @@ final class ParserTest extends \PHPUnit\Framework\TestCase
                       ->willReturn('c_dec');
 
         $parser = $this->createParser();
-        $token = $parser->parse('a.b.c');
+        $token  = $parser->parse('a.b.c');
 
-        $headers = new DataSet(['typ' => 'JWT', 'alg' => 'HS256'], 'a');
-        $claims = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $headers   = new DataSet(['typ' => 'JWT', 'alg' => 'HS256'], 'a');
+        $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
         $signature = new Signature('c_dec', 'c');
 
         self::assertAttributeEquals($headers, 'headers', $token);

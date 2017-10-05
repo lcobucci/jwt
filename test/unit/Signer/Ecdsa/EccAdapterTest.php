@@ -54,10 +54,10 @@ final class EccAdapterTest extends \PHPUnit\Framework\TestCase
      */
     public function createDependencies(): void
     {
-        $this->mathInterface = $this->createMock(GmpMathInterface::class);
-        $this->signer = $this->createMock(Signer::class);
-        $this->nistCurve = $this->createMock(NistCurve::class);
-        $this->serializer = $this->createMock(SignatureSerializer::class);
+        $this->mathInterface   = $this->createMock(GmpMathInterface::class);
+        $this->signer          = $this->createMock(Signer::class);
+        $this->nistCurve       = $this->createMock(NistCurve::class);
+        $this->serializer      = $this->createMock(SignatureSerializer::class);
         $this->numberGenerator = $this->createMock(RandomNumberGeneratorInterface::class);
     }
 
@@ -103,12 +103,12 @@ final class EccAdapterTest extends \PHPUnit\Framework\TestCase
      */
     public function createHashShouldReturnASerializedSignature(): void
     {
-        $key = $this->createMock(PrivateKeyInterface::class);
-        $point = $this->createMock(GeneratorPoint::class);
+        $key       = $this->createMock(PrivateKeyInterface::class);
+        $point     = $this->createMock(GeneratorPoint::class);
         $signature = $this->createMock(SignatureInterface::class);
 
-        $order = gmp_init(1, 10);
-        $randomK = gmp_init(2, 10);
+        $order       = gmp_init(1, 10);
+        $randomK     = gmp_init(2, 10);
         $signingHash = gmp_init(3, 10);
 
         $key->method('getPoint')->willReturn($point);
@@ -146,8 +146,8 @@ final class EccAdapterTest extends \PHPUnit\Framework\TestCase
      */
     public function verifyHashShouldReturnTheSignerResult(): void
     {
-        $key = $this->createMock(PublicKeyInterface::class);
-        $signature = $this->createMock(SignatureInterface::class);
+        $key         = $this->createMock(PublicKeyInterface::class);
+        $signature   = $this->createMock(SignatureInterface::class);
         $signingHash = gmp_init(1, 10);
 
         $this->serializer->expects($this->once())
@@ -193,7 +193,7 @@ final class EccAdapterTest extends \PHPUnit\Framework\TestCase
      */
     public function createSigningHashShouldReturnTheSignerResult(): void
     {
-        $signingHash = gmp_init(1, 10);
+        $signingHash    = gmp_init(1, 10);
         $generatorPoint = $this->createMock(GeneratorPoint::class);
 
         $this->nistCurve->expects($this->once())

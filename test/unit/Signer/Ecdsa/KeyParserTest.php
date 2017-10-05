@@ -42,9 +42,9 @@ final class KeyParserTest extends \PHPUnit\Framework\TestCase
      */
     public function createDependencies(): void
     {
-        $this->adapter = $this->createMock(GmpMathInterface::class);
+        $this->adapter              = $this->createMock(GmpMathInterface::class);
         $this->privateKeySerializer = $this->createMock(PrivateKeySerializerInterface::class);
-        $this->publicKeySerializer = $this->createMock(PublicKeySerializerInterface::class);
+        $this->publicKeySerializer  = $this->createMock(PublicKeySerializerInterface::class);
     }
 
     /**
