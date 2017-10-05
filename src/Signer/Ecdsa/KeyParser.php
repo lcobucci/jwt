@@ -55,7 +55,7 @@ class KeyParser
         PrivateKeySerializerInterface $privateKeySerializer,
         PublicKeySerializerInterface $publicKeySerializer
     ) {
-        $this->publicKeySerializer = $publicKeySerializer;
+        $this->publicKeySerializer  = $publicKeySerializer;
         $this->privateKeySerializer = $privateKeySerializer;
     }
 

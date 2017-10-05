@@ -107,7 +107,7 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function builderCanGenerateAToken(): Token
     {
-        $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
+        $user    = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->createBuilder();
 
         $token = $builder->identifiedBy('1')
@@ -284,7 +284,7 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
                 . 'nJCupP-Lqh4TmIhftIimSCgLNmJg80wyrpUEfZYReE7hPuEmY0ClTqAGIMQoNS'
                 . '98ljwDxwhfbSuL2tAdbV4DekbTpWzspe3dOJ7RSzmPKVZ6NoezaIazKqyqkmHZfcMaHI1lQeGia6LTbHU1bp0gINi74Vw';
 
-        $token = $this->config->getParser()->parse((string) $data);
+        $token      = $this->config->getParser()->parse((string) $data);
         $constraint = new SignedWith($this->config->getSigner(), $this->config->getVerificationKey());
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));

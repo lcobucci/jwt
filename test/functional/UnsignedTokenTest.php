@@ -54,7 +54,7 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function builderCanGenerateAToken(): Token
     {
-        $user = ['name' => 'testing', 'email' => 'testing@abc.com'];
+        $user    = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->createBuilder();
 
         $expiration = new DateTimeImmutable('@' . (self::CURRENT_TIME + 3000));
@@ -186,13 +186,13 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
         {
             public function assert(Token $token): void
             {
-                if (!$token instanceof Token\Plain) {
+                if (! $token instanceof Token\Plain) {
                     throw new ConstraintViolationException();
                 }
 
                 $claims = $token->claims();
 
-                if (!$claims->has('user')) {
+                if (! $claims->has('user')) {
                     throw new ConstraintViolationException();
                 }
 

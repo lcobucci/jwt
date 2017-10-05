@@ -46,8 +46,8 @@ final class Plain implements TokenInterface
         DataSet $claims,
         Signature $signature
     ) {
-        $this->headers = $headers;
-        $this->claims = $claims;
+        $this->headers   = $headers;
+        $this->claims    = $claims;
         $this->signature = $signature;
     }
 
@@ -136,7 +136,7 @@ final class Plain implements TokenInterface
      */
     public function isExpired(DateTimeInterface $now): bool
     {
-        if (!$this->claims->has(RegisteredClaims::EXPIRATION_TIME)) {
+        if (! $this->claims->has(RegisteredClaims::EXPIRATION_TIME)) {
             return false;
         }
 

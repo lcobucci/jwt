@@ -89,7 +89,7 @@ final class DataSetTest extends \PHPUnit\Framework\TestCase
     public function allShouldReturnAllConfiguredItems(): void
     {
         $items = ['one' => 1, 'two' => 2];
-        $set = new DataSet($items, 'one=1');
+        $set   = new DataSet($items, 'one=1');
 
         self::assertEquals($items, $set->all());
     }

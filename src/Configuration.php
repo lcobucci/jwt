@@ -84,8 +84,8 @@ final class Configuration
         Key $signingKey,
         Key $verificationKey
     ) {
-        $this->signer = $signer;
-        $this->signingKey = $signingKey;
+        $this->signer          = $signer;
+        $this->signingKey      = $signingKey;
         $this->verificationKey = $verificationKey;
     }
 

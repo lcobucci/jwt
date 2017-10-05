@@ -33,7 +33,7 @@ final class RsaTest extends \PHPUnit\Framework\TestCase
     {
         $payload = 'testing';
 
-        $signer = $this->getSigner();
+        $signer    = $this->getSigner();
         $signature = $signer->sign($payload, self::$rsaKeys['private']);
 
         $publicKey = openssl_get_publickey(self::$rsaKeys['public']->getContent());
@@ -114,9 +114,9 @@ KEY;
      */
     public function verifyShouldReturnAValidOpensslSignature(): void
     {
-        $payload = 'testing';
+        $payload    = 'testing';
         $privateKey = openssl_get_privatekey(self::$rsaKeys['private']->getContent());
-        $signature = '';
+        $signature  = '';
         openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);
 
         $signer = $this->getSigner();

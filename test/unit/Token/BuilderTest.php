@@ -36,7 +36,7 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
     public function initializeDependencies(): void
     {
         $this->encoder = $this->createMock(Encoder::class);
-        $this->signer = $this->createMock(Signer::class);
+        $this->signer  = $this->createMock(Signer::class);
         $this->signer->method('getAlgorithmId')->willReturn('RS256');
     }
 
@@ -414,10 +414,10 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
     {
         $this->signer->method('sign')->willReturn('testing');
 
-        $issuedAt = new DateTimeImmutable('@1487285080');
+        $issuedAt   = new DateTimeImmutable('@1487285080');
         $expiration = DateTimeImmutable::createFromFormat('U.u', '1487285080.123456');
-        $headers = ['typ' => 'JWT', 'alg' => 'RS256'];
-        $claims = ['iat' => 1487285080, 'exp' => '1487285080.123456', 'aud' => 'test', 'test' => 123];
+        $headers    = ['typ' => 'JWT', 'alg' => 'RS256'];
+        $claims     = ['iat' => 1487285080, 'exp' => '1487285080.123456', 'aud' => 'test', 'test' => 123];
 
         $this->encoder->expects($this->exactly(2))
                       ->method('jsonEncode')
