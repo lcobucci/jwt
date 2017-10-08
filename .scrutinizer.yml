@@ -1,18 +1,24 @@
 build:
-    environment:
-        mysql: false
-        postgresql: false
-        redis: false
-        rabbitmq: false
-        php:
-            version: 7.1
-    cache:
-        disabled: false
-        directories:
-            - ~/.composer/cache
-    tests:
-        after:
-            - phpcs-run
+    nodes:
+        analysis:
+            environment:
+                mysql: false
+                postgresql: false
+                redis: false
+                rabbitmq: false
+                mongodb: false
+                php:
+                    version: 7.1
+            cache:
+                disabled: false
+                directories:
+                    - ~/.composer/cache
+
+            project_setup:
+                override: true
+            tests:
+                override:
+                    - php-scrutinizer-run
 
 checks:
     php:
@@ -116,6 +122,9 @@ checks:
         avoid_corrupting_byteorder_marks: true
         avoid_aliased_php_functions: true
         encourage_shallow_comparison: true
+
+tools:
+    external_code_coverage: true
 
 build_failure_conditions:
     - 'elements.rating(<= C).new.exists'                        # No new classes/methods with a rating of C or worse allowed
