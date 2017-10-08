@@ -59,9 +59,10 @@ final class RelatedToTest extends ConstraintTestCase
      */
     public function assertShouldNotRaiseExceptionWhenSubjectMatches(): void
     {
-        $token = $this->buildToken([RegisteredClaims::SUBJECT => 'user-auth']);
-
+        $token      = $this->buildToken([RegisteredClaims::SUBJECT => 'user-auth']);
         $constraint = new RelatedTo('user-auth');
-        self::assertNull($constraint->assert($token));
+
+        $constraint->assert($token);
+        $this->addToAssertionCount(1);
     }
 }

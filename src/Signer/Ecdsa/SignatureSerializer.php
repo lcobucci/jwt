@@ -40,9 +40,9 @@ class SignatureSerializer
 
     public function serialize(SignatureInterface $signature, string $algorithm): string
     {
-        return pack(
+        return \pack(
             'H*',
-            sprintf(
+            \sprintf(
                 '%s%s',
                 $this->addPadding($signature->getR(), self::LENGTH[$algorithm]),
                 $this->addPadding($signature->getS(), self::LENGTH[$algorithm])
@@ -52,24 +52,24 @@ class SignatureSerializer
 
     private function addPadding(GMP $point, int $length): string
     {
-        return str_pad(
+        return \str_pad(
             $this->mathInterface->decHex((string) $point),
             $length,
             '0',
-            STR_PAD_LEFT
+            \STR_PAD_LEFT
         );
     }
 
     public function parse(string $expected, string $algorithm): SignatureInterface
     {
-        list($pointR, $pointS) = str_split(
-            unpack('H*', $expected)[1],
+        [$pointR, $pointS] = \str_split(
+            \unpack('H*', $expected)[1],
             self::LENGTH[$algorithm]
         );
 
         return new Signature(
-            gmp_init($this->mathInterface->hexDec($pointR), self::GMP_BASE),
-            gmp_init($this->mathInterface->hexDec($pointS), self::GMP_BASE)
+            \gmp_init($this->mathInterface->hexDec($pointR), self::GMP_BASE),
+            \gmp_init($this->mathInterface->hexDec($pointS), self::GMP_BASE)
         );
     }
 }

@@ -129,6 +129,8 @@ final class SignedWithTest extends ConstraintTestCase
                      ->willReturn(true);
 
         $constraint = new SignedWith($this->signer, $this->key);
-        self::assertNull($constraint->assert($token));
+
+        $constraint->assert($token);
+        $this->addToAssertionCount(1);
     }
 }

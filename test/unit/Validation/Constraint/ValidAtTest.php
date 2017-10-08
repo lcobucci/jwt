@@ -139,7 +139,8 @@ final class ValidAtTest extends ConstraintTestCase
             ]
         );
 
-        self::assertNull($constraint->assert($token));
+        $constraint->assert($token);
+        $this->addToAssertionCount(1);
 
         $token = $this->buildToken(
             [
@@ -149,7 +150,8 @@ final class ValidAtTest extends ConstraintTestCase
             ]
         );
 
-        self::assertNull($constraint->assert($token));
+        $constraint->assert($token);
+        $this->addToAssertionCount(1);
     }
 
     /**
@@ -169,6 +171,8 @@ final class ValidAtTest extends ConstraintTestCase
     {
         $token      = $this->buildToken();
         $constraint = new ValidAt($this->clock);
-        self::assertNull($constraint->assert($token));
+
+        $constraint->assert($token);
+        $this->addToAssertionCount(1);
     }
 }

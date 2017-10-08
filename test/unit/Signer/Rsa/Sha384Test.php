@@ -36,6 +36,6 @@ final class Sha384Test extends \PHPUnit\Framework\TestCase
     {
         $signer = new Sha384();
 
-        self::assertEquals(OPENSSL_ALGO_SHA384, $signer->getAlgorithm());
+        self::assertEquals(\OPENSSL_ALGO_SHA384, $signer->getAlgorithm());
     }
 }

@@ -32,6 +32,6 @@ final class Sha512 extends Rsa
      */
     public function getAlgorithm(): int
     {
-        return OPENSSL_ALGO_SHA512;
+        return \OPENSSL_ALGO_SHA512;
     }
 }

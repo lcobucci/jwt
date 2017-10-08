@@ -80,6 +80,7 @@ final class IssuedByTest extends ConstraintTestCase
         $token      = $this->buildToken([RegisteredClaims::ISSUER => 'test.com']);
         $constraint = new IssuedBy('test.com', 'test.net');
 
-        self::assertNull($constraint->assert($token));
+        $constraint->assert($token);
+        $this->addToAssertionCount(1);
     }
 }

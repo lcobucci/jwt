@@ -52,3 +52,7 @@ jobs:
       script:
         - ./vendor/bin/humbug --options='--testsuite=unit'
 
+    - stage: Static Analysis
+      script:
+        - ./vendor/bin/phpstan analyse -c phpstan.neon -l max src test
+

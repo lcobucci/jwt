@@ -62,6 +62,8 @@ final class IdentifiedByTest extends ConstraintTestCase
         $token = $this->buildToken([RegisteredClaims::ID => '123456']);
 
         $constraint = new IdentifiedBy('123456');
-        self::assertNull($constraint->assert($token));
+
+        $constraint->assert($token);
+        $this->addToAssertionCount(1);
     }
 }

@@ -1,0 +1,8 @@
+parameters:
+    ignoreErrors:
+        # Ignore PHPUnit mock stuff
+        - '#but returns PHPUnit_Framework_MockObject_MockObject#'
+        - '#PHPUnit_Framework_MockObject_MockObject.* given#'
+
+        # Ignore ECC adapter stuff (since it's gone die soon)
+        - '#EccAdapter constructor expects Mdanter\\Ecc\\Random\\RandomNumberGeneratorInterface#'

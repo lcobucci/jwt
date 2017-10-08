@@ -91,6 +91,7 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
+        /** @var Token\Plain $read */
         $read = $this->config->getParser()->parse((string) $generated);
 
         self::assertEquals($generated, $read);

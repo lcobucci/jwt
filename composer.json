@@ -28,6 +28,7 @@
         "mikey179/vfsStream": "^1.6",
         "phpbench/phpbench": "dev-master@dev",
         "phpmd/phpmd": "^2.5",
+        "phpstan/phpstan": "^0.8",
         "phpunit/php-invoker": "^1.1",
         "phpunit/phpunit": "^6.0",
         "squizlabs/php_codesniffer": "^3.0"
@@ -45,9 +46,9 @@
             "Lcobucci\\JWT\\": [
                 "test/_keys",
                 "test/unit",
-                "test/functional",
                 "test/performance"
-            ]
+            ],
+            "Lcobucci\\JWT\\FunctionalTests\\": "test/functional"
         }
     },
     "config": {

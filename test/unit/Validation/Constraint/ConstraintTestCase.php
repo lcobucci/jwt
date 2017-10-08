@@ -10,7 +10,6 @@ namespace Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Token\Plain;
-use Lcobucci\JWT\Token as TokenInterface;
 
 abstract class ConstraintTestCase extends \PHPUnit\Framework\TestCase
 {
@@ -18,7 +17,7 @@ abstract class ConstraintTestCase extends \PHPUnit\Framework\TestCase
         array $claims = [],
         array $headers = [],
         Signature $signature = null
-    ): TokenInterface {
+    ): Plain {
         return new Plain(
             new DataSet($headers, ''),
             new DataSet($claims, ''),

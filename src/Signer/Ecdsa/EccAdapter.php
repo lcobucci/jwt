@@ -29,7 +29,7 @@ use Mdanter\Ecc\Random\RandomNumberGeneratorInterface;
  */
 class EccAdapter
 {
-    const GENERATOR_POINTS = [
+    private const GENERATOR_POINTS = [
         'sha256' => 'generator256',
         'sha384' => 'generator384',
         'sha512' => 'generator521',
@@ -118,7 +118,7 @@ class EccAdapter
 
     private function generatorPoint(string $algorithm): GeneratorPoint
     {
-        if (! array_key_exists($algorithm, self::GENERATOR_POINTS)) {
+        if (! \array_key_exists($algorithm, self::GENERATOR_POINTS)) {
             throw new InvalidArgumentException('Unknown algorithm');
         }
 

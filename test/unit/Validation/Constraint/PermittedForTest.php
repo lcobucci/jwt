@@ -80,6 +80,7 @@ final class PermittedForTest extends ConstraintTestCase
         $token      = $this->buildToken([RegisteredClaims::AUDIENCE => ['aa.com', 'test.com']]);
         $constraint = new PermittedFor('test.com');
 
-        self::assertNull($constraint->assert($token));
+        $constraint->assert($token);
+        $this->addToAssertionCount(1);
     }
 }

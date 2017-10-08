@@ -84,6 +84,7 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
+        /** @var Token\Plain $read */
         $read = $this->config->getParser()->parse((string) $generated);
 
         self::assertEquals($generated, $read);
@@ -191,7 +192,8 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
         $data = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.Rh'
                 . '7AEgqCB7zae1PkgIlvOpeyw9Ab8NGTbeOH7heHO0o';
 
-        $token      = $this->config->getParser()->parse((string) $data);
+        /** @var Token\Plain $token */
+        $token      = $this->config->getParser()->parse($data);
         $constraint = new SignedWith($this->config->getSigner(), $this->config->getVerificationKey());
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));

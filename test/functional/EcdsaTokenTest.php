@@ -158,6 +158,7 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
+        /** @var Token\Plain $read */
         $read = $this->config->getParser()->parse((string) $generated);
 
         self::assertEquals($generated, $read);
@@ -358,14 +359,15 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
                 . 'TSQ91oEXGXBdtwsN6yalzP9J-sp2YATX_Tv4h-BednbdSvYxZsYnUoZ--ZU'
                 . 'dL10t7g8Yt3y9hdY_diOjIptcha6ajX8yzkDGYG42iSe3f5LywSuD6FO5c';
 
-        $key = '-----BEGIN PUBLIC KEY-----' . PHP_EOL
-               . 'MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAcpkss6wI7PPlxj3t7A1RqMH3nvL4' . PHP_EOL
-               . 'L5Tzxze/XeeYZnHqxiX+gle70DlGRMqqOq+PJ6RYX7vK0PJFdiAIXlyPQq0B3KaU' . PHP_EOL
-               . 'e86IvFeQSFrJdCc0K8NfiH2G1loIk3fiR+YLqlXk6FAeKtpXJKxR1pCQCAM+vBCs' . PHP_EOL
-               . 'mZudf1zCUZ8/4eodlHU=' . PHP_EOL
+        $key = '-----BEGIN PUBLIC KEY-----' . \PHP_EOL
+               . 'MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAcpkss6wI7PPlxj3t7A1RqMH3nvL4' . \PHP_EOL
+               . 'L5Tzxze/XeeYZnHqxiX+gle70DlGRMqqOq+PJ6RYX7vK0PJFdiAIXlyPQq0B3KaU' . \PHP_EOL
+               . 'e86IvFeQSFrJdCc0K8NfiH2G1loIk3fiR+YLqlXk6FAeKtpXJKxR1pCQCAM+vBCs' . \PHP_EOL
+               . 'mZudf1zCUZ8/4eodlHU=' . \PHP_EOL
                . '-----END PUBLIC KEY-----';
 
-        $token      = $this->config->getParser()->parse((string) $data);
+        /** @var Token\Plain $token */
+        $token      = $this->config->getParser()->parse($data);
         $constraint = new SignedWith(Sha512::create(), new Key($key));
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));

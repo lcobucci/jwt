@@ -97,13 +97,13 @@ class KeyParser
     {
         $match = null;
 
-        preg_match(
+        \preg_match(
             '/[\-]{5}BEGIN ' . $header . '[\-]{5}(.*)[\-]{5}END ' . $header . '[\-]{5}/',
-            str_replace([PHP_EOL, "\n", "\r"], '', $key->getContent()),
+            \str_replace([\PHP_EOL, "\n", "\r"], '', $key->getContent()),
             $match
         );
 
-        if (count($match) === 2) {
+        if (\count($match) === 2) {
             return $match[1];
         }
 

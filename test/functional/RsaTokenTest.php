@@ -140,6 +140,7 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
+        /** @var Token\Plain $read */
         $read = $this->config->getParser()->parse((string) $generated);
 
         self::assertEquals($generated, $read);
@@ -284,7 +285,8 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
                 . 'nJCupP-Lqh4TmIhftIimSCgLNmJg80wyrpUEfZYReE7hPuEmY0ClTqAGIMQoNS'
                 . '98ljwDxwhfbSuL2tAdbV4DekbTpWzspe3dOJ7RSzmPKVZ6NoezaIazKqyqkmHZfcMaHI1lQeGia6LTbHU1bp0gINi74Vw';
 
-        $token      = $this->config->getParser()->parse((string) $data);
+        /** @var Token\Plain $token */
+        $token      = $this->config->getParser()->parse($data);
         $constraint = new SignedWith($this->config->getSigner(), $this->config->getVerificationKey());
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));

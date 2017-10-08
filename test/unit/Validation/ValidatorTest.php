@@ -67,7 +67,9 @@ final class ValidatorTest extends \PHPUnit\Framework\TestCase
         $constraint->expects($this->once())->method('assert');
 
         $validator = new Validator();
-        self::assertNull($validator->assert($this->token, $constraint));
+
+        $validator->assert($this->token, $constraint);
+        $this->addToAssertionCount(1);
     }
 
     /**

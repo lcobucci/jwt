@@ -43,7 +43,7 @@ final class Parser implements ParserInterface
      */
     public function parse(string $jwt): TokenInterface
     {
-        list($encodedHeaders, $encodedClaims, $encodedSignature) = $this->splitJwt($jwt);
+        [$encodedHeaders, $encodedClaims, $encodedSignature] = $this->splitJwt($jwt);
 
         $header = $this->parseHeader($encodedHeaders);
 
@@ -61,9 +61,9 @@ final class Parser implements ParserInterface
      */
     private function splitJwt(string $jwt): array
     {
-        $data = explode('.', $jwt);
+        $data = \explode('.', $jwt);
 
-        if (count($data) !== 3) {
+        if (\count($data) !== 3) {
             throw new InvalidArgumentException('The JWT string must have two dots');
         }
 
@@ -97,7 +97,7 @@ final class Parser implements ParserInterface
             $claims[RegisteredClaims::AUDIENCE] = (array) $claims[RegisteredClaims::AUDIENCE];
         }
 
-        foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
+        foreach (\array_intersect(RegisteredClaims::DATE_CLAIMS, \array_keys($claims)) as $claim) {
             $claims[$claim] = $this->convertDate((string) $claims[$claim]);
         }
 
@@ -106,7 +106,7 @@ final class Parser implements ParserInterface
 
     private function convertDate(string $value): DateTimeImmutable
     {
-        if (strpos($value, '.') === false) {
+        if (\strpos($value, '.') === false) {
             return new DateTimeImmutable('@' . $value);
         }
 

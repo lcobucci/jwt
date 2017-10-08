@@ -44,25 +44,25 @@ final class SignatureSerializerTest extends \PHPUnit\Framework\TestCase
         $points = ['R' => 1, 'S' => 2];
 
         $this->signature = new Signature(
-            gmp_init($points['R'], 10),
-            gmp_init($points['S'], 10)
+            \gmp_init($points['R'], 10),
+            \gmp_init($points['S'], 10)
         );
 
         $this->signatureData = [
-            'sha256' => pack(
+            'sha256' => \pack(
                 'H*',
-                str_repeat('0', 63) . $points['R']
-                . str_repeat('0', 63) . $points['S']
+                \str_repeat('0', 63) . $points['R']
+                . \str_repeat('0', 63) . $points['S']
             ),
-            'sha384' => pack(
+            'sha384' => \pack(
                 'H*',
-                str_repeat('0', 95) . $points['R']
-                . str_repeat('0', 95) . $points['S']
+                \str_repeat('0', 95) . $points['R']
+                . \str_repeat('0', 95) . $points['S']
             ),
-            'sha512' => pack(
+            'sha512' => \pack(
                 'H*',
-                str_repeat('0', 131) . $points['R']
-                . str_repeat('0', 131) . $points['S']
+                \str_repeat('0', 131) . $points['R']
+                . \str_repeat('0', 131) . $points['S']
             )
         ];
     }

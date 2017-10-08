@@ -17,7 +17,7 @@ namespace Lcobucci\JWT\Token;
  */
 interface RegisteredClaims
 {
-    const ALL = [
+    public const ALL = [
         self::AUDIENCE,
         self::EXPIRATION_TIME,
         self::ID,
@@ -27,7 +27,7 @@ interface RegisteredClaims
         self::SUBJECT
     ];
 
-    const DATE_CLAIMS = [
+    public const DATE_CLAIMS = [
         self::ISSUED_AT,
         self::NOT_BEFORE,
         self::EXPIRATION_TIME
@@ -38,47 +38,47 @@ interface RegisteredClaims
      *
      * @see https://tools.ietf.org/html/rfc7519#section-4.1.3
      */
-    const AUDIENCE = 'aud';
+    public const AUDIENCE = 'aud';
 
     /**
      * Identifies the expiration time on or after which the JWT MUST NOT be accepted for processing
      *
      * @see https://tools.ietf.org/html/rfc7519#section-4.1.4
      */
-    const EXPIRATION_TIME = 'exp';
+    public const EXPIRATION_TIME = 'exp';
 
     /**
      * Provides a unique identifier for the JWT
      *
      * @see https://tools.ietf.org/html/rfc7519#section-4.1.7
      */
-    const ID = 'jti';
+    public const ID = 'jti';
 
     /**
      * Identifies the time at which the JWT was issued
      *
      * @see https://tools.ietf.org/html/rfc7519#section-4.1.6
      */
-    const ISSUED_AT = 'iat';
+    public const ISSUED_AT = 'iat';
 
     /**
      * Identifies the principal that issued the JWT
      *
      * @see https://tools.ietf.org/html/rfc7519#section-4.1.1
      */
-    const ISSUER = 'iss';
+    public const ISSUER = 'iss';
 
     /**
      * Identifies the time before which the JWT MUST NOT be accepted for processing
      *
      * https://tools.ietf.org/html/rfc7519#section-4.1.5
      */
-    const NOT_BEFORE = 'nbf';
+    public const NOT_BEFORE = 'nbf';
 
     /**
      * Identifies the principal that is the subject of the JWT.
      *
      * https://tools.ietf.org/html/rfc7519#section-4.1.2
      */
-    const SUBJECT = 'sub';
+    public const SUBJECT = 'sub';
 }

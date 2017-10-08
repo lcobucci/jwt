@@ -39,7 +39,7 @@ final class DataSet
 
     public function has(string $name): bool
     {
-        return array_key_exists($name, $this->data);
+        return \array_key_exists($name, $this->data);
     }
 
     public function all(): array
