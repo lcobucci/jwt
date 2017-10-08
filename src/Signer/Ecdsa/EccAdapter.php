@@ -29,7 +29,7 @@ use Mdanter\Ecc\Random\RandomNumberGeneratorInterface;
  */
 class EccAdapter
 {
-    const GENERATOR_POINTS = [
+    private const GENERATOR_POINTS = [
         'sha256' => 'generator256',
         'sha384' => 'generator384',
         'sha512' => 'generator521',
