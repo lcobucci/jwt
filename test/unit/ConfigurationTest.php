@@ -1,16 +1,13 @@
 <?php
-/**
- * This file is part of Lcobucci\JWT, a simple library to handle JWT and JWS
- *
- * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- */
+
+declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
 use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
-use Lcobucci\JWT\Token\Builder;
+use Lcobucci\JWT\Token\Builder as BuilderImpl;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -129,7 +126,7 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $config  = Configuration::forUnsecuredSigner();
         $builder = $config->createBuilder();
 
-        self::assertInstanceOf(Builder::class, $builder);
+        self::assertInstanceOf(BuilderImpl::class, $builder);
         self::assertAttributeNotSame($this->encoder, 'encoder', $builder);
     }
 
@@ -153,7 +150,7 @@ final class ConfigurationTest extends \PHPUnit\Framework\TestCase
 
         $builder = $config->createBuilder();
 
-        self::assertInstanceOf(Builder::class, $builder);
+        self::assertInstanceOf(BuilderImpl::class, $builder);
         self::assertAttributeSame($this->encoder, 'encoder', $builder);
     }
 
