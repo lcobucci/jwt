@@ -13,6 +13,7 @@ use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512 as ES512;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HS512;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 
 final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
@@ -80,7 +81,9 @@ final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
          * Now, if we allow the attacker to dictate what Signer we use
          * (e.g. HMAC-SHA512 instead of ECDSA), they can forge messages!
          */
-        $token = $this->config->getParser()->parse((string) $bad);
+
+        /** @var Plain $token */
+        $token = $this->config->getParser()->parse($bad);
 
         self::assertEquals('world', $token->claims()->get('hello'), 'The claim content should not be modified');
 

@@ -397,8 +397,9 @@ final class ParserTest extends \PHPUnit\Framework\TestCase
                       ->with('b_dec')
                       ->willReturn($data);
 
-        $parser = $this->createParser();
-        $claims = $parser->parse('a.b.')->claims();
+        /** @var Plain $token */
+        $token  = $this->createParser()->parse('a.b.');
+        $claims = $token->claims();
 
         self::assertEquals(
             DateTimeImmutable::createFromFormat('U', '1486930663'),

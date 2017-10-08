@@ -158,6 +158,7 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
+        /** @var Token\Plain $read */
         $read = $this->config->getParser()->parse((string) $generated);
 
         self::assertEquals($generated, $read);
@@ -365,7 +366,8 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
                . 'mZudf1zCUZ8/4eodlHU=' . PHP_EOL
                . '-----END PUBLIC KEY-----';
 
-        $token      = $this->config->getParser()->parse((string) $data);
+        /** @var Token\Plain $token */
+        $token      = $this->config->getParser()->parse($data);
         $constraint = new SignedWith(Sha512::create(), new Key($key));
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));

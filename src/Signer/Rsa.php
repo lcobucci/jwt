@@ -53,7 +53,7 @@ abstract class Rsa implements Signer
     /**
      * Raise an exception when the key type is not the expected type
      *
-     * @param resource $key
+     * @param resource|bool $key
      *
      * @throws InvalidArgumentException
      */
