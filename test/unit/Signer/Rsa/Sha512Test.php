@@ -36,6 +36,6 @@ final class Sha512Test extends \PHPUnit\Framework\TestCase
     {
         $signer = new Sha512();
 
-        self::assertEquals(OPENSSL_ALGO_SHA512, $signer->getAlgorithm());
+        self::assertEquals(\OPENSSL_ALGO_SHA512, $signer->getAlgorithm());
     }
 }

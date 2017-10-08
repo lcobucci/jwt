@@ -45,7 +45,7 @@ final class HmacTest extends \PHPUnit\Framework\TestCase
      */
     public function signMustReturnAHashAccordingWithTheAlgorithm(): string
     {
-        $hash = hash_hmac('sha256', 'test', '123', true);
+        $hash = \hash_hmac('sha256', 'test', '123', true);
 
         self::assertEquals($hash, $this->signer->sign('test', new Key('123')));
 

@@ -32,6 +32,6 @@ final class Sha384 extends Rsa
      */
     public function getAlgorithm(): int
     {
-        return OPENSSL_ALGO_SHA384;
+        return \OPENSSL_ALGO_SHA384;
     }
 }

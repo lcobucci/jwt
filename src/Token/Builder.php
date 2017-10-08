@@ -59,7 +59,7 @@ final class Builder implements BuilderInterface
     {
         $audiences = $this->claims[RegisteredClaims::AUDIENCE] ?? [];
 
-        if (! in_array($audience, $audiences)) {
+        if (! \in_array($audience, $audiences)) {
             $audiences[] = $audience;
         }
 
@@ -129,7 +129,7 @@ final class Builder implements BuilderInterface
      */
     public function withClaim(string $name, $value): BuilderInterface
     {
-        if (in_array($name, RegisteredClaims::ALL, true)) {
+        if (\in_array($name, RegisteredClaims::ALL, true)) {
             throw new \InvalidArgumentException('You should use the correct methods to set registered claims');
         }
 
@@ -177,7 +177,7 @@ final class Builder implements BuilderInterface
             $claims[RegisteredClaims::AUDIENCE] = $claims[RegisteredClaims::AUDIENCE][0];
         }
 
-        foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
+        foreach (\array_intersect(RegisteredClaims::DATE_CLAIMS, \array_keys($claims)) as $claim) {
             $claims[$claim] = $this->convertDate($claims[$claim]);
         }
 

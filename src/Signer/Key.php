@@ -44,7 +44,7 @@ final class Key
      */
     private function setContent(string $content): void
     {
-        if (strpos($content, 'file://') === 0) {
+        if (\strpos($content, 'file://') === 0) {
             $content = $this->readFile($content);
         }
 
@@ -60,13 +60,13 @@ final class Key
      */
     private function readFile(string $content): string
     {
-        $file = substr($content, 7);
+        $file = \substr($content, 7);
 
-        if (! is_readable($file)) {
+        if (! \is_readable($file)) {
             throw new \InvalidArgumentException('You must inform a valid key file');
         }
 
-        return file_get_contents($file);
+        return \file_get_contents($file);
     }
 
     /**

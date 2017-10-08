@@ -32,6 +32,6 @@ final class Sha256 extends Rsa
      */
     public function getAlgorithm(): int
     {
-        return OPENSSL_ALGO_SHA256;
+        return \OPENSSL_ALGO_SHA256;
     }
 }

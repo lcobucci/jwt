@@ -118,7 +118,7 @@ class EccAdapter
 
     private function generatorPoint(string $algorithm): GeneratorPoint
     {
-        if (! array_key_exists($algorithm, self::GENERATOR_POINTS)) {
+        if (! \array_key_exists($algorithm, self::GENERATOR_POINTS)) {
             throw new InvalidArgumentException('Unknown algorithm');
         }
 
