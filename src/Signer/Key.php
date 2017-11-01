@@ -54,17 +54,22 @@ final class Key
      *
      * @return string
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function readFile($content)
     {
         $file = substr($content, 7);
 
         if (!is_readable($file)) {
-            throw new \InvalidArgumentException('You must inform a valid key file');
+            throw new InvalidArgumentException('You must inform a valid key file');
         }
 
-        return file_get_contents($file);
+        $content = file_get_contents($file);
+        if ($content === false) {
+            throw new InvalidArgumentException('You must inform a valid key file');
+        }
+
+        return $content;
     }
 
     /**
