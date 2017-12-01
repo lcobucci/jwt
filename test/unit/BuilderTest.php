@@ -96,6 +96,24 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Builder::setAudience
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
      */
+    public function setAudienceCanChangeTheAudClaimWithArray()
+    {
+        $builder = $this->createBuilder();
+        $builder->setAudience(['test', 'another_test']);
+
+        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
+        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $builder);
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Builder::__construct
+     * @uses Lcobucci\JWT\Builder::set
+     *
+     * @covers Lcobucci\JWT\Builder::setAudience
+     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     */
     public function setAudienceCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
