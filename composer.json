@@ -23,7 +23,7 @@
         "lcobucci/jose-parsing": "~2.1"
     },
     "require-dev": {
-        "humbug/humbug": "1.0.0-rc.0@RC",
+        "infection/infection": "^0.8",
         "mdanter/ecc": "^0.4",
         "mikey179/vfsStream": "^1.6",
         "phpbench/phpbench": "dev-master@dev",

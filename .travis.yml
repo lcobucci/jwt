@@ -50,7 +50,7 @@ jobs:
         - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
         - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
       script:
-        - ./vendor/bin/humbug --options='--testsuite=unit'
+        - ./vendor/bin/infection --test-framework-options="--testsuite unit" -s --threads=4
 
     - stage: Static Analysis
       script:

@@ -1,7 +1,7 @@
 vendor
 phpunit.xml
 composer.lock
-humbuglog.txt
+infection.txt
 coverage
 phpcs.xml
 /.phpcs.cache
