@@ -1,3 +1,6 @@
+> ⚠️ The documentation of the **stable** version is on branch
+[3.2](https://github.com/lcobucci/jwt/blob/3.2/README.md). ⚠️
+
 # JWT
 [![Gitter](https://img.shields.io/badge/GITTER-JOIN%20CHAT%20%E2%86%92-brightgreen.svg?style=flat-square)](https://gitter.im/lcobucci/jwt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Total Downloads](https://img.shields.io/packagist/dt/lcobucci/jwt.svg?style=flat-square)](https://packagist.org/packages/lcobucci/jwt)
