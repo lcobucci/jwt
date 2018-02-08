@@ -54,7 +54,7 @@ final class Builder implements BuilderInterface
     {
         $audiences = $this->claims[RegisteredClaims::AUDIENCE] ?? [];
 
-        if (! \in_array($audience, $audiences)) {
+        if (! \in_array($audience, $audiences, true)) {
             $audiences[] = $audience;
         }
 

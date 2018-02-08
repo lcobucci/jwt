@@ -28,7 +28,9 @@
         "mikey179/vfsStream": "^1.6",
         "phpbench/phpbench": "dev-master@dev",
         "phpmd/phpmd": "^2.5",
-        "phpstan/phpstan": "^0.8",
+        "phpstan/phpstan": "^0.9",
+        "phpstan/phpstan-phpunit": "^0.9",
+        "phpstan/phpstan-strict-rules": "^0.9",
         "phpunit/php-invoker": "^1.1",
         "phpunit/phpunit": "^7.0",
         "squizlabs/php_codesniffer": "^3.0"
