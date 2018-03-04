@@ -1,17 +1,12 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Signer;
+use function hash_equals;
+use function hash_hmac;
 
-/**
- * Base class for hmac signers
- *
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
- */
 abstract class Hmac implements Signer
 {
     /**
@@ -19,7 +14,7 @@ abstract class Hmac implements Signer
      */
     final public function sign(string $payload, Key $key): string
     {
-        return \hash_hmac($this->getAlgorithm(), $payload, $key->getContent(), true);
+        return hash_hmac($this->getAlgorithm(), $payload, $key->getContent(), true);
     }
 
     /**
@@ -27,13 +22,8 @@ abstract class Hmac implements Signer
      */
     final public function verify(string $expected, string $payload, Key $key): bool
     {
-        return \hash_equals($expected, $this->sign($payload, $key));
+        return hash_equals($expected, $this->sign($payload, $key));
     }
 
-    /**
-     * Returns the algorithm name
-     *
-     * @return string
-     */
     abstract public function getAlgorithm(): string;
 }

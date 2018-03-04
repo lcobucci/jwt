@@ -1,10 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
-final class DataSetTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+final class DataSetTest extends TestCase
 {
     /**
      * @test

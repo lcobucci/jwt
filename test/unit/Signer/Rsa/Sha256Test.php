@@ -1,14 +1,12 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Rsa;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
- */
-final class Sha256Test extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+use const OPENSSL_ALGO_SHA256;
+
+final class Sha256Test extends TestCase
 {
     /**
      * @test
@@ -31,6 +29,6 @@ final class Sha256Test extends \PHPUnit\Framework\TestCase
     {
         $signer = new Sha256();
 
-        self::assertEquals(\OPENSSL_ALGO_SHA256, $signer->getAlgorithm());
+        self::assertEquals(OPENSSL_ALGO_SHA256, $signer->getAlgorithm());
     }
 }

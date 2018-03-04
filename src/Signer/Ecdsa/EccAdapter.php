@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Ecdsa;
@@ -15,13 +14,8 @@ use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
 use Mdanter\Ecc\Random\RandomGeneratorFactory;
 use Mdanter\Ecc\Random\RandomNumberGeneratorInterface;
+use function array_key_exists;
 
-/**
- * PHPECC adapter in order to simplify ECDSA base signer
- *
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 4.0.0
- */
 class EccAdapter
 {
     private const GENERATOR_POINTS = [
@@ -113,7 +107,7 @@ class EccAdapter
 
     private function generatorPoint(string $algorithm): GeneratorPoint
     {
-        if (! \array_key_exists($algorithm, self::GENERATOR_POINTS)) {
+        if (! array_key_exists($algorithm, self::GENERATOR_POINTS)) {
             throw new InvalidArgumentException('Unknown algorithm');
         }
 

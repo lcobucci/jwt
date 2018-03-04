@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Ecdsa;
@@ -15,11 +14,11 @@ use Mdanter\Ecc\Serializer\PrivateKey\PrivateKeySerializerInterface;
 use Mdanter\Ecc\Serializer\PublicKey\DerPublicKeySerializer;
 use Mdanter\Ecc\Serializer\PublicKey\PemPublicKeySerializer;
 use Mdanter\Ecc\Serializer\PublicKey\PublicKeySerializerInterface;
+use const PHP_EOL;
+use function count;
+use function preg_match;
+use function str_replace;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 3.0.4
- */
 class KeyParser
 {
     /**
@@ -56,10 +55,6 @@ class KeyParser
 
     /**
      * Parses a public key from the given PEM content
-     *
-     * @param Key $key
-     *
-     * @return PublicKeyInterface
      */
     public function getPublicKey(Key $key): PublicKeyInterface
     {
@@ -68,10 +63,6 @@ class KeyParser
 
     /**
      * Parses a private key from the given PEM content
-     *
-     * @param Key $key
-     *
-     * @return PrivateKeyInterface
      */
     public function getPrivateKey(Key $key): PrivateKeyInterface
     {
@@ -81,24 +72,19 @@ class KeyParser
     /**
      * Extracts the base 64 value from the PEM certificate
      *
-     * @param Key $key
-     * @param string $header
-     *
-     * @return string
-     *
-     * @throws InvalidArgumentException When given key is not a ECDSA key
+     * @throws InvalidArgumentException When given key is not a ECDSA key.
      */
     private function getKeyContent(Key $key, string $header): string
     {
         $match = null;
 
-        \preg_match(
+        preg_match(
             '/[\-]{5}BEGIN ' . $header . '[\-]{5}(.*)[\-]{5}END ' . $header . '[\-]{5}/',
-            \str_replace([\PHP_EOL, "\n", "\r"], '', $key->getContent()),
+            str_replace([PHP_EOL, "\n", "\r"], '', $key->getContent()),
             $match
         );
 
-        if (\count($match) === 2) {
+        if (count($match) === 2) {
             return $match[1];
         }
 

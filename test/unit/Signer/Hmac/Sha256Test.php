@@ -1,14 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Hmac;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
- */
-final class Sha256Test extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+final class Sha256Test extends TestCase
 {
     /**
      * @test

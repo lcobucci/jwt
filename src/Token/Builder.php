@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
@@ -9,39 +8,27 @@ use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Builder as BuilderInterface;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
+use function array_intersect;
+use function array_keys;
+use function in_array;
 
-/**
- * This class makes easier the token creation process
- *
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
- */
 final class Builder implements BuilderInterface
 {
     /**
-     * The token header
-     *
-     * @var array
+     * @var mixed[]
      */
-    private $headers = ['typ'=> 'JWT', 'alg' => 'none'];
+    private $headers = ['typ' => 'JWT', 'alg' => 'none'];
 
     /**
-     * The token claim set
-     *
-     * @var array
+     * @var mixed[]
      */
     private $claims = [];
 
     /**
-     * The data encoder
-     *
      * @var Parsing\Encoder
      */
     private $encoder;
 
-    /**
-     * Initializes a new builder
-     */
     public function __construct(Parsing\Encoder $encoder)
     {
         $this->encoder = $encoder;
@@ -54,7 +41,7 @@ final class Builder implements BuilderInterface
     {
         $audiences = $this->claims[RegisteredClaims::AUDIENCE] ?? [];
 
-        if (! \in_array($audience, $audiences, true)) {
+        if (! in_array($audience, $audiences, true)) {
             $audiences[] = $audience;
         }
 
@@ -124,13 +111,16 @@ final class Builder implements BuilderInterface
      */
     public function withClaim(string $name, $value): BuilderInterface
     {
-        if (\in_array($name, RegisteredClaims::ALL, true)) {
+        if (in_array($name, RegisteredClaims::ALL, true)) {
             throw new \InvalidArgumentException('You should use the correct methods to set registered claims');
         }
 
         return $this->setClaim($name, $value);
     }
 
+    /**
+     * @param mixed $value
+     */
     private function setClaim(string $name, $value): BuilderInterface
     {
         $this->claims[$name] = $value;
@@ -138,6 +128,9 @@ final class Builder implements BuilderInterface
         return $this;
     }
 
+    /**
+     * @param mixed[] $items
+     */
     private function encode(array $items): string
     {
         return $this->encoder->base64UrlEncode(
@@ -166,13 +159,18 @@ final class Builder implements BuilderInterface
         );
     }
 
+    /**
+     * @param mixed[] $claims
+     *
+     * @return mixed[]
+     */
     private function formatClaims(array $claims): array
     {
         if (isset($claims[RegisteredClaims::AUDIENCE][0]) && ! isset($claims[RegisteredClaims::AUDIENCE][1])) {
             $claims[RegisteredClaims::AUDIENCE] = $claims[RegisteredClaims::AUDIENCE][0];
         }
 
-        foreach (\array_intersect(RegisteredClaims::DATE_CLAIMS, \array_keys($claims)) as $claim) {
+        foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
             $claims[$claim] = $this->convertDate($claims[$claim]);
         }
 

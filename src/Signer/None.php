@@ -1,15 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Signer;
 
-/**
- * @author Luís Cobucci <lcobucci@gmail.com>
- * @since 4.0.0
- */
 final class None implements Signer
 {
     /**

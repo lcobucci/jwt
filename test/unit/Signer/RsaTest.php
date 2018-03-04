@@ -1,16 +1,17 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Keys;
+use PHPUnit\Framework\TestCase;
+use const OPENSSL_ALGO_SHA256;
+use function openssl_get_privatekey;
+use function openssl_get_publickey;
+use function openssl_sign;
+use function openssl_verify;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 4.0.0
- */
-final class RsaTest extends \PHPUnit\Framework\TestCase
+final class RsaTest extends TestCase
 {
     use Keys;
 
@@ -31,8 +32,8 @@ final class RsaTest extends \PHPUnit\Framework\TestCase
         $signer    = $this->getSigner();
         $signature = $signer->sign($payload, self::$rsaKeys['private']);
 
-        $publicKey = \openssl_get_publickey(self::$rsaKeys['public']->getContent());
-        self::assertSame(1, \openssl_verify($payload, $signature, $publicKey, \OPENSSL_ALGO_SHA256));
+        $publicKey = openssl_get_publickey(self::$rsaKeys['public']->getContent());
+        self::assertSame(1, openssl_verify($payload, $signature, $publicKey, OPENSSL_ALGO_SHA256));
     }
 
     /**
@@ -110,9 +111,9 @@ KEY;
     public function verifyShouldReturnAValidOpensslSignature(): void
     {
         $payload    = 'testing';
-        $privateKey = \openssl_get_privatekey(self::$rsaKeys['private']->getContent());
+        $privateKey = openssl_get_privatekey(self::$rsaKeys['private']->getContent());
         $signature  = '';
-        \openssl_sign($payload, $signature, $privateKey, \OPENSSL_ALGO_SHA256);
+        openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);
 
         $signer = $this->getSigner();
 
@@ -160,7 +161,7 @@ KEY;
         $signer = $this->getMockForAbstractClass(Rsa::class);
 
         $signer->method('getAlgorithm')
-               ->willReturn(\OPENSSL_ALGO_SHA256);
+               ->willReturn(OPENSSL_ALGO_SHA256);
 
         $signer->method('getAlgorithmId')
                ->willReturn('RS256');

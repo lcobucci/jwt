@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT;
@@ -8,10 +7,6 @@ use DateTimeImmutable;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\Plain;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 4.0.0
- */
 interface Builder
 {
     /**
@@ -51,13 +46,17 @@ interface Builder
 
     /**
      * Configures a header item
+     *
+     * @param mixed $value
      */
     public function withHeader(string $name, $value): Builder;
 
     /**
      * Configures a claim item
      *
-     * @throws \InvalidArgumentException When trying to set a registered claim
+     * @param mixed $value
+     *
+     * @throws \InvalidArgumentException When trying to set a registered claim.
      */
     public function withClaim(string $name, $value): Builder;
 

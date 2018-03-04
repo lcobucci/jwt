@@ -1,21 +1,17 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Ecdsa;
 
+use Lcobucci\JWT\Signer\Key;
 use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
 use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
 use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Serializer\PrivateKey\PrivateKeySerializerInterface;
 use Mdanter\Ecc\Serializer\PublicKey\PublicKeySerializerInterface;
-use Lcobucci\JWT\Signer\Key;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 3.0.4
- */
-final class KeyParserTest extends \PHPUnit\Framework\TestCase
+final class KeyParserTest extends TestCase
 {
     /**
      * @var GmpMathInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -170,9 +166,6 @@ final class KeyParserTest extends \PHPUnit\Framework\TestCase
         $parser->getPublicKey($this->getPrivateKey());
     }
 
-    /**
-     * @return Key
-     */
     private function getPrivateKey(): Key
     {
         return new Key(
@@ -180,20 +173,17 @@ final class KeyParserTest extends \PHPUnit\Framework\TestCase
             . "MHcCAQEEIBGpMoZJ64MMSzuo5JbmXpf9V4qSWdLIl/8RmJLcfn/qoAoGCCqGSM49\n"
             . "AwEHoUQDQgAE7it/EKmcv9bfpcV1fBreLMRXxWpnd0wxa2iFruiI2tsEdGFTLTsy\n"
             . "U+GeRqC7zN0aTnTQajarUylKJ3UWr/r1kg==\n"
-            . "-----END EC PRIVATE KEY-----"
+            . '-----END EC PRIVATE KEY-----'
         );
     }
 
-    /**
-     * @return Key
-     */
     private function getPublicKey(): Key
     {
         return new Key(
             "-----BEGIN PUBLIC KEY-----\n"
             . "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE7it/EKmcv9bfpcV1fBreLMRXxWpn\n"
             . "d0wxa2iFruiI2tsEdGFTLTsyU+GeRqC7zN0aTnTQajarUylKJ3UWr/r1kg==\n"
-            . "-----END PUBLIC KEY-----"
+            . '-----END PUBLIC KEY-----'
         );
     }
 }

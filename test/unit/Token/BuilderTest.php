@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
@@ -8,12 +7,9 @@ use DateTimeImmutable;
 use Lcobucci\Jose\Parsing\Encoder;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
- */
-final class BuilderTest extends \PHPUnit\Framework\TestCase
+final class BuilderTest extends TestCase
 {
     /**
      * @var Encoder|\PHPUnit_Framework_MockObject_MockObject
@@ -35,9 +31,6 @@ final class BuilderTest extends \PHPUnit\Framework\TestCase
         $this->signer->method('getAlgorithmId')->willReturn('RS256');
     }
 
-    /**
-     * @return Builder
-     */
     private function createBuilder(): Builder
     {
         return new Builder($this->encoder);

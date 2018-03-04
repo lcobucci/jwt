@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT;
@@ -8,12 +7,9 @@ use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token\Builder as BuilderImpl;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 4.0.0
- */
-final class ConfigurationTest extends \PHPUnit\Framework\TestCase
+final class ConfigurationTest extends TestCase
 {
     /**
      * @var Parser|\PHPUnit_Framework_MockObject_MockObject

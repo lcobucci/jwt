@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
@@ -9,15 +8,12 @@ use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
-use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
- */
-class RsaTokenTest extends \PHPUnit\Framework\TestCase
+class RsaTokenTest extends TestCase
 {
     use Keys;
 

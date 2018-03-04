@@ -1,14 +1,12 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Rsa;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
- */
-final class Sha512Test extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+use const OPENSSL_ALGO_SHA512;
+
+final class Sha512Test extends TestCase
 {
     /**
      * @test
@@ -31,6 +29,6 @@ final class Sha512Test extends \PHPUnit\Framework\TestCase
     {
         $signer = new Sha512();
 
-        self::assertEquals(\OPENSSL_ALGO_SHA512, $signer->getAlgorithm());
+        self::assertEquals(OPENSSL_ALGO_SHA512, $signer->getAlgorithm());
     }
 }

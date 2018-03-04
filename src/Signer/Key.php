@@ -1,15 +1,14 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
 use InvalidArgumentException;
+use function file_get_contents;
+use function is_readable;
+use function strpos;
+use function substr;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 3.0.4
- */
 final class Key
 {
     /**
@@ -22,10 +21,6 @@ final class Key
      */
     private $passphrase;
 
-    /**
-     * @param string $content
-     * @param string $passphrase
-     */
     public function __construct(string $content, string $passphrase = '')
     {
         $this->setContent($content);
@@ -33,13 +28,11 @@ final class Key
     }
 
     /**
-     * @param string $content
-     *
      * @throws InvalidArgumentException
      */
     private function setContent(string $content): void
     {
-        if (\strpos($content, 'file://') === 0) {
+        if (strpos($content, 'file://') === 0) {
             $content = $this->readFile($content);
         }
 
@@ -47,34 +40,24 @@ final class Key
     }
 
     /**
-     * @param string $content
-     *
-     * @return string
-     *
      * @throws \InvalidArgumentException
      */
     private function readFile(string $content): string
     {
-        $file = \substr($content, 7);
+        $file = substr($content, 7);
 
-        if (! \is_readable($file)) {
+        if (! is_readable($file)) {
             throw new \InvalidArgumentException('You must inform a valid key file');
         }
 
-        return \file_get_contents($file);
+        return file_get_contents($file);
     }
 
-    /**
-     * @return string
-     */
     public function getContent(): string
     {
         return $this->content;
     }
 
-    /**
-     * @return string
-     */
     public function getPassphrase(): string
     {
         return $this->passphrase;
