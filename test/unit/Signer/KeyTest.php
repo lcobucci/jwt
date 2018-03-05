@@ -23,7 +23,10 @@ class KeyTest extends \PHPUnit_Framework_TestCase
         vfsStream::setup(
             'root',
             null,
-            ['test.pem' => 'testing']
+            [
+                'test.pem' => 'testing',
+                'emptyFolder' => []
+            ]
         );
     }
 
@@ -68,6 +71,20 @@ class KeyTest extends \PHPUnit_Framework_TestCase
     public function constructShouldRaiseExceptionWhenFileDoesNotExists()
     {
         new Key('file://' . vfsStream::url('root/test2.pem'));
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \InvalidArgumentException
+     *
+     * @covers Lcobucci\JWT\Signer\Key::__construct
+     * @covers Lcobucci\JWT\Signer\Key::setContent
+     * @covers Lcobucci\JWT\Signer\Key::readFile
+     */
+    public function constructShouldRaiseExceptionWhenFileGetContentsFailed()
+    {
+        new Key('file://' . vfsStream::url('root/emptyFolder'));
     }
 
     /**

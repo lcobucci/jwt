@@ -64,7 +64,7 @@ final class Key
             throw new InvalidArgumentException('You must inform a valid key file');
         }
 
-        $content = file_get_contents($file);
+        $content = @file_get_contents($file);
         if ($content === false) {
             throw new InvalidArgumentException('You must inform a valid key file');
         }
