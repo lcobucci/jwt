@@ -1,3 +1,8 @@
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-strict-rules/rules.neon
+
+parameters:
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#EccAdapter constructor expects .* RandomNumberGeneratorInterface|null given#'
