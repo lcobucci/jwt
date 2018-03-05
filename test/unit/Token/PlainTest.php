@@ -1,16 +1,12 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
- */
-final class PlainTest extends \PHPUnit\Framework\TestCase
+final class PlainTest extends TestCase
 {
     /**
      * @var DataSet
@@ -38,9 +34,9 @@ final class PlainTest extends \PHPUnit\Framework\TestCase
     }
 
     private function createToken(
-        DataSet $headers = null,
-        DataSet $claims = null,
-        Signature $signature = null
+        ?DataSet $headers = null,
+        ?DataSet $claims = null,
+        ?Signature $signature = null
     ): Plain {
         return new Plain(
             $headers ?? $this->headers,

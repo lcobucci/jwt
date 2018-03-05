@@ -27,7 +27,8 @@ jobs:
     - php: nightly
 
   include:
-    - stage: Coverage
+    - stage: Metrics and quality
+      env: COVERAGE
       before_script:
         - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
         - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
@@ -37,22 +38,26 @@ jobs:
         - wget https://scrutinizer-ci.com/ocular.phar
         - php ocular.phar code-coverage:upload --format=php-clover ./clover.xml
 
-    - stage: Performance
+    - stage: Metrics and quality
+      env: BENCHMARK
       script:
         - ./vendor/bin/phpbench run -l dots --report aggregate
 
-    - stage: Code-style
+    - stage: Metrics and quality
+      env: CODE_STANDARD
       script:
         - ./vendor/bin/phpcs
 
-    - stage: Mutation
+    - stage: Metrics and quality
+      env: MUTATION
       before_script:
         - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
         - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
       script:
-        - ./vendor/bin/humbug --options='--testsuite=unit'
+        - ./vendor/bin/infection --test-framework-options="--testsuite unit" -s --threads=4
 
-    - stage: Static Analysis
+    - stage: Metrics and quality
+      env: STATIC_ANALYSIS
       script:
         - ./vendor/bin/phpstan analyse -c phpstan.neon -l max src test
 

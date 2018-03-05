@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
@@ -8,15 +7,12 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
- */
-class HmacTokenTest extends \PHPUnit\Framework\TestCase
+class HmacTokenTest extends TestCase
 {
     /**
      * @var Configuration

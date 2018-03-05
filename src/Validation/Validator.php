@@ -1,16 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Validation;
 
 use Lcobucci\JWT\Token;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- *
- * @since 4.0.0
- */
 final class Validator implements \Lcobucci\JWT\Validator
 {
     /**
@@ -29,6 +23,9 @@ final class Validator implements \Lcobucci\JWT\Validator
         }
     }
 
+    /**
+     * @param ConstraintViolationException[] $violations
+     */
     private function checkConstraint(
         Constraint $constraint,
         Token $token,

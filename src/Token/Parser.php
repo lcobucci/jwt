@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
@@ -9,25 +8,19 @@ use InvalidArgumentException;
 use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Parser as ParserInterface;
 use Lcobucci\JWT\Token as TokenInterface;
+use function array_intersect;
+use function array_keys;
+use function count;
+use function explode;
+use function strpos;
 
-/**
- * This class parses the JWT strings and convert them into tokens
- *
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
- */
 final class Parser implements ParserInterface
 {
     /**
-     * The data decoder
-     *
      * @var Parsing\Decoder
      */
     private $decoder;
 
-    /**
-     * Initializes the object
-     */
     public function __construct(Parsing\Decoder $decoder)
     {
         $this->decoder = $decoder;
@@ -52,13 +45,15 @@ final class Parser implements ParserInterface
     /**
      * Splits the JWT string into an array
      *
-     * @throws InvalidArgumentException When JWT doesn't have all parts
+     * @return string[]
+     *
+     * @throws InvalidArgumentException When JWT doesn't have all parts.
      */
     private function splitJwt(string $jwt): array
     {
-        $data = \explode('.', $jwt);
+        $data = explode('.', $jwt);
 
-        if (\count($data) !== 3) {
+        if (count($data) !== 3) {
             throw new InvalidArgumentException('The JWT string must have two dots');
         }
 
@@ -68,7 +63,9 @@ final class Parser implements ParserInterface
     /**
      * Parses the header from a string
      *
-     * @throws InvalidArgumentException When an invalid header is informed
+     * @return mixed[]
+     *
+     * @throws InvalidArgumentException When an invalid header is informed.
      */
     private function parseHeader(string $data): array
     {
@@ -83,6 +80,8 @@ final class Parser implements ParserInterface
 
     /**
      * Parses the claim set from a string
+     *
+     * @return mixed[]
      */
     private function parseClaims(string $data): array
     {
@@ -92,7 +91,7 @@ final class Parser implements ParserInterface
             $claims[RegisteredClaims::AUDIENCE] = (array) $claims[RegisteredClaims::AUDIENCE];
         }
 
-        foreach (\array_intersect(RegisteredClaims::DATE_CLAIMS, \array_keys($claims)) as $claim) {
+        foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
             $claims[$claim] = $this->convertDate((string) $claims[$claim]);
         }
 
@@ -101,7 +100,7 @@ final class Parser implements ParserInterface
 
     private function convertDate(string $value): DateTimeImmutable
     {
-        if (\strpos($value, '.') === false) {
+        if (strpos($value, '.') === false) {
             return new DateTimeImmutable('@' . $value);
         }
 
@@ -110,6 +109,8 @@ final class Parser implements ParserInterface
 
     /**
      * Returns the signature from given data
+     *
+     * @param mixed[] $header
      */
     private function parseSignature(array $header, string $data): Signature
     {

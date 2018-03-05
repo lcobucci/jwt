@@ -1,17 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Rsa;
 
 use Lcobucci\JWT\Signer\Rsa;
+use const OPENSSL_ALGO_SHA512;
 
-/**
- * Signer for RSA SHA-512
- *
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
- */
 final class Sha512 extends Rsa
 {
     /**
@@ -27,6 +21,6 @@ final class Sha512 extends Rsa
      */
     public function getAlgorithm(): int
     {
-        return \OPENSSL_ALGO_SHA512;
+        return OPENSSL_ALGO_SHA512;
     }
 }

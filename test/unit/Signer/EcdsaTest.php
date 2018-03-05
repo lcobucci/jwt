@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
@@ -7,16 +6,10 @@ namespace Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Ecdsa\BaseTestCase;
 use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
 use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
+use function gmp_init;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
- */
 final class EcdsaTest extends BaseTestCase
 {
-    /**
-     * @return Ecdsa
-     */
     private function getSigner(): Ecdsa
     {
         $signer = $this->getMockForAbstractClass(
@@ -58,7 +51,7 @@ final class EcdsaTest extends BaseTestCase
         $signer      = $this->getSigner();
         $key         = new Key('testing');
         $privateKey  = $this->createMock(PrivateKeyInterface::class);
-        $signingHash = \gmp_init(10, 10);
+        $signingHash = gmp_init(10, 10);
 
         $this->keyParser->expects($this->once())
                       ->method('getPrivateKey')
@@ -91,7 +84,7 @@ final class EcdsaTest extends BaseTestCase
         $signer      = $this->getSigner();
         $key         = new Key('testing');
         $publicKey   = $this->createMock(PublicKeyInterface::class);
-        $signingHash = \gmp_init(10, 10);
+        $signingHash = gmp_init(10, 10);
 
         $this->keyParser->expects($this->once())
                         ->method('getPublicKey')

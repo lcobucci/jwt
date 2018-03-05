@@ -1,16 +1,12 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 3.0.4
- */
-final class KeyTest extends \PHPUnit\Framework\TestCase
+final class KeyTest extends TestCase
 {
     /**
      * @before

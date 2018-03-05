@@ -1,18 +1,14 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
 use Lcobucci\Jose\Parsing\Decoder;
+use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
- */
-final class ParserTest extends \PHPUnit\Framework\TestCase
+final class ParserTest extends TestCase
 {
     /**
      * @var Decoder|\PHPUnit_Framework_MockObject_MockObject
@@ -27,9 +23,6 @@ final class ParserTest extends \PHPUnit\Framework\TestCase
         $this->decoder = $this->createMock(Decoder::class);
     }
 
-    /**
-     * @return Parser
-     */
     private function createParser(): Parser
     {
         return new Parser($this->decoder);
@@ -369,7 +362,7 @@ final class ParserTest extends \PHPUnit\Framework\TestCase
         $data = [
             RegisteredClaims::ISSUED_AT => 1486930663,
             RegisteredClaims::NOT_BEFORE => 1486930663,
-            RegisteredClaims::EXPIRATION_TIME => '1486930757.023055'
+            RegisteredClaims::EXPIRATION_TIME => '1486930757.023055',
         ];
 
         $this->decoder->expects($this->at(0))

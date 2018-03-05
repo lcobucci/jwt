@@ -1,14 +1,12 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
- */
-final class HmacTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+use function hash_hmac;
+
+final class HmacTest extends TestCase
 {
     /**
      * @var Hmac|\PHPUnit_Framework_MockObject_MockObject
@@ -40,7 +38,7 @@ final class HmacTest extends \PHPUnit\Framework\TestCase
      */
     public function signMustReturnAHashAccordingWithTheAlgorithm(): string
     {
-        $hash = \hash_hmac('sha256', 'test', '123', true);
+        $hash = hash_hmac('sha256', 'test', '123', true);
 
         self::assertEquals($hash, $this->signer->sign('test', new Key('123')));
 

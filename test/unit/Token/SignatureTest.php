@@ -1,14 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
- */
-final class SignatureTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+final class SignatureTest extends TestCase
 {
     /**
      * @test

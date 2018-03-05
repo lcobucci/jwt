@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Ecdsa;
@@ -7,12 +6,12 @@ namespace Lcobucci\JWT\Signer\Ecdsa;
 use Mdanter\Ecc\Crypto\Signature\Signature;
 use Mdanter\Ecc\Math\GmpMath;
 use Mdanter\Ecc\Math\GmpMathInterface;
+use PHPUnit\Framework\TestCase;
+use function gmp_init;
+use function pack;
+use function str_repeat;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 4.0.0
- */
-final class SignatureSerializerTest extends \PHPUnit\Framework\TestCase
+final class SignatureSerializerTest extends TestCase
 {
     /**
      * @var GmpMathInterface
@@ -25,7 +24,7 @@ final class SignatureSerializerTest extends \PHPUnit\Framework\TestCase
     private $signature;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $signatureData;
 
@@ -39,26 +38,23 @@ final class SignatureSerializerTest extends \PHPUnit\Framework\TestCase
         $points = ['R' => 1, 'S' => 2];
 
         $this->signature = new Signature(
-            \gmp_init($points['R'], 10),
-            \gmp_init($points['S'], 10)
+            gmp_init($points['R'], 10),
+            gmp_init($points['S'], 10)
         );
 
         $this->signatureData = [
-            'sha256' => \pack(
+            'sha256' => pack(
                 'H*',
-                \str_repeat('0', 63) . $points['R']
-                . \str_repeat('0', 63) . $points['S']
+                str_repeat('0', 63) . $points['R'] . str_repeat('0', 63) . $points['S']
             ),
-            'sha384' => \pack(
+            'sha384' => pack(
                 'H*',
-                \str_repeat('0', 95) . $points['R']
-                . \str_repeat('0', 95) . $points['S']
+                str_repeat('0', 95) . $points['R'] . str_repeat('0', 95) . $points['S']
             ),
-            'sha512' => \pack(
+            'sha512' => pack(
                 'H*',
-                \str_repeat('0', 131) . $points['R']
-                . \str_repeat('0', 131) . $points['S']
-            )
+                str_repeat('0', 131) . $points['R'] . str_repeat('0', 131) . $points['S']
+            ),
         ];
     }
 
@@ -113,12 +109,15 @@ final class SignatureSerializerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    /**
+     * @return string[][]
+     */
     public function algorithms(): array
     {
         return [
             ['sha256'],
             ['sha384'],
-            ['sha512']
+            ['sha512'],
         ];
     }
 }

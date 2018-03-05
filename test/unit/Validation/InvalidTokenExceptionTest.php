@@ -1,10 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Validation;
 
-final class InvalidTokenExceptionTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+final class InvalidTokenExceptionTest extends TestCase
 {
     /**
      * @test

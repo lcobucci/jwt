@@ -1,14 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
-/**
- * @author Luís Cobucci <lcobucci@gmail.com>
- * @since 4.0.0
- */
-final class NoneTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+final class NoneTest extends TestCase
 {
     /**
      * @test

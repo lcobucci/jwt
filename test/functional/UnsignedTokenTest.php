@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
@@ -14,14 +13,11 @@ use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolationException;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
- */
-class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
+class UnsignedTokenTest extends TestCase
 {
-    const CURRENT_TIME = 100000;
+    public const CURRENT_TIME = 100000;
 
     /**
      * @var Configuration
@@ -120,7 +116,7 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
             new IdentifiedBy('1'),
             new PermittedFor('http://client.abc.com'),
             new IssuedBy('http://issuer.abc.com', 'http://api.abc.com'),
-            new ValidAt($clock)
+            new ValidAt($clock),
         ];
 
         self::assertTrue($this->config->getValidator()->validate($generated, ...$constraints));
@@ -170,7 +166,7 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
     {
         $constraints = [
             new IdentifiedBy('1'),
-            new IssuedBy('http://issuer.abc.com')
+            new IssuedBy('http://issuer.abc.com'),
         ];
 
         $this->config->getValidator()->assert($generated, ...$constraints);

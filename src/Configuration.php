@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT;
@@ -13,9 +12,6 @@ use Lcobucci\JWT\Signer\None;
  *
  * Serves like a small DI container to simplify the creation and usage
  * of the objects.
- *
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 4.0.0
  */
 final class Configuration
 {

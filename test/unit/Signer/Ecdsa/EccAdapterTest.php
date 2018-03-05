@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Ecdsa;
@@ -12,12 +11,10 @@ use Mdanter\Ecc\Curves\NistCurve;
 use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
 use Mdanter\Ecc\Random\RandomNumberGeneratorInterface;
+use PHPUnit\Framework\TestCase;
+use function gmp_init;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 4.0.0
- */
-final class EccAdapterTest extends \PHPUnit\Framework\TestCase
+final class EccAdapterTest extends TestCase
 {
     /**
      * @var GmpMathInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -102,9 +99,9 @@ final class EccAdapterTest extends \PHPUnit\Framework\TestCase
         $point     = $this->createMock(GeneratorPoint::class);
         $signature = $this->createMock(SignatureInterface::class);
 
-        $order       = \gmp_init(1, 10);
-        $randomK     = \gmp_init(2, 10);
-        $signingHash = \gmp_init(3, 10);
+        $order       = gmp_init(1, 10);
+        $randomK     = gmp_init(2, 10);
+        $signingHash = gmp_init(3, 10);
 
         $key->method('getPoint')->willReturn($point);
         $point->method('getOrder')->willReturn($order);
@@ -143,7 +140,7 @@ final class EccAdapterTest extends \PHPUnit\Framework\TestCase
     {
         $key         = $this->createMock(PublicKeyInterface::class);
         $signature   = $this->createMock(SignatureInterface::class);
-        $signingHash = \gmp_init(1, 10);
+        $signingHash = gmp_init(1, 10);
 
         $this->serializer->expects($this->once())
                          ->method('parse')
@@ -188,7 +185,7 @@ final class EccAdapterTest extends \PHPUnit\Framework\TestCase
      */
     public function createSigningHashShouldReturnTheSignerResult(): void
     {
-        $signingHash    = \gmp_init(1, 10);
+        $signingHash    = gmp_init(1, 10);
         $generatorPoint = $this->createMock(GeneratorPoint::class);
 
         $this->nistCurve->expects($this->once())

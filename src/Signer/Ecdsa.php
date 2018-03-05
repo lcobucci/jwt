@@ -1,20 +1,13 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Ecdsa\EccAdapter;
-use Mdanter\Ecc\EccFactory;
 use Lcobucci\JWT\Signer\Ecdsa\KeyParser;
+use Mdanter\Ecc\EccFactory;
 
-/**
- * Base class for ECDSA signers
- *
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
- */
 abstract class Ecdsa implements Signer
 {
     /**
@@ -68,10 +61,5 @@ abstract class Ecdsa implements Signer
         );
     }
 
-    /**
-     * Returns the name of algorithm to be used to create the signing hash
-     *
-     * @return string
-     */
     abstract public function getAlgorithm(): string;
 }

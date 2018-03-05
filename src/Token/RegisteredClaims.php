@@ -1,14 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
 /**
  * Defines the list of claims that are registered in the IANA "JSON Web Token Claims" registry
- *
- * @author Luís Cobucci <lcobucci@gmail.com>
- * @version 4.0.0
  *
  * @see https://tools.ietf.org/html/rfc7519#section-4.1
  */
@@ -21,13 +17,13 @@ interface RegisteredClaims
         self::ISSUED_AT,
         self::ISSUER,
         self::NOT_BEFORE,
-        self::SUBJECT
+        self::SUBJECT,
     ];
 
     public const DATE_CLAIMS = [
         self::ISSUED_AT,
         self::NOT_BEFORE,
-        self::EXPIRATION_TIME
+        self::EXPIRATION_TIME,
     ];
 
     /**

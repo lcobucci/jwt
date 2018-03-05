@@ -1,15 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
-/**
- * This class represents a token signature
- *
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
- */
 final class Signature
 {
     /**

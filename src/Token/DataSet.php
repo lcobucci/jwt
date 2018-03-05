@@ -1,18 +1,14 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- *
- * @since 4.0.0
- */
+use function array_key_exists;
+
 final class DataSet
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $data;
 
@@ -21,12 +17,20 @@ final class DataSet
      */
     private $encoded;
 
+    /**
+     * @param mixed[] $data
+     */
     public function __construct(array $data, string $encoded)
     {
         $this->data    = $data;
         $this->encoded = $encoded;
     }
 
+    /**
+     * @param mixed|null $default
+     *
+     * @return mixed|null
+     */
     public function get(string $name, $default = null)
     {
         return $this->data[$name] ?? $default;
@@ -34,9 +38,12 @@ final class DataSet
 
     public function has(string $name): bool
     {
-        return \array_key_exists($name, $this->data);
+        return array_key_exists($name, $this->data);
     }
 
+    /**
+     * @return mixed[]
+     */
     public function all(): array
     {
         return $this->data;

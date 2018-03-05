@@ -1,37 +1,26 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
 use DateTimeInterface;
 use Lcobucci\JWT\Token as TokenInterface;
+use function implode;
+use function in_array;
 
-/**
- * Basic structure of the JWT
- *
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
- */
 final class Plain implements TokenInterface
 {
     /**
-     * The token headers
-     *
      * @var DataSet
      */
     private $headers;
 
     /**
-     * The token claim set
-     *
      * @var DataSet
      */
     private $claims;
 
     /**
-     * The token signature
-     *
      * @var Signature
      */
     private $signature;
@@ -83,7 +72,7 @@ final class Plain implements TokenInterface
      */
     public function isPermittedFor(string $audience): bool
     {
-        return \in_array($audience, $this->claims->get(RegisteredClaims::AUDIENCE, []), true);
+        return in_array($audience, $this->claims->get(RegisteredClaims::AUDIENCE, []), true);
     }
 
     /**
@@ -107,7 +96,7 @@ final class Plain implements TokenInterface
      */
     public function hasBeenIssuedBy(string ...$issuers): bool
     {
-        return \in_array($this->claims->get(RegisteredClaims::ISSUER), $issuers, true);
+        return in_array($this->claims->get(RegisteredClaims::ISSUER), $issuers, true);
     }
 
     /**
@@ -143,7 +132,7 @@ final class Plain implements TokenInterface
      */
     public function __toString(): string
     {
-        return \implode(
+        return implode(
             '.',
             [$this->headers, $this->claims, $this->signature]
         );

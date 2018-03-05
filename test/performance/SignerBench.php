@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT;
@@ -16,7 +15,7 @@ abstract class SignerBench
 {
     private const PAYLOAD = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road,"
                           . " and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept"
-                          . " off to.";
+                          . ' off to.';
 
     /**
      * @var Signer

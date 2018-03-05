@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
@@ -12,8 +11,13 @@ use Lcobucci\JWT\Signer\Hmac\Sha256 as HS512;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use PHPUnit\Framework\TestCase;
+use const PHP_EOL;
+use function explode;
+use function hash_hmac;
+use function implode;
 
-final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
+final class MaliciousTamperingPreventionTest extends TestCase
 {
     use Keys;
 
@@ -31,11 +35,11 @@ final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
             ES512::create(),
             new Key('my-private-key'),
             new Key(
-                '-----BEGIN PUBLIC KEY-----' . \PHP_EOL
-                . 'MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAcpkss6wI7PPlxj3t7A1RqMH3nvL4' . \PHP_EOL
-                . 'L5Tzxze/XeeYZnHqxiX+gle70DlGRMqqOq+PJ6RYX7vK0PJFdiAIXlyPQq0B3KaU' . \PHP_EOL
-                . 'e86IvFeQSFrJdCc0K8NfiH2G1loIk3fiR+YLqlXk6FAeKtpXJKxR1pCQCAM+vBCs' . \PHP_EOL
-                . 'mZudf1zCUZ8/4eodlHU=' . \PHP_EOL
+                '-----BEGIN PUBLIC KEY-----' . PHP_EOL
+                . 'MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAcpkss6wI7PPlxj3t7A1RqMH3nvL4' . PHP_EOL
+                . 'L5Tzxze/XeeYZnHqxiX+gle70DlGRMqqOq+PJ6RYX7vK0PJFdiAIXlyPQq0B3KaU' . PHP_EOL
+                . 'e86IvFeQSFrJdCc0K8NfiH2G1loIk3fiR+YLqlXk6FAeKtpXJKxR1pCQCAM+vBCs' . PHP_EOL
+                . 'mZudf1zCUZ8/4eodlHU=' . PHP_EOL
                 . '-----END PUBLIC KEY-----'
             )
         );
@@ -103,19 +107,16 @@ final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @ref https://auth0.com/blog/2015/03/31/critical-vulnerabilities-in-json-web-token-libraries/
-     */
     private function createMaliciousToken(string $token): string
     {
         $dec     = new Parser();
-        $asplode = \explode('.', $token);
+        $asplode = explode('.', $token);
 
         // The user is lying; we insist that we're using HMAC-SHA512, with the
         // public key as the HMAC secret key. This just builds a forged message:
         $asplode[0] = $dec->base64UrlEncode('{"alg":"HS512","typ":"JWT"}');
 
-        $hmac = \hash_hmac(
+        $hmac = hash_hmac(
             'sha512',
             $asplode[0] . '.' . $asplode[1],
             $this->config->getVerificationKey()->getContent(),
@@ -124,6 +125,6 @@ final class MaliciousTamperingPreventionTest extends \PHPUnit\Framework\TestCase
 
         $asplode[2] = $dec->base64UrlEncode($hmac);
 
-        return \implode('.', $asplode);
+        return implode('.', $asplode);
     }
 }

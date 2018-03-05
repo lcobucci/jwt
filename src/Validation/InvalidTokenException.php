@@ -1,16 +1,12 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Lcobucci\JWT\Validation;
 
 use Lcobucci\JWT\Exception;
+use function array_map;
+use function implode;
 
-/**
- * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- *
- * @since 4.0.0
- */
 final class InvalidTokenException extends Exception
 {
     /**
@@ -26,9 +22,12 @@ final class InvalidTokenException extends Exception
         return $exception;
     }
 
+    /**
+     * @param ConstraintViolationException[] $violations
+     */
     private static function buildMessage(array $violations): string
     {
-        $violations = \array_map(
+        $violations = array_map(
             function (ConstraintViolationException $violation): string {
                 return '- ' . $violation->getMessage();
             },
@@ -36,11 +35,14 @@ final class InvalidTokenException extends Exception
         );
 
         $message  = "The token violates some mandatory constraints, details:\n";
-        $message .= \implode("\n", $violations);
+        $message .= implode("\n", $violations);
 
         return $message;
     }
 
+    /**
+     * @return ConstraintViolationException[]
+     */
     public function violations(): array
     {
         return $this->violations;
