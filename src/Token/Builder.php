@@ -182,13 +182,6 @@ final class Builder implements BuilderInterface
      */
     private function convertDate(DateTimeImmutable $date)
     {
-        $seconds      = $date->format('U');
-        $microseconds = $date->format('u');
-
-        if ((int) $microseconds === 0) {
-            return (int) $seconds;
-        }
-
-        return $seconds . '.' . $microseconds;
+        return $date->format('U');
     }
 }
