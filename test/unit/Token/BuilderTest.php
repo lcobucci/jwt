@@ -405,7 +405,7 @@ final class BuilderTest extends TestCase
         $issuedAt   = new DateTimeImmutable('@1487285080');
         $expiration = DateTimeImmutable::createFromFormat('U', '1487285080');
         $headers    = ['typ' => 'JWT', 'alg' => 'RS256'];
-        $claims     = ['iat' => 1487285080, 'exp' => '1487285080', 'aud' => 'test', 'test' => 123];
+        $claims     = ['iat' => '1487285080', 'exp' => '1487285080', 'aud' => 'test', 'test' => 123];
 
         $this->encoder->expects($this->exactly(2))
                       ->method('jsonEncode')
