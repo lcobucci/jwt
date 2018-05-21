@@ -17,8 +17,7 @@
         "BSD-3-Clause"
     ],
     "require": {
-        "php": ">=5.5",
-        "ext-openssl": "*"
+        "php": ">=5.5"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.5",
@@ -29,7 +28,8 @@
         "mdanter/ecc": "~0.3.1"
     },
     "suggest":{
-        "mdanter/ecc": "Required to use Elliptic Curves based algorithms."
+        "mdanter/ecc": "Required to use Elliptic Curves based algorithms.",
+        "ext-openssl": "Required to use OpenSSL based signers such as RSA."
     },
     "autoload": {
         "psr-4": {

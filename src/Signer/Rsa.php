@@ -17,6 +17,13 @@ use InvalidArgumentException;
  */
 abstract class Rsa extends BaseSigner
 {
+    public function __construct()
+    {
+        if (!extension_loaded('openssl')) {
+            throw new \RuntimeException('The OpenSSL extension is required to use RSA based signers.');
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
