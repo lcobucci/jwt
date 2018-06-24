@@ -45,6 +45,7 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      */
@@ -70,6 +71,7 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      */
@@ -93,6 +95,7 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      */
@@ -152,6 +155,7 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      * @covers \Lcobucci\JWT\Validation\Validator
@@ -179,6 +183,7 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
@@ -200,8 +205,6 @@ class RsaTokenTest extends TestCase
      *
      * @expectedException \InvalidArgumentException
      *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
-     *
      * @depends builderCanGenerateAToken
      *
      * @covers \Lcobucci\JWT\Configuration
@@ -211,10 +214,10 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      * @covers \Lcobucci\JWT\Validation\Validator
-     * @covers \Lcobucci\JWT\Validation\InvalidTokenException
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token): void
@@ -240,6 +243,7 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      * @covers \Lcobucci\JWT\Validation\Validator
@@ -262,6 +266,7 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      * @covers \Lcobucci\JWT\Validation\Validator
