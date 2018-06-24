@@ -23,7 +23,6 @@ script:
 
 jobs:
   allow_failures:
-    - php: 7.2
     - php: nightly
 
   include:
