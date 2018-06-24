@@ -18,7 +18,10 @@
     ],
     "require": {
         "php": "^7.1",
+        "ext-gmp": "*",
+        "ext-mbstring": "*",
         "ext-openssl": "*",
+        "fgrosse/phpasn1": "^2.0",
         "lcobucci/clock": "^1.0",
         "lcobucci/jose-parsing": "~2.1"
     },
