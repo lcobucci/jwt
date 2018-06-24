@@ -28,7 +28,6 @@
     "require-dev": {
         "doctrine/coding-standard": "^4.0",
         "infection/infection": "^0.8",
-        "mdanter/ecc": "^0.4",
         "mikey179/vfsStream": "^1.6",
         "phpbench/phpbench": "dev-master@dev",
         "phpmd/phpmd": "^2.5",
@@ -38,9 +37,6 @@
         "phpunit/php-invoker": "^1.1",
         "phpunit/phpunit": "^7.0",
         "squizlabs/php_codesniffer": "^3.2"
-    },
-    "suggest":{
-        "mdanter/ecc": "Required to use Elliptic Curves based algorithms."
     },
     "autoload": {
         "psr-4": {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Signer\Ecdsa;
 
 use Lcobucci\JWT\Signer\Ecdsa;
+use const OPENSSL_ALGO_SHA256;
 
 final class Sha256 extends Ecdsa
 {
@@ -18,8 +19,16 @@ final class Sha256 extends Ecdsa
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithm(): string
+    public function getAlgorithm(): int
     {
-        return 'sha256';
+        return OPENSSL_ALGO_SHA256;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getKeyLength(): int
+    {
+        return 64;
     }
 }

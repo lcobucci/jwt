@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Ecdsa;
 
-final class Sha256Test extends BaseTestCase
+use PHPUnit\Framework\TestCase;
+use const OPENSSL_ALGO_SHA256;
+
+final class Sha256Test extends TestCase
 {
     /**
      * @test
@@ -11,13 +14,14 @@ final class Sha256Test extends BaseTestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa::create
      * @covers \Lcobucci\JWT\Signer\Ecdsa::__construct
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @uses \Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @uses \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\Asn1
      */
     public function createShouldReturnAValidInstance(): void
     {
-        self::assertInstanceOf(Sha256::class, Sha256::create());
+        $signer = Sha256::create();
+
+        self::assertInstanceOf(Sha256::class, $signer);
+        self::assertAttributeInstanceOf(Asn1::class, 'manipulator', $signer);
     }
 
     /**
@@ -29,7 +33,7 @@ final class Sha256Test extends BaseTestCase
      */
     public function getAlgorithmIdMustBeCorrect(): void
     {
-        self::assertEquals('ES256', $this->getSigner()->getAlgorithmId());
+        self::assertSame('ES256', $this->getSigner()->getAlgorithmId());
     }
 
     /**
@@ -41,11 +45,23 @@ final class Sha256Test extends BaseTestCase
      */
     public function getAlgorithmMustBeCorrect(): void
     {
-        self::assertEquals('sha256', $this->getSigner()->getAlgorithm());
+        self::assertSame(OPENSSL_ALGO_SHA256, $this->getSigner()->getAlgorithm());
+    }
+
+    /**
+     * @test
+     *
+     * @uses \Lcobucci\JWT\Signer\Ecdsa
+     *
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256::getKeyLength
+     */
+    public function getKeyLengthMustBeCorrect(): void
+    {
+        self::assertSame(64, $this->getSigner()->getKeyLength());
     }
 
     private function getSigner(): Sha256
     {
-        return new Sha256($this->adapter, $this->keyParser);
+        return new Sha256($this->createMock(PointsManipulator::class));
     }
 }
