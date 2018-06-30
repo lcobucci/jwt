@@ -377,9 +377,44 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Token::validate
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
+    public function validateShouldReturnFalseWhenATimeBasedClaimFails()
+    {
+        $now = time();
+
+        $token = new Token(
+            [],
+            [
+                'iss' => new EqualsTo('iss', 'test'),
+                'iat' => new LesserOrEqualsTo('iat', $now),
+                'nbf' => new LesserOrEqualsTo('nbf', $now + 20),
+                'exp' => new GreaterOrEqualsTo('exp', $now + 500),
+                'testing' => new Basic('testing', 'test')
+            ]
+        );
+
+        $data = new ValidationData($now + 10);
+        $data->setIssuer('test');
+
+        $this->assertFalse($token->validate($data));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\ValidationData
+     * @uses Lcobucci\JWT\Claim\Basic
+     * @uses Lcobucci\JWT\Claim\EqualsTo
+     * @uses Lcobucci\JWT\Claim\LesserOrEqualsTo
+     * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
+     *
+     * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getValidatableClaims
+     */
     public function validateShouldReturnTrueWhenThereAreNoFailedValidatableClaims()
     {
         $now = time();
+
         $token = new Token(
             [],
             [
@@ -391,6 +426,40 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         );
 
         $data = new ValidationData($now + 10);
+        $data->setIssuer('test');
+
+        $this->assertTrue($token->validate($data));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\ValidationData
+     * @uses Lcobucci\JWT\Claim\Basic
+     * @uses Lcobucci\JWT\Claim\EqualsTo
+     * @uses Lcobucci\JWT\Claim\LesserOrEqualsTo
+     * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
+     *
+     * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getValidatableClaims
+     */
+    public function validateShouldReturnTrueWhenLeewayMakesAllTimeBasedClaimsTrueAndOtherClaimsAreTrue()
+    {
+        $now = time();
+
+        $token = new Token(
+            [],
+            [
+                'iss' => new EqualsTo('iss', 'test'),
+                'iat' => new LesserOrEqualsTo('iat', $now),
+                'nbf' => new LesserOrEqualsTo('nbf', $now + 20),
+                'exp' => new GreaterOrEqualsTo('exp', $now + 500),
+                'testing' => new Basic('testing', 'test')
+            ]
+        );
+
+        $data = new ValidationData($now + 10, 20);
         $data->setIssuer('test');
 
         $this->assertTrue($token->validate($data));
