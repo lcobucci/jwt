@@ -32,12 +32,13 @@ Just use the builder to create a new JWT/JWS tokens:
 ```php
 use Lcobucci\JWT\Builder;
 
+$time = time();
 $token = (new Builder())->issuedBy('http://example.com') // Configures the issuer (iss claim)
                         ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
                         ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                        ->issuedAt(time()) // Configures the time that the token was issue (iat claim)
-                        ->canOnlyBeUsedAfter(time() + 60) // Configures the time that the token can be used (nbf claim)
-                        ->expiresAt(time() + 3600) // Configures the expiration time of the token (exp claim)
+                        ->issuedAt($time) // Configures the time that the token was issue (iat claim)
+                        ->canOnlyBeUsedAfter($time + 60) // Configures the time that the token can be used (nbf claim)
+                        ->expiresAt($time + 3600) // Configures the expiration time of the token (exp claim)
                         ->with('uid', 1) // Configures a new claim, called "uid"
                         ->getToken(); // Retrieves the generated token
 
@@ -69,7 +70,7 @@ echo $token->getClaim('uid'); // will print "1"
 
 ### Validating
 
-We can easily validate if the token is valid (using the previous token as example):
+We can easily validate if the token is valid (using the previous token and time as example):
 
 ```php
 use Lcobucci\JWT\ValidationData;
@@ -79,15 +80,37 @@ $data->setIssuer('http://example.com');
 $data->setAudience('http://example.org');
 $data->setId('4f1g23a12aa');
 
-var_dump($token->validate($data)); // false, because token cannot be used before of now() + 60
+var_dump($token->validate($data)); // false, because token cannot be used before now() + 60
 
-$data->setCurrentTime(time() + 61); // changing the validation time to future
+$data->setCurrentTime($time + 61); // changing the validation time to future
 
 var_dump($token->validate($data)); // true, because current time is between "nbf" and "exp" claims
 
-$data->setCurrentTime(time() + 4000); // changing the validation time to future
+$data->setCurrentTime($time + 4000); // changing the validation time to future
 
 var_dump($token->validate($data)); // false, because token is expired since current time is greater than exp
+
+// We can also use the $leeway parameter to deal with clock skew (see notes below)
+// If token's claimed time is invalid but the difference between that and the validation time is less than $leeway, 
+// then token is still considered valid
+$dataWithLeeway = new ValidationData($time, 20); 
+$dataWithLeeway->setIssuer('http://example.com');
+$dataWithLeeway->setAudience('http://example.org');
+$dataWithLeeway->setId('4f1g23a12aa');
+
+var_dump($token->validate($dataWithLeeway)); // false, because token can't be used before now() + 60, not within leeway
+
+$dataWithLeeway->setCurrentTime($time + 51); // changing the validation time to future
+
+var_dump($token->validate($dataWithLeeway)); // true, because current time plus leeway is between "nbf" and "exp" claims
+
+$dataWithLeeway->setCurrentTime($time + 3610); // changing the validation time to future but within leeway
+
+var_dump($token->validate($dataWithLeeway)); // true, because current time - 20 seconds leeway is less than exp
+
+$dataWithLeeway->setCurrentTime($time + 4000); // changing the validation time to future outside of leeway
+
+var_dump($token->validate($dataWithLeeway)); // false, because token is expired since current time is greater than exp
 ```
 
 #### Important
@@ -97,6 +120,11 @@ var_dump($token->validate($data)); // false, because token is expired since curr
 configured in ```ValidationData``` they will be ignored by ```Token::validate()```.
 - ```exp```, ```nbf``` and ```iat``` claims are configured by default in ```ValidationData::__construct()```
 with the current UNIX time (```time()```).
+- The optional ```$leeway``` parameter of ```ValidationData``` will cause us to use that number of seconds of leeway 
+when validating the time-based claims, pretending we are further in the future for the "Issued At" (```iat```) and "Not 
+Before" (```nbf```) claims and pretending we are further in the past for the "Expiration Time" (```exp```) claim. This
+allows for situations where the clock of the issuing server has a different time than the clock of the verifying server, 
+as mentioned in [section 4.1 of RFC 7519](https://tools.ietf.org/html/rfc7519#section-4.1).
 
 ## Token signature
 
@@ -119,13 +147,14 @@ use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 
 $signer = new Sha256();
+$time = time();
 
 $token = (new Builder())->issuedBy('http://example.com') // Configures the issuer (iss claim)
                         ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
                         ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                        ->issuedAt(time()) // Configures the time that the token was issue (iat claim)
-                        ->canOnlyBeUsedAfter(time() + 60) // Configures the time that the token can be used (nbf claim)
-                        ->expiresAt(time() + 3600) // Configures the expiration time of the token (exp claim)
+                        ->issuedAt($time) // Configures the time that the token was issue (iat claim)
+                        ->canOnlyBeUsedAfter($time + 60) // Configures the time that the token can be used (nbf claim)
+                        ->expiresAt($time + 3600) // Configures the expiration time of the token (exp claim)
                         ->with('uid', 1) // Configures a new claim, called "uid"
                         ->sign($signer, 'testing') // creates a signature using "testing" as key
                         ->getToken(); // Retrieves the generated token
@@ -146,13 +175,14 @@ use Lcobucci\JWT\Signer\Rsa\Sha256; // you can use Lcobucci\JWT\Signer\Ecdsa\Sha
 
 $signer = new Sha256();
 $privateKey = new Key('file://{path to your private key}');
+$time = time();
 
 $token = (new Builder())->issuedBy('http://example.com') // Configures the issuer (iss claim)
                         ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
                         ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
-                        ->issuedAt(time()) // Configures the time that the token was issue (iat claim)
-                        ->canOnlyBeUsedAfter(time() + 60) // Configures the time that the token can be used (nbf claim)
-                        ->expiresAt(time() + 3600) // Configures the expiration time of the token (exp claim)
+                        ->issuedAt($time) // Configures the time that the token was issue (iat claim)
+                        ->canOnlyBeUsedAfter($time + 60) // Configures the time that the token can be used (nbf claim)
+                        ->expiresAt($time + 3600) // Configures the expiration time of the token (exp claim)
                         ->with('uid', 1) // Configures a new claim, called "uid"
                         ->sign($signer,  $privateKey) // creates a signature using your private key
                         ->getToken(); // Retrieves the generated token

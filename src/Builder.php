@@ -268,7 +268,7 @@ class Builder
     }
 
     /**
-     * Configures a registed claim
+     * Configures a registered claim
      *
      * @param string $name
      * @param mixed $value
