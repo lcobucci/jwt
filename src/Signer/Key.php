@@ -7,7 +7,9 @@
 
 namespace Lcobucci\JWT\Signer;
 
+use Exception;
 use InvalidArgumentException;
+use SplFileObject;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -58,18 +60,13 @@ final class Key
      */
     private function readFile($content)
     {
-        $file = substr($content, 7);
+        try {
+            $file = new SplFileObject(substr($content, 7));
 
-        if (!is_readable($file)) {
-            throw new InvalidArgumentException('You must inform a valid key file');
+            return $file->fread($file->getSize());
+        } catch (Exception $exception) {
+            throw new InvalidArgumentException('You must inform a valid key file', 0, $exception);
         }
-
-        $content = @file_get_contents($file);
-        if ($content === false) {
-            throw new InvalidArgumentException('You must inform a valid key file');
-        }
-
-        return $content;
     }
 
     /**
