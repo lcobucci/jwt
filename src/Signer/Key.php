@@ -61,9 +61,14 @@ final class Key
     private function readFile($content)
     {
         try {
-            $file = new SplFileObject(substr($content, 7));
+            $file    = new SplFileObject(substr($content, 7));
+            $content = '';
 
-            return $file->fread($file->getSize());
+            while (! $file->eof()) {
+                $content .= $file->fgets();
+            }
+
+            return $content;
         } catch (Exception $exception) {
             throw new InvalidArgumentException('You must inform a valid key file', 0, $exception);
         }
