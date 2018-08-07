@@ -13,6 +13,7 @@ use DateTimeInterface;
 use Generator;
 use Lcobucci\JWT\Claim\Validatable;
 use OutOfBoundsException;
+use Lcobucci\JWT\Signer\Key;
 
 /**
  * Basic structure of the JWT
@@ -196,7 +197,7 @@ class Token
      * @deprecated This method will be removed on v4, new validation API should be used
      *
      * @param Signer $signer
-     * @param string $key
+     * @param Key|string $key
      *
      * @return boolean
      *
