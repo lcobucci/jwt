@@ -9,6 +9,7 @@ use const OPENSSL_KEYTYPE_RSA;
 use function openssl_error_string;
 use function openssl_get_privatekey;
 use function openssl_get_publickey;
+use function openssl_pkey_free;
 use function openssl_pkey_get_details;
 use function openssl_sign;
 use function openssl_verify;
@@ -31,6 +32,8 @@ abstract class Rsa implements Signer
             );
         }
 
+        openssl_pkey_free($key);
+
         return $signature;
     }
 
@@ -42,7 +45,10 @@ abstract class Rsa implements Signer
         $key = openssl_get_publickey($key->getContent());
         $this->validateKey($key);
 
-        return openssl_verify($payload, $expected, $key, $this->getAlgorithm()) === 1;
+        $result = openssl_verify($payload, $expected, $key, $this->getAlgorithm()) === 1;
+        openssl_pkey_free($key);
+
+        return $result;
     }
 
     /**
