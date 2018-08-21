@@ -33,6 +33,8 @@ abstract class Rsa extends BaseSigner
             );
         }
 
+        openssl_pkey_free($key);
+
         return $signature;
     }
 
@@ -44,7 +46,10 @@ abstract class Rsa extends BaseSigner
         $key = openssl_get_publickey($key->getContent());
         $this->validateKey($key);
 
-        return openssl_verify($payload, $expected, $key, $this->getAlgorithm()) === 1;
+        $result = openssl_verify($payload, $expected, $key, $this->getAlgorithm()) === 1;
+        openssl_pkey_free($key);
+
+        return $result;
     }
 
     /**
