@@ -18,7 +18,7 @@ use Lcobucci\JWT\Claim\LesserOrEqualsTo;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
  */
-class TokenTest extends \PHPUnit_Framework_TestCase
+class TokenTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
@@ -246,7 +246,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyMustRaiseExceptionWhenTokenIsUnsigned()
     {
-        $signer = $this->getMock(Signer::class);
+        $signer = $this->createMock(Signer::class);
 
         $token = new Token();
         $token->verify($signer, 'test');
@@ -262,8 +262,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyShouldReturnFalseWhenTokenAlgorithmIsDifferent()
     {
-        $signer = $this->getMock(Signer::class);
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
                ->method('getAlgorithmId')
@@ -287,8 +287,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function verifyMustDelegateTheValidationToSignature()
     {
-        $signer = $this->getMock(Signer::class);
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
                ->method('getAlgorithmId')
@@ -309,6 +309,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      *
      * @uses Lcobucci\JWT\Token::__construct
      * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\Token::validate
      * @covers Lcobucci\JWT\Token::getValidatableClaims
@@ -325,6 +326,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      *
      * @uses Lcobucci\JWT\Token::__construct
      * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      * @uses Lcobucci\JWT\Claim\Basic::__construct
      *
      * @covers Lcobucci\JWT\Token::validate
@@ -562,7 +564,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function toStringMustReturnEncodedData()
     {
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signature = $this->createMock(Signature::class, [], [], '', false);
 
         $token = new Token(['alg' => 'none'], [], $signature, ['test', 'test', 'test']);
 

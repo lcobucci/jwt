@@ -14,7 +14,7 @@ use Lcobucci\JWT\Parsing\Encoder;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
  */
-class BuilderTest extends \PHPUnit_Framework_TestCase
+class BuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Encoder|\PHPUnit_Framework_MockObject_MockObject
@@ -36,9 +36,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->encoder = $this->getMock(Encoder::class);
-        $this->claimFactory = $this->getMock(ClaimFactory::class, [], [], '', false);
-        $this->defaultClaim = $this->getMock(Claim::class);
+        $this->encoder = $this->createMock(Encoder::class);
+        $this->claimFactory = $this->createMock(ClaimFactory::class, [], [], '', false);
+        $this->defaultClaim = $this->createMock(Claim::class);
 
         $this->claimFactory->expects($this->any())
                            ->method('create')
@@ -541,8 +541,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function signMustChangeTheSignature()
     {
-        $signer = $this->getMock(Signer::class);
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
                ->method('sign')
@@ -565,8 +565,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function signMustKeepAFluentInterface()
     {
-        $signer = $this->getMock(Signer::class);
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
                ->method('sign')
@@ -619,8 +619,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function withMustRaiseExceptionWhenTokenHasBeenSigned()
     {
-        $signer = $this->getMock(Signer::class);
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
                ->method('sign')
@@ -645,8 +645,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function withHeaderMustRaiseExceptionWhenTokenHasBeenSigned()
     {
-        $signer = $this->getMock(Signer::class);
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
                ->method('sign')
@@ -668,7 +668,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function getTokenMustReturnANewTokenWithCurrentConfiguration()
     {
-        $signature = $this->getMock(Signature::class, [], [], '', false);
+        $signature = $this->createMock(Signature::class, [], [], '', false);
 
         $this->encoder->expects($this->exactly(2))
                       ->method('jsonEncode')
