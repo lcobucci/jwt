@@ -17,6 +17,8 @@ use Lcobucci\JWT\Signer\Key;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 3.0.4
+ *
+ * @requires PHP < 7.1
  */
 class KeyParserTest extends \PHPUnit\Framework\TestCase
 {
