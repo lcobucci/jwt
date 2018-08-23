@@ -6,7 +6,7 @@
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
 
-A simple library to work with JSON Web Token and JSON Web Signature (requires PHP 5.5+).
+A simple library to work with JSON Web Token and JSON Web Signature (requires PHP 5.6+).
 The implementation is based on the [RFC 7519](https://tools.ietf.org/html/rfc7519).
 
 ## Installation
