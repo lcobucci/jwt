@@ -29,6 +29,19 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @covers Lcobucci\JWT\ValidationData::__construct
+     */
+    public function constructorWithLeewayShouldConfigureTheItems()
+    {
+        $expected = $this->createExpectedData(null, null, null, null, 111, 111, 89);
+        $data = new ValidationData(100, 11);
+
+        $this->assertAttributeSame($expected, 'items', $data);
+    }
+
+    /**
+     * @test
+     *
      * @dataProvider claimValues
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
@@ -117,6 +130,22 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
+     * @uses   Lcobucci\JWT\ValidationData::__construct
+     *
+     * @covers Lcobucci\JWT\ValidationData::setCurrentTime
+     */
+    public function setCurrentTimeShouldChangeTheTimeBasedValuesUsingLeeway()
+    {
+        $expected = $this->createExpectedData(null, null, null, null, 30, 30, 10);
+        $data = new ValidationData(15, 10);
+        $data->setCurrentTime(20);
+
+        $this->assertAttributeSame($expected, 'items', $data);
+    }
+
+    /**
+     * @test
+     *
      * @uses Lcobucci\JWT\ValidationData::__construct
      *
      * @covers Lcobucci\JWT\ValidationData::has
@@ -196,11 +225,13 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $id
-     * @param string $sub
-     * @param string $iss
-     * @param string $aud
-     * @param int $time
+     * @param string|null $id
+     * @param string|null $sub
+     * @param string|null $iss
+     * @param string|null $aud
+     * @param int $iat
+     * @param int|null $nbf
+     * @param int|null $exp
      *
      * @return array
      */
@@ -209,16 +240,18 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
         $sub = null,
         $iss = null,
         $aud = null,
-        $time = 1
+        $iat = 1,
+        $nbf = null,
+        $exp = null
     ) {
         return [
             'jti' => $id !== null ? (string) $id : null,
             'iss' => $iss !== null ? (string) $iss : null,
             'aud' => $aud !== null ? (string) $aud : null,
             'sub' => $sub !== null ? (string) $sub : null,
-            'iat' => $time,
-            'nbf' => $time,
-            'exp' => $time
+            'iat' => $iat,
+            'nbf' => $nbf !== null ? $nbf: $iat,
+            'exp' => $exp !== null ? $exp: $iat
         ];
     }
 }
