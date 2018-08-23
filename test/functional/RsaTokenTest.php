@@ -20,7 +20,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha512;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-class RsaTokenTest extends \PHPUnit_Framework_TestCase
+class RsaTokenTest extends \PHPUnit\Framework\TestCase
 {
     use Keys;
 

@@ -16,7 +16,7 @@ use Lcobucci\JWT\ValidationData;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-class UnsignedTokenTest extends \PHPUnit_Framework_TestCase
+class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
 {
     const CURRENT_TIME = 100000;
 

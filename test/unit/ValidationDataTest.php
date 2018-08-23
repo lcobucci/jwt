@@ -11,12 +11,13 @@ namespace Lcobucci\JWT;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.0.0
  */
-class ValidationDataTest extends \PHPUnit_Framework_TestCase
+class ValidationDataTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
      *
      * @covers Lcobucci\JWT\ValidationData::__construct
+     * @covers Lcobucci\JWT\ValidationData::setCurrentTime
      */
     public function constructorShouldConfigureTheItems()
     {
@@ -30,6 +31,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @covers Lcobucci\JWT\ValidationData::__construct
+     * @covers Lcobucci\JWT\ValidationData::setCurrentTime
      */
     public function constructorWithLeewayShouldConfigureTheItems()
     {
@@ -45,6 +47,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @dataProvider claimValues
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\ValidationData::setId
      */
@@ -63,6 +66,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @dataProvider claimValues
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\ValidationData::setIssuer
      */
@@ -81,6 +85,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @dataProvider claimValues
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\ValidationData::setAudience
      */
@@ -99,6 +104,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @dataProvider claimValues
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\ValidationData::setSubject
      */
@@ -115,6 +121,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\ValidationData::setCurrentTime
      */
@@ -131,6 +138,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses   Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\ValidationData::setCurrentTime
      */
@@ -147,6 +155,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\ValidationData::has
      */
@@ -161,6 +170,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\ValidationData::has
      */
@@ -175,6 +185,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\ValidationData::has
      */
@@ -189,6 +200,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\ValidationData::get
      */
@@ -203,6 +215,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @test
      *
      * @uses Lcobucci\JWT\ValidationData::__construct
+     * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\ValidationData::get
      */
