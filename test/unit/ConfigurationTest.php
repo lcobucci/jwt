@@ -7,6 +7,7 @@ use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token\Builder as BuilderImpl;
+use Lcobucci\JWT\Validation\Constraint;
 use PHPUnit\Framework\TestCase;
 
 final class ConfigurationTest extends TestCase
@@ -37,15 +38,21 @@ final class ConfigurationTest extends TestCase
     private $validator;
 
     /**
+     * @var Constraint|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $validationConstraints;
+
+    /**
      * @before
      */
     public function createDependencies(): void
     {
-        $this->signer    = $this->createMock(Signer::class);
-        $this->encoder   = $this->createMock(Parsing\Encoder::class);
-        $this->decoder   = $this->createMock(Parsing\Decoder::class);
-        $this->parser    = $this->createMock(Parser::class);
-        $this->validator = $this->createMock(Validator::class);
+        $this->signer                = $this->createMock(Signer::class);
+        $this->encoder               = $this->createMock(Parsing\Encoder::class);
+        $this->decoder               = $this->createMock(Parsing\Decoder::class);
+        $this->parser                = $this->createMock(Parser::class);
+        $this->validator             = $this->createMock(Validator::class);
+        $this->validationConstraints = $this->createMock(Constraint::class);
     }
 
     /**
@@ -305,5 +312,41 @@ final class ConfigurationTest extends TestCase
         $config->setValidator($this->validator);
 
         self::assertSame($this->validator, $config->getValidator());
+    }
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Configuration::getValidationConstraints
+     *
+     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::__construct
+     * @uses \Lcobucci\JWT\Signer\None
+     * @uses \Lcobucci\JWT\Signer\Key
+     */
+    public function getValidationConstraintsShouldReturnAnEmptyArrayWhenItWasNotConfigured(): void
+    {
+        $config = Configuration::forUnsecuredSigner();
+
+        self::assertSame([], $config->getValidationConstraints());
+    }
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Configuration::getValidationConstraints
+     * @covers \Lcobucci\JWT\Configuration::setValidationConstraints
+     *
+     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::__construct
+     * @uses \Lcobucci\JWT\Signer\None
+     * @uses \Lcobucci\JWT\Signer\Key
+     */
+    public function getValidationConstraintsShouldReturnTheConfiguredValidator(): void
+    {
+        $config = Configuration::forUnsecuredSigner();
+        $config->setValidationConstraints($this->validationConstraints);
+
+        self::assertSame([$this->validationConstraints], $config->getValidationConstraints());
     }
 }
