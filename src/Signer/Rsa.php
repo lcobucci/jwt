@@ -24,17 +24,19 @@ abstract class Rsa implements Signer
         $key = openssl_get_privatekey($key->getContent(), $key->getPassphrase());
         $this->validateKey($key);
 
-        $signature = '';
+        try {
+            $signature = '';
 
-        if (! openssl_sign($payload, $signature, $key, $this->getAlgorithm())) {
-            throw new InvalidArgumentException(
-                'There was an error while creating the signature: ' . openssl_error_string()
-            );
+            if (! openssl_sign($payload, $signature, $key, $this->getAlgorithm())) {
+                throw new InvalidArgumentException(
+                    'There was an error while creating the signature: ' . openssl_error_string()
+                );
+            }
+
+            return $signature;
+        } finally {
+            openssl_pkey_free($key);
         }
-
-        openssl_pkey_free($key);
-
-        return $signature;
     }
 
     /**
