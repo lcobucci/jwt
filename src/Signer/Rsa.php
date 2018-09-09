@@ -25,7 +25,8 @@ abstract class Rsa extends BaseSigner
         $key = openssl_get_privatekey($key->getContent(), $key->getPassphrase());
         $this->validateKey($key);
 
-        $signature = '';
+        try {
+            $signature = '';
 
         if (!openssl_sign($payload, $signature, $key, $this->getAlgorithm())) {
             throw new InvalidArgumentException(
@@ -33,9 +34,10 @@ abstract class Rsa extends BaseSigner
             );
         }
 
-        openssl_pkey_free($key);
-
-        return $signature;
+            return $signature;
+        } finally {
+            openssl_pkey_free($key);
+        }
     }
 
     /**
