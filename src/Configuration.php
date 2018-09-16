@@ -6,6 +6,7 @@ namespace Lcobucci\JWT;
 use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
+use Lcobucci\JWT\Validation\Constraint;
 
 /**
  * Configuration container for the JWT Builder and Parser
@@ -49,6 +50,11 @@ final class Configuration
      * @var Validator|null
      */
     private $validator;
+
+    /**
+     * @var Constraint[]
+     */
+    private $validationConstraints = [];
 
     public static function forAsymmetricSigner(
         Signer $signer,
@@ -154,5 +160,18 @@ final class Configuration
     public function setValidator(Validator $validator): void
     {
         $this->validator = $validator;
+    }
+
+    /**
+     * @return Constraint[]
+     */
+    public function getValidationConstraints(): array
+    {
+        return $this->validationConstraints;
+    }
+
+    public function setValidationConstraints(Constraint ...$validationConstraints): void
+    {
+        $this->validationConstraints = $validationConstraints;
     }
 }
