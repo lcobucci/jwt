@@ -12,7 +12,7 @@ use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\ValidAt;
-use Lcobucci\JWT\Validation\ConstraintViolationException;
+use Lcobucci\JWT\Validation\ConstraintViolation;
 use PHPUnit\Framework\TestCase;
 
 class UnsignedTokenTest extends TestCase
@@ -68,7 +68,6 @@ class UnsignedTokenTest extends TestCase
 
     /**
      * @test
-     *
      * @depends builderCanGenerateAToken
      *
      * @covers \Lcobucci\JWT\Configuration
@@ -91,7 +90,6 @@ class UnsignedTokenTest extends TestCase
 
     /**
      * @test
-     *
      * @depends builderCanGenerateAToken
      *
      * @covers \Lcobucci\JWT\Configuration
@@ -124,7 +122,6 @@ class UnsignedTokenTest extends TestCase
 
     /**
      * @test
-     *
      * @depends builderCanGenerateAToken
      *
      * @covers \Lcobucci\JWT\Configuration
@@ -144,10 +141,9 @@ class UnsignedTokenTest extends TestCase
 
     /**
      * @test
-     *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
-     *
      * @depends builderCanGenerateAToken
+     *
+     * @expectedException \Lcobucci\JWT\Validation\InvalidToken
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
@@ -158,7 +154,7 @@ class UnsignedTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Signer\None
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Validation\Validator
-     * @covers \Lcobucci\JWT\Validation\InvalidTokenException
+     * @covers \Lcobucci\JWT\Validation\InvalidToken
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy
      * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
      */
@@ -179,19 +175,20 @@ class UnsignedTokenTest extends TestCase
             public function assert(Token $token): void
             {
                 if (! $token instanceof Token\Plain) {
-                    throw new ConstraintViolationException();
+                    throw new ConstraintViolation();
                 }
 
                 $claims = $token->claims();
 
                 if (! $claims->has('user')) {
-                    throw new ConstraintViolationException();
+                    throw new ConstraintViolation();
                 }
 
-                $user = $claims->get('user');
+                $name  = $claims->get('user')['name'] ?? '';
+                $email = $claims->get('user')['email'] ?? '';
 
-                if (empty($user['name']) || empty($user['email'])) {
-                    throw new ConstraintViolationException();
+                if ($name === '' || $email === '') {
+                    throw new ConstraintViolation();
                 }
             }
         };

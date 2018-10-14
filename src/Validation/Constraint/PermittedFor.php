@@ -5,7 +5,7 @@ namespace Lcobucci\JWT\Validation\Constraint;
 
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
-use Lcobucci\JWT\Validation\ConstraintViolationException;
+use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class PermittedFor implements Constraint
 {
@@ -25,7 +25,7 @@ final class PermittedFor implements Constraint
     public function assert(Token $token): void
     {
         if (! $token->isPermittedFor($this->audience)) {
-            throw new ConstraintViolationException(
+            throw new ConstraintViolation(
                 'The token is not allowed to be used by this audience'
             );
         }

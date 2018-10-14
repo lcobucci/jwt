@@ -10,25 +10,6 @@
     <file>src</file>
     <file>test</file>
 
-    <rule ref="Doctrine">
-        <exclude name="SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment.MultiLinePropertyComment" />
-
-        <!-- temporarily disabling this one -->
-        <exclude name="SlevomatCodingStandard.Classes.SuperfluousExceptionNaming.SuperfluousSuffix" />
-    </rule>
-
-    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
-        <properties>
-            <property name="newlinesCountBetweenOpenTagAndDeclare" value="1"/>
-            <property name="spacesCountAroundEqualsSign" value="0"/>
-            <property name="newlinesCountAfterDeclare" value="2"/>
-        </properties>
-    </rule>
-
-    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing">
-        <properties>
-            <property name="spacesCountBeforeColon" value="0"/>
-        </properties>
-    </rule>
+    <rule ref="Lcobucci" />
 </ruleset>
 

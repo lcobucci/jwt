@@ -5,6 +5,8 @@ namespace Lcobucci\JWT\Signer;
 
 use InvalidArgumentException;
 use Lcobucci\JWT\Signer;
+use function assert;
+use function is_resource;
 use function openssl_error_string;
 use function openssl_free_key;
 use function openssl_pkey_get_details;
@@ -44,6 +46,7 @@ abstract class OpenSSL implements Signer
     {
         $privateKey = openssl_pkey_get_private($pem, $passphrase);
         $this->validateKey($privateKey);
+        assert(is_resource($privateKey));
 
         return $privateKey;
     }
@@ -67,6 +70,7 @@ abstract class OpenSSL implements Signer
     {
         $publicKey = openssl_pkey_get_public($pem);
         $this->validateKey($publicKey);
+        assert(is_resource($publicKey));
 
         return $publicKey;
     }
@@ -80,7 +84,7 @@ abstract class OpenSSL implements Signer
      */
     private function validateKey($key): void
     {
-        if ($key === false) {
+        if (! is_resource($key)) {
             throw new InvalidArgumentException(
                 'It was not possible to parse your key, reason: ' . openssl_error_string()
             );

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use DateTimeImmutable;
+use InvalidArgumentException;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\Plain;
 
@@ -56,7 +57,7 @@ interface Builder
      *
      * @param mixed $value
      *
-     * @throws \InvalidArgumentException When trying to set a registered claim.
+     * @throws InvalidArgumentException When trying to set a registered claim.
      */
     public function withClaim(string $name, $value): Builder;
 

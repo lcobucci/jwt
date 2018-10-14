@@ -66,10 +66,10 @@ final class KeyTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Signer\Key::getContent
+     *
      * @uses \Lcobucci\JWT\Signer\Key::__construct
      * @uses \Lcobucci\JWT\Signer\Key::setContent
-     *
-     * @covers \Lcobucci\JWT\Signer\Key::getContent
      */
     public function getContentShouldReturnConfiguredData(): void
     {
@@ -81,10 +81,10 @@ final class KeyTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Signer\Key::getPassphrase
+     *
      * @uses \Lcobucci\JWT\Signer\Key::__construct
      * @uses \Lcobucci\JWT\Signer\Key::setContent
-     *
-     * @covers \Lcobucci\JWT\Signer\Key::getPassphrase
      */
     public function getPassphraseShouldReturnConfiguredData(): void
     {

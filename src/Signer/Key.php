@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Signer;
 
 use InvalidArgumentException;
-use function file_get_contents;
-use function is_readable;
+use SplFileObject;
+use Throwable;
+use function assert;
+use function is_string;
 use function strpos;
 use function substr;
 
@@ -40,17 +42,19 @@ final class Key
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function readFile(string $content): string
     {
-        $file = substr($content, 7);
+        try {
+            $file    = new SplFileObject(substr($content, 7));
+            $content = $file->fread($file->getSize());
+            assert(is_string($content));
 
-        if (! is_readable($file)) {
-            throw new \InvalidArgumentException('You must inform a valid key file');
+            return $content;
+        } catch (Throwable $exception) {
+            throw new InvalidArgumentException('You must inform a valid key file', $exception->getCode(), $exception);
         }
-
-        return file_get_contents($file);
     }
 
     public function getContent(): string

@@ -5,6 +5,6 @@ namespace Lcobucci\JWT\Validation;
 
 use Lcobucci\JWT\Exception;
 
-final class ConstraintViolationException extends Exception
+final class ConstraintViolation extends Exception
 {
 }

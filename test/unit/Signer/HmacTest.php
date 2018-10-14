@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use function hash_hmac;
 
 final class HmacTest extends TestCase
 {
     /**
-     * @var Hmac|\PHPUnit_Framework_MockObject_MockObject
+     * @var Hmac|MockObject
      */
     protected $signer;
 
@@ -20,11 +21,11 @@ final class HmacTest extends TestCase
     {
         $this->signer = $this->getMockForAbstractClass(Hmac::class);
 
-        $this->signer->expects($this->any())
+        $this->signer->expects(self::any())
                      ->method('getAlgorithmId')
                      ->willReturn('TEST123');
 
-        $this->signer->expects($this->any())
+        $this->signer->expects(self::any())
                      ->method('getAlgorithm')
                      ->willReturn('sha256');
     }
@@ -32,9 +33,9 @@ final class HmacTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Signer\Key
-     *
      * @covers \Lcobucci\JWT\Signer\Hmac::sign
+     *
+     * @uses \Lcobucci\JWT\Signer\Key
      */
     public function signMustReturnAHashAccordingWithTheAlgorithm(): string
     {
@@ -47,13 +48,12 @@ final class HmacTest extends TestCase
 
     /**
      * @test
-     *
      * @depends signMustReturnAHashAccordingWithTheAlgorithm
+     *
+     * @covers \Lcobucci\JWT\Signer\Hmac::verify
      *
      * @uses \Lcobucci\JWT\Signer\Hmac::sign
      * @uses \Lcobucci\JWT\Signer\Key
-     *
-     * @covers \Lcobucci\JWT\Signer\Hmac::verify
      */
     public function verifyShouldReturnTrueWhenExpectedHashWasCreatedWithSameInformation(string $expected): void
     {
@@ -62,13 +62,12 @@ final class HmacTest extends TestCase
 
     /**
      * @test
-     *
      * @depends signMustReturnAHashAccordingWithTheAlgorithm
+     *
+     * @covers \Lcobucci\JWT\Signer\Hmac::verify
      *
      * @uses \Lcobucci\JWT\Signer\Hmac::sign
      * @uses \Lcobucci\JWT\Signer\Key
-     *
-     * @covers \Lcobucci\JWT\Signer\Hmac::verify
      */
     public function verifyShouldReturnFalseWhenExpectedHashWasNotCreatedWithSameInformation(string $expected): void
     {

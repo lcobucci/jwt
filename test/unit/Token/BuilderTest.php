@@ -7,17 +7,18 @@ use DateTimeImmutable;
 use Lcobucci\Jose\Parsing\Encoder;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class BuilderTest extends TestCase
 {
     /**
-     * @var Encoder|\PHPUnit_Framework_MockObject_MockObject
+     * @var Encoder|MockObject
      */
     protected $encoder;
 
     /**
-     * @var Signer|\PHPUnit_Framework_MockObject_MockObject
+     * @var Signer|MockObject
      */
     private $signer;
 
@@ -53,10 +54,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::permittedFor
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function permittedForMustAppendToTheAudClaim(): void
     {
@@ -71,10 +72,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::permittedFor
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function permittedForShouldPreventDuplicatedEntries(): void
     {
@@ -89,10 +90,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::permittedFor
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function permittedForMustKeepAFluentInterface(): void
     {
@@ -104,10 +105,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::expiresAt
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function expiresAtMustChangeTheExpClaim(): void
     {
@@ -123,10 +124,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::expiresAt
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function expiresAtMustKeepAFluentInterface(): void
     {
@@ -138,10 +139,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function withIdMustChangeTheJtiClaim(): void
     {
@@ -155,10 +156,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function withIdMustKeepAFluentInterface(): void
     {
@@ -170,10 +171,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::issuedAt
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function issuedAtMustChangeTheIatClaim(): void
     {
@@ -189,10 +190,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::issuedAt
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function issuedAtMustKeepAFluentInterface(): void
     {
@@ -204,10 +205,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::issuedBy
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function issuedByMustChangeTheIssClaim(): void
     {
@@ -221,10 +222,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::issuedBy
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function issuedByMustKeepAFluentInterface(): void
     {
@@ -236,10 +237,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function canOnlyBeUsedAfterMustChangeTheNbfClaim(): void
     {
@@ -255,10 +256,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function canOnlyBeUsedAfterMustKeepAFluentInterface(): void
     {
@@ -270,10 +271,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::relatedTo
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function relatedToMustChangeTheSubClaim(): void
     {
@@ -287,10 +288,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::relatedTo
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function relatedToMustKeepAFluentInterface(): void
     {
@@ -304,9 +305,9 @@ final class BuilderTest extends TestCase
      *
      * @expectedException \InvalidArgumentException
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::withClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function withClaimShouldRaiseExceptionWhenTryingToConfigureARegisteredClaim(): void
     {
@@ -317,10 +318,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::withClaim
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function withClaimMustConfigureTheGivenClaim(): void
     {
@@ -333,10 +334,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::withClaim
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function withClaimMustKeepAFluentInterface(): void
     {
@@ -348,10 +349,10 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::withHeader
      * @covers \Lcobucci\JWT\Token\Builder::setClaim
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function withHeaderMustConfigureTheGivenClaim(): void
     {
@@ -368,9 +369,9 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Builder::__construct
-     *
      * @covers \Lcobucci\JWT\Token\Builder::withHeader
+     *
+     * @uses \Lcobucci\JWT\Token\Builder::__construct
      */
     public function withHeaderMustKeepAFluentInterface(): void
     {
@@ -382,6 +383,11 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Token\Builder::getToken
+     * @covers \Lcobucci\JWT\Token\Builder::encode
+     * @covers \Lcobucci\JWT\Token\Builder::formatClaims
+     * @covers \Lcobucci\JWT\Token\Builder::convertDate
+     *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
      * @uses \Lcobucci\JWT\Token\Builder::withClaim
      * @uses \Lcobucci\JWT\Token\Builder::setClaim
@@ -392,11 +398,6 @@ final class BuilderTest extends TestCase
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
      * @uses \Lcobucci\JWT\Token\DataSet
-     *
-     * @covers \Lcobucci\JWT\Token\Builder::getToken
-     * @covers \Lcobucci\JWT\Token\Builder::encode
-     * @covers \Lcobucci\JWT\Token\Builder::formatClaims
-     * @covers \Lcobucci\JWT\Token\Builder::convertDate
      */
     public function getTokenMustReturnANewTokenWithCurrentConfiguration(): void
     {
@@ -407,15 +408,17 @@ final class BuilderTest extends TestCase
         $headers    = ['typ' => 'JWT', 'alg' => 'RS256'];
         $claims     = ['iat' => 1487285080, 'exp' => '1487285080.123456', 'aud' => 'test', 'test' => 123];
 
-        $this->encoder->expects($this->exactly(2))
+        $this->encoder->expects(self::exactly(2))
                       ->method('jsonEncode')
                       ->withConsecutive([self::identicalTo($headers)], [self::identicalTo($claims)])
                       ->willReturnOnConsecutiveCalls('1', '2');
 
-        $this->encoder->expects($this->exactly(3))
+        $this->encoder->expects(self::exactly(3))
                       ->method('base64UrlEncode')
                       ->withConsecutive(['1'], ['2'], ['testing'])
                       ->willReturnOnConsecutiveCalls('1', '2', '3');
+
+        self::assertInstanceOf(DateTimeImmutable::class, $expiration);
 
         $token = $this->createBuilder()
                       ->issuedAt($issuedAt)
@@ -429,6 +432,6 @@ final class BuilderTest extends TestCase
         self::assertSame(123, $token->claims()->get('test'));
         self::assertSame($issuedAt, $token->claims()->get('iat'));
         self::assertSame($expiration, $token->claims()->get('exp'));
-        self::assertNotNull($token->signature());
+        self::assertSame('3', (string) $token->signature());
     }
 }

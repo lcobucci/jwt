@@ -8,37 +8,38 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token\Builder as BuilderImpl;
 use Lcobucci\JWT\Validation\Constraint;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class ConfigurationTest extends TestCase
 {
     /**
-     * @var Parser|\PHPUnit_Framework_MockObject_MockObject
+     * @var Parser|MockObject
      */
     private $parser;
 
     /**
-     * @var Signer|\PHPUnit_Framework_MockObject_MockObject
+     * @var Signer|MockObject
      */
     private $signer;
 
     /**
-     * @var Parsing\Encoder|\PHPUnit_Framework_MockObject_MockObject
+     * @var Parsing\Encoder|MockObject
      */
     private $encoder;
 
     /**
-     * @var Parsing\Decoder|\PHPUnit_Framework_MockObject_MockObject
+     * @var Parsing\Decoder|MockObject
      */
     private $decoder;
 
     /**
-     * @var Validator|\PHPUnit_Framework_MockObject_MockObject
+     * @var Validator|MockObject
      */
     private $validator;
 
     /**
-     * @var Constraint|\PHPUnit_Framework_MockObject_MockObject
+     * @var Constraint|MockObject
      */
     private $validationConstraints;
 
@@ -174,7 +175,6 @@ final class ConfigurationTest extends TestCase
         $config = Configuration::forUnsecuredSigner();
         $parser = $config->getParser();
 
-        self::assertInstanceOf(Parser::class, $parser);
         self::assertAttributeNotSame($this->decoder, 'decoder', $parser);
     }
 
@@ -198,7 +198,6 @@ final class ConfigurationTest extends TestCase
 
         $parser = $config->getParser();
 
-        self::assertInstanceOf(Parser::class, $parser);
         self::assertAttributeSame($this->decoder, 'decoder', $parser);
     }
 

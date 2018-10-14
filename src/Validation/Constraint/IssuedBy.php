@@ -5,7 +5,7 @@ namespace Lcobucci\JWT\Validation\Constraint;
 
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
-use Lcobucci\JWT\Validation\ConstraintViolationException;
+use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class IssuedBy implements Constraint
 {
@@ -25,7 +25,7 @@ final class IssuedBy implements Constraint
     public function assert(Token $token): void
     {
         if (! $token->hasBeenIssuedBy(...$this->issuers)) {
-            throw new ConstraintViolationException(
+            throw new ConstraintViolation(
                 'The token was not issued by the given issuers'
             );
         }

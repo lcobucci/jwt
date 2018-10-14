@@ -48,10 +48,10 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Token\Plain::__construct
+     *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::__construct
      */
     public function signedShouldCreateATokenWithSignature(): void
     {
@@ -65,11 +65,11 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Token\Plain::headers
+     *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::headers
      */
     public function headersMustReturnTheConfiguredDataSet(): void
     {
@@ -81,11 +81,11 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Token\Plain::claims
+     *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::claims
      */
     public function claimsMustReturnTheConfiguredClaims(): void
     {
@@ -97,11 +97,11 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Token\Plain::signature
+     *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::signature
      */
     public function signatureShouldReturnTheConfiguredSignature(): void
     {
@@ -113,11 +113,11 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Token\Plain::payload
+     *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::payload
      */
     public function payloadShouldReturnAStringWithTheEncodedHeadersAndClaims(): void
     {
@@ -614,12 +614,12 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Token\Plain::__toString
+     *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\Plain::payload
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::__toString
      */
     public function toStringMustReturnEncodedDataWithEmptySignature(): void
     {
@@ -631,11 +631,11 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Token\Plain::__toString
+     *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::__toString
      */
     public function toStringMustReturnEncodedData(): void
     {

@@ -7,7 +7,7 @@ use DateTimeInterface;
 use Lcobucci\Clock\Clock;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
-use Lcobucci\JWT\Validation\ConstraintViolationException;
+use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class ValidAt implements Constraint
 {
@@ -34,32 +34,32 @@ final class ValidAt implements Constraint
     }
 
     /**
-     * @throws ConstraintViolationException
+     * @throws ConstraintViolation
      */
     private function assertExpiration(Token $token, DateTimeInterface $now): void
     {
         if ($token->isExpired($now)) {
-            throw new ConstraintViolationException('The token is expired');
+            throw new ConstraintViolation('The token is expired');
         }
     }
 
     /**
-     * @throws ConstraintViolationException
+     * @throws ConstraintViolation
      */
     private function assertMinimumTime(Token $token, DateTimeInterface $now): void
     {
         if (! $token->isMinimumTimeBefore($now)) {
-            throw new ConstraintViolationException('The token cannot be used yet');
+            throw new ConstraintViolation('The token cannot be used yet');
         }
     }
 
     /**
-     * @throws ConstraintViolationException
+     * @throws ConstraintViolation
      */
     private function assertIssueTime(Token $token, DateTimeInterface $now): void
     {
         if (! $token->hasBeenIssuedBefore($now)) {
-            throw new ConstraintViolationException('The token was issued in the future');
+            throw new ConstraintViolation('The token was issued in the future');
         }
     }
 }

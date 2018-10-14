@@ -5,5 +5,11 @@
     "timeout": 3,
     "logs": {
         "text": "infection.txt"
+    },
+    "mutators": {
+        "@default": true,
+        "@function_signature": true,
+        "IdenticalEqual": false,
+        "NotIdenticalNotEqual": false
     }
 }

@@ -27,9 +27,9 @@ final class Sha384Test extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa
-     *
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha384::getAlgorithmId
+     *
+     * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
     public function getAlgorithmIdMustBeCorrect(): void
     {
@@ -39,9 +39,9 @@ final class Sha384Test extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa
-     *
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha384::getAlgorithm
+     *
+     * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
     public function getAlgorithmMustBeCorrect(): void
     {
@@ -51,9 +51,9 @@ final class Sha384Test extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa
-     *
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha384::getKeyLength
+     *
+     * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
     public function getKeyLengthMustBeCorrect(): void
     {
