@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
+use InvalidArgumentException;
 use Lcobucci\Jose\Parsing\Encoder;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
@@ -303,8 +304,6 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \InvalidArgumentException
-     *
      * @covers \Lcobucci\JWT\Token\Builder::withClaim
      *
      * @uses \Lcobucci\JWT\Token\Builder::__construct
@@ -312,6 +311,10 @@ final class BuilderTest extends TestCase
     public function withClaimShouldRaiseExceptionWhenTryingToConfigureARegisteredClaim(): void
     {
         $builder = $this->createBuilder();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('You should use the correct methods to set registered claims');
+
         $builder->withClaim(RegisteredClaims::ISSUER, 'me');
     }
 

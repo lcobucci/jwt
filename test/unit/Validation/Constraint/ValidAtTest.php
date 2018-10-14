@@ -5,9 +5,11 @@ namespace Lcobucci\JWT\Validation\Constraint;
 
 use DateInterval;
 use DateTimeImmutable;
+use InvalidArgumentException;
 use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Token\RegisteredClaims;
+use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class ValidAtTest extends ConstraintTestCase
 {
@@ -27,8 +29,6 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \InvalidArgumentException
-     *
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::guardLeeway
      */
@@ -37,13 +37,14 @@ final class ValidAtTest extends ConstraintTestCase
         $leeway         = new DateInterval('PT30S');
         $leeway->invert = 1;
 
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Leeway cannot be negative');
+
         new ValidAt($this->clock, $leeway);
     }
 
     /**
      * @test
-     *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::guardLeeway
@@ -66,6 +67,9 @@ final class ValidAtTest extends ConstraintTestCase
             RegisteredClaims::EXPIRATION_TIME => $now->modify('-10 seconds'),
         ];
 
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('The token is expired');
+
         $constraint = new ValidAt($this->clock);
         $constraint->assert($this->buildToken($claims));
     }
@@ -73,12 +77,9 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
-     *
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::guardLeeway
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertExpiration
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertIssueTime
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertMinimumTime
      *
@@ -96,6 +97,9 @@ final class ValidAtTest extends ConstraintTestCase
             RegisteredClaims::EXPIRATION_TIME => $now->modify('+60 seconds'),
         ];
 
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('The token cannot be used yet');
+
         $constraint = new ValidAt($this->clock);
         $constraint->assert($this->buildToken($claims));
     }
@@ -103,12 +107,9 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
-     *
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::guardLeeway
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertExpiration
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertIssueTime
      *
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -124,6 +125,9 @@ final class ValidAtTest extends ConstraintTestCase
             RegisteredClaims::NOT_BEFORE => $now->modify('+40 seconds'),
             RegisteredClaims::EXPIRATION_TIME => $now->modify('+60 seconds'),
         ];
+
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('The token was issued in the future');
 
         $constraint = new ValidAt($this->clock);
         $constraint->assert($this->buildToken($claims));

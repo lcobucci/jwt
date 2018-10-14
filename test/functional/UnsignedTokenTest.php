@@ -13,6 +13,7 @@ use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolation;
+use Lcobucci\JWT\Validation\InvalidToken;
 use PHPUnit\Framework\TestCase;
 
 class UnsignedTokenTest extends TestCase
@@ -143,8 +144,6 @@ class UnsignedTokenTest extends TestCase
      * @test
      * @depends builderCanGenerateAToken
      *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidToken
-     *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Parser
@@ -164,6 +163,9 @@ class UnsignedTokenTest extends TestCase
             new IdentifiedBy('1'),
             new IssuedBy('http://issuer.abc.com'),
         ];
+
+        $this->expectException(InvalidToken::class);
+        $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $this->config->getValidator()->assert($generated, ...$constraints);
     }
