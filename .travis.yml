@@ -13,7 +13,6 @@ cache:
 
 before_install:
   - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{,.disabled} || echo "xdebug not available"
-  - composer self-update
 
 install: travis_retry composer install
 
