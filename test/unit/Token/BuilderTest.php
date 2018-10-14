@@ -7,17 +7,18 @@ use DateTimeImmutable;
 use Lcobucci\Jose\Parsing\Encoder;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class BuilderTest extends TestCase
 {
     /**
-     * @var Encoder|\PHPUnit_Framework_MockObject_MockObject
+     * @var Encoder|MockObject
      */
     protected $encoder;
 
     /**
-     * @var Signer|\PHPUnit_Framework_MockObject_MockObject
+     * @var Signer|MockObject
      */
     private $signer;
 

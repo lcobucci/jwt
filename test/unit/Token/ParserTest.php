@@ -6,13 +6,14 @@ namespace Lcobucci\JWT\Token;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use Lcobucci\Jose\Parsing\Decoder;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 final class ParserTest extends TestCase
 {
     /**
-     * @var Decoder|\PHPUnit_Framework_MockObject_MockObject
+     * @var Decoder|MockObject
      */
     protected $decoder;
 

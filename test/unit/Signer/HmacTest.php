@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use function hash_hmac;
 
 final class HmacTest extends TestCase
 {
     /**
-     * @var Hmac|\PHPUnit_Framework_MockObject_MockObject
+     * @var Hmac|MockObject
      */
     protected $signer;
 

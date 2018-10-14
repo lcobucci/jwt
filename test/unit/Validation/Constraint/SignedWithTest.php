@@ -6,11 +6,12 @@ namespace Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\Signature;
+use PHPUnit\Framework\MockObject\MockObject;
 
 final class SignedWithTest extends ConstraintTestCase
 {
     /**
-     * @var Signer|\PHPUnit_Framework_MockObject_MockObject
+     * @var Signer|MockObject
      */
     private $signer;
 
