@@ -5,7 +5,11 @@ namespace Lcobucci\JWT\Ecdsa;
 
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\SignerBench;
+use PhpBench\Benchmark\Metadata\Annotations\Groups;
 
+/**
+ * @Groups({"ECDSA"})
+ */
 abstract class EcdsaBench extends SignerBench
 {
     protected function signingKey(): Key

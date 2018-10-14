@@ -5,7 +5,11 @@ namespace Lcobucci\JWT\Rsa;
 
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\SignerBench;
+use PhpBench\Benchmark\Metadata\Annotations\Groups;
 
+/**
+ * @Groups({"RSA"})
+ */
 abstract class RsaBench extends SignerBench
 {
     protected function signingKey(): Key
