@@ -72,7 +72,7 @@ final class SignedWithTest extends ConstraintTestCase
     {
         $token = $this->buildToken([], ['alg' => 'test'], $this->signature);
 
-        $this->signer->expects($this->never())->method('verify');
+        $this->signer->expects(self::never())->method('verify');
 
         $constraint = new SignedWith($this->signer, $this->key);
         $constraint->assert($token);
@@ -95,7 +95,7 @@ final class SignedWithTest extends ConstraintTestCase
     {
         $token = $this->buildToken([], ['alg' => 'RS256'], $this->signature);
 
-        $this->signer->expects($this->once())
+        $this->signer->expects(self::once())
                      ->method('verify')
                      ->with($this->signature->hash(), $token->payload(), $this->key)
                      ->willReturn(false);
@@ -119,7 +119,7 @@ final class SignedWithTest extends ConstraintTestCase
     {
         $token = $this->buildToken([], ['alg' => 'RS256'], $this->signature);
 
-        $this->signer->expects($this->once())
+        $this->signer->expects(self::once())
                      ->method('verify')
                      ->with($this->signature->hash(), $token->payload(), $this->key)
                      ->willReturn(true);

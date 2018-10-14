@@ -20,11 +20,11 @@ final class HmacTest extends TestCase
     {
         $this->signer = $this->getMockForAbstractClass(Hmac::class);
 
-        $this->signer->expects($this->any())
+        $this->signer->expects(self::any())
                      ->method('getAlgorithmId')
                      ->willReturn('TEST123');
 
-        $this->signer->expects($this->any())
+        $this->signer->expects(self::any())
                      ->method('getAlgorithm')
                      ->willReturn('sha256');
     }

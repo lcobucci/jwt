@@ -118,22 +118,22 @@ final class ParserTest extends TestCase
      */
     public function parseMustReturnAnUnsecuredTokenWhenSignatureIsNotInformed(): void
     {
-        $this->decoder->expects($this->at(0))
+        $this->decoder->expects(self::at(0))
                       ->method('base64UrlDecode')
                       ->with('a')
                       ->willReturn('a_dec');
 
-        $this->decoder->expects($this->at(1))
+        $this->decoder->expects(self::at(1))
                       ->method('jsonDecode')
                       ->with('a_dec')
                       ->willReturn(['typ' => 'JWT', 'alg' => 'none']);
 
-        $this->decoder->expects($this->at(2))
+        $this->decoder->expects(self::at(2))
                       ->method('base64UrlDecode')
                       ->with('b')
                       ->willReturn('b_dec');
 
-        $this->decoder->expects($this->at(3))
+        $this->decoder->expects(self::at(3))
                       ->method('jsonDecode')
                       ->with('b_dec')
                       ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
@@ -165,22 +165,22 @@ final class ParserTest extends TestCase
      */
     public function parseShouldReplicateClaimValueOnHeaderWhenNeeded(): void
     {
-        $this->decoder->expects($this->at(0))
+        $this->decoder->expects(self::at(0))
                       ->method('base64UrlDecode')
                       ->with('a')
                       ->willReturn('a_dec');
 
-        $this->decoder->expects($this->at(1))
+        $this->decoder->expects(self::at(1))
                       ->method('jsonDecode')
                       ->with('a_dec')
                       ->willReturn(['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test']);
 
-        $this->decoder->expects($this->at(2))
+        $this->decoder->expects(self::at(2))
                       ->method('base64UrlDecode')
                       ->with('b')
                       ->willReturn('b_dec');
 
-        $this->decoder->expects($this->at(3))
+        $this->decoder->expects(self::at(3))
                       ->method('jsonDecode')
                       ->with('b_dec')
                       ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
@@ -212,22 +212,22 @@ final class ParserTest extends TestCase
      */
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsMissing(): void
     {
-        $this->decoder->expects($this->at(0))
+        $this->decoder->expects(self::at(0))
                       ->method('base64UrlDecode')
                       ->with('a')
                       ->willReturn('a_dec');
 
-        $this->decoder->expects($this->at(1))
+        $this->decoder->expects(self::at(1))
                       ->method('jsonDecode')
                       ->with('a_dec')
                       ->willReturn(['typ' => 'JWT']);
 
-        $this->decoder->expects($this->at(2))
+        $this->decoder->expects(self::at(2))
                       ->method('base64UrlDecode')
                       ->with('b')
                       ->willReturn('b_dec');
 
-        $this->decoder->expects($this->at(3))
+        $this->decoder->expects(self::at(3))
                       ->method('jsonDecode')
                       ->with('b_dec')
                       ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
@@ -259,22 +259,22 @@ final class ParserTest extends TestCase
      */
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsNone(): void
     {
-        $this->decoder->expects($this->at(0))
+        $this->decoder->expects(self::at(0))
                       ->method('base64UrlDecode')
                       ->with('a')
                       ->willReturn('a_dec');
 
-        $this->decoder->expects($this->at(1))
+        $this->decoder->expects(self::at(1))
                       ->method('jsonDecode')
                       ->with('a_dec')
                       ->willReturn(['typ' => 'JWT', 'alg' => 'none']);
 
-        $this->decoder->expects($this->at(2))
+        $this->decoder->expects(self::at(2))
                       ->method('base64UrlDecode')
                       ->with('b')
                       ->willReturn('b_dec');
 
-        $this->decoder->expects($this->at(3))
+        $this->decoder->expects(self::at(3))
                       ->method('jsonDecode')
                       ->with('b_dec')
                       ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
@@ -306,27 +306,27 @@ final class ParserTest extends TestCase
      */
     public function parseMustReturnASignedTokenWhenSignatureIsInformed(): void
     {
-        $this->decoder->expects($this->at(0))
+        $this->decoder->expects(self::at(0))
                       ->method('base64UrlDecode')
                       ->with('a')
                       ->willReturn('a_dec');
 
-        $this->decoder->expects($this->at(1))
+        $this->decoder->expects(self::at(1))
                       ->method('jsonDecode')
                       ->with('a_dec')
                       ->willReturn(['typ' => 'JWT', 'alg' => 'HS256']);
 
-        $this->decoder->expects($this->at(2))
+        $this->decoder->expects(self::at(2))
                       ->method('base64UrlDecode')
                       ->with('b')
                       ->willReturn('b_dec');
 
-        $this->decoder->expects($this->at(3))
+        $this->decoder->expects(self::at(3))
                       ->method('jsonDecode')
                       ->with('b_dec')
                       ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
 
-        $this->decoder->expects($this->at(4))
+        $this->decoder->expects(self::at(4))
                       ->method('base64UrlDecode')
                       ->with('c')
                       ->willReturn('c_dec');
@@ -366,22 +366,22 @@ final class ParserTest extends TestCase
             RegisteredClaims::EXPIRATION_TIME => '1486930757.023055',
         ];
 
-        $this->decoder->expects($this->at(0))
+        $this->decoder->expects(self::at(0))
                       ->method('base64UrlDecode')
                       ->with('a')
                       ->willReturn('a_dec');
 
-        $this->decoder->expects($this->at(1))
+        $this->decoder->expects(self::at(1))
                       ->method('jsonDecode')
                       ->with('a_dec')
                       ->willReturn(['typ' => 'JWT', 'alg' => 'HS256']);
 
-        $this->decoder->expects($this->at(2))
+        $this->decoder->expects(self::at(2))
                       ->method('base64UrlDecode')
                       ->with('b')
                       ->willReturn('b_dec');
 
-        $this->decoder->expects($this->at(3))
+        $this->decoder->expects(self::at(3))
                       ->method('jsonDecode')
                       ->with('b_dec')
                       ->willReturn($data);

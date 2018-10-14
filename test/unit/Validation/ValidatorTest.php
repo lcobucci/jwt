@@ -36,11 +36,11 @@ final class ValidatorTest extends TestCase
         $failedConstraint     = $this->createMock(Constraint::class);
         $successfulConstraint = $this->createMock(Constraint::class);
 
-        $failedConstraint->expects($this->once())
+        $failedConstraint->expects(self::once())
                          ->method('assert')
                          ->willThrowException(new ConstraintViolationException());
 
-        $successfulConstraint->expects($this->once())
+        $successfulConstraint->expects(self::once())
                              ->method('assert');
 
         $validator = new Validator();
@@ -61,7 +61,7 @@ final class ValidatorTest extends TestCase
     public function assertShouldNotRaiseExceptionWhenNoConstraintFails(): void
     {
         $constraint = $this->createMock(Constraint::class);
-        $constraint->expects($this->once())->method('assert');
+        $constraint->expects(self::once())->method('assert');
 
         $validator = new Validator();
 
@@ -79,11 +79,11 @@ final class ValidatorTest extends TestCase
         $failedConstraint     = $this->createMock(Constraint::class);
         $successfulConstraint = $this->createMock(Constraint::class);
 
-        $failedConstraint->expects($this->once())
+        $failedConstraint->expects(self::once())
                          ->method('assert')
                          ->willThrowException(new ConstraintViolationException());
 
-        $successfulConstraint->expects($this->never())
+        $successfulConstraint->expects(self::never())
                              ->method('assert');
 
         $validator = new Validator();
@@ -105,7 +105,7 @@ final class ValidatorTest extends TestCase
     public function validateShouldReturnTrueWhenNoConstraintFails(): void
     {
         $constraint = $this->createMock(Constraint::class);
-        $constraint->expects($this->once())->method('assert');
+        $constraint->expects(self::once())->method('assert');
 
         $validator = new Validator();
         self::assertTrue($validator->validate($this->token, $constraint));

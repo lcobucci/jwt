@@ -407,12 +407,12 @@ final class BuilderTest extends TestCase
         $headers    = ['typ' => 'JWT', 'alg' => 'RS256'];
         $claims     = ['iat' => 1487285080, 'exp' => '1487285080.123456', 'aud' => 'test', 'test' => 123];
 
-        $this->encoder->expects($this->exactly(2))
+        $this->encoder->expects(self::exactly(2))
                       ->method('jsonEncode')
                       ->withConsecutive([self::identicalTo($headers)], [self::identicalTo($claims)])
                       ->willReturnOnConsecutiveCalls('1', '2');
 
-        $this->encoder->expects($this->exactly(3))
+        $this->encoder->expects(self::exactly(3))
                       ->method('base64UrlEncode')
                       ->withConsecutive(['1'], ['2'], ['testing'])
                       ->willReturnOnConsecutiveCalls('1', '2', '3');
