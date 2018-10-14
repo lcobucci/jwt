@@ -66,8 +66,6 @@ KEY;
     /**
      * @test
      *
-     * @requires extension openssl
-     *
      * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Signer\Rsa::sign
@@ -103,8 +101,6 @@ KEY;
     /**
      * @test
      *
-     * @requires extension openssl
-     *
      * @covers \Lcobucci\JWT\Signer\Rsa::verify
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
      * @covers \Lcobucci\JWT\Signer\Rsa::getKeyType
@@ -128,8 +124,6 @@ KEY;
 
     /**
      * @test
-     *
-     * @requires extension openssl
      *
      * @expectedException \InvalidArgumentException
      *
