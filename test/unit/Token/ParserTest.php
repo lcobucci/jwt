@@ -45,12 +45,12 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      *
-     * @expectedException \InvalidArgumentException
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
      */
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
     {
@@ -61,13 +61,13 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @expectedException \RuntimeException
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      *
-     * @expectedException \RuntimeException
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
      */
     public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded(): void
     {
@@ -86,13 +86,13 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      *
-     * @expectedException \InvalidArgumentException
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
      */
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
     {
@@ -106,16 +106,16 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Parser::__construct
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     *
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
      */
     public function parseMustReturnAnUnsecuredTokenWhenSignatureIsNotInformed(): void
     {
@@ -153,16 +153,16 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Parser::__construct
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     *
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
      */
     public function parseShouldReplicateClaimValueOnHeaderWhenNeeded(): void
     {
@@ -200,16 +200,16 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Parser::__construct
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     *
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
      */
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsMissing(): void
     {
@@ -247,16 +247,16 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Parser::__construct
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     *
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
      */
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsNone(): void
     {
@@ -294,16 +294,16 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Parser::__construct
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     *
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
      */
     public function parseMustReturnASignedTokenWhenSignatureIsInformed(): void
     {
@@ -347,17 +347,17 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Parser::__construct
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
      * @covers \Lcobucci\JWT\Token\Parser::convertDate
+     *
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
      */
     public function parseMustConvertDateClaimsToObjects(): void
     {
@@ -410,17 +410,17 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Token\Parser::__construct
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      * @covers \Lcobucci\JWT\Token\Parser::parseClaims
      * @covers \Lcobucci\JWT\Token\Parser::parseSignature
      * @covers \Lcobucci\JWT\Token\Parser::convertDate
+     *
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
      */
     public function parseShouldRaiseExceptionOnInvalidDate(): void
     {

@@ -10,7 +10,7 @@ final class RelatedToTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
+     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\RelatedTo::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\RelatedTo::assert
@@ -28,7 +28,7 @@ final class RelatedToTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
+     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\RelatedTo::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\RelatedTo::assert

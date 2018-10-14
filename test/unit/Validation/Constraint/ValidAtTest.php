@@ -26,7 +26,7 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
+     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert
@@ -55,7 +55,7 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
+     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert
@@ -84,7 +84,7 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
+     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert

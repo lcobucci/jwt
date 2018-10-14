@@ -40,7 +40,7 @@ final class SignedWithTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
+     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::assert
@@ -59,7 +59,7 @@ final class SignedWithTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
+     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::assert
@@ -82,7 +82,7 @@ final class SignedWithTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
+     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::assert

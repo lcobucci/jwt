@@ -131,7 +131,6 @@ class EcdsaTokenTest extends TestCase
 
     /**
      * @test
-     *
      * @depends builderCanGenerateAToken
      *
      * @covers \Lcobucci\JWT\Configuration
@@ -155,10 +154,9 @@ class EcdsaTokenTest extends TestCase
 
     /**
      * @test
-     *
      * @depends builderCanGenerateAToken
      *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
+     * @expectedException \Lcobucci\JWT\Validation\InvalidToken
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
@@ -172,7 +170,7 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Validation\Validator
-     * @covers \Lcobucci\JWT\Validation\InvalidTokenException
+     * @covers \Lcobucci\JWT\Validation\InvalidToken
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
@@ -188,10 +186,9 @@ class EcdsaTokenTest extends TestCase
 
     /**
      * @test
-     *
      * @depends builderCanGenerateAToken
      *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
+     * @expectedException \Lcobucci\JWT\Validation\InvalidToken
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
@@ -206,7 +203,7 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Validation\Validator
-     * @covers \Lcobucci\JWT\Validation\InvalidTokenException
+     * @covers \Lcobucci\JWT\Validation\InvalidToken
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
@@ -222,10 +219,9 @@ class EcdsaTokenTest extends TestCase
 
     /**
      * @test
+     * @depends builderCanGenerateAToken
      *
      * @expectedException \InvalidArgumentException
-     *
-     * @depends builderCanGenerateAToken
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
@@ -239,7 +235,7 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Validation\Validator
-     * @covers \Lcobucci\JWT\Validation\InvalidTokenException
+     * @covers \Lcobucci\JWT\Validation\InvalidToken
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(Token $token): void
@@ -252,7 +248,6 @@ class EcdsaTokenTest extends TestCase
 
     /**
      * @test
-     *
      * @depends builderCanGenerateAToken
      *
      * @covers \Lcobucci\JWT\Configuration

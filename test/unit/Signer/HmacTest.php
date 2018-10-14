@@ -33,9 +33,9 @@ final class HmacTest extends TestCase
     /**
      * @test
      *
-     * @uses \Lcobucci\JWT\Signer\Key
-     *
      * @covers \Lcobucci\JWT\Signer\Hmac::sign
+     *
+     * @uses \Lcobucci\JWT\Signer\Key
      */
     public function signMustReturnAHashAccordingWithTheAlgorithm(): string
     {
@@ -48,13 +48,12 @@ final class HmacTest extends TestCase
 
     /**
      * @test
-     *
      * @depends signMustReturnAHashAccordingWithTheAlgorithm
+     *
+     * @covers \Lcobucci\JWT\Signer\Hmac::verify
      *
      * @uses \Lcobucci\JWT\Signer\Hmac::sign
      * @uses \Lcobucci\JWT\Signer\Key
-     *
-     * @covers \Lcobucci\JWT\Signer\Hmac::verify
      */
     public function verifyShouldReturnTrueWhenExpectedHashWasCreatedWithSameInformation(string $expected): void
     {
@@ -63,13 +62,12 @@ final class HmacTest extends TestCase
 
     /**
      * @test
-     *
      * @depends signMustReturnAHashAccordingWithTheAlgorithm
+     *
+     * @covers \Lcobucci\JWT\Signer\Hmac::verify
      *
      * @uses \Lcobucci\JWT\Signer\Hmac::sign
      * @uses \Lcobucci\JWT\Signer\Key
-     *
-     * @covers \Lcobucci\JWT\Signer\Hmac::verify
      */
     public function verifyShouldReturnFalseWhenExpectedHashWasNotCreatedWithSameInformation(string $expected): void
     {

@@ -25,12 +25,12 @@ final class ValidatorTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
+     * @expectedException \Lcobucci\JWT\Validation\InvalidToken
      *
      * @covers \Lcobucci\JWT\Validation\Validator::assert
      * @covers \Lcobucci\JWT\Validation\Validator::checkConstraint
      *
-     * @uses \Lcobucci\JWT\Validation\InvalidTokenException
+     * @uses \Lcobucci\JWT\Validation\InvalidToken
      */
     public function assertShouldRaiseExceptionWhenAtLeastOneConstraintFails(): void
     {
@@ -39,7 +39,7 @@ final class ValidatorTest extends TestCase
 
         $failedConstraint->expects(self::once())
                          ->method('assert')
-                         ->willThrowException(new ConstraintViolationException());
+                         ->willThrowException(new ConstraintViolation());
 
         $successfulConstraint->expects(self::once())
                              ->method('assert');
@@ -82,7 +82,7 @@ final class ValidatorTest extends TestCase
 
         $failedConstraint->expects(self::once())
                          ->method('assert')
-                         ->willThrowException(new ConstraintViolationException());
+                         ->willThrowException(new ConstraintViolation());
 
         $successfulConstraint->expects(self::never())
                              ->method('assert');

@@ -42,7 +42,7 @@ final class Key
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function readFile(string $content): string
     {

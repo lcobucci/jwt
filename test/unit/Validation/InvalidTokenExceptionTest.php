@@ -10,13 +10,13 @@ final class InvalidTokenExceptionTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\InvalidTokenException::fromViolations
-     * @covers \Lcobucci\JWT\Validation\InvalidTokenException::buildMessage
+     * @covers \Lcobucci\JWT\Validation\InvalidToken::fromViolations
+     * @covers \Lcobucci\JWT\Validation\InvalidToken::buildMessage
      */
     public function fromViolationsShouldConfigureMessageAndViolationList(): void
     {
-        $violation = new ConstraintViolationException('testing');
-        $exception = InvalidTokenException::fromViolations($violation);
+        $violation = new ConstraintViolation('testing');
+        $exception = InvalidToken::fromViolations($violation);
 
         self::assertAttributeEquals(
             "The token violates some mandatory constraints, details:\n- testing",
@@ -30,15 +30,15 @@ final class InvalidTokenExceptionTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\InvalidTokenException::violations
+     * @covers \Lcobucci\JWT\Validation\InvalidToken::violations
      *
-     * @uses \Lcobucci\JWT\Validation\InvalidTokenException::fromViolations
-     * @uses \Lcobucci\JWT\Validation\InvalidTokenException::buildMessage
+     * @uses \Lcobucci\JWT\Validation\InvalidToken::fromViolations
+     * @uses \Lcobucci\JWT\Validation\InvalidToken::buildMessage
      */
     public function violationsShouldReturnTheViolationList(): void
     {
-        $violation = new ConstraintViolationException('testing');
-        $exception = InvalidTokenException::fromViolations($violation);
+        $violation = new ConstraintViolation('testing');
+        $exception = InvalidToken::fromViolations($violation);
 
         self::assertSame([$violation], $exception->violations());
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
+use InvalidArgumentException;
 use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Builder as BuilderInterface;
 use Lcobucci\JWT\Signer;
@@ -112,7 +113,7 @@ final class Builder implements BuilderInterface
     public function withClaim(string $name, $value): BuilderInterface
     {
         if (in_array($name, RegisteredClaims::ALL, true)) {
-            throw new \InvalidArgumentException('You should use the correct methods to set registered claims');
+            throw new InvalidArgumentException('You should use the correct methods to set registered claims');
         }
 
         return $this->setClaim($name, $value);

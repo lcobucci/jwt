@@ -10,7 +10,7 @@ final class IssuedByTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
+     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::assert
@@ -28,7 +28,7 @@ final class IssuedByTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
+     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::assert
@@ -46,7 +46,7 @@ final class IssuedByTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
+     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::assert
