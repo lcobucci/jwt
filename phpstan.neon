@@ -4,5 +4,3 @@ includes:
 
 parameters:
     reportUnmatchedIgnoredErrors: false
-    ignoreErrors:
-        - '#EccAdapter constructor expects .* RandomNumberGeneratorInterface|null given#'

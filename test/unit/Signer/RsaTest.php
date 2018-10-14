@@ -6,8 +6,8 @@ namespace Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Keys;
 use PHPUnit\Framework\TestCase;
 use const OPENSSL_ALGO_SHA256;
-use function openssl_get_privatekey;
-use function openssl_get_publickey;
+use function openssl_pkey_get_private;
+use function openssl_pkey_get_public;
 use function openssl_sign;
 use function openssl_verify;
 
@@ -18,10 +18,10 @@ final class RsaTest extends TestCase
     /**
      * @test
      *
-     * @requires extension openssl
-     *
      * @covers \Lcobucci\JWT\Signer\Rsa::sign
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
+     * @covers \Lcobucci\JWT\Signer\Rsa::getKeyType
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -32,19 +32,19 @@ final class RsaTest extends TestCase
         $signer    = $this->getSigner();
         $signature = $signer->sign($payload, self::$rsaKeys['private']);
 
-        $publicKey = openssl_get_publickey(self::$rsaKeys['public']->getContent());
+        $publicKey = openssl_pkey_get_public(self::$rsaKeys['public']->getContent());
         self::assertSame(1, openssl_verify($payload, $signature, $publicKey, OPENSSL_ALGO_SHA256));
     }
 
     /**
      * @test
      *
-     * @requires extension openssl
-     *
      * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Signer\Rsa::sign
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
+     * @covers \Lcobucci\JWT\Signer\Rsa::getKeyType
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -71,6 +71,7 @@ KEY;
      *
      * @covers \Lcobucci\JWT\Signer\Rsa::sign
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -83,12 +84,12 @@ KEY;
     /**
      * @test
      *
-     * @requires extension openssl
-     *
      * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Signer\Rsa::sign
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
+     * @covers \Lcobucci\JWT\Signer\Rsa::getKeyType
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -105,13 +106,15 @@ KEY;
      *
      * @covers \Lcobucci\JWT\Signer\Rsa::verify
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
+     * @covers \Lcobucci\JWT\Signer\Rsa::getKeyType
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
-    public function verifyShouldReturnAValidOpensslSignature(): void
+    public function verifyShouldReturnTrueWhenSignatureIsValid(): void
     {
         $payload    = 'testing';
-        $privateKey = openssl_get_privatekey(self::$rsaKeys['private']->getContent());
+        $privateKey = openssl_pkey_get_private(self::$rsaKeys['private']->getContent());
         $signature  = '';
         openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);
 
@@ -129,6 +132,7 @@ KEY;
      *
      * @covers \Lcobucci\JWT\Signer\Rsa::verify
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -141,12 +145,11 @@ KEY;
     /**
      * @test
      *
-     * @requires extension openssl
-     *
      * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Signer\Rsa::verify
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */

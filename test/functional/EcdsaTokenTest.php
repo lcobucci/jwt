@@ -47,10 +47,9 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      */
     public function builderShouldRaiseExceptionWhenKeyIsInvalid(): void
     {
@@ -75,10 +74,9 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      */
     public function builderShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(): void
     {
@@ -101,10 +99,9 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      */
     public function builderCanGenerateAToken(): Token
     {
@@ -144,9 +141,8 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      */
     public function parserCanReadAToken(Token $generated): void
     {
@@ -172,10 +168,9 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\InvalidTokenException
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
@@ -206,11 +201,10 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\InvalidTokenException
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
@@ -229,9 +223,7 @@ class EcdsaTokenTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \RuntimeException
-     *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
+     * @expectedException \InvalidArgumentException
      *
      * @depends builderCanGenerateAToken
      *
@@ -243,10 +235,9 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\InvalidTokenException
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
@@ -272,10 +263,9 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
@@ -299,10 +289,9 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
@@ -337,10 +326,9 @@ class EcdsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\KeyParser
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\EccAdapter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\SignatureSerializer
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */

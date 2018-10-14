@@ -5,10 +5,12 @@ namespace Lcobucci\JWT;
 
 use Lcobucci\JWT\Signer\Key;
 use PhpBench\Benchmark\Metadata\Annotations\BeforeMethods;
+use PhpBench\Benchmark\Metadata\Annotations\Iterations;
 use PhpBench\Benchmark\Metadata\Annotations\Revs;
 
 /**
  * @BeforeMethods({"init"})
+ * @Iterations(5)
  * @Revs(100)
  */
 abstract class SignerBench
