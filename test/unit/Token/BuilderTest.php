@@ -417,6 +417,8 @@ final class BuilderTest extends TestCase
                       ->withConsecutive(['1'], ['2'], ['testing'])
                       ->willReturnOnConsecutiveCalls('1', '2', '3');
 
+        self::assertInstanceOf(DateTimeImmutable::class, $expiration);
+
         $token = $this->createBuilder()
                       ->issuedAt($issuedAt)
                       ->expiresAt($expiration)
@@ -429,6 +431,6 @@ final class BuilderTest extends TestCase
         self::assertSame(123, $token->claims()->get('test'));
         self::assertSame($issuedAt, $token->claims()->get('iat'));
         self::assertSame($expiration, $token->claims()->get('exp'));
-        self::assertNotNull($token->signature());
+        self::assertSame('3', (string) $token->signature());
     }
 }

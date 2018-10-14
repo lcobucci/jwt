@@ -188,9 +188,10 @@ class UnsignedTokenTest extends TestCase
                     throw new ConstraintViolationException();
                 }
 
-                $user = $claims->get('user');
+                $name  = $claims->get('user')['name'] ?? '';
+                $email = $claims->get('user')['email'] ?? '';
 
-                if (empty($user['name']) || empty($user['email'])) {
+                if ($name === '' || $email === '') {
                     throw new ConstraintViolationException();
                 }
             }

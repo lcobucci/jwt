@@ -104,7 +104,13 @@ final class Parser implements ParserInterface
             return new DateTimeImmutable('@' . $value);
         }
 
-        return DateTimeImmutable::createFromFormat('U.u', $value);
+        $date = DateTimeImmutable::createFromFormat('U.u', $value);
+
+        if ($date === false) {
+            throw new InvalidArgumentException('Given value is not in the allowed format: ' . $value);
+        }
+
+        return $date;
     }
 
     /**

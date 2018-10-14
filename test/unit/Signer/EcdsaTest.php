@@ -65,6 +65,7 @@ final class EcdsaTest extends TestCase
 
         $publicKey = openssl_pkey_get_public(self::$ecdsaKeys['public1']->getContent());
 
+        self::assertInternalType('resource', $publicKey);
         self::assertSame(
             1,
             openssl_verify(
@@ -91,6 +92,8 @@ final class EcdsaTest extends TestCase
     {
         $payload    = 'testing';
         $privateKey = openssl_pkey_get_private(self::$ecdsaKeys['private']->getContent());
+
+        self::assertInternalType('resource', $privateKey);
 
         $signature = '';
         openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);

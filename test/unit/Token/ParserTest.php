@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
+use InvalidArgumentException;
 use Lcobucci\Jose\Parsing\Decoder;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -403,5 +404,49 @@ final class ParserTest extends TestCase
             DateTimeImmutable::createFromFormat('U.u', '1486930757.023055'),
             $claims->get(RegisteredClaims::EXPIRATION_TIME)
         );
+    }
+
+    /**
+     * @test
+     *
+     * @uses \Lcobucci\JWT\Token\Parser::__construct
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
+     *
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
+     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     * @covers \Lcobucci\JWT\Token\Parser::convertDate
+     */
+    public function parseShouldRaiseExceptionOnInvalidDate(): void
+    {
+        $data = [RegisteredClaims::ISSUED_AT => '14/10/2018 10:50:10.10 UTC'];
+
+        $this->decoder->expects(self::at(0))
+                      ->method('base64UrlDecode')
+                      ->with('a')
+                      ->willReturn('a_dec');
+
+        $this->decoder->expects(self::at(1))
+                      ->method('jsonDecode')
+                      ->with('a_dec')
+                      ->willReturn(['typ' => 'JWT', 'alg' => 'HS256']);
+
+        $this->decoder->expects(self::at(2))
+                      ->method('base64UrlDecode')
+                      ->with('b')
+                      ->willReturn('b_dec');
+
+        $this->decoder->expects(self::at(3))
+                      ->method('jsonDecode')
+                      ->with('b_dec')
+                      ->willReturn($data);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Given value is not in the allowed format: 14/10/2018 10:50:10.10 UTC');
+        $this->createParser()->parse('a.b.');
     }
 }

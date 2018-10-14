@@ -6,6 +6,8 @@ namespace Lcobucci\JWT\Signer;
 use InvalidArgumentException;
 use SplFileObject;
 use Throwable;
+use function assert;
+use function is_string;
 use function strpos;
 use function substr;
 
@@ -46,8 +48,10 @@ final class Key
     {
         try {
             $file    = new SplFileObject(substr($content, 7));
+            $content = $file->fread($file->getSize());
+            assert(is_string($content));
 
-            return $file->fread($file->getSize());
+            return $content;
         } catch (Throwable $exception) {
             throw new InvalidArgumentException('You must inform a valid key file', $exception->getCode(), $exception);
         }

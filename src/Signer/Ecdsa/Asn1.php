@@ -13,6 +13,7 @@ use function bin2hex;
 use function gmp_init;
 use function gmp_strval;
 use function hex2bin;
+use function is_string;
 use function mb_strlen;
 use function mb_substr;
 use function str_pad;
@@ -35,7 +36,10 @@ final class Asn1 implements PointsManipulator
             $signature .= str_pad($this->decToHex($child->getContent()), $length, '0', STR_PAD_LEFT);
         }
 
-        return hex2bin($signature);
+        $result = hex2bin($signature);
+        assert(is_string($result));
+
+        return $result;
     }
 
     public function toEcPoint(string $points, int $length): string
