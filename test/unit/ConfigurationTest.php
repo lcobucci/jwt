@@ -174,7 +174,6 @@ final class ConfigurationTest extends TestCase
         $config = Configuration::forUnsecuredSigner();
         $parser = $config->getParser();
 
-        self::assertInstanceOf(Parser::class, $parser);
         self::assertAttributeNotSame($this->decoder, 'decoder', $parser);
     }
 
@@ -198,7 +197,6 @@ final class ConfigurationTest extends TestCase
 
         $parser = $config->getParser();
 
-        self::assertInstanceOf(Parser::class, $parser);
         self::assertAttributeSame($this->decoder, 'decoder', $parser);
     }
 
