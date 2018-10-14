@@ -63,6 +63,7 @@ final class IssuedByTest extends ConstraintTestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::assert
@@ -77,6 +78,5 @@ final class IssuedByTest extends ConstraintTestCase
         $constraint = new IssuedBy('test.com', 'test.net');
 
         $constraint->assert($token);
-        $this->addToAssertionCount(1);
     }
 }

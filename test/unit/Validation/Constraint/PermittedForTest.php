@@ -63,6 +63,7 @@ final class PermittedForTest extends ConstraintTestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor::assert
@@ -77,6 +78,5 @@ final class PermittedForTest extends ConstraintTestCase
         $constraint = new PermittedFor('test.com');
 
         $constraint->assert($token);
-        $this->addToAssertionCount(1);
     }
 }

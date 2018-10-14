@@ -111,6 +111,7 @@ final class ValidAtTest extends ConstraintTestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert
@@ -136,7 +137,6 @@ final class ValidAtTest extends ConstraintTestCase
         );
 
         $constraint->assert($token);
-        $this->addToAssertionCount(1);
 
         $token = $this->buildToken(
             [
@@ -147,11 +147,11 @@ final class ValidAtTest extends ConstraintTestCase
         );
 
         $constraint->assert($token);
-        $this->addToAssertionCount(1);
     }
 
     /**
      * @test
+     * @doesNotPerformAssertions
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert
@@ -169,6 +169,5 @@ final class ValidAtTest extends ConstraintTestCase
         $constraint = new ValidAt($this->clock);
 
         $constraint->assert($token);
-        $this->addToAssertionCount(1);
     }
 }
