@@ -67,7 +67,6 @@ final class ValidatorTest extends TestCase
         $validator = new Validator();
 
         $validator->assert($this->token, $constraint);
-        $this->addToAssertionCount(1);
     }
 
     /**
