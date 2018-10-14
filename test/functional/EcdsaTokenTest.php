@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
 
+use InvalidArgumentException;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Ecdsa\Sha256;
@@ -11,6 +12,7 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\InvalidToken;
 use PHPUnit\Framework\TestCase;
 use const PHP_EOL;
 
@@ -38,8 +40,6 @@ class EcdsaTokenTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \InvalidArgumentException
-     *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Plain
@@ -55,6 +55,9 @@ class EcdsaTokenTest extends TestCase
     {
         $builder = $this->config->createBuilder();
 
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('It was not possible to parse your key, reason:');
+
         $builder->identifiedBy('1')
                 ->permittedFor('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
@@ -64,8 +67,6 @@ class EcdsaTokenTest extends TestCase
 
     /**
      * @test
-     *
-     * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
@@ -81,6 +82,9 @@ class EcdsaTokenTest extends TestCase
     public function builderShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(): void
     {
         $builder = $this->config->createBuilder();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('This key is not compatible with this signer');
 
         $builder->identifiedBy('1')
                 ->permittedFor('http://client.abc.com')
@@ -156,8 +160,6 @@ class EcdsaTokenTest extends TestCase
      * @test
      * @depends builderCanGenerateAToken
      *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidToken
-     *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Parser
@@ -175,6 +177,9 @@ class EcdsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
+        $this->expectException(InvalidToken::class);
+        $this->expectExceptionMessage('The token violates some mandatory constraints');
+
         $this->config->getValidator()->assert(
             $token,
             new SignedWith(
@@ -187,8 +192,6 @@ class EcdsaTokenTest extends TestCase
     /**
      * @test
      * @depends builderCanGenerateAToken
-     *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidToken
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
@@ -208,6 +211,9 @@ class EcdsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
+        $this->expectException(InvalidToken::class);
+        $this->expectExceptionMessage('The token violates some mandatory constraints');
+
         $this->config->getValidator()->assert(
             $token,
             new SignedWith(
@@ -220,8 +226,6 @@ class EcdsaTokenTest extends TestCase
     /**
      * @test
      * @depends builderCanGenerateAToken
-     *
-     * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
@@ -240,6 +244,9 @@ class EcdsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(Token $token): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('This key is not compatible with this signer');
+
         $this->config->getValidator()->assert(
             $token,
             new SignedWith($this->config->getSigner(), self::$rsaKeys['public'])

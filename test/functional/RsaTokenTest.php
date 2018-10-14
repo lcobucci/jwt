@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
 
+use InvalidArgumentException;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Key;
@@ -11,6 +12,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha512;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\InvalidToken;
 use PHPUnit\Framework\TestCase;
 
 class RsaTokenTest extends TestCase
@@ -37,8 +39,6 @@ class RsaTokenTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \InvalidArgumentException
-     *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Plain
@@ -53,6 +53,9 @@ class RsaTokenTest extends TestCase
     {
         $builder = $this->config->createBuilder();
 
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('It was not possible to parse your key');
+
         $builder->identifiedBy('1')
                 ->permittedFor('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
@@ -62,8 +65,6 @@ class RsaTokenTest extends TestCase
 
     /**
      * @test
-     *
-     * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
@@ -78,6 +79,9 @@ class RsaTokenTest extends TestCase
     public function builderShouldRaiseExceptionWhenKeyIsNotRsaCompatible(): void
     {
         $builder = $this->config->createBuilder();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('This key is not compatible with this signer');
 
         $builder->identifiedBy('1')
                 ->permittedFor('http://client.abc.com')
@@ -144,8 +148,6 @@ class RsaTokenTest extends TestCase
      * @test
      * @depends builderCanGenerateAToken
      *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidToken
-     *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Parser
@@ -162,6 +164,9 @@ class RsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
+        $this->expectException(InvalidToken::class);
+        $this->expectExceptionMessage('The token violates some mandatory constraints');
+
         $this->config->getValidator()->assert(
             $token,
             new SignedWith($this->config->getSigner(), self::$rsaKeys['encrypted-public'])
@@ -171,8 +176,6 @@ class RsaTokenTest extends TestCase
     /**
      * @test
      * @depends builderCanGenerateAToken
-     *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidToken
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
@@ -191,6 +194,9 @@ class RsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
+        $this->expectException(InvalidToken::class);
+        $this->expectExceptionMessage('The token violates some mandatory constraints');
+
         $this->config->getValidator()->assert(
             $token,
             new SignedWith(new Sha512(), $this->config->getVerificationKey())
@@ -200,8 +206,6 @@ class RsaTokenTest extends TestCase
     /**
      * @test
      * @depends builderCanGenerateAToken
-     *
-     * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
@@ -218,6 +222,9 @@ class RsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('This key is not compatible with this signer');
+
         $this->config->getValidator()->assert(
             $token,
             new SignedWith(

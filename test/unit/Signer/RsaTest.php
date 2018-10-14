@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
+use InvalidArgumentException;
 use Lcobucci\JWT\Keys;
 use PHPUnit\Framework\TestCase;
 use const OPENSSL_ALGO_SHA256;
@@ -40,8 +41,6 @@ final class RsaTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \InvalidArgumentException
-     *
      * @covers \Lcobucci\JWT\Signer\Rsa::sign
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
      * @covers \Lcobucci\JWT\Signer\Rsa::getKeyType
@@ -60,13 +59,15 @@ TWdN
 KEY;
 
         $signer = $this->getSigner();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('There was an error while creating the signature');
+
         $signer->sign('testing', new Key($key));
     }
 
     /**
      * @test
-     *
-     * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Signer\Rsa::sign
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
@@ -77,13 +78,15 @@ KEY;
     public function signShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $signer = $this->getSigner();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('It was not possible to parse your key');
+
         $signer->sign('testing', new Key('blablabla'));
     }
 
     /**
      * @test
-     *
-     * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Signer\Rsa::sign
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
@@ -95,6 +98,10 @@ KEY;
     public function signShouldRaiseAnExceptionWhenKeyTypeIsNotRsa(): void
     {
         $signer = $this->getSigner();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('This key is not compatible with this signer');
+
         $signer->sign('testing', self::$ecdsaKeys['private']);
     }
 
@@ -125,8 +132,6 @@ KEY;
     /**
      * @test
      *
-     * @expectedException \InvalidArgumentException
-     *
      * @covers \Lcobucci\JWT\Signer\Rsa::verify
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
@@ -136,13 +141,15 @@ KEY;
     public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $signer = $this->getSigner();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('It was not possible to parse your key');
+
         $signer->verify('testing', 'testing', new Key('blablabla'));
     }
 
     /**
      * @test
-     *
-     * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Signer\Rsa::verify
      * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
@@ -153,6 +160,10 @@ KEY;
     public function verifyShouldRaiseAnExceptionWhenKeyTypeIsNotRsa(): void
     {
         $signer = $this->getSigner();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('It was not possible to parse your key');
+
         $signer->verify('testing', 'testing', self::$ecdsaKeys['private']);
     }
 

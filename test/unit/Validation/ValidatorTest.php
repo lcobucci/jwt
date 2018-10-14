@@ -25,8 +25,6 @@ final class ValidatorTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidToken
-     *
      * @covers \Lcobucci\JWT\Validation\Validator::assert
      * @covers \Lcobucci\JWT\Validation\Validator::checkConstraint
      *
@@ -45,6 +43,9 @@ final class ValidatorTest extends TestCase
                              ->method('assert');
 
         $validator = new Validator();
+
+        $this->expectException(InvalidToken::class);
+        $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $validator->assert(
             $this->token,

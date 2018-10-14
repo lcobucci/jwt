@@ -6,6 +6,7 @@ namespace Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\Signature;
+use Lcobucci\JWT\Validation\ConstraintViolation;
 use PHPUnit\Framework\MockObject\MockObject;
 
 final class SignedWithTest extends ConstraintTestCase
@@ -40,8 +41,6 @@ final class SignedWithTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
-     *
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::assert
      *
@@ -52,14 +51,15 @@ final class SignedWithTest extends ConstraintTestCase
      */
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('You should pass a plain token');
+
         $constraint = new SignedWith($this->signer, $this->key);
         $constraint->assert($this->createMock(Token::class));
     }
 
     /**
      * @test
-     *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::assert
@@ -75,14 +75,15 @@ final class SignedWithTest extends ConstraintTestCase
 
         $this->signer->expects(self::never())->method('verify');
 
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('Token signer mismatch');
+
         $constraint = new SignedWith($this->signer, $this->key);
         $constraint->assert($token);
     }
 
     /**
      * @test
-     *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::assert
@@ -100,6 +101,9 @@ final class SignedWithTest extends ConstraintTestCase
                      ->method('verify')
                      ->with($this->signature->hash(), $token->payload(), $this->key)
                      ->willReturn(false);
+
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('Token signature mismatch');
 
         $constraint = new SignedWith($this->signer, $this->key);
         $constraint->assert($token);

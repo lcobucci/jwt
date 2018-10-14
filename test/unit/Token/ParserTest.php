@@ -45,8 +45,6 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \InvalidArgumentException
-     *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      *
@@ -55,13 +53,15 @@ final class ParserTest extends TestCase
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
     {
         $parser = $this->createParser();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The JWT string must have two dots');
+
         $parser->parse('');
     }
 
     /**
      * @test
-     *
-     * @expectedException \RuntimeException
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
@@ -77,16 +77,18 @@ final class ParserTest extends TestCase
 
         $this->decoder->method('jsonDecode')
                       ->with('b')
-                      ->willThrowException(new RuntimeException());
+                      ->willThrowException(new RuntimeException('Nope'));
 
         $parser = $this->createParser();
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Nope');
+
         $parser->parse('a.b.');
     }
 
     /**
      * @test
-     *
-     * @expectedException \InvalidArgumentException
      *
      * @covers \Lcobucci\JWT\Token\Parser::parse
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
@@ -100,6 +102,10 @@ final class ParserTest extends TestCase
                       ->willReturn(['enc' => 'AAA']);
 
         $parser = $this->createParser();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Encryption is not supported yet');
+
         $parser->parse('a.a.');
     }
 
