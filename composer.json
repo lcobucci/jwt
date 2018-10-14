@@ -17,7 +17,7 @@
         "BSD-3-Clause"
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "ext-gmp": "*",
         "ext-mbstring": "*",
         "ext-openssl": "*",
