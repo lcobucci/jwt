@@ -48,7 +48,6 @@ final class IdentifiedByTest extends ConstraintTestCase
 
     /**
      * @test
-     * @doesNotPerformAssertions
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy::assert
@@ -64,5 +63,6 @@ final class IdentifiedByTest extends ConstraintTestCase
         $constraint = new IdentifiedBy('123456');
 
         $constraint->assert($token);
+        $this->addToAssertionCount(1);
     }
 }
