@@ -134,7 +134,7 @@ abstract class Ecdsa extends BaseSigner
     }
 
     /**
-     * Returns the lenght of signature parts
+     * Returns the length of signature parts
      *
      * @return int
      */
