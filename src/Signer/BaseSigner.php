@@ -67,7 +67,7 @@ abstract class BaseSigner implements Signer
     abstract public function createHash($payload, Key $key);
 
     /**
-     * Creates a hash with the given data
+     * Performs the signature verification
      *
      * @param string $expected
      * @param string $payload
