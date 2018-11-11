@@ -20,6 +20,8 @@ use Mdanter\Ecc\Serializer\PublicKey\PublicKeySerializerInterface;
 /**
  * Base class for ECDSA signers
  *
+ * @internal
+ *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 3.0.4
  */
