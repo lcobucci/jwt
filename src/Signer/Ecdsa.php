@@ -136,12 +136,16 @@ abstract class Ecdsa extends BaseSigner
     /**
      * Returns the length of signature parts
      *
+     * @internal
+     *
      * @return int
      */
     abstract public function getSignatureLength();
 
     /**
      * Returns the name of algorithm to be used to create the signing hash
+     *
+     * @internal
      *
      * @return string
      */

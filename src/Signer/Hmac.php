@@ -40,6 +40,8 @@ abstract class Hmac extends BaseSigner
     /**
      * PHP < 5.6 timing attack safe hash comparison
      *
+     * @internal
+     *
      * @param string $expected
      * @param string $generated
      *
@@ -64,6 +66,8 @@ abstract class Hmac extends BaseSigner
 
     /**
      * Returns the algorithm name
+     *
+     * @internal
      *
      * @return string
      */
