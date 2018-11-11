@@ -48,7 +48,6 @@ final class RelatedToTest extends ConstraintTestCase
 
     /**
      * @test
-     * @doesNotPerformAssertions
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\RelatedTo::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\RelatedTo::assert
@@ -63,5 +62,6 @@ final class RelatedToTest extends ConstraintTestCase
         $constraint = new RelatedTo('user-auth');
 
         $constraint->assert($token);
+        $this->addToAssertionCount(1);
     }
 }

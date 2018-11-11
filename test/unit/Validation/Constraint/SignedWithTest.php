@@ -132,5 +132,6 @@ final class SignedWithTest extends ConstraintTestCase
         $constraint = new SignedWith($this->signer, $this->key);
 
         $constraint->assert($token);
+        $this->addToAssertionCount(1);
     }
 }
