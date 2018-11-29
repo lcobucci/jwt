@@ -14,7 +14,7 @@ final class Sha384Test extends TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa::create
      * @covers \Lcobucci\JWT\Signer\Ecdsa::__construct
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa\Asn1
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\ECSignature
      */
     public function createShouldReturnAValidInstance(): void
     {

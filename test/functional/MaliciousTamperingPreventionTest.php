@@ -56,7 +56,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\ECSignature
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
      * @covers \Lcobucci\JWT\Signer\Hmac
      * @covers \Lcobucci\JWT\Signer\Hmac\Sha256

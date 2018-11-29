@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
-use Lcobucci\JWT\Signer\Ecdsa\Asn1;
+use Lcobucci\JWT\Signer\Ecdsa\ECSignature;
 use Lcobucci\JWT\Signer\Ecdsa\PointsManipulator;
 use const OPENSSL_KEYTYPE_EC;
 
@@ -21,7 +21,7 @@ abstract class Ecdsa extends OpenSSL
 
     public static function create(): Ecdsa
     {
-        return new static(new Asn1());
+        return new static(new ECSignature());
     }
 
     /**

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Keys;
-use Lcobucci\JWT\Signer\Ecdsa\Asn1;
+use Lcobucci\JWT\Signer\Ecdsa\ECSignature;
 use PHPUnit\Framework\TestCase;
 use const OPENSSL_ALGO_SHA256;
 use function openssl_pkey_get_private;
@@ -17,7 +17,7 @@ final class EcdsaTest extends TestCase
     use Keys;
 
     /**
-     * @var Asn1
+     * @var ECSignature
      */
     private $pointsManipulator;
 
@@ -26,7 +26,7 @@ final class EcdsaTest extends TestCase
      */
     public function createDependencies(): void
     {
-        $this->pointsManipulator = new Asn1();
+        $this->pointsManipulator = new ECSignature();
     }
 
     private function getSigner(): Ecdsa
@@ -50,7 +50,7 @@ final class EcdsaTest extends TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa::sign
      * @covers \Lcobucci\JWT\Signer\Ecdsa::getKeyType
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\ECSignature
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
@@ -82,7 +82,7 @@ final class EcdsaTest extends TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Ecdsa::verify
      * @covers \Lcobucci\JWT\Signer\Ecdsa::getKeyType
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Asn1
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\ECSignature
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
