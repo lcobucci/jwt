@@ -12,13 +12,15 @@ final class SignatureTest extends TestCase
      *
      * @covers \Lcobucci\JWT\Token\Signature::__construct
      * @covers \Lcobucci\JWT\Token\Signature::fromEmptyData
+     * @covers \Lcobucci\JWT\Token\Signature::__toString
+     * @covers \Lcobucci\JWT\Token\Signature::hash
      */
     public function fromEmptyDataShouldReturnAnEmptySignature(): void
     {
         $signature = Signature::fromEmptyData();
 
-        self::assertAttributeEmpty('hash', $signature);
-        self::assertAttributeEmpty('encoded', $signature);
+        self::assertSame('', $signature->hash());
+        self::assertSame('', (string) $signature);
     }
 
     /**
@@ -26,24 +28,13 @@ final class SignatureTest extends TestCase
      *
      * @covers \Lcobucci\JWT\Token\Signature::__construct
      * @covers \Lcobucci\JWT\Token\Signature::hash
+     * @covers \Lcobucci\JWT\Token\Signature::__toString
      */
     public function hashShouldReturnTheHash(): void
     {
         $signature = new Signature('test', 'encoded');
 
-        self::assertEquals('test', $signature->hash());
-    }
-
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Token\Signature::__construct
-     * @covers \Lcobucci\JWT\Token\Signature::__toString
-     */
-    public function toStringMustReturnTheEncodedData(): void
-    {
-        $signature = new Signature('test', 'encoded');
-
-        self::assertEquals('encoded', (string) $signature);
+        self::assertSame('test', $signature->hash());
+        self::assertSame('encoded', (string) $signature);
     }
 }

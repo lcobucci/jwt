@@ -21,7 +21,6 @@ final class Sha512Test extends TestCase
         $signer = Sha512::create();
 
         self::assertInstanceOf(Sha512::class, $signer);
-        self::assertAttributeInstanceOf(Asn1::class, 'manipulator', $signer);
     }
 
     /**

@@ -21,7 +21,6 @@ final class Sha256Test extends TestCase
         $signer = Sha256::create();
 
         self::assertInstanceOf(Sha256::class, $signer);
-        self::assertAttributeInstanceOf(Asn1::class, 'manipulator', $signer);
     }
 
     /**

@@ -58,7 +58,7 @@ class UnsignedTokenTest extends TestCase
                          ->withClaim('user', $user)
                          ->getToken($this->config->getSigner(), $this->config->getSigningKey());
 
-        self::assertAttributeEquals(new Token\Signature('', ''), 'signature', $token);
+        self::assertEquals(new Token\Signature('', ''), $token->signature());
         self::assertEquals(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
         self::assertEquals('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
         self::assertSame($expiration, $token->claims()->get(Token\RegisteredClaims::EXPIRATION_TIME));

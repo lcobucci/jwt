@@ -18,7 +18,7 @@ final class Builder implements BuilderInterface
     /**
      * @var mixed[]
      */
-    private $headers = ['typ' => 'JWT', 'alg' => 'none'];
+    private $headers = ['typ' => 'JWT', 'alg' => null];
 
     /**
      * @var mixed[]
