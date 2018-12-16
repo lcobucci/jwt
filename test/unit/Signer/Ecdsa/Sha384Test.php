@@ -21,7 +21,6 @@ final class Sha384Test extends TestCase
         $signer = Sha384::create();
 
         self::assertInstanceOf(Sha384::class, $signer);
-        self::assertAttributeInstanceOf(Asn1::class, 'manipulator', $signer);
     }
 
     /**

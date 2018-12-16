@@ -10,7 +10,6 @@ use Lcobucci\JWT\Signer\Ecdsa\Sha256;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
-use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\InvalidToken;
 use PHPUnit\Framework\TestCase;
@@ -120,7 +119,6 @@ class EcdsaTokenTest extends TestCase
                          ->withHeader('jki', '1234')
                          ->getToken($this->config->getSigner(), $this->config->getSigningKey());
 
-        self::assertAttributeInstanceOf(Signature::class, 'signature', $token);
         self::assertEquals('1234', $token->headers()->get('jki'));
         self::assertEquals('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
         self::assertEquals($user, $token->claims()->get('user'));

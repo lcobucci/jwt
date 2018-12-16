@@ -8,7 +8,6 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
-use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\InvalidToken;
 use PHPUnit\Framework\TestCase;
@@ -52,7 +51,6 @@ class HmacTokenTest extends TestCase
                          ->withHeader('jki', '1234')
                          ->getToken($this->config->getSigner(), $this->config->getSigningKey());
 
-        self::assertAttributeInstanceOf(Signature::class, 'signature', $token);
         self::assertEquals('1234', $token->headers()->get('jki'));
         self::assertEquals(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
         self::assertEquals('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));

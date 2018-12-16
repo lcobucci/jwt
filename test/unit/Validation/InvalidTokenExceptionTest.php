@@ -12,33 +12,17 @@ final class InvalidTokenExceptionTest extends TestCase
      *
      * @covers \Lcobucci\JWT\Validation\InvalidToken::fromViolations
      * @covers \Lcobucci\JWT\Validation\InvalidToken::buildMessage
+     * @covers \Lcobucci\JWT\Validation\InvalidToken::violations
      */
     public function fromViolationsShouldConfigureMessageAndViolationList(): void
     {
         $violation = new ConstraintViolation('testing');
         $exception = InvalidToken::fromViolations($violation);
 
-        self::assertAttributeEquals(
+        self::assertSame(
             "The token violates some mandatory constraints, details:\n- testing",
-            'message',
-            $exception
+            $exception->getMessage()
         );
-
-        self::assertAttributeSame([$violation], 'violations', $exception);
-    }
-
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Validation\InvalidToken::violations
-     *
-     * @uses \Lcobucci\JWT\Validation\InvalidToken::fromViolations
-     * @uses \Lcobucci\JWT\Validation\InvalidToken::buildMessage
-     */
-    public function violationsShouldReturnTheViolationList(): void
-    {
-        $violation = new ConstraintViolation('testing');
-        $exception = InvalidToken::fromViolations($violation);
 
         self::assertSame([$violation], $exception->violations());
     }

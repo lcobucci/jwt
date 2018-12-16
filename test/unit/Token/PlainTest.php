@@ -49,6 +49,9 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers \Lcobucci\JWT\Token\Plain::__construct
+     * @covers \Lcobucci\JWT\Token\Plain::headers
+     * @covers \Lcobucci\JWT\Token\Plain::claims
+     * @covers \Lcobucci\JWT\Token\Plain::signature
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
@@ -57,56 +60,8 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken();
 
-        self::assertAttributeSame($this->headers, 'headers', $token);
-        self::assertAttributeSame($this->claims, 'claims', $token);
-        self::assertAttributeSame($this->signature, 'signature', $token);
-    }
-
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::headers
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
-    public function headersMustReturnTheConfiguredDataSet(): void
-    {
-        $token = $this->createToken();
-
         self::assertSame($this->headers, $token->headers());
-    }
-
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::claims
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
-    public function claimsMustReturnTheConfiguredClaims(): void
-    {
-        $token = $this->createToken();
-
         self::assertSame($this->claims, $token->claims());
-    }
-
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::signature
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
-    public function signatureShouldReturnTheConfiguredSignature(): void
-    {
-        $token = $this->createToken();
-
         self::assertSame($this->signature, $token->signature());
     }
 
