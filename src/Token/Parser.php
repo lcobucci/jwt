@@ -12,6 +12,7 @@ use function array_intersect;
 use function array_keys;
 use function count;
 use function explode;
+use function is_array;
 use function strpos;
 
 final class Parser implements ParserInterface
@@ -69,10 +70,18 @@ final class Parser implements ParserInterface
      */
     private function parseHeader(string $data): array
     {
-        $header = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
+        $header = $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
+
+        if (! is_array($header)) {
+            throw new InvalidArgumentException('Headers must be an array');
+        }
 
         if (isset($header['enc'])) {
             throw new InvalidArgumentException('Encryption is not supported yet');
+        }
+
+        if (! isset($header['typ'])) {
+            throw new InvalidArgumentException('The header "typ" must be present');
         }
 
         return $header;
@@ -82,10 +91,16 @@ final class Parser implements ParserInterface
      * Parses the claim set from a string
      *
      * @return mixed[]
+     *
+     * @throws InvalidArgumentException When an invalid claim set is informed.
      */
     private function parseClaims(string $data): array
     {
-        $claims = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
+        $claims = $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
+
+        if (! is_array($claims)) {
+            throw new InvalidArgumentException('Claims must be an array');
+        }
 
         if (isset($claims[RegisteredClaims::AUDIENCE])) {
             $claims[RegisteredClaims::AUDIENCE] = (array) $claims[RegisteredClaims::AUDIENCE];

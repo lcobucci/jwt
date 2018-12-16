@@ -81,6 +81,48 @@ final class ParserTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Parser::splitJwt
      * @covers \Lcobucci\JWT\Token\Parser::parseHeader
      */
+    public function parseMustRaiseExceptionWhenDealingWithInvalidHeaders(): void
+    {
+        $this->decoder->method('jsonDecode')
+                      ->willReturn('A very invalid header');
+
+        $parser = $this->createParser();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Headers must be an array');
+
+        $parser->parse('a.a.');
+    }
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Token\Parser::__construct
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     */
+    public function parseMustRaiseExceptionWhenTypeHeaderIsNotConfigured(): void
+    {
+        $this->decoder->method('jsonDecode')
+                      ->willReturn(['alg' => 'none']);
+
+        $parser = $this->createParser();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The header "typ" must be present');
+
+        $parser->parse('a.a.');
+    }
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Token\Parser::__construct
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     */
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
     {
         $this->decoder->method('jsonDecode')
@@ -90,6 +132,30 @@ final class ParserTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Encryption is not supported yet');
+
+        $parser->parse('a.a.');
+    }
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Token\Parser::__construct
+     * @covers \Lcobucci\JWT\Token\Parser::parse
+     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
+     *
+     * @uses \Lcobucci\JWT\Token\DataSet
+     */
+    public function parseMustRaiseExceptionWhenDealingWithInvalidClaims(): void
+    {
+        $this->decoder->method('jsonDecode')
+                      ->willReturnOnConsecutiveCalls(['typ' => 'JWT'], 'A very invalid claim set');
+
+        $parser = $this->createParser();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Claims must be an array');
 
         $parser->parse('a.a.');
     }
