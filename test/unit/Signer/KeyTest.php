@@ -31,7 +31,7 @@ final class KeyTest extends TestCase
     public function constructShouldRaiseExceptionWhenFileDoesNotExists(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('You must inform a valid key file');
+        $this->expectExceptionMessage('You must provide a valid key file');
 
         new Key('file://' . vfsStream::url('root/test2.pem'));
     }

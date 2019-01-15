@@ -53,7 +53,7 @@ final class Key
 
             return $content;
         } catch (Throwable $exception) {
-            throw new InvalidArgumentException('You must inform a valid key file', $exception->getCode(), $exception);
+            throw new InvalidArgumentException('You must provide a valid key file', $exception->getCode(), $exception);
         }
     }
 
