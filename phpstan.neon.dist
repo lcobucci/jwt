@@ -12,4 +12,3 @@ parameters:
 
     ignoreErrors:
         - '#FG\\ASN1\\Universal\\Integer constructor expects int, string given.#'
-        - '#Parameter \#3 \$(pub|priv)_key_id of function openssl_(sign|verify) expects resource|string, resource|false given.#'
