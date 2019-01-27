@@ -14,7 +14,7 @@ final class Sha384Test extends TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa::create
      * @covers \Lcobucci\JWT\Signer\Ecdsa::__construct
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa\Asn1
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      */
     public function createShouldReturnAValidInstance(): void
     {
@@ -61,6 +61,6 @@ final class Sha384Test extends TestCase
 
     private function getSigner(): Sha384
     {
-        return new Sha384($this->createMock(PointsManipulator::class));
+        return new Sha384($this->createMock(SignatureConverter::class));
     }
 }

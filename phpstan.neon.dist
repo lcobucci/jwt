@@ -9,6 +9,3 @@ parameters:
     paths:
         - src
         - test
-
-    ignoreErrors:
-        - '#FG\\ASN1\\Universal\\Integer constructor expects int, string given.#'
