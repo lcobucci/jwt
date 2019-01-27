@@ -26,7 +26,7 @@
         "lcobucci/jose-parsing": "~2.1"
     },
     "require-dev": {
-        "infection/infection": "^0.11",
+        "infection/infection": "^0.12",
         "lcobucci/coding-standard": "^2.0",
         "mikey179/vfsStream": "^1.6",
         "phpbench/phpbench": "dev-master@dev",
