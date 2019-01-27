@@ -14,7 +14,7 @@ final class Sha512Test extends TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa::create
      * @covers \Lcobucci\JWT\Signer\Ecdsa::__construct
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa\ECSignature
+     * @uses \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      */
     public function createShouldReturnAValidInstance(): void
     {
@@ -61,6 +61,6 @@ final class Sha512Test extends TestCase
 
     private function getSigner(): Sha512
     {
-        return new Sha512($this->createMock(PointsManipulator::class));
+        return new Sha512($this->createMock(SignatureConverter::class));
     }
 }

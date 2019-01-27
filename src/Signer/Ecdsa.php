@@ -3,25 +3,25 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
-use Lcobucci\JWT\Signer\Ecdsa\ECSignature;
-use Lcobucci\JWT\Signer\Ecdsa\PointsManipulator;
+use Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter;
+use Lcobucci\JWT\Signer\Ecdsa\SignatureConverter;
 use const OPENSSL_KEYTYPE_EC;
 
 abstract class Ecdsa extends OpenSSL
 {
     /**
-     * @var PointsManipulator
+     * @var SignatureConverter
      */
-    private $manipulator;
+    private $converter;
 
-    public function __construct(PointsManipulator $manipulator)
+    public function __construct(SignatureConverter $converter)
     {
-        $this->manipulator = $manipulator;
+        $this->converter = $converter;
     }
 
     public static function create(): Ecdsa
     {
-        return new static(new ECSignature());
+        return new static(new MultibyteStringConverter());
     }
 
     /**
@@ -29,7 +29,7 @@ abstract class Ecdsa extends OpenSSL
      */
     final public function sign(string $payload, Key $key): string
     {
-        return $this->manipulator->fromEcPoint(
+        return $this->converter->fromAsn1(
             $this->createSignature($key->getContent(), $key->getPassphrase(), $payload),
             $this->getKeyLength()
         );
@@ -41,7 +41,7 @@ abstract class Ecdsa extends OpenSSL
     final public function verify(string $expected, string $payload, Key $key): bool
     {
         return $this->verifySignature(
-            $this->manipulator->toEcPoint($expected, $this->getKeyLength()),
+            $this->converter->toAsn1($expected, $this->getKeyLength()),
             $payload,
             $key->getContent()
         );

@@ -24,7 +24,12 @@ use function pack;
 use function str_pad;
 use function unpack;
 
-final class ECSignature implements PointsManipulator
+/**
+ * ECDSA signature converter using ext-mbstring
+ *
+ * @internal
+ */
+final class MultibyteStringConverter implements SignatureConverter
 {
     private const ASN1_SEQUENCE          = '30';
     private const ASN1_INTEGER           = '02';
@@ -32,56 +37,68 @@ final class ECSignature implements PointsManipulator
     private const ASN1_BIG_INTEGER_LIMIT = '7f';
     private const ASN1_NEGATIVE_INTEGER  = '00';
 
-    public function toEcPoint(string $signature, int $partLength): string
+    public function toAsn1(string $signature, int $length): string
     {
         $signature = unpack('H*', $signature)[1];
-        if (mb_strlen($signature, '8bit') !== 2 * $partLength) {
+
+        if (mb_strlen($signature, '8bit') !== 2 * $length) {
             throw new InvalidArgumentException('Invalid length.');
         }
-        $R = mb_substr($signature, 0, $partLength, '8bit');
-        $S = mb_substr($signature, $partLength, null, '8bit');
 
-        $R  = self::preparePositiveInteger($R);
-        $Rl = (int) (mb_strlen($R, '8bit') / 2);
-        $S  = self::preparePositiveInteger($S);
-        $Sl = (int) (mb_strlen($S, '8bit') / 2);
+        $pointR  = self::preparePositiveInteger(mb_substr($signature, 0, $length, '8bit'));
+        $pointS  = self::preparePositiveInteger(mb_substr($signature, $length, null, '8bit'));
+
+        $lengthR = (int) (mb_strlen($pointR, '8bit') / 2);
+        $lengthS = (int) (mb_strlen($pointS, '8bit') / 2);
+
+        $totalLength = $lengthR + $lengthS + 4;
 
         return pack(
             'H*',
-            self::ASN1_SEQUENCE . ($Rl + $Sl + 4 > 128 ? self::ASN1_LENGTH_2BYTES : '') . dechex($Rl + $Sl + 4)
-            . self::ASN1_INTEGER . dechex($Rl) . $R
-            . self::ASN1_INTEGER . dechex($Sl) . $S
+            self::ASN1_SEQUENCE . ($totalLength > 128 ? self::ASN1_LENGTH_2BYTES : '') . dechex($totalLength)
+            . self::ASN1_INTEGER . dechex($lengthR) . $pointR
+            . self::ASN1_INTEGER . dechex($lengthS) . $pointS
         );
     }
 
-    public function fromEcPoint(string $signature, int $partLength): string
+    public function fromAsn1(string $signature, int $length): string
     {
         $hex = unpack('H*', $signature)[1];
+
         if (mb_substr($hex, 0, 2, '8bit') !== self::ASN1_SEQUENCE) { // SEQUENCE
             throw new RuntimeException('Invalid data. Should start with a sequence.');
         }
+
         if (mb_substr($hex, 2, 2, '8bit') === self::ASN1_LENGTH_2BYTES) { // LENGTH > 128
             $hex = mb_substr($hex, 6, null, '8bit');
         } else {
             $hex = mb_substr($hex, 4, null, '8bit');
         }
+
         if (mb_substr($hex, 0, 2, '8bit') !== self::ASN1_INTEGER) { // INTEGER
             throw new RuntimeException('Invalid data. Should contain an integer.');
         }
 
-        $Rl = (int) hexdec(mb_substr($hex, 2, 2, '8bit'));
-        $R  = self::retrievePositiveInteger(mb_substr($hex, 4, $Rl * 2, '8bit'));
-        $R  = str_pad($R, $partLength, '0', STR_PAD_LEFT);
+        $lengthR = (int) hexdec(mb_substr($hex, 2, 2, '8bit'));
+        $pointR  = self::retrievePositiveInteger(mb_substr($hex, 4, $lengthR * 2, '8bit'));
 
-        $hex = mb_substr($hex, 4 + $Rl * 2, null, '8bit');
+        $hex = mb_substr($hex, 4 + $lengthR * 2, null, '8bit');
+
         if (mb_substr($hex, 0, 2, '8bit') !== self::ASN1_INTEGER) { // INTEGER
             throw new RuntimeException('Invalid data. Should contain an integer.');
         }
-        $Sl = (int) hexdec(mb_substr($hex, 2, 2, '8bit'));
-        $S  = self::retrievePositiveInteger(mb_substr($hex, 4, $Sl * 2, '8bit'));
-        $S  = str_pad($S, $partLength, '0', STR_PAD_LEFT);
 
-        return pack('H*', $R . $S);
+        $lengthS = (int) hexdec(mb_substr($hex, 2, 2, '8bit'));
+
+        $pointS = self::retrievePositiveInteger(
+            mb_substr($hex, 4, $lengthS * 2, '8bit')
+        );
+
+        return pack(
+            'H*',
+            str_pad($pointR, $length, '0', STR_PAD_LEFT)
+            . str_pad($pointS, $length, '0', STR_PAD_LEFT)
+        );
     }
 
     private static function preparePositiveInteger(string $data): string
@@ -89,6 +106,7 @@ final class ECSignature implements PointsManipulator
         if (mb_substr($data, 0, 2, '8bit') > self::ASN1_BIG_INTEGER_LIMIT) {
             return self::ASN1_NEGATIVE_INTEGER . $data;
         }
+
         while (mb_substr($data, 0, 2, '8bit') === self::ASN1_NEGATIVE_INTEGER
             && mb_substr($data, 2, 2, '8bit') <= self::ASN1_BIG_INTEGER_LIMIT) {
             $data = mb_substr($data, 2, null, '8bit');

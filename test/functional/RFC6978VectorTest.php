@@ -26,7 +26,7 @@ final class RFC6978VectorTest extends TestCase
      *
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\ECSignature
+     * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha384
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
