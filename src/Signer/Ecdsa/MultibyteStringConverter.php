@@ -16,13 +16,13 @@ namespace Lcobucci\JWT\Signer\Ecdsa;
 use InvalidArgumentException;
 use RuntimeException;
 use const STR_PAD_LEFT;
+use function bin2hex;
 use function dechex;
+use function hex2bin;
 use function hexdec;
 use function mb_strlen;
 use function mb_substr;
-use function pack;
 use function str_pad;
-use function unpack;
 
 /**
  * ECDSA signature converter using ext-mbstring
@@ -39,7 +39,7 @@ final class MultibyteStringConverter implements SignatureConverter
 
     public function toAsn1(string $signature, int $length): string
     {
-        $signature = unpack('H*', $signature)[1];
+        $signature = bin2hex($signature);
 
         if (mb_strlen($signature, '8bit') !== 2 * $length) {
             throw new InvalidArgumentException('Invalid length.');
@@ -53,8 +53,7 @@ final class MultibyteStringConverter implements SignatureConverter
 
         $totalLength = $lengthR + $lengthS + 4;
 
-        return pack(
-            'H*',
+        return hex2bin(
             self::ASN1_SEQUENCE . ($totalLength > 128 ? self::ASN1_LENGTH_2BYTES : '') . dechex($totalLength)
             . self::ASN1_INTEGER . dechex($lengthR) . $pointR
             . self::ASN1_INTEGER . dechex($lengthS) . $pointS
@@ -63,7 +62,7 @@ final class MultibyteStringConverter implements SignatureConverter
 
     public function fromAsn1(string $signature, int $length): string
     {
-        $hex = unpack('H*', $signature)[1];
+        $hex = bin2hex($signature);
 
         if (mb_substr($hex, 0, 2, '8bit') !== self::ASN1_SEQUENCE) { // SEQUENCE
             throw new RuntimeException('Invalid data. Should start with a sequence.');
@@ -94,8 +93,7 @@ final class MultibyteStringConverter implements SignatureConverter
             mb_substr($hex, 4, $lengthS * 2, '8bit')
         );
 
-        return pack(
-            'H*',
+        return hex2bin(
             str_pad($pointR, $length, '0', STR_PAD_LEFT)
             . str_pad($pointS, $length, '0', STR_PAD_LEFT)
         );
