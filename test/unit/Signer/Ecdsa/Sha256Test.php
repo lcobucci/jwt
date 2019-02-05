@@ -10,8 +10,6 @@ namespace Lcobucci\JWT\Signer\Ecdsa;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
- *
- * @requires PHP < 7.1
  */
 class Sha256Test extends \PHPUnit\Framework\TestCase
 {
@@ -20,6 +18,7 @@ class Sha256Test extends \PHPUnit\Framework\TestCase
      *
      * @uses Lcobucci\JWT\Signer\Ecdsa
      * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @uses Lcobucci\JWT\Signer\OpenSSL
      *
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256::getAlgorithmId
      */
@@ -35,6 +34,7 @@ class Sha256Test extends \PHPUnit\Framework\TestCase
      *
      * @uses Lcobucci\JWT\Signer\Ecdsa
      * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @uses Lcobucci\JWT\Signer\OpenSSL
      *
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256::getAlgorithm
      */
@@ -50,13 +50,14 @@ class Sha256Test extends \PHPUnit\Framework\TestCase
      *
      * @uses Lcobucci\JWT\Signer\Ecdsa
      * @uses Lcobucci\JWT\Signer\Ecdsa\KeyParser
+     * @uses Lcobucci\JWT\Signer\OpenSSL
      *
-     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256::getSignatureLength
+     * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256::getKeyLength
      */
-    public function getSignatureLengthMustBeCorrect()
+    public function getKeyLengthMustBeCorrect()
     {
         $signer = new Sha256();
 
-        $this->assertEquals(64, $signer->getSignatureLength());
+        $this->assertEquals(64, $signer->getKeyLength());
     }
 }
