@@ -5,3 +5,4 @@ infection.txt
 coverage
 phpcs.xml
 /.phpcs.cache
+/.phpunit.result.cache
