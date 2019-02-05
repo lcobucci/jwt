@@ -52,7 +52,6 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers \Lcobucci\JWT\Signer\OpenSSL
@@ -82,7 +81,6 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers \Lcobucci\JWT\Signer\OpenSSL
@@ -110,7 +108,6 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers \Lcobucci\JWT\Signer\OpenSSL
@@ -150,7 +147,6 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Parsing\Encoder
      * @covers Lcobucci\JWT\Parsing\Decoder
      * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      */
     public function parserCanReadAToken(Token $generated)
     {
@@ -175,7 +171,6 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers \Lcobucci\JWT\Signer\OpenSSL
@@ -200,7 +195,6 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512
@@ -228,7 +222,6 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers \Lcobucci\JWT\Signer\OpenSSL
@@ -253,7 +246,6 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers \Lcobucci\JWT\Signer\OpenSSL
@@ -275,7 +267,6 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha256
      * @covers \Lcobucci\JWT\Signer\OpenSSL
@@ -305,7 +296,6 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Signer\Key
      * @covers Lcobucci\JWT\Signer\BaseSigner
      * @covers Lcobucci\JWT\Signer\Ecdsa
-     * @covers Lcobucci\JWT\Signer\Ecdsa\KeyParser
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers Lcobucci\JWT\Signer\Ecdsa\Sha512
      * @covers \Lcobucci\JWT\Signer\OpenSSL
