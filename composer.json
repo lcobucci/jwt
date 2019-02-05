@@ -26,11 +26,7 @@
         "squizlabs/php_codesniffer": "~2.3",
         "phpmd/phpmd": "~2.2",
         "phpunit/php-invoker": "~1.1",
-        "mikey179/vfsStream": "~1.5",
-        "mdanter/ecc": "~0.3.1"
-    },
-    "suggest":{
-        "mdanter/ecc": "Required to use Elliptic Curves based algorithms."
+        "mikey179/vfsStream": "~1.5"
     },
     "autoload": {
         "psr-4": {
