@@ -11,9 +11,9 @@ use Lcobucci\JWT\Token\Plain;
 interface Builder
 {
     /**
-     * Appends a new audience
+     * Appends new items to audience
      */
-    public function permittedFor(string $audience): Builder;
+    public function permittedFor(string ...$audiences): Builder;
 
     /**
      * Configures the expiration time
