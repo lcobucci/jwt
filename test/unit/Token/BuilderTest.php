@@ -138,7 +138,7 @@ final class BuilderTest extends TestCase
     public function audienceShouldBeFormattedAsArrayWhenMultipleValuesAreUsed(): void
     {
         $headers = ['typ' => 'JWT', 'alg' => 'RS256'];
-        $claims  = [RegisteredClaims::AUDIENCE => ['test1', 'test2']];
+        $claims  = [RegisteredClaims::AUDIENCE => ['test1', 'test2', 'test3']];
 
         $this->signer->method('sign')->willReturn('testing');
 
@@ -154,8 +154,7 @@ final class BuilderTest extends TestCase
 
         $builder = new Builder($this->encoder);
 
-        $builder->permittedFor('test1')
-                ->permittedFor('test2')
+        $builder->permittedFor('test1', 'test2', 'test3')
                 ->permittedFor('test2') // should not be added since it's duplicated
                 ->getToken($this->signer, new Key('123'));
     }

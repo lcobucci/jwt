@@ -9,8 +9,10 @@ use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Builder as BuilderInterface;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
+use function array_diff;
 use function array_intersect;
 use function array_keys;
+use function array_merge;
 use function in_array;
 
 final class Builder implements BuilderInterface
@@ -38,15 +40,12 @@ final class Builder implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function permittedFor(string $audience): BuilderInterface
+    public function permittedFor(string ...$audiences): BuilderInterface
     {
-        $audiences = $this->claims[RegisteredClaims::AUDIENCE] ?? [];
+        $configured = $this->claims[RegisteredClaims::AUDIENCE] ?? [];
+        $toAppend   = array_diff($audiences, $configured);
 
-        if (! in_array($audience, $audiences, true)) {
-            $audiences[] = $audience;
-        }
-
-        return $this->setClaim(RegisteredClaims::AUDIENCE, $audiences);
+        return $this->setClaim(RegisteredClaims::AUDIENCE, array_merge($configured, $toAppend));
     }
 
     /**
