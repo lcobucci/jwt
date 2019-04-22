@@ -4,13 +4,12 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Validation\Constraint;
 
 use Lcobucci\JWT\Token\RegisteredClaims;
+use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class PermittedForTest extends ConstraintTestCase
 {
     /**
      * @test
-     *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor::assert
@@ -21,14 +20,15 @@ final class PermittedForTest extends ConstraintTestCase
      */
     public function assertShouldRaiseExceptionWhenAudienceIsNotSet(): void
     {
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('The token is not allowed to be used by this audience');
+
         $constraint = new PermittedFor('test.com');
         $constraint->assert($this->buildToken());
     }
 
     /**
      * @test
-     *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor::assert
@@ -39,14 +39,15 @@ final class PermittedForTest extends ConstraintTestCase
      */
     public function assertShouldRaiseExceptionWhenAudienceValueDoesNotMatch(): void
     {
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('The token is not allowed to be used by this audience');
+
         $constraint = new PermittedFor('test.com');
         $constraint->assert($this->buildToken([RegisteredClaims::AUDIENCE => ['aa.com']]));
     }
 
     /**
      * @test
-     *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor::assert
@@ -57,6 +58,9 @@ final class PermittedForTest extends ConstraintTestCase
      */
     public function assertShouldRaiseExceptionWhenAudienceTypeDoesNotMatch(): void
     {
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('The token is not allowed to be used by this audience');
+
         $constraint = new PermittedFor('123');
         $constraint->assert($this->buildToken([RegisteredClaims::AUDIENCE => [123]]));
     }

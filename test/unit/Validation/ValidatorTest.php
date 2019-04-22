@@ -4,12 +4,13 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Validation;
 
 use Lcobucci\JWT\Token;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class ValidatorTest extends TestCase
 {
     /**
-     * @var Token|\PHPUnit_Framework_MockObject_MockObject
+     * @var Token|MockObject
      */
     private $token;
 
@@ -24,26 +25,27 @@ final class ValidatorTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
-     *
      * @covers \Lcobucci\JWT\Validation\Validator::assert
      * @covers \Lcobucci\JWT\Validation\Validator::checkConstraint
      *
-     * @uses \Lcobucci\JWT\Validation\InvalidTokenException
+     * @uses \Lcobucci\JWT\Validation\InvalidToken
      */
     public function assertShouldRaiseExceptionWhenAtLeastOneConstraintFails(): void
     {
         $failedConstraint     = $this->createMock(Constraint::class);
         $successfulConstraint = $this->createMock(Constraint::class);
 
-        $failedConstraint->expects($this->once())
+        $failedConstraint->expects(self::once())
                          ->method('assert')
-                         ->willThrowException(new ConstraintViolationException());
+                         ->willThrowException(new ConstraintViolation());
 
-        $successfulConstraint->expects($this->once())
+        $successfulConstraint->expects(self::once())
                              ->method('assert');
 
         $validator = new Validator();
+
+        $this->expectException(InvalidToken::class);
+        $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $validator->assert(
             $this->token,
@@ -61,7 +63,7 @@ final class ValidatorTest extends TestCase
     public function assertShouldNotRaiseExceptionWhenNoConstraintFails(): void
     {
         $constraint = $this->createMock(Constraint::class);
-        $constraint->expects($this->once())->method('assert');
+        $constraint->expects(self::once())->method('assert');
 
         $validator = new Validator();
 
@@ -79,11 +81,11 @@ final class ValidatorTest extends TestCase
         $failedConstraint     = $this->createMock(Constraint::class);
         $successfulConstraint = $this->createMock(Constraint::class);
 
-        $failedConstraint->expects($this->once())
+        $failedConstraint->expects(self::once())
                          ->method('assert')
-                         ->willThrowException(new ConstraintViolationException());
+                         ->willThrowException(new ConstraintViolation());
 
-        $successfulConstraint->expects($this->never())
+        $successfulConstraint->expects(self::never())
                              ->method('assert');
 
         $validator = new Validator();
@@ -105,7 +107,7 @@ final class ValidatorTest extends TestCase
     public function validateShouldReturnTrueWhenNoConstraintFails(): void
     {
         $constraint = $this->createMock(Constraint::class);
-        $constraint->expects($this->once())->method('assert');
+        $constraint->expects(self::once())->method('assert');
 
         $validator = new Validator();
         self::assertTrue($validator->validate($this->token, $constraint));

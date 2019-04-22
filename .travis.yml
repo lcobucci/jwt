@@ -3,8 +3,8 @@ sudo: false
 language: php
 
 php:
-  - 7.1
   - 7.2
+  - 7.3
   - nightly
 
 cache:
@@ -13,7 +13,6 @@ cache:
 
 before_install:
   - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{,.disabled} || echo "xdebug not available"
-  - composer self-update
 
 install: travis_retry composer install
 
@@ -23,7 +22,6 @@ script:
 
 jobs:
   allow_failures:
-    - php: 7.2
     - php: nightly
 
   include:
@@ -54,10 +52,10 @@ jobs:
         - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
         - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
       script:
-        - ./vendor/bin/infection --test-framework-options="--testsuite unit" -s --threads=4
+        - ./vendor/bin/infection --test-framework-options="--testsuite=unit" -s --threads=$(nproc) --min-msi=95 --min-covered-msi=95
 
     - stage: Metrics and quality
       env: STATIC_ANALYSIS
       script:
-        - ./vendor/bin/phpstan analyse -c phpstan.neon -l max src test
+        - ./vendor/bin/phpstan analyse
 

@@ -7,14 +7,14 @@ use Lcobucci\JWT\Exception;
 use function array_map;
 use function implode;
 
-final class InvalidTokenException extends Exception
+final class InvalidToken extends Exception
 {
     /**
-     * @var ConstraintViolationException[]
+     * @var ConstraintViolation[]
      */
     private $violations = [];
 
-    public static function fromViolations(ConstraintViolationException ...$violations): self
+    public static function fromViolations(ConstraintViolation ...$violations): self
     {
         $exception             = new self(self::buildMessage($violations));
         $exception->violations = $violations;
@@ -23,12 +23,12 @@ final class InvalidTokenException extends Exception
     }
 
     /**
-     * @param ConstraintViolationException[] $violations
+     * @param ConstraintViolation[] $violations
      */
     private static function buildMessage(array $violations): string
     {
         $violations = array_map(
-            function (ConstraintViolationException $violation): string {
+            static function (ConstraintViolation $violation): string {
                 return '- ' . $violation->getMessage();
             },
             $violations
@@ -41,7 +41,7 @@ final class InvalidTokenException extends Exception
     }
 
     /**
-     * @return ConstraintViolationException[]
+     * @return ConstraintViolation[]
      */
     public function violations(): array
     {

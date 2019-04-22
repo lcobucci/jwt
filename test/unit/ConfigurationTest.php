@@ -7,45 +7,54 @@ use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token\Builder as BuilderImpl;
+use Lcobucci\JWT\Token\Parser as ParserImpl;
+use Lcobucci\JWT\Validation\Constraint;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class ConfigurationTest extends TestCase
 {
     /**
-     * @var Parser|\PHPUnit_Framework_MockObject_MockObject
+     * @var Parser|MockObject
      */
     private $parser;
 
     /**
-     * @var Signer|\PHPUnit_Framework_MockObject_MockObject
+     * @var Signer|MockObject
      */
     private $signer;
 
     /**
-     * @var Parsing\Encoder|\PHPUnit_Framework_MockObject_MockObject
+     * @var Parsing\Encoder|MockObject
      */
     private $encoder;
 
     /**
-     * @var Parsing\Decoder|\PHPUnit_Framework_MockObject_MockObject
+     * @var Parsing\Decoder|MockObject
      */
     private $decoder;
 
     /**
-     * @var Validator|\PHPUnit_Framework_MockObject_MockObject
+     * @var Validator|MockObject
      */
     private $validator;
+
+    /**
+     * @var Constraint|MockObject
+     */
+    private $validationConstraints;
 
     /**
      * @before
      */
     public function createDependencies(): void
     {
-        $this->signer    = $this->createMock(Signer::class);
-        $this->encoder   = $this->createMock(Parsing\Encoder::class);
-        $this->decoder   = $this->createMock(Parsing\Decoder::class);
-        $this->parser    = $this->createMock(Parser::class);
-        $this->validator = $this->createMock(Validator::class);
+        $this->signer                = $this->createMock(Signer::class);
+        $this->encoder               = $this->createMock(Parsing\Encoder::class);
+        $this->decoder               = $this->createMock(Parsing\Decoder::class);
+        $this->parser                = $this->createMock(Parser::class);
+        $this->validator             = $this->createMock(Validator::class);
+        $this->validationConstraints = $this->createMock(Constraint::class);
     }
 
     /**
@@ -53,6 +62,9 @@ final class ConfigurationTest extends TestCase
      *
      * @covers \Lcobucci\JWT\Configuration::forAsymmetricSigner
      * @covers \Lcobucci\JWT\Configuration::__construct
+     * @covers \Lcobucci\JWT\Configuration::getSigner
+     * @covers \Lcobucci\JWT\Configuration::getSigningKey
+     * @covers \Lcobucci\JWT\Configuration::getVerificationKey
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -63,9 +75,9 @@ final class ConfigurationTest extends TestCase
 
         $config = Configuration::forAsymmetricSigner($this->signer, $signingKey, $verificationKey);
 
-        self::assertAttributeSame($this->signer, 'signer', $config);
-        self::assertAttributeSame($signingKey, 'signingKey', $config);
-        self::assertAttributeSame($verificationKey, 'verificationKey', $config);
+        self::assertSame($this->signer, $config->getSigner());
+        self::assertSame($signingKey, $config->getSigningKey());
+        self::assertSame($verificationKey, $config->getVerificationKey());
     }
 
     /**
@@ -73,6 +85,9 @@ final class ConfigurationTest extends TestCase
      *
      * @covers \Lcobucci\JWT\Configuration::forSymmetricSigner
      * @covers \Lcobucci\JWT\Configuration::__construct
+     * @covers \Lcobucci\JWT\Configuration::getSigner
+     * @covers \Lcobucci\JWT\Configuration::getSigningKey
+     * @covers \Lcobucci\JWT\Configuration::getVerificationKey
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -81,9 +96,9 @@ final class ConfigurationTest extends TestCase
         $key    = new Key('private');
         $config = Configuration::forSymmetricSigner($this->signer, $key);
 
-        self::assertAttributeSame($this->signer, 'signer', $config);
-        self::assertAttributeSame($key, 'signingKey', $config);
-        self::assertAttributeSame($key, 'verificationKey', $config);
+        self::assertSame($this->signer, $config->getSigner());
+        self::assertSame($key, $config->getSigningKey());
+        self::assertSame($key, $config->getVerificationKey());
     }
 
     /**
@@ -91,6 +106,9 @@ final class ConfigurationTest extends TestCase
      *
      * @covers \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @covers \Lcobucci\JWT\Configuration::__construct
+     * @covers \Lcobucci\JWT\Configuration::getSigner
+     * @covers \Lcobucci\JWT\Configuration::getSigningKey
+     * @covers \Lcobucci\JWT\Configuration::getVerificationKey
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -99,9 +117,9 @@ final class ConfigurationTest extends TestCase
         $key    = new Key('');
         $config = Configuration::forUnsecuredSigner();
 
-        self::assertAttributeInstanceOf(None::class, 'signer', $config);
-        self::assertAttributeEquals($key, 'signingKey', $config);
-        self::assertAttributeEquals($key, 'verificationKey', $config);
+        self::assertInstanceOf(None::class, $config->getSigner());
+        self::assertEquals($key, $config->getSigningKey());
+        self::assertEquals($key, $config->getVerificationKey());
     }
 
     /**
@@ -123,7 +141,7 @@ final class ConfigurationTest extends TestCase
         $builder = $config->createBuilder();
 
         self::assertInstanceOf(BuilderImpl::class, $builder);
-        self::assertAttributeNotSame($this->encoder, 'encoder', $builder);
+        self::assertNotEquals(new BuilderImpl($this->encoder), $builder);
     }
 
     /**
@@ -147,7 +165,7 @@ final class ConfigurationTest extends TestCase
         $builder = $config->createBuilder();
 
         self::assertInstanceOf(BuilderImpl::class, $builder);
-        self::assertAttributeSame($this->encoder, 'encoder', $builder);
+        self::assertEquals(new BuilderImpl($this->encoder), $builder);
     }
 
     /**
@@ -167,8 +185,7 @@ final class ConfigurationTest extends TestCase
         $config = Configuration::forUnsecuredSigner();
         $parser = $config->getParser();
 
-        self::assertInstanceOf(Parser::class, $parser);
-        self::assertAttributeNotSame($this->decoder, 'decoder', $parser);
+        self::assertNotEquals(new ParserImpl($this->decoder), $parser);
     }
 
     /**
@@ -191,8 +208,7 @@ final class ConfigurationTest extends TestCase
 
         $parser = $config->getParser();
 
-        self::assertInstanceOf(Parser::class, $parser);
-        self::assertAttributeSame($this->decoder, 'decoder', $parser);
+        self::assertEquals(new ParserImpl($this->decoder), $parser);
     }
 
     /**
@@ -213,61 +229,6 @@ final class ConfigurationTest extends TestCase
         $config->setParser($this->parser);
 
         self::assertSame($this->parser, $config->getParser());
-    }
-
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Configuration::getSigner
-     *
-     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Signer\None
-     * @uses \Lcobucci\JWT\Signer\Key
-     */
-    public function getSignerShouldReturnTheConfiguredSigner(): void
-    {
-        $config = Configuration::forSymmetricSigner($this->signer, new Key(''));
-
-        self::assertSame($this->signer, $config->getSigner());
-    }
-
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Configuration::getSigningKey()
-     *
-     * @uses \Lcobucci\JWT\Configuration::forAsymmetricSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Signer\Key
-     */
-    public function getSigningKeyShouldReturnTheConfiguredKey(): void
-    {
-        $signingKey      = new Key('private');
-        $verificationKey = new Key('public');
-
-        $config = Configuration::forAsymmetricSigner($this->signer, $signingKey, $verificationKey);
-
-        self::assertSame($signingKey, $config->getSigningKey());
-    }
-
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Configuration::getVerificationKey()
-     *
-     * @uses \Lcobucci\JWT\Configuration::forAsymmetricSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Signer\Key
-     */
-    public function getVerificationKeyShouldReturnTheConfiguredKey(): void
-    {
-        $signingKey      = new Key('private');
-        $verificationKey = new Key('public');
-
-        $config = Configuration::forAsymmetricSigner($this->signer, $signingKey, $verificationKey);
-
-        self::assertSame($verificationKey, $config->getVerificationKey());
     }
 
     /**
@@ -305,5 +266,41 @@ final class ConfigurationTest extends TestCase
         $config->setValidator($this->validator);
 
         self::assertSame($this->validator, $config->getValidator());
+    }
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Configuration::getValidationConstraints
+     *
+     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::__construct
+     * @uses \Lcobucci\JWT\Signer\None
+     * @uses \Lcobucci\JWT\Signer\Key
+     */
+    public function getValidationConstraintsShouldReturnAnEmptyArrayWhenItWasNotConfigured(): void
+    {
+        $config = Configuration::forUnsecuredSigner();
+
+        self::assertSame([], $config->getValidationConstraints());
+    }
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Configuration::getValidationConstraints
+     * @covers \Lcobucci\JWT\Configuration::setValidationConstraints
+     *
+     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::__construct
+     * @uses \Lcobucci\JWT\Signer\None
+     * @uses \Lcobucci\JWT\Signer\Key
+     */
+    public function getValidationConstraintsShouldReturnTheConfiguredValidator(): void
+    {
+        $config = Configuration::forUnsecuredSigner();
+        $config->setValidationConstraints($this->validationConstraints);
+
+        self::assertSame([$this->validationConstraints], $config->getValidationConstraints());
     }
 }

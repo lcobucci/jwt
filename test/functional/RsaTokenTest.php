@@ -3,14 +3,15 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
 
+use InvalidArgumentException;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
 use Lcobucci\JWT\Token;
-use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\InvalidToken;
 use PHPUnit\Framework\TestCase;
 
 class RsaTokenTest extends TestCase
@@ -37,20 +38,22 @@ class RsaTokenTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \InvalidArgumentException
-     *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      */
     public function builderShouldRaiseExceptionWhenKeyIsInvalid(): void
     {
         $builder = $this->config->createBuilder();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('It was not possible to parse your key');
 
         $builder->identifiedBy('1')
                 ->permittedFor('http://client.abc.com')
@@ -62,20 +65,22 @@ class RsaTokenTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \InvalidArgumentException
-     *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      */
     public function builderShouldRaiseExceptionWhenKeyIsNotRsaCompatible(): void
     {
         $builder = $this->config->createBuilder();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('This key is not compatible with this signer');
 
         $builder->identifiedBy('1')
                 ->permittedFor('http://client.abc.com')
@@ -93,6 +98,7 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      */
@@ -108,7 +114,6 @@ class RsaTokenTest extends TestCase
                          ->withHeader('jki', '1234')
                          ->getToken($this->config->getSigner(), $this->config->getSigningKey());
 
-        self::assertAttributeInstanceOf(Signature::class, 'signature', $token);
         self::assertEquals('1234', $token->headers()->get('jki'));
         self::assertEquals(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
         self::assertEquals('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
@@ -119,7 +124,6 @@ class RsaTokenTest extends TestCase
 
     /**
      * @test
-     *
      * @depends builderCanGenerateAToken
      *
      * @covers \Lcobucci\JWT\Configuration
@@ -140,10 +144,7 @@ class RsaTokenTest extends TestCase
 
     /**
      * @test
-     *
      * @depends builderCanGenerateAToken
-     *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
@@ -152,14 +153,18 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      * @covers \Lcobucci\JWT\Validation\Validator
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
-     * @covers \Lcobucci\JWT\Validation\InvalidTokenException
+     * @covers \Lcobucci\JWT\Validation\InvalidToken
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
+        $this->expectException(InvalidToken::class);
+        $this->expectExceptionMessage('The token violates some mandatory constraints');
+
         $this->config->getValidator()->assert(
             $token,
             new SignedWith($this->config->getSigner(), self::$rsaKeys['encrypted-public'])
@@ -168,10 +173,7 @@ class RsaTokenTest extends TestCase
 
     /**
      * @test
-     *
      * @depends builderCanGenerateAToken
-     *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
@@ -179,16 +181,20 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Key
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha512
      * @covers \Lcobucci\JWT\Validation\Validator
-     * @covers \Lcobucci\JWT\Validation\InvalidTokenException
+     * @covers \Lcobucci\JWT\Validation\InvalidToken
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
+        $this->expectException(InvalidToken::class);
+        $this->expectExceptionMessage('The token violates some mandatory constraints');
+
         $this->config->getValidator()->assert(
             $token,
             new SignedWith(new Sha512(), $this->config->getVerificationKey())
@@ -197,11 +203,6 @@ class RsaTokenTest extends TestCase
 
     /**
      * @test
-     *
-     * @expectedException \InvalidArgumentException
-     *
-     * @expectedException \Lcobucci\JWT\Validation\InvalidTokenException
-     *
      * @depends builderCanGenerateAToken
      *
      * @covers \Lcobucci\JWT\Configuration
@@ -211,14 +212,17 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      * @covers \Lcobucci\JWT\Validation\Validator
-     * @covers \Lcobucci\JWT\Validation\InvalidTokenException
      * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('This key is not compatible with this signer');
+
         $this->config->getValidator()->assert(
             $token,
             new SignedWith(
@@ -230,7 +234,6 @@ class RsaTokenTest extends TestCase
 
     /**
      * @test
-     *
      * @depends builderCanGenerateAToken
      *
      * @covers \Lcobucci\JWT\Configuration
@@ -240,6 +243,7 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      * @covers \Lcobucci\JWT\Validation\Validator
@@ -262,6 +266,7 @@ class RsaTokenTest extends TestCase
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
      * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\Rsa
      * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
      * @covers \Lcobucci\JWT\Validation\Validator

@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use Lcobucci\JWT\Validation\Constraint;
-use Lcobucci\JWT\Validation\InvalidTokenException;
+use Lcobucci\JWT\Validation\InvalidToken;
 
 interface Validator
 {
     /**
-     * @throws InvalidTokenException
+     * @throws InvalidToken
      */
     public function assert(Token $token, Constraint ...$constraints): void;
 

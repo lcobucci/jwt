@@ -48,76 +48,31 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Token\Plain::__construct
+     * @covers \Lcobucci\JWT\Token\Plain::headers
+     * @covers \Lcobucci\JWT\Token\Plain::claims
+     * @covers \Lcobucci\JWT\Token\Plain::signature
+     *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::__construct
      */
     public function signedShouldCreateATokenWithSignature(): void
     {
         $token = $this->createToken();
 
-        self::assertAttributeSame($this->headers, 'headers', $token);
-        self::assertAttributeSame($this->claims, 'claims', $token);
-        self::assertAttributeSame($this->signature, 'signature', $token);
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::headers
-     */
-    public function headersMustReturnTheConfiguredDataSet(): void
-    {
-        $token = $this->createToken();
-
         self::assertSame($this->headers, $token->headers());
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::claims
-     */
-    public function claimsMustReturnTheConfiguredClaims(): void
-    {
-        $token = $this->createToken();
-
         self::assertSame($this->claims, $token->claims());
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::signature
-     */
-    public function signatureShouldReturnTheConfiguredSignature(): void
-    {
-        $token = $this->createToken();
-
         self::assertSame($this->signature, $token->signature());
     }
 
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Token\Plain::payload
+     *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::payload
      */
     public function payloadShouldReturnAStringWithTheEncodedHeadersAndClaims(): void
     {
@@ -614,12 +569,12 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Token\Plain::__toString
+     *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\Plain::payload
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::__toString
      */
     public function toStringMustReturnEncodedDataWithEmptySignature(): void
     {
@@ -631,11 +586,11 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
+     * @covers \Lcobucci\JWT\Token\Plain::__toString
+     *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
-     *
-     * @covers \Lcobucci\JWT\Token\Plain::__toString
      */
     public function toStringMustReturnEncodedData(): void
     {

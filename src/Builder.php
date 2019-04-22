@@ -4,15 +4,16 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use DateTimeImmutable;
+use InvalidArgumentException;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\Plain;
 
 interface Builder
 {
     /**
-     * Appends a new audience
+     * Appends new items to audience
      */
-    public function permittedFor(string $audience): Builder;
+    public function permittedFor(string ...$audiences): Builder;
 
     /**
      * Configures the expiration time
@@ -56,7 +57,7 @@ interface Builder
      *
      * @param mixed $value
      *
-     * @throws \InvalidArgumentException When trying to set a registered claim.
+     * @throws InvalidArgumentException When trying to set a registered claim.
      */
     public function withClaim(string $name, $value): Builder;
 

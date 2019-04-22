@@ -4,13 +4,12 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Validation\Constraint;
 
 use Lcobucci\JWT\Token\RegisteredClaims;
+use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class IssuedByTest extends ConstraintTestCase
 {
     /**
      * @test
-     *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::assert
@@ -21,14 +20,15 @@ final class IssuedByTest extends ConstraintTestCase
      */
     public function assertShouldRaiseExceptionWhenIssuerIsNotSet(): void
     {
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('The token was not issued by the given issuers');
+
         $constraint = new IssuedBy('test.com', 'test.net');
         $constraint->assert($this->buildToken());
     }
 
     /**
      * @test
-     *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::assert
@@ -39,14 +39,15 @@ final class IssuedByTest extends ConstraintTestCase
      */
     public function assertShouldRaiseExceptionWhenIssuerValueDoesNotMatch(): void
     {
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('The token was not issued by the given issuers');
+
         $constraint = new IssuedBy('test.com', 'test.net');
         $constraint->assert($this->buildToken([RegisteredClaims::ISSUER => 'example.com']));
     }
 
     /**
      * @test
-     *
-     * @expectedException \Lcobucci\JWT\Validation\ConstraintViolationException
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::assert
@@ -57,6 +58,9 @@ final class IssuedByTest extends ConstraintTestCase
      */
     public function assertShouldRaiseExceptionWhenIssuerTypeValueDoesNotMatch(): void
     {
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('The token was not issued by the given issuers');
+
         $constraint = new IssuedBy('test.com', '123');
         $constraint->assert($this->buildToken([RegisteredClaims::ISSUER => 123]));
     }

@@ -19,12 +19,12 @@ final class Validator implements \Lcobucci\JWT\Validator
         }
 
         if ($violations) {
-            throw InvalidTokenException::fromViolations(...$violations);
+            throw InvalidToken::fromViolations(...$violations);
         }
     }
 
     /**
-     * @param ConstraintViolationException[] $violations
+     * @param ConstraintViolation[] $violations
      */
     private function checkConstraint(
         Constraint $constraint,
@@ -33,7 +33,7 @@ final class Validator implements \Lcobucci\JWT\Validator
     ): void {
         try {
             $constraint->assert($token);
-        } catch (ConstraintViolationException $e) {
+        } catch (ConstraintViolation $e) {
             $violations[] = $e;
         }
     }
@@ -46,7 +46,7 @@ final class Validator implements \Lcobucci\JWT\Validator
             }
 
             return true;
-        } catch (ConstraintViolationException $e) {
+        } catch (ConstraintViolation $e) {
             return false;
         }
     }

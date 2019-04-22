@@ -6,7 +6,7 @@ namespace Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
-use Lcobucci\JWT\Validation\ConstraintViolationException;
+use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class SignedWith implements Constraint
 {
@@ -32,15 +32,15 @@ final class SignedWith implements Constraint
     public function assert(Token $token): void
     {
         if (! $token instanceof Token\Plain) {
-            throw new ConstraintViolationException('You should pass a plain token');
+            throw new ConstraintViolation('You should pass a plain token');
         }
 
         if ($token->headers()->get('alg') !== $this->signer->getAlgorithmId()) {
-            throw new ConstraintViolationException('Token signer mismatch');
+            throw new ConstraintViolation('Token signer mismatch');
         }
 
         if (! $this->signer->verify($token->signature()->hash(), $token->payload(), $this->key)) {
-            throw new ConstraintViolationException('Token signature mismatch');
+            throw new ConstraintViolation('Token signature mismatch');
         }
     }
 }
