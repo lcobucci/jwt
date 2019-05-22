@@ -1,5 +1,5 @@
 > ⚠️ The documentation of the **stable** version is on branch
-[3.2](https://github.com/lcobucci/jwt/blob/3.2/README.md). ⚠️
+[3.3](https://github.com/lcobucci/jwt/blob/3.3/README.md). ⚠️
 
 # JWT
 [![Gitter](https://img.shields.io/badge/GITTER-JOIN%20CHAT%20%E2%86%92-brightgreen.svg?style=flat-square)](https://gitter.im/lcobucci/jwt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -26,7 +26,7 @@ composer require lcobucci/jwt
 
 ### Dependencies
 
-- PHP 5.5+ (v3.2) and PHP 7.1 (v4.x)
+- PHP 5.6+ (v3.3) and PHP 7.1 (v4.x)
 - OpenSSL Extension
 
 ## Basic usage
@@ -36,7 +36,7 @@ composer require lcobucci/jwt
 
 
 The documentation of the **stable** version is on branch
-[3.2](https://github.com/lcobucci/jwt/blob/3.2/README.md).
+[3.3](https://github.com/lcobucci/jwt/blob/3.3/README.md).
 
 ## Supported by Auth0 ![auth0](http://passportjs.org/images/supported_logo.svg)
 
