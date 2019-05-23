@@ -73,8 +73,6 @@ class Token
     /**
      * Returns the token headers
      *
-     * @deprecated This method will be renamed on v4, the returned value will also change
-     *
      * @return array
      */
     public function getHeaders()
@@ -84,8 +82,6 @@ class Token
 
     /**
      * Returns if the header is configured
-     *
-     * @deprecated This method will be removed on v4
      *
      * @param string $name
      *
@@ -98,8 +94,6 @@ class Token
 
     /**
      * Returns the value of a token header
-     *
-     * @deprecated This method will be removed on v4
      *
      * @param string $name
      * @param mixed $default
@@ -142,8 +136,6 @@ class Token
     /**
      * Returns the token claim set
      *
-     * @deprecated This method will be renamed on v4, the returned value will also change
-     *
      * @return array
      */
     public function getClaims()
@@ -153,8 +145,6 @@ class Token
 
     /**
      * Returns if the claim is configured
-     *
-     * @deprecated This method will be removed on v4
      *
      * @param string $name
      *
@@ -167,8 +157,6 @@ class Token
 
     /**
      * Returns the value of a token claim
-     *
-     * @deprecated This method will be removed on v4
      *
      * @param string $name
      * @param mixed $default
@@ -193,8 +181,6 @@ class Token
     /**
      * Verify if the key matches with the one that created the signature
      *
-     * @deprecated This method will be removed on v4, new validation API should be used
-     *
      * @param Signer $signer
      * @param string $key
      *
@@ -217,8 +203,6 @@ class Token
 
     /**
      * Validates if the token is valid
-     *
-     * @deprecated This method will be removed on v4, new validation API should be used
      *
      * @param ValidationData $data
      *
@@ -274,8 +258,6 @@ class Token
 
     /**
      * Returns the token payload
-     *
-     * @deprecated This method will be renamed on v4
      *
      * @return string
      */

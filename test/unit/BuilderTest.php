@@ -9,6 +9,7 @@ namespace Lcobucci\JWT;
 
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Encoder;
+use Lcobucci\JWT\Signer\Key;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -37,7 +38,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     protected function setUp()
     {
         $this->encoder = $this->createMock(Encoder::class);
-        $this->claimFactory = $this->createMock(ClaimFactory::class, [], [], '', false);
+        $this->claimFactory = $this->createMock(ClaimFactory::class);
         $this->defaultClaim = $this->createMock(Claim::class);
 
         $this->claimFactory->expects($this->any())
@@ -64,7 +65,6 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
         $this->assertAttributeEquals([], 'claims', $builder);
-        $this->assertAttributeEquals(null, 'signature', $builder);
         $this->assertAttributeSame($this->encoder, 'encoder', $builder);
         $this->assertAttributeSame($this->claimFactory, 'claimFactory', $builder);
     }
@@ -539,19 +539,15 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      *
      * @covers Lcobucci\JWT\Builder::sign
      */
-    public function signMustChangeTheSignature()
+    public function signMustConfigureSignerAndKey()
     {
         $signer = $this->createMock(Signer::class);
-        $signature = $this->createMock(Signature::class, [], [], '', false);
-
-        $signer->expects($this->any())
-               ->method('sign')
-               ->willReturn($signature);
 
         $builder = $this->createBuilder();
         $builder->sign($signer, 'test');
 
-        $this->assertAttributeSame($signature, 'signature', $builder);
+        $this->assertAttributeSame($signer, 'signer', $builder);
+        $this->assertAttributeEquals(new Key('test'), 'key', $builder);
     }
 
     /**
@@ -566,12 +562,6 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     public function signMustKeepAFluentInterface()
     {
         $signer = $this->createMock(Signer::class);
-        $signature = $this->createMock(Signature::class, [], [], '', false);
-
-        $signer->expects($this->any())
-               ->method('sign')
-               ->willReturn($signature);
-
         $builder = $this->createBuilder();
 
         $this->assertSame($builder, $builder->sign($signer, 'test'));
@@ -586,11 +576,12 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      *
      * @covers Lcobucci\JWT\Builder::unsign
      */
-    public function unsignMustRemoveTheSignature(Builder $builder)
+    public function unsignMustRemoveTheSignerAndKey(Builder $builder)
     {
         $builder->unsign();
 
-        $this->assertAttributeSame(null, 'signature', $builder);
+        $this->assertAttributeSame(null, 'signer', $builder);
+        $this->assertAttributeSame(null, 'key', $builder);
     }
 
     /**
@@ -609,58 +600,6 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::sign
-     * @uses Lcobucci\JWT\Builder::getToken
-     * @uses Lcobucci\JWT\Token
-     *
-     * @covers Lcobucci\JWT\Builder::with
-     *
-     * @expectedException BadMethodCallException
-     */
-    public function withMustRaiseExceptionWhenTokenHasBeenSigned()
-    {
-        $signer = $this->createMock(Signer::class);
-        $signature = $this->createMock(Signature::class, [], [], '', false);
-
-        $signer->expects($this->any())
-               ->method('sign')
-               ->willReturn($signature);
-
-        $builder = $this->createBuilder();
-        $builder->sign($signer, 'test');
-        $builder->with('test', 123);
-    }
-
-    /**
-     * @test
-     *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::sign
-     * @uses Lcobucci\JWT\Builder::getToken
-     * @uses Lcobucci\JWT\Token
-     *
-     * @covers Lcobucci\JWT\Builder::withHeader
-     *
-     * @expectedException BadMethodCallException
-     */
-    public function withHeaderMustRaiseExceptionWhenTokenHasBeenSigned()
-    {
-        $signer = $this->createMock(Signer::class);
-        $signature = $this->createMock(Signature::class, [], [], '', false);
-
-        $signer->expects($this->any())
-               ->method('sign')
-               ->willReturn($signature);
-
-        $builder = $this->createBuilder();
-        $builder->sign($signer, 'test');
-        $builder->withHeader('test', 123);
-    }
-
-    /**
-     * @test
-     *
-     * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::with
      * @uses Lcobucci\JWT\Token
      *
@@ -668,7 +607,10 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function getTokenMustReturnANewTokenWithCurrentConfiguration()
     {
-        $signature = $this->createMock(Signature::class, [], [], '', false);
+        $signer = $this->createMock(Signer::class);
+        $signature = $this->createMock(Signature::class);
+
+        $signer->method('sign')->willReturn($signature);
 
         $this->encoder->expects($this->exactly(2))
                       ->method('jsonEncode')
@@ -681,19 +623,11 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
                       ->willReturnOnConsecutiveCalls('1', '2', '3');
 
         $builder = $this->createBuilder()->with('test', 123);
-
-        $builderSign = new \ReflectionProperty($builder, 'signature');
-        $builderSign->setAccessible(true);
-        $builderSign->setValue($builder, $signature);
-
-        $token = $builder->getToken();
-
-        $tokenSign = new \ReflectionProperty($token, 'signature');
-        $tokenSign->setAccessible(true);
+        $token = $builder->getToken($signer, new Key('testing'));
 
         $this->assertAttributeEquals(['1', '2', '3'], 'payload', $token);
         $this->assertAttributeEquals($token->getHeaders(), 'headers', $builder);
         $this->assertAttributeEquals($token->getClaims(), 'claims', $builder);
-        $this->assertAttributeSame($tokenSign->getValue($token), 'signature', $builder);
+        $this->assertAttributeSame($signature, 'signature', $token);
     }
 }
