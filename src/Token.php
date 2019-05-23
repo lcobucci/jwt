@@ -181,8 +181,6 @@ class Token
     /**
      * Verify if the key matches with the one that created the signature
      *
-     * @deprecated This method will be removed on v4, new validation API should be used
-     *
      * @param Signer $signer
      * @param string $key
      *
@@ -205,8 +203,6 @@ class Token
 
     /**
      * Validates if the token is valid
-     *
-     * @deprecated This method will be removed on v4, new validation API should be used
      *
      * @param ValidationData $data
      *
