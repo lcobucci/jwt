@@ -62,7 +62,7 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
                        ->setAudience('http://client.abc.com')
                        ->setIssuer('http://api.abc.com')
                        ->set('user', $user)
-                       ->sign($this->signer, new Key('testing'));
+                       ->getToken($this->signer, new Key('testing'));
     }
 
     /**
@@ -90,7 +90,7 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
                        ->setAudience('http://client.abc.com')
                        ->setIssuer('http://api.abc.com')
                        ->set('user', $user)
-                       ->sign($this->signer, static::$ecdsaKeys['private']);
+                       ->getToken($this->signer, static::$ecdsaKeys['private']);
     }
 
     /**

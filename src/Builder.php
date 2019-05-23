@@ -11,6 +11,7 @@ use BadMethodCallException;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Signer\Key;
+use function implode;
 
 /**
  * This class makes easier the token creation process
@@ -54,6 +55,16 @@ class Builder
      * @var ClaimFactory
      */
     private $claimFactory;
+
+    /**
+     * @var Signer|null
+     */
+    private $signer;
+
+    /**
+     * @var Key|null
+     */
+    private $key;
 
     /**
      * Initializes a new builder
@@ -292,15 +303,9 @@ class Builder
      * @param mixed $value
      *
      * @return Builder
-     *
-     * @throws BadMethodCallException When data has been already signed
      */
     public function withHeader($name, $value)
     {
-        if ($this->signature) {
-            throw new BadMethodCallException('You must unsign before make changes');
-        }
-
         $this->headers[(string) $name] = $this->claimFactory->create($name, $value);
 
         return $this;
@@ -315,8 +320,6 @@ class Builder
      * @param mixed $value
      *
      * @return Builder
-     *
-     * @throws BadMethodCallException When data has been already signed
      */
     public function setHeader($name, $value)
     {
@@ -330,15 +333,9 @@ class Builder
      * @param mixed $value
      *
      * @return Builder
-     *
-     * @throws BadMethodCallException When data has been already signed
      */
     public function with($name, $value)
     {
-        if ($this->signature) {
-            throw new BadMethodCallException('You must unsign before making changes');
-        }
-
         $this->claims[(string) $name] = $this->claimFactory->create($name, $value);
 
         return $this;
@@ -353,8 +350,6 @@ class Builder
      * @param mixed $value
      *
      * @return Builder
-     *
-     * @throws BadMethodCallException When data has been already signed
      */
     public function set($name, $value)
     {
@@ -364,7 +359,8 @@ class Builder
     /**
      * Signs the data
      *
-     * @deprecated This method will be removed on v4, signature will be created on the getToken() method
+     * @deprecated This method will be removed on v4
+     * @see Builder::getToken()
      *
      * @param Signer $signer
      * @param Key|string $key
@@ -373,12 +369,12 @@ class Builder
      */
     public function sign(Signer $signer, $key)
     {
-        $signer->modifyHeader($this->headers);
+        if (! $key instanceof Key) {
+            $key = new Key($key);
+        }
 
-        $this->signature = $signer->sign(
-            $this->getToken()->getPayload(),
-            $key
-        );
+        $this->signer = $signer;
+        $this->key = $key;
 
         return $this;
     }
@@ -386,13 +382,15 @@ class Builder
     /**
      * Removes the signature from the builder
      *
-     * @deprecated This method will be removed on v4, signature will be created on the getToken() method
+     * @deprecated This method will be removed on v4
+     * @see Builder::getToken()
      *
      * @return Builder
      */
     public function unsign()
     {
-        $this->signature = null;
+        $this->signer = null;
+        $this->key = null;
 
         return $this;
     }
@@ -402,17 +400,40 @@ class Builder
      *
      * @return Token
      */
-    public function getToken()
+    public function getToken(Signer $signer = null, Key $key = null)
     {
+        $signer = $signer ?: $this->signer;
+        $key = $key ?: $this->key;
+
+        if ($signer instanceof Signer) {
+            $signer->modifyHeader($this->headers);
+        }
+
         $payload = [
             $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->headers)),
             $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->claims))
         ];
 
-        if ($this->signature !== null) {
-            $payload[] = $this->encoder->base64UrlEncode($this->signature);
+        $signature = $this->createSignature($payload, $signer, $key);
+
+        if ($signature !== null) {
+            $payload[] = $this->encoder->base64UrlEncode($signature);
         }
 
-        return new Token($this->headers, $this->claims, $this->signature, $payload);
+        return new Token($this->headers, $this->claims, $signature, $payload);
+    }
+
+    /**
+     * @param string[] $payload
+     *
+     * @return Signature|null
+     */
+    private function createSignature(array $payload, Signer $signer = null, Key $key = null)
+    {
+        if ($signer === null || $key === null) {
+            return null;
+        }
+
+        return $signer->sign(implode('.', $payload), $key);
     }
 }
