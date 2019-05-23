@@ -89,7 +89,8 @@ class Builder
     /**
      * Configures the audience
      *
-     * @deprecated This method will be removed on v4, use canOnlyBeUsedBy() instead
+     * @deprecated This method will be removed on v4
+     * @see Builder::canOnlyBeUsedBy()
      *
      * @param string $audience
      * @param boolean $replicateAsHeader
@@ -117,7 +118,8 @@ class Builder
     /**
      * Configures the expiration time
      *
-     * @deprecated This method will be removed on v4, use expiresAt() instead
+     * @deprecated This method will be removed on v4
+     * @see Builder::expiresAt()
      *
      * @param int $expiration
      * @param boolean $replicateAsHeader
@@ -145,7 +147,8 @@ class Builder
     /**
      * Configures the token id
      *
-     * @deprecated This method will be removed on v4, use identifiedBy() instead
+     * @deprecated This method will be removed on v4
+     * @see Builder::identifiedBy()
      *
      * @param string $id
      * @param boolean $replicateAsHeader
@@ -173,7 +176,8 @@ class Builder
     /**
      * Configures the time that the token was issued
      *
-     * @deprecated This method will be removed on v4, use issuedAt() instead
+     * @deprecated This method will be removed on v4
+     * @see Builder::issuedAt()
      *
      * @param int $issuedAt
      * @param boolean $replicateAsHeader
@@ -201,7 +205,8 @@ class Builder
     /**
      * Configures the issuer
      *
-     * @deprecated This method will be removed on v4, use issuedBy() instead
+     * @deprecated This method will be removed on v4
+     * @see Builder::issuedBy()
      *
      * @param string $issuer
      * @param boolean $replicateAsHeader
@@ -229,7 +234,8 @@ class Builder
     /**
      * Configures the time before which the token cannot be accepted
      *
-     * @deprecated This method will be removed on v4, use canOnlyBeUsedAfter() instead
+     * @deprecated This method will be removed on v4
+     * @see Builder::canOnlyBeUsedAfter()
      *
      * @param int $notBefore
      * @param boolean $replicateAsHeader
@@ -257,7 +263,8 @@ class Builder
     /**
      * Configures the subject
      *
-     * @deprecated This method will be removed on v4, use relatedTo() instead
+     * @deprecated This method will be removed on v4
+     * @see Builder::relatedTo()
      *
      * @param string $subject
      * @param boolean $replicateAsHeader
@@ -307,7 +314,8 @@ class Builder
     /**
      * Configures a header item
      *
-     * @deprecated This method will be removed on v4, use withHeader() instead
+     * @deprecated This method will be removed on v4
+     * @see Builder::withHeader()
      *
      * @param string $name
      * @param mixed $value
@@ -337,7 +345,8 @@ class Builder
     /**
      * Configures a claim item
      *
-     * @deprecated This method will be removed on v4, use with() instead
+     * @deprecated This method will be removed on v4
+     * @see Builder::with()
      *
      * @param string $name
      * @param mixed $value
