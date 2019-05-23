@@ -67,8 +67,6 @@ class Builder
     ) {
         $this->encoder = $encoder ?: new Encoder();
         $this->claimFactory = $claimFactory ?: new ClaimFactory();
-        $this->headers;
-        $this->claims;
     }
 
     /**
