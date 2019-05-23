@@ -36,13 +36,6 @@ class Builder
     private $claims = [];
 
     /**
-     * The token signature
-     *
-     * @var Signature
-     */
-    private $signature;
-
-    /**
      * The data encoder
      *
      * @var Encoder
