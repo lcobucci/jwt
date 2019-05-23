@@ -144,6 +144,7 @@ Hmac signatures are really simple to be used:
 
 ```php
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 
 $signer = new Sha256();
@@ -156,8 +157,7 @@ $token = (new Builder())->issuedBy('http://example.com') // Configures the issue
                         ->canOnlyBeUsedAfter($time + 60) // Configures the time that the token can be used (nbf claim)
                         ->expiresAt($time + 3600) // Configures the expiration time of the token (exp claim)
                         ->with('uid', 1) // Configures a new claim, called "uid"
-                        ->sign($signer, 'testing') // creates a signature using "testing" as key
-                        ->getToken(); // Retrieves the generated token
+                        ->getToken($signer, new Key('testing')); // Retrieves the generated token
 
 
 var_dump($token->verify($signer, 'testing 1')); // false, because the key is different
@@ -184,8 +184,7 @@ $token = (new Builder())->issuedBy('http://example.com') // Configures the issue
                         ->canOnlyBeUsedAfter($time + 60) // Configures the time that the token can be used (nbf claim)
                         ->expiresAt($time + 3600) // Configures the expiration time of the token (exp claim)
                         ->with('uid', 1) // Configures a new claim, called "uid"
-                        ->sign($signer,  $privateKey) // creates a signature using your private key
-                        ->getToken(); // Retrieves the generated token
+                        ->getToken($signer,  $privateKey); // Retrieves the generated token
 
 $publicKey = new Key('file://{path to your public key}');
 
