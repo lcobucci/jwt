@@ -7,7 +7,6 @@
 
 namespace Lcobucci\JWT;
 
-use BadMethodCallException;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Signer\Key;
@@ -76,6 +75,9 @@ class Builder
     /**
      * Configures the audience
      *
+     * @deprecated This method has been wrongly added and doesn't exist on v4
+     * @see Builder::permittedFor()
+     *
      * @param string $audience
      * @param bool $replicateAsHeader
      *
@@ -89,8 +91,21 @@ class Builder
     /**
      * Configures the audience
      *
+     * @param string $audience
+     * @param bool $replicateAsHeader
+     *
+     * @return Builder
+     */
+    public function permittedFor($audience, $replicateAsHeader = false)
+    {
+        return $this->setRegisteredClaim('aud', (string) $audience, $replicateAsHeader);
+    }
+
+    /**
+     * Configures the audience
+     *
      * @deprecated This method will be removed on v4
-     * @see Builder::canOnlyBeUsedBy()
+     * @see Builder::permittedFor()
      *
      * @param string $audience
      * @param boolean $replicateAsHeader

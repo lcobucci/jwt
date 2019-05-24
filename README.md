@@ -34,7 +34,7 @@ use Lcobucci\JWT\Builder;
 
 $time = time();
 $token = (new Builder())->issuedBy('http://example.com') // Configures the issuer (iss claim)
-                        ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
+                        ->permittedFor('http://example.org') // Configures the audience (aud claim)
                         ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
                         ->issuedAt($time) // Configures the time that the token was issue (iat claim)
                         ->canOnlyBeUsedAfter($time + 60) // Configures the time that the token can be used (nbf claim)
@@ -151,7 +151,7 @@ $signer = new Sha256();
 $time = time();
 
 $token = (new Builder())->issuedBy('http://example.com') // Configures the issuer (iss claim)
-                        ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
+                        ->permittedFor('http://example.org') // Configures the audience (aud claim)
                         ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
                         ->issuedAt($time) // Configures the time that the token was issue (iat claim)
                         ->canOnlyBeUsedAfter($time + 60) // Configures the time that the token can be used (nbf claim)
@@ -178,7 +178,7 @@ $privateKey = new Key('file://{path to your private key}');
 $time = time();
 
 $token = (new Builder())->issuedBy('http://example.com') // Configures the issuer (iss claim)
-                        ->canOnlyBeUsedBy('http://example.org') // Configures the audience (aud claim)
+                        ->permittedFor('http://example.org') // Configures the audience (aud claim)
                         ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
                         ->issuedAt($time) // Configures the time that the token was issue (iat claim)
                         ->canOnlyBeUsedAfter($time + 60) // Configures the time that the token can be used (nbf claim)
