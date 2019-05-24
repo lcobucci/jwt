@@ -75,13 +75,13 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::withClaim
      *
-     * @covers Lcobucci\JWT\Builder::canOnlyBeUsedBy
+     * @covers Lcobucci\JWT\Builder::permittedFor
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByMustChangeTheAudClaim()
+    public function permittedForMustChangeTheAudClaim()
     {
         $builder = $this->createBuilder();
-        $builder->canOnlyBeUsedBy('test');
+        $builder->permittedFor('test');
 
         $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
         $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $builder);
@@ -93,13 +93,13 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::withClaim
      *
-     * @covers Lcobucci\JWT\Builder::canOnlyBeUsedBy
+     * @covers Lcobucci\JWT\Builder::permittedFor
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByCanReplicateItemOnHeader()
+    public function permittedForCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
-        $builder->canOnlyBeUsedBy('test', true);
+        $builder->permittedFor('test', true);
 
         $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $builder);
 
@@ -116,14 +116,14 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::withClaim
      *
-     * @covers Lcobucci\JWT\Builder::canOnlyBeUsedBy
+     * @covers Lcobucci\JWT\Builder::permittedFor
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
      */
-    public function canOnlyBeUsedByMustKeepAFluentInterface()
+    public function permittedForMustKeepAFluentInterface()
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->canOnlyBeUsedBy('test'));
+        $this->assertSame($builder, $builder->permittedFor('test'));
     }
 
     /**
