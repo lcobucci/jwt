@@ -287,7 +287,7 @@ class Builder
      */
     protected function setRegisteredClaim($name, $value, $replicate)
     {
-        $this->with($name, $value);
+        $this->withClaim($name, $value);
 
         if ($replicate) {
             $this->headers[$name] = $this->claims[$name];
@@ -330,12 +330,28 @@ class Builder
     /**
      * Configures a claim item
      *
+     * @deprecated This method has been wrongly added and doesn't exist on v4
+     * @see Builder::withClaim()
+     *
      * @param string $name
      * @param mixed $value
      *
      * @return Builder
      */
     public function with($name, $value)
+    {
+        return $this->withClaim($name, $value);
+    }
+
+    /**
+     * Configures a claim item
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return Builder
+     */
+    public function withClaim($name, $value)
     {
         $this->claims[(string) $name] = $this->claimFactory->create($name, $value);
 
@@ -346,7 +362,7 @@ class Builder
      * Configures a claim item
      *
      * @deprecated This method will be removed on v4
-     * @see Builder::with()
+     * @see Builder::withClaim()
      *
      * @param string $name
      * @param mixed $value
@@ -355,7 +371,7 @@ class Builder
      */
     public function set($name, $value)
     {
-        return $this->with($name, $value);
+        return $this->withClaim($name, $value);
     }
 
     /**
