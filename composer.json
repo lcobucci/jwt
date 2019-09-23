@@ -21,7 +21,7 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "lcobucci/clock": "^1.0",
-        "lcobucci/jose-parsing": "~2.1"
+        "lcobucci/jose-parsing": "~2.2"
     },
     "require-dev": {
         "infection/infection": "^0.12",
