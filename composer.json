@@ -20,7 +20,7 @@
         "php": "^7.2",
         "ext-mbstring": "*",
         "ext-openssl": "*",
-        "lcobucci/clock": "^1.0",
+        "lcobucci/clock": "^1.2",
         "lcobucci/jose-parsing": "~2.2"
     },
     "require-dev": {
