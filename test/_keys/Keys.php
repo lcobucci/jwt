@@ -45,6 +45,9 @@ trait Keys
             'public1'        => new Key($dir . '/ecdsa/public1.key'),
             'public2'        => new Key($dir . '/ecdsa/public2.key'),
             'public-params'  => new Key($dir . '/ecdsa/public3.key'),
+            'private_ec512'  => new Key($dir . '/ecdsa/private_ec512.key'),
+            'public_ec512'   => new Key($dir . '/ecdsa/public_ec512.key'),
+            'public2_ec512'  => new Key($dir . '/ecdsa/public2_ec512.key'),
         ];
     }
 }
