@@ -271,7 +271,7 @@ class Token
      *
      * @return string
      */
-    public function __toString()
+    public function getToken()
     {
         $data = implode('.', $this->payload);
 
@@ -280,5 +280,14 @@ class Token
         }
 
         return $data;
+    }
+
+    /** 
+     * @see Token::getToken()
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getToken();
     }
 }
