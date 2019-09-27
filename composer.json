@@ -35,7 +35,7 @@
         "phpstan/phpstan-strict-rules": "^0.11",
         "phpunit/php-invoker": "^2.0",
         "phpunit/phpunit": "^8.3",
-        "squizlabs/php_codesniffer": "^3.4"
+        "squizlabs/php_codesniffer": "^3.5"
     },
     "autoload": {
         "psr-4": {
