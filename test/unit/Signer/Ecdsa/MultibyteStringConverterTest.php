@@ -46,7 +46,7 @@ final class MultibyteStringConverterTest extends TestCase
     {
         $converter = new MultibyteStringConverter();
 
-        self::expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $converter->toAsn1('a very wrong string', 64);
     }
 
@@ -114,7 +114,7 @@ final class MultibyteStringConverterTest extends TestCase
         $message   = hex2bin($message);
         assert(is_string($message));
 
-        self::expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $converter->fromAsn1($message, 64);
     }
 
