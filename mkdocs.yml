@@ -9,3 +9,6 @@ nav:
   - 'parsing-tokens.md'
   - 'validating-tokens.md'
   - 'extending-the-library.md'
+
+markdown_extensions:
+  - admonition
