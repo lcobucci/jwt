@@ -13,6 +13,8 @@ use function array_diff;
 use function array_intersect;
 use function array_keys;
 use function array_merge;
+use function count;
+use function current;
 use function in_array;
 
 final class Builder implements BuilderInterface
@@ -166,8 +168,8 @@ final class Builder implements BuilderInterface
      */
     private function formatClaims(array $claims): array
     {
-        if (isset($claims[RegisteredClaims::AUDIENCE][0]) && ! isset($claims[RegisteredClaims::AUDIENCE][1])) {
-            $claims[RegisteredClaims::AUDIENCE] = $claims[RegisteredClaims::AUDIENCE][0];
+        if (count($claims[RegisteredClaims::AUDIENCE]) === 1) {
+            $claims[RegisteredClaims::AUDIENCE] = current($claims[RegisteredClaims::AUDIENCE]);
         }
 
         foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {

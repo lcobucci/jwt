@@ -46,7 +46,8 @@ final class MultibyteStringConverterTest extends TestCase
     {
         $converter = new MultibyteStringConverter();
 
-        self::expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid signature length');
         $converter->toAsn1('a very wrong string', 64);
     }
 
@@ -108,13 +109,14 @@ final class MultibyteStringConverterTest extends TestCase
      * @covers ::readAsn1Integer
      * @covers ::retrievePositiveInteger
      */
-    public function fromAsn1ShouldRaiseExceptionOnInvalidMessage(string $message): void
+    public function fromAsn1ShouldRaiseExceptionOnInvalidMessage(string $message, string $expectedMessage): void
     {
         $converter = new MultibyteStringConverter();
         $message   = hex2bin($message);
         assert(is_string($message));
 
-        self::expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage($expectedMessage);
         $converter->fromAsn1($message, 64);
     }
 
@@ -124,11 +126,11 @@ final class MultibyteStringConverterTest extends TestCase
     public function invalidAsn1Structures(): iterable
     {
         return [
-            'Not a sequence'           => [''],
-            'Sequence without length'  => ['30'],
-            'Only one string element'  => ['3006030204f0'],
-            'Only one integer element' => ['3004020101'],
-            'Integer+string elements'  => ['300a020101030204f0'],
+            'Not a sequence'           => ['', 'Should start with a sequence'],
+            'Sequence without length'  => ['30', 'Should contain an integer'],
+            'Only one string element'  => ['3006030204f0', 'Should contain an integer'],
+            'Only one integer element' => ['3004020101', 'Should contain an integer'],
+            'Integer+string elements'  => ['300a020101030204f0', 'Should contain an integer'],
         ];
     }
 }
