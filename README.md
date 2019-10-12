@@ -31,9 +31,7 @@ composer require lcobucci/jwt
 
 ## Basic usage
 
-**Important:** our next major release (v4) is currently not documented
-(that will be addressed on [#37](https://github.com/lcobucci/jwt/issues/37)). 
-
+The documentation of the **unstable** version is available at <https://lcobucci-jwt.readthedocs.io/en/latest/>.
 
 The documentation of the **stable** version is on branch
 [3.3](https://github.com/lcobucci/jwt/blob/3.3/README.md).
