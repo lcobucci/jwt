@@ -52,6 +52,11 @@ final class Configuration
     private $validator;
 
     /**
+     * @var callable|null
+     */
+    private $builderFactory;
+
+    /**
      * @var Constraint[]
      */
     private $validationConstraints = [];
@@ -86,9 +91,25 @@ final class Configuration
         $this->verificationKey = $verificationKey;
     }
 
+    private function getBuilderFactory(): callable
+    {
+        if ($this->builderFactory === null) {
+            $this->builderFactory = function (): Builder {
+                return new Token\Builder($this->getEncoder());
+            };
+        }
+
+        return $this->builderFactory;
+    }
+
+    public function setBuilderFactory(callable $builderFactory): void
+    {
+        $this->builderFactory = $builderFactory;
+    }
+
     public function createBuilder(): Builder
     {
-        return new Token\Builder($this->getEncoder());
+        return ($this->getBuilderFactory())();
     }
 
     public function getParser(): Parser

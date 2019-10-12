@@ -126,6 +126,7 @@ final class ConfigurationTest extends TestCase
      * @test
      *
      * @covers \Lcobucci\JWT\Configuration::createBuilder
+     * @covers \Lcobucci\JWT\Configuration::getBuilderFactory
      * @covers \Lcobucci\JWT\Configuration::getEncoder
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
@@ -143,11 +144,11 @@ final class ConfigurationTest extends TestCase
         self::assertInstanceOf(BuilderImpl::class, $builder);
         self::assertNotEquals(new BuilderImpl($this->encoder), $builder);
     }
-
     /**
      * @test
      *
      * @covers \Lcobucci\JWT\Configuration::createBuilder
+     * @covers \Lcobucci\JWT\Configuration::getBuilderFactory
      * @covers \Lcobucci\JWT\Configuration::setEncoder
      * @covers \Lcobucci\JWT\Configuration::getEncoder
      *
@@ -166,6 +167,34 @@ final class ConfigurationTest extends TestCase
 
         self::assertInstanceOf(BuilderImpl::class, $builder);
         self::assertEquals(new BuilderImpl($this->encoder), $builder);
+    }
+
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Configuration::createBuilder
+     * @covers \Lcobucci\JWT\Configuration::getBuilderFactory
+     * @covers \Lcobucci\JWT\Configuration::setBuilderFactory
+     *
+     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::__construct
+     * @uses \Lcobucci\JWT\Token\Builder
+     * @uses \Lcobucci\JWT\Token\Parser
+     * @uses \Lcobucci\JWT\Signer\None
+     * @uses \Lcobucci\JWT\Signer\Key
+     */
+    public function createBuilderShouldUseBuilderFactoryWhenThatIsConfigured(): void
+    {
+        $builder = $this->createMock(Builder::class);
+
+        $config = Configuration::forUnsecuredSigner();
+        $config->setBuilderFactory(
+            static function () use ($builder): Builder {
+                return $builder;
+            }
+        );
+        self::assertSame($builder, $config->createBuilder());
     }
 
     /**
