@@ -144,6 +144,7 @@ final class ConfigurationTest extends TestCase
         self::assertInstanceOf(BuilderImpl::class, $builder);
         self::assertNotEquals(new BuilderImpl($this->encoder), $builder);
     }
+
     /**
      * @test
      *
@@ -168,7 +169,6 @@ final class ConfigurationTest extends TestCase
         self::assertInstanceOf(BuilderImpl::class, $builder);
         self::assertEquals(new BuilderImpl($this->encoder), $builder);
     }
-
 
     /**
      * @test

@@ -25,7 +25,7 @@
     },
     "require-dev": {
         "infection/infection": "^0.14",
-        "lcobucci/coding-standard": "^2.0",
+        "lcobucci/coding-standard": "^3.1",
         "mikey179/vfsstream": "^1.6",
         "phpbench/phpbench": "dev-master@dev",
         "phpmd/phpmd": "^2.7",
