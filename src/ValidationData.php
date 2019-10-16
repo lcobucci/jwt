@@ -80,6 +80,16 @@ class ValidationData
     }
 
     /**
+     * Configures the audiences
+     *
+     * @param string[] $audiences
+     */
+    public function setAudiences($audiences)
+    {
+        $this->items['aud'] = array_map('strval', $audiences);
+    }
+
+    /**
      * Configures the subject
      *
      * @param string $subject

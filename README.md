@@ -78,6 +78,7 @@ use Lcobucci\JWT\ValidationData;
 $data = new ValidationData(); // It will use the current time to validate (iat, nbf and exp)
 $data->setIssuer('http://example.com');
 $data->setAudience('http://example.org');
+$data->setAudiences(['http://example.org', 'http://anotherexample.org']); // Or with multiple audiences
 $data->setId('4f1g23a12aa');
 
 var_dump($token->validate($data)); // false, because token cannot be used before now() + 60
