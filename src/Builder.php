@@ -372,6 +372,25 @@ class Builder
 
         return $this;
     }
+    
+    /**
+     * Configures some claim items
+     *
+     * @param array $claims
+     *
+     * @return Builder
+     */
+    public function withClaims($claims)
+    {
+        if(!is_array($claims) || empty($claims)){
+            return $this;
+        }
+        foreach ($claims as $name => $value) {
+            $this->claims[(string) $name] = $this->claimFactory->create($name, $value);
+        }
+
+        return $this;
+    }
 
     /**
      * Configures a claim item
