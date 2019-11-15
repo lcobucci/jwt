@@ -108,13 +108,13 @@ final class MaliciousTamperingPreventionTest extends TestCase
     private function createMaliciousToken(string $token): string
     {
         $dec     = new Parser();
-        $asplode = explode('.', $token);
+        $asplode = \explode('.', $token);
 
         // The user is lying; we insist that we're using HMAC-SHA512, with the
         // public key as the HMAC secret key. This just builds a forged message:
         $asplode[0] = $dec->base64UrlEncode('{"alg":"HS512","typ":"JWT"}');
 
-        $hmac = hash_hmac(
+        $hmac = \hash_hmac(
             'sha512',
             $asplode[0] . '.' . $asplode[1],
             $this->config->getVerificationKey()->getContent(),
@@ -123,6 +123,6 @@ final class MaliciousTamperingPreventionTest extends TestCase
 
         $asplode[2] = $dec->base64UrlEncode($hmac);
 
-        return implode('.', $asplode);
+        return \implode('.', $asplode);
     }
 }

@@ -34,7 +34,7 @@ final class Key
      */
     private function setContent(string $content): void
     {
-        if (strpos($content, 'file://') === 0) {
+        if (\strpos($content, 'file://') === 0) {
             $content = $this->readFile($content);
         }
 
@@ -47,9 +47,9 @@ final class Key
     private function readFile(string $content): string
     {
         try {
-            $file    = new SplFileObject(substr($content, 7));
+            $file    = new SplFileObject(\substr($content, 7));
             $content = $file->fread($file->getSize());
-            assert(is_string($content));
+            \assert(\is_string($content));
 
             return $content;
         } catch (Throwable $exception) {

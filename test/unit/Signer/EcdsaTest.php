@@ -63,12 +63,12 @@ final class EcdsaTest extends TestCase
         $signer    = $this->getSigner();
         $signature = $signer->sign($payload, self::$ecdsaKeys['private']);
 
-        $publicKey = openssl_pkey_get_public(self::$ecdsaKeys['public1']->getContent());
+        $publicKey = \openssl_pkey_get_public(self::$ecdsaKeys['public1']->getContent());
 
         self::assertIsResource($publicKey);
         self::assertSame(
             1,
-            openssl_verify(
+            \openssl_verify(
                 $payload,
                 $this->pointsManipulator->toAsn1($signature, $signer->getKeyLength()),
                 $publicKey,
@@ -91,12 +91,12 @@ final class EcdsaTest extends TestCase
     public function verifyShouldDelegateToEcdsaSignerUsingPublicKey(): void
     {
         $payload    = 'testing';
-        $privateKey = openssl_pkey_get_private(self::$ecdsaKeys['private']->getContent());
+        $privateKey = \openssl_pkey_get_private(self::$ecdsaKeys['private']->getContent());
 
         self::assertIsResource($privateKey);
 
         $signature = '';
-        openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);
+        \openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);
 
         $signer = $this->getSigner();
 

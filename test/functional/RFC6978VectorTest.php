@@ -39,8 +39,8 @@ final class RFC6978VectorTest extends TestCase
         string $expectedR,
         string $expectedS
     ): void {
-        $signature = hex2bin($expectedR . $expectedS);
-        assert(is_string($signature));
+        $signature = \hex2bin($expectedR . $expectedS);
+        \assert(\is_string($signature));
 
         static::assertTrue($signer->verify($signature, $payload, $key));
     }

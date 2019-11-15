@@ -52,9 +52,9 @@ final class Parser implements ParserInterface
      */
     private function splitJwt(string $jwt): array
     {
-        $data = explode('.', $jwt);
+        $data = \explode('.', $jwt);
 
-        if (count($data) !== 3) {
+        if (\count($data) !== 3) {
             throw new InvalidArgumentException('The JWT string must have two dots');
         }
 
@@ -72,7 +72,7 @@ final class Parser implements ParserInterface
     {
         $header = $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
-        if (! is_array($header)) {
+        if (! \is_array($header)) {
             throw new InvalidArgumentException('Headers must be an array');
         }
 
@@ -98,7 +98,7 @@ final class Parser implements ParserInterface
     {
         $claims = $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
-        if (! is_array($claims)) {
+        if (! \is_array($claims)) {
             throw new InvalidArgumentException('Claims must be an array');
         }
 
@@ -106,7 +106,7 @@ final class Parser implements ParserInterface
             $claims[RegisteredClaims::AUDIENCE] = (array) $claims[RegisteredClaims::AUDIENCE];
         }
 
-        foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
+        foreach (\array_intersect(RegisteredClaims::DATE_CLAIMS, \array_keys($claims)) as $claim) {
             $claims[$claim] = $this->convertDate((string) $claims[$claim]);
         }
 
@@ -115,7 +115,7 @@ final class Parser implements ParserInterface
 
     private function convertDate(string $value): DateTimeImmutable
     {
-        if (strpos($value, '.') === false) {
+        if (\strpos($value, '.') === false) {
             return new DateTimeImmutable('@' . $value);
         }
 

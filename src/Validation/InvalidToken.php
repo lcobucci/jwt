@@ -27,7 +27,7 @@ final class InvalidToken extends Exception
      */
     private static function buildMessage(array $violations): string
     {
-        $violations = array_map(
+        $violations = \array_map(
             static function (ConstraintViolation $violation): string {
                 return '- ' . $violation->getMessage();
             },
@@ -35,7 +35,7 @@ final class InvalidToken extends Exception
         );
 
         $message  = "The token violates some mandatory constraints, details:\n";
-        $message .= implode("\n", $violations);
+        $message .= \implode("\n", $violations);
 
         return $message;
     }

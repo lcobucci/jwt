@@ -72,7 +72,7 @@ final class Plain implements TokenInterface
      */
     public function isPermittedFor(string $audience): bool
     {
-        return in_array($audience, $this->claims->get(RegisteredClaims::AUDIENCE, []), true);
+        return \in_array($audience, $this->claims->get(RegisteredClaims::AUDIENCE, []), true);
     }
 
     /**
@@ -96,7 +96,7 @@ final class Plain implements TokenInterface
      */
     public function hasBeenIssuedBy(string ...$issuers): bool
     {
-        return in_array($this->claims->get(RegisteredClaims::ISSUER), $issuers, true);
+        return \in_array($this->claims->get(RegisteredClaims::ISSUER), $issuers, true);
     }
 
     /**
@@ -132,7 +132,7 @@ final class Plain implements TokenInterface
      */
     public function __toString(): string
     {
-        return implode(
+        return \implode(
             '.',
             [$this->headers, $this->claims, $this->signature]
         );

@@ -45,9 +45,9 @@ final class Builder implements BuilderInterface
     public function permittedFor(string ...$audiences): BuilderInterface
     {
         $configured = $this->claims[RegisteredClaims::AUDIENCE] ?? [];
-        $toAppend   = array_diff($audiences, $configured);
+        $toAppend   = \array_diff($audiences, $configured);
 
-        return $this->setClaim(RegisteredClaims::AUDIENCE, array_merge($configured, $toAppend));
+        return $this->setClaim(RegisteredClaims::AUDIENCE, \array_merge($configured, $toAppend));
     }
 
     /**
@@ -113,7 +113,7 @@ final class Builder implements BuilderInterface
      */
     public function withClaim(string $name, $value): BuilderInterface
     {
-        if (in_array($name, RegisteredClaims::ALL, true)) {
+        if (\in_array($name, RegisteredClaims::ALL, true)) {
             throw new InvalidArgumentException('You should use the correct methods to set registered claims');
         }
 
@@ -168,11 +168,11 @@ final class Builder implements BuilderInterface
      */
     private function formatClaims(array $claims): array
     {
-        if (count($claims[RegisteredClaims::AUDIENCE]) === 1) {
-            $claims[RegisteredClaims::AUDIENCE] = current($claims[RegisteredClaims::AUDIENCE]);
+        if (\count($claims[RegisteredClaims::AUDIENCE]) === 1) {
+            $claims[RegisteredClaims::AUDIENCE] = \current($claims[RegisteredClaims::AUDIENCE]);
         }
 
-        foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
+        foreach (\array_intersect(RegisteredClaims::DATE_CLAIMS, \array_keys($claims)) as $claim) {
             $claims[$claim] = $this->convertDate($claims[$claim]);
         }
 

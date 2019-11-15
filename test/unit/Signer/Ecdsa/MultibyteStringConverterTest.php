@@ -30,10 +30,10 @@ final class MultibyteStringConverterTest extends TestCase
         string $asn1
     ): void {
         $converter = new MultibyteStringConverter();
-        $message   = hex2bin($r . $s);
-        assert(is_string($message));
+        $message   = \hex2bin($r . $s);
+        \assert(\is_string($message));
 
-        self::assertSame($asn1, bin2hex($converter->toAsn1($message, strlen($r))));
+        self::assertSame($asn1, \bin2hex($converter->toAsn1($message, \strlen($r))));
     }
 
     /**
@@ -63,10 +63,10 @@ final class MultibyteStringConverterTest extends TestCase
     public function fromAsn1ShouldReturnTheConcatenatedPoints(string $r, string $s, string $asn1): void
     {
         $converter = new MultibyteStringConverter();
-        $message   = hex2bin($asn1);
-        assert(is_string($message));
+        $message   = \hex2bin($asn1);
+        \assert(\is_string($message));
 
-        self::assertSame($r . $s, bin2hex($converter->fromAsn1($message, strlen($r))));
+        self::assertSame($r . $s, \bin2hex($converter->fromAsn1($message, \strlen($r))));
     }
 
     /**
@@ -112,8 +112,8 @@ final class MultibyteStringConverterTest extends TestCase
     public function fromAsn1ShouldRaiseExceptionOnInvalidMessage(string $message, string $expectedMessage): void
     {
         $converter = new MultibyteStringConverter();
-        $message   = hex2bin($message);
-        assert(is_string($message));
+        $message   = \hex2bin($message);
+        \assert(\is_string($message));
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($expectedMessage);

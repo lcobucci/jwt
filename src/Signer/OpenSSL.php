@@ -28,15 +28,15 @@ abstract class OpenSSL implements Signer
         try {
             $signature = '';
 
-            if (! openssl_sign($payload, $signature, $key, $this->getAlgorithm())) {
+            if (! \openssl_sign($payload, $signature, $key, $this->getAlgorithm())) {
                 throw new InvalidArgumentException(
-                    'There was an error while creating the signature: ' . openssl_error_string()
+                    'There was an error while creating the signature: ' . \openssl_error_string()
                 );
             }
 
             return $signature;
         } finally {
-            openssl_free_key($key);
+            \openssl_free_key($key);
         }
     }
 
@@ -45,9 +45,9 @@ abstract class OpenSSL implements Signer
      */
     private function getPrivateKey(string $pem, string $passphrase)
     {
-        $privateKey = openssl_pkey_get_private($pem, $passphrase);
+        $privateKey = \openssl_pkey_get_private($pem, $passphrase);
         $this->validateKey($privateKey);
-        assert(is_resource($privateKey));
+        \assert(\is_resource($privateKey));
 
         return $privateKey;
     }
@@ -58,8 +58,8 @@ abstract class OpenSSL implements Signer
         string $pem
     ): bool {
         $key    = $this->getPublicKey($pem);
-        $result = openssl_verify($payload, $expected, $key, $this->getAlgorithm());
-        openssl_free_key($key);
+        $result = \openssl_verify($payload, $expected, $key, $this->getAlgorithm());
+        \openssl_free_key($key);
 
         return $result === 1;
     }
@@ -69,9 +69,9 @@ abstract class OpenSSL implements Signer
      */
     private function getPublicKey(string $pem)
     {
-        $publicKey = openssl_pkey_get_public($pem);
+        $publicKey = \openssl_pkey_get_public($pem);
         $this->validateKey($publicKey);
-        assert(is_resource($publicKey));
+        \assert(\is_resource($publicKey));
 
         return $publicKey;
     }
@@ -85,14 +85,14 @@ abstract class OpenSSL implements Signer
      */
     private function validateKey($key): void
     {
-        if (! is_resource($key)) {
+        if (! \is_resource($key)) {
             throw new InvalidArgumentException(
-                'It was not possible to parse your key, reason: ' . openssl_error_string()
+                'It was not possible to parse your key, reason: ' . \openssl_error_string()
             );
         }
 
-        $details = openssl_pkey_get_details($key);
-        assert(is_array($details));
+        $details = \openssl_pkey_get_details($key);
+        \assert(\is_array($details));
 
         if (! isset($details['key']) || $details['type'] !== $this->getKeyType()) {
             throw new InvalidArgumentException('This key is not compatible with this signer');

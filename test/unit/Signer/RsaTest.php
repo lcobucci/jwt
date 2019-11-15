@@ -33,9 +33,9 @@ final class RsaTest extends TestCase
         $signer    = $this->getSigner();
         $signature = $signer->sign($payload, self::$rsaKeys['private']);
 
-        $publicKey = openssl_pkey_get_public(self::$rsaKeys['public']->getContent());
+        $publicKey = \openssl_pkey_get_public(self::$rsaKeys['public']->getContent());
         self::assertIsResource($publicKey);
-        self::assertSame(1, openssl_verify($payload, $signature, $publicKey, OPENSSL_ALGO_SHA256));
+        self::assertSame(1, \openssl_verify($payload, $signature, $publicKey, OPENSSL_ALGO_SHA256));
     }
 
     /**
@@ -118,11 +118,11 @@ KEY;
     public function verifyShouldReturnTrueWhenSignatureIsValid(): void
     {
         $payload    = 'testing';
-        $privateKey = openssl_pkey_get_private(self::$rsaKeys['private']->getContent());
+        $privateKey = \openssl_pkey_get_private(self::$rsaKeys['private']->getContent());
         self::assertIsResource($privateKey);
 
         $signature = '';
-        openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);
+        \openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);
 
         $signer = $this->getSigner();
 
