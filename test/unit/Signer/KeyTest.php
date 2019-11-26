@@ -25,15 +25,14 @@ final class KeyTest extends TestCase
      * @test
      *
      * @covers \Lcobucci\JWT\Signer\Key::__construct
-     * @covers \Lcobucci\JWT\Signer\Key::setContent
-     * @covers \Lcobucci\JWT\Signer\Key::readFile
+     * @covers \Lcobucci\JWT\Signer\Key::fromFile
      */
     public function constructShouldRaiseExceptionWhenFileDoesNotExists(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('You must provide a valid key file');
 
-        new Key('file://' . vfsStream::url('root/test2.pem'));
+        Key::fromFile(vfsStream::url('root/test2.pem'));
     }
 
     /**
@@ -55,13 +54,12 @@ final class KeyTest extends TestCase
      * @test
      *
      * @covers \Lcobucci\JWT\Signer\Key::__construct
-     * @covers \Lcobucci\JWT\Signer\Key::setContent
-     * @covers \Lcobucci\JWT\Signer\Key::readFile
+     * @covers \Lcobucci\JWT\Signer\Key::fromFile
      * @covers \Lcobucci\JWT\Signer\Key::getContent
      */
-    public function getContentShouldReturnFileContentsWhenFilePathHasBeenPassed(): void
+    public function getContentShouldReturnFileContentsWhenReadFromFile(): void
     {
-        $key = new Key('file://' . vfsStream::url('root/test.pem'));
+        $key = Key::fromFile(vfsStream::url('root/test.pem'));
 
         self::assertSame('testing', $key->getContent());
     }
