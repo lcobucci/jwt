@@ -8,8 +8,6 @@ use SplFileObject;
 use Throwable;
 use function assert;
 use function is_string;
-use function strpos;
-use function substr;
 
 final class Key
 {
@@ -25,36 +23,24 @@ final class Key
 
     public function __construct(string $content, string $passphrase = '')
     {
-        $this->setContent($content);
+        $this->content    = $content;
         $this->passphrase = $passphrase;
     }
 
     /**
      * @throws InvalidArgumentException
      */
-    private function setContent(string $content): void
-    {
-        if (strpos($content, 'file://') === 0) {
-            $content = $this->readFile($content);
-        }
-
-        $this->content = $content;
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     */
-    private function readFile(string $content): string
+    public static function fromFile(string $filename, string $passphrase = ''): self
     {
         try {
-            $file    = new SplFileObject(substr($content, 7));
+            $file    = new SplFileObject($filename);
             $content = $file->fread($file->getSize());
             assert(is_string($content));
-
-            return $content;
         } catch (Throwable $exception) {
             throw new InvalidArgumentException('You must provide a valid key file', $exception->getCode(), $exception);
         }
+
+        return new self($content, $passphrase);
     }
 
     public function getContent(): string
