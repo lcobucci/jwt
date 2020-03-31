@@ -12,6 +12,10 @@ final class Validator implements \Lcobucci\JWT\Validator
      */
     public function assert(Token $token, Constraint ...$constraints): void
     {
+        if ($constraints === []) {
+            throw new NoConstraintsGiven('No constraint given.');
+        }
+
         $violations = [];
 
         foreach ($constraints as $constraint) {
@@ -40,6 +44,10 @@ final class Validator implements \Lcobucci\JWT\Validator
 
     public function validate(Token $token, Constraint ...$constraints): bool
     {
+        if ($constraints === []) {
+            throw new NoConstraintsGiven('No constraint given.');
+        }
+
         try {
             foreach ($constraints as $constraint) {
                 $constraint->assert($token);

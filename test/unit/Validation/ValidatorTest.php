@@ -26,6 +26,20 @@ final class ValidatorTest extends TestCase
      * @test
      *
      * @covers \Lcobucci\JWT\Validation\Validator::assert
+     */
+    public function assertShouldRaiseExceptionWhenNoConstraintIsGiven(): void
+    {
+        $validator = new Validator();
+
+        $this->expectException(NoConstraintsGiven::class);
+
+        $validator->assert($this->token, ...[]);
+    }
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Validation\Validator::assert
      * @covers \Lcobucci\JWT\Validation\Validator::checkConstraint
      *
      * @uses \Lcobucci\JWT\Validation\InvalidToken
@@ -69,6 +83,20 @@ final class ValidatorTest extends TestCase
 
         $validator->assert($this->token, $constraint);
         $this->addToAssertionCount(1);
+    }
+
+    /**
+     * @test
+     *
+     * @covers \Lcobucci\JWT\Validation\Validator::validate
+     */
+    public function validateShouldRaiseExceptionWhenNoConstraintIsGiven(): void
+    {
+        $validator = new Validator();
+
+        $this->expectException(NoConstraintsGiven::class);
+
+        $validator->validate($this->token, ...[]);
     }
 
     /**

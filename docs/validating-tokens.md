@@ -64,3 +64,5 @@ This library provides the following constraints:
 * `Lcobucci\JWT\Validation\Constraint\ValidAt`: verifies the claims `iat`, `nbf`, and `exp` (supports leeway configuration)
 
 You may also create your [own validation constraints](extending-the-library.md#validation-constraints).
+
+You must provide at least one constraint, otherwise `\Lcobucci\JWT\Validation\NoConstraintsGiven` exception will be thrown.
