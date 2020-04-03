@@ -8,6 +8,9 @@ To validate a token you must create a new validator (easier when using the [conf
 
 ## Using `Lcobucci\JWT\Validator#assert()`
 
+!!! Warning
+    You **MUST** provide at least one constraint, otherwise `\Lcobucci\JWT\Validation\NoConstraintsGiven` exception will be thrown.
+
 This method goes through every single constraint in the set, groups all the violations, and throws an exception with the grouped violations:
 
 ```php
@@ -32,6 +35,9 @@ try {
 ```
 
 ## Using `Lcobucci\JWT\Validator#validate()`
+
+!!! Warning
+    You **MUST** provide at least one constraint, otherwise `\Lcobucci\JWT\Validation\NoConstraintsGiven` exception will be thrown.
 
 The difference here is that we'll always a get a `boolean` result and stop in the very first violation:
 
