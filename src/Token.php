@@ -109,7 +109,7 @@ class Token
         }
 
         if ($default === null) {
-            throw new OutOfBoundsException('Requested header is not configured');
+            throw new OutOfBoundsException(sprintf('Requested header "%s" is not configured', $name));
         }
 
         return $default;
@@ -172,7 +172,7 @@ class Token
         }
 
         if ($default === null) {
-            throw new OutOfBoundsException('Requested claim is not configured');
+            throw new OutOfBoundsException(sprintf('Requested claim "%s" is not configured', $name));
         }
 
         return $default;

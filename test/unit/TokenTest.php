@@ -72,6 +72,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Token::getHeader
      *
      * @expectedException \OutOfBoundsException
+     * @expectedExceptionMessageRegExp /testing/
      */
     public function getHeaderMustRaiseExceptionWhenHeaderIsNotConfigured()
     {
@@ -212,6 +213,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Token::getClaim
      *
      * @expectedException \OutOfBoundsException
+     * @expectedExceptionMessageRegExp /testing/
      */
     public function getClaimShouldRaiseExceptionWhenClaimIsNotConfigured()
     {
