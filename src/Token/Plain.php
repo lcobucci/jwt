@@ -64,7 +64,7 @@ final class Plain implements TokenInterface
      */
     public function payload(): string
     {
-        return $this->headers . '.' . $this->claims;
+        return $this->headers->toString() . '.' . $this->claims->toString();
     }
 
     /**
@@ -130,11 +130,11 @@ final class Plain implements TokenInterface
     /**
      * {@inheritdoc}
      */
-    public function __toString(): string
+    public function toString(): string
     {
         return implode(
             '.',
-            [$this->headers, $this->claims, $this->signature]
+            [$this->headers->toString(), $this->claims->toString(), $this->signature->toString()]
         );
     }
 }

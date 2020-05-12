@@ -19,7 +19,7 @@ final class DataSetTest extends TestCase
     {
         $set = new DataSet(['one' => 1], 'one=1');
 
-        self::assertEquals(1, $set->get('one'));
+        self::assertSame(1, $set->get('one'));
     }
 
     /**
@@ -34,7 +34,7 @@ final class DataSetTest extends TestCase
     {
         $set = new DataSet(['one' => 1], 'one=1');
 
-        self::assertEquals(2, $set->get('two', 2));
+        self::assertSame(2, $set->get('two', 2));
     }
 
     /**
@@ -89,19 +89,19 @@ final class DataSetTest extends TestCase
         $items = ['one' => 1, 'two' => 2];
         $set   = new DataSet($items, 'one=1');
 
-        self::assertEquals($items, $set->all());
+        self::assertSame($items, $set->all());
     }
 
     /**
      * @test
      *
      * @covers \Lcobucci\JWT\Token\DataSet::__construct
-     * @covers \Lcobucci\JWT\Token\DataSet::__toString
+     * @covers \Lcobucci\JWT\Token\DataSet::toString
      */
     public function toStringShouldReturnTheEncodedData(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
 
-        self::assertEquals('one=1', (string) $set);
+        self::assertSame('one=1', $set->toString());
     }
 }

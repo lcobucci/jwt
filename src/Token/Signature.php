@@ -34,7 +34,7 @@ final class Signature
     /**
      * Returns the encoded version of the signature
      */
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->encoded;
     }

@@ -54,5 +54,6 @@ $token->claims(); // Retrieves the token claims
 echo $token->headers()->get('foo'); // will print "bar"
 echo $token->claims()->get('iss'); // will print "http://example.com"
 echo $token->claims()->get('uid'); // will print "1"
-echo $token; // The string representation of the object is a JWT string
+
+echo $token->toString(); // The string representation of the object is a JWT string
 ```
