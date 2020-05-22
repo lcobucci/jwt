@@ -5,7 +5,6 @@ namespace Lcobucci\JWT\Token;
 
 use DateTimeInterface;
 use Lcobucci\JWT\Token as TokenInterface;
-use function implode;
 use function in_array;
 
 final class Plain implements TokenInterface
@@ -132,9 +131,8 @@ final class Plain implements TokenInterface
      */
     public function toString(): string
     {
-        return implode(
-            '.',
-            [$this->headers->toString(), $this->claims->toString(), $this->signature->toString()]
-        );
+        return $this->headers->toString() . '.'
+             . $this->claims->toString() . '.'
+             . $this->signature->toString();
     }
 }
