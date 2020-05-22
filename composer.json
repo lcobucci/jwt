@@ -20,8 +20,8 @@
         "php": "^7.4 || ^8.0",
         "ext-mbstring": "*",
         "ext-openssl": "*",
-        "lcobucci/clock": "^1.2",
-        "lcobucci/jose-parsing": "~2.2"
+        "lcobucci/clock": "^1.3",
+        "lcobucci/jose-parsing": "^3.0"
     },
     "require-dev": {
         "infection/infection": "^0.16",
