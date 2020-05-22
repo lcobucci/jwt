@@ -18,7 +18,7 @@ abstract class Ecdsa extends OpenSSL
 
     public static function create(): Ecdsa
     {
-        return new static(new MultibyteStringConverter());
+        return new static(new MultibyteStringConverter());  // @phpstan-ignore-line
     }
 
     final public function sign(string $payload, Key $key): string

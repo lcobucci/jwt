@@ -97,6 +97,7 @@ final class MultibyteStringConverter implements SignatureConverter
             throw new InvalidArgumentException('Invalid data. Should start with a sequence.');
         }
 
+        // @phpstan-ignore-next-line
         if (self::readAsn1Content($message, $position, self::BYTE_SIZE) === self::ASN1_LENGTH_2BYTES) {
             $position += self::BYTE_SIZE;
         }
