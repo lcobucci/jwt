@@ -78,7 +78,7 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken();
 
-        self::assertEquals('headers.claims', $token->payload());
+        self::assertSame('headers.claims', $token->payload());
     }
 
     /**
@@ -569,7 +569,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::__toString
+     * @covers \Lcobucci\JWT\Token\Plain::toString
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\Plain::payload
@@ -580,13 +580,13 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken(null, null, Signature::fromEmptyData());
 
-        self::assertEquals('headers.claims.', (string) $token);
+        self::assertSame('headers.claims.', $token->toString());
     }
 
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::__toString
+     * @covers \Lcobucci\JWT\Token\Plain::toString
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -596,6 +596,6 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken();
 
-        self::assertEquals('headers.claims.signature', (string) $token);
+        self::assertSame('headers.claims.signature', $token->toString());
     }
 }

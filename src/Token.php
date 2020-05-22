@@ -51,5 +51,5 @@ interface Token
     /**
      * Returns an encoded representation of the token
      */
-    public function __toString(): string;
+    public function toString(): string;
 }

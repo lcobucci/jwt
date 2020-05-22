@@ -74,7 +74,7 @@ class HmacTokenTest extends TestCase
     public function parserCanReadAToken(Token $generated): void
     {
         /** @var Token\Plain $read */
-        $read = $this->config->getParser()->parse((string) $generated);
+        $read = $this->config->getParser()->parse($generated->toString());
 
         self::assertEquals($generated, $read);
         self::assertEquals('testing', $read->claims()->get('user')['name']);

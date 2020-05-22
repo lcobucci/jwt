@@ -49,7 +49,7 @@ final class DataSet
         return $this->data;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->encoded;
     }
