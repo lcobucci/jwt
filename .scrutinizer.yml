@@ -8,7 +8,7 @@ build:
                 rabbitmq: false
                 mongodb: false
                 php:
-                    version: 7.3
+                    version: 7.4
             cache:
                 disabled: false
                 directories:
