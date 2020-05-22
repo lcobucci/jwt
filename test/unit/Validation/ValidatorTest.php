@@ -10,9 +10,9 @@ use PHPUnit\Framework\TestCase;
 final class ValidatorTest extends TestCase
 {
     /**
-     * @var Token|MockObject
+     * @var Token&MockObject
      */
-    private $token;
+    private Token $token;
 
     /**
      * @before

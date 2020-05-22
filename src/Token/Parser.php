@@ -17,19 +17,13 @@ use function strpos;
 
 final class Parser implements ParserInterface
 {
-    /**
-     * @var Parsing\Decoder
-     */
-    private $decoder;
+    private Parsing\Decoder $decoder;
 
     public function __construct(Parsing\Decoder $decoder)
     {
         $this->decoder = $decoder;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(string $jwt): TokenInterface
     {
         [$encodedHeaders, $encodedClaims, $encodedSignature] = $this->splitJwt($jwt);

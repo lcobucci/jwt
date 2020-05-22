@@ -13,15 +13,8 @@ use function substr;
 
 final class Key
 {
-    /**
-     * @var string
-     */
-    private $content;
-
-    /**
-     * @var string
-     */
-    private $passphrase;
+    private string $content;
+    private string $passphrase;
 
     public function __construct(string $content, string $passphrase = '')
     {

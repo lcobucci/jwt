@@ -8,20 +8,9 @@ use PHPUnit\Framework\TestCase;
 
 final class PlainTest extends TestCase
 {
-    /**
-     * @var DataSet
-     */
-    private $headers;
-
-    /**
-     * @var DataSet
-     */
-    private $claims;
-
-    /**
-     * @var Signature
-     */
-    private $signature;
+    private DataSet $headers;
+    private DataSet $claims;
+    private Signature $signature;
 
     /**
      * @before

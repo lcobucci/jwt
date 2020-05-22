@@ -7,9 +7,6 @@ use Lcobucci\JWT\Token;
 
 final class Validator implements \Lcobucci\JWT\Validator
 {
-    /**
-     * {@inheritdoc}
-     */
     public function assert(Token $token, Constraint ...$constraints): void
     {
         if ($constraints === []) {

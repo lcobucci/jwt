@@ -13,9 +13,9 @@ use RuntimeException;
 final class ParserTest extends TestCase
 {
     /**
-     * @var Decoder|MockObject
+     * @var Decoder&MockObject
      */
-    protected $decoder;
+    protected Decoder $decoder;
 
     /**
      * @before

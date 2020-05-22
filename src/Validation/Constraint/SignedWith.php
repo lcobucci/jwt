@@ -10,15 +10,8 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class SignedWith implements Constraint
 {
-    /**
-     * @var Signer
-     */
-    private $signer;
-
-    /**
-     * @var Signer\Key
-     */
-    private $key;
+    private Signer $signer;
+    private Signer\Key $key;
 
     public function __construct(Signer $signer, Signer\Key $key)
     {
@@ -26,9 +19,6 @@ final class SignedWith implements Constraint
         $this->key    = $key;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function assert(Token $token): void
     {
         if (! $token instanceof Token\Plain) {

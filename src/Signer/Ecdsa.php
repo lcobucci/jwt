@@ -9,10 +9,7 @@ use const OPENSSL_KEYTYPE_EC;
 
 abstract class Ecdsa extends OpenSSL
 {
-    /**
-     * @var SignatureConverter
-     */
-    private $converter;
+    private SignatureConverter $converter;
 
     public function __construct(SignatureConverter $converter)
     {
@@ -24,9 +21,6 @@ abstract class Ecdsa extends OpenSSL
         return new static(new MultibyteStringConverter());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     final public function sign(string $payload, Key $key): string
     {
         return $this->converter->fromAsn1(
@@ -35,9 +29,6 @@ abstract class Ecdsa extends OpenSSL
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     final public function verify(string $expected, string $payload, Key $key): bool
     {
         return $this->verifySignature(
@@ -47,9 +38,6 @@ abstract class Ecdsa extends OpenSSL
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     final public function getKeyType(): int
     {
         return OPENSSL_KEYTYPE_EC;

@@ -11,10 +11,10 @@ declare(strict_types=1);
  *
  * @link https://github.com/web-token/jwt-framework/blob/v1.2/src/Component/Core/Util/ECSignature.php
  */
+
 namespace Lcobucci\JWT\Signer\Ecdsa;
 
 use InvalidArgumentException;
-use const STR_PAD_LEFT;
 use function assert;
 use function bin2hex;
 use function dechex;
@@ -24,6 +24,7 @@ use function is_string;
 use function mb_strlen;
 use function mb_substr;
 use function str_pad;
+use const STR_PAD_LEFT;
 
 /**
  * ECDSA signature converter using ext-mbstring

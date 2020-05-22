@@ -7,17 +7,11 @@ use Lcobucci\JWT\Signer\Hmac;
 
 final class Sha256 extends Hmac
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getAlgorithmId(): string
     {
         return 'HS256';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAlgorithm(): string
     {
         return 'sha256';

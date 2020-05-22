@@ -6,11 +6,11 @@ namespace Lcobucci\JWT\Signer;
 use InvalidArgumentException;
 use Lcobucci\JWT\Keys;
 use PHPUnit\Framework\TestCase;
-use const OPENSSL_ALGO_SHA256;
 use function openssl_pkey_get_private;
 use function openssl_pkey_get_public;
 use function openssl_sign;
 use function openssl_verify;
+use const OPENSSL_ALGO_SHA256;
 
 final class RsaTest extends TestCase
 {

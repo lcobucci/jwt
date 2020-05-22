@@ -50,7 +50,7 @@ jobs:
         - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
         - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
       script:
-        - ./vendor/bin/infection --test-framework-options="--testsuite=unit" -s --threads=$(nproc) --min-msi=93 --min-covered-msi=93
+        - ./vendor/bin/infection --test-framework-options="--testsuite=unit" -s --threads=$(nproc) --min-msi=91.66 --min-covered-msi=92.77
 
     - stage: Metrics and quality
       env: STATIC_ANALYSIS

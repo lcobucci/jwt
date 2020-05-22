@@ -9,19 +9,13 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class RelatedTo implements Constraint
 {
-    /**
-     * @var string
-     */
-    private $subject;
+    private string $subject;
 
     public function __construct(string $subject)
     {
         $this->subject = $subject;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function assert(Token $token): void
     {
         if (! $token->isRelatedTo($this->subject)) {

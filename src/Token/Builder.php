@@ -20,28 +20,22 @@ use function in_array;
 final class Builder implements BuilderInterface
 {
     /**
-     * @var mixed[]
+     * @var array<string, mixed>
      */
-    private $headers = ['typ' => 'JWT', 'alg' => null];
+    private array $headers = ['typ' => 'JWT', 'alg' => null];
 
     /**
-     * @var mixed[]
+     * @var array<string, mixed>
      */
-    private $claims = [];
+    private array $claims = [];
 
-    /**
-     * @var Parsing\Encoder
-     */
-    private $encoder;
+    private Parsing\Encoder $encoder;
 
     public function __construct(Parsing\Encoder $encoder)
     {
         $this->encoder = $encoder;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function permittedFor(string ...$audiences): BuilderInterface
     {
         $configured = $this->claims[RegisteredClaims::AUDIENCE] ?? [];
@@ -50,49 +44,31 @@ final class Builder implements BuilderInterface
         return $this->setClaim(RegisteredClaims::AUDIENCE, array_merge($configured, $toAppend));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function expiresAt(DateTimeImmutable $expiration): BuilderInterface
     {
         return $this->setClaim(RegisteredClaims::EXPIRATION_TIME, $expiration);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function identifiedBy(string $id): BuilderInterface
     {
         return $this->setClaim(RegisteredClaims::ID, $id);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function issuedAt(DateTimeImmutable $issuedAt): BuilderInterface
     {
         return $this->setClaim(RegisteredClaims::ISSUED_AT, $issuedAt);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function issuedBy(string $issuer): BuilderInterface
     {
         return $this->setClaim(RegisteredClaims::ISSUER, $issuer);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function canOnlyBeUsedAfter(DateTimeImmutable $notBefore): BuilderInterface
     {
         return $this->setClaim(RegisteredClaims::NOT_BEFORE, $notBefore);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function relatedTo(string $subject): BuilderInterface
     {
         return $this->setClaim(RegisteredClaims::SUBJECT, $subject);
@@ -131,7 +107,7 @@ final class Builder implements BuilderInterface
     }
 
     /**
-     * @param mixed[] $items
+     * @param array<string, mixed> $items
      */
     private function encode(array $items): string
     {
@@ -140,9 +116,6 @@ final class Builder implements BuilderInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getToken(Signer $signer, Key $key): Plain
     {
         $headers        = $this->headers;
