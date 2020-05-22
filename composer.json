@@ -28,7 +28,6 @@
         "lcobucci/coding-standard": "^4.0",
         "mikey179/vfsstream": "^1.6",
         "phpbench/phpbench": "dev-master@dev",
-        "phpmd/phpmd": "^2.8",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-deprecation-rules": "^0.12",
