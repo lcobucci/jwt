@@ -13,15 +13,8 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class ValidAt implements Constraint
 {
-    /**
-     * @var Clock
-     */
-    private $clock;
-
-    /**
-     * @var DateInterval
-     */
-    private $leeway;
+    private Clock $clock;
+    private DateInterval $leeway;
 
     public function __construct(Clock $clock, ?DateInterval $leeway = null)
     {
@@ -42,9 +35,6 @@ final class ValidAt implements Constraint
         return $leeway;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function assert(Token $token): void
     {
         $now = $this->clock->now();

@@ -12,7 +12,7 @@ final class InvalidToken extends Exception
     /**
      * @var ConstraintViolation[]
      */
-    private $violations = [];
+    private array $violations = [];
 
     public static function fromViolations(ConstraintViolation ...$violations): self
     {

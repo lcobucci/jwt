@@ -13,16 +13,14 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\InvalidToken;
 use PHPUnit\Framework\TestCase;
+use function assert;
 use const PHP_EOL;
 
 class EcdsaTokenTest extends TestCase
 {
     use Keys;
 
-    /**
-     * @var Configuration
-     */
-    private $config;
+    private Configuration $config;
 
     /**
      * @before
@@ -147,8 +145,8 @@ class EcdsaTokenTest extends TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
-        /** @var Token\Plain $read */
         $read = $this->config->getParser()->parse($generated->toString());
+        assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);
         self::assertEquals('testing', $read->claims()->get('user')['name']);
@@ -346,8 +344,8 @@ class EcdsaTokenTest extends TestCase
                . 'mZudf1zCUZ8/4eodlHU=' . PHP_EOL
                . '-----END PUBLIC KEY-----';
 
-        /** @var Token\Plain $token */
-        $token      = $this->config->getParser()->parse($data);
+        $token = $this->config->getParser()->parse($data);
+        assert($token instanceof Token\Plain);
         $constraint = new SignedWith(Sha512::create(), new Key($key));
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));

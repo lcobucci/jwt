@@ -13,15 +13,8 @@ use function substr;
 
 final class Key
 {
-    /**
-     * @var string
-     */
-    private $content;
-
-    /**
-     * @var string
-     */
-    private $passphrase;
+    private string $content;
+    private string $passphrase;
 
     public function __construct(string $content, string $passphrase = '')
     {
@@ -44,10 +37,10 @@ final class Key
     /**
      * @throws InvalidArgumentException
      */
-    private function readFile(string $content): string
+    private function readFile(string $path): string
     {
         try {
-            $file    = new SplFileObject(substr($content, 7));
+            $file    = new SplFileObject(substr($path, 7));
             $content = $file->fread($file->getSize());
             assert(is_string($content));
 

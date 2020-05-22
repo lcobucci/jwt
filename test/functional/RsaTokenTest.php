@@ -13,15 +13,13 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\InvalidToken;
 use PHPUnit\Framework\TestCase;
+use function assert;
 
 class RsaTokenTest extends TestCase
 {
     use Keys;
 
-    /**
-     * @var Configuration
-     */
-    private $config;
+    private Configuration $config;
 
     /**
      * @before
@@ -135,8 +133,8 @@ class RsaTokenTest extends TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
-        /** @var Token\Plain $read */
         $read = $this->config->getParser()->parse($generated->toString());
+        assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);
         self::assertEquals('testing', $read->claims()->get('user')['name']);
@@ -281,8 +279,8 @@ class RsaTokenTest extends TestCase
                 . 'nJCupP-Lqh4TmIhftIimSCgLNmJg80wyrpUEfZYReE7hPuEmY0ClTqAGIMQoNS'
                 . '98ljwDxwhfbSuL2tAdbV4DekbTpWzspe3dOJ7RSzmPKVZ6NoezaIazKqyqkmHZfcMaHI1lQeGia6LTbHU1bp0gINi74Vw';
 
-        /** @var Token\Plain $token */
-        $token      = $this->config->getParser()->parse($data);
+        $token = $this->config->getParser()->parse($data);
+        assert($token instanceof Token\Plain);
         $constraint = new SignedWith($this->config->getSigner(), $this->config->getVerificationKey());
 
         self::assertTrue($this->config->getValidator()->validate($token, $constraint));

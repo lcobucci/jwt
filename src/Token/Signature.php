@@ -5,15 +5,8 @@ namespace Lcobucci\JWT\Token;
 
 final class Signature
 {
-    /**
-     * @var string
-     */
-    private $hash;
-
-    /**
-     * @var string
-     */
-    private $encoded;
+    private string $hash;
+    private string $encoded;
 
     public static function fromEmptyData(): self
     {

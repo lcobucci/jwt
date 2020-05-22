@@ -12,16 +12,13 @@ final class IssuedBy implements Constraint
     /**
      * @var string[]
      */
-    private $issuers;
+    private array $issuers;
 
     public function __construct(string ...$issuers)
     {
         $this->issuers = $issuers;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function assert(Token $token): void
     {
         if (! $token->hasBeenIssuedBy(...$this->issuers)) {

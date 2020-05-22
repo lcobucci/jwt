@@ -8,17 +8,11 @@ use const OPENSSL_ALGO_SHA256;
 
 final class Sha256 extends Rsa
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getAlgorithmId(): string
     {
         return 'RS256';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAlgorithm(): int
     {
         return OPENSSL_ALGO_SHA256;

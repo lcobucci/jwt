@@ -12,19 +12,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 final class SignedWithTest extends ConstraintTestCase
 {
     /**
-     * @var Signer|MockObject
+     * @var Signer&MockObject
      */
-    private $signer;
-
-    /**
-     * @var Signer\Key
-     */
-    private $key;
-
-    /**
-     * @var Signature
-     */
-    private $signature;
+    private Signer $signer;
+    private Signer\Key $key;
+    private Signature $signature;
 
     /**
      * @before

@@ -12,19 +12,17 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use PHPUnit\Framework\TestCase;
-use const PHP_EOL;
+use function assert;
 use function explode;
 use function hash_hmac;
 use function implode;
+use const PHP_EOL;
 
 final class MaliciousTamperingPreventionTest extends TestCase
 {
     use Keys;
 
-    /**
-     * @var Configuration
-     */
-    private $config;
+    private Configuration $config;
 
     /**
      * @before
@@ -81,8 +79,8 @@ final class MaliciousTamperingPreventionTest extends TestCase
          * (e.g. HMAC-SHA512 instead of ECDSA), they can forge messages!
          */
 
-        /** @var Plain $token */
         $token = $this->config->getParser()->parse($bad);
+        assert($token instanceof Plain);
 
         self::assertEquals('world', $token->claims()->get('hello'), 'The claim content should not be modified');
 

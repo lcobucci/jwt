@@ -15,15 +15,13 @@ use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\InvalidToken;
 use PHPUnit\Framework\TestCase;
+use function assert;
 
 class UnsignedTokenTest extends TestCase
 {
     public const CURRENT_TIME = 100000;
 
-    /**
-     * @var Configuration
-     */
-    private $config;
+    private Configuration $config;
 
     /**
      * @before
@@ -82,8 +80,8 @@ class UnsignedTokenTest extends TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
-        /** @var Token\Plain $read */
         $read = $this->config->getParser()->parse($generated->toString());
+        assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);
         self::assertEquals('testing', $read->claims()->get('user')['name']);

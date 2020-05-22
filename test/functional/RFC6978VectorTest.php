@@ -9,10 +9,10 @@ use Lcobucci\JWT\Signer\Ecdsa\Sha384;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512;
 use Lcobucci\JWT\Signer\Key;
 use PHPUnit\Framework\TestCase;
-use const PHP_EOL;
 use function assert;
 use function hex2bin;
 use function is_string;
+use const PHP_EOL;
 
 final class RFC6978VectorTest extends TestCase
 {

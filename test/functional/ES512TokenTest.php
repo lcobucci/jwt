@@ -13,15 +13,13 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\InvalidToken;
 use PHPUnit\Framework\TestCase;
+use function assert;
 
 class ES512TokenTest extends TestCase
 {
     use Keys;
 
-    /**
-     * @var Configuration
-     */
-    private $config;
+    private Configuration $config;
 
     /**
      * @before
@@ -146,8 +144,8 @@ class ES512TokenTest extends TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
-        /** @var Token\Plain $read */
         $read = $this->config->getParser()->parse($generated->toString());
+        assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);
         self::assertEquals('testing', $read->claims()->get('user')['name']);

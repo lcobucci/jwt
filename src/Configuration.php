@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
+use Closure;
 use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
@@ -16,50 +17,19 @@ use Lcobucci\JWT\Validation\Constraint;
  */
 final class Configuration
 {
-    /**
-     * @var Parser|null
-     */
-    private $parser;
-
-    /**
-     * @var Signer
-     */
-    private $signer;
-
-    /**
-     * @var Key
-     */
-    private $signingKey;
-
-    /**
-     * @var Key
-     */
-    private $verificationKey;
-
-    /**
-     * @var Parsing\Encoder|null
-     */
-    private $encoder;
-
-    /**
-     * @var Parsing\Decoder|null
-     */
-    private $decoder;
-
-    /**
-     * @var Validator|null
-     */
-    private $validator;
-
-    /**
-     * @var callable|null
-     */
-    private $builderFactory;
+    private Parser $parser;
+    private Signer $signer;
+    private Key $signingKey;
+    private Key $verificationKey;
+    private Parsing\Encoder $encoder;
+    private Parsing\Decoder $decoder;
+    private Validator $validator;
+    private Closure $builderFactory;
 
     /**
      * @var Constraint[]
      */
-    private $validationConstraints = [];
+    private array $validationConstraints = [];
 
     public static function forAsymmetricSigner(
         Signer $signer,
@@ -81,19 +51,16 @@ final class Configuration
         return new self(new None(), $key, $key);
     }
 
-    private function __construct(
-        Signer $signer,
-        Key $signingKey,
-        Key $verificationKey
-    ) {
+    private function __construct(Signer $signer, Key $signingKey, Key $verificationKey)
+    {
         $this->signer          = $signer;
         $this->signingKey      = $signingKey;
         $this->verificationKey = $verificationKey;
     }
 
-    private function getBuilderFactory(): callable
+    private function getBuilderFactory(): Closure
     {
-        if ($this->builderFactory === null) {
+        if (! isset($this->builderFactory)) {
             $this->builderFactory = function (): Builder {
                 return new Token\Builder($this->getEncoder());
             };
@@ -104,7 +71,7 @@ final class Configuration
 
     public function setBuilderFactory(callable $builderFactory): void
     {
-        $this->builderFactory = $builderFactory;
+        $this->builderFactory = Closure::fromCallable($builderFactory);
     }
 
     public function createBuilder(): Builder
@@ -114,7 +81,7 @@ final class Configuration
 
     public function getParser(): Parser
     {
-        if ($this->parser === null) {
+        if (! isset($this->parser)) {
             $this->parser = new Token\Parser($this->getDecoder());
         }
 
@@ -143,7 +110,7 @@ final class Configuration
 
     private function getEncoder(): Parsing\Encoder
     {
-        if ($this->encoder === null) {
+        if (! isset($this->encoder)) {
             $this->encoder = new Parsing\Parser();
         }
 
@@ -157,7 +124,7 @@ final class Configuration
 
     private function getDecoder(): Parsing\Decoder
     {
-        if ($this->decoder === null) {
+        if (! isset($this->decoder)) {
             $this->decoder = new Parsing\Parser();
         }
 
@@ -171,7 +138,7 @@ final class Configuration
 
     public function getValidator(): Validator
     {
-        if ($this->validator === null) {
+        if (! isset($this->validator)) {
             $this->validator = new Validation\Validator();
         }
 
