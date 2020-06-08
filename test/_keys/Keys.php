@@ -7,14 +7,10 @@ use Lcobucci\JWT\Signer\Key;
 
 trait Keys
 {
-    /**
-     * @var array<string, Key>
-     */
+    /** @var array<string, Key> */
     protected static array $rsaKeys;
 
-    /**
-     * @var array<string, Key>
-     */
+    /** @var array<string, Key> */
     protected static array $ecdsaKeys;
 
     /**

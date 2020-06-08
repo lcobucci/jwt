@@ -5,6 +5,7 @@ namespace Lcobucci\JWT\Token;
 
 use DateTimeInterface;
 use Lcobucci\JWT\Token as TokenInterface;
+
 use function in_array;
 
 final class Plain implements TokenInterface

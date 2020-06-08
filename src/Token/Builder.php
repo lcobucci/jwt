@@ -9,6 +9,7 @@ use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Builder as BuilderInterface;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
+
 use function array_diff;
 use function array_intersect;
 use function array_keys;
@@ -19,14 +20,10 @@ use function in_array;
 
 final class Builder implements BuilderInterface
 {
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     private array $headers = ['typ' => 'JWT', 'alg' => null];
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     private array $claims = [];
 
     private Parsing\Encoder $encoder;

@@ -14,34 +14,22 @@ use PHPUnit\Framework\TestCase;
 
 final class ConfigurationTest extends TestCase
 {
-    /**
-     * @var Parser&MockObject
-     */
+    /** @var Parser&MockObject */
     private Parser $parser;
 
-    /**
-     * @var Signer&MockObject
-     */
+    /** @var Signer&MockObject */
     private Signer $signer;
 
-    /**
-     * @var Parsing\Encoder&MockObject
-     */
+    /** @var Parsing\Encoder&MockObject */
     private Parsing\Encoder $encoder;
 
-    /**
-     * @var Parsing\Decoder&MockObject
-     */
+    /** @var Parsing\Decoder&MockObject */
     private Parsing\Decoder $decoder;
 
-    /**
-     * @var Validator&MockObject
-     */
+    /** @var Validator&MockObject */
     private Validator $validator;
 
-    /**
-     * @var Constraint&MockObject
-     */
+    /** @var Constraint&MockObject */
     private Constraint $validationConstraints;
 
     /**

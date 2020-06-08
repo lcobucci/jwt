@@ -12,10 +12,12 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use PHPUnit\Framework\TestCase;
+
 use function assert;
 use function explode;
 use function hash_hmac;
 use function implode;
+
 use const PHP_EOL;
 
 final class MaliciousTamperingPreventionTest extends TestCase

@@ -15,6 +15,7 @@ use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\InvalidToken;
 use PHPUnit\Framework\TestCase;
+
 use function assert;
 
 class UnsignedTokenTest extends TestCase
@@ -170,7 +171,7 @@ class UnsignedTokenTest extends TestCase
 
     private function validUserConstraint(): Constraint
     {
-        return new class() implements Constraint
+        return new class () implements Constraint
         {
             public function assert(Token $token): void
             {

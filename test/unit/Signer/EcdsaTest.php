@@ -6,10 +6,12 @@ namespace Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter;
 use PHPUnit\Framework\TestCase;
+
 use function openssl_pkey_get_private;
 use function openssl_pkey_get_public;
 use function openssl_sign;
 use function openssl_verify;
+
 use const OPENSSL_ALGO_SHA256;
 
 final class EcdsaTest extends TestCase

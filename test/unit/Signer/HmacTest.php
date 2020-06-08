@@ -5,14 +5,13 @@ namespace Lcobucci\JWT\Signer;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+
 use function hash_hmac;
 
 final class HmacTest extends TestCase
 {
-    /**
-     * @var Hmac|MockObject
-     */
-    protected $signer;
+    /** @var Hmac&MockObject */
+    protected Hmac $signer;
 
     /**
      * @before

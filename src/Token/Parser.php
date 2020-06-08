@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Parser as ParserInterface;
 use Lcobucci\JWT\Token as TokenInterface;
+
 use function array_intersect;
 use function array_keys;
 use function count;

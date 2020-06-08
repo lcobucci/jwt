@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Signer\Rsa;
 
 use PHPUnit\Framework\TestCase;
+
 use const OPENSSL_ALGO_SHA256;
 
 final class Sha256Test extends TestCase

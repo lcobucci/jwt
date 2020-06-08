@@ -26,9 +26,7 @@ final class Configuration
     private Validator $validator;
     private Closure $builderFactory;
 
-    /**
-     * @var Constraint[]
-     */
+    /** @var Constraint[] */
     private array $validationConstraints = [];
 
     public static function forAsymmetricSigner(

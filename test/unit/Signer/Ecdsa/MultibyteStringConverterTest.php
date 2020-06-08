@@ -5,6 +5,7 @@ namespace Lcobucci\JWT\Signer\Ecdsa;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+
 use function assert;
 use function bin2hex;
 use function hex2bin;
