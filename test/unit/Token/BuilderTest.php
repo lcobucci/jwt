@@ -13,14 +13,10 @@ use PHPUnit\Framework\TestCase;
 
 final class BuilderTest extends TestCase
 {
-    /**
-     * @var Encoder&MockObject
-     */
+    /** @var Encoder&MockObject */
     private Encoder $encoder;
 
-    /**
-     * @var Signer&MockObject
-     */
+    /** @var Signer&MockObject */
     private Signer $signer;
 
     /**

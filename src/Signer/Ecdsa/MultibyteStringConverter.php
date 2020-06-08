@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Signer\Ecdsa;
 
 use InvalidArgumentException;
+
 use function assert;
 use function bin2hex;
 use function dechex;
@@ -24,6 +25,7 @@ use function is_string;
 use function mb_strlen;
 use function mb_substr;
 use function str_pad;
+
 use const STR_PAD_LEFT;
 
 /**
@@ -80,8 +82,10 @@ final class MultibyteStringConverter implements SignatureConverter
             return self::ASN1_NEGATIVE_INTEGER . $data;
         }
 
-        while (mb_substr($data, 0, self::BYTE_SIZE, '8bit') === self::ASN1_NEGATIVE_INTEGER
-            && mb_substr($data, 2, self::BYTE_SIZE, '8bit') <= self::ASN1_BIG_INTEGER_LIMIT) {
+        while (
+            mb_substr($data, 0, self::BYTE_SIZE, '8bit') === self::ASN1_NEGATIVE_INTEGER
+            && mb_substr($data, 2, self::BYTE_SIZE, '8bit') <= self::ASN1_BIG_INTEGER_LIMIT
+        ) {
             $data = mb_substr($data, 2, null, '8bit');
         }
 
@@ -132,8 +136,10 @@ final class MultibyteStringConverter implements SignatureConverter
 
     private static function retrievePositiveInteger(string $data): string
     {
-        while (mb_substr($data, 0, self::BYTE_SIZE, '8bit') === self::ASN1_NEGATIVE_INTEGER
-            && mb_substr($data, 2, self::BYTE_SIZE, '8bit') > self::ASN1_BIG_INTEGER_LIMIT) {
+        while (
+            mb_substr($data, 0, self::BYTE_SIZE, '8bit') === self::ASN1_NEGATIVE_INTEGER
+            && mb_substr($data, 2, self::BYTE_SIZE, '8bit') > self::ASN1_BIG_INTEGER_LIMIT
+        ) {
             $data = mb_substr($data, 2, null, '8bit');
         }
 

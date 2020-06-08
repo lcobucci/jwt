@@ -9,9 +9,7 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class IssuedBy implements Constraint
 {
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private array $issuers;
 
     public function __construct(string ...$issuers)

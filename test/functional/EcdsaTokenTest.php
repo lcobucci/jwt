@@ -13,7 +13,9 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\InvalidToken;
 use PHPUnit\Framework\TestCase;
+
 use function assert;
+
 use const PHP_EOL;
 
 class EcdsaTokenTest extends TestCase

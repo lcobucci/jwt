@@ -5,6 +5,7 @@ namespace Lcobucci\JWT\Signer;
 
 use InvalidArgumentException;
 use Lcobucci\JWT\Signer;
+
 use function assert;
 use function is_array;
 use function is_resource;

@@ -5,6 +5,7 @@ namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter;
 use Lcobucci\JWT\Signer\Ecdsa\SignatureConverter;
+
 use const OPENSSL_KEYTYPE_EC;
 
 abstract class Ecdsa extends OpenSSL

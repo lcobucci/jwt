@@ -6,6 +6,7 @@ namespace Lcobucci\JWT\Signer;
 use InvalidArgumentException;
 use SplFileObject;
 use Throwable;
+
 use function assert;
 use function is_string;
 use function strpos;

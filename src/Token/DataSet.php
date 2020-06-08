@@ -7,9 +7,7 @@ use function array_key_exists;
 
 final class DataSet
 {
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     private array $data;
     private string $encoded;
 
