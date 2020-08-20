@@ -27,7 +27,7 @@ interface Claim extends JsonSerializable
     /**
      * Returns the claim value
      *
-     * @return string
+     * @return mixed
      */
     public function getValue();
 
