@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 use const OPENSSL_ALGO_SHA512;
 
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Ecdsa\Sha512 */
 final class Sha512Test extends TestCase
 {
     /**
@@ -27,7 +28,7 @@ final class Sha512Test extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithmId
+     * @covers ::getAlgorithmId
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
@@ -39,7 +40,7 @@ final class Sha512Test extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512::getAlgorithm
+     * @covers ::getAlgorithm
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
@@ -51,7 +52,7 @@ final class Sha512Test extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512::getKeyLength
+     * @covers ::getKeyLength
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */

@@ -7,12 +7,13 @@ use PHPUnit\Framework\TestCase;
 
 use const OPENSSL_ALGO_SHA384;
 
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Rsa\Sha384 */
 final class Sha384Test extends TestCase
 {
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa\Sha384::getAlgorithmId
+     * @covers ::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect(): void
     {
@@ -24,7 +25,7 @@ final class Sha384Test extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa\Sha384::getAlgorithm
+     * @covers ::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect(): void
     {

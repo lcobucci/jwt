@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 use const OPENSSL_ALGO_SHA256;
 
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Ecdsa\Sha256 */
 final class Sha256Test extends TestCase
 {
     /**
@@ -27,7 +28,7 @@ final class Sha256Test extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256::getAlgorithmId
+     * @covers ::getAlgorithmId
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
@@ -39,7 +40,7 @@ final class Sha256Test extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256::getAlgorithm
+     * @covers ::getAlgorithm
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
@@ -51,7 +52,7 @@ final class Sha256Test extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256::getKeyLength
+     * @covers ::getKeyLength
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */

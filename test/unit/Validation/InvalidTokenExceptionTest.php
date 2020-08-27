@@ -5,14 +5,15 @@ namespace Lcobucci\JWT\Validation;
 
 use PHPUnit\Framework\TestCase;
 
+/** @coversDefaultClass \Lcobucci\JWT\Validation\InvalidToken */
 final class InvalidTokenExceptionTest extends TestCase
 {
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\InvalidToken::fromViolations
-     * @covers \Lcobucci\JWT\Validation\InvalidToken::buildMessage
-     * @covers \Lcobucci\JWT\Validation\InvalidToken::violations
+     * @covers ::fromViolations
+     * @covers ::buildMessage
+     * @covers ::violations
      */
     public function fromViolationsShouldConfigureMessageAndViolationList(): void
     {

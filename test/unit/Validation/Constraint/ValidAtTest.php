@@ -11,6 +11,7 @@ use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
+/** @coversDefaultClass \Lcobucci\JWT\Validation\Constraint\ValidAt */
 final class ValidAtTest extends ConstraintTestCase
 {
     private Clock $clock;
@@ -26,8 +27,8 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::guardLeeway
+     * @covers ::__construct
+     * @covers ::guardLeeway
      */
     public function constructShouldRaiseExceptionOnNegativeLeeway(): void
     {
@@ -43,12 +44,12 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::guardLeeway
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertExpiration
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertIssueTime
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertMinimumTime
+     * @covers ::__construct
+     * @covers ::guardLeeway
+     * @covers ::assert
+     * @covers ::assertExpiration
+     * @covers ::assertIssueTime
+     * @covers ::assertMinimumTime
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -74,11 +75,11 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::guardLeeway
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertIssueTime
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertMinimumTime
+     * @covers ::__construct
+     * @covers ::guardLeeway
+     * @covers ::assert
+     * @covers ::assertIssueTime
+     * @covers ::assertMinimumTime
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -104,10 +105,10 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::guardLeeway
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertIssueTime
+     * @covers ::__construct
+     * @covers ::guardLeeway
+     * @covers ::assert
+     * @covers ::assertIssueTime
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -133,12 +134,12 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::guardLeeway
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertExpiration
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertIssueTime
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertMinimumTime
+     * @covers ::__construct
+     * @covers ::guardLeeway
+     * @covers ::assert
+     * @covers ::assertExpiration
+     * @covers ::assertIssueTime
+     * @covers ::assertMinimumTime
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -163,12 +164,12 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::guardLeeway
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertExpiration
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertIssueTime
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertMinimumTime
+     * @covers ::__construct
+     * @covers ::guardLeeway
+     * @covers ::assert
+     * @covers ::assertExpiration
+     * @covers ::assertIssueTime
+     * @covers ::assertMinimumTime
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -205,12 +206,12 @@ final class ValidAtTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::guardLeeway
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assert
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertExpiration
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertIssueTime
-     * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt::assertMinimumTime
+     * @covers ::__construct
+     * @covers ::guardLeeway
+     * @covers ::assert
+     * @covers ::assertExpiration
+     * @covers ::assertIssueTime
+     * @covers ::assertMinimumTime
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain

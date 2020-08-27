@@ -14,6 +14,7 @@ use function openssl_verify;
 
 use const OPENSSL_ALGO_SHA256;
 
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Ecdsa */
 final class EcdsaTest extends TestCase
 {
     use Keys;
@@ -47,8 +48,8 @@ final class EcdsaTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::sign
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::getKeyType
+     * @covers ::sign
+     * @covers ::getKeyType
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
@@ -79,8 +80,8 @@ final class EcdsaTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::verify
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::getKeyType
+     * @covers ::verify
+     * @covers ::getKeyType
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *

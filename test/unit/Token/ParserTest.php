@@ -10,6 +10,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
+/** @coversDefaultClass \Lcobucci\JWT\Token\Parser */
 final class ParserTest extends TestCase
 {
     /** @var Decoder&MockObject */
@@ -31,9 +32,9 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
      */
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
     {
@@ -48,10 +49,10 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
      */
     public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded(): void
     {
@@ -74,10 +75,10 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
      */
     public function parseMustRaiseExceptionWhenDealingWithInvalidHeaders(): void
     {
@@ -95,10 +96,10 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
      */
     public function parseMustRaiseExceptionWhenTypeHeaderIsNotConfigured(): void
     {
@@ -116,10 +117,10 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
      */
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
     {
@@ -137,11 +138,11 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      */
@@ -161,12 +162,12 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -174,25 +175,18 @@ final class ParserTest extends TestCase
      */
     public function parseMustReturnAnUnsecuredTokenWhenSignatureIsNotInformed(): void
     {
-        $this->decoder->expects(self::at(0))
+        $this->decoder->expects(self::exactly(2))
                       ->method('base64UrlDecode')
-                      ->with('a')
-                      ->willReturn('a_dec');
+                      ->withConsecutive(['a'], ['b'])
+                      ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
 
-        $this->decoder->expects(self::at(1))
+        $this->decoder->expects(self::exactly(2))
                       ->method('jsonDecode')
-                      ->with('a_dec')
-                      ->willReturn(['typ' => 'JWT', 'alg' => 'none']);
-
-        $this->decoder->expects(self::at(2))
-                      ->method('base64UrlDecode')
-                      ->with('b')
-                      ->willReturn('b_dec');
-
-        $this->decoder->expects(self::at(3))
-                      ->method('jsonDecode')
-                      ->with('b_dec')
-                      ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
+                      ->withConsecutive(['a_dec'], ['b_dec'])
+                      ->willReturnOnConsecutiveCalls(
+                          ['typ' => 'JWT', 'alg' => 'none'],
+                          [RegisteredClaims::AUDIENCE => 'test']
+                      );
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.');
@@ -210,12 +204,12 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -223,25 +217,18 @@ final class ParserTest extends TestCase
      */
     public function parseShouldReplicateClaimValueOnHeaderWhenNeeded(): void
     {
-        $this->decoder->expects(self::at(0))
-                      ->method('base64UrlDecode')
-                      ->with('a')
-                      ->willReturn('a_dec');
+        $this->decoder->expects(self::exactly(2))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
 
-        $this->decoder->expects(self::at(1))
-                      ->method('jsonDecode')
-                      ->with('a_dec')
-                      ->willReturn(['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test']);
-
-        $this->decoder->expects(self::at(2))
-                      ->method('base64UrlDecode')
-                      ->with('b')
-                      ->willReturn('b_dec');
-
-        $this->decoder->expects(self::at(3))
-                      ->method('jsonDecode')
-                      ->with('b_dec')
-                      ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
+        $this->decoder->expects(self::exactly(2))
+            ->method('jsonDecode')
+            ->withConsecutive(['a_dec'], ['b_dec'])
+            ->willReturnOnConsecutiveCalls(
+                ['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test'],
+                [RegisteredClaims::AUDIENCE => 'test']
+            );
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.');
@@ -259,12 +246,12 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -272,25 +259,18 @@ final class ParserTest extends TestCase
      */
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsMissing(): void
     {
-        $this->decoder->expects(self::at(0))
-                      ->method('base64UrlDecode')
-                      ->with('a')
-                      ->willReturn('a_dec');
+        $this->decoder->expects(self::exactly(2))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
 
-        $this->decoder->expects(self::at(1))
-                      ->method('jsonDecode')
-                      ->with('a_dec')
-                      ->willReturn(['typ' => 'JWT']);
-
-        $this->decoder->expects(self::at(2))
-                      ->method('base64UrlDecode')
-                      ->with('b')
-                      ->willReturn('b_dec');
-
-        $this->decoder->expects(self::at(3))
-                      ->method('jsonDecode')
-                      ->with('b_dec')
-                      ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
+        $this->decoder->expects(self::exactly(2))
+            ->method('jsonDecode')
+            ->withConsecutive(['a_dec'], ['b_dec'])
+            ->willReturnOnConsecutiveCalls(
+                ['typ' => 'JWT'],
+                [RegisteredClaims::AUDIENCE => 'test']
+            );
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
@@ -308,12 +288,12 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -321,25 +301,18 @@ final class ParserTest extends TestCase
      */
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsNone(): void
     {
-        $this->decoder->expects(self::at(0))
-                      ->method('base64UrlDecode')
-                      ->with('a')
-                      ->willReturn('a_dec');
+        $this->decoder->expects(self::exactly(2))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
 
-        $this->decoder->expects(self::at(1))
-                      ->method('jsonDecode')
-                      ->with('a_dec')
-                      ->willReturn(['typ' => 'JWT', 'alg' => 'none']);
-
-        $this->decoder->expects(self::at(2))
-                      ->method('base64UrlDecode')
-                      ->with('b')
-                      ->willReturn('b_dec');
-
-        $this->decoder->expects(self::at(3))
-                      ->method('jsonDecode')
-                      ->with('b_dec')
-                      ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
+        $this->decoder->expects(self::exactly(2))
+            ->method('jsonDecode')
+            ->withConsecutive(['a_dec'], ['b_dec'])
+            ->willReturnOnConsecutiveCalls(
+                ['typ' => 'JWT', 'alg' => 'none'],
+                [RegisteredClaims::AUDIENCE => 'test']
+            );
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
@@ -357,12 +330,12 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -370,30 +343,18 @@ final class ParserTest extends TestCase
      */
     public function parseMustReturnASignedTokenWhenSignatureIsInformed(): void
     {
-        $this->decoder->expects(self::at(0))
-                      ->method('base64UrlDecode')
-                      ->with('a')
-                      ->willReturn('a_dec');
+        $this->decoder->expects(self::exactly(3))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'], ['c'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
 
-        $this->decoder->expects(self::at(1))
-                      ->method('jsonDecode')
-                      ->with('a_dec')
-                      ->willReturn(['typ' => 'JWT', 'alg' => 'HS256']);
-
-        $this->decoder->expects(self::at(2))
-                      ->method('base64UrlDecode')
-                      ->with('b')
-                      ->willReturn('b_dec');
-
-        $this->decoder->expects(self::at(3))
-                      ->method('jsonDecode')
-                      ->with('b_dec')
-                      ->willReturn([RegisteredClaims::AUDIENCE => 'test']);
-
-        $this->decoder->expects(self::at(4))
-                      ->method('base64UrlDecode')
-                      ->with('c')
-                      ->willReturn('c_dec');
+        $this->decoder->expects(self::exactly(2))
+            ->method('jsonDecode')
+            ->withConsecutive(['a_dec'], ['b_dec'])
+            ->willReturnOnConsecutiveCalls(
+                ['typ' => 'JWT', 'alg' => 'HS256'],
+                [RegisteredClaims::AUDIENCE => 'test']
+            );
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
@@ -412,13 +373,13 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
-     * @covers \Lcobucci\JWT\Token\Parser::convertDate
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
+     * @covers ::convertDate
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -432,25 +393,18 @@ final class ParserTest extends TestCase
             RegisteredClaims::EXPIRATION_TIME => '1486930757.023055',
         ];
 
-        $this->decoder->expects(self::at(0))
-                      ->method('base64UrlDecode')
-                      ->with('a')
-                      ->willReturn('a_dec');
+        $this->decoder->expects(self::exactly(2))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
 
-        $this->decoder->expects(self::at(1))
-                      ->method('jsonDecode')
-                      ->with('a_dec')
-                      ->willReturn(['typ' => 'JWT', 'alg' => 'HS256']);
-
-        $this->decoder->expects(self::at(2))
-                      ->method('base64UrlDecode')
-                      ->with('b')
-                      ->willReturn('b_dec');
-
-        $this->decoder->expects(self::at(3))
-                      ->method('jsonDecode')
-                      ->with('b_dec')
-                      ->willReturn($data);
+        $this->decoder->expects(self::exactly(2))
+            ->method('jsonDecode')
+            ->withConsecutive(['a_dec'], ['b_dec'])
+            ->willReturnOnConsecutiveCalls(
+                ['typ' => 'JWT', 'alg' => 'HS256'],
+                $data
+            );
 
         $token = $this->createParser()->parse('a.b.');
         self::assertInstanceOf(Plain::class, $token);
@@ -476,13 +430,13 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
-     * @covers \Lcobucci\JWT\Token\Parser::convertDate
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
+     * @covers ::convertDate
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -492,25 +446,18 @@ final class ParserTest extends TestCase
     {
         $data = [RegisteredClaims::ISSUED_AT => '14/10/2018 10:50:10.10 UTC'];
 
-        $this->decoder->expects(self::at(0))
-                      ->method('base64UrlDecode')
-                      ->with('a')
-                      ->willReturn('a_dec');
+        $this->decoder->expects(self::exactly(2))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
 
-        $this->decoder->expects(self::at(1))
-                      ->method('jsonDecode')
-                      ->with('a_dec')
-                      ->willReturn(['typ' => 'JWT', 'alg' => 'HS256']);
-
-        $this->decoder->expects(self::at(2))
-                      ->method('base64UrlDecode')
-                      ->with('b')
-                      ->willReturn('b_dec');
-
-        $this->decoder->expects(self::at(3))
-                      ->method('jsonDecode')
-                      ->with('b_dec')
-                      ->willReturn($data);
+        $this->decoder->expects(self::exactly(2))
+            ->method('jsonDecode')
+            ->withConsecutive(['a_dec'], ['b_dec'])
+            ->willReturnOnConsecutiveCalls(
+                ['typ' => 'JWT', 'alg' => 'HS256'],
+                $data
+            );
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Given value is not in the allowed format: 14/10/2018 10:50:10.10 UTC');

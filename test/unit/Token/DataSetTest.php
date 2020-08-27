@@ -5,13 +5,14 @@ namespace Lcobucci\JWT\Token;
 
 use PHPUnit\Framework\TestCase;
 
+/** @coversDefaultClass \Lcobucci\JWT\Token\DataSet */
 final class DataSetTest extends TestCase
 {
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\DataSet::__construct
-     * @covers \Lcobucci\JWT\Token\DataSet::get
+     * @covers ::__construct
+     * @covers ::get
      *
      * @uses \Lcobucci\JWT\Token\DataSet::has
      */
@@ -25,8 +26,8 @@ final class DataSetTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\DataSet::__construct
-     * @covers \Lcobucci\JWT\Token\DataSet::get
+     * @covers ::__construct
+     * @covers ::get
      *
      * @uses \Lcobucci\JWT\Token\DataSet::has
      */
@@ -40,8 +41,8 @@ final class DataSetTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\DataSet::__construct
-     * @covers \Lcobucci\JWT\Token\DataSet::get
+     * @covers ::__construct
+     * @covers ::get
      *
      * @uses \Lcobucci\JWT\Token\DataSet::has
      */
@@ -55,8 +56,8 @@ final class DataSetTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\DataSet::__construct
-     * @covers \Lcobucci\JWT\Token\DataSet::has
+     * @covers ::__construct
+     * @covers ::has
      */
     public function hasShouldReturnTrueWhenItemWasConfigured(): void
     {
@@ -68,8 +69,8 @@ final class DataSetTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\DataSet::__construct
-     * @covers \Lcobucci\JWT\Token\DataSet::has
+     * @covers ::__construct
+     * @covers ::has
      */
     public function hasShouldReturnFalseWhenItemWasNotConfigured(): void
     {
@@ -81,8 +82,8 @@ final class DataSetTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\DataSet::__construct
-     * @covers \Lcobucci\JWT\Token\DataSet::all
+     * @covers ::__construct
+     * @covers ::all
      */
     public function allShouldReturnAllConfiguredItems(): void
     {
@@ -95,8 +96,8 @@ final class DataSetTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\DataSet::__construct
-     * @covers \Lcobucci\JWT\Token\DataSet::toString
+     * @covers ::__construct
+     * @covers ::toString
      */
     public function toStringShouldReturnTheEncodedData(): void
     {

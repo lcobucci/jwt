@@ -12,6 +12,7 @@ use Lcobucci\JWT\Validation\Constraint;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+/** @coversDefaultClass \Lcobucci\JWT\Configuration */
 final class ConfigurationTest extends TestCase
 {
     /** @var Parser&MockObject */
@@ -48,11 +49,11 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::forAsymmetricSigner
-     * @covers \Lcobucci\JWT\Configuration::__construct
-     * @covers \Lcobucci\JWT\Configuration::getSigner
-     * @covers \Lcobucci\JWT\Configuration::getSigningKey
-     * @covers \Lcobucci\JWT\Configuration::getVerificationKey
+     * @covers ::forAsymmetricSigner
+     * @covers ::__construct
+     * @covers ::getSigner
+     * @covers ::getSigningKey
+     * @covers ::getVerificationKey
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -71,11 +72,11 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::forSymmetricSigner
-     * @covers \Lcobucci\JWT\Configuration::__construct
-     * @covers \Lcobucci\JWT\Configuration::getSigner
-     * @covers \Lcobucci\JWT\Configuration::getSigningKey
-     * @covers \Lcobucci\JWT\Configuration::getVerificationKey
+     * @covers ::forSymmetricSigner
+     * @covers ::__construct
+     * @covers ::getSigner
+     * @covers ::getSigningKey
+     * @covers ::getVerificationKey
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -92,11 +93,11 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @covers \Lcobucci\JWT\Configuration::__construct
-     * @covers \Lcobucci\JWT\Configuration::getSigner
-     * @covers \Lcobucci\JWT\Configuration::getSigningKey
-     * @covers \Lcobucci\JWT\Configuration::getVerificationKey
+     * @covers ::forUnsecuredSigner
+     * @covers ::__construct
+     * @covers ::getSigner
+     * @covers ::getSigningKey
+     * @covers ::getVerificationKey
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -113,9 +114,9 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::createBuilder
-     * @covers \Lcobucci\JWT\Configuration::getBuilderFactory
-     * @covers \Lcobucci\JWT\Configuration::getEncoder
+     * @covers ::createBuilder
+     * @covers ::getBuilderFactory
+     * @covers ::getEncoder
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
@@ -136,10 +137,10 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::createBuilder
-     * @covers \Lcobucci\JWT\Configuration::getBuilderFactory
-     * @covers \Lcobucci\JWT\Configuration::setEncoder
-     * @covers \Lcobucci\JWT\Configuration::getEncoder
+     * @covers ::createBuilder
+     * @covers ::getBuilderFactory
+     * @covers ::setEncoder
+     * @covers ::getEncoder
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
@@ -161,9 +162,9 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::createBuilder
-     * @covers \Lcobucci\JWT\Configuration::getBuilderFactory
-     * @covers \Lcobucci\JWT\Configuration::setBuilderFactory
+     * @covers ::createBuilder
+     * @covers ::getBuilderFactory
+     * @covers ::setBuilderFactory
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
@@ -188,8 +189,8 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::getParser
-     * @covers \Lcobucci\JWT\Configuration::getDecoder
+     * @covers ::getParser
+     * @covers ::getDecoder
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
@@ -208,9 +209,9 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::getParser
-     * @covers \Lcobucci\JWT\Configuration::setDecoder
-     * @covers \Lcobucci\JWT\Configuration::getDecoder
+     * @covers ::getParser
+     * @covers ::setDecoder
+     * @covers ::getDecoder
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
@@ -231,8 +232,8 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::getParser
-     * @covers \Lcobucci\JWT\Configuration::setParser
+     * @covers ::getParser
+     * @covers ::setParser
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
@@ -251,7 +252,7 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::getValidator
+     * @covers ::getValidator
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
@@ -269,8 +270,8 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::getValidator
-     * @covers \Lcobucci\JWT\Configuration::setValidator
+     * @covers ::getValidator
+     * @covers ::setValidator
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
@@ -288,7 +289,7 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::getValidationConstraints
+     * @covers ::getValidationConstraints
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
@@ -305,8 +306,8 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Configuration::getValidationConstraints
-     * @covers \Lcobucci\JWT\Configuration::setValidationConstraints
+     * @covers ::getValidationConstraints
+     * @covers ::setValidationConstraints
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct

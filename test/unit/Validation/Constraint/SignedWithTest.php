@@ -9,6 +9,7 @@ use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use PHPUnit\Framework\MockObject\MockObject;
 
+/** @coversDefaultClass \Lcobucci\JWT\Validation\Constraint\SignedWith */
 final class SignedWithTest extends ConstraintTestCase
 {
     /** @var Signer&MockObject */
@@ -31,8 +32,8 @@ final class SignedWithTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::assert
+     * @covers ::__construct
+     * @covers ::assert
      *
      * @uses \Lcobucci\JWT\Signer\Key
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -51,8 +52,8 @@ final class SignedWithTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::assert
+     * @covers ::__construct
+     * @covers ::assert
      *
      * @uses \Lcobucci\JWT\Signer\Key
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -75,8 +76,8 @@ final class SignedWithTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::assert
+     * @covers ::__construct
+     * @covers ::assert
      *
      * @uses \Lcobucci\JWT\Signer\Key
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -102,8 +103,8 @@ final class SignedWithTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith::assert
+     * @covers ::__construct
+     * @covers ::assert
      *
      * @uses \Lcobucci\JWT\Signer\Key
      * @uses \Lcobucci\JWT\Token\DataSet
