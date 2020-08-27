@@ -21,9 +21,7 @@ final class EcdsaTest extends TestCase
 
     private MultibyteStringConverter $pointsManipulator;
 
-    /**
-     * @before
-     */
+    /** @before */
     public function createDependencies(): void
     {
         $this->pointsManipulator = new MultibyteStringConverter();

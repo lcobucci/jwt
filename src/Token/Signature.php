@@ -8,15 +8,15 @@ final class Signature
     private string $hash;
     private string $encoded;
 
-    public static function fromEmptyData(): self
-    {
-        return new self('', '');
-    }
-
     public function __construct(string $hash, string $encoded)
     {
         $this->hash    = $hash;
         $this->encoded = $encoded;
+    }
+
+    public static function fromEmptyData(): self
+    {
+        return new self('', '');
     }
 
     public function hash(): string

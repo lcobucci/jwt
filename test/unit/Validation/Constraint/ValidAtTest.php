@@ -16,9 +16,7 @@ final class ValidAtTest extends ConstraintTestCase
 {
     private Clock $clock;
 
-    /**
-     * @before
-     */
+    /** @before */
     public function createDependencies(): void
     {
         $this->clock = new FrozenClock(new DateTimeImmutable());

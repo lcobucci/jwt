@@ -47,9 +47,7 @@ final class RFC6978VectorTest extends TestCase
         static::assertTrue($signer->verify($signature, $payload, $key));
     }
 
-    /**
-     * @return mixed[]
-     */
+    /** @return mixed[] */
     public function dataRFC6979(): iterable
     {
         yield from $this->sha256Data();
@@ -57,9 +55,7 @@ final class RFC6978VectorTest extends TestCase
         yield from $this->sha512Data();
     }
 
-    /**
-     * @return mixed[]
-     */
+    /** @return mixed[] */
     public function sha256Data(): iterable
     {
         $signer = Sha256::create();
@@ -87,9 +83,7 @@ final class RFC6978VectorTest extends TestCase
         ];
     }
 
-    /**
-     * @return mixed[]
-     */
+    /** @return mixed[] */
     public function sha384Data(): iterable
     {
         $signer = Sha384::create();
@@ -118,9 +112,7 @@ final class RFC6978VectorTest extends TestCase
         ];
     }
 
-    /**
-     * @return mixed[]
-     */
+    /** @return mixed[] */
     public function sha512Data(): iterable
     {
         $signer = Sha512::create();

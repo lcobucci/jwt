@@ -33,9 +33,7 @@ final class ConfigurationTest extends TestCase
     /** @var Constraint&MockObject */
     private Constraint $validationConstraints;
 
-    /**
-     * @before
-     */
+    /** @before */
     public function createDependencies(): void
     {
         $this->signer                = $this->createMock(Signer::class);

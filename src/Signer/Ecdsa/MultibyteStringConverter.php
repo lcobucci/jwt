@@ -43,16 +43,16 @@ final class MultibyteStringConverter implements SignatureConverter
     private const ASN1_NEGATIVE_INTEGER  = '00';
     private const BYTE_SIZE              = 2;
 
-    public function toAsn1(string $signature, int $length): string
+    public function toAsn1(string $points, int $length): string
     {
-        $signature = bin2hex($signature);
+        $points = bin2hex($points);
 
-        if (self::octetLength($signature) !== $length) {
+        if (self::octetLength($points) !== $length) {
             throw new InvalidArgumentException('Invalid signature length.');
         }
 
-        $pointR = self::preparePositiveInteger(mb_substr($signature, 0, $length, '8bit'));
-        $pointS = self::preparePositiveInteger(mb_substr($signature, $length, null, '8bit'));
+        $pointR = self::preparePositiveInteger(mb_substr($points, 0, $length, '8bit'));
+        $pointS = self::preparePositiveInteger(mb_substr($points, $length, null, '8bit'));
 
         $lengthR = self::octetLength($pointR);
         $lengthS = self::octetLength($pointS);

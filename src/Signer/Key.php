@@ -23,9 +23,7 @@ final class Key
         $this->passphrase = $passphrase;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
+    /** @throws InvalidArgumentException */
     private function setContent(string $content): void
     {
         if (strpos($content, 'file://') === 0) {
@@ -35,9 +33,7 @@ final class Key
         $this->content = $content;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
+    /** @throws InvalidArgumentException */
     private function readFile(string $path): string
     {
         try {

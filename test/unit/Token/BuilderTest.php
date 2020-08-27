@@ -20,9 +20,7 @@ final class BuilderTest extends TestCase
     /** @var Signer&MockObject */
     private Signer $signer;
 
-    /**
-     * @before
-     */
+    /** @before */
     public function initializeDependencies(): void
     {
         $this->encoder = $this->createMock(Encoder::class);

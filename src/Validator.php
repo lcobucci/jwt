@@ -15,8 +15,6 @@ interface Validator
      */
     public function assert(Token $token, Constraint ...$constraints): void;
 
-    /**
-     * @throws NoConstraintsGiven
-     */
+    /** @throws NoConstraintsGiven */
     public function validate(Token $token, Constraint ...$constraints): bool;
 }

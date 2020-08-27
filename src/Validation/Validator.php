@@ -24,9 +24,7 @@ final class Validator implements \Lcobucci\JWT\Validator
         }
     }
 
-    /**
-     * @param ConstraintViolation[] $violations
-     */
+    /** @param ConstraintViolation[] $violations */
     private function checkConstraint(
         Constraint $constraint,
         Token $token,

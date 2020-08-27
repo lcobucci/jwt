@@ -13,9 +13,7 @@ final class ValidatorTest extends TestCase
     /** @var Token&MockObject */
     private Token $token;
 
-    /**
-     * @before
-     */
+    /** @before */
     public function createDependencies(): void
     {
         $this->token = $this->createMock(Token::class);

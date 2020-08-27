@@ -41,9 +41,7 @@ abstract class OpenSSL implements Signer
         }
     }
 
-    /**
-     * @return resource
-     */
+    /** @return resource */
     private function getPrivateKey(string $pem, string $passphrase)
     {
         $privateKey = openssl_pkey_get_private($pem, $passphrase);
@@ -65,9 +63,7 @@ abstract class OpenSSL implements Signer
         return $result === 1;
     }
 
-    /**
-     * @return resource
-     */
+    /** @return resource */
     private function getPublicKey(string $pem)
     {
         $publicKey = openssl_pkey_get_public($pem);

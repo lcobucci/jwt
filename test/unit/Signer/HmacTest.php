@@ -14,9 +14,7 @@ final class HmacTest extends TestCase
     /** @var Hmac&MockObject */
     protected Hmac $signer;
 
-    /**
-     * @before
-     */
+    /** @before */
     public function initializeDependencies(): void
     {
         $this->signer = $this->getMockForAbstractClass(Hmac::class);

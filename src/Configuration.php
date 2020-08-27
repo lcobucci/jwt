@@ -29,6 +29,13 @@ final class Configuration
     /** @var Constraint[] */
     private array $validationConstraints = [];
 
+    private function __construct(Signer $signer, Key $signingKey, Key $verificationKey)
+    {
+        $this->signer          = $signer;
+        $this->signingKey      = $signingKey;
+        $this->verificationKey = $verificationKey;
+    }
+
     public static function forAsymmetricSigner(
         Signer $signer,
         Key $signingKey,
@@ -47,13 +54,6 @@ final class Configuration
         $key = new Key('');
 
         return new self(new None(), $key, $key);
-    }
-
-    private function __construct(Signer $signer, Key $signingKey, Key $verificationKey)
-    {
-        $this->signer          = $signer;
-        $this->signingKey      = $signingKey;
-        $this->verificationKey = $verificationKey;
     }
 
     private function getBuilderFactory(): Closure
@@ -148,9 +148,7 @@ final class Configuration
         $this->validator = $validator;
     }
 
-    /**
-     * @return Constraint[]
-     */
+    /** @return Constraint[] */
     public function getValidationConstraints(): array
     {
         return $this->validationConstraints;

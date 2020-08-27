@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8455a2f0bd1c3e15ed96dc9c368d947d",
+    "content-hash": "a75f3d527c9cbfff2ac6f2d25b1182e8",
     "packages": [
         {
             "name": "lcobucci/clock",
-            "version": "1.4.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/clock.git",
-                "reference": "fa02578087595043169e9f898d048802da510105"
+                "reference": "353d83fe2e6ae95745b16b3d911813df6a05bfb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/clock/zipball/fa02578087595043169e9f898d048802da510105",
-                "reference": "fa02578087595043169e9f898d048802da510105",
+                "url": "https://api.github.com/repos/lcobucci/clock/zipball/353d83fe2e6ae95745b16b3d911813df6a05bfb3",
+                "reference": "353d83fe2e6ae95745b16b3d911813df6a05bfb3",
                 "shasum": ""
             },
             "require": {
@@ -31,14 +31,10 @@
                 "phpstan/phpstan-deprecation-rules": "^0.12",
                 "phpstan/phpstan-phpunit": "^0.12",
                 "phpstan/phpstan-strict-rules": "^0.12",
-                "phpunit/phpunit": "^9.3"
+                "phpunit/php-code-coverage": "9.1.4",
+                "phpunit/phpunit": "9.3.7"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.4-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Lcobucci\\Clock\\": "src"
@@ -65,7 +61,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-08-27T17:13:08+00:00"
+            "time": "2020-08-27T18:56:02+00:00"
         },
         {
             "name": "lcobucci/jose-parsing",
@@ -794,16 +790,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.16.6",
+            "version": "0.17.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "d43267a15ae21d42fce2aed3f1c8a4a22de6698a"
+                "reference": "d3d77a7629d237e437d5bb66606f9493bdcf369e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/d43267a15ae21d42fce2aed3f1c8a4a22de6698a",
-                "reference": "d43267a15ae21d42fce2aed3f1c8a4a22de6698a",
+                "url": "https://api.github.com/repos/infection/infection/zipball/d3d77a7629d237e437d5bb66606f9493bdcf369e",
+                "reference": "d3d77a7629d237e437d5bb66606f9493bdcf369e",
                 "shasum": ""
             },
             "require": {
@@ -813,13 +809,13 @@
                 "ext-libxml": "*",
                 "infection/abstract-testframework-adapter": "^0.3.0",
                 "infection/extension-installer": "^0.1.0",
-                "infection/include-interceptor": "^0.2.2",
+                "infection/include-interceptor": "^0.2.4",
                 "justinrainbow/json-schema": "^5.2",
                 "nikic/php-parser": "^4.2.2",
                 "ocramius/package-versions": "^1.2",
                 "ondram/ci-detector": "^3.3.0",
                 "php": "^7.3",
-                "sanmai/pipeline": "^3.1",
+                "sanmai/pipeline": "^3.1 || ^5.0",
                 "sebastian/diff": "^3.0.2 || ^4.0",
                 "seld/jsonlint": "^1.7",
                 "symfony/console": "^3.4.29 || ^4.0 || ^5.0",
@@ -898,7 +894,7 @@
                 "testing",
                 "unit testing"
             ],
-            "time": "2020-08-17T20:17:03+00:00"
+            "time": "2020-08-25T06:36:58+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -968,31 +964,26 @@
         },
         {
             "name": "lcobucci/coding-standard",
-            "version": "5.0.0",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/coding-standard.git",
-                "reference": "59d83596b424f3142e290370775243db92012e24"
+                "reference": "c36ac643f643ba5bab0f33f9be87db5b254fb6cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/coding-standard/zipball/59d83596b424f3142e290370775243db92012e24",
-                "reference": "59d83596b424f3142e290370775243db92012e24",
+                "url": "https://api.github.com/repos/lcobucci/coding-standard/zipball/c36ac643f643ba5bab0f33f9be87db5b254fb6cc",
+                "reference": "c36ac643f643ba5bab0f33f9be87db5b254fb6cc",
                 "shasum": ""
             },
             "require": {
-                "doctrine/coding-standard": "^8.0",
+                "doctrine/coding-standard": "^8.1",
                 "php": "^7.4 || ^8.0"
             },
             "require-dev": {
                 "roave/security-advisories": "dev-master"
             },
             "type": "phpcodesniffer-standard",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.0-dev"
-                }
-            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -1004,7 +995,7 @@
                 }
             ],
             "description": "Lcobucci's Coding Standard",
-            "time": "2020-06-08T05:12:50+00:00"
+            "time": "2020-08-18T20:58:29+00:00"
         },
         {
             "name": "lstrojny/functional-php",
@@ -1565,16 +1556,16 @@
         },
         {
             "name": "phpbench/phpbench",
-            "version": "dev-master",
+            "version": "0.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpbench/phpbench.git",
-                "reference": "01d4b670a4d4a591b6fd84f9a9b5c3d04ee189c9"
+                "reference": "3211debc3afb9da79d796cf7471d52cad97b17f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpbench/phpbench/zipball/01d4b670a4d4a591b6fd84f9a9b5c3d04ee189c9",
-                "reference": "01d4b670a4d4a591b6fd84f9a9b5c3d04ee189c9",
+                "url": "https://api.github.com/repos/phpbench/phpbench/zipball/3211debc3afb9da79d796cf7471d52cad97b17f1",
+                "reference": "3211debc3afb9da79d796cf7471d52cad97b17f1",
                 "shasum": ""
             },
             "require": {
@@ -1587,7 +1578,7 @@
                 "ext-spl": "*",
                 "lstrojny/functional-php": "1.0 || ^1.2.3",
                 "php": "^7.2",
-                "phpbench/container": "^1.2.1",
+                "phpbench/container": "~1.2",
                 "phpbench/dom": "~0.2.0",
                 "seld/jsonlint": "^1.1",
                 "symfony/console": "^4.2 || ^5.0",
@@ -1601,7 +1592,6 @@
             "require-dev": {
                 "doctrine/dbal": "^2.4",
                 "friendsofphp/php-cs-fixer": "^2.13.1",
-                "jangregor/phpstan-prophecy": "^0.8.0",
                 "padraic/phar-updater": "^1.0",
                 "phpspec/prophecy": "^1.8",
                 "phpstan/phpstan": "^0.12.7",
@@ -1639,7 +1629,7 @@
                 }
             ],
             "description": "PHP Benchmarking Framework",
-            "time": "2020-08-27T13:55:45+00:00"
+            "time": "2020-06-13T11:59:17+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -2652,39 +2642,32 @@
         },
         {
             "name": "sanmai/pipeline",
-            "version": "v3.1.2",
+            "version": "v5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sanmai/pipeline.git",
-                "reference": "12a7402b97d945587a6a8c291a0040369a83fcf6"
+                "reference": "5c4f3c693915a77b194a6b7a90834c799e0713b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sanmai/pipeline/zipball/12a7402b97d945587a6a8c291a0040369a83fcf6",
-                "reference": "12a7402b97d945587a6a8c291a0040369a83fcf6",
+                "url": "https://api.github.com/repos/sanmai/pipeline/zipball/5c4f3c693915a77b194a6b7a90834c799e0713b7",
+                "reference": "5c4f3c693915a77b194a6b7a90834c799e0713b7",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": "^7.1 || ^8.0"
             },
             "require-dev": {
-                "codacy/coverage": "^1.4",
                 "friendsofphp/php-cs-fixer": "^2.13",
                 "infection/infection": ">=0.10.5",
                 "league/pipeline": "^1.0 || ^0.3",
-                "mockery/mockery": "^1.0",
                 "phan/phan": "^1.1 || ^2.0",
                 "php-coveralls/php-coveralls": "^2.0",
                 "phpstan/phpstan": ">=0.10",
-                "phpunit/phpunit": "^7.4 || ^8.1",
+                "phpunit/phpunit": "^7.4 || ^8.1 || ^9.0",
                 "vimeo/psalm": "^2.0 || ^3.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Pipeline\\": "src/"
@@ -2704,7 +2687,7 @@
                 }
             ],
             "description": "General-purpose collections pipeline",
-            "time": "2020-01-26T21:22:49+00:00"
+            "time": "2020-07-18T02:54:43+00:00"
         },
         {
             "name": "sebastian/code-unit",
@@ -5116,9 +5099,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "phpbench/phpbench": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

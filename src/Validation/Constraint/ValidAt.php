@@ -44,9 +44,7 @@ final class ValidAt implements Constraint
         $this->assertExpiration($token, $now->sub($this->leeway));
     }
 
-    /**
-     * @throws ConstraintViolation
-     */
+    /** @throws ConstraintViolation */
     private function assertExpiration(Token $token, DateTimeInterface $now): void
     {
         if ($token->isExpired($now)) {
@@ -54,9 +52,7 @@ final class ValidAt implements Constraint
         }
     }
 
-    /**
-     * @throws ConstraintViolation
-     */
+    /** @throws ConstraintViolation */
     private function assertMinimumTime(Token $token, DateTimeInterface $now): void
     {
         if (! $token->isMinimumTimeBefore($now)) {
@@ -64,9 +60,7 @@ final class ValidAt implements Constraint
         }
     }
 
-    /**
-     * @throws ConstraintViolation
-     */
+    /** @throws ConstraintViolation */
     private function assertIssueTime(Token $token, DateTimeInterface $now): void
     {
         if (! $token->hasBeenIssuedBefore($now)) {
