@@ -6,13 +6,14 @@ namespace Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
+/** @coversDefaultClass \Lcobucci\JWT\Validation\Constraint\IssuedBy */
 final class IssuedByTest extends ConstraintTestCase
 {
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::assert
+     * @covers ::__construct
+     * @covers ::assert
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -30,8 +31,8 @@ final class IssuedByTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::assert
+     * @covers ::__construct
+     * @covers ::assert
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -49,8 +50,8 @@ final class IssuedByTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::assert
+     * @covers ::__construct
+     * @covers ::assert
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -68,8 +69,8 @@ final class IssuedByTest extends ConstraintTestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::__construct
-     * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy::assert
+     * @covers ::__construct
+     * @covers ::assert
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain

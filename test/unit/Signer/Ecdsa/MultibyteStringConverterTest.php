@@ -12,9 +12,7 @@ use function hex2bin;
 use function is_string;
 use function strlen;
 
-/**
- * @coversDefaultClass \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
- */
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter */
 final class MultibyteStringConverterTest extends TestCase
 {
     /**

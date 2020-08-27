@@ -11,6 +11,7 @@ use Lcobucci\JWT\Signer\Key;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+/** @coversDefaultClass \Lcobucci\JWT\Token\Builder */
 final class BuilderTest extends TestCase
 {
     /** @var Encoder&MockObject */
@@ -32,8 +33,8 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Builder::__construct
-     * @covers \Lcobucci\JWT\Token\Builder::withClaim
+     * @covers ::__construct
+     * @covers ::withClaim
      */
     public function withClaimShouldRaiseExceptionWhenTryingToConfigureARegisteredClaim(): void
     {
@@ -48,21 +49,21 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Builder::__construct
-     * @covers \Lcobucci\JWT\Token\Builder::getToken
-     * @covers \Lcobucci\JWT\Token\Builder::encode
-     * @covers \Lcobucci\JWT\Token\Builder::formatClaims
-     * @covers \Lcobucci\JWT\Token\Builder::convertDate
-     * @covers \Lcobucci\JWT\Token\Builder::withClaim
-     * @covers \Lcobucci\JWT\Token\Builder::withHeader
-     * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
-     * @covers \Lcobucci\JWT\Token\Builder::setClaim
-     * @covers \Lcobucci\JWT\Token\Builder::issuedBy
-     * @covers \Lcobucci\JWT\Token\Builder::issuedAt
-     * @covers \Lcobucci\JWT\Token\Builder::relatedTo
-     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
-     * @covers \Lcobucci\JWT\Token\Builder::expiresAt
-     * @covers \Lcobucci\JWT\Token\Builder::permittedFor
+     * @covers ::__construct
+     * @covers ::getToken
+     * @covers ::encode
+     * @covers ::formatClaims
+     * @covers ::convertDate
+     * @covers ::withClaim
+     * @covers ::withHeader
+     * @covers ::identifiedBy
+     * @covers ::setClaim
+     * @covers ::issuedBy
+     * @covers ::issuedAt
+     * @covers ::relatedTo
+     * @covers ::canOnlyBeUsedAfter
+     * @covers ::expiresAt
+     * @covers ::permittedFor
      *
      * @uses \Lcobucci\JWT\Signer\Key
      * @uses \Lcobucci\JWT\Token\Plain
@@ -119,11 +120,11 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Builder::__construct
-     * @covers \Lcobucci\JWT\Token\Builder::encode
-     * @covers \Lcobucci\JWT\Token\Builder::formatClaims
-     * @covers \Lcobucci\JWT\Token\Builder::setClaim
-     * @covers \Lcobucci\JWT\Token\Builder::permittedFor
+     * @covers ::__construct
+     * @covers ::encode
+     * @covers ::formatClaims
+     * @covers ::setClaim
+     * @covers ::permittedFor
      *
      * @uses \Lcobucci\JWT\Token\Builder::getToken
      * @uses \Lcobucci\JWT\Signer\Key
@@ -158,21 +159,21 @@ final class BuilderTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Builder::__construct
-     * @covers \Lcobucci\JWT\Token\Builder::getToken
-     * @covers \Lcobucci\JWT\Token\Builder::encode
-     * @covers \Lcobucci\JWT\Token\Builder::formatClaims
-     * @covers \Lcobucci\JWT\Token\Builder::convertDate
-     * @covers \Lcobucci\JWT\Token\Builder::withClaim
-     * @covers \Lcobucci\JWT\Token\Builder::withHeader
-     * @covers \Lcobucci\JWT\Token\Builder::identifiedBy
-     * @covers \Lcobucci\JWT\Token\Builder::setClaim
-     * @covers \Lcobucci\JWT\Token\Builder::issuedBy
-     * @covers \Lcobucci\JWT\Token\Builder::issuedAt
-     * @covers \Lcobucci\JWT\Token\Builder::relatedTo
-     * @covers \Lcobucci\JWT\Token\Builder::canOnlyBeUsedAfter
-     * @covers \Lcobucci\JWT\Token\Builder::expiresAt
-     * @covers \Lcobucci\JWT\Token\Builder::permittedFor
+     * @covers ::__construct
+     * @covers ::getToken
+     * @covers ::encode
+     * @covers ::formatClaims
+     * @covers ::convertDate
+     * @covers ::withClaim
+     * @covers ::withHeader
+     * @covers ::identifiedBy
+     * @covers ::setClaim
+     * @covers ::issuedBy
+     * @covers ::issuedAt
+     * @covers ::relatedTo
+     * @covers ::canOnlyBeUsedAfter
+     * @covers ::expiresAt
+     * @covers ::permittedFor
      *
      * @uses \Lcobucci\JWT\Signer\Key
      * @uses \Lcobucci\JWT\Token\Plain

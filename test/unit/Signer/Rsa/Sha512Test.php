@@ -7,12 +7,13 @@ use PHPUnit\Framework\TestCase;
 
 use const OPENSSL_ALGO_SHA512;
 
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Rsa\Sha512 */
 final class Sha512Test extends TestCase
 {
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa\Sha512::getAlgorithmId
+     * @covers ::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect(): void
     {
@@ -24,7 +25,7 @@ final class Sha512Test extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa\Sha512::getAlgorithm
+     * @covers ::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect(): void
     {

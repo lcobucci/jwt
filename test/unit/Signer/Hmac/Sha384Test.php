@@ -5,12 +5,13 @@ namespace Lcobucci\JWT\Signer\Hmac;
 
 use PHPUnit\Framework\TestCase;
 
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Hmac\Sha384 */
 final class Sha384Test extends TestCase
 {
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Hmac\Sha384::getAlgorithmId
+     * @covers ::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect(): void
     {
@@ -22,7 +23,7 @@ final class Sha384Test extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Hmac\Sha384::getAlgorithm
+     * @covers ::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect(): void
     {

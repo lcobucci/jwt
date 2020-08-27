@@ -5,15 +5,16 @@ namespace Lcobucci\JWT\Token;
 
 use PHPUnit\Framework\TestCase;
 
+/** @coversDefaultClass \Lcobucci\JWT\Token\Signature */
 final class SignatureTest extends TestCase
 {
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Signature::__construct
-     * @covers \Lcobucci\JWT\Token\Signature::fromEmptyData
-     * @covers \Lcobucci\JWT\Token\Signature::toString
-     * @covers \Lcobucci\JWT\Token\Signature::hash
+     * @covers ::__construct
+     * @covers ::fromEmptyData
+     * @covers ::toString
+     * @covers ::hash
      */
     public function fromEmptyDataShouldReturnAnEmptySignature(): void
     {
@@ -26,9 +27,9 @@ final class SignatureTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Signature::__construct
-     * @covers \Lcobucci\JWT\Token\Signature::hash
-     * @covers \Lcobucci\JWT\Token\Signature::toString
+     * @covers ::__construct
+     * @covers ::hash
+     * @covers ::toString
      */
     public function hashShouldReturnTheHash(): void
     {

@@ -6,6 +6,7 @@ namespace Lcobucci\JWT\Token;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
+/** @coversDefaultClass \Lcobucci\JWT\Token\Plain */
 final class PlainTest extends TestCase
 {
     private DataSet $headers;
@@ -37,10 +38,10 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::__construct
-     * @covers \Lcobucci\JWT\Token\Plain::headers
-     * @covers \Lcobucci\JWT\Token\Plain::claims
-     * @covers \Lcobucci\JWT\Token\Plain::signature
+     * @covers ::__construct
+     * @covers ::headers
+     * @covers ::claims
+     * @covers ::signature
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
@@ -57,7 +58,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::payload
+     * @covers ::payload
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -73,7 +74,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isPermittedFor
+     * @covers ::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -89,7 +90,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isPermittedFor
+     * @covers ::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -108,7 +109,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isPermittedFor
+     * @covers ::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -127,7 +128,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isPermittedFor
+     * @covers ::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -146,7 +147,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isIdentifiedBy
+     * @covers ::isIdentifiedBy
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -162,7 +163,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isIdentifiedBy
+     * @covers ::isIdentifiedBy
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -181,7 +182,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isIdentifiedBy
+     * @covers ::isIdentifiedBy
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -200,7 +201,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isRelatedTo
+     * @covers ::isRelatedTo
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -216,7 +217,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isRelatedTo
+     * @covers ::isRelatedTo
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -235,7 +236,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isRelatedTo
+     * @covers ::isRelatedTo
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -254,7 +255,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::hasBeenIssuedBy
+     * @covers ::hasBeenIssuedBy
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -270,7 +271,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::hasBeenIssuedBy
+     * @covers ::hasBeenIssuedBy
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -289,7 +290,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::hasBeenIssuedBy
+     * @covers ::hasBeenIssuedBy
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -308,7 +309,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::hasBeenIssuedBy
+     * @covers ::hasBeenIssuedBy
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -327,7 +328,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::hasBeenIssuedBefore
+     * @covers ::hasBeenIssuedBefore
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -343,7 +344,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::hasBeenIssuedBefore
+     * @covers ::hasBeenIssuedBefore
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -363,7 +364,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::hasBeenIssuedBefore
+     * @covers ::hasBeenIssuedBefore
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -383,7 +384,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::hasBeenIssuedBefore
+     * @covers ::hasBeenIssuedBefore
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -403,7 +404,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isMinimumTimeBefore
+     * @covers ::isMinimumTimeBefore
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -419,7 +420,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isMinimumTimeBefore
+     * @covers ::isMinimumTimeBefore
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -439,7 +440,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isMinimumTimeBefore
+     * @covers ::isMinimumTimeBefore
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -459,7 +460,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isMinimumTimeBefore
+     * @covers ::isMinimumTimeBefore
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -479,7 +480,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isExpired
+     * @covers ::isExpired
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -495,7 +496,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isExpired
+     * @covers ::isExpired
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -516,7 +517,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isExpired
+     * @covers ::isExpired
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -537,7 +538,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::isExpired
+     * @covers ::isExpired
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -558,7 +559,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::toString
+     * @covers ::toString
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\Plain::payload
@@ -575,7 +576,7 @@ final class PlainTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Plain::toString
+     * @covers ::toString
      *
      * @uses \Lcobucci\JWT\Token\Plain::__construct
      * @uses \Lcobucci\JWT\Token\DataSet

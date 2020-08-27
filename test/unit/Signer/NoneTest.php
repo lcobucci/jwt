@@ -5,12 +5,13 @@ namespace Lcobucci\JWT\Signer;
 
 use PHPUnit\Framework\TestCase;
 
+/** @coversDefaultClass \Lcobucci\JWT\Signer\None */
 final class NoneTest extends TestCase
 {
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\None::getAlgorithmId
+     * @covers ::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect(): void
     {
@@ -22,7 +23,7 @@ final class NoneTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\None::sign
+     * @covers ::sign
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -36,7 +37,7 @@ final class NoneTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\None::verify
+     * @covers ::verify
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -50,7 +51,7 @@ final class NoneTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\None::verify
+     * @covers ::verify
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */

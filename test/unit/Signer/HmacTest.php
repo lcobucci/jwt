@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 use function hash_hmac;
 
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Hmac */
 final class HmacTest extends TestCase
 {
     /** @var Hmac&MockObject */
@@ -32,7 +33,7 @@ final class HmacTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Hmac::sign
+     * @covers ::sign
      *
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -49,7 +50,7 @@ final class HmacTest extends TestCase
      * @test
      * @depends signMustReturnAHashAccordingWithTheAlgorithm
      *
-     * @covers \Lcobucci\JWT\Signer\Hmac::verify
+     * @covers ::verify
      *
      * @uses \Lcobucci\JWT\Signer\Hmac::sign
      * @uses \Lcobucci\JWT\Signer\Key
@@ -63,7 +64,7 @@ final class HmacTest extends TestCase
      * @test
      * @depends signMustReturnAHashAccordingWithTheAlgorithm
      *
-     * @covers \Lcobucci\JWT\Signer\Hmac::verify
+     * @covers ::verify
      *
      * @uses \Lcobucci\JWT\Signer\Hmac::sign
      * @uses \Lcobucci\JWT\Signer\Key

@@ -7,12 +7,13 @@ use PHPUnit\Framework\TestCase;
 
 use const OPENSSL_ALGO_SHA256;
 
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Rsa\Sha256 */
 final class Sha256Test extends TestCase
 {
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa\Sha256::getAlgorithmId
+     * @covers ::getAlgorithmId
      */
     public function getAlgorithmIdMustBeCorrect(): void
     {
@@ -24,7 +25,7 @@ final class Sha256Test extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa\Sha256::getAlgorithm
+     * @covers ::getAlgorithm
      */
     public function getAlgorithmMustBeCorrect(): void
     {

@@ -14,6 +14,7 @@ use function openssl_verify;
 
 use const OPENSSL_ALGO_SHA256;
 
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Rsa */
 final class RsaTest extends TestCase
 {
     use Keys;
@@ -21,9 +22,8 @@ final class RsaTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa::sign
-     * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
-     * @covers \Lcobucci\JWT\Signer\Rsa::getKeyType
+     * @covers ::sign
+     * @covers ::getKeyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
@@ -43,9 +43,8 @@ final class RsaTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa::sign
-     * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
-     * @covers \Lcobucci\JWT\Signer\Rsa::getKeyType
+     * @covers ::sign
+     * @covers ::getKeyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
@@ -71,8 +70,7 @@ KEY;
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa::sign
-     * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
+     * @covers ::sign
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
@@ -90,9 +88,8 @@ KEY;
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa::sign
-     * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
-     * @covers \Lcobucci\JWT\Signer\Rsa::getKeyType
+     * @covers ::sign
+     * @covers ::getKeyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
@@ -110,9 +107,8 @@ KEY;
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa::verify
-     * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
-     * @covers \Lcobucci\JWT\Signer\Rsa::getKeyType
+     * @covers ::verify
+     * @covers ::getKeyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
@@ -134,8 +130,7 @@ KEY;
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa::verify
-     * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
+     * @covers ::verify
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key
@@ -153,8 +148,7 @@ KEY;
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Rsa::verify
-     * @covers \Lcobucci\JWT\Signer\Rsa::validateKey
+     * @covers ::verify
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key

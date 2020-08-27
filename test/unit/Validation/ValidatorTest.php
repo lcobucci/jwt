@@ -7,6 +7,7 @@ use Lcobucci\JWT\Token;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+/** @coversDefaultClass \Lcobucci\JWT\Validation\Validator */
 final class ValidatorTest extends TestCase
 {
     /** @var Token&MockObject */
@@ -23,7 +24,7 @@ final class ValidatorTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Validator::assert
+     * @covers ::assert
      */
     public function assertShouldRaiseExceptionWhenNoConstraintIsGiven(): void
     {
@@ -37,8 +38,8 @@ final class ValidatorTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Validator::assert
-     * @covers \Lcobucci\JWT\Validation\Validator::checkConstraint
+     * @covers ::assert
+     * @covers ::checkConstraint
      *
      * @uses \Lcobucci\JWT\Validation\InvalidToken
      */
@@ -69,8 +70,8 @@ final class ValidatorTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Validator::assert
-     * @covers \Lcobucci\JWT\Validation\Validator::checkConstraint
+     * @covers ::assert
+     * @covers ::checkConstraint
      */
     public function assertShouldNotRaiseExceptionWhenNoConstraintFails(): void
     {
@@ -86,7 +87,7 @@ final class ValidatorTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Validator::validate
+     * @covers ::validate
      */
     public function validateShouldRaiseExceptionWhenNoConstraintIsGiven(): void
     {
@@ -100,7 +101,7 @@ final class ValidatorTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Validator::validate
+     * @covers ::validate
      */
     public function validateShouldReturnFalseWhenAtLeastOneConstraintFails(): void
     {
@@ -128,7 +129,7 @@ final class ValidatorTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Validation\Validator::validate
+     * @covers ::validate
      */
     public function validateShouldReturnTrueWhenNoConstraintFails(): void
     {

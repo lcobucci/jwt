@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Key */
 final class KeyTest extends TestCase
 {
     /**
@@ -24,9 +25,9 @@ final class KeyTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Key::__construct
-     * @covers \Lcobucci\JWT\Signer\Key::setContent
-     * @covers \Lcobucci\JWT\Signer\Key::readFile
+     * @covers ::__construct
+     * @covers ::setContent
+     * @covers ::readFile
      */
     public function constructShouldRaiseExceptionWhenFileDoesNotExists(): void
     {
@@ -39,7 +40,7 @@ final class KeyTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Key::getContent
+     * @covers ::getContent
      *
      * @uses \Lcobucci\JWT\Signer\Key::__construct
      * @uses \Lcobucci\JWT\Signer\Key::setContent
@@ -54,10 +55,10 @@ final class KeyTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Key::__construct
-     * @covers \Lcobucci\JWT\Signer\Key::setContent
-     * @covers \Lcobucci\JWT\Signer\Key::readFile
-     * @covers \Lcobucci\JWT\Signer\Key::getContent
+     * @covers ::__construct
+     * @covers ::setContent
+     * @covers ::readFile
+     * @covers ::getContent
      */
     public function getContentShouldReturnFileContentsWhenFilePathHasBeenPassed(): void
     {
@@ -69,7 +70,7 @@ final class KeyTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Key::getPassphrase
+     * @covers ::getPassphrase
      *
      * @uses \Lcobucci\JWT\Signer\Key::__construct
      * @uses \Lcobucci\JWT\Signer\Key::setContent
@@ -84,7 +85,7 @@ final class KeyTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Key::getPassphrase
+     * @covers ::getPassphrase
      *
      * @uses \Lcobucci\JWT\Signer\Key::__construct
      * @uses \Lcobucci\JWT\Signer\Key::setContent

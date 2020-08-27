@@ -10,6 +10,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
+/** @coversDefaultClass \Lcobucci\JWT\Token\Parser */
 final class ParserTest extends TestCase
 {
     /** @var Decoder&MockObject */
@@ -31,9 +32,9 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
      */
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
     {
@@ -48,10 +49,10 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
      */
     public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded(): void
     {
@@ -74,10 +75,10 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
      */
     public function parseMustRaiseExceptionWhenDealingWithInvalidHeaders(): void
     {
@@ -95,10 +96,10 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
      */
     public function parseMustRaiseExceptionWhenTypeHeaderIsNotConfigured(): void
     {
@@ -116,10 +117,10 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
      */
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
     {
@@ -137,11 +138,11 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      */
@@ -161,12 +162,12 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -203,12 +204,12 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -245,12 +246,12 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -287,12 +288,12 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -329,12 +330,12 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -372,13 +373,13 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
-     * @covers \Lcobucci\JWT\Token\Parser::convertDate
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
+     * @covers ::convertDate
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -429,13 +430,13 @@ final class ParserTest extends TestCase
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Token\Parser::__construct
-     * @covers \Lcobucci\JWT\Token\Parser::parse
-     * @covers \Lcobucci\JWT\Token\Parser::splitJwt
-     * @covers \Lcobucci\JWT\Token\Parser::parseHeader
-     * @covers \Lcobucci\JWT\Token\Parser::parseClaims
-     * @covers \Lcobucci\JWT\Token\Parser::parseSignature
-     * @covers \Lcobucci\JWT\Token\Parser::convertDate
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
+     * @covers ::convertDate
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
