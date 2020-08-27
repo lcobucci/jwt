@@ -18,9 +18,7 @@ class HmacTokenTest extends TestCase
 {
     private Configuration $config;
 
-    /**
-     * @before
-     */
+    /** @before */
     public function createConfiguration(): void
     {
         $this->config = Configuration::forSymmetricSigner(new Sha256(), new Key('testing'));

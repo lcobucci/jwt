@@ -68,9 +68,7 @@ final class MultibyteStringConverterTest extends TestCase
         self::assertSame($r . $s, bin2hex($converter->fromAsn1($message, strlen($r))));
     }
 
-    /**
-     * @return string[][]
-     */
+    /** @return string[][] */
     public function pointsConversionData(): iterable
     {
         return [
@@ -119,9 +117,7 @@ final class MultibyteStringConverterTest extends TestCase
         $converter->fromAsn1($message, 64);
     }
 
-    /**
-     * @return string[][]
-     */
+    /** @return string[][] */
     public function invalidAsn1Structures(): iterable
     {
         return [

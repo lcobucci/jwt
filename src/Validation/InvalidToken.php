@@ -21,9 +21,7 @@ final class InvalidToken extends Exception
         return $exception;
     }
 
-    /**
-     * @param ConstraintViolation[] $violations
-     */
+    /** @param ConstraintViolation[] $violations */
     private static function buildMessage(array $violations): string
     {
         $violations = array_map(
@@ -39,9 +37,7 @@ final class InvalidToken extends Exception
         return $message;
     }
 
-    /**
-     * @return ConstraintViolation[]
-     */
+    /** @return ConstraintViolation[] */
     public function violations(): array
     {
         return $this->violations;

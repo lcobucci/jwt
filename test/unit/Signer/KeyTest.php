@@ -10,9 +10,7 @@ use PHPUnit\Framework\TestCase;
 /** @coversDefaultClass \Lcobucci\JWT\Signer\Key */
 final class KeyTest extends TestCase
 {
-    /**
-     * @before
-     */
+    /** @before */
     public function configureRootDir(): void
     {
         vfsStream::setup(

@@ -93,9 +93,7 @@ final class Builder implements BuilderInterface
         return $this->setClaim($name, $value);
     }
 
-    /**
-     * @param mixed $value
-     */
+    /** @param mixed $value */
     private function setClaim(string $name, $value): BuilderInterface
     {
         $this->claims[$name] = $value;
@@ -103,9 +101,7 @@ final class Builder implements BuilderInterface
         return $this;
     }
 
-    /**
-     * @param array<string, mixed> $items
-     */
+    /** @param array<string, mixed> $items */
     private function encode(array $items): string
     {
         return $this->encoder->base64UrlEncode(
@@ -149,9 +145,7 @@ final class Builder implements BuilderInterface
         return $claims;
     }
 
-    /**
-     * @return int|string
-     */
+    /** @return int|string */
     private function convertDate(DateTimeImmutable $date)
     {
         $seconds      = $date->format('U');

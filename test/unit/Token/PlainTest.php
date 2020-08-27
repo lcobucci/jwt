@@ -13,9 +13,7 @@ final class PlainTest extends TestCase
     private DataSet $claims;
     private Signature $signature;
 
-    /**
-     * @before
-     */
+    /** @before */
     public function createDependencies(): void
     {
         $this->headers   = new DataSet(['alg' => 'none'], 'headers');

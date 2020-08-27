@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f5430b69acdd23dd8b0f06e6d47067c9",
+    "content-hash": "51fe084d2bdeb4774f1996b2ac1cfe33",
     "packages": [
         {
             "name": "lcobucci/clock",
@@ -968,31 +968,26 @@
         },
         {
             "name": "lcobucci/coding-standard",
-            "version": "5.0.0",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/coding-standard.git",
-                "reference": "59d83596b424f3142e290370775243db92012e24"
+                "reference": "c36ac643f643ba5bab0f33f9be87db5b254fb6cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/coding-standard/zipball/59d83596b424f3142e290370775243db92012e24",
-                "reference": "59d83596b424f3142e290370775243db92012e24",
+                "url": "https://api.github.com/repos/lcobucci/coding-standard/zipball/c36ac643f643ba5bab0f33f9be87db5b254fb6cc",
+                "reference": "c36ac643f643ba5bab0f33f9be87db5b254fb6cc",
                 "shasum": ""
             },
             "require": {
-                "doctrine/coding-standard": "^8.0",
+                "doctrine/coding-standard": "^8.1",
                 "php": "^7.4 || ^8.0"
             },
             "require-dev": {
                 "roave/security-advisories": "dev-master"
             },
             "type": "phpcodesniffer-standard",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.0-dev"
-                }
-            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -1004,7 +999,7 @@
                 }
             ],
             "description": "Lcobucci's Coding Standard",
-            "time": "2020-06-08T05:12:50+00:00"
+            "time": "2020-08-18T20:58:29+00:00"
         },
         {
             "name": "lstrojny/functional-php",
@@ -2651,39 +2646,32 @@
         },
         {
             "name": "sanmai/pipeline",
-            "version": "v3.1.2",
+            "version": "v5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sanmai/pipeline.git",
-                "reference": "12a7402b97d945587a6a8c291a0040369a83fcf6"
+                "reference": "5c4f3c693915a77b194a6b7a90834c799e0713b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sanmai/pipeline/zipball/12a7402b97d945587a6a8c291a0040369a83fcf6",
-                "reference": "12a7402b97d945587a6a8c291a0040369a83fcf6",
+                "url": "https://api.github.com/repos/sanmai/pipeline/zipball/5c4f3c693915a77b194a6b7a90834c799e0713b7",
+                "reference": "5c4f3c693915a77b194a6b7a90834c799e0713b7",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": "^7.1 || ^8.0"
             },
             "require-dev": {
-                "codacy/coverage": "^1.4",
                 "friendsofphp/php-cs-fixer": "^2.13",
                 "infection/infection": ">=0.10.5",
                 "league/pipeline": "^1.0 || ^0.3",
-                "mockery/mockery": "^1.0",
                 "phan/phan": "^1.1 || ^2.0",
                 "php-coveralls/php-coveralls": "^2.0",
                 "phpstan/phpstan": ">=0.10",
-                "phpunit/phpunit": "^7.4 || ^8.1",
+                "phpunit/phpunit": "^7.4 || ^8.1 || ^9.0",
                 "vimeo/psalm": "^2.0 || ^3.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Pipeline\\": "src/"
@@ -2703,7 +2691,7 @@
                 }
             ],
             "description": "General-purpose collections pipeline",
-            "time": "2020-01-26T21:22:49+00:00"
+            "time": "2020-07-18T02:54:43+00:00"
         },
         {
             "name": "sebastian/code-unit",

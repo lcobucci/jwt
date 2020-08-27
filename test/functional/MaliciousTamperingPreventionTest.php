@@ -26,9 +26,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
 
     private Configuration $config;
 
-    /**
-     * @before
-     */
+    /** @before */
     public function createConfiguration(): void
     {
         $this->config = Configuration::forAsymmetricSigner(

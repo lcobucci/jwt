@@ -13,9 +13,7 @@ trait Keys
     /** @var array<string, Key> */
     protected static array $ecdsaKeys;
 
-    /**
-     * @beforeClass
-     */
+    /** @beforeClass */
     public static function createRsaKeys(): void
     {
         $dir = 'file://' . __DIR__;
@@ -28,9 +26,7 @@ trait Keys
         ];
     }
 
-    /**
-     * @beforeClass
-     */
+    /** @beforeClass */
     public static function createEcdsaKeys(): void
     {
         $dir = 'file://' . __DIR__;

@@ -17,9 +17,7 @@ final class SignedWithTest extends ConstraintTestCase
     private Signer\Key $key;
     private Signature $signature;
 
-    /**
-     * @before
-     */
+    /** @before */
     public function createDependencies(): void
     {
         $this->signer = $this->createMock(Signer::class);

@@ -16,9 +16,7 @@ final class ParserTest extends TestCase
     /** @var Decoder&MockObject */
     protected Decoder $decoder;
 
-    /**
-     * @before
-     */
+    /** @before */
     public function createDependencies(): void
     {
         $this->decoder = $this->createMock(Decoder::class);

@@ -7,9 +7,7 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
 use PhpBench\Benchmark\Metadata\Annotations\Groups;
 
-/**
- * @Groups({"None"})
- */
+/** @Groups({"None"}) */
 final class NoneBench extends SignerBench
 {
     protected function signer(): Signer

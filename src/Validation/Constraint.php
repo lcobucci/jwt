@@ -7,8 +7,6 @@ use Lcobucci\JWT\Token;
 
 interface Constraint
 {
-    /**
-     * @throws ConstraintViolation
-     */
+    /** @throws ConstraintViolation */
     public function assert(Token $token): void;
 }
