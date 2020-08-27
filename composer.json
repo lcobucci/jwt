@@ -27,7 +27,7 @@
         "infection/infection": "^0.16",
         "lcobucci/coding-standard": "^5.0",
         "mikey179/vfsstream": "^1.6",
-        "phpbench/phpbench": "dev-master@dev",
+        "phpbench/phpbench": "^0.17",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-deprecation-rules": "^0.12",

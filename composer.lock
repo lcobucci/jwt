@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8455a2f0bd1c3e15ed96dc9c368d947d",
+    "content-hash": "32c3f393e00692e9463dc136b3741fa5",
     "packages": [
         {
             "name": "lcobucci/clock",
@@ -1565,16 +1565,16 @@
         },
         {
             "name": "phpbench/phpbench",
-            "version": "dev-master",
+            "version": "0.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpbench/phpbench.git",
-                "reference": "01d4b670a4d4a591b6fd84f9a9b5c3d04ee189c9"
+                "reference": "3211debc3afb9da79d796cf7471d52cad97b17f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpbench/phpbench/zipball/01d4b670a4d4a591b6fd84f9a9b5c3d04ee189c9",
-                "reference": "01d4b670a4d4a591b6fd84f9a9b5c3d04ee189c9",
+                "url": "https://api.github.com/repos/phpbench/phpbench/zipball/3211debc3afb9da79d796cf7471d52cad97b17f1",
+                "reference": "3211debc3afb9da79d796cf7471d52cad97b17f1",
                 "shasum": ""
             },
             "require": {
@@ -1587,7 +1587,7 @@
                 "ext-spl": "*",
                 "lstrojny/functional-php": "1.0 || ^1.2.3",
                 "php": "^7.2",
-                "phpbench/container": "^1.2.1",
+                "phpbench/container": "~1.2",
                 "phpbench/dom": "~0.2.0",
                 "seld/jsonlint": "^1.1",
                 "symfony/console": "^4.2 || ^5.0",
@@ -1601,7 +1601,6 @@
             "require-dev": {
                 "doctrine/dbal": "^2.4",
                 "friendsofphp/php-cs-fixer": "^2.13.1",
-                "jangregor/phpstan-prophecy": "^0.8.0",
                 "padraic/phar-updater": "^1.0",
                 "phpspec/prophecy": "^1.8",
                 "phpstan/phpstan": "^0.12.7",
@@ -1639,7 +1638,7 @@
                 }
             ],
             "description": "PHP Benchmarking Framework",
-            "time": "2020-08-27T13:55:45+00:00"
+            "time": "2020-06-13T11:59:17+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -5116,9 +5115,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "phpbench/phpbench": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
