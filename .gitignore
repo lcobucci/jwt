@@ -1,6 +1,5 @@
 vendor
 phpunit.xml
-composer.lock
 infection.txt
 coverage
 phpcs.xml
