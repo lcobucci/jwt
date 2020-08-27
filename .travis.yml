@@ -51,7 +51,8 @@ jobs:
         - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
         - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
       script:
-        - ./vendor/bin/infection --test-framework-options="--testsuite=unit" -s --threads=$(nproc)
+        - ./vendor/bin/phpunit --testsuite="unit" --coverage-xml=build/coverage-xml --log-junit=build/junit.xml
+        - ./vendor/bin/infection -s --threads=$(nproc) --coverage=build
 
     - stage: Metrics and quality
       env: STATIC_ANALYSIS
