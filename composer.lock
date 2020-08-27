@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32c3f393e00692e9463dc136b3741fa5",
+    "content-hash": "f5430b69acdd23dd8b0f06e6d47067c9",
     "packages": [
         {
             "name": "lcobucci/clock",
@@ -794,16 +794,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.16.6",
+            "version": "0.17.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "d43267a15ae21d42fce2aed3f1c8a4a22de6698a"
+                "reference": "d3d77a7629d237e437d5bb66606f9493bdcf369e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/d43267a15ae21d42fce2aed3f1c8a4a22de6698a",
-                "reference": "d43267a15ae21d42fce2aed3f1c8a4a22de6698a",
+                "url": "https://api.github.com/repos/infection/infection/zipball/d3d77a7629d237e437d5bb66606f9493bdcf369e",
+                "reference": "d3d77a7629d237e437d5bb66606f9493bdcf369e",
                 "shasum": ""
             },
             "require": {
@@ -813,13 +813,13 @@
                 "ext-libxml": "*",
                 "infection/abstract-testframework-adapter": "^0.3.0",
                 "infection/extension-installer": "^0.1.0",
-                "infection/include-interceptor": "^0.2.2",
+                "infection/include-interceptor": "^0.2.4",
                 "justinrainbow/json-schema": "^5.2",
                 "nikic/php-parser": "^4.2.2",
                 "ocramius/package-versions": "^1.2",
                 "ondram/ci-detector": "^3.3.0",
                 "php": "^7.3",
-                "sanmai/pipeline": "^3.1",
+                "sanmai/pipeline": "^3.1 || ^5.0",
                 "sebastian/diff": "^3.0.2 || ^4.0",
                 "seld/jsonlint": "^1.7",
                 "symfony/console": "^3.4.29 || ^4.0 || ^5.0",
@@ -898,7 +898,7 @@
                 "testing",
                 "unit testing"
             ],
-            "time": "2020-08-17T20:17:03+00:00"
+            "time": "2020-08-25T06:36:58+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
