@@ -168,6 +168,11 @@ class Token
      */
     public function getClaim($name, $default = null)
     {
+
+        if ($this->getHeaderValue($name) != null) {
+            return $this->getHeaderValue($name);
+        }
+
         if ($this->hasClaim($name)) {
             return $this->claims[$name]->getValue();
         }
