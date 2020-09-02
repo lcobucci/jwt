@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a75f3d527c9cbfff2ac6f2d25b1182e8",
+    "content-hash": "0caab80c976984800f526f3219723194",
     "packages": [
         {
             "name": "lcobucci/clock",
@@ -2152,16 +2152,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.1.4",
+            "version": "9.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "4422fca28c3634e2de8c7c373af97a104dd1a45f"
+                "reference": "d25b24b1cd14772bde4d75daeb393dc17db9f6e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/4422fca28c3634e2de8c7c373af97a104dd1a45f",
-                "reference": "4422fca28c3634e2de8c7c373af97a104dd1a45f",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d25b24b1cd14772bde4d75daeb393dc17db9f6e6",
+                "reference": "d25b24b1cd14772bde4d75daeb393dc17db9f6e6",
                 "shasum": ""
             },
             "require": {
@@ -2221,7 +2221,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-08-13T15:04:53+00:00"
+            "time": "2020-08-31T06:31:46+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
