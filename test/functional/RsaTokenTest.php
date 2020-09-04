@@ -37,6 +37,7 @@ class RsaTokenTest extends TestCase
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
+     * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
@@ -64,6 +65,7 @@ class RsaTokenTest extends TestCase
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
+     * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
@@ -91,6 +93,7 @@ class RsaTokenTest extends TestCase
      *
      * @covers \Lcobucci\JWT\Configuration
      * @covers \Lcobucci\JWT\Token\Builder
+     * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
