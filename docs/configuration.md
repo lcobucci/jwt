@@ -56,6 +56,7 @@ $configuration = Configuration::forSymmetricSigner(
     new Sha256(),
     // replace the value below with a key of your own!
     new Key('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=')
+    // You may also override the JOSE encoder/decoder if needed by providing extra arguments here
 );
 ```
 
@@ -74,6 +75,7 @@ $configuration = Configuration::forAsymmetricSigner(
     new Signer\RSA\Sha256(),
     new Key('file://' . __DIR__ . '/my-private-key.pem'),
     new Key('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=')
+    // You may also override the JOSE encoder/decoder if needed by providing extra arguments here
 );
 ```
 
@@ -86,7 +88,9 @@ $configuration = Configuration::forAsymmetricSigner(
 ```php
 use Lcobucci\JWT\Configuration;
 
-$configuration = Configuration::forUnsecuredSigner();
+$configuration = Configuration::forUnsecuredSigner(
+    // You may also override the JOSE encoder/decoder if needed by providing extra arguments here
+);
 ```
 
 ### Customisation
@@ -101,8 +105,6 @@ These are the available setters:
 
 * `Lcobucci\JWT\Configuration#setBuilderFactory()`: configures how the token builder should be created
 * `Lcobucci\JWT\Configuration#setParser()`: configures a custom token parser
-* `Lcobucci\JWT\Configuration#setEncoder()`: configures a custom encoder for the token builder
-* `Lcobucci\JWT\Configuration#setDecoder()`: configures a custom decoder for the parser
 * `Lcobucci\JWT\Configuration#setValidator()`: configures a custom validator
 * `Lcobucci\JWT\Configuration#setValidationConstraints()`: configures the default set of validation constraints
 

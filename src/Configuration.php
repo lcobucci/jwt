@@ -21,52 +21,79 @@ final class Configuration
     private Signer $signer;
     private Key $signingKey;
     private Key $verificationKey;
-    private Parsing\Encoder $encoder;
-    private Parsing\Decoder $decoder;
     private Validator $validator;
+
+    /** @var Closure(): Builder */
     private Closure $builderFactory;
 
     /** @var Constraint[] */
     private array $validationConstraints = [];
 
-    private function __construct(Signer $signer, Key $signingKey, Key $verificationKey)
-    {
+    private function __construct(
+        Signer $signer,
+        Key $signingKey,
+        Key $verificationKey,
+        ?Parsing\Encoder $encoder = null,
+        ?Parsing\Decoder $decoder = null
+    ) {
         $this->signer          = $signer;
         $this->signingKey      = $signingKey;
         $this->verificationKey = $verificationKey;
+        $this->parser          = new Token\Parser($decoder ?? new Parsing\Parser());
+        $this->validator       = new Validation\Validator();
+
+        $this->builderFactory = static function () use ($encoder): Builder {
+            return new Token\Builder($encoder ?? new Parsing\Parser());
+        };
     }
 
     public static function forAsymmetricSigner(
         Signer $signer,
         Key $signingKey,
-        Key $verificationKey
+        Key $verificationKey,
+        ?Parsing\Encoder $encoder = null,
+        ?Parsing\Decoder $decoder = null
     ): self {
-        return new self($signer, $signingKey, $verificationKey);
+        return new self(
+            $signer,
+            $signingKey,
+            $verificationKey,
+            $encoder,
+            $decoder
+        );
     }
 
-    public static function forSymmetricSigner(Signer $signer, Key $key): self
-    {
-        return new self($signer, $key, $key);
+    public static function forSymmetricSigner(
+        Signer $signer,
+        Key $key,
+        ?Parsing\Encoder $encoder = null,
+        ?Parsing\Decoder $decoder = null
+    ): self {
+        return new self(
+            $signer,
+            $key,
+            $key,
+            $encoder,
+            $decoder
+        );
     }
 
-    public static function forUnsecuredSigner(): self
-    {
+    public static function forUnsecuredSigner(
+        ?Parsing\Encoder $encoder = null,
+        ?Parsing\Decoder $decoder = null
+    ): self {
         $key = new Key('');
 
-        return new self(new None(), $key, $key);
+        return new self(
+            new None(),
+            $key,
+            $key,
+            $encoder,
+            $decoder
+        );
     }
 
-    private function getBuilderFactory(): Closure
-    {
-        if (! isset($this->builderFactory)) {
-            $this->builderFactory = function (): Builder {
-                return new Token\Builder($this->getEncoder());
-            };
-        }
-
-        return $this->builderFactory;
-    }
-
+    /** @param callable(): Builder $builderFactory */
     public function setBuilderFactory(callable $builderFactory): void
     {
         $this->builderFactory = Closure::fromCallable($builderFactory);
@@ -74,15 +101,11 @@ final class Configuration
 
     public function createBuilder(): Builder
     {
-        return ($this->getBuilderFactory())();
+        return ($this->builderFactory)();
     }
 
     public function getParser(): Parser
     {
-        if (! isset($this->parser)) {
-            $this->parser = new Token\Parser($this->getDecoder());
-        }
-
         return $this->parser;
     }
 
@@ -106,40 +129,8 @@ final class Configuration
         return $this->verificationKey;
     }
 
-    private function getEncoder(): Parsing\Encoder
-    {
-        if (! isset($this->encoder)) {
-            $this->encoder = new Parsing\Parser();
-        }
-
-        return $this->encoder;
-    }
-
-    public function setEncoder(Parsing\Encoder $encoder): void
-    {
-        $this->encoder = $encoder;
-    }
-
-    private function getDecoder(): Parsing\Decoder
-    {
-        if (! isset($this->decoder)) {
-            $this->decoder = new Parsing\Parser();
-        }
-
-        return $this->decoder;
-    }
-
-    public function setDecoder(Parsing\Decoder $decoder): void
-    {
-        $this->decoder = $decoder;
-    }
-
     public function getValidator(): Validator
     {
-        if (! isset($this->validator)) {
-            $this->validator = new Validation\Validator();
-        }
-
         return $this->validator;
     }
 

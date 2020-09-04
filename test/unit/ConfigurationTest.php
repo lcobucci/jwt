@@ -12,7 +12,12 @@ use Lcobucci\JWT\Validation\Constraint;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Configuration */
+/**
+ * @coversDefaultClass \Lcobucci\JWT\Configuration
+ *
+ * @uses \Lcobucci\JWT\Token\Parser
+ * @uses \Lcobucci\JWT\Validation\Validator
+ */
 final class ConfigurationTest extends TestCase
 {
     /** @var Parser&MockObject */
@@ -113,13 +118,10 @@ final class ConfigurationTest extends TestCase
      * @test
      *
      * @covers ::createBuilder
-     * @covers ::getBuilderFactory
-     * @covers ::getEncoder
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
      * @uses \Lcobucci\JWT\Token\Builder
-     * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -136,21 +138,16 @@ final class ConfigurationTest extends TestCase
      * @test
      *
      * @covers ::createBuilder
-     * @covers ::getBuilderFactory
-     * @covers ::setEncoder
-     * @covers ::getEncoder
+     * @covers ::__construct
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
      * @uses \Lcobucci\JWT\Token\Builder
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
      */
     public function createBuilderShouldCreateABuilderWithCustomizedEncoderAndClaimFactory(): void
     {
-        $config = Configuration::forUnsecuredSigner();
-        $config->setEncoder($this->encoder);
-
+        $config  = Configuration::forUnsecuredSigner($this->encoder);
         $builder = $config->createBuilder();
 
         self::assertInstanceOf(BuilderImpl::class, $builder);
@@ -161,13 +158,11 @@ final class ConfigurationTest extends TestCase
      * @test
      *
      * @covers ::createBuilder
-     * @covers ::getBuilderFactory
      * @covers ::setBuilderFactory
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
      * @uses \Lcobucci\JWT\Token\Builder
-     * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -188,11 +183,9 @@ final class ConfigurationTest extends TestCase
      * @test
      *
      * @covers ::getParser
-     * @covers ::getDecoder
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
      */
@@ -208,20 +201,15 @@ final class ConfigurationTest extends TestCase
      * @test
      *
      * @covers ::getParser
-     * @covers ::setDecoder
-     * @covers ::getDecoder
+     * @covers ::__construct
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
      */
     public function getParserShouldReturnAParserWithCustomizedDecoder(): void
     {
-        $config = Configuration::forUnsecuredSigner();
-        $config->setDecoder($this->decoder);
-
+        $config = Configuration::forUnsecuredSigner(null, $this->decoder);
         $parser = $config->getParser();
 
         self::assertEquals(new ParserImpl($this->decoder), $parser);
@@ -235,7 +223,6 @@ final class ConfigurationTest extends TestCase
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
      * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Token\Parser
      * @uses \Lcobucci\JWT\Signer\None
      * @uses \Lcobucci\JWT\Signer\Key
      */
