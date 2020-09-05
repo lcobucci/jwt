@@ -966,16 +966,16 @@
         },
         {
             "name": "lcobucci/coding-standard",
-            "version": "6.0.0",
+            "version": "6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/coding-standard.git",
-                "reference": "c36ac643f643ba5bab0f33f9be87db5b254fb6cc"
+                "reference": "79a4324025f909cb786a21587da75f4c0f40e34b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/coding-standard/zipball/c36ac643f643ba5bab0f33f9be87db5b254fb6cc",
-                "reference": "c36ac643f643ba5bab0f33f9be87db5b254fb6cc",
+                "url": "https://api.github.com/repos/lcobucci/coding-standard/zipball/79a4324025f909cb786a21587da75f4c0f40e34b",
+                "reference": "79a4324025f909cb786a21587da75f4c0f40e34b",
                 "shasum": ""
             },
             "require": {
@@ -997,7 +997,7 @@
                 }
             ],
             "description": "Lcobucci's Coding Standard",
-            "time": "2020-08-18T20:58:29+00:00"
+            "time": "2020-09-05T21:36:16+00:00"
         },
         {
             "name": "lstrojny/functional-php",
