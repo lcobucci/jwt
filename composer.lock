@@ -2151,16 +2151,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.1.7",
+            "version": "9.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "2ef92bec3186a827faf7362ff92ae4e8ec2e49d2"
+                "reference": "f98f8466126d83b55b924a94d2244c53c216b8fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2ef92bec3186a827faf7362ff92ae4e8ec2e49d2",
-                "reference": "2ef92bec3186a827faf7362ff92ae4e8ec2e49d2",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/f98f8466126d83b55b924a94d2244c53c216b8fb",
+                "reference": "f98f8466126d83b55b924a94d2244c53c216b8fb",
                 "shasum": ""
             },
             "require": {
@@ -2220,7 +2220,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-03T07:09:19+00:00"
+            "time": "2020-09-07T08:07:10+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2449,16 +2449,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.3.8",
+            "version": "9.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "93d78d8e2a06393a0d0c1ead6fe9984f1af1f88c"
+                "reference": "60c90ba713075e83bd039db4760226df7ad9a5cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/93d78d8e2a06393a0d0c1ead6fe9984f1af1f88c",
-                "reference": "93d78d8e2a06393a0d0c1ead6fe9984f1af1f88c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/60c90ba713075e83bd039db4760226df7ad9a5cb",
+                "reference": "60c90ba713075e83bd039db4760226df7ad9a5cb",
                 "shasum": ""
             },
             "require": {
@@ -2472,7 +2472,7 @@
                 "myclabs/deep-copy": "^1.10.1",
                 "phar-io/manifest": "^2.0.1",
                 "phar-io/version": "^3.0.2",
-                "php": "^7.3 || ^8.0",
+                "php": ">=7.3",
                 "phpspec/prophecy": "^1.11.1",
                 "phpunit/php-code-coverage": "^9.1.5",
                 "phpunit/php-file-iterator": "^3.0.4",
@@ -2544,7 +2544,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-08-27T06:30:58+00:00"
+            "time": "2020-09-11T12:42:34+00:00"
         },
         {
             "name": "psr/container",
