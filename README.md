@@ -2,16 +2,13 @@
 [3.3](https://github.com/lcobucci/jwt/blob/3.3/README.md). ⚠️
 
 # JWT
-[![Gitter](https://img.shields.io/badge/GITTER-JOIN%20CHAT%20%E2%86%92-brightgreen.svg?style=flat-square)](https://gitter.im/lcobucci/jwt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Total Downloads](https://img.shields.io/packagist/dt/lcobucci/jwt.svg?style=flat-square)](https://packagist.org/packages/lcobucci/jwt)
-[![Latest Stable Version](https://img.shields.io/packagist/v/lcobucci/jwt.svg?style=flat-square)](https://packagist.org/packages/lcobucci/jwt)
-[![Unstable Version](https://img.shields.io/packagist/vpre/lcobucci/jwt.svg?style=flat-square)](https://packagist.org/packages/lcobucci/jwt)
+[![Gitter]](https://gitter.im/lcobucci/jwt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Total Downloads]](https://packagist.org/packages/lcobucci/jwt)
+[![Latest Stable Version]](https://packagist.org/packages/lcobucci/jwt)
+[![Unstable Version]](https://packagist.org/packages/lcobucci/jwt)
 
-![Branch master](https://img.shields.io/badge/branch-master-brightgreen.svg?style=flat-square)
-[![Build Status](https://img.shields.io/travis/lcobucci/jwt/master.svg?style=flat-square)](https://travis-ci.org/lcobucci/jwt)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/9c90ed7d-17de-4ba0-9ee0-3cf9c2f43f66/mini.png)](https://insight.sensiolabs.com/projects/9c90ed7d-17de-4ba0-9ee0-3cf9c2f43f66)
+[![Build Status]](https://github.com/lcobucci/jwt/actions?query=workflow%3A%22PHPUnit%20Tests%22+branch%3A6.1.x)
+[![Code Coverage]](https://codecov.io/gh/lcobucci/jwt)
 
 A simple library to work with JSON Web Token and JSON Web Signature based on the [RFC 7519](https://tools.ietf.org/html/rfc7519).
 
@@ -26,7 +23,7 @@ composer require lcobucci/jwt
 
 ### Dependencies
 
-- PHP 5.6+ (v3.3) and PHP 7.3 (v4.x)
+- PHP 5.6+ (v3.3) and PHP 7.4 (v4.x)
 - OpenSSL Extension
 
 ## Basic usage
@@ -41,3 +38,10 @@ The documentation of the **stable** version is on branch
 If you want to add secure token based authentication to your PHP projects, feel
 free to check out Auth0's PHP SDK and free plan at
 [auth0.com/developers](https://auth0.com/developers?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=jwt-php&utm_content=auth).
+
+[Gitter]: https://img.shields.io/badge/GITTER-JOIN%20CHAT%20%E2%86%92-brightgreen.svg?style=flat-square
+[Total Downloads]: https://img.shields.io/packagist/dt/lcobucci/jwt.svg?style=flat-square
+[Latest Stable Version]: https://img.shields.io/packagist/v/lcobucci/jwt.svg?style=flat-square
+[Unstable Version]: https://img.shields.io/packagist/vpre/lcobucci/jwt.svg?style=flat-square
+[Build Status]: https://img.shields.io/github/workflow/status/lcobucci/jwt/PHPUnit%20tests?style=flat-square
+[Code Coverage]: https://codecov.io/gh/lcobucci/jwt/branch/master/graph/badge.svg
