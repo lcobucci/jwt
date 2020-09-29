@@ -172,7 +172,7 @@ class Token
             return $this->claims[$name]->getValue();
         }
 
-        if ($default === null) {
+        if (func_num_args() === 1) {
             throw new OutOfBoundsException(sprintf('Requested claim "%s" is not configured', $name));
         }
 

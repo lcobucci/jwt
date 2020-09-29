@@ -230,6 +230,21 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      *
      * @covers Lcobucci\JWT\Token::getClaim
      */
+    public function getClaimShouldReturnNullValueWhenDefaultParameterIsPassed()
+    {
+        $token = new Token();
+        self::assertNull($token->getClaim('testing', null));
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token::hasClaim
+     * @uses Lcobucci\JWT\Claim\Basic
+     *
+     * @covers Lcobucci\JWT\Token::getClaim
+     */
     public function getClaimShouldReturnTheClaimValueWhenItExists()
     {
         $token = new Token([], ['testing' => new Basic('testing', 'test')]);
