@@ -1,0 +1,11 @@
+/docs            export-ignore
+/test            export-ignore
+/.gitattributes  export-ignore
+/.github         export-ignore
+/.gitignore      export-ignore
+/*.yml           export-ignore
+/CONTRIBUTING.md export-ignore
+/*.dist          export-ignore
+/phpbench.json   export-ignore
+/composer.lock   export-ignore
+/README.md       export-ignore
