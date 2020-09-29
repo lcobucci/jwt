@@ -31,7 +31,7 @@ final class Key
      * @param string $content
      * @param string $passphrase
      */
-    public function __construct($content, $passphrase = null)
+    public function __construct($content, $passphrase = '')
     {
         $this->setContent($content);
         $this->passphrase = $passphrase;
