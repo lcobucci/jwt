@@ -1,5 +1,11 @@
 # JWT
-[![Gitter](https://img.shields.io/badge/GITTER-JOIN%20CHAT%20%E2%86%92-brightgreen.svg?style=flat-square)](https://gitter.im/lcobucci/jwt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Total Downloads](https://img.shields.io/packagist/dt/lcobucci/jwt.svg?style=flat-square)](https://packagist.org/packages/lcobucci/jwt) [![Latest Stable Version](https://img.shields.io/packagist/v/lcobucci/jwt.svg?style=flat-square)](https://packagist.org/packages/lcobucci/jwt)
+[![Gitter]](https://gitter.im/lcobucci/jwt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Total Downloads]](https://packagist.org/packages/lcobucci/jwt)
+[![Latest Stable Version]](https://packagist.org/packages/lcobucci/jwt)
+[![Unstable Version]](https://packagist.org/packages/lcobucci/jwt)
+
+[![Build Status]](https://github.com/lcobucci/jwt/actions?query=workflow%3A%22PHPUnit%20Tests%22+branch%3A3.4)
+[![Code Coverage]](https://codecov.io/gh/lcobucci/jwt)
 
 ![Branch master](https://img.shields.io/badge/branch-master-brightgreen.svg?style=flat-square)
 [![Build Status](https://img.shields.io/travis/lcobucci/jwt/master.svg?style=flat-square)](http://travis-ci.org/#!/lcobucci/jwt)
@@ -192,3 +198,10 @@ var_dump($token->verify($signer, $publicKey)); // true when the public key was g
 ```
 
 **It's important to say that if you're using RSA keys you shouldn't invoke ECDSA signers (and vice-versa), otherwise ```sign()``` and ```verify()``` will raise an exception!**
+
+[Gitter]: https://img.shields.io/badge/GITTER-JOIN%20CHAT%20%E2%86%92-brightgreen.svg?style=flat-square
+[Total Downloads]: https://img.shields.io/packagist/dt/lcobucci/jwt.svg?style=flat-square
+[Latest Stable Version]: https://img.shields.io/packagist/v/lcobucci/jwt.svg?style=flat-square
+[Unstable Version]: https://img.shields.io/packagist/vpre/lcobucci/jwt.svg?style=flat-square
+[Build Status]: https://img.shields.io/github/workflow/status/lcobucci/jwt/PHPUnit%20tests/3.4?style=flat-square
+[Code Coverage]: https://codecov.io/gh/lcobucci/jwt/branch/3.4/graph/badge.svg
