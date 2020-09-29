@@ -7,11 +7,6 @@
 [![Build Status]](https://github.com/lcobucci/jwt/actions?query=workflow%3A%22PHPUnit%20Tests%22+branch%3A3.4)
 [![Code Coverage]](https://codecov.io/gh/lcobucci/jwt)
 
-![Branch master](https://img.shields.io/badge/branch-master-brightgreen.svg?style=flat-square)
-[![Build Status](https://img.shields.io/travis/lcobucci/jwt/master.svg?style=flat-square)](http://travis-ci.org/#!/lcobucci/jwt)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/lcobucci/jwt/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lcobucci/jwt/?branch=master)
-
 A simple library to work with JSON Web Token and JSON Web Signature (requires PHP 5.6+).
 The implementation is based on the [RFC 7519](https://tools.ietf.org/html/rfc7519).
 
