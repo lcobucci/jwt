@@ -3,3 +3,6 @@ parameters:
     paths:
         - src
         - test
+
+    ignoreErrors:
+        - '#.*OpenSSLAsymmetricKey.*#'

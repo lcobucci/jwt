@@ -5,8 +5,11 @@ namespace Lcobucci\JWT\Signer;
 
 use InvalidArgumentException;
 use Lcobucci\JWT\Keys;
+use OpenSSLAsymmetricKey;
 use PHPUnit\Framework\TestCase;
 
+use function assert;
+use function is_resource;
 use function openssl_pkey_get_private;
 use function openssl_pkey_get_public;
 use function openssl_sign;
@@ -36,7 +39,8 @@ final class RsaTest extends TestCase
         $signature = $signer->sign($payload, self::$rsaKeys['private']);
 
         $publicKey = openssl_pkey_get_public(self::$rsaKeys['public']->getContent());
-        self::assertIsResource($publicKey);
+        assert(is_resource($publicKey) || $publicKey instanceof OpenSSLAsymmetricKey);
+
         self::assertSame(1, openssl_verify($payload, $signature, $publicKey, OPENSSL_ALGO_SHA256));
     }
 
@@ -117,7 +121,7 @@ KEY;
     {
         $payload    = 'testing';
         $privateKey = openssl_pkey_get_private(self::$rsaKeys['private']->getContent());
-        self::assertIsResource($privateKey);
+        assert(is_resource($privateKey) || $privateKey instanceof OpenSSLAsymmetricKey);
 
         $signature = '';
         openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);

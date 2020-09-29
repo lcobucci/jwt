@@ -98,7 +98,7 @@ jobs:
 
       - name: "Install locked dependencies"
         if: ${{ matrix.dependencies == 'locked' }}
-        run: "composer install --no-interaction --no-progress --no-suggest --ignore-platform-reqs"
+        run: "composer install --no-interaction --no-progress --no-suggest --ignore-platform-req=php"
 
       - name: "Tests"
-        run: "vendor/bin/phpunit || true"
+        run: "vendor/bin/phpunit"

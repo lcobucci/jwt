@@ -5,8 +5,11 @@ namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter;
+use OpenSSLAsymmetricKey;
 use PHPUnit\Framework\TestCase;
 
+use function assert;
+use function is_resource;
 use function openssl_pkey_get_private;
 use function openssl_pkey_get_public;
 use function openssl_sign;
@@ -62,8 +65,8 @@ final class EcdsaTest extends TestCase
         $signature = $signer->sign($payload, self::$ecdsaKeys['private']);
 
         $publicKey = openssl_pkey_get_public(self::$ecdsaKeys['public1']->getContent());
+        assert(is_resource($publicKey) || $publicKey instanceof OpenSSLAsymmetricKey);
 
-        self::assertIsResource($publicKey);
         self::assertSame(
             1,
             openssl_verify(
@@ -90,8 +93,7 @@ final class EcdsaTest extends TestCase
     {
         $payload    = 'testing';
         $privateKey = openssl_pkey_get_private(self::$ecdsaKeys['private']->getContent());
-
-        self::assertIsResource($privateKey);
+        assert(is_resource($privateKey) || $privateKey instanceof OpenSSLAsymmetricKey);
 
         $signature = '';
         openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);
