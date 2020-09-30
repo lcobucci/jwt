@@ -2854,16 +2854,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "4.0.4",
+            "version": "4.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "e717aabeafe4eac045d3e947dad3207118664c72"
+                "reference": "7a8ff306445707539c1a6397372a982a1ec55120"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/e717aabeafe4eac045d3e947dad3207118664c72",
-                "reference": "e717aabeafe4eac045d3e947dad3207118664c72",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/7a8ff306445707539c1a6397372a982a1ec55120",
+                "reference": "7a8ff306445707539c1a6397372a982a1ec55120",
                 "shasum": ""
             },
             "require": {
@@ -2920,7 +2920,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-28T05:31:46+00:00"
+            "time": "2020-09-30T06:47:25+00:00"
         },
         {
             "name": "sebastian/complexity",
