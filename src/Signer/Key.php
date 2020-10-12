@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
-use InvalidArgumentException;
+use Lcobucci\JWT\InvalidArgument;
 use SplFileObject;
 use Throwable;
 
@@ -23,7 +23,7 @@ final class Key
         $this->passphrase = $passphrase;
     }
 
-    /** @throws InvalidArgumentException */
+    /** @throws InvalidArgument */
     private function setContent(string $content): void
     {
         if (strpos($content, 'file://') === 0) {
@@ -33,7 +33,7 @@ final class Key
         $this->content = $content;
     }
 
-    /** @throws InvalidArgumentException */
+    /** @throws InvalidArgument */
     private function readFile(string $path): string
     {
         try {
@@ -43,7 +43,7 @@ final class Key
 
             return $content;
         } catch (Throwable $exception) {
-            throw new InvalidArgumentException('You must provide a valid key file', $exception->getCode(), $exception);
+            throw new InvalidArgument('You must provide a valid key file', $exception->getCode(), $exception);
         }
     }
 

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
-use InvalidArgumentException;
+use Lcobucci\JWT\InvalidArgument;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +29,7 @@ final class KeyTest extends TestCase
      */
     public function constructShouldRaiseExceptionWhenFileDoesNotExists(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('You must provide a valid key file');
 
         new Key('file://' . vfsStream::url('root/test2.pem'));

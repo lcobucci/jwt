@@ -3,14 +3,12 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
-use InvalidArgumentException;
-
 interface Parser
 {
     /**
      * Parses the JWT and returns a token
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidArgument
      */
     public function parse(string $jwt): Token;
 }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Lcobucci\JWT\Encoder;
 use Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion;
+use Lcobucci\JWT\InvalidArgument;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -43,7 +43,7 @@ final class BuilderTest extends TestCase
     {
         $builder = new Builder($this->encoder, new MicrosecondBasedDateConversion());
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('You should use the correct methods to set registered claims');
 
         $builder->withClaim(RegisteredClaims::ISSUER, 'me');

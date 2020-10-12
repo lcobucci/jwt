@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Lcobucci\JWT\Decoder;
+use Lcobucci\JWT\InvalidArgument;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -38,7 +38,7 @@ final class ParserTest extends TestCase
     {
         $parser = $this->createParser();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('The JWT string must have two dots');
 
         $parser->parse('');
@@ -85,7 +85,7 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('Headers must be an array');
 
         $parser->parse('a.a.');
@@ -106,7 +106,7 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('The header "typ" must be present');
 
         $parser->parse('a.a.');
@@ -127,7 +127,7 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('Encryption is not supported yet');
 
         $parser->parse('a.a.');
@@ -151,7 +151,7 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('Claims must be an array');
 
         $parser->parse('a.a.');
@@ -457,7 +457,7 @@ final class ParserTest extends TestCase
                 $data
             );
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('Given value is not in the allowed format: 14/10/2018 10:50:10.10 UTC');
         $this->createParser()->parse('a.b.');
     }

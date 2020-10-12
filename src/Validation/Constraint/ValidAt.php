@@ -5,8 +5,8 @@ namespace Lcobucci\JWT\Validation\Constraint;
 
 use DateInterval;
 use DateTimeInterface;
-use InvalidArgumentException;
 use Lcobucci\Clock\Clock;
+use Lcobucci\JWT\InvalidArgument;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\ConstraintViolation;
@@ -29,7 +29,7 @@ final class ValidAt implements Constraint
         }
 
         if ($leeway->invert === 1) {
-            throw new InvalidArgumentException('Leeway cannot be negative');
+            throw new InvalidArgument('Leeway cannot be negative');
         }
 
         return $leeway;

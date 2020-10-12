@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
 
-use InvalidArgumentException;
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\InvalidArgument;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Ecdsa\Sha256;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512;
@@ -62,7 +62,7 @@ class EcdsaTokenTest extends TestCase
     {
         $builder = $this->config->createBuilder();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('It was not possible to parse your key, reason:');
 
         $builder->identifiedBy('1')
@@ -77,7 +77,7 @@ class EcdsaTokenTest extends TestCase
     {
         $builder = $this->config->createBuilder();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('This key is not compatible with this signer');
 
         $builder->identifiedBy('1')
@@ -168,7 +168,7 @@ class EcdsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(Token $token): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('This key is not compatible with this signer');
 
         $this->config->getValidator()->assert(

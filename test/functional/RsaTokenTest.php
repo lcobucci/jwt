@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
 
-use InvalidArgumentException;
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\InvalidArgument;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
@@ -57,7 +57,7 @@ class RsaTokenTest extends TestCase
     {
         $builder = $this->config->createBuilder();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('It was not possible to parse your key');
 
         $builder->identifiedBy('1')
@@ -72,7 +72,7 @@ class RsaTokenTest extends TestCase
     {
         $builder = $this->config->createBuilder();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('This key is not compatible with this signer');
 
         $builder->identifiedBy('1')
@@ -152,7 +152,7 @@ class RsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('This key is not compatible with this signer');
 
         $this->config->getValidator()->assert(

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
-use InvalidArgumentException;
+use Lcobucci\JWT\InvalidArgument;
 use Lcobucci\JWT\Signer;
 use OpenSSLAsymmetricKey;
 
@@ -31,7 +31,7 @@ abstract class OpenSSL implements Signer
             $signature = '';
 
             if (! openssl_sign($payload, $signature, $key, $this->getAlgorithm())) {
-                throw new InvalidArgumentException(
+                throw new InvalidArgument(
                     'There was an error while creating the signature: ' . openssl_error_string()
                 );
             }
@@ -77,12 +77,12 @@ abstract class OpenSSL implements Signer
      *
      * @param resource|OpenSSLAsymmetricKey|bool $key
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidArgument
      */
     private function validateKey($key): void
     {
         if (is_bool($key)) {
-            throw new InvalidArgumentException(
+            throw new InvalidArgument(
                 'It was not possible to parse your key, reason: ' . openssl_error_string()
             );
         }
@@ -91,7 +91,7 @@ abstract class OpenSSL implements Signer
         assert(is_array($details));
 
         if (! isset($details['key']) || $details['type'] !== $this->getKeyType()) {
-            throw new InvalidArgumentException('This key is not compatible with this signer');
+            throw new InvalidArgument('This key is not compatible with this signer');
         }
     }
 

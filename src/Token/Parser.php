@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Lcobucci\JWT\Decoder;
+use Lcobucci\JWT\InvalidArgument;
 use Lcobucci\JWT\Parser as ParserInterface;
 use Lcobucci\JWT\Token as TokenInterface;
 
@@ -43,14 +43,14 @@ final class Parser implements ParserInterface
      *
      * @return string[]
      *
-     * @throws InvalidArgumentException When JWT doesn't have all parts.
+     * @throws InvalidArgument When JWT doesn't have all parts.
      */
     private function splitJwt(string $jwt): array
     {
         $data = explode('.', $jwt);
 
         if (count($data) !== 3) {
-            throw new InvalidArgumentException('The JWT string must have two dots');
+            throw new InvalidArgument('The JWT string must have two dots');
         }
 
         return $data;
@@ -61,22 +61,22 @@ final class Parser implements ParserInterface
      *
      * @return mixed[]
      *
-     * @throws InvalidArgumentException When an invalid header is informed.
+     * @throws InvalidArgument When an invalid header is informed.
      */
     private function parseHeader(string $data): array
     {
         $header = $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
         if (! is_array($header)) {
-            throw new InvalidArgumentException('Headers must be an array');
+            throw new InvalidArgument('Headers must be an array');
         }
 
         if (isset($header['enc'])) {
-            throw new InvalidArgumentException('Encryption is not supported yet');
+            throw new InvalidArgument('Encryption is not supported yet');
         }
 
         if (! isset($header['typ'])) {
-            throw new InvalidArgumentException('The header "typ" must be present');
+            throw new InvalidArgument('The header "typ" must be present');
         }
 
         return $header;
@@ -87,14 +87,14 @@ final class Parser implements ParserInterface
      *
      * @return mixed[]
      *
-     * @throws InvalidArgumentException When an invalid claim set is informed.
+     * @throws InvalidArgument When an invalid claim set is informed.
      */
     private function parseClaims(string $data): array
     {
         $claims = $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
         if (! is_array($claims)) {
-            throw new InvalidArgumentException('Claims must be an array');
+            throw new InvalidArgument('Claims must be an array');
         }
 
         if (isset($claims[RegisteredClaims::AUDIENCE])) {
@@ -117,7 +117,7 @@ final class Parser implements ParserInterface
         $date = DateTimeImmutable::createFromFormat('U.u', $value);
 
         if ($date === false) {
-            throw new InvalidArgumentException('Given value is not in the allowed format: ' . $value);
+            throw new InvalidArgument('Given value is not in the allowed format: ' . $value);
         }
 
         return $date;

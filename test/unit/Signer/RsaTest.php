@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
-use InvalidArgumentException;
+use Lcobucci\JWT\InvalidArgument;
 use Lcobucci\JWT\Keys;
 use OpenSSLAsymmetricKey;
 use PHPUnit\Framework\TestCase;
@@ -65,7 +65,7 @@ KEY;
 
         $signer = $this->getSigner();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('There was an error while creating the signature');
 
         $signer->sign('testing', new Key($key));
@@ -83,7 +83,7 @@ KEY;
     {
         $signer = $this->getSigner();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('It was not possible to parse your key');
 
         $signer->sign('testing', new Key('blablabla'));
@@ -102,7 +102,7 @@ KEY;
     {
         $signer = $this->getSigner();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('This key is not compatible with this signer');
 
         $signer->sign('testing', self::$ecdsaKeys['private']);
@@ -143,7 +143,7 @@ KEY;
     {
         $signer = $this->getSigner();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('It was not possible to parse your key');
 
         $signer->verify('testing', 'testing', new Key('blablabla'));
@@ -161,7 +161,7 @@ KEY;
     {
         $signer = $this->getSigner();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('It was not possible to parse your key');
 
         $signer->verify('testing', 'testing', self::$ecdsaKeys['private']);

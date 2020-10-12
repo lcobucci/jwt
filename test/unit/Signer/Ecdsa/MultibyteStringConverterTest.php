@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Ecdsa;
 
-use InvalidArgumentException;
+use Lcobucci\JWT\InvalidArgument;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
@@ -45,7 +45,7 @@ final class MultibyteStringConverterTest extends TestCase
     {
         $converter = new MultibyteStringConverter();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('Invalid signature length');
         $converter->toAsn1('a very wrong string', 64);
     }
@@ -112,7 +112,7 @@ final class MultibyteStringConverterTest extends TestCase
         $message   = hex2bin($message);
         assert(is_string($message));
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage($expectedMessage);
         $converter->fromAsn1($message, 64);
     }
