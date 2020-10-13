@@ -1001,16 +1001,16 @@
         },
         {
             "name": "lstrojny/functional-php",
-            "version": "1.14.0",
+            "version": "1.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lstrojny/functional-php.git",
-                "reference": "4924870cecd16c8fe6536ff25f4deb1f18e53f39"
+                "reference": "9e8363e3cb9db924327f51b5804f4dfba03605aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lstrojny/functional-php/zipball/4924870cecd16c8fe6536ff25f4deb1f18e53f39",
-                "reference": "4924870cecd16c8fe6536ff25f4deb1f18e53f39",
+                "url": "https://api.github.com/repos/lstrojny/functional-php/zipball/9e8363e3cb9db924327f51b5804f4dfba03605aa",
+                "reference": "9e8363e3cb9db924327f51b5804f4dfba03605aa",
                 "shasum": ""
             },
             "require": {
@@ -1141,7 +1141,7 @@
             "keywords": [
                 "functional"
             ],
-            "time": "2020-08-24T14:15:56+00:00"
+            "time": "2020-10-12T09:48:50+00:00"
         },
         {
             "name": "mikey179/vfsstream",
