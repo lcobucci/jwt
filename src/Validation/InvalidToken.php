@@ -4,11 +4,12 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Validation;
 
 use Lcobucci\JWT\Exception;
+use RuntimeException;
 
 use function array_map;
 use function implode;
 
-final class InvalidToken extends Exception
+final class InvalidToken extends RuntimeException implements Exception
 {
     /** @var ConstraintViolation[] */
     private array $violations = [];

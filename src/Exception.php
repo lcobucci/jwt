@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
-use RuntimeException;
+use Throwable;
 
-abstract class Exception extends RuntimeException
+interface Exception extends Throwable
 {
 }
