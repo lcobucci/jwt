@@ -44,22 +44,22 @@ jobs:
 
       - name: "Install lowest dependencies"
         if: ${{ matrix.dependencies == 'lowest' }}
-        run: "composer update --prefer-lowest --no-interaction --no-progress --no-suggest"
+        run: "composer update --prefer-lowest --no-interaction --no-progress"
 
       - name: "Install highest dependencies"
         if: ${{ matrix.dependencies == 'highest' }}
-        run: "composer update --no-interaction --no-progress --no-suggest"
+        run: "composer update --no-interaction --no-progress"
 
       - name: "Install locked dependencies"
         if: ${{ matrix.dependencies == 'locked' }}
-        run: "composer install --no-interaction --no-progress --no-suggest"
+        run: "composer install --no-interaction --no-progress"
 
       - name: "Install development dependencies"
         if: ${{ matrix.dependencies == 'development' }}
-        run: "composer config minimum-stability dev && composer update --no-interaction --no-progress --no-suggest"
+        run: "composer config minimum-stability dev && composer update --no-interaction --no-progress"
 
       - name: "Tests"
-        run: "vendor/bin/phpunit"
+        run: "make phpunit"
 
   phpunit-rc:
     name: "PHPUnit tests on PHP 8"
@@ -98,7 +98,7 @@ jobs:
 
       - name: "Install locked dependencies"
         if: ${{ matrix.dependencies == 'locked' }}
-        run: "composer install --no-interaction --no-progress --no-suggest --ignore-platform-req=php"
+        run: "composer install --no-interaction --no-progress --ignore-platform-req=php"
 
       - name: "Tests"
-        run: "vendor/bin/phpunit"
+        run: "make phpunit"

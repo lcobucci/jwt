@@ -42,21 +42,18 @@ jobs:
 
       - name: "Install lowest dependencies"
         if: ${{ matrix.dependencies == 'lowest' }}
-        run: "composer update --prefer-lowest --no-interaction --no-progress --no-suggest"
+        run: "composer update --prefer-lowest --no-interaction --no-progress"
 
       - name: "Install highest dependencies"
         if: ${{ matrix.dependencies == 'highest' }}
-        run: "composer update --no-interaction --no-progress --no-suggest"
+        run: "composer update --no-interaction --no-progress"
 
       - name: "Install locked dependencies"
         if: ${{ matrix.dependencies == 'locked' }}
-        run: "composer install --no-interaction --no-progress --no-suggest"
-
-      - name: "Coverage report"
-        run: "./vendor/bin/phpunit --testsuite=unit --coverage-xml=build/coverage-xml --log-junit=build/junit.xml --coverage-clover=coverage.xml"
+        run: "composer install --no-interaction --no-progress"
 
       - name: "Infection"
-        run: "./vendor/bin/infection -s --threads=$(nproc) --coverage=build"
+        run: "make infection PHPUNIT_FLAGS=--coverage-clover=coverage.xml"
 
       - name: "Upload Code Coverage"
         uses: "codecov/codecov-action@v1"
