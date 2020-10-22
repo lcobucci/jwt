@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68556e63f98825c854c5de02af571d9d",
+    "content-hash": "3c3a9ce5b09d7be9b2e36276a5f1220e",
     "packages": [
         {
             "name": "lcobucci/clock",
@@ -193,71 +193,6 @@
                 "validation"
             ],
             "time": "2019-12-19T17:51:41+00:00"
-        },
-        {
-            "name": "composer/package-versions-deprecated",
-            "version": "1.8.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer/package-versions-deprecated.git",
-                "reference": "98df7f1b293c0550bd5b1ce6b60b59bdda23aa47"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/98df7f1b293c0550bd5b1ce6b60b59bdda23aa47",
-                "reference": "98df7f1b293c0550bd5b1ce6b60b59bdda23aa47",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.1.0 || ^2.0",
-                "php": "^7"
-            },
-            "replace": {
-                "ocramius/package-versions": "1.2 - 1.8.99"
-            },
-            "require-dev": {
-                "composer/composer": "^1.9.3 || ^2.0@dev",
-                "ext-zip": "^1.13",
-                "phpunit/phpunit": "^6.5 || ^7"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "PackageVersions\\Installer",
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PackageVersions\\": "src/PackageVersions"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com"
-                },
-                {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be"
-                }
-            ],
-            "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
-            "funding": [
-                {
-                    "url": "https://packagist.com",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-04-23T11:49:37+00:00"
         },
         {
             "name": "composer/xdebug-handler",
@@ -792,16 +727,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.17.3",
+            "version": "0.18.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "d3d77a7629d237e437d5bb66606f9493bdcf369e"
+                "reference": "05685f8e97ec2d42455fdaad6984446d5af2f67e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/d3d77a7629d237e437d5bb66606f9493bdcf369e",
-                "reference": "d3d77a7629d237e437d5bb66606f9493bdcf369e",
+                "url": "https://api.github.com/repos/infection/infection/zipball/05685f8e97ec2d42455fdaad6984446d5af2f67e",
+                "reference": "05685f8e97ec2d42455fdaad6984446d5af2f67e",
                 "shasum": ""
             },
             "require": {
@@ -809,21 +744,21 @@
                 "ext-dom": "*",
                 "ext-json": "*",
                 "ext-libxml": "*",
-                "infection/abstract-testframework-adapter": "^0.3.0",
+                "infection/abstract-testframework-adapter": "^0.3.1",
                 "infection/extension-installer": "^0.1.0",
                 "infection/include-interceptor": "^0.2.4",
                 "justinrainbow/json-schema": "^5.2",
-                "nikic/php-parser": "^4.2.2",
-                "ocramius/package-versions": "^1.2",
+                "nikic/php-parser": "^4.10.2",
+                "ocramius/package-versions": "^1.2 || ^2.0",
                 "ondram/ci-detector": "^3.3.0",
-                "php": "^7.3",
+                "php": "^7.3 || ^8.0",
                 "sanmai/pipeline": "^3.1 || ^5.0",
                 "sebastian/diff": "^3.0.2 || ^4.0",
                 "seld/jsonlint": "^1.7",
-                "symfony/console": "^3.4.29 || ^4.0 || ^5.0",
-                "symfony/filesystem": "^3.4.29 || ^4.0 || ^5.0",
-                "symfony/finder": "^3.4.29 || ^4.0 || ^5.0",
-                "symfony/process": "^3.4.29 || ^4.0 || ^5.0",
+                "symfony/console": "^3.4.29 || ^4.1.19 || ^5.0",
+                "symfony/filesystem": "^3.4.29 || ^4.1.19 || ^5.0",
+                "symfony/finder": "^3.4.29 || ^4.1.19 || ^5.0",
+                "symfony/process": "^3.4.29 || ^4.1.19 || ^5.0",
                 "thecodingmachine/safe": "^1.0",
                 "webmozart/assert": "^1.3",
                 "webmozart/path-util": "^2.3"
@@ -833,14 +768,16 @@
                 "symfony/console": "=4.1.5"
             },
             "require-dev": {
+                "composer/package-versions-deprecated": "^1.2 || ^2.0",
                 "ext-simplexml": "*",
                 "helmich/phpunit-json-assert": "^3.0",
+                "phpspec/prophecy-phpunit": "^2.0",
                 "phpstan/extension-installer": "^1.0",
                 "phpstan/phpstan": "^0.12.8",
                 "phpstan/phpstan-phpunit": "^0.12.6",
                 "phpstan/phpstan-webmozart-assert": "^0.12.2",
-                "phpunit/phpunit": "^8.2.5 <8.4",
-                "symfony/phpunit-bridge": "^4.3.4 || ^5.0",
+                "phpunit/phpunit": "^9.3.11",
+                "symfony/phpunit-bridge": "^4.4.14 || ^5.1.6",
                 "symfony/yaml": "^5.0",
                 "thecodingmachine/phpstan-safe-rule": "^1.0"
             },
@@ -896,7 +833,7 @@
                 "testing",
                 "unit testing"
             ],
-            "time": "2020-08-25T06:36:58+00:00"
+            "time": "2020-10-21T20:25:38+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -1294,6 +1231,67 @@
                 "php"
             ],
             "time": "2020-09-26T10:30:38+00:00"
+        },
+        {
+            "name": "ocramius/package-versions",
+            "version": "1.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Ocramius/PackageVersions.git",
+                "reference": "94c9d42a466c57f91390cdd49c81313264f49d85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/94c9d42a466c57f91390cdd49c81313264f49d85",
+                "reference": "94c9d42a466c57f91390cdd49c81313264f49d85",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.1.0 || ^2.0",
+                "php": "^7.4.0"
+            },
+            "require-dev": {
+                "composer/composer": "^1.9.3 || ^2.0@dev",
+                "doctrine/coding-standard": "^7.0.2",
+                "ext-zip": "^1.15.0",
+                "infection/infection": "^0.15.3",
+                "phpunit/phpunit": "^9.1.1",
+                "vimeo/psalm": "^3.9.3"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "PackageVersions\\Installer",
+                "branch-alias": {
+                    "dev-master": "1.99.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PackageVersions\\": "src/PackageVersions"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com"
+                }
+            ],
+            "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
+            "funding": [
+                {
+                    "url": "https://github.com/Ocramius",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/ocramius/package-versions",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-06-22T14:15:44+00:00"
         },
         {
             "name": "ondram/ci-detector",
