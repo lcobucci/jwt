@@ -391,30 +391,25 @@
         },
         {
             "name": "doctrine/coding-standard",
-            "version": "8.1.0",
+            "version": "8.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/coding-standard.git",
-                "reference": "637003febec655f1b27f4301b44bf2264be57434"
+                "reference": "529d385bb3790431080493c0fe7adaec39df368a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/coding-standard/zipball/637003febec655f1b27f4301b44bf2264be57434",
-                "reference": "637003febec655f1b27f4301b44bf2264be57434",
+                "url": "https://api.github.com/repos/doctrine/coding-standard/zipball/529d385bb3790431080493c0fe7adaec39df368a",
+                "reference": "529d385bb3790431080493c0fe7adaec39df368a",
                 "shasum": ""
             },
             "require": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2 || ^0.7",
-                "php": "^7.2 || ^8.0",
+                "php": "^7.1 || ^8.0",
                 "slevomat/coding-standard": "^6.3.9",
                 "squizlabs/php_codesniffer": "^3.5.5"
             },
             "type": "phpcodesniffer-standard",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "7.0.x-dev"
-                }
-            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -443,7 +438,7 @@
                 "standard",
                 "style"
             ],
-            "time": "2020-07-05T20:35:22+00:00"
+            "time": "2020-10-25T14:56:19+00:00"
         },
         {
             "name": "doctrine/instantiator",
