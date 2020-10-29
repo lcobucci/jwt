@@ -4883,16 +4883,16 @@
         },
         {
             "name": "thecodingmachine/safe",
-            "version": "v1.3.2",
+            "version": "v1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodingmachine/safe.git",
-                "reference": "72d9fee55e14e07a6283c9b3e28c09e85923a148"
+                "reference": "a8ab0876305a4cdaef31b2350fcb9811b5608dbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodingmachine/safe/zipball/72d9fee55e14e07a6283c9b3e28c09e85923a148",
-                "reference": "72d9fee55e14e07a6283c9b3e28c09e85923a148",
+                "url": "https://api.github.com/repos/thecodingmachine/safe/zipball/a8ab0876305a4cdaef31b2350fcb9811b5608dbc",
+                "reference": "a8ab0876305a4cdaef31b2350fcb9811b5608dbc",
                 "shasum": ""
             },
             "require": {
@@ -5014,7 +5014,7 @@
                 "MIT"
             ],
             "description": "PHP core functions that throw exceptions instead of returning FALSE on error",
-            "time": "2020-10-22T09:17:04+00:00"
+            "time": "2020-10-28T17:51:34+00:00"
         },
         {
             "name": "theseer/tokenizer",
