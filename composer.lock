@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ab4be868013b88d56d1fa36946c3f5e",
+    "content-hash": "3b6367a93e4144ec69226e976a351238",
     "packages": [
         {
             "name": "lcobucci/clock",
@@ -723,16 +723,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.19.2",
+            "version": "0.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "d1e4b9059ca4b44dda14065f148c9c91af03c9f6"
+                "reference": "735506ce5fc35dd504c9ba147d5fe0554898b232"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/d1e4b9059ca4b44dda14065f148c9c91af03c9f6",
-                "reference": "d1e4b9059ca4b44dda14065f148c9c91af03c9f6",
+                "url": "https://api.github.com/repos/infection/infection/zipball/735506ce5fc35dd504c9ba147d5fe0554898b232",
+                "reference": "735506ce5fc35dd504c9ba147d5fe0554898b232",
                 "shasum": ""
             },
             "require": {
@@ -770,6 +770,7 @@
                 "phpstan/extension-installer": "^1.0",
                 "phpstan/phpstan": "^0.12.8",
                 "phpstan/phpstan-phpunit": "^0.12.6",
+                "phpstan/phpstan-strict-rules": "^0.12.5",
                 "phpstan/phpstan-webmozart-assert": "^0.12.2",
                 "phpunit/phpunit": "^9.3.11",
                 "symfony/phpunit-bridge": "^4.4.14 || ^5.1.6",
@@ -829,7 +830,7 @@
                 "testing",
                 "unit testing"
             ],
-            "time": "2020-10-29T07:44:27+00:00"
+            "time": "2020-10-31T19:41:12+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
