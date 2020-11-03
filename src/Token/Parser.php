@@ -5,7 +5,7 @@ namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
-use Lcobucci\Jose\Parsing;
+use Lcobucci\JWT\Decoder;
 use Lcobucci\JWT\Parser as ParserInterface;
 use Lcobucci\JWT\Token as TokenInterface;
 
@@ -18,9 +18,9 @@ use function strpos;
 
 final class Parser implements ParserInterface
 {
-    private Parsing\Decoder $decoder;
+    private Decoder $decoder;
 
-    public function __construct(Parsing\Decoder $decoder)
+    public function __construct(Decoder $decoder)
     {
         $this->decoder = $decoder;
     }

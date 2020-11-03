@@ -5,8 +5,8 @@ namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
-use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Builder as BuilderInterface;
+use Lcobucci\JWT\Encoder;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 
@@ -26,9 +26,9 @@ final class Builder implements BuilderInterface
     /** @var array<string, mixed> */
     private array $claims = [];
 
-    private Parsing\Encoder $encoder;
+    private Encoder $encoder;
 
-    public function __construct(Parsing\Encoder $encoder)
+    public function __construct(Encoder $encoder)
     {
         $this->encoder = $encoder;
     }

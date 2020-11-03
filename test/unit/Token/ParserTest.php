@@ -5,7 +5,7 @@ namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
-use Lcobucci\Jose\Parsing\Decoder;
+use Lcobucci\JWT\Decoder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use Closure;
-use Lcobucci\Jose\Parsing;
+use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Validation\Constraint;
@@ -33,17 +33,17 @@ final class Configuration
         Signer $signer,
         Key $signingKey,
         Key $verificationKey,
-        ?Parsing\Encoder $encoder = null,
-        ?Parsing\Decoder $decoder = null
+        ?Encoder $encoder = null,
+        ?Decoder $decoder = null
     ) {
         $this->signer          = $signer;
         $this->signingKey      = $signingKey;
         $this->verificationKey = $verificationKey;
-        $this->parser          = new Token\Parser($decoder ?? new Parsing\Parser());
+        $this->parser          = new Token\Parser($decoder ?? new JoseEncoder());
         $this->validator       = new Validation\Validator();
 
         $this->builderFactory = static function () use ($encoder): Builder {
-            return new Token\Builder($encoder ?? new Parsing\Parser());
+            return new Token\Builder($encoder ?? new JoseEncoder());
         };
     }
 
@@ -51,8 +51,8 @@ final class Configuration
         Signer $signer,
         Key $signingKey,
         Key $verificationKey,
-        ?Parsing\Encoder $encoder = null,
-        ?Parsing\Decoder $decoder = null
+        ?Encoder $encoder = null,
+        ?Decoder $decoder = null
     ): self {
         return new self(
             $signer,
@@ -66,8 +66,8 @@ final class Configuration
     public static function forSymmetricSigner(
         Signer $signer,
         Key $key,
-        ?Parsing\Encoder $encoder = null,
-        ?Parsing\Decoder $decoder = null
+        ?Encoder $encoder = null,
+        ?Decoder $decoder = null
     ): self {
         return new self(
             $signer,
@@ -79,8 +79,8 @@ final class Configuration
     }
 
     public static function forUnsecuredSigner(
-        ?Parsing\Encoder $encoder = null,
-        ?Parsing\Decoder $decoder = null
+        ?Encoder $encoder = null,
+        ?Decoder $decoder = null
     ): self {
         $key = new Key('');
 
