@@ -5,7 +5,7 @@ namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
-use Lcobucci\Jose\Parsing\Encoder;
+use Lcobucci\JWT\Encoder;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 use PHPUnit\Framework\MockObject\MockObject;

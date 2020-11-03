@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Hmac;
 
-use Lcobucci\Jose\Parsing\Parser;
+use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\SignerBench;
 use PhpBench\Benchmark\Metadata\Annotations\Groups;
@@ -25,7 +25,7 @@ abstract class HmacBench extends SignerBench
 
     private function createKey(): Key
     {
-        $decoder = new Parser();
+        $decoder = new JoseEncoder();
 
         return new Key($decoder->base64UrlDecode(self::ENCODED_KEY));
     }

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
 
-use Lcobucci\Jose\Parsing\Parser;
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512 as ES512;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HS512;
@@ -47,6 +47,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
      * @test
      *
      * @covers \Lcobucci\JWT\Configuration
+     * @covers \Lcobucci\JWT\Encoding\JoseEncoder
      * @covers \Lcobucci\JWT\Token\Builder
      * @covers \Lcobucci\JWT\Token\Parser
      * @covers \Lcobucci\JWT\Token\Plain
@@ -105,7 +106,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
 
     private function createMaliciousToken(string $token): string
     {
-        $dec     = new Parser();
+        $dec     = new JoseEncoder();
         $asplode = explode('.', $token);
 
         // The user is lying; we insist that we're using HMAC-SHA512, with the

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
-use Lcobucci\Jose\Parsing;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token\Builder as BuilderImpl;
@@ -26,11 +25,11 @@ final class ConfigurationTest extends TestCase
     /** @var Signer&MockObject */
     private Signer $signer;
 
-    /** @var Parsing\Encoder&MockObject */
-    private Parsing\Encoder $encoder;
+    /** @var Encoder&MockObject */
+    private Encoder $encoder;
 
-    /** @var Parsing\Decoder&MockObject */
-    private Parsing\Decoder $decoder;
+    /** @var Decoder&MockObject */
+    private Decoder $decoder;
 
     /** @var Validator&MockObject */
     private Validator $validator;
@@ -42,8 +41,8 @@ final class ConfigurationTest extends TestCase
     public function createDependencies(): void
     {
         $this->signer                = $this->createMock(Signer::class);
-        $this->encoder               = $this->createMock(Parsing\Encoder::class);
-        $this->decoder               = $this->createMock(Parsing\Decoder::class);
+        $this->encoder               = $this->createMock(Encoder::class);
+        $this->decoder               = $this->createMock(Decoder::class);
         $this->parser                = $this->createMock(Parser::class);
         $this->validator             = $this->createMock(Validator::class);
         $this->validationConstraints = $this->createMock(Constraint::class);
