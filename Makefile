@@ -17,7 +17,7 @@ phpunit:
 .PHONY: infection
 infection:
 	@vendor/bin/phpunit --coverage-xml=build/coverage-xml --log-junit=build/junit.xml $(PHPUNIT_FLAGS)
-	@vendor/bin/infection -s --threads=$(PARALLELISM) --coverage=build
+	@vendor/bin/infection -s --threads=$(PARALLELISM) --coverage=build $(INFECTION_FLAGS)
 
 .PHONY: phpcbf
 phpcbf:
