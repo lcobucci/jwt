@@ -26,17 +26,54 @@ Then, register a custom factory in the [configuration object]:
 
 ```php
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\ClaimsFormatter;
 use Lcobucci\JWT\Configuration;
 
 $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
 $config->setBuilderFactory(
-    static function (): Builder {
-        return new MyCustomTokenBuilder();
+    static function (ClaimsFormatter $formatter): Builder {
+        return new MyCustomTokenBuilder($formatter);
     }
 );
 ```
+
+## Claims formatter
+
+By default, we provide formatters that:
+
+- unify the audience claim, making sure we use strings when there's only one item in that claim
+- format date based claims using microseconds (float)
+
+You may customise and even create your own formatters:
+
+```php
+use Lcobucci\JWT\ClaimsFormatter;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Token\RegisteredClaims;
+
+final class UnixTimestampDates implements ClaimsFormatter
+{
+    /** @inheritdoc  */
+    public function formatClaims(array $claims): array
+    {
+        foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
+            assert($claims[$claim] instanceof DateTimeImmutable);
+            $claims[$claim] = $claims[$claim]->getTimestamp();
+        }
+
+        return $claims;
+    }
+}
+
+$config = $container->get(Configuration::class);
+assert($config instanceof Configuration);
+
+$config->createBuilder(new UnixTimestampDates());
+```
+
+The class `Lcobucci\JWT\Encoding\ChainedFormatter` allows for users to combine multiple formatters. 
 
 ## Parser
 
