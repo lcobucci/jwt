@@ -22,6 +22,7 @@ use const PHP_EOL;
  * @covers \Lcobucci\JWT\Configuration
  * @covers \Lcobucci\JWT\Encoding\JoseEncoder
  * @covers \Lcobucci\JWT\Token\Builder
+ * @covers \Lcobucci\JWT\Token\DefaultClaimFormatter
  * @covers \Lcobucci\JWT\Token\Parser
  * @covers \Lcobucci\JWT\Token\Plain
  * @covers \Lcobucci\JWT\Token\DataSet

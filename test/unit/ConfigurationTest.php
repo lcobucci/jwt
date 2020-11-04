@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
+use Lcobucci\JWT\Encoding\DefaultClaimsFormatter;
+use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token\Builder as BuilderImpl;
@@ -130,7 +132,7 @@ final class ConfigurationTest extends TestCase
         $builder = $config->createBuilder();
 
         self::assertInstanceOf(BuilderImpl::class, $builder);
-        self::assertNotEquals(new BuilderImpl($this->encoder), $builder);
+        self::assertNotEquals(new BuilderImpl($this->encoder, new DefaultClaimsFormatter()), $builder);
     }
 
     /**
@@ -150,7 +152,7 @@ final class ConfigurationTest extends TestCase
         $builder = $config->createBuilder();
 
         self::assertInstanceOf(BuilderImpl::class, $builder);
-        self::assertEquals(new BuilderImpl($this->encoder), $builder);
+        self::assertEquals(new BuilderImpl($this->encoder, new DefaultClaimsFormatter()), $builder);
     }
 
     /**
@@ -304,5 +306,23 @@ final class ConfigurationTest extends TestCase
         $config->setValidationConstraints($this->validationConstraints);
 
         self::assertSame([$this->validationConstraints], $config->getValidationConstraints());
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::createBuilder
+     *
+     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::__construct
+     * @uses \Lcobucci\JWT\Token\Builder
+     * @uses \Lcobucci\JWT\Signer\Key
+     */
+    public function customClaimFormatterCanBeUsed(): void
+    {
+        $formatter = $this->createMock(ClaimsFormatter::class);
+        $config    = Configuration::forUnsecuredSigner();
+
+        self::assertEquals(new BuilderImpl(new JoseEncoder(), $formatter), $config->createBuilder($formatter));
     }
 }
