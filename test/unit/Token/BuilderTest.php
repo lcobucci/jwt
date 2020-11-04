@@ -6,12 +6,17 @@ namespace Lcobucci\JWT\Token;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use Lcobucci\JWT\Encoder;
+use Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Token\Builder */
+/**
+ * @coversDefaultClass \Lcobucci\JWT\Token\Builder
+ *
+ * @uses \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
+ */
 final class BuilderTest extends TestCase
 {
     /** @var Encoder&MockObject */
@@ -36,7 +41,7 @@ final class BuilderTest extends TestCase
      */
     public function withClaimShouldRaiseExceptionWhenTryingToConfigureARegisteredClaim(): void
     {
-        $builder = new Builder($this->encoder);
+        $builder = new Builder($this->encoder, new MicrosecondBasedDateConversion());
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('You should use the correct methods to set registered claims');
@@ -50,118 +55,6 @@ final class BuilderTest extends TestCase
      * @covers ::__construct
      * @covers ::getToken
      * @covers ::encode
-     * @covers ::formatClaims
-     * @covers ::convertDate
-     * @covers ::withClaim
-     * @covers ::withHeader
-     * @covers ::identifiedBy
-     * @covers ::setClaim
-     * @covers ::issuedBy
-     * @covers ::issuedAt
-     * @covers ::relatedTo
-     * @covers ::canOnlyBeUsedAfter
-     * @covers ::expiresAt
-     * @covers ::permittedFor
-     *
-     * @uses \Lcobucci\JWT\Signer\Key
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
-    public function claimsMustBeFormattedWhileEncoding(): void
-    {
-        $issuedAt   = new DateTimeImmutable('@1487285080');
-        $notBefore  = DateTimeImmutable::createFromFormat('U.u', '1487285080.000123');
-        $expiration = DateTimeImmutable::createFromFormat('U.u', '1487285080.123456');
-
-        self::assertInstanceOf(DateTimeImmutable::class, $notBefore);
-        self::assertInstanceOf(DateTimeImmutable::class, $expiration);
-
-        $headers = ['typ' => 'JWT', 'alg' => 'RS256', 'userId' => 2];
-        $claims  = [
-            RegisteredClaims::ID => '123456',
-            RegisteredClaims::ISSUER => 'https://issuer.com',
-            RegisteredClaims::ISSUED_AT => 1487285080,
-            RegisteredClaims::NOT_BEFORE => '1487285080.000123',
-            RegisteredClaims::EXPIRATION_TIME => '1487285080.123456',
-            RegisteredClaims::SUBJECT => 'subject',
-            RegisteredClaims::AUDIENCE => 'test1',
-            'test' => 123,
-        ];
-
-        $this->signer->method('sign')->willReturn('testing');
-
-        $this->encoder->expects(self::exactly(2))
-                     ->method('jsonEncode')
-                      ->withConsecutive([self::identicalTo($headers)], [self::identicalTo($claims)])
-                      ->willReturnOnConsecutiveCalls('1', '2');
-
-        $this->encoder->expects(self::exactly(3))
-                      ->method('base64UrlEncode')
-                      ->withConsecutive(['1'], ['2'], ['testing'])
-                      ->willReturnOnConsecutiveCalls('1', '2', '3');
-
-        $builder = new Builder($this->encoder);
-
-        $builder->identifiedBy('123456')
-                ->issuedBy('https://issuer.com')
-                ->issuedAt($issuedAt)
-                ->canOnlyBeUsedAfter($notBefore)
-                ->expiresAt($expiration)
-                ->relatedTo('subject')
-                ->permittedFor('test1')
-                ->withClaim('test', 123)
-                ->withHeader('userId', 2)
-                ->getToken($this->signer, new Key('123'));
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::encode
-     * @covers ::formatClaims
-     * @covers ::setClaim
-     * @covers ::permittedFor
-     *
-     * @uses \Lcobucci\JWT\Token\Builder::getToken
-     * @uses \Lcobucci\JWT\Signer\Key
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
-    public function audienceShouldBeFormattedAsArrayWhenMultipleValuesAreUsed(): void
-    {
-        $headers = ['typ' => 'JWT', 'alg' => 'RS256'];
-        $claims  = [RegisteredClaims::AUDIENCE => ['test1', 'test2', 'test3']];
-
-        $this->signer->method('sign')->willReturn('testing');
-
-        $this->encoder->expects(self::exactly(2))
-                     ->method('jsonEncode')
-                      ->withConsecutive([self::identicalTo($headers)], [self::identicalTo($claims)])
-                      ->willReturnOnConsecutiveCalls('1', '2');
-
-        $this->encoder->expects(self::exactly(3))
-                      ->method('base64UrlEncode')
-                      ->withConsecutive(['1'], ['2'], ['testing'])
-                      ->willReturnOnConsecutiveCalls('1', '2', '3');
-
-        $builder = new Builder($this->encoder);
-
-        $builder->permittedFor('test1', 'test2', 'test3')
-                ->permittedFor('test2') // should not be added since it's duplicated
-                ->getToken($this->signer, new Key('123'));
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::getToken
-     * @covers ::encode
-     * @covers ::formatClaims
-     * @covers ::convertDate
      * @covers ::withClaim
      * @covers ::withHeader
      * @covers ::identifiedBy
@@ -195,7 +88,7 @@ final class BuilderTest extends TestCase
                       ->method('base64UrlEncode')
                       ->willReturnOnConsecutiveCalls('1', '2', '3');
 
-        $builder = new Builder($this->encoder);
+        $builder = new Builder($this->encoder, new MicrosecondBasedDateConversion());
         $token   = $builder->identifiedBy('123456')
                            ->issuedBy('https://issuer.com')
                            ->issuedAt($issuedAt)
@@ -204,6 +97,7 @@ final class BuilderTest extends TestCase
                            ->relatedTo('subject')
                            ->permittedFor('test1')
                            ->permittedFor('test2')
+                           ->permittedFor('test2') // should not be added since it's duplicated
                            ->withClaim('test', 123)
                            ->withHeader('userId', 2)
                            ->getToken($this->signer, new Key('123'));

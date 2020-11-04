@@ -10,7 +10,7 @@
         "@default": true,
         "@function_signature": true
     },
-    "minMsi": 92.44,
-    "minCoveredMsi": 92.44,
+    "minMsi": 93.36,
+    "minCoveredMsi": 93.36,
     "testFrameworkOptions": "--testsuite=unit"
 }

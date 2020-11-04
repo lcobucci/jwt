@@ -19,6 +19,9 @@ use function assert;
 /**
  * @covers \Lcobucci\JWT\Configuration
  * @covers \Lcobucci\JWT\Encoding\JoseEncoder
+ * @covers \Lcobucci\JWT\Encoding\ChainedFormatter
+ * @covers \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
+ * @covers \Lcobucci\JWT\Encoding\UnifyAudience
  * @covers \Lcobucci\JWT\Token\Builder
  * @covers \Lcobucci\JWT\Token\Parser
  * @covers \Lcobucci\JWT\Token\Plain
@@ -158,21 +161,6 @@ class ES512TokenTest extends TestCase
     /**
      * @test
      * @depends builderCanGenerateAToken
-     *
-     * @covers \Lcobucci\JWT\Configuration
-     * @covers \Lcobucci\JWT\Token\Builder
-     * @covers \Lcobucci\JWT\Token\Parser
-     * @covers \Lcobucci\JWT\Token\Plain
-     * @covers \Lcobucci\JWT\Token\DataSet
-     * @covers \Lcobucci\JWT\Token\Signature
-     * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
-     * @covers \Lcobucci\JWT\Signer\OpenSSL
-     * @covers \Lcobucci\JWT\Validation\Validator
-     * @covers \Lcobucci\JWT\Validation\InvalidToken
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(Token $token): void
     {
@@ -188,20 +176,6 @@ class ES512TokenTest extends TestCase
     /**
      * @test
      * @depends builderCanGenerateAToken
-     *
-     * @covers \Lcobucci\JWT\Configuration
-     * @covers \Lcobucci\JWT\Token\Builder
-     * @covers \Lcobucci\JWT\Token\Parser
-     * @covers \Lcobucci\JWT\Token\Plain
-     * @covers \Lcobucci\JWT\Token\DataSet
-     * @covers \Lcobucci\JWT\Token\Signature
-     * @covers \Lcobucci\JWT\Signer\Key
-     * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
-     * @covers \Lcobucci\JWT\Signer\OpenSSL
-     * @covers \Lcobucci\JWT\Validation\Validator
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
      */
     public function signatureValidationShouldSucceedWhenKeyIsRight(Token $token): void
     {

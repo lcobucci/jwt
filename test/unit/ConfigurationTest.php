@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
+use Lcobucci\JWT\Encoding\ChainedFormatter;
+use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token\Builder as BuilderImpl;
@@ -14,6 +16,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @coversDefaultClass \Lcobucci\JWT\Configuration
  *
+ * @uses \Lcobucci\JWT\Encoding\ChainedFormatter
+ * @uses \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
+ * @uses \Lcobucci\JWT\Encoding\UnifyAudience
  * @uses \Lcobucci\JWT\Token\Parser
  * @uses \Lcobucci\JWT\Validation\Validator
  */
@@ -130,7 +135,8 @@ final class ConfigurationTest extends TestCase
         $builder = $config->createBuilder();
 
         self::assertInstanceOf(BuilderImpl::class, $builder);
-        self::assertNotEquals(new BuilderImpl($this->encoder), $builder);
+        self::assertNotEquals(new BuilderImpl($this->encoder, ChainedFormatter::default()), $builder);
+        self::assertEquals(new BuilderImpl(new JoseEncoder(), ChainedFormatter::default()), $builder);
     }
 
     /**
@@ -150,7 +156,7 @@ final class ConfigurationTest extends TestCase
         $builder = $config->createBuilder();
 
         self::assertInstanceOf(BuilderImpl::class, $builder);
-        self::assertEquals(new BuilderImpl($this->encoder), $builder);
+        self::assertEquals(new BuilderImpl($this->encoder, ChainedFormatter::default()), $builder);
     }
 
     /**
@@ -304,5 +310,23 @@ final class ConfigurationTest extends TestCase
         $config->setValidationConstraints($this->validationConstraints);
 
         self::assertSame([$this->validationConstraints], $config->getValidationConstraints());
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::createBuilder
+     *
+     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::__construct
+     * @uses \Lcobucci\JWT\Token\Builder
+     * @uses \Lcobucci\JWT\Signer\Key
+     */
+    public function customClaimFormatterCanBeUsed(): void
+    {
+        $formatter = $this->createMock(ClaimsFormatter::class);
+        $config    = Configuration::forUnsecuredSigner();
+
+        self::assertEquals(new BuilderImpl(new JoseEncoder(), $formatter), $config->createBuilder($formatter));
     }
 }

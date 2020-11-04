@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use Closure;
+use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
@@ -23,7 +24,7 @@ final class Configuration
     private Key $verificationKey;
     private Validator $validator;
 
-    /** @var Closure(): Builder */
+    /** @var Closure(ClaimsFormatter $claimFormatter): Builder */
     private Closure $builderFactory;
 
     /** @var Constraint[] */
@@ -42,8 +43,8 @@ final class Configuration
         $this->parser          = new Token\Parser($decoder ?? new JoseEncoder());
         $this->validator       = new Validation\Validator();
 
-        $this->builderFactory = static function () use ($encoder): Builder {
-            return new Token\Builder($encoder ?? new JoseEncoder());
+        $this->builderFactory = static function (ClaimsFormatter $claimFormatter) use ($encoder): Builder {
+            return new Token\Builder($encoder ?? new JoseEncoder(), $claimFormatter);
         };
     }
 
@@ -93,15 +94,15 @@ final class Configuration
         );
     }
 
-    /** @param callable(): Builder $builderFactory */
+    /** @param callable(ClaimsFormatter): Builder $builderFactory */
     public function setBuilderFactory(callable $builderFactory): void
     {
         $this->builderFactory = Closure::fromCallable($builderFactory);
     }
 
-    public function createBuilder(): Builder
+    public function createBuilder(?ClaimsFormatter $claimFormatter = null): Builder
     {
-        return ($this->builderFactory)();
+        return ($this->builderFactory)($claimFormatter ?? ChainedFormatter::default());
     }
 
     public function getParser(): Parser
