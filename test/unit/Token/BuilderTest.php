@@ -6,7 +6,7 @@ namespace Lcobucci\JWT\Token;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use Lcobucci\JWT\Encoder;
-use Lcobucci\JWT\Encoding\DefaultClaimsFormatter;
+use Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @coversDefaultClass \Lcobucci\JWT\Token\Builder
  *
- * @uses \Lcobucci\JWT\Encoding\DefaultClaimsFormatter
+ * @uses \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
  */
 final class BuilderTest extends TestCase
 {
@@ -41,7 +41,7 @@ final class BuilderTest extends TestCase
      */
     public function withClaimShouldRaiseExceptionWhenTryingToConfigureARegisteredClaim(): void
     {
-        $builder = new Builder($this->encoder, new DefaultClaimsFormatter());
+        $builder = new Builder($this->encoder, new MicrosecondBasedDateConversion());
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('You should use the correct methods to set registered claims');
@@ -88,7 +88,7 @@ final class BuilderTest extends TestCase
                       ->method('base64UrlEncode')
                       ->willReturnOnConsecutiveCalls('1', '2', '3');
 
-        $builder = new Builder($this->encoder, new DefaultClaimsFormatter());
+        $builder = new Builder($this->encoder, new MicrosecondBasedDateConversion());
         $token   = $builder->identifiedBy('123456')
                            ->issuedBy('https://issuer.com')
                            ->issuedAt($issuedAt)

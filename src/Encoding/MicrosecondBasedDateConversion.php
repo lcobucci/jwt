@@ -9,20 +9,12 @@ use Lcobucci\JWT\Token\RegisteredClaims;
 
 use function array_intersect;
 use function array_keys;
-use function count;
-use function current;
 
-final class DefaultClaimsFormatter implements ClaimsFormatter
+final class MicrosecondBasedDateConversion implements ClaimsFormatter
 {
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritdoc */
     public function formatClaims(array $claims): array
     {
-        if (isset($claims[RegisteredClaims::AUDIENCE]) && count($claims[RegisteredClaims::AUDIENCE]) === 1) {
-            $claims[RegisteredClaims::AUDIENCE] = current($claims[RegisteredClaims::AUDIENCE]);
-        }
-
         foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
             $claims[$claim] = $this->convertDate($claims[$claim]);
         }

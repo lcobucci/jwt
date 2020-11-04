@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use Closure;
-use Lcobucci\JWT\Encoding\DefaultClaimsFormatter;
+use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
@@ -102,7 +102,7 @@ final class Configuration
 
     public function createBuilder(?ClaimsFormatter $claimFormatter = null): Builder
     {
-        return ($this->builderFactory)($claimFormatter ?? new DefaultClaimsFormatter());
+        return ($this->builderFactory)($claimFormatter ?? ChainedFormatter::default());
     }
 
     public function getParser(): Parser

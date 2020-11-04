@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
-use Lcobucci\JWT\Encoding\DefaultClaimsFormatter;
+use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\None;
@@ -16,6 +16,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @coversDefaultClass \Lcobucci\JWT\Configuration
  *
+ * @uses \Lcobucci\JWT\Encoding\ChainedFormatter
+ * @uses \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
+ * @uses \Lcobucci\JWT\Encoding\UnifyAudience
  * @uses \Lcobucci\JWT\Token\Parser
  * @uses \Lcobucci\JWT\Validation\Validator
  */
@@ -132,7 +135,8 @@ final class ConfigurationTest extends TestCase
         $builder = $config->createBuilder();
 
         self::assertInstanceOf(BuilderImpl::class, $builder);
-        self::assertNotEquals(new BuilderImpl($this->encoder, new DefaultClaimsFormatter()), $builder);
+        self::assertNotEquals(new BuilderImpl($this->encoder, ChainedFormatter::default()), $builder);
+        self::assertEquals(new BuilderImpl(new JoseEncoder(), ChainedFormatter::default()), $builder);
     }
 
     /**
@@ -152,7 +156,7 @@ final class ConfigurationTest extends TestCase
         $builder = $config->createBuilder();
 
         self::assertInstanceOf(BuilderImpl::class, $builder);
-        self::assertEquals(new BuilderImpl($this->encoder, new DefaultClaimsFormatter()), $builder);
+        self::assertEquals(new BuilderImpl($this->encoder, ChainedFormatter::default()), $builder);
     }
 
     /**

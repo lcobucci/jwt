@@ -7,8 +7,8 @@ use DateTimeImmutable;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Encoding\DefaultClaimsFormatter */
-final class DefaultClaimFormatterTest extends TestCase
+/** @coversDefaultClass \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion */
+final class MicrosecondBasedDateConversionTest extends TestCase
 {
     /**
      * @test
@@ -29,43 +29,37 @@ final class DefaultClaimFormatterTest extends TestCase
             RegisteredClaims::ISSUED_AT => $issuedAt,
             RegisteredClaims::NOT_BEFORE => $notBefore,
             RegisteredClaims::EXPIRATION_TIME => $expiration,
+            'testing' => 'test',
         ];
 
-        $formatter = new DefaultClaimsFormatter();
+        $formatter = new MicrosecondBasedDateConversion();
         $formatted = $formatter->formatClaims($claims);
 
         self::assertSame(1487285080, $formatted[RegisteredClaims::ISSUED_AT]);
         self::assertSame('1487285080.000123', $formatted[RegisteredClaims::NOT_BEFORE]);
         self::assertSame('1487285080.123456', $formatted[RegisteredClaims::EXPIRATION_TIME]);
+        self::assertSame('test', $formatted['testing']); // this should remain untouched
     }
 
     /**
      * @test
      *
      * @covers ::formatClaims
+     * @covers ::convertDate
      */
-    public function audienceShouldBeFormattedAsSingleStringWhenOneValueIsUsed(): void
+    public function notAllDateClaimsNeedToBeConfigured(): void
     {
-        $claims = [RegisteredClaims::AUDIENCE => ['test1']];
+        $issuedAt = new DateTimeImmutable('@1487285080');
 
-        $formatter = new DefaultClaimsFormatter();
+        $claims = [
+            RegisteredClaims::ISSUED_AT => $issuedAt,
+            'testing' => 'test',
+        ];
+
+        $formatter = new MicrosecondBasedDateConversion();
         $formatted = $formatter->formatClaims($claims);
 
-        self::assertSame('test1', $formatted[RegisteredClaims::AUDIENCE]);
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::formatClaims
-     */
-    public function audienceShouldBeFormattedAsArrayWhenMultipleValuesAreUsed(): void
-    {
-        $claims = [RegisteredClaims::AUDIENCE => ['test1', 'test2', 'test3']];
-
-        $formatter = new DefaultClaimsFormatter();
-        $formatted = $formatter->formatClaims($claims);
-
-        self::assertSame(['test1', 'test2', 'test3'], $formatted[RegisteredClaims::AUDIENCE]);
+        self::assertSame(1487285080, $formatted[RegisteredClaims::ISSUED_AT]);
+        self::assertSame('test', $formatted['testing']); // this should remain untouched
     }
 }
