@@ -1865,16 +1865,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.53",
+            "version": "0.12.54",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "dbbdb0d7c2434ecd5289f6114d16473e694caa67"
+                "reference": "45c7b999a4b7dd9ac5558bdaaf23dcebbef88223"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/dbbdb0d7c2434ecd5289f6114d16473e694caa67",
-                "reference": "dbbdb0d7c2434ecd5289f6114d16473e694caa67",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/45c7b999a4b7dd9ac5558bdaaf23dcebbef88223",
+                "reference": "45c7b999a4b7dd9ac5558bdaaf23dcebbef88223",
                 "shasum": ""
             },
             "require": {
@@ -1917,7 +1917,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-01T14:51:50+00:00"
+            "time": "2020-11-05T13:36:26+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -5069,5 +5069,5 @@
         "ext-openssl": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "1.1.0"
 }
