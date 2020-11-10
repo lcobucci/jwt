@@ -10,6 +10,7 @@ namespace Lcobucci\JWT;
 use InvalidArgumentException;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
+use RuntimeException;
 
 /**
  * This class parses the JWT strings and convert them into tokens
@@ -53,6 +54,9 @@ class Parser
      * @param string $jwt
      *
      * @return Token
+     *
+     * @throws InvalidArgumentException  When JWT is not a string or is invalid.
+     * @throws RuntimeException          When something goes wrong while decoding
      */
     public function parse($jwt)
     {
