@@ -4,6 +4,7 @@
 /.github         export-ignore
 /.gitignore      export-ignore
 /*.yml           export-ignore
+/*.yaml          export-ignore
 /CONTRIBUTING.md export-ignore
 /*.dist          export-ignore
 /phpbench.json   export-ignore

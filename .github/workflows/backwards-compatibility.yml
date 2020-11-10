@@ -1,0 +1,20 @@
+name: "Backwards compatibility check"
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  bc-check:
+    name: "Backwards compatibility check"
+
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "BC Check"
+        uses: docker://nyholm/roave-bc-check-ga
+        with:
+          args: --from=3.3.3
