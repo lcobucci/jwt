@@ -75,7 +75,7 @@ final class Parser implements ParserInterface
         }
 
         if (! array_key_exists('typ', $header)) {
-            throw new InvalidArgumentException('The header "typ" must be present');
+            $header['typ'] = 'JWT';
         }
 
         return $header;
