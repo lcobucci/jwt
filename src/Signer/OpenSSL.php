@@ -21,6 +21,7 @@ use function openssl_verify;
 
 abstract class OpenSSL implements Signer
 {
+    /** @throws InvalidArgumentException */
     final protected function createSignature(
         string $pem,
         string $passphrase,
@@ -43,7 +44,11 @@ abstract class OpenSSL implements Signer
         }
     }
 
-    /** @return resource|OpenSSLAsymmetricKey */
+    /**
+     * @return resource|OpenSSLAsymmetricKey
+     *
+     * @throws InvalidArgumentException
+     */
     private function getPrivateKey(string $pem, string $passphrase)
     {
         $privateKey = openssl_pkey_get_private($pem, $passphrase);
@@ -52,6 +57,7 @@ abstract class OpenSSL implements Signer
         return $privateKey;
     }
 
+    /** @throws InvalidArgumentException */
     final protected function verifySignature(
         string $expected,
         string $payload,
@@ -64,7 +70,11 @@ abstract class OpenSSL implements Signer
         return $result === 1;
     }
 
-    /** @return resource|OpenSSLAsymmetricKey */
+    /**
+     * @return resource|OpenSSLAsymmetricKey
+     *
+     * @throws InvalidArgumentException
+     */
     private function getPublicKey(string $pem)
     {
         $publicKey = openssl_pkey_get_public($pem);

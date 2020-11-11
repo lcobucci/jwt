@@ -5,6 +5,7 @@ namespace Lcobucci\JWT;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
+use Lcobucci\JWT\Encoding\CannotEncodeContent;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\Plain;
 
@@ -63,6 +64,9 @@ interface Builder
 
     /**
      * Returns a signed token to be used
+     *
+     * @throws InvalidArgumentException When there was an issue while creating the signature.
+     * @throws CannotEncodeContent      When data cannot be converted to JSON.
      */
     public function getToken(Signer $signer, Key $key): Plain;
 }
