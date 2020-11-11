@@ -70,11 +70,11 @@ final class Parser implements ParserInterface
             throw new InvalidArgumentException('Headers must be an array');
         }
 
-        if (isset($header['enc'])) {
+        if (array_key_exists('enc', $header)) {
             throw new InvalidArgumentException('Encryption is not supported yet');
         }
 
-        if (! isset($header['typ'])) {
+        if (! array_key_exists('typ', $header)) {
             throw new InvalidArgumentException('The header "typ" must be present');
         }
 
@@ -96,7 +96,7 @@ final class Parser implements ParserInterface
             throw new InvalidArgumentException('Claims must be an array');
         }
 
-        if (isset($claims[RegisteredClaims::AUDIENCE])) {
+        if (array_key_exists(RegisteredClaims::AUDIENCE, $claims)) {
             $claims[RegisteredClaims::AUDIENCE] = (array) $claims[RegisteredClaims::AUDIENCE];
         }
 
@@ -133,7 +133,7 @@ final class Parser implements ParserInterface
      */
     private function parseSignature(array $header, string $data): Signature
     {
-        if ($data === '' || ! isset($header['alg']) || $header['alg'] === 'none') {
+        if ($data === '' || ! array_key_exists('alg', $header) || $header['alg'] === 'none') {
             return Signature::fromEmptyData();
         }
 
