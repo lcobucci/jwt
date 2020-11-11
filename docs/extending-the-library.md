@@ -58,7 +58,11 @@ final class UnixTimestampDates implements ClaimsFormatter
     /** @inheritdoc  */
     public function formatClaims(array $claims): array
     {
-        foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
+        foreach (RegisteredClaims::DATE_CLAIMS as $claim) {
+            if (! array_key_exists($claim, $claims)) {
+                continue;
+            }
+
             assert($claims[$claim] instanceof DateTimeImmutable);
             $claims[$claim] = $claims[$claim]->getTimestamp();
         }

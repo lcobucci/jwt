@@ -99,27 +99,6 @@ final class ParserTest extends TestCase
      * @covers ::splitJwt
      * @covers ::parseHeader
      */
-    public function parseMustRaiseExceptionWhenTypeHeaderIsNotConfigured(): void
-    {
-        $this->decoder->method('jsonDecode')
-                      ->willReturn(['alg' => 'none']);
-
-        $parser = $this->createParser();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The header "typ" must be present');
-
-        $parser->parse('a.a.');
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     */
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
     {
         $this->decoder->method('jsonDecode')
@@ -192,6 +171,90 @@ final class ParserTest extends TestCase
         self::assertInstanceOf(Plain::class, $token);
 
         $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
+        $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+
+        self::assertEquals($headers, $token->headers());
+        self::assertEquals($claims, $token->claims());
+        self::assertEquals(Signature::fromEmptyData(), $token->signature());
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
+     *
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
+     */
+    public function parseMustConfigureTypeToJWTWhenItIsMissing(): void
+    {
+        $this->decoder->expects(self::exactly(2))
+                      ->method('base64UrlDecode')
+                      ->withConsecutive(['a'], ['b'])
+                      ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+
+        $this->decoder->expects(self::exactly(2))
+                      ->method('jsonDecode')
+                      ->withConsecutive(['a_dec'], ['b_dec'])
+                      ->willReturnOnConsecutiveCalls(
+                          ['alg' => 'none'],
+                          [RegisteredClaims::AUDIENCE => 'test']
+                      );
+
+        $parser = $this->createParser();
+        $token  = $parser->parse('a.b.');
+
+        self::assertInstanceOf(Plain::class, $token);
+
+        $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
+        $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+
+        self::assertEquals($headers, $token->headers());
+        self::assertEquals($claims, $token->claims());
+        self::assertEquals(Signature::fromEmptyData(), $token->signature());
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
+     *
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
+     */
+    public function parseMustNotChangeTypeWhenItIsConfigured(): void
+    {
+        $this->decoder->expects(self::exactly(2))
+                      ->method('base64UrlDecode')
+                      ->withConsecutive(['a'], ['b'])
+                      ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+
+        $this->decoder->expects(self::exactly(2))
+                      ->method('jsonDecode')
+                      ->withConsecutive(['a_dec'], ['b_dec'])
+                      ->willReturnOnConsecutiveCalls(
+                          ['typ' => 'JWS', 'alg' => 'none'],
+                          [RegisteredClaims::AUDIENCE => 'test']
+                      );
+
+        $parser = $this->createParser();
+        $token  = $parser->parse('a.b.');
+
+        self::assertInstanceOf(Plain::class, $token);
+
+        $headers = new DataSet(['typ' => 'JWS', 'alg' => 'none'], 'a');
         $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
 
         self::assertEquals($headers, $token->headers());
@@ -387,7 +450,6 @@ final class ParserTest extends TestCase
     {
         $data = [
             RegisteredClaims::ISSUED_AT => 1486930663,
-            RegisteredClaims::NOT_BEFORE => 1486930663,
             RegisteredClaims::EXPIRATION_TIME => '1486930757.023055',
         ];
 
@@ -412,11 +474,6 @@ final class ParserTest extends TestCase
         self::assertEquals(
             DateTimeImmutable::createFromFormat('U', '1486930663'),
             $claims->get(RegisteredClaims::ISSUED_AT)
-        );
-
-        self::assertEquals(
-            DateTimeImmutable::createFromFormat('U', '1486930663'),
-            $claims->get(RegisteredClaims::NOT_BEFORE)
         );
 
         self::assertEquals(

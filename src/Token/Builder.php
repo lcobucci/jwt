@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Lcobucci\JWT\Builder as BuilderInterface;
 use Lcobucci\JWT\ClaimsFormatter;
 use Lcobucci\JWT\Encoder;
+use Lcobucci\JWT\Encoding\CannotEncodeContent;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 
@@ -100,7 +101,11 @@ final class Builder implements BuilderInterface
         return $this;
     }
 
-    /** @param array<string, mixed> $items */
+    /**
+     * @param array<string, mixed> $items
+     *
+     * @throws CannotEncodeContent When data cannot be converted to JSON.
+     */
     private function encode(array $items): string
     {
         return $this->encoder->base64UrlEncode(

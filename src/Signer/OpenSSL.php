@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use Lcobucci\JWT\Signer;
 use OpenSSLAsymmetricKey;
 
+use function array_key_exists;
 use function assert;
 use function is_array;
 use function is_bool;
@@ -20,6 +21,7 @@ use function openssl_verify;
 
 abstract class OpenSSL implements Signer
 {
+    /** @throws InvalidArgumentException */
     final protected function createSignature(
         string $pem,
         string $passphrase,
@@ -42,7 +44,11 @@ abstract class OpenSSL implements Signer
         }
     }
 
-    /** @return resource|OpenSSLAsymmetricKey */
+    /**
+     * @return resource|OpenSSLAsymmetricKey
+     *
+     * @throws InvalidArgumentException
+     */
     private function getPrivateKey(string $pem, string $passphrase)
     {
         $privateKey = openssl_pkey_get_private($pem, $passphrase);
@@ -51,6 +57,7 @@ abstract class OpenSSL implements Signer
         return $privateKey;
     }
 
+    /** @throws InvalidArgumentException */
     final protected function verifySignature(
         string $expected,
         string $payload,
@@ -63,7 +70,11 @@ abstract class OpenSSL implements Signer
         return $result === 1;
     }
 
-    /** @return resource|OpenSSLAsymmetricKey */
+    /**
+     * @return resource|OpenSSLAsymmetricKey
+     *
+     * @throws InvalidArgumentException
+     */
     private function getPublicKey(string $pem)
     {
         $publicKey = openssl_pkey_get_public($pem);
@@ -90,7 +101,7 @@ abstract class OpenSSL implements Signer
         $details = openssl_pkey_get_details($key);
         assert(is_array($details));
 
-        if (! isset($details['key']) || $details['type'] !== $this->getKeyType()) {
+        if (! array_key_exists('key', $details) || $details['type'] !== $this->getKeyType()) {
             throw new InvalidArgumentException('This key is not compatible with this signer');
         }
     }

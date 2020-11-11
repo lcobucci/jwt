@@ -49,10 +49,12 @@ final class MicrosecondBasedDateConversionTest extends TestCase
      */
     public function notAllDateClaimsNeedToBeConfigured(): void
     {
-        $issuedAt = new DateTimeImmutable('@1487285080');
+        $issuedAt   = new DateTimeImmutable('@1487285080');
+        $expiration = DateTimeImmutable::createFromFormat('U.u', '1487285080.123456');
 
         $claims = [
             RegisteredClaims::ISSUED_AT => $issuedAt,
+            RegisteredClaims::EXPIRATION_TIME => $expiration,
             'testing' => 'test',
         ];
 
@@ -60,6 +62,7 @@ final class MicrosecondBasedDateConversionTest extends TestCase
         $formatted = $formatter->formatClaims($claims);
 
         self::assertSame(1487285080, $formatted[RegisteredClaims::ISSUED_AT]);
+        self::assertSame('1487285080.123456', $formatted[RegisteredClaims::EXPIRATION_TIME]);
         self::assertSame('test', $formatted['testing']); // this should remain untouched
     }
 }
