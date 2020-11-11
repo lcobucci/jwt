@@ -387,7 +387,6 @@ final class ParserTest extends TestCase
     {
         $data = [
             RegisteredClaims::ISSUED_AT => 1486930663,
-            RegisteredClaims::NOT_BEFORE => 1486930663,
             RegisteredClaims::EXPIRATION_TIME => '1486930757.023055',
         ];
 
@@ -412,11 +411,6 @@ final class ParserTest extends TestCase
         self::assertEquals(
             DateTimeImmutable::createFromFormat('U', '1486930663'),
             $claims->get(RegisteredClaims::ISSUED_AT)
-        );
-
-        self::assertEquals(
-            DateTimeImmutable::createFromFormat('U', '1486930663'),
-            $claims->get(RegisteredClaims::NOT_BEFORE)
         );
 
         self::assertEquals(

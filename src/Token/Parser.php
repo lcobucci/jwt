@@ -9,8 +9,7 @@ use Lcobucci\JWT\Decoder;
 use Lcobucci\JWT\Parser as ParserInterface;
 use Lcobucci\JWT\Token as TokenInterface;
 
-use function array_intersect;
-use function array_keys;
+use function array_key_exists;
 use function count;
 use function explode;
 use function is_array;
@@ -101,7 +100,11 @@ final class Parser implements ParserInterface
             $claims[RegisteredClaims::AUDIENCE] = (array) $claims[RegisteredClaims::AUDIENCE];
         }
 
-        foreach (array_intersect(RegisteredClaims::DATE_CLAIMS, array_keys($claims)) as $claim) {
+        foreach (RegisteredClaims::DATE_CLAIMS as $claim) {
+            if (! array_key_exists($claim, $claims)) {
+                continue;
+            }
+
             $claims[$claim] = $this->convertDate((string) $claims[$claim]);
         }
 
