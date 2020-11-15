@@ -11,7 +11,7 @@ use Lcobucci\JWT\Signer\Ecdsa\Sha512;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
-use Lcobucci\JWT\Validation\InvalidToken;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
@@ -38,7 +38,7 @@ use const PHP_EOL;
  * @covers \Lcobucci\JWT\Validation\Validator
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
  * @covers \Lcobucci\JWT\Validation\Validator
- * @covers \Lcobucci\JWT\Validation\InvalidToken
+ * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
  */
 class EcdsaTokenTest extends TestCase
@@ -132,7 +132,7 @@ class EcdsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
-        $this->expectException(InvalidToken::class);
+        $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $this->config->getValidator()->assert(
@@ -150,7 +150,7 @@ class EcdsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
-        $this->expectException(InvalidToken::class);
+        $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $this->config->getValidator()->assert(

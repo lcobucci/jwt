@@ -39,7 +39,7 @@ final class ValidatorTest extends TestCase
      * @covers ::assert
      * @covers ::checkConstraint
      *
-     * @uses \Lcobucci\JWT\Validation\InvalidToken
+     * @uses \Lcobucci\JWT\Validation\RequiredConstraintsViolated
      */
     public function assertShouldRaiseExceptionWhenAtLeastOneConstraintFails(): void
     {
@@ -55,7 +55,7 @@ final class ValidatorTest extends TestCase
 
         $validator = new Validator();
 
-        $this->expectException(InvalidToken::class);
+        $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $validator->assert(

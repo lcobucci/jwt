@@ -9,7 +9,7 @@ use RuntimeException;
 use function array_map;
 use function implode;
 
-final class InvalidToken extends RuntimeException implements Exception
+final class RequiredConstraintsViolated extends RuntimeException implements Exception
 {
     /** @var ConstraintViolation[] */
     private array $violations = [];
