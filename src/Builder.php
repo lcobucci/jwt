@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Lcobucci\JWT\Encoding\CannotEncodeContent;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\Token\RegisteredClaimGiven;
 
 interface Builder
 {
@@ -58,7 +59,7 @@ interface Builder
      *
      * @param mixed $value
      *
-     * @throws InvalidArgumentException When trying to set a registered claim.
+     * @throws RegisteredClaimGiven When trying to set a registered claim.
      */
     public function withClaim(string $name, $value): Builder;
 
