@@ -98,6 +98,7 @@ final class ParserTest extends TestCase
      * @covers ::parse
      * @covers ::splitJwt
      * @covers ::parseHeader
+     * @covers \Lcobucci\JWT\Token\UnsupportedHeaderFound
      */
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
     {
@@ -106,7 +107,7 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(UnsupportedHeaderFound::class);
         $this->expectExceptionMessage('Encryption is not supported yet');
 
         $parser->parse('a.a.');

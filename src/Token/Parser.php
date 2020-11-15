@@ -60,7 +60,7 @@ final class Parser implements ParserInterface
      *
      * @return mixed[]
      *
-     * @throws InvalidArgumentException When an invalid header is informed.
+     * @throws UnsupportedHeaderFound When an invalid header is informed.
      */
     private function parseHeader(string $data): array
     {
@@ -71,7 +71,7 @@ final class Parser implements ParserInterface
         }
 
         if (array_key_exists('enc', $header)) {
-            throw new InvalidArgumentException('Encryption is not supported yet');
+            throw UnsupportedHeaderFound::encryption();
         }
 
         if (! array_key_exists('typ', $header)) {
