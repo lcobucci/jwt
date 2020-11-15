@@ -70,9 +70,7 @@ final class Builder implements BuilderInterface
         return $this->setClaim(RegisteredClaims::SUBJECT, $subject);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritdoc */
     public function withHeader(string $name, $value): BuilderInterface
     {
         $this->headers[$name] = $value;
@@ -80,9 +78,7 @@ final class Builder implements BuilderInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritdoc */
     public function withClaim(string $name, $value): BuilderInterface
     {
         if (in_array($name, RegisteredClaims::ALL, true)) {
