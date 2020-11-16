@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
-use InvalidArgumentException;
 use Lcobucci\JWT\Signer;
 use OpenSSLAsymmetricKey;
 
@@ -11,6 +10,7 @@ use function array_key_exists;
 use function assert;
 use function is_array;
 use function is_bool;
+use function is_string;
 use function openssl_error_string;
 use function openssl_free_key;
 use function openssl_pkey_get_details;
@@ -21,7 +21,10 @@ use function openssl_verify;
 
 abstract class OpenSSL implements Signer
 {
-    /** @throws InvalidArgumentException */
+    /**
+     * @throws CannotSignPayload
+     * @throws InvalidKeyProvided
+     */
     final protected function createSignature(
         string $pem,
         string $passphrase,
@@ -33,9 +36,10 @@ abstract class OpenSSL implements Signer
             $signature = '';
 
             if (! openssl_sign($payload, $signature, $key, $this->getAlgorithm())) {
-                throw new InvalidArgumentException(
-                    'There was an error while creating the signature: ' . openssl_error_string()
-                );
+                $error = openssl_error_string();
+                assert(is_string($error));
+
+                throw CannotSignPayload::errorHappened($error);
             }
 
             return $signature;
@@ -47,7 +51,7 @@ abstract class OpenSSL implements Signer
     /**
      * @return resource|OpenSSLAsymmetricKey
      *
-     * @throws InvalidArgumentException
+     * @throws CannotSignPayload
      */
     private function getPrivateKey(string $pem, string $passphrase)
     {
@@ -57,7 +61,7 @@ abstract class OpenSSL implements Signer
         return $privateKey;
     }
 
-    /** @throws InvalidArgumentException */
+    /** @throws InvalidKeyProvided */
     final protected function verifySignature(
         string $expected,
         string $payload,
@@ -73,7 +77,7 @@ abstract class OpenSSL implements Signer
     /**
      * @return resource|OpenSSLAsymmetricKey
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidKeyProvided
      */
     private function getPublicKey(string $pem)
     {
@@ -88,21 +92,22 @@ abstract class OpenSSL implements Signer
      *
      * @param resource|OpenSSLAsymmetricKey|bool $key
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidKeyProvided
      */
     private function validateKey($key): void
     {
         if (is_bool($key)) {
-            throw new InvalidArgumentException(
-                'It was not possible to parse your key, reason: ' . openssl_error_string()
-            );
+            $error = openssl_error_string();
+            assert(is_string($error));
+
+            throw InvalidKeyProvided::cannotBeParsed($error);
         }
 
         $details = openssl_pkey_get_details($key);
         assert(is_array($details));
 
         if (! array_key_exists('key', $details) || $details['type'] !== $this->getKeyType()) {
-            throw new InvalidArgumentException('This key is not compatible with this signer');
+            throw InvalidKeyProvided::incompatibleKey();
         }
     }
 
