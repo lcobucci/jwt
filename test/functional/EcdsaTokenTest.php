@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
 
-use InvalidArgumentException;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Ecdsa\Sha256;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512;
+use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
-use Lcobucci\JWT\Validation\InvalidToken;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
@@ -38,7 +38,7 @@ use const PHP_EOL;
  * @covers \Lcobucci\JWT\Validation\Validator
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
  * @covers \Lcobucci\JWT\Validation\Validator
- * @covers \Lcobucci\JWT\Validation\InvalidToken
+ * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
  */
 class EcdsaTokenTest extends TestCase
@@ -62,7 +62,7 @@ class EcdsaTokenTest extends TestCase
     {
         $builder = $this->config->createBuilder();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('It was not possible to parse your key, reason:');
 
         $builder->identifiedBy('1')
@@ -77,7 +77,7 @@ class EcdsaTokenTest extends TestCase
     {
         $builder = $this->config->createBuilder();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('This key is not compatible with this signer');
 
         $builder->identifiedBy('1')
@@ -132,7 +132,7 @@ class EcdsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
-        $this->expectException(InvalidToken::class);
+        $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $this->config->getValidator()->assert(
@@ -150,7 +150,7 @@ class EcdsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
-        $this->expectException(InvalidToken::class);
+        $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $this->config->getValidator()->assert(
@@ -168,7 +168,7 @@ class EcdsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(Token $token): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('This key is not compatible with this signer');
 
         $this->config->getValidator()->assert(

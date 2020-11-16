@@ -5,7 +5,6 @@ namespace Lcobucci\JWT\Validation\Constraint;
 
 use DateInterval;
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Token\RegisteredClaims;
@@ -27,13 +26,14 @@ final class ValidAtTest extends ConstraintTestCase
      *
      * @covers ::__construct
      * @covers ::guardLeeway
+     * @covers \Lcobucci\JWT\Validation\Constraint\LeewayCannotBeNegative
      */
     public function constructShouldRaiseExceptionOnNegativeLeeway(): void
     {
         $leeway         = new DateInterval('PT30S');
         $leeway->invert = 1;
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(LeewayCannotBeNegative::class);
         $this->expectExceptionMessage('Leeway cannot be negative');
 
         new ValidAt($this->clock, $leeway);

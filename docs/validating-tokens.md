@@ -16,7 +16,7 @@ This method goes through every single constraint in the set, groups all the viol
 ```php
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\Plain;
-use Lcobucci\JWT\Validation\InvalidToken;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 
 $token = $container->get(Configuration::class);
 assert($config instanceof Configuration);
@@ -28,7 +28,7 @@ $constraints = $config->getValidationConstraints();
 
 try {
     $config->getValidator()->assert($token, ...$constraints);
-} catch (InvalidToken $e) {
+} catch (RequiredConstraintsViolated $e) {
     // list of constraints violation exceptions:
     var_dump($e->violations());
 }

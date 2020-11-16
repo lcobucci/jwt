@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Lcobucci\JWT\Encoder;
 use Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion;
 use Lcobucci\JWT\Signer;
@@ -38,13 +37,17 @@ final class BuilderTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::withClaim
+     * @covers \Lcobucci\JWT\Token\RegisteredClaimGiven
      */
     public function withClaimShouldRaiseExceptionWhenTryingToConfigureARegisteredClaim(): void
     {
         $builder = new Builder($this->encoder, new MicrosecondBasedDateConversion());
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('You should use the correct methods to set registered claims');
+        $this->expectException(RegisteredClaimGiven::class);
+        $this->expectExceptionMessage(
+            'Builder#withClaim() is meant to be used for non-registered claims, '
+            . 'check the documentation on how to set claim "iss"'
+        );
 
         $builder->withClaim(RegisteredClaims::ISSUER, 'me');
     }

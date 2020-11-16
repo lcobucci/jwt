@@ -9,7 +9,7 @@ use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
-use Lcobucci\JWT\Validation\InvalidToken;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
@@ -30,7 +30,7 @@ use function assert;
  * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
  * @covers \Lcobucci\JWT\Signer\Hmac\Sha512
  * @covers \Lcobucci\JWT\Validation\Validator
- * @covers \Lcobucci\JWT\Validation\InvalidToken
+ * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
  */
 class HmacTokenTest extends TestCase
@@ -83,7 +83,7 @@ class HmacTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
-        $this->expectException(InvalidToken::class);
+        $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $this->config->getValidator()->assert(
@@ -98,7 +98,7 @@ class HmacTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
-        $this->expectException(InvalidToken::class);
+        $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $this->config->getValidator()->assert(

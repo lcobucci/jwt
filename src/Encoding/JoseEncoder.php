@@ -26,9 +26,7 @@ final class JoseEncoder implements Encoder, Decoder
 {
     private const JSON_DEFAULT_DEPTH = 512;
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritdoc */
     public function jsonEncode($data): string
     {
         try {
@@ -38,9 +36,7 @@ final class JoseEncoder implements Encoder, Decoder
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritdoc */
     public function jsonDecode(string $json)
     {
         try {

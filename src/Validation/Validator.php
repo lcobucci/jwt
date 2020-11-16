@@ -20,7 +20,7 @@ final class Validator implements \Lcobucci\JWT\Validator
         }
 
         if ($violations) {
-            throw InvalidToken::fromViolations(...$violations);
+            throw RequiredConstraintsViolated::fromViolations(...$violations);
         }
     }
 

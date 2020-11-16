@@ -4,10 +4,13 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Lcobucci\JWT\Encoding\CannotEncodeContent;
+use Lcobucci\JWT\Signer\CannotSignPayload;
+use Lcobucci\JWT\Signer\Ecdsa\ConversionFailed;
+use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\Token\RegisteredClaimGiven;
 
 interface Builder
 {
@@ -58,15 +61,17 @@ interface Builder
      *
      * @param mixed $value
      *
-     * @throws InvalidArgumentException When trying to set a registered claim.
+     * @throws RegisteredClaimGiven When trying to set a registered claim.
      */
     public function withClaim(string $name, $value): Builder;
 
     /**
      * Returns a signed token to be used
      *
-     * @throws InvalidArgumentException When there was an issue while creating the signature.
-     * @throws CannotEncodeContent      When data cannot be converted to JSON.
+     * @throws CannotEncodeContent When data cannot be converted to JSON.
+     * @throws CannotSignPayload   When payload signing fails.
+     * @throws InvalidKeyProvided  When issue key is invalid/incompatible.
+     * @throws ConversionFailed    When signature could not be converted.
      */
     public function getToken(Signer $signer, Key $key): Plain;
 }

@@ -13,7 +13,7 @@ use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolation;
-use Lcobucci\JWT\Validation\InvalidToken;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
@@ -31,7 +31,7 @@ use function assert;
  * @covers \Lcobucci\JWT\Token\Signature
  * @covers \Lcobucci\JWT\Signer\None
  * @covers \Lcobucci\JWT\Signer\Key
- * @covers \Lcobucci\JWT\Validation\InvalidToken
+ * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
  * @covers \Lcobucci\JWT\Validation\Validator
  * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy
  * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor
@@ -125,7 +125,7 @@ class UnsignedTokenTest extends TestCase
             new IssuedBy('http://issuer.abc.com'),
         ];
 
-        $this->expectException(InvalidToken::class);
+        $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $this->config->getValidator()->assert($generated, ...$constraints);

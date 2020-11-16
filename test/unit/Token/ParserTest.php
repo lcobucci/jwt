@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Lcobucci\JWT\Decoder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -33,12 +32,13 @@ final class ParserTest extends TestCase
      * @covers ::__construct
      * @covers ::parse
      * @covers ::splitJwt
+     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      */
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
     {
         $parser = $this->createParser();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidTokenStructure::class);
         $this->expectExceptionMessage('The JWT string must have two dots');
 
         $parser->parse('');
@@ -77,6 +77,7 @@ final class ParserTest extends TestCase
      * @covers ::parse
      * @covers ::splitJwt
      * @covers ::parseHeader
+     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      */
     public function parseMustRaiseExceptionWhenDealingWithInvalidHeaders(): void
     {
@@ -85,8 +86,8 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Headers must be an array');
+        $this->expectException(InvalidTokenStructure::class);
+        $this->expectExceptionMessage('headers must be an array');
 
         $parser->parse('a.a.');
     }
@@ -98,6 +99,7 @@ final class ParserTest extends TestCase
      * @covers ::parse
      * @covers ::splitJwt
      * @covers ::parseHeader
+     * @covers \Lcobucci\JWT\Token\UnsupportedHeaderFound
      */
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
     {
@@ -106,7 +108,7 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(UnsupportedHeaderFound::class);
         $this->expectExceptionMessage('Encryption is not supported yet');
 
         $parser->parse('a.a.');
@@ -120,6 +122,7 @@ final class ParserTest extends TestCase
      * @covers ::splitJwt
      * @covers ::parseHeader
      * @covers ::parseClaims
+     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      */
@@ -130,8 +133,8 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Claims must be an array');
+        $this->expectException(InvalidTokenStructure::class);
+        $this->expectExceptionMessage('claims must be an array');
 
         $parser->parse('a.a.');
     }
@@ -492,6 +495,7 @@ final class ParserTest extends TestCase
      * @covers ::parseClaims
      * @covers ::parseSignature
      * @covers ::convertDate
+     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -514,8 +518,8 @@ final class ParserTest extends TestCase
                 $data
             );
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Given value is not in the allowed format: 14/10/2018 10:50:10.10 UTC');
+        $this->expectException(InvalidTokenStructure::class);
+        $this->expectExceptionMessage('Value is not in the allowed date format: 14/10/2018 10:50:10.10 UTC');
         $this->createParser()->parse('a.b.');
     }
 }

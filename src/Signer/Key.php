@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
-use InvalidArgumentException;
+use Lcobucci\JWT\Signer\Key\FileCouldNotBeRead;
 use SplFileObject;
 use Throwable;
 
@@ -23,7 +23,7 @@ final class Key
         $this->passphrase = $passphrase;
     }
 
-    /** @throws InvalidArgumentException */
+    /** @throws FileCouldNotBeRead */
     private function setContent(string $content): void
     {
         if (strpos($content, 'file://') === 0) {
@@ -33,17 +33,19 @@ final class Key
         $this->content = $content;
     }
 
-    /** @throws InvalidArgumentException */
+    /** @throws FileCouldNotBeRead */
     private function readFile(string $path): string
     {
+        $path = substr($path, 7);
+
         try {
-            $file    = new SplFileObject(substr($path, 7));
+            $file    = new SplFileObject($path);
             $content = $file->fread($file->getSize());
             assert(is_string($content));
 
             return $content;
         } catch (Throwable $exception) {
-            throw new InvalidArgumentException('You must provide a valid key file', $exception->getCode(), $exception);
+            throw FileCouldNotBeRead::onPath($path, $exception);
         }
     }
 

@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\FunctionalTests;
 
-use InvalidArgumentException;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Keys;
+use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
-use Lcobucci\JWT\Validation\InvalidToken;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
@@ -33,7 +33,7 @@ use function assert;
  * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
  * @covers \Lcobucci\JWT\Signer\Rsa\Sha512
  * @covers \Lcobucci\JWT\Validation\Validator
- * @covers \Lcobucci\JWT\Validation\InvalidToken
+ * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
  */
 class RsaTokenTest extends TestCase
@@ -57,7 +57,7 @@ class RsaTokenTest extends TestCase
     {
         $builder = $this->config->createBuilder();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('It was not possible to parse your key');
 
         $builder->identifiedBy('1')
@@ -72,7 +72,7 @@ class RsaTokenTest extends TestCase
     {
         $builder = $this->config->createBuilder();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('This key is not compatible with this signer');
 
         $builder->identifiedBy('1')
@@ -122,7 +122,7 @@ class RsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
-        $this->expectException(InvalidToken::class);
+        $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $this->config->getValidator()->assert(
@@ -137,7 +137,7 @@ class RsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
-        $this->expectException(InvalidToken::class);
+        $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
         $this->config->getValidator()->assert(
@@ -152,7 +152,7 @@ class RsaTokenTest extends TestCase
      */
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('This key is not compatible with this signer');
 
         $this->config->getValidator()->assert(

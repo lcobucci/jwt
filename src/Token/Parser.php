@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Lcobucci\JWT\Decoder;
 use Lcobucci\JWT\Parser as ParserInterface;
 use Lcobucci\JWT\Token as TokenInterface;
@@ -42,14 +41,14 @@ final class Parser implements ParserInterface
      *
      * @return string[]
      *
-     * @throws InvalidArgumentException When JWT doesn't have all parts.
+     * @throws InvalidTokenStructure When JWT doesn't have all parts.
      */
     private function splitJwt(string $jwt): array
     {
         $data = explode('.', $jwt);
 
         if (count($data) !== 3) {
-            throw new InvalidArgumentException('The JWT string must have two dots');
+            throw InvalidTokenStructure::missingOrNotEnoughSeparators();
         }
 
         return $data;
@@ -60,18 +59,19 @@ final class Parser implements ParserInterface
      *
      * @return mixed[]
      *
-     * @throws InvalidArgumentException When an invalid header is informed.
+     * @throws UnsupportedHeaderFound When an invalid header is informed.
+     * @throws InvalidTokenStructure  When parsed content isn't an array.
      */
     private function parseHeader(string $data): array
     {
         $header = $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
         if (! is_array($header)) {
-            throw new InvalidArgumentException('Headers must be an array');
+            throw InvalidTokenStructure::arrayExpected('headers');
         }
 
         if (array_key_exists('enc', $header)) {
-            throw new InvalidArgumentException('Encryption is not supported yet');
+            throw UnsupportedHeaderFound::encryption();
         }
 
         if (! array_key_exists('typ', $header)) {
@@ -86,14 +86,14 @@ final class Parser implements ParserInterface
      *
      * @return mixed[]
      *
-     * @throws InvalidArgumentException When an invalid claim set is informed.
+     * @throws InvalidTokenStructure When parsed content isn't an array or contains non-parseable dates.
      */
     private function parseClaims(string $data): array
     {
         $claims = $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
         if (! is_array($claims)) {
-            throw new InvalidArgumentException('Claims must be an array');
+            throw InvalidTokenStructure::arrayExpected('claims');
         }
 
         if (array_key_exists(RegisteredClaims::AUDIENCE, $claims)) {
@@ -111,6 +111,7 @@ final class Parser implements ParserInterface
         return $claims;
     }
 
+    /** @throws InvalidTokenStructure */
     private function convertDate(string $value): DateTimeImmutable
     {
         if (strpos($value, '.') === false) {
@@ -120,7 +121,7 @@ final class Parser implements ParserInterface
         $date = DateTimeImmutable::createFromFormat('U.u', $value);
 
         if ($date === false) {
-            throw new InvalidArgumentException('Given value is not in the allowed format: ' . $value);
+            throw InvalidTokenStructure::dateIsNotParseable($value);
         }
 
         return $date;

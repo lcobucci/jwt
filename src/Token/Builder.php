@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Lcobucci\JWT\Builder as BuilderInterface;
 use Lcobucci\JWT\ClaimsFormatter;
 use Lcobucci\JWT\Encoder;
@@ -71,9 +70,7 @@ final class Builder implements BuilderInterface
         return $this->setClaim(RegisteredClaims::SUBJECT, $subject);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritdoc */
     public function withHeader(string $name, $value): BuilderInterface
     {
         $this->headers[$name] = $value;
@@ -81,13 +78,11 @@ final class Builder implements BuilderInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @inheritdoc */
     public function withClaim(string $name, $value): BuilderInterface
     {
         if (in_array($name, RegisteredClaims::ALL, true)) {
-            throw new InvalidArgumentException('You should use the correct methods to set registered claims');
+            throw RegisteredClaimGiven::forClaim($name);
         }
 
         return $this->setClaim($name, $value);
