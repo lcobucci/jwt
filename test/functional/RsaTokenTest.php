@@ -27,6 +27,7 @@ use function assert;
  * @covers \Lcobucci\JWT\Token\Plain
  * @covers \Lcobucci\JWT\Token\DataSet
  * @covers \Lcobucci\JWT\Token\Signature
+ * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
  * @covers \Lcobucci\JWT\Signer\OpenSSL
  * @covers \Lcobucci\JWT\Signer\Key
  * @covers \Lcobucci\JWT\Signer\Rsa
