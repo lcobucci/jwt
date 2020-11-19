@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Keys;
+use Lcobucci\JWT\Signer\Key\SafeString;
 use OpenSSLAsymmetricKey;
 use PHPUnit\Framework\TestCase;
 
@@ -28,7 +29,7 @@ final class RsaTest extends TestCase
      * @covers ::getKeyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
-     * @uses \Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
      */
     public function signShouldReturnAValidOpensslSignature(): void
     {
@@ -37,7 +38,7 @@ final class RsaTest extends TestCase
         $signer    = $this->getSigner();
         $signature = $signer->sign($payload, self::$rsaKeys['private']);
 
-        $publicKey = openssl_pkey_get_public(self::$rsaKeys['public']->getContent());
+        $publicKey = openssl_pkey_get_public(self::$rsaKeys['public']->contents());
         assert(is_resource($publicKey) || $publicKey instanceof OpenSSLAsymmetricKey);
 
         self::assertSame(1, openssl_verify($payload, $signature, $publicKey, OPENSSL_ALGO_SHA256));
@@ -51,7 +52,7 @@ final class RsaTest extends TestCase
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\CannotSignPayload
      *
-     * @uses \Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Key\SafeString
      */
     public function signShouldRaiseAnExceptionWhenKeyIsInvalid(): void
     {
@@ -68,7 +69,7 @@ KEY;
         $this->expectException(CannotSignPayload::class);
         $this->expectExceptionMessage('There was an error while creating the signature');
 
-        $signer->sign('testing', new Key($key));
+        $signer->sign('testing', SafeString::plainText($key));
     }
 
     /**
@@ -78,7 +79,7 @@ KEY;
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
-     * @uses \Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Key\SafeString
      */
     public function signShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
@@ -87,7 +88,7 @@ KEY;
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('It was not possible to parse your key');
 
-        $signer->sign('testing', new Key('blablabla'));
+        $signer->sign('testing', SafeString::plainText('blablabla'));
     }
 
     /**
@@ -98,7 +99,7 @@ KEY;
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
-     * @uses \Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
      */
     public function signShouldRaiseAnExceptionWhenKeyTypeIsNotRsa(): void
     {
@@ -117,12 +118,12 @@ KEY;
      * @covers ::getKeyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
-     * @uses \Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
      */
     public function verifyShouldReturnTrueWhenSignatureIsValid(): void
     {
         $payload    = 'testing';
-        $privateKey = openssl_pkey_get_private(self::$rsaKeys['private']->getContent());
+        $privateKey = openssl_pkey_get_private(self::$rsaKeys['private']->contents());
         assert(is_resource($privateKey) || $privateKey instanceof OpenSSLAsymmetricKey);
 
         $signature = '';
@@ -140,7 +141,7 @@ KEY;
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
-     * @uses \Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Key\SafeString
      */
     public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
@@ -149,7 +150,7 @@ KEY;
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('It was not possible to parse your key');
 
-        $signer->verify('testing', 'testing', new Key('blablabla'));
+        $signer->verify('testing', 'testing', SafeString::plainText('blablabla'));
     }
 
     /**
@@ -159,7 +160,7 @@ KEY;
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
-     * @uses \Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
      */
     public function verifyShouldRaiseAnExceptionWhenKeyTypeIsNotRsa(): void
     {

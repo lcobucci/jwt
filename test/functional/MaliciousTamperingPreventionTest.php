@@ -8,7 +8,7 @@ use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512 as ES512;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HS512;
-use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\Key\SafeString;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use PHPUnit\Framework\TestCase;
@@ -31,8 +31,8 @@ final class MaliciousTamperingPreventionTest extends TestCase
     {
         $this->config = Configuration::forAsymmetricSigner(
             ES512::create(),
-            new Key('my-private-key'),
-            new Key(
+            SafeString::plainText('my-private-key'),
+            SafeString::plainText(
                 '-----BEGIN PUBLIC KEY-----' . PHP_EOL
                 . 'MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAcpkss6wI7PPlxj3t7A1RqMH3nvL4' . PHP_EOL
                 . 'L5Tzxze/XeeYZnHqxiX+gle70DlGRMqqOq+PJ6RYX7vK0PJFdiAIXlyPQq0B3KaU' . PHP_EOL
@@ -53,7 +53,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
      * @covers \Lcobucci\JWT\Token\Plain
      * @covers \Lcobucci\JWT\Token\DataSet
      * @covers \Lcobucci\JWT\Token\Signature
-     * @covers \Lcobucci\JWT\Signer\Key
+     * @covers \Lcobucci\JWT\Signer\Key\SafeString
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
@@ -116,7 +116,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
         $hmac = hash_hmac(
             'sha512',
             $asplode[0] . '.' . $asplode[1],
-            $this->config->getVerificationKey()->getContent(),
+            $this->config->getVerificationKey()->contents(),
             true
         );
 

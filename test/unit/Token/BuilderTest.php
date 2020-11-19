@@ -7,7 +7,7 @@ use DateTimeImmutable;
 use Lcobucci\JWT\Encoder;
 use Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion;
 use Lcobucci\JWT\Signer;
-use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\Key\SafeString;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -69,7 +69,7 @@ final class BuilderTest extends TestCase
      * @covers ::expiresAt
      * @covers ::permittedFor
      *
-     * @uses \Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Key\SafeString
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -103,7 +103,7 @@ final class BuilderTest extends TestCase
                            ->permittedFor('test2') // should not be added since it's duplicated
                            ->withClaim('test', 123)
                            ->withHeader('userId', 2)
-                           ->getToken($this->signer, new Key('123'));
+                           ->getToken($this->signer, SafeString::plainText('123'));
 
         self::assertSame('JWT', $token->headers()->get('typ'));
         self::assertSame('RS256', $token->headers()->get('alg'));
