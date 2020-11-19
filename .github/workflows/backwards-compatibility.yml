@@ -1,0 +1,21 @@
+name: "Backwards compatibility check"
+
+on:
+  pull_request:
+
+jobs:
+  bc-check:
+    name: "Backwards compatibility check"
+
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+        with:
+          fetch-depth: 0
+
+      - name: "BC Check"
+        uses: docker://nyholm/roave-bc-check-ga
+        with:
+          args: --from=${{ github.event.pull_request.base.sha }}
