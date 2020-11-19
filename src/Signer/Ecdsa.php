@@ -25,7 +25,7 @@ abstract class Ecdsa extends OpenSSL
     final public function sign(string $payload, Key $key): string
     {
         return $this->converter->fromAsn1(
-            $this->createSignature($key->getContent(), $key->getPassphrase(), $payload),
+            $this->createSignature($key->contents(), $key->passphrase(), $payload),
             $this->getKeyLength()
         );
     }
@@ -35,7 +35,7 @@ abstract class Ecdsa extends OpenSSL
         return $this->verifySignature(
             $this->converter->toAsn1($expected, $this->getKeyLength()),
             $payload,
-            $key->getContent()
+            $key->contents()
         );
     }
 

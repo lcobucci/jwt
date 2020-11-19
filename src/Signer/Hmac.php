@@ -12,7 +12,7 @@ abstract class Hmac implements Signer
 {
     final public function sign(string $payload, Key $key): string
     {
-        return hash_hmac($this->getAlgorithm(), $payload, $key->getContent(), true);
+        return hash_hmac($this->getAlgorithm(), $payload, $key->contents(), true);
     }
 
     final public function verify(string $expected, string $payload, Key $key): bool

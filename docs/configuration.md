@@ -21,20 +21,30 @@ In order to use it, you must:
 
 The `Lcobucci\JWT\Signer\Key` object is used for symmetric/asymmetric signature.
 
-To initialise it, you can pass the key content as a string:
+To initialise it, you can pass the key content as a plain text:
 
 ```php
-use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\Key\SafeString;
 
-$key = new Key('my-key-as-plaintext');
+$key = SafeString::plainText('my-key-as-plaintext');
+```
+
+Provide a base64 encoded string:
+
+```php
+use Lcobucci\JWT\Signer\Key\SafeString;
+
+$key = SafeString::base64Encoded('YSB2ZXJ5IGxvbmcgYSB2ZXJ5IHVsdHJhIHNlY3VyZSBrZXkgZm9yIG15IGFtYXppbmcgdG9rZW5z');
 ```
 
 Or provide a file path:
 
 ```php
-use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\Key\SafeString;
+use Lcobucci\JWT\Signer\Key\LocalFileReference;
 
-$key = new Key('file://' . __DIR__ . '/path-to-my-key-stored-in-a-file.pem');
+$key = SafeString::file(__DIR__ . '/path-to-my-key-stored-in-a-file.pem'); // this reads the file and keeps its contents in memory
+$key = LocalFileReference::file(__DIR__ . '/path-to-my-key-stored-in-a-file.pem'); // this just keeps a reference to file
 ```
 
 #### For symmetric algorithms
@@ -49,13 +59,13 @@ This means that it's really important that your key **remains secret**.
 ```php
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
-use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\Key\SafeString;
 
 $configuration = Configuration::forSymmetricSigner(
     // You may use any HMAC variations (256, 384, and 512)
     new Sha256(),
     // replace the value below with a key of your own!
-    new Key('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=')
+    SafeString::base64Encoded('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=')
     // You may also override the JOSE encoder/decoder if needed by providing extra arguments here
 );
 ```
@@ -68,13 +78,14 @@ This means that it's fine to distribute your **public key**. However, the **priv
 ```php
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer;
-use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\Key\LocalFileReference;
+use Lcobucci\JWT\Signer\Key\SafeString;
 
 $configuration = Configuration::forAsymmetricSigner(
     // You may use RSA or ECDSA and all their variations (256, 384, and 512)
     new Signer\RSA\Sha256(),
-    new Key('file://' . __DIR__ . '/my-private-key.pem'),
-    new Key('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=')
+    LocalFileReference::file('file://' . __DIR__ . '/my-private-key.pem'),
+    SafeString::base64Encoded('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=')
     // You may also override the JOSE encoder/decoder if needed by providing extra arguments here
 );
 ```

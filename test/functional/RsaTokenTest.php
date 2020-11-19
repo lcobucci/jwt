@@ -6,7 +6,7 @@ namespace Lcobucci\JWT\FunctionalTests;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
-use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\Key\SafeString;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
 use Lcobucci\JWT\Token;
@@ -27,8 +27,10 @@ use function assert;
  * @covers \Lcobucci\JWT\Token\Plain
  * @covers \Lcobucci\JWT\Token\DataSet
  * @covers \Lcobucci\JWT\Token\Signature
+ * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
  * @covers \Lcobucci\JWT\Signer\OpenSSL
- * @covers \Lcobucci\JWT\Signer\Key
+ * @covers \Lcobucci\JWT\Signer\Key\LocalFileReference
+ * @covers \Lcobucci\JWT\Signer\Key\SafeString
  * @covers \Lcobucci\JWT\Signer\Rsa
  * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
  * @covers \Lcobucci\JWT\Signer\Rsa\Sha512
@@ -64,7 +66,7 @@ class RsaTokenTest extends TestCase
                 ->permittedFor('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
                 ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-                ->getToken($this->config->getSigner(), new Key('testing'));
+                ->getToken($this->config->getSigner(), SafeString::plainText('testing'));
     }
 
     /** @test */

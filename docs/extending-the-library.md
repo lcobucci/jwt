@@ -122,6 +122,21 @@ final class SignerForAVeryCustomizedAlgorithm implements Signer
 
 Then pass an instance of it while creating an instance of the [configuration object], [issuing a token](issuing-tokens.md), or [validating a token].
 
+## Key
+
+The key object is passed down to signers and provide the necessary information to create and verify signatures.
+
+To create your own signer of it you must implement the `Lcobucci\JWT\Signer\Key` interface:
+
+```php
+use Lcobucci\JWT\Signer\Key;
+
+final class KeyWithSomeMagicalProperties implements Key
+{
+    // implement all methods
+}
+```
+
 ## Validator
 
 The token validator defines how to apply validation constraint to either validate or assert tokens.

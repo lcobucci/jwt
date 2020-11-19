@@ -55,7 +55,7 @@ final class EcdsaTest extends TestCase
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
-     * @uses \Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
      */
     public function signShouldReturnTheAHashBasedOnTheOpenSslSignature(): void
     {
@@ -64,7 +64,7 @@ final class EcdsaTest extends TestCase
         $signer    = $this->getSigner();
         $signature = $signer->sign($payload, self::$ecdsaKeys['private']);
 
-        $publicKey = openssl_pkey_get_public(self::$ecdsaKeys['public1']->getContent());
+        $publicKey = openssl_pkey_get_public(self::$ecdsaKeys['public1']->contents());
         assert(is_resource($publicKey) || $publicKey instanceof OpenSSLAsymmetricKey);
 
         self::assertSame(
@@ -87,12 +87,12 @@ final class EcdsaTest extends TestCase
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
-     * @uses \Lcobucci\JWT\Signer\Key
+     * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
      */
     public function verifyShouldDelegateToEcdsaSignerUsingPublicKey(): void
     {
         $payload    = 'testing';
-        $privateKey = openssl_pkey_get_private(self::$ecdsaKeys['private']->getContent());
+        $privateKey = openssl_pkey_get_private(self::$ecdsaKeys['private']->contents());
         assert(is_resource($privateKey) || $privateKey instanceof OpenSSLAsymmetricKey);
 
         $signature = '';
