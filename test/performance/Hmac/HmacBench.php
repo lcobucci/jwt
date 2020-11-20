@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Hmac;
 
 use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Signer\Key\SafeString;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\SignerBench;
 use PhpBench\Benchmark\Metadata\Annotations\Groups;
 
@@ -25,6 +25,6 @@ abstract class HmacBench extends SignerBench
 
     private function createKey(): Key
     {
-        return SafeString::base64Encoded(self::ENCODED_KEY);
+        return InMemory::base64Encoded(self::ENCODED_KEY);
     }
 }

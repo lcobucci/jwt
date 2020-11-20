@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
-use Lcobucci\JWT\Signer\Key\SafeString;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -34,13 +34,13 @@ final class HmacTest extends TestCase
      *
      * @covers ::sign
      *
-     * @uses \Lcobucci\JWT\Signer\Key\SafeString
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function signMustReturnAHashAccordingWithTheAlgorithm(): string
     {
         $hash = hash_hmac('sha256', 'test', '123', true);
 
-        self::assertEquals($hash, $this->signer->sign('test', SafeString::plainText('123')));
+        self::assertEquals($hash, $this->signer->sign('test', InMemory::plainText('123')));
 
         return $hash;
     }
@@ -52,11 +52,11 @@ final class HmacTest extends TestCase
      * @covers ::verify
      *
      * @uses \Lcobucci\JWT\Signer\Hmac::sign
-     * @uses \Lcobucci\JWT\Signer\Key\SafeString
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldReturnTrueWhenExpectedHashWasCreatedWithSameInformation(string $expected): void
     {
-        self::assertTrue($this->signer->verify($expected, 'test', SafeString::plainText('123')));
+        self::assertTrue($this->signer->verify($expected, 'test', InMemory::plainText('123')));
     }
 
     /**
@@ -66,10 +66,10 @@ final class HmacTest extends TestCase
      * @covers ::verify
      *
      * @uses \Lcobucci\JWT\Signer\Hmac::sign
-     * @uses \Lcobucci\JWT\Signer\Key\SafeString
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldReturnFalseWhenExpectedHashWasNotCreatedWithSameInformation(string $expected): void
     {
-        self::assertFalse($this->signer->verify($expected, 'test', SafeString::plainText('1234')));
+        self::assertFalse($this->signer->verify($expected, 'test', InMemory::plainText('1234')));
     }
 }

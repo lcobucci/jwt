@@ -12,7 +12,7 @@ use function assert;
 use function base64_decode;
 use function is_string;
 
-final class SafeString implements Key
+final class InMemory implements Key
 {
     private string $contents;
     private string $passphrase;

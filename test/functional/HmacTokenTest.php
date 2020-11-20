@@ -6,7 +6,7 @@ namespace Lcobucci\JWT\FunctionalTests;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
-use Lcobucci\JWT\Signer\Key\SafeString;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
@@ -25,7 +25,7 @@ use function assert;
  * @covers \Lcobucci\JWT\Token\Plain
  * @covers \Lcobucci\JWT\Token\DataSet
  * @covers \Lcobucci\JWT\Token\Signature
- * @covers \Lcobucci\JWT\Signer\Key\SafeString
+ * @covers \Lcobucci\JWT\Signer\Key\InMemory
  * @covers \Lcobucci\JWT\Signer\Hmac
  * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
  * @covers \Lcobucci\JWT\Signer\Hmac\Sha512
@@ -40,7 +40,7 @@ class HmacTokenTest extends TestCase
     /** @before */
     public function createConfiguration(): void
     {
-        $this->config = Configuration::forSymmetricSigner(new Sha256(), SafeString::plainText('testing'));
+        $this->config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText('testing'));
     }
 
     /** @test */
@@ -88,7 +88,7 @@ class HmacTokenTest extends TestCase
 
         $this->config->getValidator()->assert(
             $token,
-            new SignedWith($this->config->getSigner(), SafeString::plainText('testing1'))
+            new SignedWith($this->config->getSigner(), InMemory::plainText('testing1'))
         );
     }
 
