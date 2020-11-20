@@ -28,13 +28,13 @@ final class Sha384Test extends TestCase
     /**
      * @test
      *
-     * @covers ::getAlgorithmId
+     * @covers ::algorithmId
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
-    public function getAlgorithmIdMustBeCorrect(): void
+    public function algorithmIdMustBeCorrect(): void
     {
-        self::assertSame('ES384', $this->getSigner()->getAlgorithmId());
+        self::assertSame('ES384', $this->getSigner()->algorithmId());
     }
 
     /**

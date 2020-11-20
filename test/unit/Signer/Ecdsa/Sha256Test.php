@@ -28,13 +28,13 @@ final class Sha256Test extends TestCase
     /**
      * @test
      *
-     * @covers ::getAlgorithmId
+     * @covers ::algorithmId
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
-    public function getAlgorithmIdMustBeCorrect(): void
+    public function algorithmIdMustBeCorrect(): void
     {
-        self::assertSame('ES256', $this->getSigner()->getAlgorithmId());
+        self::assertSame('ES256', $this->getSigner()->algorithmId());
     }
 
     /**

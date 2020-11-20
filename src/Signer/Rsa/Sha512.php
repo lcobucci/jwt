@@ -9,7 +9,7 @@ use const OPENSSL_ALGO_SHA512;
 
 final class Sha512 extends Rsa
 {
-    public function getAlgorithmId(): string
+    public function algorithmId(): string
     {
         return 'RS512';
     }

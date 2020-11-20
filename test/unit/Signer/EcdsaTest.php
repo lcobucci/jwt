@@ -37,7 +37,7 @@ final class EcdsaTest extends TestCase
         $signer->method('getAlgorithm')
                ->willReturn(OPENSSL_ALGO_SHA256);
 
-        $signer->method('getAlgorithmId')
+        $signer->method('algorithmId')
                ->willReturn('ES256');
 
         $signer->method('getKeyLength')

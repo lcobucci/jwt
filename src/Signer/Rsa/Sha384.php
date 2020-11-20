@@ -9,7 +9,7 @@ use const OPENSSL_ALGO_SHA384;
 
 final class Sha384 extends Rsa
 {
-    public function getAlgorithmId(): string
+    public function algorithmId(): string
     {
         return 'RS384';
     }

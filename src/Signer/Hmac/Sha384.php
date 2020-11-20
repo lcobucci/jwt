@@ -7,7 +7,7 @@ use Lcobucci\JWT\Signer\Hmac;
 
 final class Sha384 extends Hmac
 {
-    public function getAlgorithmId(): string
+    public function algorithmId(): string
     {
         return 'HS384';
     }

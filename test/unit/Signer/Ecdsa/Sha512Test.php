@@ -28,13 +28,13 @@ final class Sha512Test extends TestCase
     /**
      * @test
      *
-     * @covers ::getAlgorithmId
+     * @covers ::algorithmId
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
-    public function getAlgorithmIdMustBeCorrect(): void
+    public function algorithmIdMustBeCorrect(): void
     {
-        self::assertSame('ES512', $this->getSigner()->getAlgorithmId());
+        self::assertSame('ES512', $this->getSigner()->algorithmId());
     }
 
     /**

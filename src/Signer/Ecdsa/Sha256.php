@@ -9,7 +9,7 @@ use const OPENSSL_ALGO_SHA256;
 
 final class Sha256 extends Ecdsa
 {
-    public function getAlgorithmId(): string
+    public function algorithmId(): string
     {
         return 'ES256';
     }

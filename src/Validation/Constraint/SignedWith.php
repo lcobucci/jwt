@@ -25,7 +25,7 @@ final class SignedWith implements Constraint
             throw new ConstraintViolation('You should pass a plain token');
         }
 
-        if ($token->headers()->get('alg') !== $this->signer->getAlgorithmId()) {
+        if ($token->headers()->get('alg') !== $this->signer->algorithmId()) {
             throw new ConstraintViolation('Token signer mismatch');
         }
 

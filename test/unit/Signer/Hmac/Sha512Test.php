@@ -11,13 +11,13 @@ final class Sha512Test extends TestCase
     /**
      * @test
      *
-     * @covers ::getAlgorithmId
+     * @covers ::algorithmId
      */
-    public function getAlgorithmIdMustBeCorrect(): void
+    public function algorithmIdMustBeCorrect(): void
     {
         $signer = new Sha512();
 
-        self::assertEquals('HS512', $signer->getAlgorithmId());
+        self::assertEquals('HS512', $signer->algorithmId());
     }
 
     /**

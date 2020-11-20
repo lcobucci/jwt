@@ -12,13 +12,13 @@ final class NoneTest extends TestCase
     /**
      * @test
      *
-     * @covers ::getAlgorithmId
+     * @covers ::algorithmId
      */
-    public function getAlgorithmIdMustBeCorrect(): void
+    public function algorithmIdMustBeCorrect(): void
     {
         $signer = new None();
 
-        self::assertEquals('none', $signer->getAlgorithmId());
+        self::assertEquals('none', $signer->algorithmId());
     }
 
     /**

@@ -179,7 +179,7 @@ KEY;
         $signer->method('getAlgorithm')
                ->willReturn(OPENSSL_ALGO_SHA256);
 
-        $signer->method('getAlgorithmId')
+        $signer->method('algorithmId')
                ->willReturn('RS256');
 
         return $signer;

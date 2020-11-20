@@ -111,7 +111,7 @@ final class Builder implements BuilderInterface
     public function getToken(Signer $signer, Key $key): Plain
     {
         $headers        = $this->headers;
-        $headers['alg'] = $signer->getAlgorithmId();
+        $headers['alg'] = $signer->algorithmId();
 
         $encodedHeaders = $this->encode($headers);
         $encodedClaims  = $this->encode($this->claimFormatter->formatClaims($this->claims));
