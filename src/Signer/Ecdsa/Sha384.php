@@ -14,12 +14,12 @@ final class Sha384 extends Ecdsa
         return 'ES384';
     }
 
-    public function getAlgorithm(): int
+    public function algorithm(): int
     {
         return OPENSSL_ALGO_SHA384;
     }
 
-    public function getKeyLength(): int
+    public function keyLength(): int
     {
         return 96;
     }

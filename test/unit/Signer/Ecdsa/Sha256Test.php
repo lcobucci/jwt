@@ -40,25 +40,25 @@ final class Sha256Test extends TestCase
     /**
      * @test
      *
-     * @covers ::getAlgorithm
+     * @covers ::algorithm
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
-    public function getAlgorithmMustBeCorrect(): void
+    public function algorithmMustBeCorrect(): void
     {
-        self::assertSame(OPENSSL_ALGO_SHA256, $this->getSigner()->getAlgorithm());
+        self::assertSame(OPENSSL_ALGO_SHA256, $this->getSigner()->algorithm());
     }
 
     /**
      * @test
      *
-     * @covers ::getKeyLength
+     * @covers ::keyLength
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
-    public function getKeyLengthMustBeCorrect(): void
+    public function keyLengthMustBeCorrect(): void
     {
-        self::assertSame(64, $this->getSigner()->getKeyLength());
+        self::assertSame(64, $this->getSigner()->keyLength());
     }
 
     private function getSigner(): Sha256

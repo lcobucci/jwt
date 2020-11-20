@@ -40,25 +40,25 @@ final class Sha512Test extends TestCase
     /**
      * @test
      *
-     * @covers ::getAlgorithm
+     * @covers ::algorithm
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
-    public function getAlgorithmMustBeCorrect(): void
+    public function algorithmMustBeCorrect(): void
     {
-        self::assertSame(OPENSSL_ALGO_SHA512, $this->getSigner()->getAlgorithm());
+        self::assertSame(OPENSSL_ALGO_SHA512, $this->getSigner()->algorithm());
     }
 
     /**
      * @test
      *
-     * @covers ::getKeyLength
+     * @covers ::keyLength
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
-    public function getKeyLengthMustBeCorrect(): void
+    public function keyLengthMustBeCorrect(): void
     {
-        self::assertSame(132, $this->getSigner()->getKeyLength());
+        self::assertSame(132, $this->getSigner()->keyLength());
     }
 
     private function getSigner(): Sha512

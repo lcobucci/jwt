@@ -12,7 +12,7 @@ final class Sha384 extends Hmac
         return 'HS384';
     }
 
-    public function getAlgorithm(): string
+    public function algorithm(): string
     {
         return 'sha384';
     }

@@ -12,7 +12,7 @@ final class Sha512 extends Hmac
         return 'HS512';
     }
 
-    public function getAlgorithm(): string
+    public function algorithm(): string
     {
         return 'sha512';
     }

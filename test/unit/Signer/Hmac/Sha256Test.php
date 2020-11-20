@@ -23,12 +23,12 @@ final class Sha256Test extends TestCase
     /**
      * @test
      *
-     * @covers ::getAlgorithm
+     * @covers ::algorithm
      */
-    public function getAlgorithmMustBeCorrect(): void
+    public function algorithmMustBeCorrect(): void
     {
         $signer = new Sha256();
 
-        self::assertEquals('sha256', $signer->getAlgorithm());
+        self::assertEquals('sha256', $signer->algorithm());
     }
 }

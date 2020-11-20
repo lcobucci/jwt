@@ -14,12 +14,12 @@ final class Sha512 extends Ecdsa
         return 'ES512';
     }
 
-    public function getAlgorithm(): int
+    public function algorithm(): int
     {
         return OPENSSL_ALGO_SHA512;
     }
 
-    public function getKeyLength(): int
+    public function keyLength(): int
     {
         return 132;
     }

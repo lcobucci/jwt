@@ -25,7 +25,7 @@ final class HmacTest extends TestCase
                      ->willReturn('TEST123');
 
         $this->signer->expects(self::any())
-                     ->method('getAlgorithm')
+                     ->method('algorithm')
                      ->willReturn('sha256');
     }
 

@@ -17,7 +17,7 @@ abstract class Rsa extends OpenSSL
         return $this->verifySignature($expected, $payload, $key->contents());
     }
 
-    final public function getKeyType(): int
+    final public function keyType(): int
     {
         return OPENSSL_KEYTYPE_RSA;
     }

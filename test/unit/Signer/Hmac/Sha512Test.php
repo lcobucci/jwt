@@ -23,12 +23,12 @@ final class Sha512Test extends TestCase
     /**
      * @test
      *
-     * @covers ::getAlgorithm
+     * @covers ::algorithm
      */
-    public function getAlgorithmMustBeCorrect(): void
+    public function algorithmMustBeCorrect(): void
     {
         $signer = new Sha512();
 
-        self::assertEquals('sha512', $signer->getAlgorithm());
+        self::assertEquals('sha512', $signer->algorithm());
     }
 }

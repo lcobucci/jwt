@@ -35,7 +35,7 @@ abstract class OpenSSL implements Signer
         try {
             $signature = '';
 
-            if (! openssl_sign($payload, $signature, $key, $this->getAlgorithm())) {
+            if (! openssl_sign($payload, $signature, $key, $this->algorithm())) {
                 $error = openssl_error_string();
                 assert(is_string($error));
 
@@ -68,7 +68,7 @@ abstract class OpenSSL implements Signer
         string $pem
     ): bool {
         $key    = $this->getPublicKey($pem);
-        $result = openssl_verify($payload, $expected, $key, $this->getAlgorithm());
+        $result = openssl_verify($payload, $expected, $key, $this->algorithm());
         $this->freeKey($key);
 
         return $result === 1;
@@ -106,7 +106,7 @@ abstract class OpenSSL implements Signer
         $details = openssl_pkey_get_details($key);
         assert(is_array($details));
 
-        if (! array_key_exists('key', $details) || $details['type'] !== $this->getKeyType()) {
+        if (! array_key_exists('key', $details) || $details['type'] !== $this->keyType()) {
             throw InvalidKeyProvided::incompatibleKey();
         }
     }
@@ -126,12 +126,12 @@ abstract class OpenSSL implements Signer
      *
      * @internal
      */
-    abstract public function getKeyType(): int;
+    abstract public function keyType(): int;
 
     /**
      * Returns which algorithm to be used to create/verify the signature (using OpenSSL constants)
      *
      * @internal
      */
-    abstract public function getAlgorithm(): int;
+    abstract public function algorithm(): int;
 }

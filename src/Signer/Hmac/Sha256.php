@@ -12,7 +12,7 @@ final class Sha256 extends Hmac
         return 'HS256';
     }
 
-    public function getAlgorithm(): string
+    public function algorithm(): string
     {
         return 'sha256';
     }
