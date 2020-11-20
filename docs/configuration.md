@@ -84,7 +84,7 @@ use Lcobucci\JWT\Signer\Key\InMemory;
 $configuration = Configuration::forAsymmetricSigner(
     // You may use RSA or ECDSA and all their variations (256, 384, and 512)
     new Signer\RSA\Sha256(),
-    LocalFileReference::file('file://' . __DIR__ . '/my-private-key.pem'),
+    LocalFileReference::file(__DIR__ . '/my-private-key.pem'),
     InMemory::base64Encoded('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=')
     // You may also override the JOSE encoder/decoder if needed by providing extra arguments here
 );
