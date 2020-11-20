@@ -62,7 +62,7 @@ class EcdsaTokenTest extends TestCase
     /** @test */
     public function builderShouldRaiseExceptionWhenKeyIsInvalid(): void
     {
-        $builder = $this->config->createBuilder();
+        $builder = $this->config->builder();
 
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('It was not possible to parse your key, reason:');
@@ -71,13 +71,13 @@ class EcdsaTokenTest extends TestCase
                 ->permittedFor('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
                 ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-                ->getToken($this->config->getSigner(), InMemory::plainText('testing'));
+                ->getToken($this->config->signer(), InMemory::plainText('testing'));
     }
 
     /** @test */
     public function builderShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(): void
     {
-        $builder = $this->config->createBuilder();
+        $builder = $this->config->builder();
 
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('This key is not compatible with this signer');
@@ -86,14 +86,14 @@ class EcdsaTokenTest extends TestCase
                 ->permittedFor('http://client.abc.com')
                 ->issuedBy('http://api.abc.com')
                 ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-                ->getToken($this->config->getSigner(), static::$rsaKeys['private']);
+                ->getToken($this->config->signer(), static::$rsaKeys['private']);
     }
 
     /** @test */
     public function builderCanGenerateAToken(): Token
     {
         $user    = ['name' => 'testing', 'email' => 'testing@abc.com'];
-        $builder = $this->config->createBuilder();
+        $builder = $this->config->builder();
 
         $token = $builder->identifiedBy('1')
                          ->permittedFor('http://client.abc.com')
@@ -101,7 +101,7 @@ class EcdsaTokenTest extends TestCase
                          ->issuedBy('http://api.abc.com')
                          ->withClaim('user', $user)
                          ->withHeader('jki', '1234')
-                         ->getToken($this->config->getSigner(), $this->config->getSigningKey());
+                         ->getToken($this->config->signer(), $this->config->signingKey());
 
         self::assertEquals('1234', $token->headers()->get('jki'));
         self::assertEquals('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
@@ -121,7 +121,7 @@ class EcdsaTokenTest extends TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
-        $read = $this->config->getParser()->parse($generated->toString());
+        $read = $this->config->parser()->parse($generated->toString());
         assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);
@@ -137,10 +137,10 @@ class EcdsaTokenTest extends TestCase
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
-        $this->config->getValidator()->assert(
+        $this->config->validator()->assert(
             $token,
             new SignedWith(
-                $this->config->getSigner(),
+                $this->config->signer(),
                 self::$ecdsaKeys['public2']
             )
         );
@@ -155,7 +155,7 @@ class EcdsaTokenTest extends TestCase
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
-        $this->config->getValidator()->assert(
+        $this->config->validator()->assert(
             $token,
             new SignedWith(
                 Sha512::create(),
@@ -173,9 +173,9 @@ class EcdsaTokenTest extends TestCase
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('This key is not compatible with this signer');
 
-        $this->config->getValidator()->assert(
+        $this->config->validator()->assert(
             $token,
-            new SignedWith($this->config->getSigner(), self::$rsaKeys['public'])
+            new SignedWith($this->config->signer(), self::$rsaKeys['public'])
         );
     }
 
@@ -186,18 +186,18 @@ class EcdsaTokenTest extends TestCase
     public function signatureValidationShouldSucceedWhenKeyIsRight(Token $token): void
     {
         $constraint = new SignedWith(
-            $this->config->getSigner(),
-            $this->config->getVerificationKey()
+            $this->config->signer(),
+            $this->config->verificationKey()
         );
 
-        self::assertTrue($this->config->getValidator()->validate($token, $constraint));
+        self::assertTrue($this->config->validator()->validate($token, $constraint));
     }
 
     /** @test */
     public function everythingShouldWorkWithAKeyWithParams(): void
     {
-        $builder = $this->config->createBuilder();
-        $signer  = $this->config->getSigner();
+        $builder = $this->config->builder();
+        $signer  = $this->config->signer();
 
         $token = $builder->identifiedBy('1')
                          ->permittedFor('http://client.abc.com')
@@ -207,11 +207,11 @@ class EcdsaTokenTest extends TestCase
                          ->getToken($signer, static::$ecdsaKeys['private-params']);
 
         $constraint = new SignedWith(
-            $this->config->getSigner(),
+            $this->config->signer(),
             static::$ecdsaKeys['public-params']
         );
 
-        self::assertTrue($this->config->getValidator()->validate($token, $constraint));
+        self::assertTrue($this->config->validator()->validate($token, $constraint));
     }
 
     /** @test */
@@ -229,11 +229,11 @@ class EcdsaTokenTest extends TestCase
                . 'mZudf1zCUZ8/4eodlHU=' . PHP_EOL
                . '-----END PUBLIC KEY-----';
 
-        $token = $this->config->getParser()->parse($data);
+        $token = $this->config->parser()->parse($data);
         assert($token instanceof Token\Plain);
         $constraint = new SignedWith(Sha512::create(), InMemory::plainText($key));
 
-        self::assertTrue($this->config->getValidator()->validate($token, $constraint));
+        self::assertTrue($this->config->validator()->validate($token, $constraint));
         self::assertEquals('world', $token->claims()->get('hello'));
     }
 }

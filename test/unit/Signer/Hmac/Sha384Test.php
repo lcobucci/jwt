@@ -11,24 +11,24 @@ final class Sha384Test extends TestCase
     /**
      * @test
      *
-     * @covers ::getAlgorithmId
+     * @covers ::algorithmId
      */
-    public function getAlgorithmIdMustBeCorrect(): void
+    public function algorithmIdMustBeCorrect(): void
     {
         $signer = new Sha384();
 
-        self::assertEquals('HS384', $signer->getAlgorithmId());
+        self::assertEquals('HS384', $signer->algorithmId());
     }
 
     /**
      * @test
      *
-     * @covers ::getAlgorithm
+     * @covers ::algorithm
      */
-    public function getAlgorithmMustBeCorrect(): void
+    public function algorithmMustBeCorrect(): void
     {
         $signer = new Sha384();
 
-        self::assertEquals('sha384', $signer->getAlgorithm());
+        self::assertEquals('sha384', $signer->algorithm());
     }
 }

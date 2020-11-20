@@ -80,15 +80,15 @@ final class MaliciousTamperingPreventionTest extends TestCase
          * (e.g. HMAC-SHA512 instead of ECDSA), they can forge messages!
          */
 
-        $token = $this->config->getParser()->parse($bad);
+        $token = $this->config->parser()->parse($bad);
         assert($token instanceof Plain);
 
         self::assertEquals('world', $token->claims()->get('hello'), 'The claim content should not be modified');
 
-        $validator = $this->config->getValidator();
+        $validator = $this->config->validator();
 
         self::assertFalse(
-            $validator->validate($token, new SignedWith(new HS512(), $this->config->getVerificationKey())),
+            $validator->validate($token, new SignedWith(new HS512(), $this->config->verificationKey())),
             'Using the attackers signer should make things unsafe'
         );
 
@@ -96,8 +96,8 @@ final class MaliciousTamperingPreventionTest extends TestCase
             $validator->validate(
                 $token,
                 new SignedWith(
-                    $this->config->getSigner(),
-                    $this->config->getVerificationKey()
+                    $this->config->signer(),
+                    $this->config->verificationKey()
                 )
             ),
             'But we know which Signer should be used so the attack fails'
@@ -116,7 +116,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
         $hmac = hash_hmac(
             'sha512',
             $asplode[0] . '.' . $asplode[1],
-            $this->config->getVerificationKey()->contents(),
+            $this->config->verificationKey()->contents(),
             true
         );
 

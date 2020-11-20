@@ -29,7 +29,7 @@ final class BuilderTest extends TestCase
     {
         $this->encoder = $this->createMock(Encoder::class);
         $this->signer  = $this->createMock(Signer::class);
-        $this->signer->method('getAlgorithmId')->willReturn('RS256');
+        $this->signer->method('algorithmId')->willReturn('RS256');
     }
 
     /**

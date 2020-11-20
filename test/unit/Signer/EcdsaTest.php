@@ -34,13 +34,13 @@ final class EcdsaTest extends TestCase
     {
         $signer = $this->getMockForAbstractClass(Ecdsa::class, [$this->pointsManipulator]);
 
-        $signer->method('getAlgorithm')
+        $signer->method('algorithm')
                ->willReturn(OPENSSL_ALGO_SHA256);
 
-        $signer->method('getAlgorithmId')
+        $signer->method('algorithmId')
                ->willReturn('ES256');
 
-        $signer->method('getKeyLength')
+        $signer->method('keyLength')
                ->willReturn(64);
 
         return $signer;
@@ -50,7 +50,7 @@ final class EcdsaTest extends TestCase
      * @test
      *
      * @covers ::sign
-     * @covers ::getKeyType
+     * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
@@ -71,7 +71,7 @@ final class EcdsaTest extends TestCase
             1,
             openssl_verify(
                 $payload,
-                $this->pointsManipulator->toAsn1($signature, $signer->getKeyLength()),
+                $this->pointsManipulator->toAsn1($signature, $signer->keyLength()),
                 $publicKey,
                 OPENSSL_ALGO_SHA256
             )
@@ -82,7 +82,7 @@ final class EcdsaTest extends TestCase
      * @test
      *
      * @covers ::verify
-     * @covers ::getKeyType
+     * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
@@ -102,7 +102,7 @@ final class EcdsaTest extends TestCase
 
         self::assertTrue(
             $signer->verify(
-                $this->pointsManipulator->fromAsn1($signature, $signer->getKeyLength()),
+                $this->pointsManipulator->fromAsn1($signature, $signer->keyLength()),
                 $payload,
                 self::$ecdsaKeys['public1']
             )

@@ -21,7 +21,7 @@ final class SignedWithTest extends ConstraintTestCase
     public function createDependencies(): void
     {
         $this->signer = $this->createMock(Signer::class);
-        $this->signer->method('getAlgorithmId')->willReturn('RS256');
+        $this->signer->method('algorithmId')->willReturn('RS256');
 
         $this->key       = Signer\Key\InMemory::plainText('123');
         $this->signature = new Signature('1234', '5678');

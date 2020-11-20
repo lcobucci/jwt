@@ -13,7 +13,7 @@ use Lcobucci\JWT\Token\Plain;
 $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
-$token = $config->getParser()->parse(
+$token = $config->parser()->parse(
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
     . 'eyJzdWIiOiIxMjM0NTY3ODkwIn0.'
     . '2gSBz9EOsQRN9I-3iSxJoFt7NtgV6Rm0IL6a8CAwl3Q'

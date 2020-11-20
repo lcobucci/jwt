@@ -47,14 +47,14 @@ class HmacTokenTest extends TestCase
     public function builderCanGenerateAToken(): Token
     {
         $user    = ['name' => 'testing', 'email' => 'testing@abc.com'];
-        $builder = $this->config->createBuilder();
+        $builder = $this->config->builder();
 
         $token = $builder->identifiedBy('1')
                          ->permittedFor('http://client.abc.com')
                          ->issuedBy('http://api.abc.com')
                          ->withClaim('user', $user)
                          ->withHeader('jki', '1234')
-                         ->getToken($this->config->getSigner(), $this->config->getSigningKey());
+                         ->getToken($this->config->signer(), $this->config->signingKey());
 
         self::assertEquals('1234', $token->headers()->get('jki'));
         self::assertEquals(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
@@ -70,7 +70,7 @@ class HmacTokenTest extends TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
-        $read = $this->config->getParser()->parse($generated->toString());
+        $read = $this->config->parser()->parse($generated->toString());
         assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);
@@ -86,9 +86,9 @@ class HmacTokenTest extends TestCase
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
-        $this->config->getValidator()->assert(
+        $this->config->validator()->assert(
             $token,
-            new SignedWith($this->config->getSigner(), InMemory::plainText('testing1'))
+            new SignedWith($this->config->signer(), InMemory::plainText('testing1'))
         );
     }
 
@@ -101,9 +101,9 @@ class HmacTokenTest extends TestCase
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
-        $this->config->getValidator()->assert(
+        $this->config->validator()->assert(
             $token,
-            new SignedWith(new Sha512(), $this->config->getVerificationKey())
+            new SignedWith(new Sha512(), $this->config->verificationKey())
         );
     }
 
@@ -113,9 +113,9 @@ class HmacTokenTest extends TestCase
      */
     public function signatureValidationShouldSucceedWhenKeyIsRight(Token $token): void
     {
-        $constraint = new SignedWith($this->config->getSigner(), $this->config->getVerificationKey());
+        $constraint = new SignedWith($this->config->signer(), $this->config->verificationKey());
 
-        self::assertTrue($this->config->getValidator()->validate($token, $constraint));
+        self::assertTrue($this->config->validator()->validate($token, $constraint));
     }
 
     /** @test */
@@ -124,11 +124,11 @@ class HmacTokenTest extends TestCase
         $data = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.Rh'
                 . '7AEgqCB7zae1PkgIlvOpeyw9Ab8NGTbeOH7heHO0o';
 
-        $token = $this->config->getParser()->parse($data);
+        $token = $this->config->parser()->parse($data);
         assert($token instanceof Token\Plain);
-        $constraint = new SignedWith($this->config->getSigner(), $this->config->getVerificationKey());
+        $constraint = new SignedWith($this->config->signer(), $this->config->verificationKey());
 
-        self::assertTrue($this->config->getValidator()->validate($token, $constraint));
+        self::assertTrue($this->config->validator()->validate($token, $constraint));
         self::assertEquals('world', $token->claims()->get('hello'));
     }
 }

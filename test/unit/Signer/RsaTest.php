@@ -26,7 +26,7 @@ final class RsaTest extends TestCase
      * @test
      *
      * @covers ::sign
-     * @covers ::getKeyType
+     * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
@@ -48,7 +48,7 @@ final class RsaTest extends TestCase
      * @test
      *
      * @covers ::sign
-     * @covers ::getKeyType
+     * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\CannotSignPayload
      *
@@ -95,7 +95,7 @@ KEY;
      * @test
      *
      * @covers ::sign
-     * @covers ::getKeyType
+     * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
@@ -115,7 +115,7 @@ KEY;
      * @test
      *
      * @covers ::verify
-     * @covers ::getKeyType
+     * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
@@ -176,10 +176,10 @@ KEY;
     {
         $signer = $this->getMockForAbstractClass(Rsa::class);
 
-        $signer->method('getAlgorithm')
+        $signer->method('algorithm')
                ->willReturn(OPENSSL_ALGO_SHA256);
 
-        $signer->method('getAlgorithmId')
+        $signer->method('algorithmId')
                ->willReturn('RS256');
 
         return $signer;

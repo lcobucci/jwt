@@ -7,12 +7,12 @@ use Lcobucci\JWT\Signer\Hmac;
 
 final class Sha512 extends Hmac
 {
-    public function getAlgorithmId(): string
+    public function algorithmId(): string
     {
         return 'HS512';
     }
 
-    public function getAlgorithm(): string
+    public function algorithm(): string
     {
         return 'sha512';
     }

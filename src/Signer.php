@@ -13,7 +13,7 @@ interface Signer
     /**
      * Returns the algorithm id
      */
-    public function getAlgorithmId(): string;
+    public function algorithmId(): string;
 
     /**
      * Creates a hash for the given payload

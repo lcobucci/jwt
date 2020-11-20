@@ -54,7 +54,7 @@ class UnsignedTokenTest extends TestCase
     public function builderCanGenerateAToken(): Token
     {
         $user    = ['name' => 'testing', 'email' => 'testing@abc.com'];
-        $builder = $this->config->createBuilder();
+        $builder = $this->config->builder();
 
         $expiration = new DateTimeImmutable('@' . (self::CURRENT_TIME + 3000));
 
@@ -63,7 +63,7 @@ class UnsignedTokenTest extends TestCase
                          ->issuedBy('http://api.abc.com')
                          ->expiresAt($expiration)
                          ->withClaim('user', $user)
-                         ->getToken($this->config->getSigner(), $this->config->getSigningKey());
+                         ->getToken($this->config->signer(), $this->config->signingKey());
 
         self::assertEquals(new Token\Signature('', ''), $token->signature());
         self::assertEquals(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
@@ -80,7 +80,7 @@ class UnsignedTokenTest extends TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
-        $read = $this->config->getParser()->parse($generated->toString());
+        $read = $this->config->parser()->parse($generated->toString());
         assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);
@@ -102,7 +102,7 @@ class UnsignedTokenTest extends TestCase
             new ValidAt($clock),
         ];
 
-        self::assertTrue($this->config->getValidator()->validate($generated, ...$constraints));
+        self::assertTrue($this->config->validator()->validate($generated, ...$constraints));
     }
 
     /**
@@ -111,7 +111,7 @@ class UnsignedTokenTest extends TestCase
      */
     public function tokenValidationShouldAllowCustomConstraint(Token $generated): void
     {
-        self::assertTrue($this->config->getValidator()->validate($generated, $this->validUserConstraint()));
+        self::assertTrue($this->config->validator()->validate($generated, $this->validUserConstraint()));
     }
 
     /**
@@ -128,7 +128,7 @@ class UnsignedTokenTest extends TestCase
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token violates some mandatory constraints');
 
-        $this->config->getValidator()->assert($generated, ...$constraints);
+        $this->config->validator()->assert($generated, ...$constraints);
     }
 
     private function validUserConstraint(): Constraint

@@ -28,37 +28,37 @@ final class Sha384Test extends TestCase
     /**
      * @test
      *
-     * @covers ::getAlgorithmId
+     * @covers ::algorithmId
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
-    public function getAlgorithmIdMustBeCorrect(): void
+    public function algorithmIdMustBeCorrect(): void
     {
-        self::assertSame('ES384', $this->getSigner()->getAlgorithmId());
+        self::assertSame('ES384', $this->getSigner()->algorithmId());
     }
 
     /**
      * @test
      *
-     * @covers ::getAlgorithm
+     * @covers ::algorithm
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
-    public function getAlgorithmMustBeCorrect(): void
+    public function algorithmMustBeCorrect(): void
     {
-        self::assertSame(OPENSSL_ALGO_SHA384, $this->getSigner()->getAlgorithm());
+        self::assertSame(OPENSSL_ALGO_SHA384, $this->getSigner()->algorithm());
     }
 
     /**
      * @test
      *
-     * @covers ::getKeyLength
+     * @covers ::keyLength
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
-    public function getKeyLengthMustBeCorrect(): void
+    public function keyLengthMustBeCorrect(): void
     {
-        self::assertSame(96, $this->getSigner()->getKeyLength());
+        self::assertSame(96, $this->getSigner()->keyLength());
     }
 
     private function getSigner(): Sha384

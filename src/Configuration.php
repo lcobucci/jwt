@@ -101,12 +101,12 @@ final class Configuration
         $this->builderFactory = Closure::fromCallable($builderFactory);
     }
 
-    public function createBuilder(?ClaimsFormatter $claimFormatter = null): Builder
+    public function builder(?ClaimsFormatter $claimFormatter = null): Builder
     {
         return ($this->builderFactory)($claimFormatter ?? ChainedFormatter::default());
     }
 
-    public function getParser(): Parser
+    public function parser(): Parser
     {
         return $this->parser;
     }
@@ -116,22 +116,22 @@ final class Configuration
         $this->parser = $parser;
     }
 
-    public function getSigner(): Signer
+    public function signer(): Signer
     {
         return $this->signer;
     }
 
-    public function getSigningKey(): Key
+    public function signingKey(): Key
     {
         return $this->signingKey;
     }
 
-    public function getVerificationKey(): Key
+    public function verificationKey(): Key
     {
         return $this->verificationKey;
     }
 
-    public function getValidator(): Validator
+    public function validator(): Validator
     {
         return $this->validator;
     }
@@ -142,7 +142,7 @@ final class Configuration
     }
 
     /** @return Constraint[] */
-    public function getValidationConstraints(): array
+    public function validationConstraints(): array
     {
         return $this->validationConstraints;
     }

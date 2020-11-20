@@ -7,7 +7,7 @@ use Lcobucci\JWT\Signer;
 
 final class None implements Signer
 {
-    public function getAlgorithmId(): string
+    public function algorithmId(): string
     {
         return 'none';
     }

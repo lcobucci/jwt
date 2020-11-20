@@ -9,17 +9,17 @@ use const OPENSSL_ALGO_SHA256;
 
 final class Sha256 extends Ecdsa
 {
-    public function getAlgorithmId(): string
+    public function algorithmId(): string
     {
         return 'ES256';
     }
 
-    public function getAlgorithm(): int
+    public function algorithm(): int
     {
         return OPENSSL_ALGO_SHA256;
     }
 
-    public function getKeyLength(): int
+    public function keyLength(): int
     {
         return 64;
     }

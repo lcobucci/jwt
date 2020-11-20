@@ -125,10 +125,10 @@ Once you've made all the necessary configuration you can pass the configuration 
 
 These are the available getters:
 
-* `Lcobucci\JWT\Configuration#createBuilder()`: retrieves the token builder (always creating a new instance)
-* `Lcobucci\JWT\Configuration#getParser()`: retrieves the token parser
-* `Lcobucci\JWT\Configuration#getSigner()`: retrieves the signer
-* `Lcobucci\JWT\Configuration#getSigningKey()`: retrieves the key for signature creation
-* `Lcobucci\JWT\Configuration#getVerificationKey()`: retrieves the key for signature verification
-* `Lcobucci\JWT\Configuration#getValidator()`: retrieves the token validator
-* `Lcobucci\JWT\Configuration#getValidationConstraints()`: retrieves the default set of validation constraints
+* `Lcobucci\JWT\Configuration#builder()`: retrieves the token builder (always creating a new instance)
+* `Lcobucci\JWT\Configuration#parser()`: retrieves the token parser
+* `Lcobucci\JWT\Configuration#signer()`: retrieves the signer
+* `Lcobucci\JWT\Configuration#signingKey()`: retrieves the key for signature creation
+* `Lcobucci\JWT\Configuration#verificationKey()`: retrieves the key for signature verification
+* `Lcobucci\JWT\Configuration#validator()`: retrieves the token validator
+* `Lcobucci\JWT\Configuration#validationConstraints()`: retrieves the default set of validation constraints
