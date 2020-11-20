@@ -9,8 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 use function base64_encode;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Key\SafeString */
-final class SafeStringTest extends TestCase
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Key\InMemory */
+final class InMemoryTest extends TestCase
 {
     /** @before */
     public function configureRootDir(): void
@@ -33,7 +33,7 @@ final class SafeStringTest extends TestCase
         $this->expectException(CannotDecodeContent::class);
         $this->expectExceptionMessage('Error while decoding from Base64Url, invalid base64 characters detected');
 
-        SafeString::base64Encoded('ááá');
+        InMemory::base64Encoded('ááá');
     }
 
     /**
@@ -45,7 +45,7 @@ final class SafeStringTest extends TestCase
      */
     public function base64EncodedShouldDecodeKeyContents(): void
     {
-        $key = SafeString::base64Encoded(base64_encode('testing'));
+        $key = InMemory::base64Encoded(base64_encode('testing'));
 
         self::assertSame('testing', $key->contents());
     }
@@ -60,7 +60,7 @@ final class SafeStringTest extends TestCase
      */
     public function emptyShouldCreateAKeyWithEmptyContentsAndPassphrase(): void
     {
-        $key = SafeString::empty();
+        $key = InMemory::empty();
 
         self::assertSame('', $key->contents());
         self::assertSame('', $key->passphrase());
@@ -81,7 +81,7 @@ final class SafeStringTest extends TestCase
         $this->expectExceptionMessage('The path "' . $path . '" does not contain a valid key file');
         $this->expectExceptionCode(0);
 
-        SafeString::file($path);
+        InMemory::file($path);
     }
 
     /**
@@ -93,7 +93,7 @@ final class SafeStringTest extends TestCase
      */
     public function contentsShouldReturnConfiguredData(): void
     {
-        $key = SafeString::plainText('testing', 'test');
+        $key = InMemory::plainText('testing', 'test');
 
         self::assertSame('testing', $key->contents());
     }
@@ -107,7 +107,7 @@ final class SafeStringTest extends TestCase
      */
     public function contentsShouldReturnFileContentsWhenFilePathHasBeenPassed(): void
     {
-        $key = SafeString::file(vfsStream::url('root/test.pem'));
+        $key = InMemory::file(vfsStream::url('root/test.pem'));
 
         self::assertSame('testing', $key->contents());
     }
@@ -121,7 +121,7 @@ final class SafeStringTest extends TestCase
      */
     public function passphraseShouldReturnConfiguredData(): void
     {
-        $key = SafeString::plainText('testing', 'test');
+        $key = InMemory::plainText('testing', 'test');
 
         self::assertSame('test', $key->passphrase());
     }
@@ -135,7 +135,7 @@ final class SafeStringTest extends TestCase
      */
     public function passphraseShouldReturnAnEmptyStringWhenNothingWasConfigured(): void
     {
-        $key = SafeString::plainText('testing');
+        $key = InMemory::plainText('testing');
 
         self::assertSame('', $key->passphrase());
     }

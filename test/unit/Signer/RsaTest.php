@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Keys;
-use Lcobucci\JWT\Signer\Key\SafeString;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use OpenSSLAsymmetricKey;
 use PHPUnit\Framework\TestCase;
 
@@ -52,7 +52,7 @@ final class RsaTest extends TestCase
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\CannotSignPayload
      *
-     * @uses \Lcobucci\JWT\Signer\Key\SafeString
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function signShouldRaiseAnExceptionWhenKeyIsInvalid(): void
     {
@@ -69,7 +69,7 @@ KEY;
         $this->expectException(CannotSignPayload::class);
         $this->expectExceptionMessage('There was an error while creating the signature');
 
-        $signer->sign('testing', SafeString::plainText($key));
+        $signer->sign('testing', InMemory::plainText($key));
     }
 
     /**
@@ -79,7 +79,7 @@ KEY;
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
-     * @uses \Lcobucci\JWT\Signer\Key\SafeString
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function signShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
@@ -88,7 +88,7 @@ KEY;
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('It was not possible to parse your key');
 
-        $signer->sign('testing', SafeString::plainText('blablabla'));
+        $signer->sign('testing', InMemory::plainText('blablabla'));
     }
 
     /**
@@ -141,7 +141,7 @@ KEY;
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
-     * @uses \Lcobucci\JWT\Signer\Key\SafeString
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
@@ -150,7 +150,7 @@ KEY;
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('It was not possible to parse your key');
 
-        $signer->verify('testing', 'testing', SafeString::plainText('blablabla'));
+        $signer->verify('testing', 'testing', InMemory::plainText('blablabla'));
     }
 
     /**

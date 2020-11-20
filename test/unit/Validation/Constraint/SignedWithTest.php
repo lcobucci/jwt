@@ -23,7 +23,7 @@ final class SignedWithTest extends ConstraintTestCase
         $this->signer = $this->createMock(Signer::class);
         $this->signer->method('getAlgorithmId')->willReturn('RS256');
 
-        $this->key       = Signer\Key\SafeString::plainText('123');
+        $this->key       = Signer\Key\InMemory::plainText('123');
         $this->signature = new Signature('1234', '5678');
     }
 
@@ -33,7 +33,7 @@ final class SignedWithTest extends ConstraintTestCase
      * @covers ::__construct
      * @covers ::assert
      *
-     * @uses \Lcobucci\JWT\Signer\Key\SafeString
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -53,7 +53,7 @@ final class SignedWithTest extends ConstraintTestCase
      * @covers ::__construct
      * @covers ::assert
      *
-     * @uses \Lcobucci\JWT\Signer\Key\SafeString
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -77,7 +77,7 @@ final class SignedWithTest extends ConstraintTestCase
      * @covers ::__construct
      * @covers ::assert
      *
-     * @uses \Lcobucci\JWT\Signer\Key\SafeString
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -104,7 +104,7 @@ final class SignedWithTest extends ConstraintTestCase
      * @covers ::__construct
      * @covers ::assert
      *
-     * @uses \Lcobucci\JWT\Signer\Key\SafeString
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature

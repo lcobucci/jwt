@@ -8,7 +8,7 @@ use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Ecdsa\Sha256;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
-use Lcobucci\JWT\Signer\Key\SafeString;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
@@ -28,7 +28,7 @@ use function assert;
  * @covers \Lcobucci\JWT\Token\DataSet
  * @covers \Lcobucci\JWT\Token\Signature
  * @covers \Lcobucci\JWT\Signer\Key\LocalFileReference
- * @covers \Lcobucci\JWT\Signer\Key\SafeString
+ * @covers \Lcobucci\JWT\Signer\Key\InMemory
  * @covers \Lcobucci\JWT\Signer\Ecdsa
  * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
  * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
@@ -67,7 +67,7 @@ class ES512TokenTest extends TestCase
             ->permittedFor('http://client.abc.com')
             ->issuedBy('http://api.abc.com')
             ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-            ->getToken($this->config->getSigner(), SafeString::plainText('testing'));
+            ->getToken($this->config->getSigner(), InMemory::plainText('testing'));
     }
 
     /** @test */

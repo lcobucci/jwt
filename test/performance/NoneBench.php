@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Signer\Key\SafeString;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\None;
 use PhpBench\Benchmark\Metadata\Annotations\Groups;
 
@@ -18,11 +18,11 @@ final class NoneBench extends SignerBench
 
     protected function signingKey(): Key
     {
-        return SafeString::empty();
+        return InMemory::empty();
     }
 
     protected function verificationKey(): Key
     {
-        return SafeString::empty();
+        return InMemory::empty();
     }
 }

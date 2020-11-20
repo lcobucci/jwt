@@ -8,7 +8,7 @@ use Lcobucci\JWT\Signer\Ecdsa\Sha256;
 use Lcobucci\JWT\Signer\Ecdsa\Sha384;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512;
 use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Signer\Key\SafeString;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
@@ -27,7 +27,7 @@ final class RFC6978VectorTest extends TestCase
      * @test
      * @dataProvider dataRFC6979
      *
-     * @covers \Lcobucci\JWT\Signer\Key\SafeString
+     * @covers \Lcobucci\JWT\Signer\Key\InMemory
      * @covers \Lcobucci\JWT\Signer\Ecdsa
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
@@ -60,7 +60,7 @@ final class RFC6978VectorTest extends TestCase
     public function sha256Data(): iterable
     {
         $signer = Sha256::create();
-        $key    = SafeString::plainText(
+        $key    = InMemory::plainText(
             '-----BEGIN PUBLIC KEY-----' . PHP_EOL
             . 'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEYP7UuiVanTHJYet0xjVtaMBJuJI7' . PHP_EOL
             . 'Yfps5mliLmDyn7Z5A/4QCLi8maQa6elWKLxk8vGyDC1+n1F3o8KU1EYimQ==' . PHP_EOL
@@ -88,7 +88,7 @@ final class RFC6978VectorTest extends TestCase
     public function sha384Data(): iterable
     {
         $signer = Sha384::create();
-        $key    = SafeString::plainText(
+        $key    = InMemory::plainText(
             '-----BEGIN PUBLIC KEY-----' . PHP_EOL
             . 'MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAE7DpOQVtOGaRWhhgCn0J/pdqai8SukuAu' . PHP_EOL
             . 'BqrlKGswDGTe+PDqkFWGYGSiVFFUgLwTgBXZty19VyROqO+awMYhiWcIpZNn+d+5' . PHP_EOL
@@ -117,7 +117,7 @@ final class RFC6978VectorTest extends TestCase
     public function sha512Data(): iterable
     {
         $signer = Sha512::create();
-        $key    = SafeString::plainText(
+        $key    = InMemory::plainText(
             '-----BEGIN PUBLIC KEY-----' . PHP_EOL
             . 'MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQBiUVQ0HhZMuAOqiO2lPIT+MMSH4bc' . PHP_EOL
             . 'l6BOWnFn205bzTcRI9RuRdtrXVNwp/IPtjMVXTj/oW0r12HcrEdLmi9QI6QASTEB' . PHP_EOL

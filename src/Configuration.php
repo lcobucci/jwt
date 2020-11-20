@@ -7,7 +7,7 @@ use Closure;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Signer\Key\SafeString;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Validation\Constraint;
 
@@ -84,7 +84,7 @@ final class Configuration
         ?Encoder $encoder = null,
         ?Decoder $decoder = null
     ): self {
-        $key = SafeString::empty();
+        $key = InMemory::empty();
 
         return new self(
             new None(),
