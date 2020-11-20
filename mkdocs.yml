@@ -12,6 +12,7 @@ nav:
     - 'validating-tokens.md'
   - Guides:
     - 'extending-the-library.md'
+    - 'upgrading.md'
 
 markdown_extensions:
   - admonition
