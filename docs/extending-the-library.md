@@ -74,7 +74,7 @@ final class UnixTimestampDates implements ClaimsFormatter
 $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
-$config->createBuilder(new UnixTimestampDates());
+$config->builder(new UnixTimestampDates());
 ```
 
 The class `Lcobucci\JWT\Encoding\ChainedFormatter` allows for users to combine multiple formatters. 

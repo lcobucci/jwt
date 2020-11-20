@@ -13,7 +13,7 @@ $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
 $now   = new DateTimeImmutable();
-$token = $config->createBuilder()
+$token = $config->builder()
                 // Configures the issuer (iss claim)
                 ->issuedBy('http://example.com')
                 // Configures the audience (aud claim)
@@ -31,7 +31,7 @@ $token = $config->createBuilder()
                 // Configures a new header, called "foo"
                 ->withHeader('foo', 'bar')
                 // Builds a new token
-                ->getToken($config->getSigner(), $config->getSigningKey());
+                ->getToken($config->signer(), $config->signingKey());
 ```
 
 Once you've created a token, you're able to retrieve its data and convert it to its string representation:
@@ -42,11 +42,11 @@ use Lcobucci\JWT\Configuration;
 $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
-$token = $config->createBuilder()
+$token = $config->builder()
                 ->issuedBy('http://example.com')
                 ->withClaim('uid', 1)
                 ->withHeader('foo', 'bar')
-                ->getToken($config->getSigner(), $config->getSigningKey());
+                ->getToken($config->signer(), $config->signingKey());
 
 $token->headers(); // Retrieves the token headers
 $token->claims(); // Retrieves the token claims

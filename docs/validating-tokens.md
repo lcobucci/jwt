@@ -21,13 +21,13 @@ use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 $token = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
-$token = $config->getParser()->parse('...');
+$token = $config->parser()->parse('...');
 assert($token instanceof Plain);
 
-$constraints = $config->getValidationConstraints();
+$constraints = $config->validationConstraints();
 
 try {
-    $config->getValidator()->assert($token, ...$constraints);
+    $config->validator()->assert($token, ...$constraints);
 } catch (RequiredConstraintsViolated $e) {
     // list of constraints violation exceptions:
     var_dump($e->violations());
@@ -48,12 +48,12 @@ use Lcobucci\JWT\Token\Plain;
 $token = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
-$token = $config->getParser()->parse('...');
+$token = $config->parser()->parse('...');
 assert($token instanceof Plain);
 
-$constraints = $config->getValidationConstraints();
+$constraints = $config->validationConstraints();
 
-if (! $config->getValidator()->validate($token, ...$constraints)) {
+if (! $config->validator()->validate($token, ...$constraints)) {
    throw new RuntimeException('No way!');
 }
 ```
