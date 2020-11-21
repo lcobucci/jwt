@@ -24,15 +24,19 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @covers Lcobucci\JWT\Token::__construct
+     * @covers Lcobucci\JWT\Token::getHeaders
+     * @covers Lcobucci\JWT\Token::getClaims
+     * @covers Lcobucci\JWT\Token::signature
+     * @covers Lcobucci\JWT\Token::getPayload
      */
     public function constructMustInitializeAnEmptyPlainTextTokenWhenNoArgumentsArePassed()
     {
         $token = new Token();
 
-        $this->assertAttributeEquals(['alg' => 'none'], 'headers', $token);
-        $this->assertAttributeEquals([], 'claims', $token);
-        $this->assertAttributeEquals(null, 'signature', $token);
-        $this->assertAttributeEquals(['', ''], 'payload', $token);
+        $this->assertEquals(['alg' => 'none'], $token->getHeaders());
+        $this->assertEquals([], $token->getClaims());
+        $this->assertNull($token->signature());
+        $this->assertEquals('.', $token->getPayload());
     }
 
     /**

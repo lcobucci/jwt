@@ -148,7 +148,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Parser::__construct
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token
      *
      * @covers Lcobucci\JWT\Parser::parse
      * @covers Lcobucci\JWT\Parser::splitJwt
@@ -170,16 +170,16 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.a.');
 
-        $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'none'], 'headers', $token);
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
-        $this->assertAttributeEquals(null, 'signature', $token);
+        $this->assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
+        $this->assertEquals(['aud' => $this->defaultClaim], $token->getClaims());
+        $this->assertNull($token->signature());
     }
 
     /**
      * @test
      *
      * @uses Lcobucci\JWT\Parser::__construct
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token
      *
      * @covers Lcobucci\JWT\Parser::parse
      * @covers Lcobucci\JWT\Parser::splitJwt
@@ -200,22 +200,21 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.a.');
 
-        $this->assertAttributeEquals(
+        $this->assertEquals(
             ['typ' => 'JWT', 'alg' => 'none', 'aud' => $this->defaultClaim],
-            'headers',
-            $token
+            $token->getHeaders()
         );
 
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
-        $this->assertAttributeEquals(null, 'signature', $token);
+        $this->assertEquals(['aud' => $this->defaultClaim], $token->getClaims());
+        $this->assertNull($token->signature());
     }
 
     /**
      * @test
      *
      * @uses Lcobucci\JWT\Parser::__construct
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Signature::__construct
+     * @uses Lcobucci\JWT\Token
+     * @uses Lcobucci\JWT\Signature
      *
      * @covers Lcobucci\JWT\Parser::parse
      * @covers Lcobucci\JWT\Parser::splitJwt
@@ -240,8 +239,8 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.a.a');
 
-        $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'HS256'], 'headers', $token);
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
-        $this->assertAttributeEquals(new Signature('aaa'), 'signature', $token);
+        $this->assertEquals(['typ' => 'JWT', 'alg' => 'HS256'], $token->getHeaders());
+        $this->assertEquals(['aud' => $this->defaultClaim], $token->getClaims());
+        $this->assertEquals(new Signature('aaa'), $token->signature());
     }
 }
