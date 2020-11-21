@@ -267,6 +267,12 @@ class Token
         return $this->payload[0] . '.' . $this->payload[1];
     }
 
+    /** @return Signature|null */
+    public function signature()
+    {
+        return $this->signature;
+    }
+
     /**
      * Returns an encoded representation of the token
      *
