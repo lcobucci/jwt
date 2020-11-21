@@ -9,6 +9,8 @@ use function strlen;
 
 /**
  * @coversDefaultClass \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
+ *
+ * @covers \Lcobucci\JWT\Signer\Ecdsa\ConversionFailed
  */
 final class MultibyteStringConverterTest extends TestCase
 {

@@ -10,6 +10,7 @@ namespace Lcobucci\JWT;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Token\RegisteredClaimGiven;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -73,7 +74,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::permittedFor
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -91,7 +92,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::permittedFor
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -114,7 +115,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::permittedFor
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -130,7 +131,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::expiresAt
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -148,7 +149,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::expiresAt
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -171,7 +172,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::expiresAt
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -187,7 +188,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::identifiedBy
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -205,7 +206,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::identifiedBy
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -228,7 +229,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::identifiedBy
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -244,7 +245,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::issuedAt
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -262,7 +263,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::issuedAt
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -285,7 +286,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::issuedAt
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -301,7 +302,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::issuedBy
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -319,7 +320,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::issuedBy
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -342,7 +343,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::issuedBy
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -358,7 +359,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::canOnlyBeUsedAfter
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -376,7 +377,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::canOnlyBeUsedAfter
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -399,7 +400,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::canOnlyBeUsedAfter
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -415,7 +416,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::relatedTo
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -433,7 +434,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::relatedTo
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -456,7 +457,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::withClaim
+     * @uses Lcobucci\JWT\Builder::configureClaim
      *
      * @covers Lcobucci\JWT\Builder::relatedTo
      * @covers Lcobucci\JWT\Builder::setRegisteredClaim
@@ -474,6 +475,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      *
      * @covers Lcobucci\JWT\Builder::withClaim
+     * @covers Lcobucci\JWT\Builder::configureClaim
      */
     public function withClaimMustConfigureTheGivenClaim()
     {
@@ -489,6 +491,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      *
      * @covers Lcobucci\JWT\Builder::withClaim
+     * @covers Lcobucci\JWT\Builder::configureClaim
      */
     public function withClaimMustKeepAFluentInterface()
     {
@@ -502,7 +505,24 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      *
      * @uses Lcobucci\JWT\Builder::__construct
      *
+     * @covers Lcobucci\JWT\Builder::withClaim
+     * @covers Lcobucci\JWT\Builder::configureClaim
+     * @covers \Lcobucci\JWT\Token\RegisteredClaimGiven
+     */
+    public function withClaimShouldThrowExceptionWhenTryingToConfigureARegisteredClaim()
+    {
+        $this->expectException(RegisteredClaimGiven::class);
+
+        $this->createBuilder()->withClaim('sub', 'me');
+    }
+
+    /**
+     * @test
+     *
+     * @uses Lcobucci\JWT\Builder::__construct
+     *
      * @covers Lcobucci\JWT\Builder::withHeader
+     * @covers Lcobucci\JWT\Builder::configureClaim
      */
     public function withHeaderMustConfigureTheGivenClaim()
     {
@@ -536,6 +556,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::getToken
      * @uses Lcobucci\JWT\Token
+     * @uses Lcobucci\JWT\Signer\Key
      *
      * @covers Lcobucci\JWT\Builder::sign
      */
@@ -556,6 +577,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Builder::__construct
      * @uses Lcobucci\JWT\Builder::getToken
      * @uses Lcobucci\JWT\Token
+     * @uses Lcobucci\JWT\Signer\Key
      *
      * @covers Lcobucci\JWT\Builder::sign
      */
@@ -600,8 +622,11 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Builder::__construct
+     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @uses Lcobucci\JWT\Builder::createSignature
      * @uses Lcobucci\JWT\Builder::withClaim
      * @uses Lcobucci\JWT\Token
+     * @uses Lcobucci\JWT\Signer\Key
      *
      * @covers Lcobucci\JWT\Builder::getToken
      */

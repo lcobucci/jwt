@@ -7,7 +7,13 @@
 
 namespace Lcobucci\JWT\Parsing;
 
+use JsonException;
+use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use RuntimeException;
+
+use function json_decode;
+use function json_last_error;
+use function json_last_error_msg;
 
 /**
  * Class that decodes data according with the specs of RFC-4648
@@ -30,13 +36,21 @@ class Decoder
      */
     public function jsonDecode($json)
     {
-        $data = json_decode($json);
+        if (PHP_VERSION_ID < 70300) {
+            $data = json_decode($json);
 
-        if (json_last_error() != JSON_ERROR_NONE) {
-            throw new RuntimeException('Error while decoding to JSON: ' . json_last_error_msg());
+            if (json_last_error() != JSON_ERROR_NONE) {
+                throw CannotDecodeContent::jsonIssues(new JsonException(json_last_error_msg()));
+            }
+
+            return $data;
         }
 
-        return $data;
+        try {
+            return json_decode($json, false, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $exception) {
+            throw CannotDecodeContent::jsonIssues($exception);
+        }
     }
 
     /**

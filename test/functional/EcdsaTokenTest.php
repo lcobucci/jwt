@@ -20,6 +20,8 @@ use Lcobucci\JWT\Keys;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
+ *
+ * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
  */
 class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
 {

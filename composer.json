@@ -31,7 +31,10 @@
     "autoload": {
         "psr-4": {
             "Lcobucci\\JWT\\": "src"
-        }
+        },
+        "files": [
+            "compat/json-exception-polyfill.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

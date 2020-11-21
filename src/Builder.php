@@ -10,7 +10,11 @@ namespace Lcobucci\JWT;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Token\RegisteredClaimGiven;
+use Lcobucci\JWT\Token\RegisteredClaims;
+
 use function implode;
+use function in_array;
 
 /**
  * This class makes easier the token creation process
@@ -302,7 +306,7 @@ class Builder
      */
     protected function setRegisteredClaim($name, $value, $replicate)
     {
-        $this->withClaim($name, $value);
+        $this->configureClaim($name, $value);
 
         if ($replicate) {
             $this->headers[$name] = $this->claims[$name];
@@ -355,7 +359,21 @@ class Builder
      */
     public function with($name, $value)
     {
-        return $this->withClaim($name, $value);
+        return $this->configureClaim($name, $value);
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return Builder
+     */
+    private function configureClaim($name, $value)
+    {
+        $name = (string) $name;
+        $this->claims[$name] = $this->claimFactory->create($name, $value);
+
+        return $this;
     }
 
     /**
@@ -365,12 +383,16 @@ class Builder
      * @param mixed $value
      *
      * @return Builder
+     *
+     * @throws RegisteredClaimGiven
      */
     public function withClaim($name, $value)
     {
-        $this->claims[(string) $name] = $this->claimFactory->create($name, $value);
+        if (in_array($name, RegisteredClaims::ALL, true)) {
+            throw RegisteredClaimGiven::forClaim($name);
+        }
 
-        return $this;
+        return $this->configureClaim($name, $value);
     }
 
     /**
@@ -386,7 +408,7 @@ class Builder
      */
     public function set($name, $value)
     {
-        return $this->withClaim($name, $value);
+        return $this->configureClaim($name, $value);
     }
 
     /**

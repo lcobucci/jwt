@@ -10,6 +10,8 @@ namespace Lcobucci\JWT\Parsing;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
+ *
+ * @covers \Lcobucci\JWT\Encoding\CannotDecodeContent
  */
 class DecoderTest extends \PHPUnit\Framework\TestCase
 {
