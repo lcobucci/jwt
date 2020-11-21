@@ -19,6 +19,10 @@ use Lcobucci\JWT\Claim\LesserOrEqualsTo;
  * @since 0.1.0
  *
  * @covers \Lcobucci\JWT\Token\DataSet
+ *
+ * @uses \Lcobucci\JWT\Claim\Factory
+ * @uses \Lcobucci\JWT\Claim\EqualsTo
+ * @uses \Lcobucci\JWT\Claim\Basic
  */
 class TokenTest extends \PHPUnit\Framework\TestCase
 {
@@ -128,7 +132,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function getHeaderMustReturnValueWhenItIsAReplicatedClaim()
     {
-        $token = new Token(['jti' => new EqualsTo('jti', 1)]);
+        $token = new Token(['jti' => 1]);
 
         $this->assertEquals(1, $token->getHeader('jti'));
     }

@@ -11,12 +11,16 @@ use BadMethodCallException;
 use DateTime;
 use DateTimeInterface;
 use Generator;
+use Lcobucci\JWT\Claim\Factory;
 use Lcobucci\JWT\Claim\Validatable;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\DataSet;
+use Lcobucci\JWT\Token\RegisteredClaimGiven;
+use Lcobucci\JWT\Token\RegisteredClaims;
 use OutOfBoundsException;
 use function func_num_args;
 use function implode;
+use function in_array;
 use function sprintf;
 
 /**
@@ -94,7 +98,19 @@ class Token
      */
     public function getHeaders()
     {
-        return $this->headers->all();
+        $claimFactory = new Factory();
+        $items        = [];
+
+        foreach ($this->headers->all() as $name => $value) {
+            if (! in_array($name, RegisteredClaims::ALL, true) || ! $this->claims->has($name)) {
+                $items[$name] = $value;
+                continue;
+            }
+
+            $items[$name] = $claimFactory->create($name, $value);
+        }
+
+        return $items;
     }
 
     /**
@@ -137,10 +153,6 @@ class Token
 
         if ($value === self::FAKE_DEFAULT_VALUE) {
             throw new OutOfBoundsException(sprintf('Requested header "%s" is not configured', $name));
-        }
-
-        if ($value instanceof Claim) {
-            return $value->getValue();
         }
 
         return $value;

@@ -309,7 +309,7 @@ class Builder
         $this->configureClaim($name, $value);
 
         if ($replicate) {
-            $this->headers[$name] = $this->claims[$name];
+            $this->headers[$name] = $value;
         }
 
         return $this;
@@ -325,7 +325,7 @@ class Builder
      */
     public function withHeader($name, $value)
     {
-        $this->headers[(string) $name] = $this->claimFactory->create($name, $value);
+        $this->headers[(string) $name] = $value;
 
         return $this;
     }

@@ -17,6 +17,10 @@ use Lcobucci\JWT\Token\RegisteredClaimGiven;
  * @since 0.1.0
  *
  * @covers \Lcobucci\JWT\Token\DataSet
+ *
+ * @uses \Lcobucci\JWT\Claim\Factory
+ * @uses \Lcobucci\JWT\Claim\EqualsTo
+ * @uses \Lcobucci\JWT\Claim\Basic
  */
 class BuilderTest extends \PHPUnit\Framework\TestCase
 {
@@ -532,7 +536,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder->withHeader('userId', 2);
 
         $this->assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', 'userId' => $this->defaultClaim],
+            ['alg' => 'none', 'typ' => 'JWT', 'userId' => 2],
             'headers',
             $builder
         );

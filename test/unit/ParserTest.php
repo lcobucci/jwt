@@ -7,6 +7,7 @@
 
 namespace Lcobucci\JWT;
 
+use Lcobucci\JWT\Claim\EqualsTo;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
 use RuntimeException;
@@ -18,6 +19,10 @@ use RuntimeException;
  * @covers \Lcobucci\JWT\Token\DataSet
  * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
  * @covers \Lcobucci\JWT\Token\UnsupportedHeaderFound
+ *
+ * @uses \Lcobucci\JWT\Claim\Factory
+ * @uses \Lcobucci\JWT\Claim\EqualsTo
+ * @uses \Lcobucci\JWT\Claim\Basic
  */
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
@@ -27,14 +32,9 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     protected $decoder;
 
     /**
-     * @var ClaimFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var ClaimFactory
      */
     protected $claimFactory;
-
-    /**
-     * @var Claim|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $defaultClaim;
 
     /**
      * {@inheritdoc}
@@ -42,12 +42,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     protected function setUp()
     {
         $this->decoder = $this->createMock(Decoder::class);
-        $this->claimFactory = $this->createMock(ClaimFactory::class, [], [], '', false);
-        $this->defaultClaim = $this->createMock(Claim::class);
-
-        $this->claimFactory->expects($this->any())
-                           ->method('create')
-                           ->willReturn($this->defaultClaim);
+        $this->claimFactory = new ClaimFactory();
     }
 
     /**
@@ -172,7 +167,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $token = $parser->parse('a.a.');
 
         $this->assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
-        $this->assertEquals(['aud' => $this->defaultClaim], $token->getClaims());
+        $this->assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
         $this->assertNull($token->signature());
     }
 
@@ -202,11 +197,11 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $token = $parser->parse('a.a.');
 
         $this->assertEquals(
-            ['typ' => 'JWT', 'alg' => 'none', 'aud' => $this->defaultClaim],
+            ['typ' => 'JWT', 'alg' => 'none', 'aud' => new EqualsTo('aud', 'test')],
             $token->getHeaders()
         );
 
-        $this->assertEquals(['aud' => $this->defaultClaim], $token->getClaims());
+        $this->assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
         $this->assertNull($token->signature());
     }
 
@@ -241,7 +236,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $token = $parser->parse('a.a.a');
 
         $this->assertEquals(['typ' => 'JWT', 'alg' => 'HS256'], $token->getHeaders());
-        $this->assertEquals(['aud' => $this->defaultClaim], $token->getClaims());
+        $this->assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
         $this->assertEquals(new Signature('aaa'), $token->signature());
     }
 }
