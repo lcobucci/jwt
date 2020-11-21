@@ -567,6 +567,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Token::getPayload
      *
      * @covers Lcobucci\JWT\Token::__toString
+     * @covers Lcobucci\JWT\Token::toString
      */
     public function toStringMustReturnEncodedDataWithEmptySignature()
     {
@@ -582,6 +583,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Token::getPayload
      *
      * @covers Lcobucci\JWT\Token::__toString
+     * @covers Lcobucci\JWT\Token::toString
      */
     public function toStringMustReturnEncodedData()
     {

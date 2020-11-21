@@ -16,6 +16,7 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\DataSet;
 use OutOfBoundsException;
 use function func_num_args;
+use function implode;
 use function sprintf;
 
 /**
@@ -310,9 +311,18 @@ class Token
     /**
      * Returns an encoded representation of the token
      *
+     * @deprecated This method has been removed from the interface in v4.0
+     * @see Token::toString()
+     *
      * @return string
      */
     public function __toString()
+    {
+        return $this->toString();
+    }
+
+    /** @return string */
+    public function toString()
     {
         $data = implode('.', $this->payload);
 
