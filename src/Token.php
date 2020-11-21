@@ -40,7 +40,7 @@ class Token
     /**
      * The token signature
      *
-     * @var Signature
+     * @var Signature|null
      */
     private $signature;
 
@@ -57,7 +57,7 @@ class Token
      * @param array $headers
      * @param array $claims
      * @param array $payload
-     * @param Signature $signature
+     * @param Signature|null $signature
      */
     public function __construct(
         array $headers = ['alg' => 'none'],
