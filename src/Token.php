@@ -16,6 +16,7 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\DataSet;
 use OutOfBoundsException;
 use function func_num_args;
+use function sprintf;
 
 /**
  * Basic structure of the JWT
@@ -38,7 +39,7 @@ class Token
     /**
      * The token claim set
      *
-     * @var array
+     * @var DataSet
      */
     private $claims;
 
@@ -71,7 +72,7 @@ class Token
         array $payload = ['', '']
     ) {
         $this->headers = new DataSet($headers, $payload[0]);
-        $this->claims = $claims;
+        $this->claims = new DataSet($claims, $payload[1]);
         $this->signature = $signature;
         $this->payload = $payload;
     }
@@ -144,18 +145,31 @@ class Token
         return $value;
     }
 
-    /**
-     * Returns the token claim set
-     *
-     * @return array
-     */
-    public function getClaims()
+    /** @return DataSet */
+    public function claims()
     {
         return $this->claims;
     }
 
     /**
+     * Returns the token claim set
+     *
+     * @deprecated This method has been removed from the interface in v4.0
+     * @see Token::claims()
+     *
+     * @return array
+     */
+    public function getClaims()
+    {
+        return $this->claims->all();
+    }
+
+    /**
      * Returns if the claim is configured
+     *
+     * @deprecated This method has been removed from the interface in v4.0
+     * @see Token::claims()
+     * @see DataSet::has()
      *
      * @param string $name
      *
@@ -163,11 +177,15 @@ class Token
      */
     public function hasClaim($name)
     {
-        return array_key_exists($name, $this->claims);
+        return $this->claims->has($name);
     }
 
     /**
      * Returns the value of a token claim
+     *
+     * @deprecated This method has been removed from the interface in v4.0
+     * @see Token::claims()
+     * @see DataSet::get()
      *
      * @param string $name
      * @param mixed $default
@@ -178,15 +196,21 @@ class Token
      */
     public function getClaim($name, $default = null)
     {
-        if ($this->hasClaim($name)) {
-            return $this->claims[$name]->getValue();
-        }
-
         if (func_num_args() === 1) {
-            throw new OutOfBoundsException(sprintf('Requested claim "%s" is not configured', $name));
+            $default = self::FAKE_DEFAULT_VALUE;
         }
 
-        return $default;
+        $value = $this->claims->get($name, $default);
+
+        if ($value === self::FAKE_DEFAULT_VALUE) {
+            throw new OutOfBoundsException(sprintf('Requested header "%s" is not configured', $name));
+        }
+
+        if ($value instanceof Claim) {
+            return $value->getValue();
+        }
+
+        return $value;
     }
 
     /**
@@ -260,7 +284,7 @@ class Token
      */
     private function getValidatableClaims()
     {
-        foreach ($this->claims as $claim) {
+        foreach ($this->claims->all() as $claim) {
             if ($claim instanceof Validatable) {
                 yield $claim;
             }
