@@ -13,7 +13,9 @@ use DateTimeInterface;
 use Generator;
 use Lcobucci\JWT\Claim\Validatable;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Token\DataSet;
 use OutOfBoundsException;
+use function func_num_args;
 
 /**
  * Basic structure of the JWT
@@ -23,10 +25,13 @@ use OutOfBoundsException;
  */
 class Token
 {
+    /** @internal */
+    const FAKE_DEFAULT_VALUE = '~~~WEIRD~DEFAULT~VALUE~~~';
+
     /**
      * The token headers
      *
-     * @var array
+     * @var DataSet
      */
     private $headers;
 
@@ -65,24 +70,37 @@ class Token
         Signature $signature = null,
         array $payload = ['', '']
     ) {
-        $this->headers = $headers;
+        $this->headers = new DataSet($headers, $payload[0]);
         $this->claims = $claims;
         $this->signature = $signature;
         $this->payload = $payload;
     }
 
-    /**
-     * Returns the token headers
-     *
-     * @return array
-     */
-    public function getHeaders()
+    /** @return DataSet */
+    public function headers()
     {
         return $this->headers;
     }
 
     /**
+     * Returns the token headers
+     *
+     * @deprecated This method has been removed from the interface in v4.0
+     * @see Token::headers()
+     *
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers->all();
+    }
+
+    /**
      * Returns if the header is configured
+     *
+     * @deprecated This method has been removed from the interface in v4.0
+     * @see Token::headers()
+     * @see DataSet::has()
      *
      * @param string $name
      *
@@ -90,11 +108,15 @@ class Token
      */
     public function hasHeader($name)
     {
-        return array_key_exists($name, $this->headers);
+        return $this->headers->has($name);
     }
 
     /**
      * Returns the value of a token header
+     *
+     * @deprecated This method has been removed from the interface in v4.0
+     * @see Token::headers()
+     * @see DataSet::has()
      *
      * @param string $name
      * @param mixed $default
@@ -105,33 +127,21 @@ class Token
      */
     public function getHeader($name, $default = null)
     {
-        if ($this->hasHeader($name)) {
-            return $this->getHeaderValue($name);
+        if (func_num_args() === 1) {
+            $default = self::FAKE_DEFAULT_VALUE;
         }
 
-        if ($default === null) {
+        $value = $this->headers->get($name, $default);
+
+        if ($value === self::FAKE_DEFAULT_VALUE) {
             throw new OutOfBoundsException(sprintf('Requested header "%s" is not configured', $name));
         }
 
-        return $default;
-    }
-
-    /**
-     * Returns the value stored in header
-     *
-     * @param string $name
-     *
-     * @return mixed
-     */
-    private function getHeaderValue($name)
-    {
-        $header = $this->headers[$name];
-
-        if ($header instanceof Claim) {
-            return $header->getValue();
+        if ($value instanceof Claim) {
+            return $value->getValue();
         }
 
-        return $header;
+        return $value;
     }
 
     /**
@@ -195,7 +205,7 @@ class Token
             throw new BadMethodCallException('This token is not signed');
         }
 
-        if ($this->headers['alg'] !== $signer->getAlgorithmId()) {
+        if ($this->headers->get('alg') !== $signer->getAlgorithmId()) {
             return false;
         }
 

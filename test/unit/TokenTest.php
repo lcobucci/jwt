@@ -17,6 +17,8 @@ use Lcobucci\JWT\Claim\LesserOrEqualsTo;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
+ *
+ * @covers \Lcobucci\JWT\Token\DataSet
  */
 class TokenTest extends \PHPUnit\Framework\TestCase
 {
@@ -107,7 +109,6 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Token::hasHeader
      *
      * @covers Lcobucci\JWT\Token::getHeader
-     * @covers Lcobucci\JWT\Token::getHeaderValue
      */
     public function getHeaderMustReturnTheRequestedHeader()
     {
@@ -124,7 +125,6 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Claim\Basic
      *
      * @covers Lcobucci\JWT\Token::getHeader
-     * @covers Lcobucci\JWT\Token::getHeaderValue
      */
     public function getHeaderMustReturnValueWhenItIsAReplicatedClaim()
     {

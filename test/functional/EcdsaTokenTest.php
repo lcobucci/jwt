@@ -22,6 +22,7 @@ use Lcobucci\JWT\Keys;
  * @since 2.1.0
  *
  * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
+ * @covers \Lcobucci\JWT\Token\DataSet
  */
 class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
 {

@@ -15,6 +15,8 @@ use Lcobucci\JWT\Token\RegisteredClaimGiven;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
+ *
+ * @covers \Lcobucci\JWT\Token\DataSet
  */
 class BuilderTest extends \PHPUnit\Framework\TestCase
 {

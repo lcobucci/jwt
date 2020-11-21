@@ -24,6 +24,7 @@ use function base64_encode;
  * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
  * @covers \Lcobucci\JWT\Signature
  * @covers \Lcobucci\JWT\Token
+ * @covers \Lcobucci\JWT\Token\DataSet
  */
 final class CompatibilityLayerTest extends TestCase
 {
