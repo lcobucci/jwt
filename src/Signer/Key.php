@@ -9,7 +9,11 @@ namespace Lcobucci\JWT\Signer;
 
 use Exception;
 use InvalidArgumentException;
+use Lcobucci\JWT\Signer\Key\FileCouldNotBeRead;
 use SplFileObject;
+
+use function strpos;
+use function substr;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -60,18 +64,21 @@ final class Key
      */
     private function readFile($content)
     {
+        $path = substr($content, 7);
+
         try {
-            $file    = new SplFileObject(substr($content, 7));
-            $content = '';
-
-            while (! $file->eof()) {
-                $content .= $file->fgets();
-            }
-
-            return $content;
+            $file = new SplFileObject($path);
         } catch (Exception $exception) {
-            throw new InvalidArgumentException('You must provide a valid key file', 0, $exception);
+            throw FileCouldNotBeRead::onPath($path, $exception);
         }
+
+        $content = '';
+
+        while (! $file->eof()) {
+            $content .= $file->fgets();
+        }
+
+        return $content;
     }
 
     /**

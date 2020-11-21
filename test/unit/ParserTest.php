@@ -14,6 +14,9 @@ use RuntimeException;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
+ *
+ * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
+ * @covers \Lcobucci\JWT\Token\UnsupportedHeaderFound
  */
 class ParserTest extends \PHPUnit\Framework\TestCase
 {

@@ -10,6 +10,8 @@ namespace Lcobucci\JWT;
 use InvalidArgumentException;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
+use Lcobucci\JWT\Token\InvalidTokenStructure;
+use Lcobucci\JWT\Token\UnsupportedHeaderFound;
 use RuntimeException;
 
 /**
@@ -90,13 +92,13 @@ class Parser
     protected function splitJwt($jwt)
     {
         if (!is_string($jwt)) {
-            throw new InvalidArgumentException('The JWT string must have two dots');
+            throw InvalidTokenStructure::missingOrNotEnoughSeparators();
         }
 
         $data = explode('.', $jwt);
 
         if (count($data) != 3) {
-            throw new InvalidArgumentException('The JWT string must have two dots');
+            throw InvalidTokenStructure::missingOrNotEnoughSeparators();
         }
 
         return $data;
@@ -109,14 +111,14 @@ class Parser
      *
      * @return array
      *
-     * @throws InvalidArgumentException When an invalid header is informed
+     * @throws UnsupportedHeaderFound When an invalid header is informed
      */
     protected function parseHeader($data)
     {
         $header = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
         if (isset($header['enc'])) {
-            throw new InvalidArgumentException('Encryption is not supported yet');
+            throw UnsupportedHeaderFound::encryption();
         }
 
         return $header;

@@ -24,9 +24,7 @@ abstract class OpenSSL extends BaseSigner
             $signature = '';
 
             if (! openssl_sign($payload, $signature, $privateKey, $this->getAlgorithm())) {
-                throw new InvalidArgumentException(
-                    'There was an error while creating the signature: ' . openssl_error_string()
-                );
+                throw CannotSignPayload::errorHappened(openssl_error_string());
             }
 
             return $signature;
@@ -87,15 +85,13 @@ abstract class OpenSSL extends BaseSigner
     private function validateKey($key)
     {
         if (! is_resource($key)) {
-            throw new InvalidArgumentException(
-                'It was not possible to parse your key, reason: ' . openssl_error_string()
-            );
+            throw InvalidKeyProvided::cannotBeParsed(openssl_error_string());
         }
 
         $details = openssl_pkey_get_details($key);
 
         if (! isset($details['key']) || $details['type'] !== $this->getKeyType()) {
-            throw new InvalidArgumentException('This key is not compatible with this signer');
+            throw InvalidKeyProvided::incompatibleKey();
         }
     }
 

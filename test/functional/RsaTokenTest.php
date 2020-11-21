@@ -19,6 +19,8 @@ use Lcobucci\JWT\Signer\Rsa\Sha512;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
+ *
+ * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
  */
 class RsaTokenTest extends \PHPUnit\Framework\TestCase
 {
