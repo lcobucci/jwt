@@ -9,6 +9,7 @@ namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Signature;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\ValidationData;
 
@@ -17,6 +18,7 @@ use Lcobucci\JWT\ValidationData;
  * @since 2.1.0
  *
  * @covers \Lcobucci\JWT\Token\DataSet
+ * @covers \Lcobucci\JWT\Signature
  */
 class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
 {
@@ -42,7 +44,7 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
                               ->set('user', $user)
                               ->getToken();
 
-        $this->assertAttributeEquals(null, 'signature', $token);
+        self::assertEquals(Signature::fromEmptyData(), $token->signature());
         $this->assertEquals('http://client.abc.com', $token->getClaim('aud'));
         $this->assertEquals('http://api.abc.com', $token->getClaim('iss'));
         $this->assertEquals(self::CURRENT_TIME + 3000, $token->getClaim('exp'));

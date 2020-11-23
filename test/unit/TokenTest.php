@@ -19,6 +19,7 @@ use Lcobucci\JWT\Token\RegisteredClaims;
  * @coversDefaultClass \Lcobucci\JWT\Token
  *
  * @covers \Lcobucci\JWT\Token\DataSet
+ * @covers \Lcobucci\JWT\Signature
  *
  * @uses \Lcobucci\JWT\Claim\Factory
  * @uses \Lcobucci\JWT\Claim\EqualsTo
@@ -42,7 +43,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(['alg' => 'none'], $token->getHeaders());
         $this->assertEquals([], $token->getClaims());
-        $this->assertNull($token->signature());
+        $this->assertEquals(Signature::fromEmptyData(), $token->signature());
         $this->assertEquals('.', $token->getPayload());
     }
 
@@ -273,24 +274,6 @@ class TokenTest extends \PHPUnit\Framework\TestCase
         $token = new Token([], ['testing' => 'test']);
 
         $this->assertEquals('test', $token->getClaim('testing'));
-    }
-
-    /**
-     * @test
-     *
-     * @uses \Lcobucci\JWT\Token::__construct
-     * @uses \Lcobucci\JWT\Token::convertToDataSet
-     *
-     * @covers ::verify
-     *
-     * @expectedException BadMethodCallException
-     */
-    public function verifyMustRaiseExceptionWhenTokenIsUnsigned()
-    {
-        $signer = $this->createMock(Signer::class);
-
-        $token = new Token();
-        $token->verify($signer, 'test');
     }
 
     /**
@@ -1011,7 +994,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function toStringMustReturnEncodedData()
     {
-        $signature = $this->createMock(Signature::class, [], [], '', false);
+        $signature = new Signature('', 'test');
 
         $token = new Token(['alg' => 'none'], [], $signature, ['test', 'test', 'test']);
 

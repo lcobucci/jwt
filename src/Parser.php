@@ -165,11 +165,11 @@ class Parser
     protected function parseSignature(array $header, $data)
     {
         if ($data == '' || !isset($header['alg']) || $header['alg'] == 'none') {
-            return null;
+            return Signature::fromEmptyData();
         }
 
         $hash = $this->decoder->base64UrlDecode($data);
 
-        return new Signature($hash);
+        return new Signature($hash, $data);
     }
 }

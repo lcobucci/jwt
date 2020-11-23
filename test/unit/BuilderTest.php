@@ -23,6 +23,7 @@ use Lcobucci\JWT\Token\RegisteredClaimGiven;
  * @coversDefaultClass \Lcobucci\JWT\Builder
  *
  * @covers \Lcobucci\JWT\Token\DataSet
+ * @covers \Lcobucci\JWT\Signature
  *
  * @uses \Lcobucci\JWT\Claim\Factory
  * @uses \Lcobucci\JWT\Claim\EqualsTo
@@ -652,9 +653,10 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     public function getTokenMustReturnANewTokenWithCurrentConfiguration()
     {
         $signer = $this->createMock(Signer::class);
-        $signature = $this->createMock(Signature::class);
 
-        $signer->method('sign')->willReturn($signature);
+        $signer->expects(self::once())
+            ->method('sign')
+            ->willReturn(new Signature('payload-verification-hash'));
 
         $this->encoder->expects($this->exactly(2))
                       ->method('jsonEncode')
@@ -663,7 +665,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
 
         $this->encoder->expects($this->exactly(3))
                       ->method('base64UrlEncode')
-                      ->withConsecutive(['1'], ['2'], [$signature])
+                      ->withConsecutive(['1'], ['2'], ['payload-verification-hash'])
                       ->willReturnOnConsecutiveCalls('1', '2', '3');
 
         $builder = $this->createBuilder()->withClaim('test', 123);
@@ -671,7 +673,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
         self::assertEquals(['test' => new Basic('test', 123)], $token->getClaims());
-        self::assertSame($signature, $token->signature());
+        self::assertEquals(new Signature('payload-verification-hash', '3'), $token->signature());
         self::assertSame('1.2.3', $token->toString());
     }
 }

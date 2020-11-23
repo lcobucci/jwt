@@ -487,10 +487,7 @@ class Builder
         ];
 
         $signature = $this->createSignature($payload, $signer, $key);
-
-        if ($signature !== null) {
-            $payload[] = $this->encoder->base64UrlEncode($signature);
-        }
+        $payload[] = $signature->toString();
 
         return new Token(
             new DataSet($this->headers, $payload[0]),
@@ -522,14 +519,16 @@ class Builder
     /**
      * @param string[] $payload
      *
-     * @return Signature|null
+     * @return Signature
      */
     private function createSignature(array $payload, Signer $signer = null, Key $key = null)
     {
         if ($signer === null || $key === null) {
-            return null;
+            return Signature::fromEmptyData();
         }
 
-        return $signer->sign(implode('.', $payload), $key);
+        $hash = $signer->sign(implode('.', $payload), $key)->hash();
+
+        return new Signature($hash, $this->encoder->base64UrlEncode($hash));
     }
 }
