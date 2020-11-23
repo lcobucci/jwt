@@ -630,7 +630,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
 
         $this->encoder->expects($this->exactly(2))
                       ->method('jsonEncode')
-                      ->withConsecutive([['typ'=> 'JWT', 'alg' => 'none']], [['test' => new Basic('test', 123)]])
+                      ->withConsecutive([['typ'=> 'JWT', 'alg' => 'none']], [['test' => 123]])
                       ->willReturnOnConsecutiveCalls('1', '2');
 
         $this->encoder->expects($this->exactly(3))

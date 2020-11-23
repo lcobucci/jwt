@@ -175,7 +175,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function hasClaimMustReturnTrueWhenItIsConfigured()
     {
-        $token = new Token([], ['test' => new Basic('test', 'testing')]);
+        $token = new Token([], ['test' => 'testing']);
 
         $this->assertTrue($token->hasClaim('test'));
     }
@@ -190,7 +190,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function hasClaimMustReturnFalseWhenItIsNotConfigured()
     {
-        $token = new Token([], ['test' => new Basic('test', 'testing')]);
+        $token = new Token([], ['test' => 'testing']);
 
         $this->assertFalse($token->hasClaim('testing'));
     }
@@ -206,7 +206,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function getClaimMustReturnTheDefaultValueWhenIsNotConfigured()
     {
-        $token = new Token([], ['test' => new Basic('test', 'testing')]);
+        $token = new Token([], ['test' => 'testing']);
 
         $this->assertEquals('blah', $token->getClaim('testing', 'blah'));
     }
@@ -255,7 +255,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function getClaimShouldReturnTheClaimValueWhenItExists()
     {
-        $token = new Token([], ['testing' => new Basic('testing', 'test')]);
+        $token = new Token([], ['testing' => 'test']);
 
         $this->assertEquals('test', $token->getClaim('testing'));
     }
@@ -337,6 +337,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getClaims
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
     public function validateShouldReturnTrueWhenClaimsAreEmpty()
@@ -355,11 +356,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Claim\Basic::__construct
      *
      * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getClaims
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
     public function validateShouldReturnTrueWhenThereAreNoValidatableClaims()
     {
-        $token = new Token([], ['testing' => new Basic('testing', 'test')]);
+        $token = new Token([], ['testing' => 'test']);
 
         $this->assertTrue($token->validate(new ValidationData()));
     }
@@ -373,6 +375,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Claim\EqualsTo
      *
      * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getClaims
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
     public function validateShouldReturnFalseWhenThereIsAtLeastOneFailedValidatableClaim()
@@ -380,8 +383,8 @@ class TokenTest extends \PHPUnit\Framework\TestCase
         $token = new Token(
             [],
             [
-                'iss' => new EqualsTo('iss', 'test'),
-                'testing' => new Basic('testing', 'test')
+                'iss' => 'test',
+                'testing' => 'test',
             ]
         );
 
@@ -402,6 +405,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      *
      * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getClaims
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
     public function validateShouldReturnFalseWhenATimeBasedClaimFails()
@@ -411,11 +415,11 @@ class TokenTest extends \PHPUnit\Framework\TestCase
         $token = new Token(
             [],
             [
-                'iss' => new EqualsTo('iss', 'test'),
-                'iat' => new LesserOrEqualsTo('iat', $now),
-                'nbf' => new LesserOrEqualsTo('nbf', $now + 20),
-                'exp' => new GreaterOrEqualsTo('exp', $now + 500),
-                'testing' => new Basic('testing', 'test')
+                'iss' => 'test',
+                'iat' => $now,
+                'nbf' => $now + 20,
+                'exp' => $now + 500,
+                'testing' => 'test',
             ]
         );
 
@@ -436,6 +440,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      *
      * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getClaims
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
     public function validateShouldReturnTrueWhenThereAreNoFailedValidatableClaims()
@@ -445,10 +450,10 @@ class TokenTest extends \PHPUnit\Framework\TestCase
         $token = new Token(
             [],
             [
-                'iss' => new EqualsTo('iss', 'test'),
-                'iat' => new LesserOrEqualsTo('iat', $now),
-                'exp' => new GreaterOrEqualsTo('exp', $now + 500),
-                'testing' => new Basic('testing', 'test')
+                'iss' => 'test',
+                'iat' => $now,
+                'exp' => $now + 500,
+                'testing' => 'test',
             ]
         );
 
@@ -469,6 +474,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      *
      * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getClaims
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
     public function validateShouldReturnTrueWhenLeewayMakesAllTimeBasedClaimsTrueAndOtherClaimsAreTrue()
@@ -478,11 +484,11 @@ class TokenTest extends \PHPUnit\Framework\TestCase
         $token = new Token(
             [],
             [
-                'iss' => new EqualsTo('iss', 'test'),
-                'iat' => new LesserOrEqualsTo('iat', $now),
-                'nbf' => new LesserOrEqualsTo('nbf', $now + 20),
-                'exp' => new GreaterOrEqualsTo('exp', $now + 500),
-                'testing' => new Basic('testing', 'test')
+                'iss' => 'test',
+                'iat' => $now,
+                'nbf' => $now + 20,
+                'exp' => $now + 500,
+                'testing' => 'test'
             ]
         );
 
@@ -523,7 +529,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     {
         $token = new Token(
             ['alg' => 'none'],
-            ['exp' => new GreaterOrEqualsTo('exp', time() + 500)]
+            ['exp' => time() + 500]
         );
 
         $this->assertFalse($token->isExpired());
@@ -544,7 +550,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     {
         $token = new Token(
             ['alg' => 'none'],
-            ['exp' => new GreaterOrEqualsTo('exp', time())]
+            ['exp' => time()]
         );
 
         $this->assertTrue($token->isExpired(new DateTime('+10 days')));

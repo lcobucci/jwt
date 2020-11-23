@@ -30,24 +30,13 @@ class Parser
     private $decoder;
 
     /**
-     * The claims factory
-     *
-     * @var ClaimFactory
-     */
-    private $claimFactory;
-
-    /**
      * Initializes the object
      *
      * @param Decoder $decoder
-     * @param ClaimFactory $claimFactory
      */
-    public function __construct(
-        Decoder $decoder = null,
-        ClaimFactory $claimFactory = null
-    ) {
+    public function __construct(Decoder $decoder = null)
+    {
         $this->decoder = $decoder ?: new Decoder();
-        $this->claimFactory = $claimFactory ?: new ClaimFactory();
     }
 
     /**
@@ -133,13 +122,7 @@ class Parser
      */
     protected function parseClaims($data)
     {
-        $claims = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
-
-        foreach ($claims as $name => &$value) {
-            $value = $this->claimFactory->create($name, $value);
-        }
-
-        return $claims;
+        return (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
     }
 
     /**

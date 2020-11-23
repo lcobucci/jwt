@@ -8,7 +8,6 @@
 namespace Lcobucci\JWT;
 
 use Lcobucci\JWT\Claim\EqualsTo;
-use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
 use RuntimeException;
 
@@ -19,10 +18,6 @@ use RuntimeException;
  * @covers \Lcobucci\JWT\Token\DataSet
  * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
  * @covers \Lcobucci\JWT\Token\UnsupportedHeaderFound
- *
- * @uses \Lcobucci\JWT\Claim\Factory
- * @uses \Lcobucci\JWT\Claim\EqualsTo
- * @uses \Lcobucci\JWT\Claim\Basic
  */
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
@@ -32,17 +27,11 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     protected $decoder;
 
     /**
-     * @var ClaimFactory
-     */
-    protected $claimFactory;
-
-    /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
         $this->decoder = $this->createMock(Decoder::class);
-        $this->claimFactory = new ClaimFactory();
     }
 
     /**
@@ -50,7 +39,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      */
     private function createParser()
     {
-        return new Parser($this->decoder, $this->claimFactory);
+        return new Parser($this->decoder);
     }
 
     /**
@@ -63,7 +52,6 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $parser = $this->createParser();
 
         $this->assertAttributeSame($this->decoder, 'decoder', $parser);
-        $this->assertAttributeSame($this->claimFactory, 'claimFactory', $parser);
     }
 
     /**
@@ -151,6 +139,9 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Claim\EqualsTo
      *
      */
     public function parseMustReturnANonSignedTokenWhenSignatureIsNotInformed()
@@ -182,6 +173,9 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Claim\EqualsTo
      */
     public function parseShouldReplicateClaimValueOnHeaderWhenNeeded()
     {
@@ -217,6 +211,9 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Claim\EqualsTo
      */
     public function parseMustReturnASignedTokenWhenSignatureIsInformed()
     {

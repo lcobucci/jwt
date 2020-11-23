@@ -370,8 +370,7 @@ class Builder
      */
     private function configureClaim($name, $value)
     {
-        $name = (string) $name;
-        $this->claims[$name] = $this->claimFactory->create($name, $value);
+        $this->claims[(string) $name] = $value;
 
         return $this;
     }
@@ -475,7 +474,7 @@ class Builder
             $payload[] = $this->encoder->base64UrlEncode($signature);
         }
 
-        return new Token($this->headers, $this->claims, $signature, $payload);
+        return new Token($this->headers, $this->claims, $signature, $payload, $this->claimFactory);
     }
 
     /**

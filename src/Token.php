@@ -15,7 +15,6 @@ use Lcobucci\JWT\Claim\Factory;
 use Lcobucci\JWT\Claim\Validatable;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\DataSet;
-use Lcobucci\JWT\Token\RegisteredClaimGiven;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use OutOfBoundsException;
 use function func_num_args;
@@ -63,23 +62,33 @@ class Token
     private $payload;
 
     /**
+     * @internal This serves just as compatibility layer
+     *
+     * @var Factory
+     */
+    private $claimFactory;
+
+    /**
      * Initializes the object
      *
      * @param array $headers
      * @param array $claims
      * @param array $payload
      * @param Signature|null $signature
+     * @param Factory|null $claimFactory
      */
     public function __construct(
         array $headers = ['alg' => 'none'],
         array $claims = [],
         Signature $signature = null,
-        array $payload = ['', '']
+        array $payload = ['', ''],
+        Factory $claimFactory = null
     ) {
         $this->headers = new DataSet($headers, $payload[0]);
         $this->claims = new DataSet($claims, $payload[1]);
         $this->signature = $signature;
         $this->payload = $payload;
+        $this->claimFactory = $claimFactory ?: new Factory();
     }
 
     /** @return DataSet */
@@ -98,8 +107,7 @@ class Token
      */
     public function getHeaders()
     {
-        $claimFactory = new Factory();
-        $items        = [];
+        $items = [];
 
         foreach ($this->headers->all() as $name => $value) {
             if (! in_array($name, RegisteredClaims::ALL, true) || ! $this->claims->has($name)) {
@@ -107,7 +115,7 @@ class Token
                 continue;
             }
 
-            $items[$name] = $claimFactory->create($name, $value);
+            $items[$name] = $this->claimFactory->create($name, $value);
         }
 
         return $items;
@@ -174,7 +182,13 @@ class Token
      */
     public function getClaims()
     {
-        return $this->claims->all();
+        $items = [];
+
+        foreach ($this->claims->all() as $name => $value) {
+            $items[$name] = $this->claimFactory->create($name, $value);
+        }
+
+        return $items;
     }
 
     /**
@@ -217,10 +231,6 @@ class Token
 
         if ($value === self::FAKE_DEFAULT_VALUE) {
             throw new OutOfBoundsException(sprintf('Requested header "%s" is not configured', $name));
-        }
-
-        if ($value instanceof Claim) {
-            return $value->getValue();
         }
 
         return $value;
@@ -297,7 +307,7 @@ class Token
      */
     private function getValidatableClaims()
     {
-        foreach ($this->claims->all() as $claim) {
+        foreach ($this->getClaims() as $claim) {
             if ($claim instanceof Validatable) {
                 yield $claim;
             }
