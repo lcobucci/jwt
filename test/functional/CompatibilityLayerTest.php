@@ -8,6 +8,9 @@ use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HmacSha256;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
+use Lcobucci\JWT\Token\DataSet;
+use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use PHPUnit\Framework\TestCase;
 
@@ -40,6 +43,18 @@ use function time;
 final class CompatibilityLayerTest extends TestCase
 {
     use Keys;
+
+    /** @test */
+    public function tokenCanBeInstantiatedInTheNewNamespace()
+    {
+        $token = new Plain(
+            new DataSet(['typ' => 'JWT', 'alg' => 'none'], ''),
+            new DataSet([], ''),
+            Signature::fromEmptyData()
+        );
+
+        self::assertSame('JWT', $token->headers()->get('typ'));
+    }
 
     /** @test */
     public function registeredDateClaimsShouldBeConvertedToDateObjects()
