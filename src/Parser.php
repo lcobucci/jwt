@@ -11,6 +11,7 @@ use DateTimeImmutable;
 use InvalidArgumentException;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
+use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Token\UnsupportedHeaderFound;
@@ -69,7 +70,12 @@ class Parser
             unset($data[2]);
         }
 
-        return new Token($header, $claims, $signature, $data);
+        return new Token(
+            new DataSet($header, $data[0]),
+            new DataSet($claims, $data[1]),
+            $signature,
+            $data
+        );
     }
 
     /**
@@ -159,11 +165,11 @@ class Parser
     protected function parseSignature(array $header, $data)
     {
         if ($data == '' || !isset($header['alg']) || $header['alg'] == 'none') {
-            return null;
+            return Signature::fromEmptyData();
         }
 
         $hash = $this->decoder->base64UrlDecode($data);
 
-        return new Signature($hash);
+        return new Signature($hash, $data);
     }
 }

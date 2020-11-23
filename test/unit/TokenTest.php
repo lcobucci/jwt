@@ -19,6 +19,7 @@ use Lcobucci\JWT\Token\RegisteredClaims;
  * @coversDefaultClass \Lcobucci\JWT\Token
  *
  * @covers \Lcobucci\JWT\Token\DataSet
+ * @covers \Lcobucci\JWT\Signature
  *
  * @uses \Lcobucci\JWT\Claim\Factory
  * @uses \Lcobucci\JWT\Claim\EqualsTo
@@ -29,11 +30,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Token::__construct
-     * @covers Lcobucci\JWT\Token::getHeaders
-     * @covers Lcobucci\JWT\Token::getClaims
-     * @covers Lcobucci\JWT\Token::signature
-     * @covers Lcobucci\JWT\Token::getPayload
+     * @covers ::__construct
+     * @covers ::convertToDataSet
+     * @covers ::getHeaders
+     * @covers ::getClaims
+     * @covers ::signature
+     * @covers ::getPayload
      */
     public function constructMustInitializeAnEmptyPlainTextTokenWhenNoArgumentsArePassed()
     {
@@ -41,16 +43,17 @@ class TokenTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(['alg' => 'none'], $token->getHeaders());
         $this->assertEquals([], $token->getClaims());
-        $this->assertNull($token->signature());
+        $this->assertEquals(Signature::fromEmptyData(), $token->signature());
         $this->assertEquals('.', $token->getPayload());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      *
-     * @covers Lcobucci\JWT\Token::hasHeader
+     * @covers ::hasHeader
      */
     public function hasHeaderMustReturnTrueWhenItIsConfigured()
     {
@@ -62,9 +65,10 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      *
-     * @covers Lcobucci\JWT\Token::hasHeader
+     * @covers ::hasHeader
      */
     public function hasHeaderMustReturnFalseWhenItIsNotConfigured()
     {
@@ -76,10 +80,11 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::hasHeader
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::hasHeader
      *
-     * @covers Lcobucci\JWT\Token::getHeader
+     * @covers ::getHeader
      *
      * @expectedException \OutOfBoundsException
      * @expectedExceptionMessageRegExp /testing/
@@ -94,10 +99,11 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::hasHeader
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::hasHeader
      *
-     * @covers Lcobucci\JWT\Token::getHeader
+     * @covers ::getHeader
      */
     public function getHeaderMustReturnTheDefaultValueWhenIsNotConfigured()
     {
@@ -109,10 +115,11 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::hasHeader
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::hasHeader
      *
-     * @covers Lcobucci\JWT\Token::getHeader
+     * @covers ::getHeader
      */
     public function getHeaderMustReturnTheRequestedHeader()
     {
@@ -124,11 +131,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::hasHeader
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::hasHeader
      * @uses Lcobucci\JWT\Claim\Basic
      *
-     * @covers Lcobucci\JWT\Token::getHeader
+     * @covers ::getHeader
      */
     public function getHeaderMustReturnValueWhenItIsAReplicatedClaim()
     {
@@ -140,9 +148,10 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      *
-     * @covers Lcobucci\JWT\Token::getHeaders
+     * @covers ::getHeaders
      */
     public function getHeadersMustReturnTheConfiguredHeader()
     {
@@ -154,9 +163,10 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      *
-     * @covers Lcobucci\JWT\Token::getClaims
+     * @covers ::getClaims
      */
     public function getClaimsMustReturnTheConfiguredClaims()
     {
@@ -168,10 +178,11 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      * @uses Lcobucci\JWT\Claim\Basic
      *
-     * @covers Lcobucci\JWT\Token::hasClaim
+     * @covers ::hasClaim
      */
     public function hasClaimMustReturnTrueWhenItIsConfigured()
     {
@@ -183,10 +194,11 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      * @uses Lcobucci\JWT\Claim\Basic
      *
-     * @covers Lcobucci\JWT\Token::hasClaim
+     * @covers ::hasClaim
      */
     public function hasClaimMustReturnFalseWhenItIsNotConfigured()
     {
@@ -198,11 +210,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::hasClaim
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::hasClaim
      * @uses Lcobucci\JWT\Claim\Basic
      *
-     * @covers Lcobucci\JWT\Token::getClaim
+     * @covers ::getClaim
      */
     public function getClaimMustReturnTheDefaultValueWhenIsNotConfigured()
     {
@@ -214,11 +227,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::hasClaim
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::hasClaim
      * @uses Lcobucci\JWT\Claim\Basic
      *
-     * @covers Lcobucci\JWT\Token::getClaim
+     * @covers ::getClaim
      *
      * @expectedException \OutOfBoundsException
      * @expectedExceptionMessageRegExp /testing/
@@ -232,11 +246,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::hasClaim
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::hasClaim
      * @uses Lcobucci\JWT\Claim\Basic
      *
-     * @covers Lcobucci\JWT\Token::getClaim
+     * @covers ::getClaim
      */
     public function getClaimShouldReturnNullValueWhenDefaultParameterIsPassed()
     {
@@ -247,11 +262,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::hasClaim
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::hasClaim
      * @uses Lcobucci\JWT\Claim\Basic
      *
-     * @covers Lcobucci\JWT\Token::getClaim
+     * @covers ::getClaim
      */
     public function getClaimShouldReturnTheClaimValueWhenItExists()
     {
@@ -263,27 +279,11 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      *
-     * @covers Lcobucci\JWT\Token::verify
-     *
-     * @expectedException BadMethodCallException
-     */
-    public function verifyMustRaiseExceptionWhenTokenIsUnsigned()
-    {
-        $signer = $this->createMock(Signer::class);
-
-        $token = new Token();
-        $token->verify($signer, 'test');
-    }
-
-    /**
-     * @test
-     *
-     * @uses Lcobucci\JWT\Token::__construct
-     *
-     * @covers Lcobucci\JWT\Token::verify
-     * @covers Lcobucci\JWT\Token::getPayload
+     * @covers ::verify
+     * @covers ::getPayload
      */
     public function verifyShouldReturnFalseWhenTokenAlgorithmIsDifferent()
     {
@@ -305,10 +305,11 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      *
-     * @covers Lcobucci\JWT\Token::verify
-     * @covers Lcobucci\JWT\Token::getPayload
+     * @covers ::verify
+     * @covers ::getPayload
      */
     public function verifyMustDelegateTheValidationToSignature()
     {
@@ -332,13 +333,14 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      * @uses Lcobucci\JWT\ValidationData::__construct
      * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
-     * @covers Lcobucci\JWT\Token::validate
-     * @covers Lcobucci\JWT\Token::getClaims
-     * @covers Lcobucci\JWT\Token::getValidatableClaims
+     * @covers ::validate
+     * @covers ::getClaims
+     * @covers ::getValidatableClaims
      */
     public function validateShouldReturnTrueWhenClaimsAreEmpty()
     {
@@ -350,14 +352,15 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      * @uses Lcobucci\JWT\ValidationData::__construct
      * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      * @uses Lcobucci\JWT\Claim\Basic::__construct
      *
-     * @covers Lcobucci\JWT\Token::validate
-     * @covers Lcobucci\JWT\Token::getClaims
-     * @covers Lcobucci\JWT\Token::getValidatableClaims
+     * @covers ::validate
+     * @covers ::getClaims
+     * @covers ::getValidatableClaims
      */
     public function validateShouldReturnTrueWhenThereAreNoValidatableClaims()
     {
@@ -369,14 +372,15 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      * @uses Lcobucci\JWT\ValidationData
      * @uses Lcobucci\JWT\Claim\Basic
      * @uses Lcobucci\JWT\Claim\EqualsTo
      *
-     * @covers Lcobucci\JWT\Token::validate
-     * @covers Lcobucci\JWT\Token::getClaims
-     * @covers Lcobucci\JWT\Token::getValidatableClaims
+     * @covers ::validate
+     * @covers ::getClaims
+     * @covers ::getValidatableClaims
      */
     public function validateShouldReturnFalseWhenThereIsAtLeastOneFailedValidatableClaim()
     {
@@ -397,16 +401,17 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      * @uses Lcobucci\JWT\ValidationData
      * @uses Lcobucci\JWT\Claim\Basic
      * @uses Lcobucci\JWT\Claim\EqualsTo
      * @uses Lcobucci\JWT\Claim\LesserOrEqualsTo
      * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      *
-     * @covers Lcobucci\JWT\Token::validate
-     * @covers Lcobucci\JWT\Token::getClaims
-     * @covers Lcobucci\JWT\Token::getValidatableClaims
+     * @covers ::validate
+     * @covers ::getClaims
+     * @covers ::getValidatableClaims
      */
     public function validateShouldReturnFalseWhenATimeBasedClaimFails()
     {
@@ -432,16 +437,17 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      * @uses Lcobucci\JWT\ValidationData
      * @uses Lcobucci\JWT\Claim\Basic
      * @uses Lcobucci\JWT\Claim\EqualsTo
      * @uses Lcobucci\JWT\Claim\LesserOrEqualsTo
      * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      *
-     * @covers Lcobucci\JWT\Token::validate
-     * @covers Lcobucci\JWT\Token::getClaims
-     * @covers Lcobucci\JWT\Token::getValidatableClaims
+     * @covers ::validate
+     * @covers ::getClaims
+     * @covers ::getValidatableClaims
      */
     public function validateShouldReturnTrueWhenThereAreNoFailedValidatableClaims()
     {
@@ -466,16 +472,17 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      * @uses Lcobucci\JWT\ValidationData
      * @uses Lcobucci\JWT\Claim\Basic
      * @uses Lcobucci\JWT\Claim\EqualsTo
      * @uses Lcobucci\JWT\Claim\LesserOrEqualsTo
      * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      *
-     * @covers Lcobucci\JWT\Token::validate
-     * @covers Lcobucci\JWT\Token::getClaims
-     * @covers Lcobucci\JWT\Token::getValidatableClaims
+     * @covers ::validate
+     * @covers ::getClaims
+     * @covers ::getValidatableClaims
      */
     public function validateShouldReturnTrueWhenLeewayMakesAllTimeBasedClaimsTrueAndOtherClaimsAreTrue()
     {
@@ -504,6 +511,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isPermittedForShouldReturnFalseWhenNoAudienceIsConfigured()
     {
@@ -518,6 +526,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isPermittedForShouldReturnFalseWhenAudienceDoesNotMatch()
     {
@@ -535,6 +544,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isPermittedForShouldReturnFalseWhenAudienceTypeDoesNotMatch()
     {
@@ -552,6 +562,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isPermittedForShouldReturnTrueWhenAudienceMatches()
     {
@@ -569,6 +580,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isIdentifiedBy
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isIdentifiedByShouldReturnFalseWhenNoIdWasConfigured()
     {
@@ -583,6 +595,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isIdentifiedBy
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isIdentifiedByShouldReturnFalseWhenIdDoesNotMatch()
     {
@@ -600,6 +613,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isIdentifiedBy
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isIdentifiedByShouldReturnTrueWhenIdMatches()
     {
@@ -617,6 +631,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isRelatedTo
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isRelatedToShouldReturnFalseWhenNoSubjectWasConfigured()
     {
@@ -631,6 +646,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isRelatedTo
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isRelatedToShouldReturnFalseWhenSubjectDoesNotMatch()
     {
@@ -648,6 +664,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isRelatedTo
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isRelatedToShouldReturnTrueWhenSubjectMatches()
     {
@@ -665,6 +682,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::hasBeenIssuedBy
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function hasBeenIssuedByShouldReturnFalseWhenIssuerIsNotConfigured()
     {
@@ -679,6 +697,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::hasBeenIssuedBy
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function hasBeenIssuedByShouldReturnFalseWhenIssuerTypeDoesNotMatches()
     {
@@ -696,6 +715,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::hasBeenIssuedBy
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function hasBeenIssuedByShouldReturnFalseWhenIssuerIsNotInTheGivenList()
     {
@@ -713,6 +733,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::hasBeenIssuedBy
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function hasBeenIssuedByShouldReturnTrueWhenIssuerIsInTheGivenList()
     {
@@ -730,6 +751,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::hasBeenIssuedBefore
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsNotConfigured()
     {
@@ -744,6 +766,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::hasBeenIssuedBefore
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsBeforeThanNow()
     {
@@ -762,6 +785,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::hasBeenIssuedBefore
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsEqualsToNow()
     {
@@ -780,6 +804,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::hasBeenIssuedBefore
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function hasBeenIssuedBeforeShouldReturnFalseWhenIssueTimeIsGreaterThanNow()
     {
@@ -798,6 +823,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isMinimumTimeBefore
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isMinimumTimeBeforeShouldReturnTrueWhenIssueTimeIsNotConfigured()
     {
@@ -812,6 +838,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isMinimumTimeBefore
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsBeforeThanNow()
     {
@@ -830,6 +857,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isMinimumTimeBefore
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsEqualsToNow()
     {
@@ -848,6 +876,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::isMinimumTimeBefore
      *
      * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      */
     public function isMinimumTimeBeforeShouldReturnFalseWhenNotBeforeClaimIsGreaterThanNow()
     {
@@ -863,11 +892,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Token::isExpired
+     * @covers ::isExpired
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::getClaim
-     * @uses Lcobucci\JWT\Token::hasClaim
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::getClaim
+     * @uses \Lcobucci\JWT\Token::hasClaim
      */
     public function isExpiredShouldReturnFalseWhenTokenDoesNotExpires()
     {
@@ -879,11 +909,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Token::isExpired
+     * @covers ::isExpired
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::getClaim
-     * @uses Lcobucci\JWT\Token::hasClaim
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::getClaim
+     * @uses \Lcobucci\JWT\Token::hasClaim
      * @uses Lcobucci\JWT\Claim\Basic
      * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      */
@@ -900,11 +931,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Token::isExpired
+     * @covers ::isExpired
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::getClaim
-     * @uses Lcobucci\JWT\Token::hasClaim
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::getClaim
+     * @uses \Lcobucci\JWT\Token::hasClaim
      * @uses Lcobucci\JWT\Claim\Basic
      * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      */
@@ -921,9 +953,10 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      *
-     * @covers Lcobucci\JWT\Token::getPayload
+     * @covers ::getPayload
      */
     public function getPayloadShouldReturnAStringWithTheTwoEncodePartsThatGeneratedTheToken()
     {
@@ -935,11 +968,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::getPayload
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::getPayload
      *
-     * @covers Lcobucci\JWT\Token::__toString
-     * @covers Lcobucci\JWT\Token::toString
+     * @covers ::__toString
+     * @covers ::toString
      */
     public function toStringMustReturnEncodedDataWithEmptySignature()
     {
@@ -951,15 +985,16 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Token::getPayload
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::getPayload
      *
-     * @covers Lcobucci\JWT\Token::__toString
-     * @covers Lcobucci\JWT\Token::toString
+     * @covers ::__toString
+     * @covers ::toString
      */
     public function toStringMustReturnEncodedData()
     {
-        $signature = $this->createMock(Signature::class, [], [], '', false);
+        $signature = new Signature('', 'test');
 
         $token = new Token(['alg' => 'none'], [], $signature, ['test', 'test', 'test']);
 

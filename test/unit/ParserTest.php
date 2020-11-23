@@ -18,6 +18,7 @@ use RuntimeException;
  * @covers \Lcobucci\JWT\Token\DataSet
  * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
  * @covers \Lcobucci\JWT\Token\UnsupportedHeaderFound
+ * @covers \Lcobucci\JWT\Signature
  */
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
@@ -160,7 +161,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
         $this->assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
-        $this->assertNull($token->signature());
+        $this->assertEquals(Signature::fromEmptyData(), $token->signature());
     }
 
     /**
@@ -198,7 +199,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
-        $this->assertNull($token->signature());
+        $this->assertEquals(Signature::fromEmptyData(), $token->signature());
     }
 
     /**
@@ -237,6 +238,6 @@ class ParserTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(['typ' => 'JWT', 'alg' => 'HS256'], $token->getHeaders());
         $this->assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
-        $this->assertEquals(new Signature('aaa'), $token->signature());
+        $this->assertEquals(new Signature('aaa', 'a'), $token->signature());
     }
 }

@@ -7,8 +7,6 @@
 
 namespace Lcobucci\JWT;
 
-use BadMethodCallException;
-use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Generator;
@@ -19,7 +17,6 @@ use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use OutOfBoundsException;
 use function func_num_args;
-use function implode;
 use function in_array;
 use function sprintf;
 
@@ -51,16 +48,9 @@ class Token
     /**
      * The token signature
      *
-     * @var Signature|null
+     * @var Signature
      */
     private $signature;
-
-    /**
-     * The encoded data
-     *
-     * @var array
-     */
-    private $payload;
 
     /**
      * @internal This serves just as compatibility layer
@@ -72,24 +62,36 @@ class Token
     /**
      * Initializes the object
      *
-     * @param array $headers
-     * @param array $claims
-     * @param array $payload
+     * @param array|DataSet $headers
+     * @param array|DataSet $claims
      * @param Signature|null $signature
+     * @param array $payload
      * @param Factory|null $claimFactory
      */
     public function __construct(
-        array $headers = ['alg' => 'none'],
-        array $claims = [],
+        $headers = ['alg' => 'none'],
+        $claims = [],
         Signature $signature = null,
         array $payload = ['', ''],
         Factory $claimFactory = null
     ) {
-        $this->headers = new DataSet($headers, $payload[0]);
-        $this->claims = new DataSet($claims, $payload[1]);
-        $this->signature = $signature;
-        $this->payload = $payload;
+        $this->headers = $this->convertToDataSet($headers, $payload[0]);
+        $this->claims = $this->convertToDataSet($claims, $payload[1]);
+        $this->signature = $signature ?: Signature::fromEmptyData();
         $this->claimFactory = $claimFactory ?: new Factory();
+    }
+
+    /**
+     * @param array|DataSet $data
+     * @param string $payload
+     */
+    private function convertToDataSet($data, $payload)
+    {
+        if ($data instanceof DataSet) {
+            return $data;
+        }
+
+        return new DataSet($data, $payload);
     }
 
     /** @return DataSet */
@@ -251,15 +253,9 @@ class Token
      * @param Key|string $key
      *
      * @return boolean
-     *
-     * @throws BadMethodCallException When token is not signed
      */
     public function verify(Signer $signer, $key)
     {
-        if ($this->signature === null) {
-            throw new BadMethodCallException('This token is not signed');
-        }
-
         if ($this->headers->get('alg') !== $signer->getAlgorithmId()) {
             return false;
         }
@@ -387,10 +383,11 @@ class Token
      */
     public function getPayload()
     {
-        return $this->payload[0] . '.' . $this->payload[1];
+        return $this->headers->toString() . '.'
+             . $this->claims->toString();
     }
 
-    /** @return Signature|null */
+    /** @return Signature */
     public function signature()
     {
         return $this->signature;
@@ -412,12 +409,8 @@ class Token
     /** @return string */
     public function toString()
     {
-        $data = implode('.', $this->payload);
-
-        if ($this->signature === null) {
-            $data .= '.';
-        }
-
-        return $data;
+        return $this->headers->toString() . '.'
+             . $this->claims->toString() . '.'
+             . $this->signature->toString();
     }
 }

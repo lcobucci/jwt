@@ -11,6 +11,7 @@ use DateTimeImmutable;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\RegisteredClaimGiven;
 use Lcobucci\JWT\Token\RegisteredClaims;
 
@@ -486,12 +487,15 @@ class Builder
         ];
 
         $signature = $this->createSignature($payload, $signer, $key);
+        $payload[] = $signature->toString();
 
-        if ($signature !== null) {
-            $payload[] = $this->encoder->base64UrlEncode($signature);
-        }
-
-        return new Token($this->headers, $this->claims, $signature, $payload, $this->claimFactory);
+        return new Token(
+            new DataSet($this->headers, $payload[0]),
+            new DataSet($this->claims, $payload[1]),
+            $signature,
+            $payload,
+            $this->claimFactory
+        );
     }
 
     /**
@@ -515,14 +519,16 @@ class Builder
     /**
      * @param string[] $payload
      *
-     * @return Signature|null
+     * @return Signature
      */
     private function createSignature(array $payload, Signer $signer = null, Key $key = null)
     {
         if ($signer === null || $key === null) {
-            return null;
+            return Signature::fromEmptyData();
         }
 
-        return $signer->sign(implode('.', $payload), $key);
+        $hash = $signer->sign(implode('.', $payload), $key)->hash();
+
+        return new Signature($hash, $this->encoder->base64UrlEncode($hash));
     }
 }
