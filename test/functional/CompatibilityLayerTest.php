@@ -3,12 +3,12 @@
 namespace Lcobucci\JWT\FunctionalTests;
 
 use DateTimeImmutable;
-use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Keys;
-use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HmacSha256;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use PHPUnit\Framework\TestCase;
 
 use function base64_encode;
@@ -16,6 +16,7 @@ use function time;
 
 /**
  * @covers \Lcobucci\JWT\Builder
+ * @covers \Lcobucci\JWT\Configuration
  * @covers \Lcobucci\JWT\Claim\Factory
  * @covers \Lcobucci\JWT\Claim\Basic
  * @covers \Lcobucci\JWT\Parser
@@ -33,6 +34,8 @@ use function time;
  * @covers \Lcobucci\JWT\Signature
  * @covers \Lcobucci\JWT\Token
  * @covers \Lcobucci\JWT\Token\DataSet
+ * @covers \Lcobucci\JWT\Validation\Validator
+ * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
  */
 final class CompatibilityLayerTest extends TestCase
 {
@@ -43,11 +46,13 @@ final class CompatibilityLayerTest extends TestCase
     {
         $now = time();
 
-        $token = (new Builder())
+        $config = Configuration::forSymmetricSigner(new HmacSha256(), Key\InMemory::plainText('testing'));
+
+        $token = $config->builder()
             ->issuedAt($now)
             ->canOnlyBeUsedAfter($now + 5)
             ->expiresAt($now + 3600)
-            ->getToken(new HmacSha256(), Key\InMemory::plainText('testing'));
+            ->getToken($config->signer(), $config->signingKey());
 
         $expectedNow = new DateTimeImmutable('@' . $now);
 
@@ -55,7 +60,7 @@ final class CompatibilityLayerTest extends TestCase
         self::assertEquals($expectedNow->modify('+5 seconds'), $token->claims()->get('nbf'));
         self::assertEquals($expectedNow->modify('+1 hour'), $token->claims()->get('exp'));
 
-        $token2 = (new Parser())->parse($token->toString());
+        $token2 = $config->parser()->parse($token->toString());
 
         self::assertEquals($expectedNow, $token2->claims()->get('iat'));
         self::assertEquals($expectedNow->modify('+5 seconds'), $token2->claims()->get('nbf'));
@@ -71,14 +76,15 @@ final class CompatibilityLayerTest extends TestCase
      */
     public function tokenCanBeBuiltWithNewKeyObjects(Key $key)
     {
-        $signer = new Sha256();
+        $config = Configuration::forAsymmetricSigner(new Sha256(), $key, self::$rsaKeys['public']);
+        $config->setValidationConstraints(new SignedWith($config->signer(), $config->verificationKey()));
 
-        $token = (new Builder())
+        $token = $config->builder()
             ->issuedBy('me')
             ->relatedTo('user123')
-            ->getToken($signer, $key);
+            ->getToken($config->signer(), $config->signingKey());
 
-        self::assertTrue($token->verify($signer, self::$rsaKeys['public']));
+        self::assertTrue($config->validator()->validate($token, ...$config->validationConstraints()));
     }
 
     public function possibleKeys()
