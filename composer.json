@@ -33,7 +33,8 @@
             "Lcobucci\\JWT\\": "src"
         },
         "files": [
-            "compat/json-exception-polyfill.php"
+            "compat/json-exception-polyfill.php",
+            "compat/lcobucci-clock-polyfill.php"
         ]
     },
     "autoload-dev": {
@@ -43,6 +44,9 @@
                 "test/functional"
             ]
         }
+    },
+    "suggest": {
+        "lcobucci/clock": "*"
     },
     "extra": {
         "branch-alias": {
