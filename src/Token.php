@@ -244,6 +244,9 @@ class Token
     /**
      * Verify if the key matches with the one that created the signature
      *
+     * @deprecated This method has been removed from the interface in v4.0
+     * @see \Lcobucci\JWT\Validation\Validator
+     *
      * @param Signer $signer
      * @param Key|string $key
      *
@@ -266,6 +269,9 @@ class Token
 
     /**
      * Validates if the token is valid
+     *
+     * @deprecated This method has been removed from the interface in v4.0
+     * @see \Lcobucci\JWT\Validation\Validator
      *
      * @param ValidationData $data
      *
