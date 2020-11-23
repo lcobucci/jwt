@@ -7,7 +7,11 @@
 
 namespace Lcobucci\JWT;
 
+use Lcobucci\JWT\Claim\Basic;
+use Lcobucci\JWT\Claim\EqualsTo;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
+use Lcobucci\JWT\Claim\GreaterOrEqualsTo;
+use Lcobucci\JWT\Claim\LesserOrEqualsTo;
 use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\RegisteredClaimGiven;
@@ -15,6 +19,16 @@ use Lcobucci\JWT\Token\RegisteredClaimGiven;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
+ *
+ * @coversDefaultClass \Lcobucci\JWT\Builder
+ *
+ * @covers \Lcobucci\JWT\Token\DataSet
+ *
+ * @uses \Lcobucci\JWT\Claim\Factory
+ * @uses \Lcobucci\JWT\Claim\EqualsTo
+ * @uses \Lcobucci\JWT\Claim\Basic
+ * @uses \Lcobucci\JWT\Token
+ * @uses \Lcobucci\JWT\Signer\Key
  */
 class BuilderTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,27 +38,11 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     protected $encoder;
 
     /**
-     * @var ClaimFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $claimFactory;
-
-    /**
-     * @var Claim|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $defaultClaim;
-
-    /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
         $this->encoder = $this->createMock(Encoder::class);
-        $this->claimFactory = $this->createMock(ClaimFactory::class);
-        $this->defaultClaim = $this->createMock(Claim::class);
-
-        $this->claimFactory->expects($this->any())
-                           ->method('create')
-                           ->willReturn($this->defaultClaim);
     }
 
     /**
@@ -52,461 +50,487 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      */
     private function createBuilder()
     {
-        return new Builder($this->encoder, $this->claimFactory);
+        return new Builder($this->encoder, new ClaimFactory());
     }
 
     /**
      * @test
      *
-     * @covers Lcobucci\JWT\Builder::__construct
-     */
-    public function constructMustInitializeTheAttributes()
-    {
-        $builder = $this->createBuilder();
-
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
-        $this->assertAttributeEquals([], 'claims', $builder);
-        $this->assertAttributeSame($this->encoder, 'encoder', $builder);
-        $this->assertAttributeSame($this->claimFactory, 'claimFactory', $builder);
-    }
-
-    /**
-     * @test
+     * @covers ::__construct
+     * @covers ::permittedFor
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertDatesToInt
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
-     *
-     * @covers Lcobucci\JWT\Builder::permittedFor
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function permittedForMustChangeTheAudClaim()
     {
         $builder = $this->createBuilder();
         $builder->permittedFor('test');
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
+
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
+        self::assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::permittedFor
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::permittedFor
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function permittedForCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
         $builder->permittedFor('test', true);
 
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
 
-        $this->assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', 'aud' => $this->defaultClaim],
-            'headers',
-            $builder
-        );
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'aud' => new EqualsTo('aud', 'test')], $token->getHeaders());
+        self::assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
-     *
-     * @covers Lcobucci\JWT\Builder::permittedFor
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers ::__construct
+     * @covers ::permittedFor
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
      */
     public function permittedForMustKeepAFluentInterface()
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->permittedFor('test'));
+        self::assertSame($builder, $builder->permittedFor('test'));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::expiresAt
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertToDate
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::expiresAt
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function expiresAtMustChangeTheExpClaim()
     {
         $builder = $this->createBuilder();
         $builder->expiresAt('2');
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
-        $this->assertAttributeEquals(['exp' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
+
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
+        self::assertEquals(['exp' => new GreaterOrEqualsTo('exp', 2)], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::expiresAt
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertToDate
+     * @covers ::convertToDate
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::expiresAt
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function expiresAtCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
         $builder->expiresAt('2', true);
 
-        $this->assertAttributeEquals(['exp' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
 
-        $this->assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', 'exp' => $this->defaultClaim],
-            'headers',
-            $builder
-        );
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'exp' => new GreaterOrEqualsTo('exp', 2)], $token->getHeaders());
+        self::assertEquals(['exp' => new GreaterOrEqualsTo('exp', 2)], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
-     *
-     * @covers Lcobucci\JWT\Builder::expiresAt
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers ::__construct
+     * @covers ::expiresAt
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::convertToDate
      */
     public function expiresAtMustKeepAFluentInterface()
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->expiresAt('2'));
+        self::assertSame($builder, $builder->expiresAt('2'));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::identifiedBy
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::identifiedBy
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function identifiedByMustChangeTheJtiClaim()
     {
         $builder = $this->createBuilder();
         $builder->identifiedBy('2');
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
-        $this->assertAttributeEquals(['jti' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
+
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
+        self::assertEquals(['jti' => new EqualsTo('jti', 2)], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::identifiedBy
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::identifiedBy
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function identifiedByCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
         $builder->identifiedBy('2', true);
 
-        $this->assertAttributeEquals(['jti' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
 
-        $this->assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', 'jti' => $this->defaultClaim],
-            'headers',
-            $builder
-        );
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'jti' => new EqualsTo('jti', 2)], $token->getHeaders());
+        self::assertEquals(['jti' => new EqualsTo('jti', 2)], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
-     *
-     * @covers Lcobucci\JWT\Builder::identifiedBy
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers ::__construct
+     * @covers ::identifiedBy
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
      */
     public function identifiedByMustKeepAFluentInterface()
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->identifiedBy('2'));
+        self::assertSame($builder, $builder->identifiedBy('2'));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::issuedAt
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertToDate
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::issuedAt
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function issuedAtMustChangeTheIatClaim()
     {
         $builder = $this->createBuilder();
         $builder->issuedAt('2');
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
-        $this->assertAttributeEquals(['iat' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
+
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
+        self::assertEquals(['iat' => new LesserOrEqualsTo('iat', 2)], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::issuedAt
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertToDate
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::issuedAt
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function issuedAtCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
         $builder->issuedAt('2', true);
 
-        $this->assertAttributeEquals(['iat' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
 
-        $this->assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', 'iat' => $this->defaultClaim],
-            'headers',
-            $builder
-        );
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'iat' => new LesserOrEqualsTo('iat', 2)], $token->getHeaders());
+        self::assertEquals(['iat' => new LesserOrEqualsTo('iat', 2)], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
-     *
-     * @covers Lcobucci\JWT\Builder::issuedAt
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers ::__construct
+     * @covers ::issuedAt
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::convertToDate
      */
     public function issuedAtMustKeepAFluentInterface()
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->issuedAt('2'));
+        self::assertSame($builder, $builder->issuedAt('2'));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::issuedBy
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::issuedBy
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function issuedByMustChangeTheIssClaim()
     {
         $builder = $this->createBuilder();
         $builder->issuedBy('2');
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
-        $this->assertAttributeEquals(['iss' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
+
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
+        self::assertEquals(['iss' => new EqualsTo('iss', '2')], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::issuedBy
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::issuedBy
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function issuedByCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
         $builder->issuedBy('2', true);
 
-        $this->assertAttributeEquals(['iss' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
 
-        $this->assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', 'iss' => $this->defaultClaim],
-            'headers',
-            $builder
-        );
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'iss' => new EqualsTo('iss', '2')], $token->getHeaders());
+        self::assertEquals(['iss' => new EqualsTo('iss', '2')], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
-     *
-     * @covers Lcobucci\JWT\Builder::issuedBy
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers ::__construct
+     * @covers ::issuedBy
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
      */
     public function issuedByMustKeepAFluentInterface()
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->issuedBy('2'));
+        self::assertSame($builder, $builder->issuedBy('2'));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::canOnlyBeUsedAfter
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertToDate
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::canOnlyBeUsedAfter
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function canOnlyBeUsedAfterMustChangeTheNbfClaim()
     {
         $builder = $this->createBuilder();
         $builder->canOnlyBeUsedAfter('2');
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
-        $this->assertAttributeEquals(['nbf' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
+
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
+        self::assertEquals(['nbf' => new LesserOrEqualsTo('nbf', 2)], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::canOnlyBeUsedAfter
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertToDate
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::canOnlyBeUsedAfter
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function canOnlyBeUsedAfterCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
         $builder->canOnlyBeUsedAfter('2', true);
 
-        $this->assertAttributeEquals(['nbf' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
 
-        $this->assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', 'nbf' => $this->defaultClaim],
-            'headers',
-            $builder
-        );
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'nbf' => new LesserOrEqualsTo('nbf', 2)], $token->getHeaders());
+        self::assertEquals(['nbf' => new LesserOrEqualsTo('nbf', 2)], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
-     *
-     * @covers Lcobucci\JWT\Builder::canOnlyBeUsedAfter
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers ::__construct
+     * @covers ::canOnlyBeUsedAfter
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::convertToDate
      */
     public function canOnlyBeUsedAfterMustKeepAFluentInterface()
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->canOnlyBeUsedAfter('2'));
+        self::assertSame($builder, $builder->canOnlyBeUsedAfter('2'));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::relatedTo
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::relatedTo
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function relatedToMustChangeTheSubClaim()
     {
         $builder = $this->createBuilder();
         $builder->relatedTo('2');
 
-        $this->assertAttributeEquals(['alg' => 'none', 'typ' => 'JWT'], 'headers', $builder);
-        $this->assertAttributeEquals(['sub' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
+
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
+        self::assertEquals(['sub' => new EqualsTo('sub', '2')], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::relatedTo
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::relatedTo
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function relatedToCanReplicateItemOnHeader()
     {
         $builder = $this->createBuilder();
         $builder->relatedTo('2', true);
 
-        $this->assertAttributeEquals(['sub' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
 
-        $this->assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', 'sub' => $this->defaultClaim],
-            'headers',
-            $builder
-        );
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'sub' => new EqualsTo('sub', '2')], $token->getHeaders());
+        self::assertEquals(['sub' => new EqualsTo('sub', '2')], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
-     *
-     * @covers Lcobucci\JWT\Builder::relatedTo
-     * @covers Lcobucci\JWT\Builder::setRegisteredClaim
+     * @covers ::__construct
+     * @covers ::relatedTo
+     * @covers ::setRegisteredClaim
+     * @covers ::configureClaim
      */
     public function relatedToMustKeepAFluentInterface()
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->relatedTo('2'));
+        self::assertSame($builder, $builder->relatedTo('2'));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
+     * @covers ::__construct
+     * @covers ::withClaim
+     * @covers ::configureClaim
+     * @covers ::createSignature
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::withClaim
-     * @covers Lcobucci\JWT\Builder::configureClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function withClaimMustConfigureTheGivenClaim()
     {
         $builder = $this->createBuilder();
         $builder->withClaim('userId', 2);
 
-        $this->assertAttributeEquals(['userId' => $this->defaultClaim], 'claims', $builder);
+        $token = $builder->getToken();
+
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
+        self::assertEquals(['userId' => new Basic('userId', 2)], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     *
-     * @covers Lcobucci\JWT\Builder::withClaim
-     * @covers Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::withClaim
+     * @covers ::configureClaim
      */
     public function withClaimMustKeepAFluentInterface()
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->withClaim('userId', 2));
+        self::assertSame($builder, $builder->withClaim('userId', 2));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     *
-     * @covers Lcobucci\JWT\Builder::withClaim
-     * @covers Lcobucci\JWT\Builder::configureClaim
+     * @covers ::__construct
+     * @covers ::withClaim
      * @covers \Lcobucci\JWT\Token\RegisteredClaimGiven
      */
     public function withClaimShouldThrowExceptionWhenTryingToConfigureARegisteredClaim()
@@ -519,46 +543,46 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
+     * @covers ::__construct
+     * @covers ::withHeader
+     * @covers ::createSignature
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::withHeader
-     * @covers Lcobucci\JWT\Builder::configureClaim
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function withHeaderMustConfigureTheGivenClaim()
     {
         $builder = $this->createBuilder();
         $builder->withHeader('userId', 2);
 
-        $this->assertAttributeEquals(
-            ['alg' => 'none', 'typ' => 'JWT', 'userId' => $this->defaultClaim],
-            'headers',
-            $builder
-        );
+        $token = $builder->getToken();
+
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'userId' => 2], $token->getHeaders());
+        self::assertEquals([], $token->getClaims());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     *
-     * @covers Lcobucci\JWT\Builder::withHeader
+     * @covers ::__construct
+     * @covers ::withHeader
      */
     public function withHeaderMustKeepAFluentInterface()
     {
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->withHeader('userId', 2));
+        self::assertSame($builder, $builder->withHeader('userId', 2));
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::getToken
-     * @uses Lcobucci\JWT\Token
-     * @uses Lcobucci\JWT\Signer\Key
+     * @covers ::__construct
+     * @covers ::sign
+     * @covers ::createSignature
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::sign
+     * @uses \Lcobucci\JWT\Builder::getToken
      */
     public function signMustConfigureSignerAndKey()
     {
@@ -567,26 +591,22 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->sign($signer, 'test');
 
-        $this->assertAttributeSame($signer, 'signer', $builder);
-        $this->assertAttributeEquals(new Key('test'), 'key', $builder);
+        self::assertAttributeSame($signer, 'signer', $builder);
+        self::assertAttributeEquals(new Key('test'), 'key', $builder);
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::getToken
-     * @uses Lcobucci\JWT\Token
-     * @uses Lcobucci\JWT\Signer\Key
-     *
-     * @covers Lcobucci\JWT\Builder::sign
+     * @covers ::__construct
+     * @covers ::sign
      */
     public function signMustKeepAFluentInterface()
     {
         $signer = $this->createMock(Signer::class);
         $builder = $this->createBuilder();
 
-        $this->assertSame($builder, $builder->sign($signer, 'test'));
+        self::assertSame($builder, $builder->sign($signer, 'test'));
 
         return $builder;
     }
@@ -596,14 +616,14 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      *
      * @depends signMustKeepAFluentInterface
      *
-     * @covers Lcobucci\JWT\Builder::unsign
+     * @covers ::unsign
      */
     public function unsignMustRemoveTheSignerAndKey(Builder $builder)
     {
         $builder->unsign();
 
-        $this->assertAttributeSame(null, 'signer', $builder);
-        $this->assertAttributeSame(null, 'key', $builder);
+        self::assertAttributeSame(null, 'signer', $builder);
+        self::assertAttributeSame(null, 'key', $builder);
     }
 
     /**
@@ -611,24 +631,23 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      *
      * @depends signMustKeepAFluentInterface
      *
-     * @covers Lcobucci\JWT\Builder::unsign
+     * @covers ::unsign
      */
     public function unsignMustKeepAFluentInterface(Builder $builder)
     {
-        $this->assertSame($builder, $builder->unsign());
+        self::assertSame($builder, $builder->unsign());
     }
 
     /**
      * @test
      *
-     * @uses Lcobucci\JWT\Builder::__construct
-     * @uses Lcobucci\JWT\Builder::configureClaim
-     * @uses Lcobucci\JWT\Builder::createSignature
-     * @uses Lcobucci\JWT\Builder::withClaim
-     * @uses Lcobucci\JWT\Token
-     * @uses Lcobucci\JWT\Signer\Key
+     * @covers ::getToken
+     * @covers ::createSignature
+     * @covers ::convertDatesToInt
      *
-     * @covers Lcobucci\JWT\Builder::getToken
+     * @uses \Lcobucci\JWT\Builder::__construct
+     * @uses \Lcobucci\JWT\Builder::configureClaim
+     * @uses \Lcobucci\JWT\Builder::withClaim
      */
     public function getTokenMustReturnANewTokenWithCurrentConfiguration()
     {
@@ -639,7 +658,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
 
         $this->encoder->expects($this->exactly(2))
                       ->method('jsonEncode')
-                      ->withConsecutive([['typ'=> 'JWT', 'alg' => 'none']], [['test' => $this->defaultClaim]])
+                      ->withConsecutive([['typ'=> 'JWT', 'alg' => 'none']], [['test' => 123]])
                       ->willReturnOnConsecutiveCalls('1', '2');
 
         $this->encoder->expects($this->exactly(3))
@@ -650,9 +669,9 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder()->withClaim('test', 123);
         $token = $builder->getToken($signer, new Key('testing'));
 
-        $this->assertAttributeEquals(['1', '2', '3'], 'payload', $token);
-        $this->assertAttributeEquals($token->getHeaders(), 'headers', $builder);
-        $this->assertAttributeEquals($token->getClaims(), 'claims', $builder);
-        $this->assertAttributeSame($signature, 'signature', $token);
+        self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
+        self::assertEquals(['test' => new Basic('test', 123)], $token->getClaims());
+        self::assertSame($signature, $token->signature());
+        self::assertSame('1.2.3', $token->toString());
     }
 }

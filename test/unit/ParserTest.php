@@ -7,7 +7,7 @@
 
 namespace Lcobucci\JWT;
 
-use Lcobucci\JWT\Claim\Factory as ClaimFactory;
+use Lcobucci\JWT\Claim\EqualsTo;
 use Lcobucci\JWT\Parsing\Decoder;
 use RuntimeException;
 
@@ -15,6 +15,7 @@ use RuntimeException;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
  *
+ * @covers \Lcobucci\JWT\Token\DataSet
  * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
  * @covers \Lcobucci\JWT\Token\UnsupportedHeaderFound
  */
@@ -26,27 +27,11 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     protected $decoder;
 
     /**
-     * @var ClaimFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $claimFactory;
-
-    /**
-     * @var Claim|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $defaultClaim;
-
-    /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
         $this->decoder = $this->createMock(Decoder::class);
-        $this->claimFactory = $this->createMock(ClaimFactory::class, [], [], '', false);
-        $this->defaultClaim = $this->createMock(Claim::class);
-
-        $this->claimFactory->expects($this->any())
-                           ->method('create')
-                           ->willReturn($this->defaultClaim);
     }
 
     /**
@@ -54,7 +39,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      */
     private function createParser()
     {
-        return new Parser($this->decoder, $this->claimFactory);
+        return new Parser($this->decoder);
     }
 
     /**
@@ -67,7 +52,6 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $parser = $this->createParser();
 
         $this->assertAttributeSame($this->decoder, 'decoder', $parser);
-        $this->assertAttributeSame($this->claimFactory, 'claimFactory', $parser);
     }
 
     /**
@@ -148,13 +132,17 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @uses Lcobucci\JWT\Parser::__construct
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token
      *
      * @covers Lcobucci\JWT\Parser::parse
      * @covers Lcobucci\JWT\Parser::splitJwt
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
+     * @covers Lcobucci\JWT\Parser::convertToDateObjects
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Claim\EqualsTo
      *
      */
     public function parseMustReturnANonSignedTokenWhenSignatureIsNotInformed()
@@ -170,22 +158,26 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.a.');
 
-        $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'none'], 'headers', $token);
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
-        $this->assertAttributeEquals(null, 'signature', $token);
+        $this->assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
+        $this->assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
+        $this->assertNull($token->signature());
     }
 
     /**
      * @test
      *
      * @uses Lcobucci\JWT\Parser::__construct
-     * @uses Lcobucci\JWT\Token::__construct
+     * @uses Lcobucci\JWT\Token
      *
      * @covers Lcobucci\JWT\Parser::parse
      * @covers Lcobucci\JWT\Parser::splitJwt
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
+     * @covers Lcobucci\JWT\Parser::convertToDateObjects
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Claim\EqualsTo
      */
     public function parseShouldReplicateClaimValueOnHeaderWhenNeeded()
     {
@@ -200,28 +192,31 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.a.');
 
-        $this->assertAttributeEquals(
-            ['typ' => 'JWT', 'alg' => 'none', 'aud' => $this->defaultClaim],
-            'headers',
-            $token
+        $this->assertEquals(
+            ['typ' => 'JWT', 'alg' => 'none', 'aud' => new EqualsTo('aud', 'test')],
+            $token->getHeaders()
         );
 
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
-        $this->assertAttributeEquals(null, 'signature', $token);
+        $this->assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
+        $this->assertNull($token->signature());
     }
 
     /**
      * @test
      *
      * @uses Lcobucci\JWT\Parser::__construct
-     * @uses Lcobucci\JWT\Token::__construct
-     * @uses Lcobucci\JWT\Signature::__construct
+     * @uses Lcobucci\JWT\Token
+     * @uses Lcobucci\JWT\Signature
      *
      * @covers Lcobucci\JWT\Parser::parse
      * @covers Lcobucci\JWT\Parser::splitJwt
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
+     * @covers Lcobucci\JWT\Parser::convertToDateObjects
+     * @covers \Lcobucci\JWT\Claim\Factory
+     * @covers \Lcobucci\JWT\Claim\Basic
+     * @covers \Lcobucci\JWT\Claim\EqualsTo
      */
     public function parseMustReturnASignedTokenWhenSignatureIsInformed()
     {
@@ -240,8 +235,8 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $parser = $this->createParser();
         $token = $parser->parse('a.a.a');
 
-        $this->assertAttributeEquals(['typ' => 'JWT', 'alg' => 'HS256'], 'headers', $token);
-        $this->assertAttributeEquals(['aud' => $this->defaultClaim], 'claims', $token);
-        $this->assertAttributeEquals(new Signature('aaa'), 'signature', $token);
+        $this->assertEquals(['typ' => 'JWT', 'alg' => 'HS256'], $token->getHeaders());
+        $this->assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
+        $this->assertEquals(new Signature('aaa'), $token->signature());
     }
 }

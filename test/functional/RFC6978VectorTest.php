@@ -30,6 +30,7 @@ final class RFC6978VectorTest extends TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\BaseSigner
+     * @covers \Lcobucci\JWT\Token\DataSet
      */
     public function theVectorsFromRFC6978CanBeVerified(
         Ecdsa $signer,

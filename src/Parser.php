@@ -7,12 +7,15 @@
 
 namespace Lcobucci\JWT;
 
+use DateTimeImmutable;
 use InvalidArgumentException;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
+use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Token\UnsupportedHeaderFound;
 use RuntimeException;
+use function array_key_exists;
 
 /**
  * This class parses the JWT strings and convert them into tokens
@@ -30,24 +33,13 @@ class Parser
     private $decoder;
 
     /**
-     * The claims factory
-     *
-     * @var ClaimFactory
-     */
-    private $claimFactory;
-
-    /**
      * Initializes the object
      *
      * @param Decoder $decoder
-     * @param ClaimFactory $claimFactory
      */
-    public function __construct(
-        Decoder $decoder = null,
-        ClaimFactory $claimFactory = null
-    ) {
+    public function __construct(Decoder $decoder = null)
+    {
         $this->decoder = $decoder ?: new Decoder();
-        $this->claimFactory = $claimFactory ?: new ClaimFactory();
     }
 
     /**
@@ -121,7 +113,7 @@ class Parser
             throw UnsupportedHeaderFound::encryption();
         }
 
-        return $header;
+        return $this->convertToDateObjects($header);
     }
 
     /**
@@ -135,11 +127,25 @@ class Parser
     {
         $claims = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
-        foreach ($claims as $name => &$value) {
-            $value = $this->claimFactory->create($name, $value);
+        return $this->convertToDateObjects($claims);
+    }
+
+    /**
+     * @param array<string, mixed> $items
+     *
+     * @return array<string, mixed>
+     */
+    private function convertToDateObjects(array $items)
+    {
+        foreach (RegisteredClaims::DATE_CLAIMS as $name) {
+            if (! array_key_exists($name, $items)) {
+                continue;
+            }
+
+            $items[$name] = new DateTimeImmutable('@' . ((int) $items[$name]));
         }
 
-        return $claims;
+        return $items;
     }
 
     /**

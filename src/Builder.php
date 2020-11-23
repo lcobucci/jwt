@@ -7,12 +7,15 @@
 
 namespace Lcobucci\JWT;
 
+use DateTimeImmutable;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\RegisteredClaimGiven;
 use Lcobucci\JWT\Token\RegisteredClaims;
 
+use function array_key_exists;
+use function assert;
 use function implode;
 use function in_array;
 
@@ -124,14 +127,28 @@ class Builder
     /**
      * Configures the expiration time
      *
-     * @param int $expiration
+     * @param int|DateTimeImmutable $expiration
      * @param boolean $replicateAsHeader
      *
      * @return Builder
      */
     public function expiresAt($expiration, $replicateAsHeader = false)
     {
-        return $this->setRegisteredClaim('exp', (int) $expiration, $replicateAsHeader);
+        return $this->setRegisteredClaim('exp', $this->convertToDate($expiration), $replicateAsHeader);
+    }
+
+    /**
+     * @param int|DateTimeImmutable $value
+     *
+     * @return DateTimeImmutable
+     */
+    private function convertToDate($value)
+    {
+        if (! $value instanceof DateTimeImmutable) {
+            return new DateTimeImmutable('@' . $value);
+        }
+
+        return $value;
     }
 
     /**
@@ -140,14 +157,14 @@ class Builder
      * @deprecated This method will be removed on v4
      * @see Builder::expiresAt()
      *
-     * @param int $expiration
+     * @param int|DateTimeImmutable $expiration
      * @param boolean $replicateAsHeader
      *
      * @return Builder
      */
     public function setExpiration($expiration, $replicateAsHeader = false)
     {
-        return $this->setRegisteredClaim('exp', (int) $expiration, $replicateAsHeader);
+        return $this->expiresAt($expiration, $replicateAsHeader);
     }
 
     /**
@@ -182,14 +199,14 @@ class Builder
     /**
      * Configures the time that the token was issued
      *
-     * @param int $issuedAt
+     * @param int|DateTimeImmutable $issuedAt
      * @param boolean $replicateAsHeader
      *
      * @return Builder
      */
     public function issuedAt($issuedAt, $replicateAsHeader = false)
     {
-        return $this->setRegisteredClaim('iat', (int) $issuedAt, $replicateAsHeader);
+        return $this->setRegisteredClaim('iat', $this->convertToDate($issuedAt), $replicateAsHeader);
     }
 
     /**
@@ -198,7 +215,7 @@ class Builder
      * @deprecated This method will be removed on v4
      * @see Builder::issuedAt()
      *
-     * @param int $issuedAt
+     * @param int|DateTimeImmutable $issuedAt
      * @param boolean $replicateAsHeader
      *
      * @return Builder
@@ -240,14 +257,14 @@ class Builder
     /**
      * Configures the time before which the token cannot be accepted
      *
-     * @param int $notBefore
+     * @param int|DateTimeImmutable $notBefore
      * @param boolean $replicateAsHeader
      *
      * @return Builder
      */
     public function canOnlyBeUsedAfter($notBefore, $replicateAsHeader = false)
     {
-        return $this->setRegisteredClaim('nbf', (int) $notBefore, $replicateAsHeader);
+        return $this->setRegisteredClaim('nbf', $this->convertToDate($notBefore), $replicateAsHeader);
     }
 
     /**
@@ -256,7 +273,7 @@ class Builder
      * @deprecated This method will be removed on v4
      * @see Builder::canOnlyBeUsedAfter()
      *
-     * @param int $notBefore
+     * @param int|DateTimeImmutable $notBefore
      * @param boolean $replicateAsHeader
      *
      * @return Builder
@@ -309,7 +326,7 @@ class Builder
         $this->configureClaim($name, $value);
 
         if ($replicate) {
-            $this->headers[$name] = $this->claims[$name];
+            $this->headers[$name] = $value;
         }
 
         return $this;
@@ -325,7 +342,7 @@ class Builder
      */
     public function withHeader($name, $value)
     {
-        $this->headers[(string) $name] = $this->claimFactory->create($name, $value);
+        $this->headers[(string) $name] = $value;
 
         return $this;
     }
@@ -370,8 +387,7 @@ class Builder
      */
     private function configureClaim($name, $value)
     {
-        $name = (string) $name;
-        $this->claims[$name] = $this->claimFactory->create($name, $value);
+        $this->claims[(string) $name] = $value;
 
         return $this;
     }
@@ -465,8 +481,8 @@ class Builder
         }
 
         $payload = [
-            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->headers)),
-            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->claims))
+            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertDatesToInt($this->headers))),
+            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertDatesToInt($this->claims)))
         ];
 
         $signature = $this->createSignature($payload, $signer, $key);
@@ -475,7 +491,25 @@ class Builder
             $payload[] = $this->encoder->base64UrlEncode($signature);
         }
 
-        return new Token($this->headers, $this->claims, $signature, $payload);
+        return new Token($this->headers, $this->claims, $signature, $payload, $this->claimFactory);
+    }
+
+    /**
+     * @param array<string, mixed> $items
+     *
+     * @return array<string, mixed>
+     */
+    private function convertDatesToInt(array $items)
+    {
+        foreach (RegisteredClaims::DATE_CLAIMS as $name) {
+            if (! array_key_exists($name, $items) || ! $items[$name] instanceof DateTimeImmutable) {
+                continue;
+            }
+
+            $items[$name] = $items[$name]->getTimestamp();
+        }
+
+        return $items;
     }
 
     /**

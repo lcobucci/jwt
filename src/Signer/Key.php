@@ -19,12 +19,12 @@ use function substr;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 3.0.4
  */
-final class Key
+class Key
 {
     /**
      * @var string
      */
-    private $content;
+    protected $content;
 
     /**
      * @var string
@@ -81,7 +81,22 @@ final class Key
         return $content;
     }
 
+    /** @return string */
+    public function contents()
+    {
+        return $this->content;
+    }
+
+    /** @return string */
+    public function passphrase()
+    {
+        return $this->passphrase;
+    }
+
     /**
+     * @deprecated This method is no longer part of the public interface
+     * @see Key::contents()
+     *
      * @return string
      */
     public function getContent()
@@ -90,6 +105,9 @@ final class Key
     }
 
     /**
+     * @deprecated This method is no longer part of the public interface
+     * @see Key::passphrase()
+     *
      * @return string
      */
     public function getPassphrase()

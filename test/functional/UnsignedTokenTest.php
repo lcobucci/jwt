@@ -15,6 +15,8 @@ use Lcobucci\JWT\ValidationData;
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
+ *
+ * @covers \Lcobucci\JWT\Token\DataSet
  */
 class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
 {

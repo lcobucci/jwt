@@ -21,6 +21,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha512;
  * @since 2.1.0
  *
  * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
+ * @covers \Lcobucci\JWT\Token\DataSet
  */
 class RsaTokenTest extends \PHPUnit\Framework\TestCase
 {

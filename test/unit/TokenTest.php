@@ -7,16 +7,22 @@
 
 namespace Lcobucci\JWT;
 
-use DateInterval;
 use DateTime;
+use DateTimeImmutable;
 use Lcobucci\JWT\Claim\Basic;
-use Lcobucci\JWT\Claim\EqualsTo;
-use Lcobucci\JWT\Claim\GreaterOrEqualsTo;
-use Lcobucci\JWT\Claim\LesserOrEqualsTo;
+use Lcobucci\JWT\Token\RegisteredClaims;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
+ *
+ * @coversDefaultClass \Lcobucci\JWT\Token
+ *
+ * @covers \Lcobucci\JWT\Token\DataSet
+ *
+ * @uses \Lcobucci\JWT\Claim\Factory
+ * @uses \Lcobucci\JWT\Claim\EqualsTo
+ * @uses \Lcobucci\JWT\Claim\Basic
  */
 class TokenTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,15 +30,19 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @test
      *
      * @covers Lcobucci\JWT\Token::__construct
+     * @covers Lcobucci\JWT\Token::getHeaders
+     * @covers Lcobucci\JWT\Token::getClaims
+     * @covers Lcobucci\JWT\Token::signature
+     * @covers Lcobucci\JWT\Token::getPayload
      */
     public function constructMustInitializeAnEmptyPlainTextTokenWhenNoArgumentsArePassed()
     {
         $token = new Token();
 
-        $this->assertAttributeEquals(['alg' => 'none'], 'headers', $token);
-        $this->assertAttributeEquals([], 'claims', $token);
-        $this->assertAttributeEquals(null, 'signature', $token);
-        $this->assertAttributeEquals(['', ''], 'payload', $token);
+        $this->assertEquals(['alg' => 'none'], $token->getHeaders());
+        $this->assertEquals([], $token->getClaims());
+        $this->assertNull($token->signature());
+        $this->assertEquals('.', $token->getPayload());
     }
 
     /**
@@ -103,7 +113,6 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Token::hasHeader
      *
      * @covers Lcobucci\JWT\Token::getHeader
-     * @covers Lcobucci\JWT\Token::getHeaderValue
      */
     public function getHeaderMustReturnTheRequestedHeader()
     {
@@ -120,11 +129,10 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Claim\Basic
      *
      * @covers Lcobucci\JWT\Token::getHeader
-     * @covers Lcobucci\JWT\Token::getHeaderValue
      */
     public function getHeaderMustReturnValueWhenItIsAReplicatedClaim()
     {
-        $token = new Token(['jti' => new EqualsTo('jti', 1)]);
+        $token = new Token(['jti' => 1]);
 
         $this->assertEquals(1, $token->getHeader('jti'));
     }
@@ -167,7 +175,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function hasClaimMustReturnTrueWhenItIsConfigured()
     {
-        $token = new Token([], ['test' => new Basic('test', 'testing')]);
+        $token = new Token([], ['test' => 'testing']);
 
         $this->assertTrue($token->hasClaim('test'));
     }
@@ -182,7 +190,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function hasClaimMustReturnFalseWhenItIsNotConfigured()
     {
-        $token = new Token([], ['test' => new Basic('test', 'testing')]);
+        $token = new Token([], ['test' => 'testing']);
 
         $this->assertFalse($token->hasClaim('testing'));
     }
@@ -198,7 +206,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function getClaimMustReturnTheDefaultValueWhenIsNotConfigured()
     {
-        $token = new Token([], ['test' => new Basic('test', 'testing')]);
+        $token = new Token([], ['test' => 'testing']);
 
         $this->assertEquals('blah', $token->getClaim('testing', 'blah'));
     }
@@ -247,7 +255,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function getClaimShouldReturnTheClaimValueWhenItExists()
     {
-        $token = new Token([], ['testing' => new Basic('testing', 'test')]);
+        $token = new Token([], ['testing' => 'test']);
 
         $this->assertEquals('test', $token->getClaim('testing'));
     }
@@ -329,6 +337,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\ValidationData::setCurrentTime
      *
      * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getClaims
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
     public function validateShouldReturnTrueWhenClaimsAreEmpty()
@@ -347,11 +356,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Claim\Basic::__construct
      *
      * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getClaims
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
     public function validateShouldReturnTrueWhenThereAreNoValidatableClaims()
     {
-        $token = new Token([], ['testing' => new Basic('testing', 'test')]);
+        $token = new Token([], ['testing' => 'test']);
 
         $this->assertTrue($token->validate(new ValidationData()));
     }
@@ -365,6 +375,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Claim\EqualsTo
      *
      * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getClaims
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
     public function validateShouldReturnFalseWhenThereIsAtLeastOneFailedValidatableClaim()
@@ -372,8 +383,8 @@ class TokenTest extends \PHPUnit\Framework\TestCase
         $token = new Token(
             [],
             [
-                'iss' => new EqualsTo('iss', 'test'),
-                'testing' => new Basic('testing', 'test')
+                'iss' => 'test',
+                'testing' => 'test',
             ]
         );
 
@@ -394,24 +405,25 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      *
      * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getClaims
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
     public function validateShouldReturnFalseWhenATimeBasedClaimFails()
     {
-        $now = time();
+        $now = new DateTimeImmutable();
 
         $token = new Token(
             [],
             [
-                'iss' => new EqualsTo('iss', 'test'),
-                'iat' => new LesserOrEqualsTo('iat', $now),
-                'nbf' => new LesserOrEqualsTo('nbf', $now + 20),
-                'exp' => new GreaterOrEqualsTo('exp', $now + 500),
-                'testing' => new Basic('testing', 'test')
+                'iss' => 'test',
+                'iat' => $now,
+                'nbf' => $now->modify('+20 seconds'),
+                'exp' => $now->modify('+500 seconds'),
+                'testing' => 'test',
             ]
         );
 
-        $data = new ValidationData($now + 10);
+        $data = new ValidationData($now->modify('+10 seconds')->getTimestamp());
         $data->setIssuer('test');
 
         $this->assertFalse($token->validate($data));
@@ -428,23 +440,24 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      *
      * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getClaims
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
     public function validateShouldReturnTrueWhenThereAreNoFailedValidatableClaims()
     {
-        $now = time();
+        $now = new DateTimeImmutable();
 
         $token = new Token(
             [],
             [
-                'iss' => new EqualsTo('iss', 'test'),
-                'iat' => new LesserOrEqualsTo('iat', $now),
-                'exp' => new GreaterOrEqualsTo('exp', $now + 500),
-                'testing' => new Basic('testing', 'test')
+                'iss' => 'test',
+                'iat' => $now,
+                'exp' => $now->modify('+500 seconds'),
+                'testing' => 'test',
             ]
         );
 
-        $data = new ValidationData($now + 10);
+        $data = new ValidationData($now->modify('+10 seconds')->getTimestamp());
         $data->setIssuer('test');
 
         $this->assertTrue($token->validate($data));
@@ -461,27 +474,390 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
      *
      * @covers Lcobucci\JWT\Token::validate
+     * @covers Lcobucci\JWT\Token::getClaims
      * @covers Lcobucci\JWT\Token::getValidatableClaims
      */
     public function validateShouldReturnTrueWhenLeewayMakesAllTimeBasedClaimsTrueAndOtherClaimsAreTrue()
     {
-        $now = time();
+        $now = new DateTimeImmutable();
 
         $token = new Token(
             [],
             [
-                'iss' => new EqualsTo('iss', 'test'),
-                'iat' => new LesserOrEqualsTo('iat', $now),
-                'nbf' => new LesserOrEqualsTo('nbf', $now + 20),
-                'exp' => new GreaterOrEqualsTo('exp', $now + 500),
-                'testing' => new Basic('testing', 'test')
+                'iss' => 'test',
+                'iat' => $now,
+                'nbf' => $now->modify('+20 seconds'),
+                'exp' => $now->modify('+500 seconds'),
+                'testing' => 'test'
             ]
         );
 
-        $data = new ValidationData($now + 10, 20);
+        $data = new ValidationData($now->modify('+10 seconds')->getTimestamp(), 20);
         $data->setIssuer('test');
 
         $this->assertTrue($token->validate($data));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isPermittedFor
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isPermittedForShouldReturnFalseWhenNoAudienceIsConfigured()
+    {
+        $token = new Token();
+
+        self::assertFalse($token->isPermittedFor('testing'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isPermittedFor
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isPermittedForShouldReturnFalseWhenAudienceDoesNotMatch()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::AUDIENCE => 'test']
+        );
+
+        self::assertFalse($token->isPermittedFor('testing'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isPermittedFor
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isPermittedForShouldReturnFalseWhenAudienceTypeDoesNotMatch()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::AUDIENCE => 10]
+        );
+
+        self::assertFalse($token->isPermittedFor('10'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isPermittedFor
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isPermittedForShouldReturnTrueWhenAudienceMatches()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::AUDIENCE => 'testing']
+        );
+
+        self::assertTrue($token->isPermittedFor('testing'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isIdentifiedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isIdentifiedByShouldReturnFalseWhenNoIdWasConfigured()
+    {
+        $token = new Token();
+
+        self::assertFalse($token->isIdentifiedBy('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isIdentifiedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isIdentifiedByShouldReturnFalseWhenIdDoesNotMatch()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::ID => 'testing']
+        );
+
+        self::assertFalse($token->isIdentifiedBy('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isIdentifiedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isIdentifiedByShouldReturnTrueWhenIdMatches()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::ID => 'test']
+        );
+
+        self::assertTrue($token->isIdentifiedBy('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isRelatedTo
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isRelatedToShouldReturnFalseWhenNoSubjectWasConfigured()
+    {
+        $token = new Token();
+
+        self::assertFalse($token->isRelatedTo('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isRelatedTo
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isRelatedToShouldReturnFalseWhenSubjectDoesNotMatch()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::SUBJECT => 'testing']
+        );
+
+        self::assertFalse($token->isRelatedTo('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isRelatedTo
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isRelatedToShouldReturnTrueWhenSubjectMatches()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::SUBJECT => 'test']
+        );
+
+        self::assertTrue($token->isRelatedTo('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedByShouldReturnFalseWhenIssuerIsNotConfigured()
+    {
+        $token = new Token();
+
+        self::assertFalse($token->hasBeenIssuedBy('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedByShouldReturnFalseWhenIssuerTypeDoesNotMatches()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::ISSUER => 10]
+        );
+
+        self::assertFalse($token->hasBeenIssuedBy('10'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedByShouldReturnFalseWhenIssuerIsNotInTheGivenList()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::ISSUER => 'test']
+        );
+
+        self::assertFalse($token->hasBeenIssuedBy('testing1', 'testing2'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedByShouldReturnTrueWhenIssuerIsInTheGivenList()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::ISSUER => 'test']
+        );
+
+        self::assertTrue($token->hasBeenIssuedBy('testing1', 'testing2', 'test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsNotConfigured()
+    {
+        $token = new Token();
+
+        self::assertTrue($token->hasBeenIssuedBefore(new DateTimeImmutable()));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsBeforeThanNow()
+    {
+        $now   = new DateTimeImmutable();
+        $token = new Token(
+            [],
+            [RegisteredClaims::ISSUED_AT => $now->modify('-100 seconds')]
+        );
+
+        self::assertTrue($token->hasBeenIssuedBefore($now));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsEqualsToNow()
+    {
+        $now   = new DateTimeImmutable();
+        $token = new Token(
+            [],
+            [RegisteredClaims::ISSUED_AT => $now]
+        );
+
+        self::assertTrue($token->hasBeenIssuedBefore($now));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedBeforeShouldReturnFalseWhenIssueTimeIsGreaterThanNow()
+    {
+        $now   = new DateTimeImmutable();
+        $token = new Token(
+            [],
+            [RegisteredClaims::ISSUED_AT => $now->modify('+100 seconds')]
+        );
+
+        self::assertFalse($token->hasBeenIssuedBefore($now));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isMinimumTimeBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isMinimumTimeBeforeShouldReturnTrueWhenIssueTimeIsNotConfigured()
+    {
+        $token = new Token();
+
+        self::assertTrue($token->isMinimumTimeBefore(new DateTimeImmutable()));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isMinimumTimeBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsBeforeThanNow()
+    {
+        $now   = new DateTimeImmutable();
+        $token = new Token(
+            [],
+            [RegisteredClaims::NOT_BEFORE => $now->modify('-100 seconds')]
+        );
+
+        self::assertTrue($token->isMinimumTimeBefore($now));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isMinimumTimeBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsEqualsToNow()
+    {
+        $now   = new DateTimeImmutable();
+        $token = new Token(
+            [],
+            [RegisteredClaims::NOT_BEFORE => $now]
+        );
+
+        self::assertTrue($token->isMinimumTimeBefore($now));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isMinimumTimeBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isMinimumTimeBeforeShouldReturnFalseWhenNotBeforeClaimIsGreaterThanNow()
+    {
+        $now   = new DateTimeImmutable();
+        $token = new Token(
+            [],
+            [RegisteredClaims::NOT_BEFORE => $now->modify('100 seconds')]
+        );
+
+        self::assertFalse($token->isMinimumTimeBefore($now));
     }
 
     /**
@@ -515,7 +891,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     {
         $token = new Token(
             ['alg' => 'none'],
-            ['exp' => new GreaterOrEqualsTo('exp', time() + 500)]
+            ['exp' => new DateTimeImmutable('+500 seconds')]
         );
 
         $this->assertFalse($token->isExpired());
@@ -536,7 +912,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     {
         $token = new Token(
             ['alg' => 'none'],
-            ['exp' => new GreaterOrEqualsTo('exp', time())]
+            ['exp' => new DateTimeImmutable()]
         );
 
         $this->assertTrue($token->isExpired(new DateTime('+10 days')));
@@ -563,6 +939,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Token::getPayload
      *
      * @covers Lcobucci\JWT\Token::__toString
+     * @covers Lcobucci\JWT\Token::toString
      */
     public function toStringMustReturnEncodedDataWithEmptySignature()
     {
@@ -578,6 +955,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses Lcobucci\JWT\Token::getPayload
      *
      * @covers Lcobucci\JWT\Token::__toString
+     * @covers Lcobucci\JWT\Token::toString
      */
     public function toStringMustReturnEncodedData()
     {
