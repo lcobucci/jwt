@@ -9,6 +9,7 @@ namespace Lcobucci\JWT;
 
 use BadMethodCallException;
 use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use Generator;
 use Lcobucci\JWT\Claim\Factory;
@@ -233,6 +234,10 @@ class Token
             throw new OutOfBoundsException(sprintf('Requested header "%s" is not configured', $name));
         }
 
+        if ($value instanceof DateTimeImmutable && in_array($name, RegisteredClaims::DATE_CLAIMS, true)) {
+            $value = $value->getTimestamp();
+        }
+
         return $value;
     }
 
@@ -280,24 +285,19 @@ class Token
     /**
      * Determine if the token is expired.
      *
-     * @param DateTimeInterface $now Defaults to the current time.
+     * @param DateTimeInterface|null $now Defaults to the current time.
      *
      * @return bool
      */
     public function isExpired(DateTimeInterface $now = null)
     {
-        $exp = $this->getClaim('exp', false);
-
-        if ($exp === false) {
+        if (! $this->claims->has('exp')) {
             return false;
         }
 
-        $now = $now ?: new DateTime();
+        $now = $now ?: new DateTimeImmutable();
 
-        $expiresAt = new DateTime();
-        $expiresAt->setTimestamp($exp);
-
-        return $now > $expiresAt;
+        return $now > $this->claims->get(RegisteredClaims::EXPIRATION_TIME);
     }
 
     /**

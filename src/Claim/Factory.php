@@ -7,7 +7,10 @@
 
 namespace Lcobucci\JWT\Claim;
 
+use DateTimeImmutable;
 use Lcobucci\JWT\Claim;
+use Lcobucci\JWT\Token\RegisteredClaims;
+use function in_array;
 
 /**
  * Class that create claims
@@ -57,6 +60,10 @@ class Factory
      */
     public function create($name, $value)
     {
+        if ($value instanceof DateTimeImmutable && in_array($name, RegisteredClaims::DATE_CLAIMS, true)) {
+            $value = $value->getTimestamp();
+        }
+
         if (!empty($this->callbacks[$name])) {
             return call_user_func($this->callbacks[$name], $name, $value);
         }

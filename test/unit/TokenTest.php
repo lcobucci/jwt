@@ -9,6 +9,7 @@ namespace Lcobucci\JWT;
 
 use DateInterval;
 use DateTime;
+use DateTimeImmutable;
 use Lcobucci\JWT\Claim\Basic;
 use Lcobucci\JWT\Claim\EqualsTo;
 use Lcobucci\JWT\Claim\GreaterOrEqualsTo;
@@ -410,20 +411,20 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function validateShouldReturnFalseWhenATimeBasedClaimFails()
     {
-        $now = time();
+        $now = new DateTimeImmutable();
 
         $token = new Token(
             [],
             [
                 'iss' => 'test',
                 'iat' => $now,
-                'nbf' => $now + 20,
-                'exp' => $now + 500,
+                'nbf' => $now->modify('+20 seconds'),
+                'exp' => $now->modify('+500 seconds'),
                 'testing' => 'test',
             ]
         );
 
-        $data = new ValidationData($now + 10);
+        $data = new ValidationData($now->modify('+10 seconds')->getTimestamp());
         $data->setIssuer('test');
 
         $this->assertFalse($token->validate($data));
@@ -445,19 +446,19 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function validateShouldReturnTrueWhenThereAreNoFailedValidatableClaims()
     {
-        $now = time();
+        $now = new DateTimeImmutable();
 
         $token = new Token(
             [],
             [
                 'iss' => 'test',
                 'iat' => $now,
-                'exp' => $now + 500,
+                'exp' => $now->modify('+500 seconds'),
                 'testing' => 'test',
             ]
         );
 
-        $data = new ValidationData($now + 10);
+        $data = new ValidationData($now->modify('+10 seconds')->getTimestamp());
         $data->setIssuer('test');
 
         $this->assertTrue($token->validate($data));
@@ -479,20 +480,20 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function validateShouldReturnTrueWhenLeewayMakesAllTimeBasedClaimsTrueAndOtherClaimsAreTrue()
     {
-        $now = time();
+        $now = new DateTimeImmutable();
 
         $token = new Token(
             [],
             [
                 'iss' => 'test',
                 'iat' => $now,
-                'nbf' => $now + 20,
-                'exp' => $now + 500,
+                'nbf' => $now->modify('+20 seconds'),
+                'exp' => $now->modify('+500 seconds'),
                 'testing' => 'test'
             ]
         );
 
-        $data = new ValidationData($now + 10, 20);
+        $data = new ValidationData($now->modify('+10 seconds')->getTimestamp(), 20);
         $data->setIssuer('test');
 
         $this->assertTrue($token->validate($data));
@@ -529,7 +530,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     {
         $token = new Token(
             ['alg' => 'none'],
-            ['exp' => time() + 500]
+            ['exp' => new DateTimeImmutable('+500 seconds')]
         );
 
         $this->assertFalse($token->isExpired());
@@ -550,7 +551,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     {
         $token = new Token(
             ['alg' => 'none'],
-            ['exp' => time()]
+            ['exp' => new DateTimeImmutable()]
         );
 
         $this->assertTrue($token->isExpired(new DateTime('+10 days')));

@@ -2,24 +2,32 @@
 
 namespace Lcobucci\JWT\FunctionalTests;
 
+use DateTimeImmutable;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Keys;
+use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Signer\Hmac\Sha256 as HmacSha256;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use PHPUnit\Framework\TestCase;
 
 use function base64_encode;
+use function time;
 
 /**
  * @covers \Lcobucci\JWT\Builder
  * @covers \Lcobucci\JWT\Claim\Factory
  * @covers \Lcobucci\JWT\Claim\Basic
+ * @covers \Lcobucci\JWT\Parser
  * @covers \Lcobucci\JWT\Parsing\Encoder
+ * @covers \Lcobucci\JWT\Parsing\Decoder
  * @covers \Lcobucci\JWT\Signer\Key
  * @covers \Lcobucci\JWT\Signer\Key\InMemory
  * @covers \Lcobucci\JWT\Signer\Key\LocalFileReference
  * @covers \Lcobucci\JWT\Signer\BaseSigner
  * @covers \Lcobucci\JWT\Signer\OpenSSL
+ * @covers \Lcobucci\JWT\Signer\Hmac
+ * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
  * @covers \Lcobucci\JWT\Signer\Rsa
  * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
  * @covers \Lcobucci\JWT\Signature
@@ -29,6 +37,30 @@ use function base64_encode;
 final class CompatibilityLayerTest extends TestCase
 {
     use Keys;
+
+    /** @test */
+    public function registeredDateClaimsShouldBeConvertedToDateObjects()
+    {
+        $now = time();
+
+        $token = (new Builder())
+            ->issuedAt($now)
+            ->canOnlyBeUsedAfter($now + 5)
+            ->expiresAt($now + 3600)
+            ->getToken(new HmacSha256(), Key\InMemory::plainText('testing'));
+
+        $expectedNow = new DateTimeImmutable('@' . $now);
+
+        self::assertEquals($expectedNow, $token->claims()->get('iat'));
+        self::assertEquals($expectedNow->modify('+5 seconds'), $token->claims()->get('nbf'));
+        self::assertEquals($expectedNow->modify('+1 hour'), $token->claims()->get('exp'));
+
+        $token2 = (new Parser())->parse($token->toString());
+
+        self::assertEquals($expectedNow, $token2->claims()->get('iat'));
+        self::assertEquals($expectedNow->modify('+5 seconds'), $token2->claims()->get('nbf'));
+        self::assertEquals($expectedNow->modify('+1 hour'), $token2->claims()->get('exp'));
+    }
 
     /**
      * @test

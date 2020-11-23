@@ -139,6 +139,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
+     * @covers Lcobucci\JWT\Parser::convertToDateObjects
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Claim\EqualsTo
@@ -173,6 +174,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
+     * @covers Lcobucci\JWT\Parser::convertToDateObjects
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Claim\EqualsTo
@@ -211,6 +213,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
+     * @covers Lcobucci\JWT\Parser::convertToDateObjects
      * @covers \Lcobucci\JWT\Claim\Factory
      * @covers \Lcobucci\JWT\Claim\Basic
      * @covers \Lcobucci\JWT\Claim\EqualsTo

@@ -7,12 +7,15 @@
 
 namespace Lcobucci\JWT;
 
+use DateTimeImmutable;
 use InvalidArgumentException;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
+use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Token\UnsupportedHeaderFound;
 use RuntimeException;
+use function array_key_exists;
 
 /**
  * This class parses the JWT strings and convert them into tokens
@@ -110,7 +113,7 @@ class Parser
             throw UnsupportedHeaderFound::encryption();
         }
 
-        return $header;
+        return $this->convertToDateObjects($header);
     }
 
     /**
@@ -122,7 +125,27 @@ class Parser
      */
     protected function parseClaims($data)
     {
-        return (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
+        $claims = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
+
+        return $this->convertToDateObjects($claims);
+    }
+
+    /**
+     * @param array<string, mixed> $items
+     *
+     * @return array<string, mixed>
+     */
+    private function convertToDateObjects(array $items)
+    {
+        foreach (RegisteredClaims::DATE_CLAIMS as $name) {
+            if (! array_key_exists($name, $items)) {
+                continue;
+            }
+
+            $items[$name] = new DateTimeImmutable('@' . ((int) $items[$name]));
+        }
+
+        return $items;
     }
 
     /**
