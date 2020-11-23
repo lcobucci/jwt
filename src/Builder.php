@@ -11,6 +11,7 @@ use DateTimeImmutable;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\RegisteredClaimGiven;
 use Lcobucci\JWT\Token\RegisteredClaims;
 
@@ -491,7 +492,13 @@ class Builder
             $payload[] = $this->encoder->base64UrlEncode($signature);
         }
 
-        return new Token($this->headers, $this->claims, $signature, $payload, $this->claimFactory);
+        return new Token(
+            new DataSet($this->headers, $payload[0]),
+            new DataSet($this->claims, $payload[1]),
+            $signature,
+            $payload,
+            $this->claimFactory
+        );
     }
 
     /**

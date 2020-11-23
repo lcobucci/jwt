@@ -1,3 +1,5 @@
 parameters:
   ignoreErrors:
+    - '#\[BC\] CHANGED: The parameter \$headers of Lcobucci\\JWT\\Token\#__construct\(\) changed from array to no type#' # BC checker doesn't check doc blocks
+    - '#\[BC\] CHANGED: The parameter \$claims of Lcobucci\\JWT\\Token\#__construct\(\) changed from array to no type#' # BC checker doesn't check doc blocks
     - '#\[BC\] CHANGED: Default parameter value for for parameter \$passphrase#'

@@ -72,24 +72,37 @@ class Token
     /**
      * Initializes the object
      *
-     * @param array $headers
-     * @param array $claims
-     * @param array $payload
+     * @param array|DataSet $headers
+     * @param array|DataSet $claims
      * @param Signature|null $signature
+     * @param array $payload
      * @param Factory|null $claimFactory
      */
     public function __construct(
-        array $headers = ['alg' => 'none'],
-        array $claims = [],
+        $headers = ['alg' => 'none'],
+        $claims = [],
         Signature $signature = null,
         array $payload = ['', ''],
         Factory $claimFactory = null
     ) {
-        $this->headers = new DataSet($headers, $payload[0]);
-        $this->claims = new DataSet($claims, $payload[1]);
+        $this->headers = $this->convertToDataSet($headers, $payload[0]);
+        $this->claims = $this->convertToDataSet($claims, $payload[1]);
         $this->signature = $signature;
         $this->payload = $payload;
         $this->claimFactory = $claimFactory ?: new Factory();
+    }
+
+    /**
+     * @param array|DataSet $data
+     * @param string $payload
+     */
+    private function convertToDataSet($data, $payload)
+    {
+        if ($data instanceof DataSet) {
+            return $data;
+        }
+
+        return new DataSet($data, $payload);
     }
 
     /** @return DataSet */
