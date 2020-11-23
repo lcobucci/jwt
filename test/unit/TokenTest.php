@@ -7,17 +7,16 @@
 
 namespace Lcobucci\JWT;
 
-use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use Lcobucci\JWT\Claim\Basic;
-use Lcobucci\JWT\Claim\EqualsTo;
-use Lcobucci\JWT\Claim\GreaterOrEqualsTo;
-use Lcobucci\JWT\Claim\LesserOrEqualsTo;
+use Lcobucci\JWT\Token\RegisteredClaims;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 0.1.0
+ *
+ * @coversDefaultClass \Lcobucci\JWT\Token
  *
  * @covers \Lcobucci\JWT\Token\DataSet
  *
@@ -497,6 +496,368 @@ class TokenTest extends \PHPUnit\Framework\TestCase
         $data->setIssuer('test');
 
         $this->assertTrue($token->validate($data));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isPermittedFor
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isPermittedForShouldReturnFalseWhenNoAudienceIsConfigured()
+    {
+        $token = new Token();
+
+        self::assertFalse($token->isPermittedFor('testing'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isPermittedFor
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isPermittedForShouldReturnFalseWhenAudienceDoesNotMatch()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::AUDIENCE => 'test']
+        );
+
+        self::assertFalse($token->isPermittedFor('testing'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isPermittedFor
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isPermittedForShouldReturnFalseWhenAudienceTypeDoesNotMatch()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::AUDIENCE => 10]
+        );
+
+        self::assertFalse($token->isPermittedFor('10'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isPermittedFor
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isPermittedForShouldReturnTrueWhenAudienceMatches()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::AUDIENCE => 'testing']
+        );
+
+        self::assertTrue($token->isPermittedFor('testing'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isIdentifiedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isIdentifiedByShouldReturnFalseWhenNoIdWasConfigured()
+    {
+        $token = new Token();
+
+        self::assertFalse($token->isIdentifiedBy('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isIdentifiedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isIdentifiedByShouldReturnFalseWhenIdDoesNotMatch()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::ID => 'testing']
+        );
+
+        self::assertFalse($token->isIdentifiedBy('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isIdentifiedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isIdentifiedByShouldReturnTrueWhenIdMatches()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::ID => 'test']
+        );
+
+        self::assertTrue($token->isIdentifiedBy('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isRelatedTo
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isRelatedToShouldReturnFalseWhenNoSubjectWasConfigured()
+    {
+        $token = new Token();
+
+        self::assertFalse($token->isRelatedTo('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isRelatedTo
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isRelatedToShouldReturnFalseWhenSubjectDoesNotMatch()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::SUBJECT => 'testing']
+        );
+
+        self::assertFalse($token->isRelatedTo('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isRelatedTo
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isRelatedToShouldReturnTrueWhenSubjectMatches()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::SUBJECT => 'test']
+        );
+
+        self::assertTrue($token->isRelatedTo('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedByShouldReturnFalseWhenIssuerIsNotConfigured()
+    {
+        $token = new Token();
+
+        self::assertFalse($token->hasBeenIssuedBy('test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedByShouldReturnFalseWhenIssuerTypeDoesNotMatches()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::ISSUER => 10]
+        );
+
+        self::assertFalse($token->hasBeenIssuedBy('10'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedByShouldReturnFalseWhenIssuerIsNotInTheGivenList()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::ISSUER => 'test']
+        );
+
+        self::assertFalse($token->hasBeenIssuedBy('testing1', 'testing2'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBy
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedByShouldReturnTrueWhenIssuerIsInTheGivenList()
+    {
+        $token = new Token(
+            [],
+            [RegisteredClaims::ISSUER => 'test']
+        );
+
+        self::assertTrue($token->hasBeenIssuedBy('testing1', 'testing2', 'test'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsNotConfigured()
+    {
+        $token = new Token();
+
+        self::assertTrue($token->hasBeenIssuedBefore(new DateTimeImmutable()));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsBeforeThanNow()
+    {
+        $now   = new DateTimeImmutable();
+        $token = new Token(
+            [],
+            [RegisteredClaims::ISSUED_AT => $now->modify('-100 seconds')]
+        );
+
+        self::assertTrue($token->hasBeenIssuedBefore($now));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsEqualsToNow()
+    {
+        $now   = new DateTimeImmutable();
+        $token = new Token(
+            [],
+            [RegisteredClaims::ISSUED_AT => $now]
+        );
+
+        self::assertTrue($token->hasBeenIssuedBefore($now));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::hasBeenIssuedBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function hasBeenIssuedBeforeShouldReturnFalseWhenIssueTimeIsGreaterThanNow()
+    {
+        $now   = new DateTimeImmutable();
+        $token = new Token(
+            [],
+            [RegisteredClaims::ISSUED_AT => $now->modify('+100 seconds')]
+        );
+
+        self::assertFalse($token->hasBeenIssuedBefore($now));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isMinimumTimeBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isMinimumTimeBeforeShouldReturnTrueWhenIssueTimeIsNotConfigured()
+    {
+        $token = new Token();
+
+        self::assertTrue($token->isMinimumTimeBefore(new DateTimeImmutable()));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isMinimumTimeBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsBeforeThanNow()
+    {
+        $now   = new DateTimeImmutable();
+        $token = new Token(
+            [],
+            [RegisteredClaims::NOT_BEFORE => $now->modify('-100 seconds')]
+        );
+
+        self::assertTrue($token->isMinimumTimeBefore($now));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isMinimumTimeBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsEqualsToNow()
+    {
+        $now   = new DateTimeImmutable();
+        $token = new Token(
+            [],
+            [RegisteredClaims::NOT_BEFORE => $now]
+        );
+
+        self::assertTrue($token->isMinimumTimeBefore($now));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::isMinimumTimeBefore
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     */
+    public function isMinimumTimeBeforeShouldReturnFalseWhenNotBeforeClaimIsGreaterThanNow()
+    {
+        $now   = new DateTimeImmutable();
+        $token = new Token(
+            [],
+            [RegisteredClaims::NOT_BEFORE => $now->modify('100 seconds')]
+        );
+
+        self::assertFalse($token->isMinimumTimeBefore($now));
     }
 
     /**

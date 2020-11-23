@@ -301,6 +301,66 @@ class Token
     }
 
     /**
+     * @param string $audience
+     *
+     * @return bool
+     */
+    public function isPermittedFor($audience)
+    {
+        return $this->claims->get(RegisteredClaims::AUDIENCE) === $audience;
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return bool
+     */
+    public function isIdentifiedBy($id)
+    {
+        return $this->claims->get(RegisteredClaims::ID) === $id;
+    }
+
+    /**
+     * @param string $subject
+     *
+     * @return bool
+     */
+    public function isRelatedTo($subject)
+    {
+        return $this->claims->get(RegisteredClaims::SUBJECT) === $subject;
+    }
+
+    /**
+     * @param list<string> $issuers
+     *
+     * @return bool
+     */
+    public function hasBeenIssuedBy(...$issuers)
+    {
+        return in_array($this->claims->get(RegisteredClaims::ISSUER), $issuers, true);
+    }
+
+    /**
+     * @param DateTimeInterface $now
+     *
+     * @return bool
+     */
+    public function hasBeenIssuedBefore(DateTimeInterface $now)
+    {
+        return $now >= $this->claims->get(RegisteredClaims::ISSUED_AT);
+    }
+
+    /**
+     * @param DateTimeInterface $now
+     *
+     * @return bool
+     */
+    public function isMinimumTimeBefore(DateTimeInterface $now)
+    {
+        return $now >= $this->claims->get(RegisteredClaims::NOT_BEFORE);
+    }
+
+    /**
      * Yields the validatable claims
      *
      * @return Generator
