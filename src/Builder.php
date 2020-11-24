@@ -379,7 +379,7 @@ class Builder
      */
     public function with($name, $value)
     {
-        return $this->configureClaim($name, $value);
+        return $this->withClaim($name, $value);
     }
 
     /**
