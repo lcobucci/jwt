@@ -39,6 +39,20 @@ final class LocalFileReferenceTest extends TestCase
      * @covers ::file
      * @covers ::__construct
      * @covers ::contents
+     */
+    public function pathShouldBeNormalised(): void
+    {
+        $key = LocalFileReference::file('file://' . vfsStream::url('root/test.pem'));
+
+        self::assertSame('file://vfs://root/test.pem', $key->contents());
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::file
+     * @covers ::__construct
+     * @covers ::contents
      * @covers ::passphrase
      */
     public function contentsShouldReturnOnlyTheReferenceToTheFile(): void
