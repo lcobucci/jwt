@@ -17,8 +17,10 @@ use Lcobucci\JWT\Token\RegisteredClaims;
 
 use function array_key_exists;
 use function assert;
+use function current;
 use function implode;
 use function in_array;
+use function is_array;
 
 /**
  * This class makes easier the token creation process
@@ -106,7 +108,7 @@ class Builder
      */
     public function permittedFor($audience, $replicateAsHeader = false)
     {
-        return $this->setRegisteredClaim('aud', (string) $audience, $replicateAsHeader);
+        return $this->setRegisteredClaim('aud', [(string) $audience], $replicateAsHeader);
     }
 
     /**
@@ -482,8 +484,8 @@ class Builder
         }
 
         $payload = [
-            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertDatesToInt($this->headers))),
-            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertDatesToInt($this->claims)))
+            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertItems($this->headers))),
+            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertItems($this->claims)))
         ];
 
         $signature = $this->createSignature($payload, $signer, $key);
@@ -503,7 +505,7 @@ class Builder
      *
      * @return array<string, mixed>
      */
-    private function convertDatesToInt(array $items)
+    private function convertItems(array $items)
     {
         foreach (RegisteredClaims::DATE_CLAIMS as $name) {
             if (! array_key_exists($name, $items) || ! $items[$name] instanceof DateTimeImmutable) {
@@ -511,6 +513,10 @@ class Builder
             }
 
             $items[$name] = $items[$name]->getTimestamp();
+        }
+
+        if (array_key_exists(RegisteredClaims::AUDIENCE, $items) && is_array($items[RegisteredClaims::AUDIENCE])) {
+            $items[RegisteredClaims::AUDIENCE] = current($items[RegisteredClaims::AUDIENCE]);
         }
 
         return $items;

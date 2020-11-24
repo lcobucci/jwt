@@ -10,7 +10,9 @@ namespace Lcobucci\JWT\Claim;
 use DateTimeImmutable;
 use Lcobucci\JWT\Claim;
 use Lcobucci\JWT\Token\RegisteredClaims;
+use function current;
 use function in_array;
+use function is_array;
 
 /**
  * Class that create claims
@@ -62,6 +64,10 @@ class Factory
     {
         if ($value instanceof DateTimeImmutable && in_array($name, RegisteredClaims::DATE_CLAIMS, true)) {
             $value = $value->getTimestamp();
+        }
+
+        if ($name === RegisteredClaims::AUDIENCE && is_array($value)) {
+            $value = current($value);
         }
 
         if (!empty($this->callbacks[$name])) {

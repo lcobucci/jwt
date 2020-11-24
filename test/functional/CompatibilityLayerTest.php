@@ -65,18 +65,21 @@ final class CompatibilityLayerTest extends TestCase
 
         $token = $config->builder()
             ->issuedAt($now)
+            ->permittedFor('test')
             ->canOnlyBeUsedAfter($now + 5)
             ->expiresAt($now + 3600)
             ->getToken($config->signer(), $config->signingKey());
 
         $expectedNow = new DateTimeImmutable('@' . $now);
 
+        self::assertSame(['test'], $token->claims()->get('aud'));
         self::assertEquals($expectedNow, $token->claims()->get('iat'));
         self::assertEquals($expectedNow->modify('+5 seconds'), $token->claims()->get('nbf'));
         self::assertEquals($expectedNow->modify('+1 hour'), $token->claims()->get('exp'));
 
         $token2 = $config->parser()->parse($token->toString());
 
+        self::assertSame(['test'], $token2->claims()->get('aud'));
         self::assertEquals($expectedNow, $token2->claims()->get('iat'));
         self::assertEquals($expectedNow->modify('+5 seconds'), $token2->claims()->get('nbf'));
         self::assertEquals($expectedNow->modify('+1 hour'), $token2->claims()->get('exp'));
