@@ -17,6 +17,7 @@ use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Token\UnsupportedHeaderFound;
 use RuntimeException;
 use function array_key_exists;
+use function is_array;
 
 /**
  * This class parses the JWT strings and convert them into tokens
@@ -119,7 +120,7 @@ class Parser
             throw UnsupportedHeaderFound::encryption();
         }
 
-        return $this->convertToDateObjects($header);
+        return $this->convertItems($header);
     }
 
     /**
@@ -133,7 +134,7 @@ class Parser
     {
         $claims = (array) $this->decoder->jsonDecode($this->decoder->base64UrlDecode($data));
 
-        return $this->convertToDateObjects($claims);
+        return $this->convertItems($claims);
     }
 
     /**
@@ -141,7 +142,7 @@ class Parser
      *
      * @return array<string, mixed>
      */
-    private function convertToDateObjects(array $items)
+    private function convertItems(array $items)
     {
         foreach (RegisteredClaims::DATE_CLAIMS as $name) {
             if (! array_key_exists($name, $items)) {
@@ -149,6 +150,10 @@ class Parser
             }
 
             $items[$name] = new DateTimeImmutable('@' . ((int) $items[$name]));
+        }
+
+        if (array_key_exists(RegisteredClaims::AUDIENCE, $items) && ! is_array($items[RegisteredClaims::AUDIENCE])) {
+            $items[RegisteredClaims::AUDIENCE] = [$items[RegisteredClaims::AUDIENCE]];
         }
 
         return $items;

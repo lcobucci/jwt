@@ -16,8 +16,10 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use OutOfBoundsException;
+use function current;
 use function func_num_args;
 use function in_array;
+use function is_array;
 use function sprintf;
 
 /**
@@ -237,7 +239,11 @@ class Token
         }
 
         if ($value instanceof DateTimeImmutable && in_array($name, RegisteredClaims::DATE_CLAIMS, true)) {
-            $value = $value->getTimestamp();
+            return $value->getTimestamp();
+        }
+
+        if ($name === RegisteredClaims::AUDIENCE && is_array($value)) {
+            return current($value);
         }
 
         return $value;

@@ -62,7 +62,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::setRegisteredClaim
      * @covers ::configureClaim
      * @covers ::createSignature
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -85,7 +85,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::setRegisteredClaim
      * @covers ::configureClaim
      * @covers ::createSignature
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -124,7 +124,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::configureClaim
      * @covers ::createSignature
      * @covers ::convertToDate
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -149,7 +149,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::createSignature
      * @covers ::convertToDate
      * @covers ::convertToDate
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -188,7 +188,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::setRegisteredClaim
      * @covers ::configureClaim
      * @covers ::createSignature
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -211,7 +211,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::setRegisteredClaim
      * @covers ::configureClaim
      * @covers ::createSignature
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -250,7 +250,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::configureClaim
      * @covers ::createSignature
      * @covers ::convertToDate
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -274,7 +274,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::configureClaim
      * @covers ::createSignature
      * @covers ::convertToDate
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -313,7 +313,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::setRegisteredClaim
      * @covers ::configureClaim
      * @covers ::createSignature
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -336,7 +336,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::setRegisteredClaim
      * @covers ::configureClaim
      * @covers ::createSignature
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -375,7 +375,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::configureClaim
      * @covers ::createSignature
      * @covers ::convertToDate
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -399,7 +399,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::configureClaim
      * @covers ::createSignature
      * @covers ::convertToDate
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -438,7 +438,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::setRegisteredClaim
      * @covers ::configureClaim
      * @covers ::createSignature
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -461,7 +461,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::setRegisteredClaim
      * @covers ::configureClaim
      * @covers ::createSignature
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -498,7 +498,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::withClaim
      * @covers ::configureClaim
      * @covers ::createSignature
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -547,7 +547,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::__construct
      * @covers ::withHeader
      * @covers ::createSignature
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -581,7 +581,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      * @covers ::__construct
      * @covers ::sign
      * @covers ::createSignature
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -644,7 +644,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      *
      * @covers ::getToken
      * @covers ::createSignature
-     * @covers ::convertDatesToInt
+     * @covers ::convertItems
      *
      * @uses \Lcobucci\JWT\Builder::__construct
      * @uses \Lcobucci\JWT\Builder::configureClaim
