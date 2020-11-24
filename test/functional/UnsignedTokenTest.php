@@ -80,7 +80,7 @@ class UnsignedTokenTest extends TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
-        $read = $this->config->parser()->parse($generated);
+        $read = $this->config->parser()->parse((string) $generated);
         assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);
