@@ -140,6 +140,7 @@ RSA;
             [Key\InMemory::base64Encoded(base64_encode($rsaKey))],
             [Key\InMemory::file(__DIR__ . '/rsa/private.key')],
             [Key\LocalFileReference::file(__DIR__ . '/rsa/private.key')],
+            [Key\LocalFileReference::file('file://' . __DIR__ . '/rsa/private.key')],
         ];
     }
 }
