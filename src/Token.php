@@ -237,7 +237,7 @@ class Token
         }
 
         if ($value instanceof DateTimeImmutable && in_array($name, RegisteredClaims::DATE_CLAIMS, true)) {
-            $value = $value->getTimestamp();
+            return $value->getTimestamp();
         }
 
         return $value;
