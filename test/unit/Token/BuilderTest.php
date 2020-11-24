@@ -116,6 +116,6 @@ final class BuilderTest extends TestCase
         self::assertSame('https://issuer.com', $token->claims()->get(RegisteredClaims::ISSUER));
         self::assertSame('subject', $token->claims()->get(RegisteredClaims::SUBJECT));
         self::assertSame(['test1', 'test2'], $token->claims()->get(RegisteredClaims::AUDIENCE));
-        self::assertSame('3', $token->signature()->toString());
+        self::assertSame('3', (string) $token->signature());
     }
 }

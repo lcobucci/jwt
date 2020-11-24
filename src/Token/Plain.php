@@ -41,7 +41,7 @@ final class Plain implements TokenInterface
 
     public function payload(): string
     {
-        return $this->headers->toString() . '.' . $this->claims->toString();
+        return $this->headers . '.' . $this->claims;
     }
 
     public function isPermittedFor(string $audience): bool
@@ -83,10 +83,10 @@ final class Plain implements TokenInterface
         return $now > $this->claims->get(RegisteredClaims::EXPIRATION_TIME);
     }
 
-    public function toString(): string
+    public function __toString(): string
     {
-        return $this->headers->toString() . '.'
-             . $this->claims->toString() . '.'
-             . $this->signature->toString();
+        return $this->headers . '.'
+             . $this->claims . '.'
+             . $this->signature;
     }
 }

@@ -13,7 +13,7 @@ final class SignatureTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::fromEmptyData
-     * @covers ::toString
+     * @covers ::__toString
      * @covers ::hash
      */
     public function fromEmptyDataShouldReturnAnEmptySignature(): void
@@ -21,7 +21,7 @@ final class SignatureTest extends TestCase
         $signature = Signature::fromEmptyData();
 
         self::assertSame('', $signature->hash());
-        self::assertSame('', $signature->toString());
+        self::assertSame('', (string) $signature);
     }
 
     /**
@@ -29,13 +29,13 @@ final class SignatureTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::hash
-     * @covers ::toString
+     * @covers ::__toString
      */
     public function hashShouldReturnTheHash(): void
     {
         $signature = new Signature('test', 'encoded');
 
         self::assertSame('test', $signature->hash());
-        self::assertSame('encoded', $signature->toString());
+        self::assertSame('encoded', (string) $signature);
     }
 }

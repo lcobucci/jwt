@@ -117,7 +117,7 @@ class ES512TokenTest extends TestCase
      */
     public function parserCanReadAToken(Token $generated): void
     {
-        $read = $this->config->parser()->parse($generated->toString());
+        $read = $this->config->parser()->parse($generated);
         assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);

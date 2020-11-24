@@ -97,12 +97,12 @@ final class DataSetTest extends TestCase
      * @test
      *
      * @covers ::__construct
-     * @covers ::toString
+     * @covers ::__toString
      */
     public function toStringShouldReturnTheEncodedData(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
 
-        self::assertSame('one=1', $set->toString());
+        self::assertSame('one=1', (string) $set);
     }
 }
