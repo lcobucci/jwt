@@ -95,7 +95,7 @@ class Builder
      */
     public function canOnlyBeUsedBy($audience, $replicateAsHeader = false)
     {
-        return $this->setRegisteredClaim('aud', (string) $audience, $replicateAsHeader);
+        return $this->permittedFor($audience, $replicateAsHeader);
     }
 
     /**
