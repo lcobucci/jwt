@@ -117,6 +117,8 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function verifyShouldReturnFalseWhenKeyIsNotRight(Token $token)
     {
+        $this->expectDeprecation('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.');
+
         $this->assertFalse($token->verify($this->signer, 'testing1'));
     }
 
@@ -162,6 +164,8 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function verifyShouldReturnTrueWhenKeyIsRight(Token $token)
     {
+        $this->expectDeprecation('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.');
+
         $this->assertTrue($token->verify($this->signer, 'testing'));
     }
 
@@ -183,6 +187,8 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs()
     {
+        $this->expectDeprecation('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.');
+
         $data = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.Rh'
                 . '7AEgqCB7zae1PkgIlvOpeyw9Ab8NGTbeOH7heHO0o';
 

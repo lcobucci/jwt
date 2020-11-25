@@ -9,6 +9,8 @@ namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Signature;
 use Lcobucci\JWT\Signer;
+use function trigger_error;
+use const E_USER_DEPRECATED;
 
 /**
  * Base class for signers
@@ -52,6 +54,8 @@ abstract class BaseSigner implements Signer
     private function getKey($key)
     {
         if (is_string($key)) {
+            trigger_error('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.', E_USER_DEPRECATED);
+
             $key = new Key($key);
         }
 
