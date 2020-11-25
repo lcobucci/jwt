@@ -16,7 +16,6 @@ use Lcobucci\JWT\Token\RegisteredClaimGiven;
 use Lcobucci\JWT\Token\RegisteredClaims;
 
 use function array_key_exists;
-use function assert;
 use function current;
 use function implode;
 use function in_array;

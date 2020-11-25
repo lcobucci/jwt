@@ -11,7 +11,6 @@
  */
 namespace Lcobucci\JWT\Signer\Ecdsa;
 
-use InvalidArgumentException;
 use function bin2hex;
 use function dechex;
 use function hex2bin;

@@ -9,7 +9,6 @@ namespace Lcobucci\JWT;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
-use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
 use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
