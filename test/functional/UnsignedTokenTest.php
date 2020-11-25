@@ -8,6 +8,7 @@
 namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\CheckForDeprecations;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signature;
 use Lcobucci\JWT\Token;
@@ -22,6 +23,8 @@ use Lcobucci\JWT\ValidationData;
  */
 class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
 {
+    use CheckForDeprecations;
+
     const CURRENT_TIME = 100000;
 
     /**
@@ -35,6 +38,9 @@ class UnsignedTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function builderCanGenerateAToken()
     {
+        $this->expectDeprecation('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.');
+        $this->expectDeprecation('Not specifying the signer and key to Builder#getToken() is deprecated. Please move the arguments from Builder#sign() to Builder#getToken().');
+
         $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
 
         $token = (new Builder())->setId(1)

@@ -2,9 +2,6 @@
 namespace Lcobucci\JWT\Signer;
 
 use InvalidArgumentException;
-use Lcobucci\JWT\Signer;
-use function assert;
-use function is_array;
 use function is_resource;
 use function openssl_error_string;
 use function openssl_free_key;

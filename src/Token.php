@@ -21,6 +21,8 @@ use function func_num_args;
 use function in_array;
 use function is_array;
 use function sprintf;
+use function trigger_error;
+use const E_USER_DEPRECATED;
 
 /**
  * Basic structure of the JWT
@@ -303,6 +305,10 @@ class Token
             return false;
         }
 
+        if ($now === null) {
+            trigger_error('Not providing the current time is deprecated. Please pass an instance of DateTimeInterface.', E_USER_DEPRECATED);
+        }
+
         $now = $now ?: new DateTimeImmutable();
 
         return $now > $this->claims->get(RegisteredClaims::EXPIRATION_TIME);
@@ -385,12 +391,24 @@ class Token
     /**
      * Returns the token payload
      *
+     * @deprecated This method has been removed from the interface in v4.0
+     * @see Token::payload()
+     *
      * @return string
      */
     public function getPayload()
     {
-        return $this->headers->toString() . '.'
-             . $this->claims->toString();
+        return $this->payload();
+    }
+
+    /**
+     * Returns the token payload
+     *
+     * @return string
+     */
+    public function payload()
+    {
+        return $this->headers->toString() . '.' . $this->claims->toString();
     }
 
     /** @return Signature */

@@ -27,6 +27,8 @@ use Lcobucci\JWT\Token\RegisteredClaims;
  */
 class TokenTest extends \PHPUnit\Framework\TestCase
 {
+    use CheckForDeprecations;
+
     /**
      * @test
      *
@@ -36,6 +38,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::getClaims
      * @covers ::signature
      * @covers ::getPayload
+     * @covers ::payload
      */
     public function constructMustInitializeAnEmptyPlainTextTokenWhenNoArgumentsArePassed()
     {
@@ -310,6 +313,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      *
      * @covers ::verify
      * @covers ::getPayload
+     * @covers ::payload
      */
     public function verifyMustDelegateTheValidationToSignature()
     {
@@ -920,6 +924,8 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function isExpiredShouldReturnFalseWhenTokenIsNotExpired()
     {
+        $this->expectDeprecation('Not providing the current time is deprecated. Please pass an instance of DateTimeInterface.');
+
         $token = new Token(
             ['alg' => 'none'],
             ['exp' => new DateTimeImmutable('+500 seconds')]
@@ -957,6 +963,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses \Lcobucci\JWT\Token::convertToDataSet
      *
      * @covers ::getPayload
+     * @covers ::payload
      */
     public function getPayloadShouldReturnAStringWithTheTwoEncodePartsThatGeneratedTheToken()
     {

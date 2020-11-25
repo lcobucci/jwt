@@ -1,0 +1,17 @@
+site_name: lcobucci/jwt
+theme: readthedocs
+
+nav:
+  - Intro:
+    - 'index.md'
+    - 'installation.md'
+  - Usage:
+    - 'configuration.md'
+    - 'issuing-tokens.md'
+    - 'parsing-tokens.md'
+    - 'validating-tokens.md'
+  - Guides:
+    - 'upgrading.md'
+
+markdown_extensions:
+  - admonition

@@ -16,11 +16,11 @@ use Lcobucci\JWT\Token\RegisteredClaimGiven;
 use Lcobucci\JWT\Token\RegisteredClaims;
 
 use function array_key_exists;
-use function assert;
 use function current;
-use function implode;
 use function in_array;
 use function is_array;
+use function trigger_error;
+use const E_USER_DEPRECATED;
 
 /**
  * This class makes easier the token creation process
@@ -95,7 +95,7 @@ class Builder
      */
     public function canOnlyBeUsedBy($audience, $replicateAsHeader = false)
     {
-        return $this->setRegisteredClaim('aud', (string) $audience, $replicateAsHeader);
+        return $this->permittedFor($audience, $replicateAsHeader);
     }
 
     /**
@@ -148,6 +148,8 @@ class Builder
     private function convertToDate($value)
     {
         if (! $value instanceof DateTimeImmutable) {
+            trigger_error('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.', E_USER_DEPRECATED);
+
             return new DateTimeImmutable('@' . $value);
         }
 
@@ -329,6 +331,8 @@ class Builder
         $this->configureClaim($name, $value);
 
         if ($replicate) {
+            trigger_error('Replicating claims as headers is deprecated and will removed from v4.0. Please manually set the header if you need it replicated.', E_USER_DEPRECATED);
+
             $this->headers[$name] = $value;
         }
 
@@ -379,7 +383,7 @@ class Builder
      */
     public function with($name, $value)
     {
-        return $this->configureClaim($name, $value);
+        return $this->withClaim($name, $value);
     }
 
     /**
@@ -444,6 +448,8 @@ class Builder
     public function sign(Signer $signer, $key)
     {
         if (! $key instanceof Key) {
+            trigger_error('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.', E_USER_DEPRECATED);
+
             $key = new Key($key);
         }
 
@@ -476,6 +482,10 @@ class Builder
      */
     public function getToken(Signer $signer = null, Key $key = null)
     {
+        if ($signer === null || $key === null) {
+            trigger_error('Not specifying the signer and key to Builder#getToken() is deprecated. Please move the arguments from Builder#sign() to Builder#getToken().', E_USER_DEPRECATED);
+        }
+
         $signer = $signer ?: $this->signer;
         $key = $key ?: $this->key;
 
@@ -483,19 +493,21 @@ class Builder
             $signer->modifyHeader($this->headers);
         }
 
-        $payload = [
-            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertItems($this->headers))),
-            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertItems($this->claims)))
-        ];
+        $headers = new DataSet(
+            $this->headers,
+            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertItems($this->headers)))
+        );
 
-        $signature = $this->createSignature($payload, $signer, $key);
-        $payload[] = $signature->toString();
+        $claims = new DataSet(
+            $this->claims,
+            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertItems($this->claims)))
+        );
 
         return new Token(
-            new DataSet($this->headers, $payload[0]),
-            new DataSet($this->claims, $payload[1]),
-            $signature,
-            $payload,
+            $headers,
+            $claims,
+            $this->createSignature($headers->toString() . '.' . $claims->toString(), $signer, $key),
+            ['', ''],
             $this->claimFactory
         );
     }
@@ -523,17 +535,17 @@ class Builder
     }
 
     /**
-     * @param string[] $payload
+     * @param string $payload
      *
      * @return Signature
      */
-    private function createSignature(array $payload, Signer $signer = null, Key $key = null)
+    private function createSignature($payload, Signer $signer = null, Key $key = null)
     {
         if ($signer === null || $key === null) {
             return Signature::fromEmptyData();
         }
 
-        $hash = $signer->sign(implode('.', $payload), $key)->hash();
+        $hash = $signer->sign($payload, $key)->hash();
 
         return new Signature($hash, $this->encoder->base64UrlEncode($hash));
     }

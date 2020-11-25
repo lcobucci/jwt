@@ -9,7 +9,6 @@ namespace Lcobucci\JWT;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
-use Lcobucci\JWT\Claim\Factory as ClaimFactory;
 use Lcobucci\JWT\Parsing\Decoder;
 use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
@@ -67,15 +66,11 @@ class Parser
             }
         }
 
-        if ($signature === null) {
-            unset($data[2]);
-        }
-
         return new Token(
             new DataSet($header, $data[0]),
             new DataSet($claims, $data[1]),
             $signature,
-            $data
+            ['', '']
         );
     }
 

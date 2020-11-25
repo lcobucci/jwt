@@ -7,6 +7,7 @@
 
 namespace Lcobucci\JWT\Signer;
 
+use Lcobucci\JWT\CheckForDeprecations;
 use Lcobucci\JWT\Signature;
 
 /**
@@ -15,6 +16,8 @@ use Lcobucci\JWT\Signature;
  */
 class BaseSignerTest extends \PHPUnit\Framework\TestCase
 {
+    use CheckForDeprecations;
+
     /**
      * @var BaseSigner|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -78,6 +81,8 @@ class BaseSignerTest extends \PHPUnit\Framework\TestCase
      */
     public function signShouldConvertKeyWhenItsNotAnObject()
     {
+        $this->expectDeprecation('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.');
+
         $this->signer->expects($this->once())
                      ->method('createHash')
                      ->with('test', new Key('123'))
@@ -118,6 +123,8 @@ class BaseSignerTest extends \PHPUnit\Framework\TestCase
      */
     public function verifyShouldConvertKeyWhenItsNotAnObject()
     {
+        $this->expectDeprecation('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.');
+
         $this->signer->expects($this->once())
                      ->method('doVerify')
                      ->with('test', 'test', new Key('123'))

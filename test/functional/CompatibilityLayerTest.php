@@ -3,6 +3,7 @@
 namespace Lcobucci\JWT\FunctionalTests;
 
 use DateTimeImmutable;
+use Lcobucci\JWT\CheckForDeprecations;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HmacSha256;
@@ -43,6 +44,7 @@ use function time;
 final class CompatibilityLayerTest extends TestCase
 {
     use Keys;
+    use CheckForDeprecations;
 
     /** @test */
     public function tokenCanBeInstantiatedInTheNewNamespace()
@@ -59,6 +61,10 @@ final class CompatibilityLayerTest extends TestCase
     /** @test */
     public function registeredDateClaimsShouldBeConvertedToDateObjects()
     {
+        $this->expectDeprecation('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.'); // iat
+        $this->expectDeprecation('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.'); // nbf
+        $this->expectDeprecation('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.'); // exp
+
         $now = time();
 
         $config = Configuration::forSymmetricSigner(new HmacSha256(), Key\InMemory::plainText('testing'));
