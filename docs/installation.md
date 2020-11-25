@@ -5,7 +5,7 @@ This package is available on [Packagist] and you can install it using [Composer]
 By running the following command you'll add `lcobucci/jwt` as a dependency to your project:
 
 ```sh
-composer require lcobucci/jwt:^4.0@alpha
+composer require lcobucci/jwt
 ```
 
 ## Autoloading

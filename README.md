@@ -1,6 +1,3 @@
-> ⚠️ The documentation of the **stable** version is on branch
-[3.3](https://github.com/lcobucci/jwt/blob/3.3/README.md). ⚠️
-
 # JWT
 [![Gitter]](https://gitter.im/lcobucci/jwt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Total Downloads]](https://packagist.org/packages/lcobucci/jwt)
@@ -21,17 +18,9 @@ you can install it using [Composer](https://getcomposer.org).
 composer require lcobucci/jwt
 ```
 
-### Dependencies
+## Documentation
 
-- PHP 5.6+ (v3.3) and PHP 7.4 (v4.x)
-- OpenSSL Extension
-
-## Basic usage
-
-The documentation of the **unstable** version is available at <https://lcobucci-jwt.readthedocs.io/en/latest/>.
-
-The documentation of the **stable** version is on branch
-[3.3](https://github.com/lcobucci/jwt/blob/3.3/README.md).
+The documentation is available at <https://lcobucci-jwt.readthedocs.io/en/latest/>.
 
 ## Supported by Auth0 ![auth0](http://passportjs.org/images/supported_logo.svg)
 
