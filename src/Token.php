@@ -32,9 +32,6 @@ use const E_USER_DEPRECATED;
  */
 class Token
 {
-    /** @internal */
-    const FAKE_DEFAULT_VALUE = '~~~WEIRD~DEFAULT~VALUE~~~';
-
     /**
      * The token headers
      *
@@ -160,17 +157,11 @@ class Token
      */
     public function getHeader($name, $default = null)
     {
-        if (func_num_args() === 1) {
-            $default = self::FAKE_DEFAULT_VALUE;
-        }
-
-        $value = $this->headers->get($name, $default);
-
-        if ($value === self::FAKE_DEFAULT_VALUE) {
+        if (func_num_args() === 1 && ! $this->headers->has($name)) {
             throw new OutOfBoundsException(sprintf('Requested header "%s" is not configured', $name));
         }
 
-        return $value;
+        return $this->headers->get($name, $default);
     }
 
     /** @return DataSet */
@@ -230,15 +221,11 @@ class Token
      */
     public function getClaim($name, $default = null)
     {
-        if (func_num_args() === 1) {
-            $default = self::FAKE_DEFAULT_VALUE;
+        if (func_num_args() === 1 && ! $this->claims->has($name)) {
+            throw new OutOfBoundsException(sprintf('Requested header "%s" is not configured', $name));
         }
 
         $value = $this->claims->get($name, $default);
-
-        if ($value === self::FAKE_DEFAULT_VALUE) {
-            throw new OutOfBoundsException(sprintf('Requested header "%s" is not configured', $name));
-        }
 
         if ($value instanceof DateTimeImmutable && in_array($name, RegisteredClaims::DATE_CLAIMS, true)) {
             return $value->getTimestamp();
