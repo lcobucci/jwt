@@ -33,6 +33,7 @@
             "Lcobucci\\JWT\\": "src"
         },
         "files": [
+            "compat/class-aliases.php",
             "compat/json-exception-polyfill.php",
             "compat/lcobucci-clock-polyfill.php"
         ]
