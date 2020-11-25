@@ -91,44 +91,4 @@ class HmacTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertFalse($this->signer->doVerify(false, 'test', new Key('1234')));
     }
-
-    /**
-     * @test
-     *
-     * @covers Lcobucci\JWT\Signer\Hmac::hashEquals
-     */
-    public function hashEqualsShouldReturnFalseWhenExpectedHashHasDifferentLengthThanGenerated()
-    {
-        $this->assertFalse($this->signer->hashEquals('123', '1234'));
-    }
-
-    /**
-     * @test
-     *
-     * @depends createHashMustReturnAHashAccordingWithTheAlgorithm
-     *
-     * @uses Lcobucci\JWT\Signer\Hmac::createHash
-     * @uses Lcobucci\JWT\Signer\Key
-     *
-     * @covers Lcobucci\JWT\Signer\Hmac::hashEquals
-     */
-    public function hashEqualsShouldReturnFalseWhenExpectedHashIsDifferentThanGenerated($expected)
-    {
-        $this->assertFalse($this->signer->hashEquals($expected, $this->signer->createHash('test', new Key('1234'))));
-    }
-
-    /**
-     * @test
-     *
-     * @depends createHashMustReturnAHashAccordingWithTheAlgorithm
-     *
-     * @uses Lcobucci\JWT\Signer\Hmac::createHash
-     * @uses Lcobucci\JWT\Signer\Key
-     *
-     * @covers Lcobucci\JWT\Signer\Hmac::hashEquals
-     */
-    public function hashEqualsShouldReturnTrueWhenExpectedHashIsEqualsThanGenerated($expected)
-    {
-        $this->assertTrue($this->signer->hashEquals($expected, $this->signer->createHash('test', new Key('123'))));
-    }
 }
