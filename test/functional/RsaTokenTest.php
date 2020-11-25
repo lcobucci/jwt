@@ -8,6 +8,7 @@
 namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\CheckForDeprecations;
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Key;
@@ -25,6 +26,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha512;
  */
 class RsaTokenTest extends \PHPUnit\Framework\TestCase
 {
+    use CheckForDeprecations;
     use Keys;
 
     /**
@@ -113,6 +115,8 @@ class RsaTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function builderCanGenerateAToken()
     {
+        $this->expectDeprecation('Not specifying the signer and key to Builder#getToken() is deprecated. Please move the arguments from Builder#sign() to Builder#getToken().');
+
         $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
 
         $token = (new Builder())->setId(1)

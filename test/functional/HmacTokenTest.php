@@ -8,6 +8,7 @@
 namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\CheckForDeprecations;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Signature;
@@ -22,6 +23,8 @@ use Lcobucci\JWT\Signer\Hmac\Sha512;
  */
 class HmacTokenTest extends \PHPUnit\Framework\TestCase
 {
+    use CheckForDeprecations;
+
     /**
      * @var Sha256
      */
@@ -51,6 +54,9 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function builderCanGenerateAToken()
     {
+        $this->expectDeprecation('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.');
+        $this->expectDeprecation('Not specifying the signer and key to Builder#getToken() is deprecated. Please move the arguments from Builder#sign() to Builder#getToken().');
+
         $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
 
         $token = (new Builder())->setId(1)

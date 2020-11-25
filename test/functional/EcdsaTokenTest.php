@@ -8,6 +8,7 @@
 namespace Lcobucci\JWT\FunctionalTests;
 
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\CheckForDeprecations;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
@@ -26,6 +27,7 @@ use Lcobucci\JWT\Keys;
  */
 class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
 {
+    use CheckForDeprecations;
     use Keys;
 
     /**
@@ -117,6 +119,8 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function builderCanGenerateAToken()
     {
+        $this->expectDeprecation('Not specifying the signer and key to Builder#getToken() is deprecated. Please move the arguments from Builder#sign() to Builder#getToken().');
+
         $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
 
         $token = (new Builder())->setId(1)
@@ -276,6 +280,8 @@ class EcdsaTokenTest extends \PHPUnit\Framework\TestCase
      */
     public function everythingShouldWorkWithAKeyWithParams()
     {
+        $this->expectDeprecation('Not specifying the signer and key to Builder#getToken() is deprecated. Please move the arguments from Builder#sign() to Builder#getToken().');
+
         $user = (object) ['name' => 'testing', 'email' => 'testing@abc.com'];
 
         $token = (new Builder())->setId(1)

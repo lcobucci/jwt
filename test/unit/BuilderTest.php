@@ -7,6 +7,7 @@
 
 namespace Lcobucci\JWT;
 
+use DateTimeImmutable;
 use Lcobucci\JWT\Claim\Basic;
 use Lcobucci\JWT\Claim\EqualsTo;
 use Lcobucci\JWT\Claim\Factory as ClaimFactory;
@@ -38,6 +39,8 @@ use PHPUnit\Framework\TestCase;
  */
 class BuilderTest extends TestCase
 {
+    use CheckForDeprecations;
+
     /**
      * @var Encoder|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -96,6 +99,8 @@ class BuilderTest extends TestCase
      */
     public function permittedForCanReplicateItemOnHeader()
     {
+        $this->expectDeprecation('Replicating claims as headers is deprecated and will removed from v4.0. Please manually set the header if you need it replicated.');
+
         $builder = $this->createBuilder();
         $builder->permittedFor('test', true);
 
@@ -135,6 +140,8 @@ class BuilderTest extends TestCase
      */
     public function expiresAtMustChangeTheExpClaim()
     {
+        $this->expectDeprecation('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.');
+
         $builder = $this->createBuilder();
         $builder->expiresAt('2');
 
@@ -160,8 +167,10 @@ class BuilderTest extends TestCase
      */
     public function expiresAtCanReplicateItemOnHeader()
     {
+        $this->expectDeprecation('Replicating claims as headers is deprecated and will removed from v4.0. Please manually set the header if you need it replicated.');
+
         $builder = $this->createBuilder();
-        $builder->expiresAt('2', true);
+        $builder->expiresAt(new DateTimeImmutable('@2'), true);
 
         $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
@@ -180,6 +189,8 @@ class BuilderTest extends TestCase
      */
     public function expiresAtMustKeepAFluentInterface()
     {
+        $this->expectDeprecation('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.');
+
         $builder = $this->createBuilder();
 
         self::assertSame($builder, $builder->expiresAt('2'));
@@ -222,6 +233,8 @@ class BuilderTest extends TestCase
      */
     public function identifiedByCanReplicateItemOnHeader()
     {
+        $this->expectDeprecation('Replicating claims as headers is deprecated and will removed from v4.0. Please manually set the header if you need it replicated.');
+
         $builder = $this->createBuilder();
         $builder->identifiedBy('2', true);
 
@@ -261,6 +274,8 @@ class BuilderTest extends TestCase
      */
     public function issuedAtMustChangeTheIatClaim()
     {
+        $this->expectDeprecation('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.');
+
         $builder = $this->createBuilder();
         $builder->issuedAt('2');
 
@@ -285,8 +300,10 @@ class BuilderTest extends TestCase
      */
     public function issuedAtCanReplicateItemOnHeader()
     {
+        $this->expectDeprecation('Replicating claims as headers is deprecated and will removed from v4.0. Please manually set the header if you need it replicated.');
+
         $builder = $this->createBuilder();
-        $builder->issuedAt('2', true);
+        $builder->issuedAt(new DateTimeImmutable('@2'), true);
 
         $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
@@ -305,6 +322,8 @@ class BuilderTest extends TestCase
      */
     public function issuedAtMustKeepAFluentInterface()
     {
+        $this->expectDeprecation('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.');
+
         $builder = $this->createBuilder();
 
         self::assertSame($builder, $builder->issuedAt('2'));
@@ -347,6 +366,8 @@ class BuilderTest extends TestCase
      */
     public function issuedByCanReplicateItemOnHeader()
     {
+        $this->expectDeprecation('Replicating claims as headers is deprecated and will removed from v4.0. Please manually set the header if you need it replicated.');
+
         $builder = $this->createBuilder();
         $builder->issuedBy('2', true);
 
@@ -386,6 +407,8 @@ class BuilderTest extends TestCase
      */
     public function canOnlyBeUsedAfterMustChangeTheNbfClaim()
     {
+        $this->expectDeprecation('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.');
+
         $builder = $this->createBuilder();
         $builder->canOnlyBeUsedAfter('2');
 
@@ -410,8 +433,10 @@ class BuilderTest extends TestCase
      */
     public function canOnlyBeUsedAfterCanReplicateItemOnHeader()
     {
+        $this->expectDeprecation('Replicating claims as headers is deprecated and will removed from v4.0. Please manually set the header if you need it replicated.');
+
         $builder = $this->createBuilder();
-        $builder->canOnlyBeUsedAfter('2', true);
+        $builder->canOnlyBeUsedAfter(new DateTimeImmutable('@2'), true);
 
         $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
@@ -430,6 +455,8 @@ class BuilderTest extends TestCase
      */
     public function canOnlyBeUsedAfterMustKeepAFluentInterface()
     {
+        $this->expectDeprecation('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.');
+
         $builder = $this->createBuilder();
 
         self::assertSame($builder, $builder->canOnlyBeUsedAfter('2'));
@@ -472,6 +499,8 @@ class BuilderTest extends TestCase
      */
     public function relatedToCanReplicateItemOnHeader()
     {
+        $this->expectDeprecation('Replicating claims as headers is deprecated and will removed from v4.0. Please manually set the header if you need it replicated.');
+
         $builder = $this->createBuilder();
         $builder->relatedTo('2', true);
 
@@ -512,7 +541,7 @@ class BuilderTest extends TestCase
         $builder = $this->createBuilder();
         $builder->withClaim('userId', 2);
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
         self::assertEquals(['userId' => new Basic('userId', 2)], $token->getClaims());
@@ -561,7 +590,7 @@ class BuilderTest extends TestCase
         $builder = $this->createBuilder();
         $builder->withHeader('userId', 2);
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'userId' => 2], $token->getHeaders());
         self::assertEquals([], $token->getClaims());
@@ -592,6 +621,8 @@ class BuilderTest extends TestCase
      */
     public function signMustConfigureSignerAndKey()
     {
+        $this->expectDeprecation('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.');
+
         $signer = $this->createMock(Signer::class);
 
         $builder = $this->createBuilder();
@@ -609,6 +640,8 @@ class BuilderTest extends TestCase
      */
     public function signMustKeepAFluentInterface()
     {
+        $this->expectDeprecation('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.');
+
         $signer = $this->createMock(Signer::class);
         $builder = $this->createBuilder();
 
