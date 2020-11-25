@@ -21,6 +21,8 @@ use function func_num_args;
 use function in_array;
 use function is_array;
 use function sprintf;
+use function trigger_error;
+use const E_USER_DEPRECATED;
 
 /**
  * Basic structure of the JWT
@@ -301,6 +303,10 @@ class Token
     {
         if (! $this->claims->has('exp')) {
             return false;
+        }
+
+        if ($now === null) {
+            trigger_error('Not providing the current time is deprecated. Please pass an instance of DateTimeInterface.', E_USER_DEPRECATED);
         }
 
         $now = $now ?: new DateTimeImmutable();

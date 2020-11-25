@@ -27,6 +27,8 @@ use Lcobucci\JWT\Token\RegisteredClaims;
  */
 class TokenTest extends \PHPUnit\Framework\TestCase
 {
+    use CheckForDeprecations;
+
     /**
      * @test
      *
@@ -920,6 +922,8 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function isExpiredShouldReturnFalseWhenTokenIsNotExpired()
     {
+        $this->expectDeprecation('Not providing the current time is deprecated. Please pass an instance of DateTimeInterface.');
+
         $token = new Token(
             ['alg' => 'none'],
             ['exp' => new DateTimeImmutable('+500 seconds')]
