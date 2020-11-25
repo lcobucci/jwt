@@ -17,7 +17,6 @@ use Lcobucci\JWT\Token\RegisteredClaims;
 
 use function array_key_exists;
 use function current;
-use function implode;
 use function in_array;
 use function is_array;
 use function trigger_error;
@@ -494,19 +493,21 @@ class Builder
             $signer->modifyHeader($this->headers);
         }
 
-        $payload = [
-            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertItems($this->headers))),
-            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertItems($this->claims)))
-        ];
+        $headers = new DataSet(
+            $this->headers,
+            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertItems($this->headers)))
+        );
 
-        $signature = $this->createSignature($payload, $signer, $key);
-        $payload[] = $signature->toString();
+        $claims = new DataSet(
+            $this->claims,
+            $this->encoder->base64UrlEncode($this->encoder->jsonEncode($this->convertItems($this->claims)))
+        );
 
         return new Token(
-            new DataSet($this->headers, $payload[0]),
-            new DataSet($this->claims, $payload[1]),
-            $signature,
-            $payload,
+            $headers,
+            $claims,
+            $this->createSignature($headers->toString() . '.' . $claims->toString(), $signer, $key),
+            ['', ''],
             $this->claimFactory
         );
     }
@@ -534,17 +535,17 @@ class Builder
     }
 
     /**
-     * @param string[] $payload
+     * @param string $payload
      *
      * @return Signature
      */
-    private function createSignature(array $payload, Signer $signer = null, Key $key = null)
+    private function createSignature($payload, Signer $signer = null, Key $key = null)
     {
         if ($signer === null || $key === null) {
             return Signature::fromEmptyData();
         }
 
-        $hash = $signer->sign(implode('.', $payload), $key)->hash();
+        $hash = $signer->sign($payload, $key)->hash();
 
         return new Signature($hash, $this->encoder->base64UrlEncode($hash));
     }
