@@ -14,7 +14,9 @@ use Lcobucci\JWT\Claim\GreaterOrEqualsTo;
 use Lcobucci\JWT\Claim\LesserOrEqualsTo;
 use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token\RegisteredClaimGiven;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -29,9 +31,12 @@ use Lcobucci\JWT\Token\RegisteredClaimGiven;
  * @uses \Lcobucci\JWT\Claim\EqualsTo
  * @uses \Lcobucci\JWT\Claim\Basic
  * @uses \Lcobucci\JWT\Token
+ * @uses \Lcobucci\JWT\Signer\BaseSigner
  * @uses \Lcobucci\JWT\Signer\Key
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ * @uses \Lcobucci\JWT\Signer\None
  */
-class BuilderTest extends \PHPUnit\Framework\TestCase
+class BuilderTest extends TestCase
 {
     /**
      * @var Encoder|\PHPUnit_Framework_MockObject_MockObject
@@ -71,7 +76,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->permittedFor('test');
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
         self::assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
@@ -94,7 +99,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->permittedFor('test', true);
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'aud' => new EqualsTo('aud', 'test')], $token->getHeaders());
         self::assertEquals(['aud' => new EqualsTo('aud', 'test')], $token->getClaims());
@@ -133,7 +138,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->expiresAt('2');
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
         self::assertEquals(['exp' => new GreaterOrEqualsTo('exp', 2)], $token->getClaims());
@@ -158,7 +163,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->expiresAt('2', true);
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'exp' => new GreaterOrEqualsTo('exp', 2)], $token->getHeaders());
         self::assertEquals(['exp' => new GreaterOrEqualsTo('exp', 2)], $token->getClaims());
@@ -197,7 +202,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->identifiedBy('2');
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
         self::assertEquals(['jti' => new EqualsTo('jti', 2)], $token->getClaims());
@@ -220,7 +225,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->identifiedBy('2', true);
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'jti' => new EqualsTo('jti', 2)], $token->getHeaders());
         self::assertEquals(['jti' => new EqualsTo('jti', 2)], $token->getClaims());
@@ -259,7 +264,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->issuedAt('2');
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
         self::assertEquals(['iat' => new LesserOrEqualsTo('iat', 2)], $token->getClaims());
@@ -283,7 +288,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->issuedAt('2', true);
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'iat' => new LesserOrEqualsTo('iat', 2)], $token->getHeaders());
         self::assertEquals(['iat' => new LesserOrEqualsTo('iat', 2)], $token->getClaims());
@@ -322,7 +327,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->issuedBy('2');
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
         self::assertEquals(['iss' => new EqualsTo('iss', '2')], $token->getClaims());
@@ -345,7 +350,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->issuedBy('2', true);
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'iss' => new EqualsTo('iss', '2')], $token->getHeaders());
         self::assertEquals(['iss' => new EqualsTo('iss', '2')], $token->getClaims());
@@ -384,7 +389,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->canOnlyBeUsedAfter('2');
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
         self::assertEquals(['nbf' => new LesserOrEqualsTo('nbf', 2)], $token->getClaims());
@@ -408,7 +413,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->canOnlyBeUsedAfter('2', true);
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'nbf' => new LesserOrEqualsTo('nbf', 2)], $token->getHeaders());
         self::assertEquals(['nbf' => new LesserOrEqualsTo('nbf', 2)], $token->getClaims());
@@ -447,7 +452,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->relatedTo('2');
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none'], $token->getHeaders());
         self::assertEquals(['sub' => new EqualsTo('sub', '2')], $token->getClaims());
@@ -470,7 +475,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->createBuilder();
         $builder->relatedTo('2', true);
 
-        $token = $builder->getToken();
+        $token = $builder->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals(['typ' => 'JWT', 'alg' => 'none', 'sub' => new EqualsTo('sub', '2')], $token->getHeaders());
         self::assertEquals(['sub' => new EqualsTo('sub', '2')], $token->getClaims());
