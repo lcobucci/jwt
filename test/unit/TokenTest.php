@@ -38,6 +38,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @covers ::getClaims
      * @covers ::signature
      * @covers ::getPayload
+     * @covers ::payload
      */
     public function constructMustInitializeAnEmptyPlainTextTokenWhenNoArgumentsArePassed()
     {
@@ -312,6 +313,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      *
      * @covers ::verify
      * @covers ::getPayload
+     * @covers ::payload
      */
     public function verifyMustDelegateTheValidationToSignature()
     {
@@ -961,6 +963,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      * @uses \Lcobucci\JWT\Token::convertToDataSet
      *
      * @covers ::getPayload
+     * @covers ::payload
      */
     public function getPayloadShouldReturnAStringWithTheTwoEncodePartsThatGeneratedTheToken()
     {

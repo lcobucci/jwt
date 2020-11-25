@@ -391,12 +391,24 @@ class Token
     /**
      * Returns the token payload
      *
+     * @deprecated This method has been removed from the interface in v4.0
+     * @see Token::payload()
+     *
      * @return string
      */
     public function getPayload()
     {
-        return $this->headers->toString() . '.'
-             . $this->claims->toString();
+        return $this->payload();
+    }
+
+    /**
+     * Returns the token payload
+     *
+     * @return string
+     */
+    public function payload()
+    {
+        return $this->headers->toString() . '.' . $this->claims->toString();
     }
 
     /** @return Signature */
