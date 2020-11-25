@@ -171,8 +171,6 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.');
 
-        self::assertInstanceOf(Plain::class, $token);
-
         $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
         $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
 
@@ -212,8 +210,6 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.');
-
-        self::assertInstanceOf(Plain::class, $token);
 
         $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
         $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
@@ -255,8 +251,6 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.');
 
-        self::assertInstanceOf(Plain::class, $token);
-
         $headers = new DataSet(['typ' => 'JWS', 'alg' => 'none'], 'a');
         $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
 
@@ -296,8 +290,6 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.');
-
-        self::assertInstanceOf(Plain::class, $token);
 
         $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test'], 'a');
         $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
@@ -339,8 +331,6 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
 
-        self::assertInstanceOf(Plain::class, $token);
-
         $headers = new DataSet(['typ' => 'JWT'], 'a');
         $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
 
@@ -381,8 +371,6 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
 
-        self::assertInstanceOf(Plain::class, $token);
-
         $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
         $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
 
@@ -422,8 +410,6 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
-
-        self::assertInstanceOf(Plain::class, $token);
 
         $headers   = new DataSet(['typ' => 'JWT', 'alg' => 'HS256'], 'a');
         $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
@@ -470,7 +456,6 @@ final class ParserTest extends TestCase
             );
 
         $token = $this->createParser()->parse('a.b.');
-        self::assertInstanceOf(Plain::class, $token);
 
         $claims = $token->claims();
 
