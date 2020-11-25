@@ -10,8 +10,8 @@ use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
-/** @coversDefaultClass \Lcobucci\JWT\Validation\Constraint\ValidAt */
-final class ValidAtTest extends ConstraintTestCase
+/** @coversDefaultClass \Lcobucci\JWT\Validation\Constraint\LooseValidAt */
+final class LooseValidAtTest extends ConstraintTestCase
 {
     private Clock $clock;
 
@@ -36,7 +36,7 @@ final class ValidAtTest extends ConstraintTestCase
         $this->expectException(LeewayCannotBeNegative::class);
         $this->expectExceptionMessage('Leeway cannot be negative');
 
-        new ValidAt($this->clock, $leeway);
+        new LooseValidAt($this->clock, $leeway);
     }
 
     /**
@@ -66,7 +66,7 @@ final class ValidAtTest extends ConstraintTestCase
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('The token is expired');
 
-        $constraint = new ValidAt($this->clock);
+        $constraint = new LooseValidAt($this->clock);
         $constraint->assert($this->buildToken($claims));
     }
 
@@ -96,7 +96,7 @@ final class ValidAtTest extends ConstraintTestCase
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('The token cannot be used yet');
 
-        $constraint = new ValidAt($this->clock);
+        $constraint = new LooseValidAt($this->clock);
         $constraint->assert($this->buildToken($claims));
     }
 
@@ -125,7 +125,7 @@ final class ValidAtTest extends ConstraintTestCase
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('The token was issued in the future');
 
-        $constraint = new ValidAt($this->clock);
+        $constraint = new LooseValidAt($this->clock);
         $constraint->assert($this->buildToken($claims));
     }
 
@@ -153,7 +153,7 @@ final class ValidAtTest extends ConstraintTestCase
             RegisteredClaims::EXPIRATION_TIME => $now->modify('-5 seconds'),
         ];
 
-        $constraint = new ValidAt($this->clock, new DateInterval('PT5S'));
+        $constraint = new LooseValidAt($this->clock, new DateInterval('PT5S'));
         $constraint->assert($this->buildToken($claims));
 
         $this->addToAssertionCount(1);
@@ -175,7 +175,7 @@ final class ValidAtTest extends ConstraintTestCase
      */
     public function assertShouldNotRaiseExceptionWhenTokenIsUsedInTheRightMoment(): void
     {
-        $constraint = new ValidAt($this->clock);
+        $constraint = new LooseValidAt($this->clock);
         $now        = $this->clock->now();
 
         $token = $this->buildToken(
@@ -218,7 +218,7 @@ final class ValidAtTest extends ConstraintTestCase
     public function assertShouldNotRaiseExceptionWhenTokenDoesNotHaveTimeClaims(): void
     {
         $token      = $this->buildToken();
-        $constraint = new ValidAt($this->clock);
+        $constraint = new LooseValidAt($this->clock);
 
         $constraint->assert($token);
         $this->addToAssertionCount(1);

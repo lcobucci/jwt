@@ -67,6 +67,6 @@ This library provides the following constraints:
 * `Lcobucci\JWT\Validation\Constraint\PermittedFor`: verifies if the claim `aud` contains the expected value
 * `Lcobucci\JWT\Validation\Constraint\RelatedTo`: verifies if the claim `sub` matches the expected value
 * `Lcobucci\JWT\Validation\Constraint\SignedWith`: verifies if the token was signed with the expected signer and key
-* `Lcobucci\JWT\Validation\Constraint\ValidAt`: verifies the claims `iat`, `nbf`, and `exp` (supports leeway configuration)
+* `Lcobucci\JWT\Validation\Constraint\LooseValidAt`: verifies the claims `iat`, `nbf`, and `exp` (supports leeway configuration)
 
 You may also create your [own validation constraints](extending-the-library.md#validation-constraints).

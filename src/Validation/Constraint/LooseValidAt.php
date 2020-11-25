@@ -10,7 +10,7 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
-final class ValidAt implements Constraint
+final class LooseValidAt implements Constraint
 {
     private Clock $clock;
     private DateInterval $leeway;
