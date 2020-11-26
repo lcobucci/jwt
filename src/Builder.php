@@ -415,11 +415,27 @@ class Builder
             trigger_error('The use of the method "withClaim" is deprecated for registered claims. Please use dedicated method instead.', E_USER_DEPRECATED);
         }
 
-        if ($name === RegisteredClaims::AUDIENCE) {
-            return $this->permittedFor($value);
-        }
+        return $this->forwardCallToCorrectClaimMethod($name, $value);
+    }
 
-        return $this->configureClaim($name, $value);
+    private function forwardCallToCorrectClaimMethod($name, $value)
+    {
+        switch ($name) {
+            case RegisteredClaims::ID:
+                return $this->identifiedBy($value);
+            case RegisteredClaims::EXPIRATION_TIME:
+                return $this->expiresAt($value);
+            case RegisteredClaims::NOT_BEFORE:
+                return $this->canOnlyBeUsedAfter($value);
+            case RegisteredClaims::ISSUED_AT:
+                return $this->issuedAt($value);
+            case RegisteredClaims::ISSUER:
+                return $this->issuedBy($value);
+            case RegisteredClaims::AUDIENCE:
+                return $this->permittedFor($value);
+            default:
+                return $this->configureClaim($name, $value);
+        }
     }
 
     /**

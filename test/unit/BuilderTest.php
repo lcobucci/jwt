@@ -533,6 +533,7 @@ class BuilderTest extends TestCase
      * @covers ::configureClaim
      * @covers ::createSignature
      * @covers ::convertItems
+     * @covers ::forwardCallToCorrectClaimMethod
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -553,6 +554,7 @@ class BuilderTest extends TestCase
      * @covers ::__construct
      * @covers ::withClaim
      * @covers ::configureClaim
+     * @covers ::forwardCallToCorrectClaimMethod
      */
     public function withClaimMustKeepAFluentInterface()
     {
@@ -567,39 +569,37 @@ class BuilderTest extends TestCase
      * @param string $name
      * @param mixed $value
      * @param mixed $expected
+     * @param null|string $otherMessage
      *
      * @covers ::__construct
      * @covers ::withClaim
-     * @covers \Lcobucci\JWT\Token\RegisteredClaimGiven
+     * @covers ::canOnlyBeUsedAfter
+     * @covers ::configureClaim
+     * @covers ::convertItems
+     * @covers ::convertToDate
+     * @covers ::getToken
+     * @covers ::setRegisteredClaim
+     * @covers ::createSignature
+     * @covers ::expiresAt
+     * @covers ::issuedBy
+     * @covers ::identifiedBy
+     * @covers ::permittedFor
+     * @covers ::forwardCallToCorrectClaimMethod
+     * @covers ::issuedAt
      *
      * @dataProvider dataWithClaimDeprecationNotice
      */
-    public function withClaimShouldSendDeprecationNoticeWhenTryingToConfigureARegisteredClaim($name, $value, $expected)
+    public function withClaimShouldSendDeprecationNoticeWhenTryingToConfigureARegisteredClaim($name, $value, $expected, $otherMessage = null)
     {
-        $key = $this->createMock(Key::class);
-        $signature = $this->createMock(Signature::class);
-        $signature
-            ->expects(static::once())
-            ->method('hash')
-            ->willReturn('--hash--')
-        ;
-
-        $signer = $this->createMock(Signer::class);
-        $signer
-            ->expects(static::once())
-            ->method('sign')
-            ->willReturn($signature)
-        ;
-
-
-
         $this->expectDeprecation('The use of the method "withClaim" is deprecated for registered claims. Please use dedicated method instead.');
 
-        $token = $this
-            ->createBuilder()
+        if ($otherMessage) {
+            $this->expectDeprecation($otherMessage);
+        }
+
+        $token = $this->createBuilder()
             ->withClaim($name, $value)
-            ->getToken($signer, $key)
-        ;
+            ->getToken(new None(), Key\InMemory::plainText(''));
 
         self::assertEquals($expected, $token->claims()->get($name));
     }
@@ -615,9 +615,9 @@ class BuilderTest extends TestCase
             ['aud', 'him', ['him']],
             ['jti', '0123456789ABCDEF', '0123456789ABCDEF'],
             ['iss', 'you', 'you'],
-            ['exp', $nowPlus1HourAsDate->getTimestamp(), $nowPlus1HourAsDate->getTimestamp()],
-            ['iat', $now, $nowAsDate->getTimestamp()],
-            ['nbf', $now, $nowAsDate->getTimestamp()],
+            ['exp', $nowPlus1HourAsDate->getTimestamp(), $nowPlus1HourAsDate, 'Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.'],
+            ['iat', $now, $nowAsDate, 'Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.'],
+            ['nbf', $now, $nowAsDate, 'Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.'],
         ];
     }
 
@@ -733,6 +733,7 @@ class BuilderTest extends TestCase
      * @uses \Lcobucci\JWT\Builder::__construct
      * @uses \Lcobucci\JWT\Builder::configureClaim
      * @uses \Lcobucci\JWT\Builder::withClaim
+     * @uses \Lcobucci\JWT\Builder::forwardCallToCorrectClaimMethod
      */
     public function getTokenMustReturnANewTokenWithCurrentConfiguration()
     {
