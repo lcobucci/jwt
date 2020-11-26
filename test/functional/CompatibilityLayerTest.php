@@ -3,6 +3,7 @@
 namespace Lcobucci\JWT\FunctionalTests;
 
 use DateTimeImmutable;
+use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\CheckForDeprecations;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Keys;
@@ -12,7 +13,12 @@ use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\Signature;
+use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
+use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+use Lcobucci\JWT\Validation\Constraint\PermittedFor;
+use Lcobucci\JWT\Validation\Constraint\RelatedTo;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use PHPUnit\Framework\TestCase;
 
 use function base64_encode;
@@ -39,7 +45,12 @@ use function time;
  * @covers \Lcobucci\JWT\Token
  * @covers \Lcobucci\JWT\Token\DataSet
  * @covers \Lcobucci\JWT\Validation\Validator
+ * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy
+ * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
+ * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor
+ * @covers \Lcobucci\JWT\Validation\Constraint\RelatedTo
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
+ * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt
  */
 final class CompatibilityLayerTest extends TestCase
 {
@@ -89,6 +100,36 @@ final class CompatibilityLayerTest extends TestCase
         self::assertEquals($expectedNow, $token2->claims()->get('iat'));
         self::assertEquals($expectedNow->modify('+5 seconds'), $token2->claims()->get('nbf'));
         self::assertEquals($expectedNow->modify('+1 hour'), $token2->claims()->get('exp'));
+    }
+
+    /** @test */
+    public function tokenCanBeValidated()
+    {
+        $now = new DateTimeImmutable();
+
+        $config = Configuration::forSymmetricSigner(new HmacSha256(), Key\InMemory::plainText('testing'));
+        $config->setValidationConstraints(
+            new IdentifiedBy('123'),
+            new IssuedBy('one', 'two', 'three'),
+            new PermittedFor('me'),
+            new RelatedTo('user123'),
+            new ValidAt(new FrozenClock($now->modify('+10 minutes'))),
+            new SignedWith($config->signer(), $config->verificationKey())
+        );
+
+        $token = $config->builder()
+            ->issuedAt($now)
+            ->issuedBy('two')
+            ->permittedFor('me')
+            ->identifiedBy('123')
+            ->relatedTo('user123')
+            ->canOnlyBeUsedAfter($now->modify('+5 minutes'))
+            ->expiresAt($now->modify('+1 hour'))
+            ->getToken($config->signer(), $config->signingKey());
+
+        $config->validator()->assert($token, ...$config->validationConstraints());
+
+        $this->addToAssertionCount(1);
     }
 
     /**
