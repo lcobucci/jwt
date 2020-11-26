@@ -412,7 +412,11 @@ class Builder
     public function withClaim($name, $value)
     {
         if (in_array($name, RegisteredClaims::ALL, true)) {
-            throw RegisteredClaimGiven::forClaim($name);
+            trigger_error('The use of the method "withClaim" is deprecated for registered claims. Please use dedicated method instead.', E_USER_DEPRECATED);
+        }
+
+        if ($name === RegisteredClaims::AUDIENCE) {
+            return $this->permittedFor($value);
         }
 
         return $this->configureClaim($name, $value);

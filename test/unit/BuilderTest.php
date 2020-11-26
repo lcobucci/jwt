@@ -564,15 +564,61 @@ class BuilderTest extends TestCase
     /**
      * @test
      *
+     * @param string $name
+     * @param mixed $value
+     * @param mixed $expected
+     *
      * @covers ::__construct
      * @covers ::withClaim
      * @covers \Lcobucci\JWT\Token\RegisteredClaimGiven
+     *
+     * @dataProvider dataWithClaimDeprecationNotice
      */
-    public function withClaimShouldThrowExceptionWhenTryingToConfigureARegisteredClaim()
+    public function withClaimShouldSendDeprecationNoticeWhenTryingToConfigureARegisteredClaim($name, $value, $expected)
     {
-        $this->expectException(RegisteredClaimGiven::class);
+        $key = $this->createMock(Key::class);
+        $signature = $this->createMock(Signature::class);
+        $signature
+            ->expects(static::once())
+            ->method('hash')
+            ->willReturn('--hash--')
+        ;
 
-        $this->createBuilder()->withClaim('sub', 'me');
+        $signer = $this->createMock(Signer::class);
+        $signer
+            ->expects(static::once())
+            ->method('sign')
+            ->willReturn($signature)
+        ;
+
+
+
+        $this->expectDeprecation('The use of the method "withClaim" is deprecated for registered claims. Please use dedicated method instead.');
+
+        $token = $this
+            ->createBuilder()
+            ->withClaim($name, $value)
+            ->getToken($signer, $key)
+        ;
+
+        self::assertEquals($expected, $token->claims()->get($name));
+    }
+
+    public function dataWithClaimDeprecationNotice()
+    {
+        $now = time();
+        $nowAsDate = new DateTimeImmutable('@' . $now);
+        $nowPlus1HourAsDate = $nowAsDate->modify('+1 hour');
+
+        return [
+            ['sub', 'me', 'me'],
+            ['aud', 'him', ['him']],
+            ['jti', '0123456789ABCDEF', '0123456789ABCDEF'],
+            ['iss', 'you', 'you'],
+            ['exp', $nowPlus1HourAsDate->getTimestamp(), $nowPlus1HourAsDate->getTimestamp()],
+            ['iat', $now, $nowAsDate->getTimestamp()],
+            ['nbf', $now, $nowAsDate->getTimestamp()],
+        ];
     }
 
     /**
