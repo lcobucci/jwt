@@ -604,6 +604,46 @@ class BuilderTest extends TestCase
         self::assertEquals($expected, $token->claims()->get($name));
     }
 
+
+    /**
+     * @test
+     *
+     * @param string $name
+     * @param mixed $value
+     * @param mixed $expected
+     * @param null|string $otherMessage
+     *
+     * @covers ::__construct
+     * @covers ::set
+     * @covers ::canOnlyBeUsedAfter
+     * @covers ::configureClaim
+     * @covers ::convertItems
+     * @covers ::convertToDate
+     * @covers ::getToken
+     * @covers ::setRegisteredClaim
+     * @covers ::createSignature
+     * @covers ::expiresAt
+     * @covers ::issuedBy
+     * @covers ::identifiedBy
+     * @covers ::permittedFor
+     * @covers ::forwardCallToCorrectClaimMethod
+     * @covers ::issuedAt
+     *
+     * @dataProvider dataWithClaimDeprecationNotice
+     */
+    public function setShouldSendDeprecationNoticeWhenTryingToConfigureARegisteredClaim($name, $value, $expected, $otherMessage = null)
+    {
+        if ($otherMessage) {
+            $this->expectDeprecation($otherMessage);
+        }
+
+        $token = $this->createBuilder()
+            ->set($name, $value)
+            ->getToken(new None(), Key\InMemory::plainText(''));
+
+        self::assertEquals($expected, $token->claims()->get($name));
+    }
+
     public function dataWithClaimDeprecationNotice()
     {
         $now = time();

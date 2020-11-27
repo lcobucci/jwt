@@ -451,7 +451,7 @@ class Builder
      */
     public function set($name, $value)
     {
-        return $this->configureClaim($name, $value);
+        return $this->forwardCallToCorrectClaimMethod($name, $value);
     }
 
     /**
