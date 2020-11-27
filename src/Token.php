@@ -308,7 +308,7 @@ class Token
      */
     public function isPermittedFor($audience)
     {
-        return $this->claims->get(RegisteredClaims::AUDIENCE) === $audience;
+        return in_array($audience, $this->claims->get(RegisteredClaims::AUDIENCE, []), true);
     }
 
     /**
