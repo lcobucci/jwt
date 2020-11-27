@@ -536,7 +536,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     {
         $token = new Token(
             [],
-            [RegisteredClaims::AUDIENCE => 'test']
+            [RegisteredClaims::AUDIENCE => ['test']]
         );
 
         self::assertFalse($token->isPermittedFor('testing'));
@@ -554,7 +554,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     {
         $token = new Token(
             [],
-            [RegisteredClaims::AUDIENCE => 10]
+            [RegisteredClaims::AUDIENCE => [10]]
         );
 
         self::assertFalse($token->isPermittedFor('10'));
@@ -572,7 +572,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     {
         $token = new Token(
             [],
-            [RegisteredClaims::AUDIENCE => 'testing']
+            [RegisteredClaims::AUDIENCE => ['testing']]
         );
 
         self::assertTrue($token->isPermittedFor('testing'));
