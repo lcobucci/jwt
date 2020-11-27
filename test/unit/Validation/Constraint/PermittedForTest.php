@@ -42,7 +42,7 @@ final class PermittedForTest extends ConstraintTestCase
         $this->expectExceptionMessage('The token is not allowed to be used by this audience');
 
         $constraint = new PermittedFor('test.com');
-        $constraint->assert($this->buildToken([RegisteredClaims::AUDIENCE => 'aa.com']));
+        $constraint->assert($this->buildToken([RegisteredClaims::AUDIENCE => ['aa.com']]));
     }
 
     /**
@@ -57,7 +57,7 @@ final class PermittedForTest extends ConstraintTestCase
         $this->expectExceptionMessage('The token is not allowed to be used by this audience');
 
         $constraint = new PermittedFor('123');
-        $constraint->assert($this->buildToken([RegisteredClaims::AUDIENCE => 123]));
+        $constraint->assert($this->buildToken([RegisteredClaims::AUDIENCE => [123]]));
     }
 
     /**
@@ -68,7 +68,7 @@ final class PermittedForTest extends ConstraintTestCase
      */
     public function assertShouldNotRaiseExceptionWhenAudienceMatches()
     {
-        $token      = $this->buildToken([RegisteredClaims::AUDIENCE => 'test.com']);
+        $token      = $this->buildToken([RegisteredClaims::AUDIENCE => ['test.com']]);
         $constraint = new PermittedFor('test.com');
 
         $constraint->assert($token);
