@@ -533,6 +533,7 @@ class BuilderTest extends TestCase
      * @covers ::configureClaim
      * @covers ::createSignature
      * @covers ::convertItems
+     * @covers ::forwardCallToCorrectClaimMethod
      *
      * @uses \Lcobucci\JWT\Builder::getToken
      */
@@ -553,6 +554,7 @@ class BuilderTest extends TestCase
      * @covers ::__construct
      * @covers ::withClaim
      * @covers ::configureClaim
+     * @covers ::forwardCallToCorrectClaimMethod
      */
     public function withClaimMustKeepAFluentInterface()
     {
@@ -564,15 +566,99 @@ class BuilderTest extends TestCase
     /**
      * @test
      *
+     * @param string $name
+     * @param mixed $value
+     * @param mixed $expected
+     * @param null|string $otherMessage
+     *
      * @covers ::__construct
      * @covers ::withClaim
-     * @covers \Lcobucci\JWT\Token\RegisteredClaimGiven
+     * @covers ::canOnlyBeUsedAfter
+     * @covers ::configureClaim
+     * @covers ::convertItems
+     * @covers ::convertToDate
+     * @covers ::getToken
+     * @covers ::setRegisteredClaim
+     * @covers ::createSignature
+     * @covers ::expiresAt
+     * @covers ::issuedBy
+     * @covers ::identifiedBy
+     * @covers ::permittedFor
+     * @covers ::forwardCallToCorrectClaimMethod
+     * @covers ::issuedAt
+     *
+     * @dataProvider dataWithClaimDeprecationNotice
      */
-    public function withClaimShouldThrowExceptionWhenTryingToConfigureARegisteredClaim()
+    public function withClaimShouldSendDeprecationNoticeWhenTryingToConfigureARegisteredClaim($name, $value, $expected, $otherMessage = null)
     {
-        $this->expectException(RegisteredClaimGiven::class);
+        $this->expectDeprecation('The use of the method "withClaim" is deprecated for registered claims. Please use dedicated method instead.');
 
-        $this->createBuilder()->withClaim('sub', 'me');
+        if ($otherMessage) {
+            $this->expectDeprecation($otherMessage);
+        }
+
+        $token = $this->createBuilder()
+            ->withClaim($name, $value)
+            ->getToken(new None(), Key\InMemory::plainText(''));
+
+        self::assertEquals($expected, $token->claims()->get($name));
+    }
+
+
+    /**
+     * @test
+     *
+     * @param string $name
+     * @param mixed $value
+     * @param mixed $expected
+     * @param null|string $otherMessage
+     *
+     * @covers ::__construct
+     * @covers ::set
+     * @covers ::canOnlyBeUsedAfter
+     * @covers ::configureClaim
+     * @covers ::convertItems
+     * @covers ::convertToDate
+     * @covers ::getToken
+     * @covers ::setRegisteredClaim
+     * @covers ::createSignature
+     * @covers ::expiresAt
+     * @covers ::issuedBy
+     * @covers ::identifiedBy
+     * @covers ::permittedFor
+     * @covers ::forwardCallToCorrectClaimMethod
+     * @covers ::issuedAt
+     *
+     * @dataProvider dataWithClaimDeprecationNotice
+     */
+    public function setShouldSendDeprecationNoticeWhenTryingToConfigureARegisteredClaim($name, $value, $expected, $otherMessage = null)
+    {
+        if ($otherMessage) {
+            $this->expectDeprecation($otherMessage);
+        }
+
+        $token = $this->createBuilder()
+            ->set($name, $value)
+            ->getToken(new None(), Key\InMemory::plainText(''));
+
+        self::assertEquals($expected, $token->claims()->get($name));
+    }
+
+    public function dataWithClaimDeprecationNotice()
+    {
+        $now = time();
+        $nowAsDate = new DateTimeImmutable('@' . $now);
+        $nowPlus1HourAsDate = $nowAsDate->modify('+1 hour');
+
+        return [
+            ['sub', 'me', 'me'],
+            ['aud', 'him', ['him']],
+            ['jti', '0123456789ABCDEF', '0123456789ABCDEF'],
+            ['iss', 'you', 'you'],
+            ['exp', $nowPlus1HourAsDate->getTimestamp(), $nowPlus1HourAsDate, 'Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.'],
+            ['iat', $now, $nowAsDate, 'Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.'],
+            ['nbf', $now, $nowAsDate, 'Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.'],
+        ];
     }
 
     /**
@@ -687,6 +773,7 @@ class BuilderTest extends TestCase
      * @uses \Lcobucci\JWT\Builder::__construct
      * @uses \Lcobucci\JWT\Builder::configureClaim
      * @uses \Lcobucci\JWT\Builder::withClaim
+     * @uses \Lcobucci\JWT\Builder::forwardCallToCorrectClaimMethod
      */
     public function getTokenMustReturnANewTokenWithCurrentConfiguration()
     {
