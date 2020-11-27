@@ -293,7 +293,7 @@ class Token
         }
 
         if ($now === null) {
-            trigger_error('Not providing the current time is deprecated. Please pass an instance of DateTimeInterface.', E_USER_DEPRECATED);
+            @trigger_error('Not providing the current time is deprecated. Please pass an instance of DateTimeInterface.', E_USER_DEPRECATED);
         }
 
         $now = $now ?: new DateTimeImmutable();

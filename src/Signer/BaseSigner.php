@@ -54,7 +54,7 @@ abstract class BaseSigner implements Signer
     private function getKey($key)
     {
         if (is_string($key)) {
-            trigger_error('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.', E_USER_DEPRECATED);
+            @trigger_error('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.', E_USER_DEPRECATED);
 
             $key = new Key($key);
         }

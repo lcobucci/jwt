@@ -148,7 +148,7 @@ class Builder
     private function convertToDate($value)
     {
         if (! $value instanceof DateTimeImmutable) {
-            trigger_error('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.', E_USER_DEPRECATED);
+            @trigger_error('Using integers for registered date claims is deprecated, please use DateTimeImmutable objects instead.', E_USER_DEPRECATED);
 
             return new DateTimeImmutable('@' . $value);
         }
@@ -331,7 +331,7 @@ class Builder
         $this->configureClaim($name, $value);
 
         if ($replicate) {
-            trigger_error('Replicating claims as headers is deprecated and will removed from v4.0. Please manually set the header if you need it replicated.', E_USER_DEPRECATED);
+            @trigger_error('Replicating claims as headers is deprecated and will removed from v4.0. Please manually set the header if you need it replicated.', E_USER_DEPRECATED);
 
             $this->headers[$name] = $value;
         }
@@ -412,7 +412,7 @@ class Builder
     public function withClaim($name, $value)
     {
         if (in_array($name, RegisteredClaims::ALL, true)) {
-            trigger_error('The use of the method "withClaim" is deprecated for registered claims. Please use dedicated method instead.', E_USER_DEPRECATED);
+            @trigger_error('The use of the method "withClaim" is deprecated for registered claims. Please use dedicated method instead.', E_USER_DEPRECATED);
         }
 
         return $this->forwardCallToCorrectClaimMethod($name, $value);
@@ -468,7 +468,7 @@ class Builder
     public function sign(Signer $signer, $key)
     {
         if (! $key instanceof Key) {
-            trigger_error('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.', E_USER_DEPRECATED);
+            @trigger_error('Implicit conversion of keys from strings is deprecated. Please use InMemory or LocalFileReference classes.', E_USER_DEPRECATED);
 
             $key = new Key($key);
         }
@@ -503,7 +503,7 @@ class Builder
     public function getToken(Signer $signer = null, Key $key = null)
     {
         if ($signer === null || $key === null) {
-            trigger_error('Not specifying the signer and key to Builder#getToken() is deprecated. Please move the arguments from Builder#sign() to Builder#getToken().', E_USER_DEPRECATED);
+            @trigger_error('Not specifying the signer and key to Builder#getToken() is deprecated. Please move the arguments from Builder#sign() to Builder#getToken().', E_USER_DEPRECATED);
         }
 
         $signer = $signer ?: $this->signer;
