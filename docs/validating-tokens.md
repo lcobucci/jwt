@@ -18,7 +18,7 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 
-$token = $container->get(Configuration::class);
+$config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
 $token = $config->parser()->parse('...');
