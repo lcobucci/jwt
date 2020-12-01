@@ -26,7 +26,10 @@ abstract class OpenSSL extends BaseSigner
 
             return $signature;
         } finally {
-            openssl_free_key($privateKey);
+            if (!version_compare(phpversion(), '8.0', '>=')) {
+                // Deprecated and no longer necessary as of PHP >= 8.0
+                openssl_free_key($privateKey);
+            }
         }
     }
 
@@ -54,7 +57,11 @@ abstract class OpenSSL extends BaseSigner
     {
         $publicKey = $this->getPublicKey($key->getContent());
         $result    = openssl_verify($payload, $expected, $publicKey, $this->getAlgorithm());
-        openssl_free_key($publicKey);
+
+        if (!version_compare(phpversion(), '8.0', '>=')) {
+            // Deprecated and no longer necessary as of PHP >= 8.0
+            openssl_free_key($publicKey);
+        }
 
         return $result === 1;
     }
@@ -75,13 +82,13 @@ abstract class OpenSSL extends BaseSigner
     /**
      * Raises an exception when the key type is not the expected type
      *
-     * @param resource|bool $key
+     * @param resource|OpenSSLAsymmetricKey|bool $key
      *
      * @throws InvalidArgumentException
      */
     private function validateKey($key)
     {
-        if (! is_resource($key)) {
+        if (is_bool($key)) {
             throw InvalidKeyProvided::cannotBeParsed(openssl_error_string());
         }
 
