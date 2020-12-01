@@ -17,6 +17,11 @@ final class ValidAtTest extends ConstraintTestCase
      *
      * @covers ::__construct
      * @covers ::assert
+     *
+     * @uses \Lcobucci\JWT\Token\DataSet
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Validation\Constraint\LooseValidAt
      */
     public function assertIsAProxyToLooseValidAt(): void
     {
