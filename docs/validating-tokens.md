@@ -45,7 +45,7 @@ The difference here is that we'll always a get a `boolean` result and stop in th
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\Plain;
 
-$token = $container->get(Configuration::class);
+$config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
 $token = $config->parser()->parse('...');
