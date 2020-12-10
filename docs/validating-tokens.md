@@ -39,7 +39,7 @@ try {
 !!! Warning
     You **MUST** provide at least one constraint, otherwise `\Lcobucci\JWT\Validation\NoConstraintsGiven` exception will be thrown.
 
-The difference here is that we'll always a get a `boolean` result and stop in the very first violation:
+The difference here is that we'll always get a `boolean` result and stop in the very first violation:
 
 ```php
 use Lcobucci\JWT\Configuration;
