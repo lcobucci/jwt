@@ -23,10 +23,10 @@ final class Builder implements BuilderInterface
     /** @var array<string, mixed> */
     private array $claims = [];
 
-    private Encoder $encoder;
-    private ClaimsFormatter $claimFormatter;
+    private ?Encoder $encoder;
+    private ?ClaimsFormatter $claimFormatter;
 
-    public function __construct(Encoder $encoder, ClaimsFormatter $claimFormatter)
+    public function __construct(Encoder $encoder = null, ClaimsFormatter $claimFormatter = null)
     {
         $this->encoder        = $encoder;
         $this->claimFormatter = $claimFormatter;

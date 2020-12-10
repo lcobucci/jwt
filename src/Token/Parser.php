@@ -16,9 +16,9 @@ use function strpos;
 
 final class Parser implements ParserInterface
 {
-    private Decoder $decoder;
+    private ?Decoder $decoder;
 
-    public function __construct(Decoder $decoder)
+    public function __construct(Decoder $decoder = null)
     {
         $this->decoder = $decoder;
     }
