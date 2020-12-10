@@ -82,7 +82,7 @@ use Lcobucci\JWT\Signer\Key\LocalFileReference;
 use Lcobucci\JWT\Signer\Key\InMemory;
 
 $configuration = Configuration::forAsymmetricSigner(
-    // You may use RSA or ECDSA and all their variations (256, 384, and 512)
+    // You may use RSA or ECDSA and all their variations (256, 384, and 512) and EdDSA over Curve25519
     new Signer\Rsa\Sha256(),
     LocalFileReference::file(__DIR__ . '/my-private-key.pem'),
     InMemory::base64Encoded('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=')
