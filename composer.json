@@ -20,6 +20,7 @@
         "php": "^7.4 || ^8.0",
         "ext-mbstring": "*",
         "ext-openssl": "*",
+        "ext-sodium": "*",
         "lcobucci/clock": "^2.0"
     },
     "require-dev": {
