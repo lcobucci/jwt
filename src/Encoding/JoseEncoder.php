@@ -55,7 +55,7 @@ final class JoseEncoder implements Encoder, Decoder
         try {
             return sodium_base642bin($data, SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING, '');
         } catch (SodiumException $sodiumException) {
-            throw CannotDecodeContent::invalidBase64String();
+            throw CannotDecodeContent::invalidBase64String($sodiumException);
         }
     }
 }

@@ -41,7 +41,7 @@ final class InMemory implements Key
         try {
             $decoded = sodium_base642bin($contents, SODIUM_BASE64_VARIANT_ORIGINAL, '');
         } catch (SodiumException $sodiumException) {
-            throw CannotDecodeContent::invalidBase64String();
+            throw CannotDecodeContent::invalidBase64String($sodiumException);
         }
 
         return new self($decoded, $passphrase);
