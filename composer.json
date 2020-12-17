@@ -18,6 +18,8 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0",
+        "ext-hash": "*",
+        "ext-json": "*",
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-sodium": "*",
