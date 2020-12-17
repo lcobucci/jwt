@@ -148,7 +148,7 @@ final class JoseEncoderTest extends TestCase
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Error while decoding from Base64Url, invalid base64 characters detected');
 
-        $decoder->base64UrlDecode('áááááá');
+        $decoder->base64UrlDecode('ááá');
     }
 
     /**
