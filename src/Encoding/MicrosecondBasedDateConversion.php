@@ -8,6 +8,7 @@ use Lcobucci\JWT\ClaimsFormatter;
 use Lcobucci\JWT\Token\RegisteredClaims;
 
 use function array_key_exists;
+use function floatval;
 
 final class MicrosecondBasedDateConversion implements ClaimsFormatter
 {
@@ -25,7 +26,7 @@ final class MicrosecondBasedDateConversion implements ClaimsFormatter
         return $claims;
     }
 
-    /** @return int|string */
+    /** @return int|float */
     private function convertDate(DateTimeImmutable $date)
     {
         $seconds      = $date->format('U');
@@ -35,6 +36,6 @@ final class MicrosecondBasedDateConversion implements ClaimsFormatter
             return (int) $seconds;
         }
 
-        return $seconds . '.' . $microseconds;
+        return floatval($seconds . '.' . $microseconds);
     }
 }
