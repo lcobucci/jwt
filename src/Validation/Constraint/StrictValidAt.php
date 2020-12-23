@@ -7,6 +7,7 @@ use DateInterval;
 use DateTimeInterface;
 use Lcobucci\Clock\Clock;
 use Lcobucci\JWT\Token;
+use Lcobucci\JWT\UnencryptedToken;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
@@ -36,7 +37,7 @@ final class StrictValidAt implements Constraint
 
     public function assert(Token $token): void
     {
-        if (! $token instanceof Token\Plain) {
+        if (! $token instanceof UnencryptedToken) {
             throw new ConstraintViolation('You should pass a plain token');
         }
 
@@ -48,7 +49,7 @@ final class StrictValidAt implements Constraint
     }
 
     /** @throws ConstraintViolation */
-    private function assertExpiration(Token\Plain $token, DateTimeInterface $now): void
+    private function assertExpiration(UnencryptedToken $token, DateTimeInterface $now): void
     {
         if (! $token->claims()->has(Token\RegisteredClaims::EXPIRATION_TIME)) {
             throw new ConstraintViolation('"Expiration Time" claim missing');
@@ -60,7 +61,7 @@ final class StrictValidAt implements Constraint
     }
 
     /** @throws ConstraintViolation */
-    private function assertMinimumTime(Token\Plain $token, DateTimeInterface $now): void
+    private function assertMinimumTime(UnencryptedToken $token, DateTimeInterface $now): void
     {
         if (! $token->claims()->has(Token\RegisteredClaims::NOT_BEFORE)) {
             throw new ConstraintViolation('"Not Before" claim missing');
@@ -72,7 +73,7 @@ final class StrictValidAt implements Constraint
     }
 
     /** @throws ConstraintViolation */
-    private function assertIssueTime(Token\Plain $token, DateTimeInterface $now): void
+    private function assertIssueTime(UnencryptedToken $token, DateTimeInterface $now): void
     {
         if (! $token->claims()->has(Token\RegisteredClaims::ISSUED_AT)) {
             throw new ConstraintViolation('"Issued At" claim missing');
