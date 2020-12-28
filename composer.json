@@ -29,7 +29,7 @@
         "infection/infection": "^0.20",
         "lcobucci/coding-standard": "^6.0",
         "mikey179/vfsstream": "^1.6",
-        "phpbench/phpbench": "^0.17",
+        "phpbench/phpbench": "^1.0@alpha",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-deprecation-rules": "^0.12",
