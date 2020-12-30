@@ -28,7 +28,7 @@
     "require-dev": {
         "infection/infection": "^0.20",
         "lcobucci/coding-standard": "^6.0",
-        "mikey179/vfsstream": "^1.6",
+        "mikey179/vfsstream": "^1.6.7",
         "phpbench/phpbench": "^1.0@alpha",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12",
