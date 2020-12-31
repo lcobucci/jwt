@@ -19,6 +19,7 @@ jobs:
           - "development"
         php-version:
           - "7.4"
+          - "8.0"
         operating-system:
           - "ubuntu-latest"
 
@@ -29,6 +30,7 @@ jobs:
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
+          coverage: "none"
           php-version: "${{ matrix.php-version }}"
           ini-values: memory_limit=-1
           tools: composer:v2, cs2pr
@@ -64,7 +66,7 @@ jobs:
         run: "make phpunit"
 
   phpunit-rc:
-    name: "PHPUnit tests on PHP 8"
+    name: "PHPUnit tests (nightly)"
 
     runs-on: ${{ matrix.operating-system }}
 
@@ -73,7 +75,7 @@ jobs:
         dependencies:
           - "locked"
         php-version:
-          - "8.0"
+          - "8.1"
         operating-system:
           - "ubuntu-latest"
 
