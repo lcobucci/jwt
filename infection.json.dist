@@ -22,6 +22,11 @@
                 "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::retrievePositiveInteger"
             ]
         },
+        "InstanceOf_": {
+            "ignore": [
+                "Lcobucci\\JWT\\Signer\\OpenSSL::freeKey"
+            ]
+        },
         "LessThanOrEqualTo": {
             "ignore": [
                 "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::preparePositiveInteger"
@@ -30,6 +35,12 @@
         "MBString": {
             "ignore": [
                 "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter"
+            ]
+        },
+        "MethodCallRemoval": {
+            "ignore": [
+                "Lcobucci\\JWT\\Signer\\OpenSSL::createSignature",
+                "Lcobucci\\JWT\\Signer\\OpenSSL::verifySignature"
             ]
         }
     },
