@@ -15,14 +15,14 @@ This method goes through every single constraint in the set, groups all the viol
 
 ```php
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\UnencryptedToken;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 
 $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
 $token = $config->parser()->parse('...');
-assert($token instanceof Plain);
+assert($token instanceof UnencryptedToken);
 
 $constraints = $config->validationConstraints();
 
@@ -43,13 +43,13 @@ The difference here is that we'll always get a `boolean` result and stop in the 
 
 ```php
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\UnencryptedToken;
 
 $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
 $token = $config->parser()->parse('...');
-assert($token instanceof Plain);
+assert($token instanceof UnencryptedToken);
 
 $constraints = $config->validationConstraints();
 

@@ -172,6 +172,7 @@ To create your own implementation of constraint you must implement the `Lcobucci
 
 ```php
 use Lcobucci\JWT\Token;
+use Lcobucci\JWT\UnencryptedToken;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
@@ -179,7 +180,7 @@ final class SubjectMustBeAValidUser implements Constraint
 {
     public function assert(Token $token): void
     {
-        if (! $token instanceof Token\Plain) {
+        if (! $token instanceof UnencryptedToken) {
             throw new ConstraintViolation('You should pass a plain token');
         }
 
