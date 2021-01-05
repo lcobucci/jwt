@@ -51,20 +51,17 @@ You may customise and even create your own formatters:
 ```php
 use Lcobucci\JWT\ClaimsFormatter;
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Token\RegisteredClaims;
+use Serializable;
 
-final class UnixTimestampDates implements ClaimsFormatter
+final class ClaimSerializer implements ClaimsFormatter
 {
     /** @inheritdoc  */
     public function formatClaims(array $claims): array
     {
-        foreach (RegisteredClaims::DATE_CLAIMS as $claim) {
-            if (! array_key_exists($claim, $claims)) {
-                continue;
+        foreach ($claims as $claim => $claimValue) {
+            if ($claimValue instanceof Serializable) {
+                $claims[$claim] = $claimValue->serialize();
             }
-
-            assert($claims[$claim] instanceof DateTimeImmutable);
-            $claims[$claim] = $claims[$claim]->getTimestamp();
         }
 
         return $claims;
@@ -74,7 +71,7 @@ final class UnixTimestampDates implements ClaimsFormatter
 $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
-$config->builder(new UnixTimestampDates());
+$config->builder(new ClaimSerializer());
 ```
 
 The class `Lcobucci\JWT\Encoding\ChainedFormatter` allows for users to combine multiple formatters. 
