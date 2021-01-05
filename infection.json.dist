@@ -8,7 +8,30 @@
     },
     "mutators": {
         "@default": true,
-        "@function_signature": true
+        "@function_signature": true,
+        "CastInt": {
+            "ignore": [
+                "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::octetLength",
+                "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::readAsn1Integer"
+            ]
+        },
+        "GreaterThan": {
+            "ignore": [
+                "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::toAsn1",
+                "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::preparePositiveInteger",
+                "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::retrievePositiveInteger"
+            ]
+        },
+        "LessThanOrEqualTo": {
+            "ignore": [
+                "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::preparePositiveInteger"
+            ]
+        },
+        "MBString": {
+            "ignore": [
+                "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter"
+            ]
+        }
     },
     "minMsi": 93.28,
     "minCoveredMsi": 93.28,
