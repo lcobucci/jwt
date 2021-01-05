@@ -44,7 +44,7 @@
             ]
         }
     },
-    "minMsi": 93.28,
-    "minCoveredMsi": 93.28,
+    "minMsi": 100,
+    "minCoveredMsi": 100,
     "testFrameworkOptions": "--testsuite=unit"
 }
