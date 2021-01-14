@@ -232,6 +232,9 @@ class Token
         }
 
         if ($name === RegisteredClaims::AUDIENCE && is_array($value)) {
+            if (count($value) > 1) {
+                trigger_error('You will only get the first array entry as a string. Use Token::claims()->get() instead.', E_USER_DEPRECATED);
+            }
             return current($value);
         }
 
