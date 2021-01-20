@@ -47,7 +47,7 @@ abstract class OpenSSL extends BaseSigner
     /**
      * @param $expected
      * @param $payload
-     * @param $pem
+     * @param $key
      * @return bool
      */
     public function doVerify($expected, $payload, Key $key)
