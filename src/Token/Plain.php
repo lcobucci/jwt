@@ -80,7 +80,7 @@ final class Plain implements TokenInterface
             return false;
         }
 
-        return $now > $this->claims->get(RegisteredClaims::EXPIRATION_TIME);
+        return $now >= $this->claims->get(RegisteredClaims::EXPIRATION_TIME);
     }
 
     public function toString(): string

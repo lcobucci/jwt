@@ -521,7 +521,7 @@ final class PlainTest extends TestCase
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Signature
      */
-    public function isExpiredShouldReturnFalseWhenExpirationIsEqualsToNow(): void
+    public function isExpiredShouldReturnTrueWhenExpirationIsEqualsToNow(): void
     {
         $now = new DateTimeImmutable();
 
@@ -530,7 +530,7 @@ final class PlainTest extends TestCase
             new DataSet([RegisteredClaims::EXPIRATION_TIME => $now], '')
         );
 
-        self::assertFalse($token->isExpired($now));
+        self::assertTrue($token->isExpired($now));
     }
 
     /**
