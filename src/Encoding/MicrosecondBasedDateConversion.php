@@ -25,7 +25,7 @@ final class MicrosecondBasedDateConversion implements ClaimsFormatter
         return $claims;
     }
 
-    /** @return int|string */
+    /** @return int|float */
     private function convertDate(DateTimeImmutable $date)
     {
         $seconds      = $date->format('U');
@@ -35,6 +35,6 @@ final class MicrosecondBasedDateConversion implements ClaimsFormatter
             return (int) $seconds;
         }
 
-        return $seconds . '.' . $microseconds;
+        return (float) ($seconds . '.' . $microseconds);
     }
 }
