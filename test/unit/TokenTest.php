@@ -959,6 +959,29 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
+     * @covers ::isExpired
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::getClaim
+     * @uses \Lcobucci\JWT\Token::hasClaim
+     * @uses Lcobucci\JWT\Claim\Basic
+     * @uses Lcobucci\JWT\Claim\GreaterOrEqualsTo
+     */
+    public function isExpiredShouldReturnTrueAtTheSameTimeTheTokenExpires()
+    {
+        $now = new DateTimeImmutable();
+        $token = new Token(
+            ['alg' => 'none'],
+            ['exp' => $now]
+        );
+
+        $this->assertTrue($token->isExpired($now));
+    }
+
+    /**
+     * @test
+     *
      * @uses \Lcobucci\JWT\Token::__construct
      * @uses \Lcobucci\JWT\Token::convertToDataSet
      *

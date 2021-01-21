@@ -298,7 +298,7 @@ class Token
 
         $now = $now ?: new DateTimeImmutable();
 
-        return $now > $this->claims->get(RegisteredClaims::EXPIRATION_TIME);
+        return $now >= $this->claims->get(RegisteredClaims::EXPIRATION_TIME);
     }
 
     /**
