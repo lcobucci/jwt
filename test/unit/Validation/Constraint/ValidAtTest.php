@@ -144,7 +144,7 @@ final class ValidAtTest extends ConstraintTestCase
             RegisteredClaims::EXPIRATION_TIME => $now->modify('-5 seconds'),
         ];
 
-        $constraint = new ValidAt($this->clock, new DateInterval('PT5S'));
+        $constraint = new ValidAt($this->clock, new DateInterval('PT6S'));
         $constraint->assert($this->buildToken($claims));
 
         $this->addToAssertionCount(1);
