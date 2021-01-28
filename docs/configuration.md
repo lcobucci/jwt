@@ -19,7 +19,7 @@ In order to use it, you must:
 
 ### Configuration initialisation
 
-The `Lcobucci\JWT\Signer\Key` object is used for symmetric/asymmetric signature.
+The `Lcobucci\JWT\Signer\Key\InMemory` object is used for symmetric/asymmetric signature.
 
 To initialise it, you can pass the key content as a plain text:
 
@@ -89,6 +89,10 @@ $configuration = Configuration::forAsymmetricSigner(
     // You may also override the JOSE encoder/decoder if needed by providing extra arguments here
 );
 ```
+
+!!! Important
+    The implementation of ECDSA algorithms have a constructor dependency.
+    Use the `create()` named constructor to avoid having to handle it (e.g.: `Lcobucci\JWT\Signer\Ecdsa\Sha256::create()`).
 
 #### For no algorithm
 

@@ -155,7 +155,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
             RegisteredClaims::EXPIRATION_TIME => $now->modify('-5 seconds'),
         ];
 
-        $constraint = $this->buildValidAtConstraint($this->clock, new DateInterval('PT5S'));
+        $constraint = $this->buildValidAtConstraint($this->clock, new DateInterval('PT6S'));
         $constraint->assert($this->buildToken($claims));
 
         $this->addToAssertionCount(1);
