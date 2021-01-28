@@ -16,7 +16,7 @@ composer require lcobucci/jwt
 In order to be able to use the classes provided by this library you're also required to include [Composer]'s autoloader in your application:
 
 ```php
-require 'vendor/bin/autoload.php';
+require 'vendor/autoload.php';
 ```
 
 !!! Tip
