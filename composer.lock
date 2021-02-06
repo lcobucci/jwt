@@ -1854,16 +1854,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.71",
+            "version": "0.12.72",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "d508fa3b0ecc5fc91ac70c6c7ac2862f968ba2b5"
+                "reference": "ae32fb1c5e97979f424c3ccec4ee435a35754769"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d508fa3b0ecc5fc91ac70c6c7ac2862f968ba2b5",
-                "reference": "d508fa3b0ecc5fc91ac70c6c7ac2862f968ba2b5",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ae32fb1c5e97979f424c3ccec4ee435a35754769",
+                "reference": "ae32fb1c5e97979f424c3ccec4ee435a35754769",
                 "shasum": ""
             },
             "require": {
@@ -1894,7 +1894,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.71"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.72"
             },
             "funding": [
                 {
@@ -1910,7 +1910,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-01T18:24:00+00:00"
+            "time": "2021-02-06T18:34:03+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
