@@ -151,6 +151,87 @@ Here's the migration:
 +    ->getToken($config->signer(), $config->signingKey());
 ```
 
+#### Support for multiple audiences
+
+Even though we didn't officially support multiple audiences, it was technically possible to achieve that by manually setting the `aud` claim.
+
+For this case, there are different approaches to migrate your code.
+Feel free to choose your preferred one.
+
+##### Multiple calls to `Builder#permittedFor()`
+
+```diff
+ <?php
+ declare(strict_types=1);
+ 
+ namespace Me\MyApp\Authentication;
+
+-use Lcobucci\JWT\Builder;
++use Lcobucci\JWT\Configuration;
++use Lcobucci\JWT\Signer\Key\InMemory;
+ use Lcobucci\JWT\Signer\Hmac\Sha256;
+
++$config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText('testing'));
+
+-$token = (new Builder())
++$token = $config->builder()
+-    ->withClaim('aud', ['one', 'two', 'three'])
++    ->permittedFor('one')
++    ->permittedFor('two')
++    ->permittedFor('three')
+-    ->sign(new Sha256(), 'testing')
+-    ->getToken();
++    ->getToken($config->signer(), $config->signingKey());
+```
+
+##### Single call to `Builder#permittedFor()` with multiple arguments
+
+```diff
+ <?php
+ declare(strict_types=1);
+ 
+ namespace Me\MyApp\Authentication;
+
+-use Lcobucci\JWT\Builder;
++use Lcobucci\JWT\Configuration;
++use Lcobucci\JWT\Signer\Key\InMemory;
+ use Lcobucci\JWT\Signer\Hmac\Sha256;
+
++$config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText('testing'));
+
+-$token = (new Builder())
++$token = $config->builder()
+-    ->withClaim('aud', ['one', 'two', 'three'])
++    ->permittedFor('one', 'two', 'three')
+-    ->sign(new Sha256(), 'testing')
+-    ->getToken();
++    ->getToken($config->signer(), $config->signingKey());
+```
+
+##### Single call to `Builder#permittedFor()` with argument unpacking
+
+```diff
+ <?php
+ declare(strict_types=1);
+ 
+ namespace Me\MyApp\Authentication;
+
+-use Lcobucci\JWT\Builder;
++use Lcobucci\JWT\Configuration;
++use Lcobucci\JWT\Signer\Key\InMemory;
+ use Lcobucci\JWT\Signer\Hmac\Sha256;
+
++$config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText('testing'));
+
+-$token = (new Builder())
++$token = $config->builder()
+-    ->withClaim('aud', ['one', 'two', 'three'])
++    ->permittedFor(...['one', 'two', 'three'])
+-    ->sign(new Sha256(), 'testing')
+-    ->getToken();
++    ->getToken($config->signer(), $config->signingKey());
+```
+
 ### Replace `Token#verify()` and `Token#validate()` with Validation API
 
 These methods were quite limited and brings multiple responsibilities to the `Token` class.
