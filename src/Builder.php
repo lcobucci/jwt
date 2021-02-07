@@ -15,10 +15,16 @@ use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\RegisteredClaimGiven;
 use Lcobucci\JWT\Token\RegisteredClaims;
 
+use function array_diff;
+use function array_filter;
 use function array_key_exists;
+use function array_merge;
+use function array_shift;
+use function count;
 use function current;
 use function in_array;
 use function is_array;
+use function is_bool;
 use function trigger_error;
 use const E_USER_DEPRECATED;
 
@@ -101,14 +107,26 @@ class Builder
     /**
      * Configures the audience
      *
-     * @param string $audience
-     * @param bool $replicateAsHeader
+     * @param list<string|bool> $audiences A list of audiences and, optionally, the instruction to replicate as header
      *
      * @return Builder
      */
-    public function permittedFor($audience, $replicateAsHeader = false)
+    public function permittedFor(...$audiences)
     {
-        return $this->setRegisteredClaim('aud', [(string) $audience], $replicateAsHeader);
+        $claim = RegisteredClaims::AUDIENCE;
+
+        $replicateAsHeader = false;
+
+        if ($audiences !== [] && is_bool($audiences[count($audiences) - 1])) {
+            $replicateAsHeader = array_pop($audiences);
+        }
+
+        $audiences = array_filter($audiences, 'is_string');
+
+        $configured = array_key_exists($claim, $this->claims) ? $this->claims[$claim] : [];
+        $toAppend   = array_diff($audiences, $configured);
+
+        return $this->setRegisteredClaim($claim, array_merge($configured, $toAppend), $replicateAsHeader);
     }
 
     /**
@@ -547,8 +565,10 @@ class Builder
             $items[$name] = $items[$name]->getTimestamp();
         }
 
-        if (array_key_exists(RegisteredClaims::AUDIENCE, $items) && is_array($items[RegisteredClaims::AUDIENCE])) {
-            $items[RegisteredClaims::AUDIENCE] = current($items[RegisteredClaims::AUDIENCE]);
+        $audience = RegisteredClaims::AUDIENCE;
+
+        if (array_key_exists($audience, $items) && is_array($items[$audience]) && count($items[$audience]) === 1) {
+            $items[$audience] = current($items[$audience]);
         }
 
         return $items;
