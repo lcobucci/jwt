@@ -193,4 +193,37 @@ RSA;
             [Key\LocalFileReference::file('file://' . __DIR__ . '/rsa/private.key')],
         ];
     }
+
+    /** @test */
+    public function tokenCanHaveMultipleAudiences()
+    {
+        $config = Configuration::forSymmetricSigner(new HmacSha256(), Key\InMemory::plainText('testing'));
+
+        $now = new DateTimeImmutable();
+        $token = $config->builder()
+            ->issuedAt($now)
+            ->issuedBy('two')
+            ->permittedFor('me', 'you')
+            ->permittedFor('they')
+            ->permittedFor('they') // this should be ignored because it's duplicated
+            ->permittedFor(1) // this should be ignored because it's not a string
+            ->identifiedBy('123')
+            ->relatedTo('user123')
+            ->canOnlyBeUsedAfter($now->modify('+5 minutes'))
+            ->expiresAt($now->modify('+1 hour'))
+            ->getToken($config->signer(), $config->signingKey());
+
+        self::assertSame(['me', 'you', 'they'], $token->claims()->get('aud'));
+
+        $validator = $config->validator();
+
+        self::assertTrue($validator->validate($token, new PermittedFor('me')));
+        self::assertTrue($validator->validate($token, new PermittedFor('you')));
+        self::assertTrue($validator->validate($token, new PermittedFor('they')));
+        self::assertFalse($validator->validate($token, new PermittedFor('her')));
+
+        $parsedToken = $config->parser()->parse($token->toString());
+
+        self::assertSame(['me', 'you', 'they'], $parsedToken->claims()->get('aud'));
+    }
 }

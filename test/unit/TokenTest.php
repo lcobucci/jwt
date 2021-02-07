@@ -512,6 +512,37 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      *
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\ValidationData
+     * @uses \Lcobucci\JWT\Claim\Basic
+     * @uses \Lcobucci\JWT\Claim\EqualsTo
+     *
+     * @covers ::validate
+     * @covers ::getClaims
+     * @covers ::getValidatableClaims
+     */
+    public function onlyFirstAudienceShouldBeUsedOnLegacyValidation()
+    {
+        $token = new Token(
+            [],
+            ['aud' => ['one', 'two']]
+        );
+
+        $data = new ValidationData();
+        $data->setAudience('one');
+
+        self::assertTrue($token->validate($data));
+
+        $data = new ValidationData();
+        $data->setAudience('two');
+
+        self::assertFalse($token->validate($data));
+    }
+
+    /**
+     * @test
+     *
      * @covers ::isPermittedFor
      *
      * @uses \Lcobucci\JWT\Token::__construct
