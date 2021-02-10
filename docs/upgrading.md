@@ -10,6 +10,33 @@ We're building on the version `v3.4.0` a forward compatibility layer to help use
 To help on the migration process, all deprecated components are being marked with `@deprecated` and deprecated behaviour will trigger a `E_USER_DEPRECATED` error.
 However, you can also find here the instructions on how to make your code compatible with both versions.
 
+### General migration strategy
+
+Update your existing software to the latest 3.4.x version using composer:
+
+```sh
+composer require lcobucci/jwt ^3.4
+```
+
+Then run your tests and fix all deprecation notices.
+Also change all calls to deprecated methods, even if they are not triggering any notices.
+Tools like [`phpstan/phpstan-deprecation-rules`](https://github.com/phpstan/phpstan-deprecation-rules) can help finding them.
+
+Note that PHPUnit tests will only fail if you have the `E_USER_DEPRECATED` error level activated - it is a good practice to run tests using `E_ALL`.
+Data providers that trigger deprecation messages will not fail tests at all, only print the message to the console.
+Make sure you do not see any of them before you continue.
+
+Now you can upgrade to the latest 4.x version:
+
+```sh
+composer require lcobucci/jwt ^4.0
+```
+
+Remember that some deprecation messages from the 3.4 version may have notified you that things still are different in 4.0, so you may find you need to adapt your own code once more at this stage.
+
+While you are at it, consider using the new configuration object.
+The details are listed below.
+
 ### Inject the configuration object instead of builder/parser/key
 
 This object serves as a small service locator that centralises the JWT-related dependencies.
@@ -153,10 +180,13 @@ Here's the migration:
 
 #### Support for multiple audiences
 
-Even though we didn't officially support multiple audiences, it was technically possible to achieve that by manually setting the `aud` claim.
+Even though we didn't officially support multiple audiences, it was technically possible to achieve that by manually setting the `aud` claim to an array with multiple strings.
 
-For this case, there are different approaches to migrate your code.
-Feel free to choose your preferred one.
+If you parse a token with 3.4, and read it's contents with `\Lcobucci\JWT\Token#getClaim()` or`\Lcobucci\JWT\Token#getClaims()`, you will only get the first element of such an array back.
+If the audience claim does only contain a string, or only contains one string in the array, nothing changes.
+Please [upgrade to the new Token API](#use-the-new-token-api) for accessing claims in order to get the full audience array again (e.g. call `Token#claims()->get('aud')`).
+
+When creating a token, use the new method `Builder#permittedFor()` as detailed below.
 
 ##### Multiple calls to `Builder#permittedFor()`
 

@@ -284,6 +284,25 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      *
      * @uses \Lcobucci\JWT\Token::__construct
      * @uses \Lcobucci\JWT\Token::convertToDataSet
+     * @uses \Lcobucci\JWT\Token::hasClaim
+     * @uses Lcobucci\JWT\Claim\Basic
+     *
+     * @covers ::getClaim
+     */
+    public function getClaimShouldEmitDeprecationMessageWhenAccessingAudClaimArray()
+    {
+        $this->expectDeprecation('You will only get the first array entry as a string. Use Token::claims()->get() instead.');
+        $token = new Token([], ['aud' => ['test1', 'test2']]);
+
+        $this->assertEquals('test1', $token->getClaim('aud'));
+        $this->assertEquals(['test1', 'test2'], $token->claims()->get('aud'));
+    }
+
+    /**
+     * @test
+     *
+     * @uses \Lcobucci\JWT\Token::__construct
+     * @uses \Lcobucci\JWT\Token::convertToDataSet
      *
      * @covers ::verify
      * @covers ::getPayload
