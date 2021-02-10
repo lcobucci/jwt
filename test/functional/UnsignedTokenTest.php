@@ -10,8 +10,8 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
-use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use PHPUnit\Framework\TestCase;
@@ -36,7 +36,7 @@ use function assert;
  * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy
  * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor
  * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
- * @covers \Lcobucci\JWT\Validation\Constraint\ValidAt
+ * @covers \Lcobucci\JWT\Validation\Constraint\LooseValidAt
  */
 class UnsignedTokenTest extends TestCase
 {
@@ -99,7 +99,7 @@ class UnsignedTokenTest extends TestCase
             new IdentifiedBy('1'),
             new PermittedFor('http://client.abc.com'),
             new IssuedBy('http://issuer.abc.com', 'http://api.abc.com'),
-            new ValidAt($clock),
+            new LooseValidAt($clock),
         ];
 
         self::assertTrue($this->config->validator()->validate($generated, ...$constraints));

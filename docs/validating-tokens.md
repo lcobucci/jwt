@@ -15,14 +15,14 @@ This method goes through every single constraint in the set, groups all the viol
 
 ```php
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\UnencryptedToken;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 
-$token = $container->get(Configuration::class);
+$config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
 $token = $config->parser()->parse('...');
-assert($token instanceof Plain);
+assert($token instanceof UnencryptedToken);
 
 $constraints = $config->validationConstraints();
 
@@ -39,17 +39,17 @@ try {
 !!! Warning
     You **MUST** provide at least one constraint, otherwise `\Lcobucci\JWT\Validation\NoConstraintsGiven` exception will be thrown.
 
-The difference here is that we'll always a get a `boolean` result and stop in the very first violation:
+The difference here is that we'll always get a `boolean` result and stop in the very first violation:
 
 ```php
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\UnencryptedToken;
 
-$token = $container->get(Configuration::class);
+$config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
 $token = $config->parser()->parse('...');
-assert($token instanceof Plain);
+assert($token instanceof UnencryptedToken);
 
 $constraints = $config->validationConstraints();
 
@@ -67,6 +67,7 @@ This library provides the following constraints:
 * `Lcobucci\JWT\Validation\Constraint\PermittedFor`: verifies if the claim `aud` contains the expected value
 * `Lcobucci\JWT\Validation\Constraint\RelatedTo`: verifies if the claim `sub` matches the expected value
 * `Lcobucci\JWT\Validation\Constraint\SignedWith`: verifies if the token was signed with the expected signer and key
-* `Lcobucci\JWT\Validation\Constraint\ValidAt`: verifies the claims `iat`, `nbf`, and `exp` (supports leeway configuration)
+* `Lcobucci\JWT\Validation\Constraint\StrictValidAt`: verifies presence and validity of the claims `iat`, `nbf`, and `exp` (supports leeway configuration)
+* `Lcobucci\JWT\Validation\Constraint\LooseValidAt`: verifies the claims `iat`, `nbf`, and `exp`, when present (supports leeway configuration)
 
 You may also create your [own validation constraints](extending-the-library.md#validation-constraints).

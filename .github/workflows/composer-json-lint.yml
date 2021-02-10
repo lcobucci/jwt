@@ -1,4 +1,4 @@
-name: "Check Coding Standards"
+name: "Lint composer.json"
 
 on:
   pull_request:
@@ -6,14 +6,14 @@ on:
 
 jobs:
   coding-standards:
-    name: "Check Coding Standards"
+    name: "Lint composer.json"
 
     runs-on: ${{ matrix.operating-system }}
 
     strategy:
       matrix:
         dependencies:
-          - "locked"
+          - "highest"
         php-version:
           - "7.4"
         operating-system:
@@ -29,7 +29,7 @@ jobs:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
           ini-values: memory_limit=-1
-          tools: composer:v2, cs2pr
+          tools: composer:v2, composer-normalize, composer-require-checker, composer-unused
 
       - name: Get composer cache directory
         id: composer-cache
@@ -54,5 +54,14 @@ jobs:
         if: ${{ matrix.dependencies == 'locked' }}
         run: "composer install --no-interaction --no-progress"
 
-      - name: "Coding Standard"
-        run: "make phpcs PHPCS_FLAGS='-q --report=checkstyle | cs2pr'"
+      - name: "Validate composer.json"
+        run: "composer validate --strict"
+
+      - name: "Normalize composer.json"
+        run: "composer-normalize --dry-run"
+
+      - name: "Check composer.json explicit dependencies"
+        run: "composer-require-checker check --config-file=$(realpath composer-require-checker.json)"
+
+      - name: "Check composer.json unused dependencies"
+        run: "composer-unused"

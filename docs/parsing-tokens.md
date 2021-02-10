@@ -8,7 +8,7 @@ To parse a token you must create a new parser (easier when using the [configurat
 
 ```php
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\UnencryptedToken;
 
 $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
@@ -19,7 +19,7 @@ $token = $config->parser()->parse(
     . '2gSBz9EOsQRN9I-3iSxJoFt7NtgV6Rm0IL6a8CAwl3Q'
 );
 
-assert($token instanceof Plain);
+assert($token instanceof UnencryptedToken);
 
 $token->headers(); // Retrieves the token headers
 $token->claims(); // Retrieves the token claims
