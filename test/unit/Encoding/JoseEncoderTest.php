@@ -103,6 +103,8 @@ final class JoseEncoderTest extends TestCase
      * @test
      *
      * @covers ::base64UrlEncode
+     *
+     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::bin2base64()
      */
     public function base64UrlEncodeMustReturnAUrlSafeBase64(): void
     {
@@ -119,6 +121,8 @@ final class JoseEncoderTest extends TestCase
      * @test
      *
      * @covers ::base64UrlEncode
+     *
+     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::bin2base64()
      */
     public function base64UrlEncodeMustEncodeBilboMessageProperly(): void
     {
@@ -139,6 +143,8 @@ final class JoseEncoderTest extends TestCase
      * @test
      *
      * @covers ::base64UrlDecode
+     *
+     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
      */
     public function base64UrlDecodeMustRaiseExceptionWhenInvalidBase64CharsAreUsed(): void
     {
@@ -155,6 +161,8 @@ final class JoseEncoderTest extends TestCase
      * @test
      *
      * @covers ::base64UrlDecode
+     *
+     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
      */
     public function base64UrlDecodeMustReturnTheRightData(): void
     {
@@ -170,6 +178,8 @@ final class JoseEncoderTest extends TestCase
      * @test
      *
      * @covers ::base64UrlDecode
+     *
+     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
      */
     public function base64UrlDecodeMustDecodeBilboMessageProperly(): void
     {

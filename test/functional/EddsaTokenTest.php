@@ -31,6 +31,7 @@ use function assert;
  * @covers \Lcobucci\JWT\Signer\Eddsa
  * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
  * @covers \Lcobucci\JWT\Signer\OpenSSL
+ * @covers \Lcobucci\JWT\SodiumBase64Polyfill
  * @covers \Lcobucci\JWT\Validation\Validator
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
  * @covers \Lcobucci\JWT\Validation\Validator
