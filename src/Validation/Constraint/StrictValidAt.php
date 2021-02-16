@@ -8,10 +8,10 @@ use DateTimeInterface;
 use Lcobucci\Clock\Clock;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\UnencryptedToken;
-use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\ConstraintViolation;
+use Lcobucci\JWT\Validation\ValidAt as ValidAtInterface;
 
-final class StrictValidAt implements Constraint
+final class StrictValidAt implements ValidAtInterface
 {
     private Clock $clock;
     private DateInterval $leeway;
