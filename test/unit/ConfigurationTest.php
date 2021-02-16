@@ -9,6 +9,7 @@ use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token\Builder as BuilderImpl;
 use Lcobucci\JWT\Token\Parser as ParserImpl;
+use Lcobucci\JWT\Token\SecureParser as SecureParserImpl;
 use Lcobucci\JWT\Validation\Constraint;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -20,12 +21,16 @@ use PHPUnit\Framework\TestCase;
  * @uses \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
  * @uses \Lcobucci\JWT\Encoding\UnifyAudience
  * @uses \Lcobucci\JWT\Token\Parser
+ * @uses \Lcobucci\JWT\Token\SecureParser
  * @uses \Lcobucci\JWT\Validation\Validator
  */
 final class ConfigurationTest extends TestCase
 {
     /** @var Parser&MockObject */
     private Parser $parser;
+
+    /** @var SecureParser&MockObject */
+    private $secureParser;
 
     /** @var Signer&MockObject */
     private Signer $signer;
@@ -49,6 +54,7 @@ final class ConfigurationTest extends TestCase
         $this->encoder               = $this->createMock(Encoder::class);
         $this->decoder               = $this->createMock(Decoder::class);
         $this->parser                = $this->createMock(Parser::class);
+        $this->secureParser          = $this->createMock(SecureParser::class);
         $this->validator             = $this->createMock(Validator::class);
         $this->validationConstraints = $this->createMock(Constraint::class);
     }
@@ -237,6 +243,63 @@ final class ConfigurationTest extends TestCase
         $config->setParser($this->parser);
 
         self::assertSame($this->parser, $config->parser());
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::secureParser
+     *
+     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::__construct
+     * @uses \Lcobucci\JWT\Signer\None
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     */
+    public function secureParserShouldReturnASecureParserWithDefaultDecoder(): void
+    {
+        $config       = Configuration::forUnsecuredSigner();
+        $secureParser = $config->secureParser();
+
+        self::assertNotEquals(new SecureParserImpl($this->decoder, $this->validator), $secureParser);
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::secureParser
+     * @covers ::setValidator
+     * @covers ::__construct
+     *
+     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Signer\None
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     */
+    public function secureParserShouldReturnASecureParserWithCustomizedDecoderAndValidator(): void
+    {
+        $config = Configuration::forUnsecuredSigner(null, $this->decoder);
+        $config->setValidator($this->validator);
+        $secureParser = $config->secureParser();
+
+        self::assertEquals(new SecureParserImpl($this->decoder, $this->validator), $secureParser);
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::secureParser
+     * @covers ::setSecureParser
+     *
+     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::__construct
+     * @uses \Lcobucci\JWT\Signer\None
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     */
+    public function secureParserShouldNotCreateAnInstanceIfItWasConfigured(): void
+    {
+        $config = Configuration::forUnsecuredSigner();
+        $config->setSecureParser($this->secureParser);
+
+        self::assertSame($this->secureParser, $config->secureParser());
     }
 
     /**

@@ -19,11 +19,13 @@ use Lcobucci\JWT\Validation\Constraint;
  */
 final class Configuration
 {
+    private Decoder $decoder;
     private Parser $parser;
     private Signer $signer;
     private Key $signingKey;
     private Key $verificationKey;
     private Validator $validator;
+    private ?SecureParser $secureParser = null;
 
     /** @var Closure(ClaimsFormatter $claimFormatter): Builder */
     private Closure $builderFactory;
@@ -38,10 +40,12 @@ final class Configuration
         ?Encoder $encoder = null,
         ?Decoder $decoder = null
     ) {
+        $this->decoder = $decoder ?? new JoseEncoder();
+
         $this->signer          = $signer;
         $this->signingKey      = $signingKey;
         $this->verificationKey = $verificationKey;
-        $this->parser          = new Token\Parser($decoder ?? new JoseEncoder());
+        $this->parser          = new Token\Parser($this->decoder);
         $this->validator       = new Validation\Validator();
 
         $this->builderFactory = static function (ClaimsFormatter $claimFormatter) use ($encoder): Builder {
@@ -114,6 +118,20 @@ final class Configuration
     public function setParser(Parser $parser): void
     {
         $this->parser = $parser;
+    }
+
+    public function secureParser(): SecureParser
+    {
+        if ($this->secureParser === null) {
+            $this->secureParser = new Token\SecureParser($this->decoder, $this->validator);
+        }
+
+        return $this->secureParser;
+    }
+
+    public function setSecureParser(SecureParser $secureParser): void
+    {
+        $this->secureParser = $secureParser;
     }
 
     public function signer(): Signer
