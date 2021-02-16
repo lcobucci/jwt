@@ -5,24 +5,30 @@ namespace Lcobucci\JWT\Token;
 
 use DateTimeImmutable;
 use Lcobucci\JWT\Decoder;
+use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Validation\Constraint;
+use Lcobucci\JWT\Validation\ConstraintViolation;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use Lcobucci\JWT\Validation\SignedWith;
 use Lcobucci\JWT\Validation\ValidAt;
-use Lcobucci\JWT\Validator;
+use Lcobucci\JWT\Validation\Validator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+
+use function uniqid;
 
 /**
  * @coversDefaultClass \Lcobucci\JWT\Token\SecureParser
  *
  * @uses  \Lcobucci\JWT\Token\Parser
+ * @uses  \Lcobucci\JWT\Validation\Validator
  */
 final class SecureParserTest extends TestCase
 {
     /** @var Decoder&MockObject */
     private Decoder $decoder;
-    /** @var Validator&MockObject */
-    private $validator;
+    private Validator $validator;
     /** @var SignedWith&MockObject */
     private $signedWith;
     /** @var ValidAt&MockObject */
@@ -32,7 +38,7 @@ final class SecureParserTest extends TestCase
     public function createDependencies(): void
     {
         $this->decoder    = $this->createMock(Decoder::class);
-        $this->validator  = $this->createMock(Validator::class);
+        $this->validator  = new Validator();
         $this->signedWith = $this->createMock(SignedWith::class);
         $this->validAt    = $this->createMock(ValidAt::class);
     }
@@ -47,7 +53,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
      * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      */
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
@@ -65,8 +70,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
      */
     public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded(): void
     {
@@ -91,8 +94,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
      * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      */
     public function parseMustRaiseExceptionWhenDealingWithInvalidHeaders(): void
@@ -113,8 +114,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
      * @covers \Lcobucci\JWT\Token\UnsupportedHeaderFound
      */
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
@@ -135,9 +134,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
      * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      *
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -160,10 +156,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -202,10 +194,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -244,10 +232,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -286,10 +270,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -328,10 +308,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -370,10 +346,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -412,10 +384,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -455,11 +423,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     * @covers ::convertDate
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -506,11 +469,6 @@ final class SecureParserTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     * @covers ::convertDate
      * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      *
      * @uses \Lcobucci\JWT\Token\Plain
@@ -537,5 +495,133 @@ final class SecureParserTest extends TestCase
         $this->expectException(InvalidTokenStructure::class);
         $this->expectExceptionMessage('Value is not in the allowed date format: 14/10/2018 10:50:10.10 UTC');
         $this->createParser()->parse('a.b.', $this->signedWith, $this->validAt);
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
+     *
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
+     * @uses \Lcobucci\JWT\Validation\RequiredConstraintsViolated
+     * @uses \Lcobucci\JWT\Validation\ConstraintViolation
+     */
+    public function parseMustRaiseExceptionWhenSignatureIsInvalid(): void
+    {
+        $this->decoder->expects(self::exactly(2))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+
+        $this->decoder->expects(self::exactly(2))
+            ->method('jsonDecode')
+            ->withConsecutive(['a_dec'], ['b_dec'])
+            ->willReturnOnConsecutiveCalls(
+                ['typ' => 'JWT', 'alg' => 'none'],
+                [RegisteredClaims::AUDIENCE => 'test']
+            );
+
+        $exceptionMessage = uniqid();
+        $this->signedWith->expects(self::once())
+            ->method('assert')
+            ->with(self::isInstanceOf(Token::class))
+            ->willThrowException(new ConstraintViolation($exceptionMessage));
+
+        $parser = $this->createParser();
+
+        $this->expectException(RequiredConstraintsViolated::class);
+        $this->expectExceptionMessage($exceptionMessage);
+
+        $parser->parse('a.b.', $this->signedWith, $this->validAt);
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
+     *
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
+     * @uses \Lcobucci\JWT\Validation\RequiredConstraintsViolated
+     * @uses \Lcobucci\JWT\Validation\ConstraintViolation
+     */
+    public function parseMustRaiseExceptionWhenTimestampsAreInvalid(): void
+    {
+        $this->decoder->expects(self::exactly(2))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+
+        $this->decoder->expects(self::exactly(2))
+            ->method('jsonDecode')
+            ->withConsecutive(['a_dec'], ['b_dec'])
+            ->willReturnOnConsecutiveCalls(
+                ['typ' => 'JWT', 'alg' => 'none'],
+                [RegisteredClaims::AUDIENCE => 'test']
+            );
+
+        $exceptionMessage = uniqid();
+        $this->validAt->expects(self::once())
+            ->method('assert')
+            ->with(self::isInstanceOf(Token::class))
+            ->willThrowException(new ConstraintViolation($exceptionMessage));
+
+        $parser = $this->createParser();
+
+        $this->expectException(RequiredConstraintsViolated::class);
+        $this->expectExceptionMessage($exceptionMessage);
+
+        $parser->parse('a.b.', $this->signedWith, $this->validAt);
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
+     *
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
+     * @uses \Lcobucci\JWT\Validation\RequiredConstraintsViolated
+     * @uses \Lcobucci\JWT\Validation\ConstraintViolation
+     */
+    public function parseMustRaiseExceptionWhenOptionalConstraintFails(): void
+    {
+        $this->decoder->expects(self::exactly(2))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+
+        $this->decoder->expects(self::exactly(2))
+            ->method('jsonDecode')
+            ->withConsecutive(['a_dec'], ['b_dec'])
+            ->willReturnOnConsecutiveCalls(
+                ['typ' => 'JWT', 'alg' => 'none'],
+                [RegisteredClaims::AUDIENCE => 'test']
+            );
+
+        $optionalConstraint = $this->createMock(Constraint::class);
+
+        $exceptionMessage = uniqid();
+        $optionalConstraint->expects(self::once())
+            ->method('assert')
+            ->with(self::isInstanceOf(Token::class))
+            ->willThrowException(new ConstraintViolation($exceptionMessage));
+
+        $parser = $this->createParser();
+
+        $this->expectException(RequiredConstraintsViolated::class);
+        $this->expectExceptionMessage($exceptionMessage);
+
+        $parser->parse('a.b.', $this->signedWith, $this->validAt, $optionalConstraint);
     }
 }

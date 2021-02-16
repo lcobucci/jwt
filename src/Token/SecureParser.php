@@ -22,8 +22,21 @@ final class SecureParser implements SecureParserInterface
         $this->validator = $validator;
     }
 
-    public function parse(string $jwt, SignedWith $signedWith, ValidAt $validAt, Constraint ...$constraints): TokenInterface
-    {
-        return $this->parser->parse($jwt);
+    public function parse(
+        string $jwt,
+        SignedWith $signedWith,
+        ValidAt $validAt,
+        Constraint ...$constraints
+    ): TokenInterface {
+        $token = $this->parser->parse($jwt);
+
+        $this->validator->assert(
+            $token,
+            $signedWith,
+            $validAt,
+            ...$constraints
+        );
+
+        return $token;
     }
 }
