@@ -6,10 +6,10 @@ namespace Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\UnencryptedToken;
-use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\ConstraintViolation;
+use Lcobucci\JWT\Validation\SignedWith as SignedWithInterface;
 
-final class SignedWith implements Constraint
+final class SignedWith implements SignedWithInterface
 {
     private Signer $signer;
     private Signer\Key $key;
