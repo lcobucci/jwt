@@ -34,6 +34,7 @@ use function assert;
  * @covers \Lcobucci\JWT\Signer\Rsa
  * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
  * @covers \Lcobucci\JWT\Signer\Rsa\Sha512
+ * @covers \Lcobucci\JWT\SodiumBase64Polyfill
  * @covers \Lcobucci\JWT\Validation\Validator
  * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith

@@ -3,17 +3,13 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Key;
 
-use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Signer\Key;
-use SodiumException;
+use Lcobucci\JWT\SodiumBase64Polyfill;
 use SplFileObject;
 use Throwable;
 
 use function assert;
 use function is_string;
-use function sodium_base642bin;
-
-use const SODIUM_BASE64_VARIANT_ORIGINAL;
 
 final class InMemory implements Key
 {
@@ -38,11 +34,10 @@ final class InMemory implements Key
 
     public static function base64Encoded(string $contents, string $passphrase = ''): self
     {
-        try {
-            $decoded = sodium_base642bin($contents, SODIUM_BASE64_VARIANT_ORIGINAL, '');
-        } catch (SodiumException $sodiumException) {
-            throw CannotDecodeContent::invalidBase64String($sodiumException);
-        }
+        $decoded = SodiumBase64Polyfill::base642bin(
+            $contents,
+            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL
+        );
 
         return new self($decoded, $passphrase);
     }

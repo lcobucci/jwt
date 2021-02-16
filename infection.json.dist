@@ -32,6 +32,11 @@
                 "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::preparePositiveInteger"
             ]
         },
+        "LogicalNot": {
+            "ignoreSourceCodeByRegex": [
+                "if \\(!function_exists\\('sodium_\\w+'\\)\\) \\{"
+            ]
+        },
         "MBString": {
             "ignore": [
                 "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter"

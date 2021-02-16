@@ -107,6 +107,8 @@ final class EddsaTest extends TestCase
      *
      * @uses \Lcobucci\JWT\Encoding\JoseEncoder
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
+     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::bin2base64()
      */
     public function signatureOfRfcExample(): void
     {
@@ -138,6 +140,7 @@ final class EddsaTest extends TestCase
      *
      * @uses \Lcobucci\JWT\Encoding\JoseEncoder
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
      */
     public function verificationOfRfcExample(): void
     {
