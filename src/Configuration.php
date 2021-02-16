@@ -110,11 +110,13 @@ final class Configuration
         return ($this->builderFactory)($claimFormatter ?? ChainedFormatter::default());
     }
 
+    /** @deprecated Use SecureParser instead. */
     public function parser(): Parser
     {
         return $this->parser;
     }
 
+    /** @deprecated Use SecureParser instead. */
     public function setParser(Parser $parser): void
     {
         $this->parser = $parser;

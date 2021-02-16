@@ -6,3 +6,7 @@ parameters:
 
     ignoreErrors:
         - '#.*OpenSSLAsymmetricKey.*#'
+        - '#^Call to deprecated method (parser|setParser)\(\) of class Lcobucci\\JWT\\Configuration#'
+        - '#^Instantiation of deprecated class Lcobucci\\JWT\\Token\\Parser#'
+        - '#^Fetching class constant class of deprecated class Lcobucci\\JWT\\Parser:#'
+        - '#^Return type of method Lcobucci\\JWT\\Token\\ParserTest::createParser\(\) has typehint with deprecated class Lcobucci\\JWT\\Token\\Parser:#'
