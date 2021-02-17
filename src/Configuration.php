@@ -4,12 +4,17 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use Closure;
+use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\None;
+use Lcobucci\JWT\Token\ValidateDuringParsing;
 use Lcobucci\JWT\Validation\Constraint;
+
+use function array_merge;
+use function array_values;
 
 /**
  * Configuration container for the JWT Builder and Parser
@@ -109,6 +114,37 @@ final class Configuration
     public function parser(): Parser
     {
         return $this->parser;
+    }
+
+    public function secureParser(Constraint ...$extraConstraints): ValidateDuringParsing
+    {
+        $constraints           = array_merge($this->validationConstraints, $extraConstraints);
+        $timeVerification      = null;
+        $signatureVerification = null;
+
+        foreach ($constraints as $i => $constraint) {
+            if ($constraint instanceof Constraint\LooseValidAt || $constraint instanceof Constraint\StrictValidAt) {
+                $timeVerification = $constraint;
+                unset($constraints[$i]);
+
+                continue;
+            }
+
+            if (! $constraint instanceof Constraint\SignedWith) {
+                continue;
+            }
+
+            $signatureVerification = $constraint;
+            unset($constraints[$i]);
+        }
+
+        return new ValidateDuringParsing(
+            $this->parser,
+            $this->validator,
+            $signatureVerification ?? new Constraint\SignedWith($this->signer, $this->verificationKey),
+            $timeVerification ?? new Constraint\LooseValidAt(SystemClock::fromUTC()),
+            ...array_values($constraints)
+        );
     }
 
     public function setParser(Parser $parser): void
