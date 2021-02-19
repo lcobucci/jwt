@@ -57,7 +57,7 @@ final class SodiumBase64Polyfill
     public static function base642bin(string $encoded, int $variant): string
     {
         if (! function_exists('sodium_base642bin')) {
-            return self::bin2base64Fallback($encoded, $variant); // @codeCoverageIgnore
+            return self::base642binFallback($encoded, $variant); // @codeCoverageIgnore
         }
 
         try {
