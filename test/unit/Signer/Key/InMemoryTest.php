@@ -27,6 +27,8 @@ final class InMemoryTest extends TestCase
      *
      * @covers ::base64Encoded
      * @covers \Lcobucci\JWT\Encoding\CannotDecodeContent
+     *
+     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
      */
     public function exceptionShouldBeRaisedWhenInvalidBase64CharsAreUsed(): void
     {
@@ -42,6 +44,8 @@ final class InMemoryTest extends TestCase
      * @covers ::base64Encoded
      * @covers ::__construct
      * @covers ::contents
+     *
+     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
      */
     public function base64EncodedShouldDecodeKeyContents(): void
     {
