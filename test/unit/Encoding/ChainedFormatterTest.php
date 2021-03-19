@@ -36,7 +36,7 @@ final class ChainedFormatterTest extends TestCase
         $formatted = $formatter->formatClaims($claims);
 
         self::assertSame('test', $formatted[RegisteredClaims::AUDIENCE]);
-        self::assertSame('1487285080.123456', $formatted[RegisteredClaims::EXPIRATION_TIME]);
+        self::assertSame(1487285080.123456, $formatted[RegisteredClaims::EXPIRATION_TIME]);
 
         $formatter = ChainedFormatter::withUnixTimestampDates();
         $formatted = $formatter->formatClaims($claims);

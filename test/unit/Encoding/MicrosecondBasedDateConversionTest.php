@@ -36,8 +36,8 @@ final class MicrosecondBasedDateConversionTest extends TestCase
         $formatted = $formatter->formatClaims($claims);
 
         self::assertSame(1487285080, $formatted[RegisteredClaims::ISSUED_AT]);
-        self::assertSame('1487285080.000123', $formatted[RegisteredClaims::NOT_BEFORE]);
-        self::assertSame('1487285080.123456', $formatted[RegisteredClaims::EXPIRATION_TIME]);
+        self::assertSame(1487285080.000123, $formatted[RegisteredClaims::NOT_BEFORE]);
+        self::assertSame(1487285080.123456, $formatted[RegisteredClaims::EXPIRATION_TIME]);
         self::assertSame('test', $formatted['testing']); // this should remain untouched
     }
 
@@ -62,7 +62,7 @@ final class MicrosecondBasedDateConversionTest extends TestCase
         $formatted = $formatter->formatClaims($claims);
 
         self::assertSame(1487285080, $formatted[RegisteredClaims::ISSUED_AT]);
-        self::assertSame('1487285080.123456', $formatted[RegisteredClaims::EXPIRATION_TIME]);
+        self::assertSame(1487285080.123456, $formatted[RegisteredClaims::EXPIRATION_TIME]);
         self::assertSame('test', $formatted['testing']); // this should remain untouched
     }
 }
