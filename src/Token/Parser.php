@@ -12,7 +12,11 @@ use function array_key_exists;
 use function count;
 use function explode;
 use function is_array;
+use function is_string;
+use function json_encode;
 use function strpos;
+
+use const JSON_THROW_ON_ERROR;
 
 final class Parser implements ParserInterface
 {
@@ -105,7 +109,9 @@ final class Parser implements ParserInterface
                 continue;
             }
 
-            $claims[$claim] = $this->convertDate((string) $claims[$claim]);
+            $date = $claims[$claim];
+
+            $claims[$claim] = $this->convertDate(is_string($date) ? $date : json_encode($date, JSON_THROW_ON_ERROR));
         }
 
         return $claims;
