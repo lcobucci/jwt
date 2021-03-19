@@ -453,7 +453,7 @@ final class ParserTest extends TestCase
     {
         $data = [
             RegisteredClaims::ISSUED_AT => 1486930663,
-            RegisteredClaims::EXPIRATION_TIME => '1486930757.023055',
+            RegisteredClaims::EXPIRATION_TIME => 1486930757.023055,
         ];
 
         $this->decoder->expects(self::exactly(2))
