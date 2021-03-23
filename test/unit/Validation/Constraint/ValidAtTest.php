@@ -5,7 +5,6 @@ namespace Lcobucci\JWT\Validation\Constraint;
 
 use DateInterval;
 use DateTimeImmutable;
-use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\ConstraintViolation;
@@ -13,214 +12,37 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 /** @coversDefaultClass \Lcobucci\JWT\Validation\Constraint\ValidAt */
 final class ValidAtTest extends ConstraintTestCase
 {
-    private Clock $clock;
-
-    /** @before */
-    public function createDependencies(): void
-    {
-        $this->clock = new FrozenClock(new DateTimeImmutable());
-    }
-
     /**
      * @test
      *
      * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers \Lcobucci\JWT\Validation\Constraint\LeewayCannotBeNegative
-     */
-    public function constructShouldRaiseExceptionOnNegativeLeeway(): void
-    {
-        $leeway         = new DateInterval('PT30S');
-        $leeway->invert = 1;
-
-        $this->expectException(LeewayCannotBeNegative::class);
-        $this->expectExceptionMessage('Leeway cannot be negative');
-
-        new ValidAt($this->clock, $leeway);
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
      * @covers ::assert
-     * @covers ::assertExpiration
-     * @covers ::assertIssueTime
-     * @covers ::assertMinimumTime
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Validation\Constraint\LooseValidAt
      */
-    public function assertShouldRaiseExceptionWhenTokenIsExpired(): void
+    public function assertIsAProxyToLooseValidAt(): void
     {
-        $now = $this->clock->now();
+        $clock = new FrozenClock(new DateTimeImmutable());
 
         $claims = [
-            RegisteredClaims::ISSUED_AT => $now->modify('-20 seconds'),
-            RegisteredClaims::NOT_BEFORE => $now->modify('-10 seconds'),
-            RegisteredClaims::EXPIRATION_TIME => $now->modify('-10 seconds'),
+            RegisteredClaims::ISSUED_AT => $clock->now(),
+            RegisteredClaims::NOT_BEFORE => $clock->now()->modify('+5 seconds'),
+            RegisteredClaims::EXPIRATION_TIME => $clock->now()->modify('15 seconds'),
         ];
+
+        // @phpstan-ignore-next-line
+        $constraint = new ValidAt($clock, new DateInterval('PT1S'));
+
+        $clock->setTo($clock->now()->modify('+4 seconds'));
+        $constraint->assert($this->buildToken($claims));
+        $this->addToAssertionCount(1);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token is expired');
 
-        $constraint = new ValidAt($this->clock);
+        $clock->setTo($clock->now()->modify('+20 seconds'));
         $constraint->assert($this->buildToken($claims));
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers ::assert
-     * @covers ::assertIssueTime
-     * @covers ::assertMinimumTime
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
-    public function assertShouldRaiseExceptionWhenMinimumTimeIsNotMet(): void
-    {
-        $now = $this->clock->now();
-
-        $claims = [
-            RegisteredClaims::ISSUED_AT => $now->modify('-20 seconds'),
-            RegisteredClaims::NOT_BEFORE => $now->modify('+40 seconds'),
-            RegisteredClaims::EXPIRATION_TIME => $now->modify('+60 seconds'),
-        ];
-
-        $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token cannot be used yet');
-
-        $constraint = new ValidAt($this->clock);
-        $constraint->assert($this->buildToken($claims));
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers ::assert
-     * @covers ::assertIssueTime
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
-    public function assertShouldRaiseExceptionWhenTokenWasIssuedInTheFuture(): void
-    {
-        $now = $this->clock->now();
-
-        $claims = [
-            RegisteredClaims::ISSUED_AT => $now->modify('+20 seconds'),
-            RegisteredClaims::NOT_BEFORE => $now->modify('+40 seconds'),
-            RegisteredClaims::EXPIRATION_TIME => $now->modify('+60 seconds'),
-        ];
-
-        $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token was issued in the future');
-
-        $constraint = new ValidAt($this->clock);
-        $constraint->assert($this->buildToken($claims));
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers ::assert
-     * @covers ::assertExpiration
-     * @covers ::assertIssueTime
-     * @covers ::assertMinimumTime
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
-    public function assertShouldNotRaiseExceptionWhenLeewayIsUsed(): void
-    {
-        $now = $this->clock->now();
-
-        $claims = [
-            RegisteredClaims::ISSUED_AT => $now->modify('+5 seconds'),
-            RegisteredClaims::NOT_BEFORE => $now->modify('+5 seconds'),
-            RegisteredClaims::EXPIRATION_TIME => $now->modify('-5 seconds'),
-        ];
-
-        $constraint = new ValidAt($this->clock, new DateInterval('PT6S'));
-        $constraint->assert($this->buildToken($claims));
-
-        $this->addToAssertionCount(1);
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers ::assert
-     * @covers ::assertExpiration
-     * @covers ::assertIssueTime
-     * @covers ::assertMinimumTime
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
-    public function assertShouldNotRaiseExceptionWhenTokenIsUsedInTheRightMoment(): void
-    {
-        $constraint = new ValidAt($this->clock);
-        $now        = $this->clock->now();
-
-        $token = $this->buildToken(
-            [
-                RegisteredClaims::ISSUED_AT => $now->modify('-40 seconds'),
-                RegisteredClaims::NOT_BEFORE => $now->modify('-20 seconds'),
-                RegisteredClaims::EXPIRATION_TIME => $now->modify('+60 seconds'),
-            ]
-        );
-
-        $constraint->assert($token);
-        $this->addToAssertionCount(1);
-
-        $token = $this->buildToken(
-            [
-                RegisteredClaims::ISSUED_AT => $now,
-                RegisteredClaims::NOT_BEFORE => $now,
-                RegisteredClaims::EXPIRATION_TIME => $now->modify('+60 seconds'),
-            ]
-        );
-
-        $constraint->assert($token);
-        $this->addToAssertionCount(1);
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers ::assert
-     * @covers ::assertExpiration
-     * @covers ::assertIssueTime
-     * @covers ::assertMinimumTime
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
-    public function assertShouldNotRaiseExceptionWhenTokenDoesNotHaveTimeClaims(): void
-    {
-        $token      = $this->buildToken();
-        $constraint = new ValidAt($this->clock);
-
-        $constraint->assert($token);
-        $this->addToAssertionCount(1);
     }
 }

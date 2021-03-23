@@ -15,10 +15,12 @@ final class ChainedFormatterTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::default
+     * @covers ::withUnixTimestampDates
      * @covers ::formatClaims
      *
      * @uses \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
      * @uses \Lcobucci\JWT\Encoding\UnifyAudience
+     * @uses \Lcobucci\JWT\Encoding\UnixTimestampDates
      */
     public function formatClaimsShouldApplyAllConfiguredFormatters(): void
     {
@@ -35,5 +37,11 @@ final class ChainedFormatterTest extends TestCase
 
         self::assertSame('test', $formatted[RegisteredClaims::AUDIENCE]);
         self::assertSame(1487285080.123456, $formatted[RegisteredClaims::EXPIRATION_TIME]);
+
+        $formatter = ChainedFormatter::withUnixTimestampDates();
+        $formatted = $formatter->formatClaims($claims);
+
+        self::assertSame('test', $formatted[RegisteredClaims::AUDIENCE]);
+        self::assertSame(1487285080, $formatted[RegisteredClaims::EXPIRATION_TIME]);
     }
 }

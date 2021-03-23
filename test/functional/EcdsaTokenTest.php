@@ -37,6 +37,7 @@ use const PHP_EOL;
  * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
  * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
  * @covers \Lcobucci\JWT\Signer\OpenSSL
+ * @covers \Lcobucci\JWT\SodiumBase64Polyfill
  * @covers \Lcobucci\JWT\Validation\Validator
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
  * @covers \Lcobucci\JWT\Validation\Validator

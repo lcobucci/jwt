@@ -6,14 +6,10 @@ namespace Lcobucci\JWT\Encoding;
 use JsonException;
 use Lcobucci\JWT\Decoder;
 use Lcobucci\JWT\Encoder;
+use Lcobucci\JWT\SodiumBase64Polyfill;
 
-use function base64_decode;
-use function base64_encode;
-use function is_string;
 use function json_decode;
 use function json_encode;
-use function rtrim;
-use function strtr;
 
 use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
@@ -48,18 +44,17 @@ final class JoseEncoder implements Encoder, Decoder
 
     public function base64UrlEncode(string $data): string
     {
-        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+        return SodiumBase64Polyfill::bin2base64(
+            $data,
+            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING
+        );
     }
 
     public function base64UrlDecode(string $data): string
     {
-        // Padding isn't added back because it isn't strictly necessary for decoding with PHP
-        $decodedContent = base64_decode(strtr($data, '-_', '+/'), true);
-
-        if (! is_string($decodedContent)) {
-            throw CannotDecodeContent::invalidBase64String();
-        }
-
-        return $decodedContent;
+        return SodiumBase64Polyfill::base642bin(
+            $data,
+            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING
+        );
     }
 }
