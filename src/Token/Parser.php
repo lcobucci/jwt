@@ -12,14 +12,13 @@ use function array_key_exists;
 use function count;
 use function explode;
 use function is_array;
-use function is_string;
-use function json_encode;
-use function strpos;
-
-use const JSON_THROW_ON_ERROR;
+use function is_numeric;
+use function number_format;
 
 final class Parser implements ParserInterface
 {
+    private const MICROSECOND_PRECISION = 6;
+
     private Decoder $decoder;
 
     public function __construct(Decoder $decoder)
@@ -109,25 +108,29 @@ final class Parser implements ParserInterface
                 continue;
             }
 
-            $date = $claims[$claim];
-
-            $claims[$claim] = $this->convertDate(is_string($date) ? $date : json_encode($date, JSON_THROW_ON_ERROR));
+            $claims[$claim] = $this->convertDate($claims[$claim]);
         }
 
         return $claims;
     }
 
-    /** @throws InvalidTokenStructure */
-    private function convertDate(string $value): DateTimeImmutable
+    /**
+     * @param int|float|string $timestamp
+     *
+     * @throws InvalidTokenStructure
+     */
+    private function convertDate($timestamp): DateTimeImmutable
     {
-        if (strpos($value, '.') === false) {
-            return new DateTimeImmutable('@' . $value);
+        if (! is_numeric($timestamp)) {
+            throw InvalidTokenStructure::dateIsNotParseable($timestamp);
         }
 
-        $date = DateTimeImmutable::createFromFormat('U.u', $value);
+        $normalizedTimestamp = number_format((float) $timestamp, self::MICROSECOND_PRECISION, '.', '');
+
+        $date = DateTimeImmutable::createFromFormat('U.u', $normalizedTimestamp);
 
         if ($date === false) {
-            throw InvalidTokenStructure::dateIsNotParseable($value);
+            throw InvalidTokenStructure::dateIsNotParseable($normalizedTimestamp);
         }
 
         return $date;
