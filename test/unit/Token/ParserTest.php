@@ -495,6 +495,49 @@ final class ParserTest extends TestCase
      * @covers ::parseClaims
      * @covers ::parseSignature
      * @covers ::convertDate
+     *
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
+     */
+    public function parseMustConvertStringDates(): void
+    {
+        $data = [RegisteredClaims::NOT_BEFORE => '1486930757.000000'];
+
+        $this->decoder->expects(self::exactly(2))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+
+        $this->decoder->expects(self::exactly(2))
+            ->method('jsonDecode')
+            ->withConsecutive(['a_dec'], ['b_dec'])
+            ->willReturnOnConsecutiveCalls(
+                ['typ' => 'JWT', 'alg' => 'HS256'],
+                $data
+            );
+
+        $token = $this->createParser()->parse('a.b.');
+        self::assertInstanceOf(Plain::class, $token);
+
+        $claims = $token->claims();
+
+        self::assertEquals(
+            DateTimeImmutable::createFromFormat('U.u', '1486930757.000000'),
+            $claims->get(RegisteredClaims::NOT_BEFORE)
+        );
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
+     * @covers ::convertDate
      * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      *
      * @uses \Lcobucci\JWT\Token\Plain
@@ -520,6 +563,43 @@ final class ParserTest extends TestCase
 
         $this->expectException(InvalidTokenStructure::class);
         $this->expectExceptionMessage('Value is not in the allowed date format: 14/10/2018 10:50:10.10 UTC');
+        $this->createParser()->parse('a.b.');
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers ::parseHeader
+     * @covers ::parseClaims
+     * @covers ::parseSignature
+     * @covers ::convertDate
+     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
+     *
+     * @uses \Lcobucci\JWT\Token\Plain
+     * @uses \Lcobucci\JWT\Token\Signature
+     * @uses \Lcobucci\JWT\Token\DataSet
+     */
+    public function parseShouldRaiseExceptionOnTimestampBeyondDateTimeImmutableRange(): void
+    {
+        $data = [RegisteredClaims::ISSUED_AT => -10000000000 ** 5];
+
+        $this->decoder->expects(self::exactly(2))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+
+        $this->decoder->expects(self::exactly(2))
+            ->method('jsonDecode')
+            ->withConsecutive(['a_dec'], ['b_dec'])
+            ->willReturnOnConsecutiveCalls(
+                ['typ' => 'JWT', 'alg' => 'HS256'],
+                $data
+            );
+
+        $this->expectException(InvalidTokenStructure::class);
         $this->createParser()->parse('a.b.');
     }
 }
