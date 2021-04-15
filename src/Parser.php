@@ -7,7 +7,6 @@ use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Lcobucci\JWT\Token\UnsupportedHeaderFound;
 
-/** @deprecated Use SecureParser instead. */
 interface Parser
 {
     /**

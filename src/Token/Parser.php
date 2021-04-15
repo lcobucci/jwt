@@ -15,7 +15,6 @@ use function is_array;
 use function is_numeric;
 use function number_format;
 
-/** @deprecated Use SecureParser instead. */
 final class Parser implements ParserInterface
 {
     private const MICROSECOND_PRECISION = 6;
