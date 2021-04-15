@@ -21,5 +21,5 @@ interface SecureParser
      * @throws UnsupportedHeaderFound       When parsed token has an unsupported header.
      * @throws RequiredConstraintsViolated  When parsed token violates required constraints.
      */
-    public function parse(string $jwt, SignedWith $signedWith, ValidAt $validAt, Constraint ...$constraints): Token;
+    public function parseJwt(string $jwt, SignedWith $signedWith, ValidAt $validAt, Constraint ...$constraints): Token;
 }

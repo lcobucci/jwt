@@ -22,7 +22,7 @@ final class SecureParser implements SecureParserInterface
         $this->validator = $validator;
     }
 
-    public function parse(
+    public function parseJwt(
         string $jwt,
         SignedWith $signedWith,
         ValidAt $validAt,

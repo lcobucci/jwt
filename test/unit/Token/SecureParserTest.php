@@ -52,7 +52,7 @@ final class SecureParserTest extends TestCase
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      */
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
@@ -62,14 +62,14 @@ final class SecureParserTest extends TestCase
         $this->expectException(InvalidTokenStructure::class);
         $this->expectExceptionMessage('The JWT string must have two dots');
 
-        $parser->parse('', $this->signedWith, $this->validAt);
+        $parser->parseJwt('', $this->signedWith, $this->validAt);
     }
 
     /**
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      */
     public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded(): void
     {
@@ -86,14 +86,14 @@ final class SecureParserTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Nope');
 
-        $parser->parse('a.b.', $this->signedWith, $this->validAt);
+        $parser->parseJwt('a.b.', $this->signedWith, $this->validAt);
     }
 
     /**
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      */
     public function parseMustRaiseExceptionWhenDealingWithInvalidHeaders(): void
@@ -106,14 +106,14 @@ final class SecureParserTest extends TestCase
         $this->expectException(InvalidTokenStructure::class);
         $this->expectExceptionMessage('headers must be an array');
 
-        $parser->parse('a.a.', $this->signedWith, $this->validAt);
+        $parser->parseJwt('a.a.', $this->signedWith, $this->validAt);
     }
 
     /**
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      * @covers \Lcobucci\JWT\Token\UnsupportedHeaderFound
      */
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
@@ -126,14 +126,14 @@ final class SecureParserTest extends TestCase
         $this->expectException(UnsupportedHeaderFound::class);
         $this->expectExceptionMessage('Encryption is not supported yet');
 
-        $parser->parse('a.a.', $this->signedWith, $this->validAt);
+        $parser->parseJwt('a.a.', $this->signedWith, $this->validAt);
     }
 
     /**
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      *
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -148,14 +148,14 @@ final class SecureParserTest extends TestCase
         $this->expectException(InvalidTokenStructure::class);
         $this->expectExceptionMessage('claims must be an array');
 
-        $parser->parse('a.a.', $this->signedWith, $this->validAt);
+        $parser->parseJwt('a.a.', $this->signedWith, $this->validAt);
     }
 
     /**
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -177,7 +177,7 @@ final class SecureParserTest extends TestCase
                       );
 
         $parser = $this->createParser();
-        $token  = $parser->parse('a.b.', $this->signedWith, $this->validAt);
+        $token  = $parser->parseJwt('a.b.', $this->signedWith, $this->validAt);
 
         self::assertInstanceOf(Plain::class, $token);
 
@@ -193,7 +193,7 @@ final class SecureParserTest extends TestCase
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -215,7 +215,7 @@ final class SecureParserTest extends TestCase
                       );
 
         $parser = $this->createParser();
-        $token  = $parser->parse('a.b.', $this->signedWith, $this->validAt);
+        $token  = $parser->parseJwt('a.b.', $this->signedWith, $this->validAt);
 
         self::assertInstanceOf(Plain::class, $token);
 
@@ -231,7 +231,7 @@ final class SecureParserTest extends TestCase
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -253,7 +253,7 @@ final class SecureParserTest extends TestCase
                       );
 
         $parser = $this->createParser();
-        $token  = $parser->parse('a.b.', $this->signedWith, $this->validAt);
+        $token  = $parser->parseJwt('a.b.', $this->signedWith, $this->validAt);
 
         self::assertInstanceOf(Plain::class, $token);
 
@@ -269,7 +269,7 @@ final class SecureParserTest extends TestCase
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -291,7 +291,7 @@ final class SecureParserTest extends TestCase
             );
 
         $parser = $this->createParser();
-        $token  = $parser->parse('a.b.', $this->signedWith, $this->validAt);
+        $token  = $parser->parseJwt('a.b.', $this->signedWith, $this->validAt);
 
         self::assertInstanceOf(Plain::class, $token);
 
@@ -307,7 +307,7 @@ final class SecureParserTest extends TestCase
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -329,7 +329,7 @@ final class SecureParserTest extends TestCase
             );
 
         $parser = $this->createParser();
-        $token  = $parser->parse('a.b.c', $this->signedWith, $this->validAt);
+        $token  = $parser->parseJwt('a.b.c', $this->signedWith, $this->validAt);
 
         self::assertInstanceOf(Plain::class, $token);
 
@@ -345,7 +345,7 @@ final class SecureParserTest extends TestCase
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -367,7 +367,7 @@ final class SecureParserTest extends TestCase
             );
 
         $parser = $this->createParser();
-        $token  = $parser->parse('a.b.c', $this->signedWith, $this->validAt);
+        $token  = $parser->parseJwt('a.b.c', $this->signedWith, $this->validAt);
 
         self::assertInstanceOf(Plain::class, $token);
 
@@ -383,7 +383,7 @@ final class SecureParserTest extends TestCase
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -405,7 +405,7 @@ final class SecureParserTest extends TestCase
             );
 
         $parser = $this->createParser();
-        $token  = $parser->parse('a.b.c', $this->signedWith, $this->validAt);
+        $token  = $parser->parseJwt('a.b.c', $this->signedWith, $this->validAt);
 
         self::assertInstanceOf(Plain::class, $token);
 
@@ -422,7 +422,7 @@ final class SecureParserTest extends TestCase
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      *
      * @uses \Lcobucci\JWT\Token\Plain
      * @uses \Lcobucci\JWT\Token\Signature
@@ -448,7 +448,7 @@ final class SecureParserTest extends TestCase
                 $data
             );
 
-        $token = $this->createParser()->parse('a.b.', $this->signedWith, $this->validAt);
+        $token = $this->createParser()->parseJwt('a.b.', $this->signedWith, $this->validAt);
         self::assertInstanceOf(Plain::class, $token);
 
         $claims = $token->claims();
@@ -468,7 +468,7 @@ final class SecureParserTest extends TestCase
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      *
      * @uses \Lcobucci\JWT\Token\Plain
@@ -494,14 +494,14 @@ final class SecureParserTest extends TestCase
 
         $this->expectException(InvalidTokenStructure::class);
         $this->expectExceptionMessage('Value is not in the allowed date format: 14/10/2018 10:50:10.10 UTC');
-        $this->createParser()->parse('a.b.', $this->signedWith, $this->validAt);
+        $this->createParser()->parseJwt('a.b.', $this->signedWith, $this->validAt);
     }
 
     /**
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      *
      * @uses \Lcobucci\JWT\Token\Plain
@@ -536,14 +536,14 @@ final class SecureParserTest extends TestCase
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage($exceptionMessage);
 
-        $parser->parse('a.b.', $this->signedWith, $this->validAt);
+        $parser->parseJwt('a.b.', $this->signedWith, $this->validAt);
     }
 
     /**
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      *
      * @uses \Lcobucci\JWT\Token\Plain
@@ -578,14 +578,14 @@ final class SecureParserTest extends TestCase
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage($exceptionMessage);
 
-        $parser->parse('a.b.', $this->signedWith, $this->validAt);
+        $parser->parseJwt('a.b.', $this->signedWith, $this->validAt);
     }
 
     /**
      * @test
      *
      * @covers ::__construct
-     * @covers ::parse
+     * @covers ::parseJwt
      * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
      *
      * @uses \Lcobucci\JWT\Token\Plain
@@ -622,6 +622,6 @@ final class SecureParserTest extends TestCase
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage($exceptionMessage);
 
-        $parser->parse('a.b.', $this->signedWith, $this->validAt, $optionalConstraint);
+        $parser->parseJwt('a.b.', $this->signedWith, $this->validAt, $optionalConstraint);
     }
 }
