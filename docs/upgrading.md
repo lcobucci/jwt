@@ -131,7 +131,7 @@ There are 4 main differences on the new API:
 
 1. Token configuration methods were renamed
 1. Signature is created via `Builder#getToken()` (instead of `Builder#sign()`)
-1. `DateTimeImmutable` objects are now for the registered claims with dates
+1. `DateTimeImmutable` objects are now used for the registered claims with dates, which are by default encoded as floats with microseconds as precision
 1. Headers should be replicated manually - whenever necessary
 
 Here's the migration:
@@ -176,6 +176,17 @@ Here's the migration:
 -    ->sign(new Sha256(), 'testing')
 -    ->getToken();
 +    ->getToken($config->signer(), $config->signingKey());
+```
+
+#### Date precision
+
+If you want to continue using Unix timestamps, you can use the `withUnixTimestampDates()`-formatter:
+
+```diff
+<?php
+
+-$builder = new Builder());
++$builder = $config->builder(ChainedFormatter::withUnixTimestampDates());
 ```
 
 #### Support for multiple audiences
