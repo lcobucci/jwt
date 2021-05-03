@@ -4,16 +4,6 @@ on:
   check_suite:
     types:
       - completed
-  pull_request:
-    types:
-      - edited
-      - labeled
-      - opened
-      - ready_for_review
-      - reopened
-      - synchronize
-      - unlabeled
-      - unlocked
 
 jobs:
   merge-me:
@@ -21,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Merge me!
-        uses: ridedott/merge-me-action@v1
+        uses: ridedott/merge-me-action@v2.6.19
         with:
           # Depending on branch protection rules, a  manually populated
           # `GITHUB_TOKEN_WORKAROUND` environment variable with permissions to
@@ -35,5 +25,4 @@ jobs:
           # This must be used as GitHub Actions token does not support
           # pushing to protected branches.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_LOGIN: dependabot[bot]
           MERGE_METHOD: MERGE

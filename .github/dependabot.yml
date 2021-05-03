@@ -5,10 +5,16 @@ updates:
   schedule:
     interval: daily
     time: "06:00"
-  reviewers:
-    - lcobucci
   versioning-strategy: increase
   open-pull-requests-limit: 20
   allow:
     - dependency-type: all
+  labels: ["Dependencies"]
+
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "06:00"
+  open-pull-requests-limit: 20
   labels: ["Dependencies"]
