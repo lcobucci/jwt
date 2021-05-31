@@ -3,8 +3,8 @@ updates:
 - package-ecosystem: composer
   directory: "/"
   schedule:
-    interval: daily
-    time: "06:00"
+    interval: "weekly"
+    day: "friday"
   versioning-strategy: increase
   open-pull-requests-limit: 20
   allow:
@@ -14,7 +14,6 @@ updates:
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
-    interval: daily
-    time: "06:00"
+    interval: "monthly"
   open-pull-requests-limit: 20
   labels: ["Dependencies"]
