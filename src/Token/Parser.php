@@ -6,7 +6,7 @@ namespace Lcobucci\JWT\Token;
 use DateTimeImmutable;
 use Lcobucci\JWT\Decoder;
 use Lcobucci\JWT\Parser as ParserInterface;
-use Lcobucci\JWT\Token as TokenInterface;
+use Lcobucci\JWT\UnencryptedToken;
 
 use function array_key_exists;
 use function count;
@@ -26,7 +26,7 @@ final class Parser implements ParserInterface
         $this->decoder = $decoder;
     }
 
-    public function parse(string $jwt): TokenInterface
+    public function parse(string $jwt): UnencryptedToken
     {
         [$encodedHeaders, $encodedClaims, $encodedSignature] = $this->splitJwt($jwt);
 
