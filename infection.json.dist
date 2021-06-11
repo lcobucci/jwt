@@ -25,6 +25,9 @@
         "InstanceOf_": {
             "ignore": [
                 "Lcobucci\\JWT\\Signer\\OpenSSL::freeKey"
+            ],
+            "ignoreSourceCodeByRegex": [
+                "assert\\(.+\\);"
             ]
         },
         "LessThanOrEqualTo": {
