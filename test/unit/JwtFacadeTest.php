@@ -6,12 +6,9 @@ namespace Lcobucci\JWT;
 use DateInterval;
 use DateTimeImmutable;
 use Lcobucci\Clock\FrozenClock;
-use Lcobucci\JWT\Encoding\ChainedFormatter;
-use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Hmac\Sha384;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Token\Builder;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
@@ -48,7 +45,6 @@ final class JwtFacadeTest extends TestCase
     private Sha256 $signer;
     private InMemory $key;
     private string $issuer;
-    private string $jwt;
 
     protected function setUp(): void
     {
@@ -56,11 +52,11 @@ final class JwtFacadeTest extends TestCase
         $this->signer = new Sha256();
         $this->key    = InMemory::plainText('foo');
         $this->issuer = 'bar';
+    }
 
-        $this->jwt = (new Builder(
-            new JoseEncoder(),
-            ChainedFormatter::withUnixTimestampDates()
-        ))
+    private function createToken(): string
+    {
+        return (new JwtFacade())->getBuilder()
             ->issuedAt($this->clock->now())
             ->canOnlyBeUsedAfter($this->clock->now())
             ->expiresAt($this->clock->now()->add(new DateInterval('PT5M')))
@@ -72,12 +68,13 @@ final class JwtFacadeTest extends TestCase
     /**
      * @test
      *
+     * @covers ::getBuilder
      * @covers ::parse
      */
     public function goodJwt(): void
     {
         $token = (new JwtFacade())->parse(
-            $this->jwt,
+            $this->createToken(),
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
             new IssuedBy($this->issuer)
@@ -89,6 +86,7 @@ final class JwtFacadeTest extends TestCase
     /**
      * @test
      *
+     * @covers ::getBuilder
      * @covers ::parse
      */
     public function badSigner(): void
@@ -97,7 +95,7 @@ final class JwtFacadeTest extends TestCase
         $this->expectExceptionMessage('Token signer mismatch');
 
         (new JwtFacade())->parse(
-            $this->jwt,
+            $this->createToken(),
             new SignedWith(new Sha384(), $this->key),
             new StrictValidAt($this->clock),
             new IssuedBy($this->issuer)
@@ -107,6 +105,7 @@ final class JwtFacadeTest extends TestCase
     /**
      * @test
      *
+     * @covers ::getBuilder
      * @covers ::parse
      */
     public function badKey(): void
@@ -115,7 +114,7 @@ final class JwtFacadeTest extends TestCase
         $this->expectExceptionMessage('Token signature mismatch');
 
         (new JwtFacade())->parse(
-            $this->jwt,
+            $this->createToken(),
             new SignedWith($this->signer, InMemory::plainText('xyz')),
             new StrictValidAt($this->clock),
             new IssuedBy($this->issuer)
@@ -125,17 +124,19 @@ final class JwtFacadeTest extends TestCase
     /**
      * @test
      *
+     * @covers ::getBuilder
      * @covers ::parse
      */
     public function badTime(): void
     {
+        $token = $this->createToken();
         $this->clock->setTo($this->clock->now()->add(new DateInterval('P30D')));
 
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token is expired');
 
         (new JwtFacade())->parse(
-            $this->jwt,
+            $token,
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
             new IssuedBy($this->issuer)
@@ -145,6 +146,7 @@ final class JwtFacadeTest extends TestCase
     /**
      * @test
      *
+     * @covers ::getBuilder
      * @covers ::parse
      */
     public function badIssuer(): void
@@ -153,7 +155,7 @@ final class JwtFacadeTest extends TestCase
         $this->expectExceptionMessage('The token was not issued by the given issuers');
 
         (new JwtFacade())->parse(
-            $this->jwt,
+            $this->createToken(),
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
             new IssuedBy('xyz')

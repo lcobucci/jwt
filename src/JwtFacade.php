@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
+use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Validation\Constraint;
@@ -14,6 +15,14 @@ use function assert;
 
 final class JwtFacade
 {
+    public function getBuilder(): Builder
+    {
+        return new Token\Builder(
+            new JoseEncoder(),
+            ChainedFormatter::withUnixTimestampDates()
+        );
+    }
+
     public function parse(
         string $jwt,
         SignedWith $signedWith,
