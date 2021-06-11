@@ -94,6 +94,7 @@ final class JwtFacadeTest extends TestCase
     public function badSigner(): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
+        $this->expectExceptionMessage('Token signer mismatch');
 
         (new JwtFacade())->parse(
             $this->jwt,
@@ -111,6 +112,7 @@ final class JwtFacadeTest extends TestCase
     public function badKey(): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
+        $this->expectExceptionMessage('Token signature mismatch');
 
         (new JwtFacade())->parse(
             $this->jwt,
@@ -127,9 +129,10 @@ final class JwtFacadeTest extends TestCase
      */
     public function badTime(): void
     {
-        $this->clock->setTo($this->clock->now()->sub(new DateInterval('P30D')));
+        $this->clock->setTo($this->clock->now()->add(new DateInterval('P30D')));
 
         $this->expectException(RequiredConstraintsViolated::class);
+        $this->expectExceptionMessage('The token is expired');
 
         (new JwtFacade())->parse(
             $this->jwt,
@@ -147,6 +150,7 @@ final class JwtFacadeTest extends TestCase
     public function badIssuer(): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
+        $this->expectExceptionMessage('The token was not issued by the given issuers');
 
         (new JwtFacade())->parse(
             $this->jwt,
