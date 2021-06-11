@@ -6,6 +6,7 @@ namespace Lcobucci\JWT;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Token\Parser;
+use Lcobucci\JWT\Token\TimedRequiringBuilder;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\SignedWith;
 use Lcobucci\JWT\Validation\ValidAt;
@@ -17,10 +18,10 @@ final class JwtFacade
 {
     public function getBuilder(): Builder
     {
-        return new Token\Builder(
+        return new TimedRequiringBuilder(new Token\Builder(
             new JoseEncoder(),
             ChainedFormatter::withUnixTimestampDates()
-        );
+        ));
     }
 
     public function parse(

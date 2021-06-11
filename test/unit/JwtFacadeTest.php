@@ -10,6 +10,7 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Hmac\Sha384;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\Token\TimeRequired;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
@@ -38,6 +39,7 @@ use PHPUnit\Framework\TestCase;
  * @uses  \Lcobucci\JWT\Validation\Constraint\SignedWith
  * @uses  \Lcobucci\JWT\Validation\Constraint\StrictValidAt
  * @uses  \Lcobucci\JWT\Validation\RequiredConstraintsViolated
+ * @uses  \Lcobucci\JWT\Token\TimedRequiringBuilder
  */
 final class JwtFacadeTest extends TestCase
 {
@@ -63,6 +65,20 @@ final class JwtFacadeTest extends TestCase
             ->issuedBy($this->issuer)
             ->getToken($this->signer, $this->key)
             ->toString();
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::getBuilder
+     *
+     * @uses \Lcobucci\JWT\Token\TimeRequired
+     */
+    public function requireToIssueTimedTokensOnly(): void
+    {
+        $this->expectException(TimeRequired::class);
+
+        (new JwtFacade())->getBuilder()->getToken($this->signer, $this->key);
     }
 
     /**
