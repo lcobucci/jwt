@@ -11,9 +11,9 @@ use Lcobucci\JWT\Validation\SignedWith;
 use Lcobucci\JWT\Validation\ValidAt;
 use Lcobucci\JWT\Validation\Validator;
 
-final class SimpleParser
+final class JwtFacade
 {
-    public function parseJwt(
+    public function parse(
         string $jwt,
         SignedWith $signedWith,
         ValidAt $validAt,

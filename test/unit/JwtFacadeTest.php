@@ -20,7 +20,7 @@ use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass \Lcobucci\JWT\SimpleParser
+ * @coversDefaultClass \Lcobucci\JWT\JwtFacade
  *
  * @uses  \Lcobucci\JWT\Token\Parser
  * @uses  \Lcobucci\JWT\Encoding\JoseEncoder
@@ -42,7 +42,7 @@ use PHPUnit\Framework\TestCase;
  * @uses  \Lcobucci\JWT\Validation\Constraint\StrictValidAt
  * @uses  \Lcobucci\JWT\Validation\RequiredConstraintsViolated
  */
-final class SimpleParserTest extends TestCase
+final class JwtFacadeTest extends TestCase
 {
     private FrozenClock $clock;
     private Sha256 $signer;
@@ -72,11 +72,11 @@ final class SimpleParserTest extends TestCase
     /**
      * @test
      *
-     * @covers ::parseJwt
+     * @covers ::parse
      */
     public function goodJwt(): void
     {
-        $token = (new SimpleParser())->parseJwt(
+        $token = (new JwtFacade())->parse(
             $this->jwt,
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
@@ -89,13 +89,13 @@ final class SimpleParserTest extends TestCase
     /**
      * @test
      *
-     * @covers ::parseJwt
+     * @covers ::parse
      */
     public function badSigner(): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
 
-        (new SimpleParser())->parseJwt(
+        (new JwtFacade())->parse(
             $this->jwt,
             new SignedWith(new Sha384(), $this->key),
             new StrictValidAt($this->clock),
@@ -106,13 +106,13 @@ final class SimpleParserTest extends TestCase
     /**
      * @test
      *
-     * @covers ::parseJwt
+     * @covers ::parse
      */
     public function badKey(): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
 
-        (new SimpleParser())->parseJwt(
+        (new JwtFacade())->parse(
             $this->jwt,
             new SignedWith($this->signer, InMemory::plainText('xyz')),
             new StrictValidAt($this->clock),
@@ -123,7 +123,7 @@ final class SimpleParserTest extends TestCase
     /**
      * @test
      *
-     * @covers ::parseJwt
+     * @covers ::parse
      */
     public function badTime(): void
     {
@@ -131,7 +131,7 @@ final class SimpleParserTest extends TestCase
 
         $this->expectException(RequiredConstraintsViolated::class);
 
-        (new SimpleParser())->parseJwt(
+        (new JwtFacade())->parse(
             $this->jwt,
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
@@ -142,13 +142,13 @@ final class SimpleParserTest extends TestCase
     /**
      * @test
      *
-     * @covers ::parseJwt
+     * @covers ::parse
      */
     public function badIssuer(): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
 
-        (new SimpleParser())->parseJwt(
+        (new JwtFacade())->parse(
             $this->jwt,
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
