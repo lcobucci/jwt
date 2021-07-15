@@ -24,6 +24,9 @@ assert($config instanceof Configuration);
 $token = $config->parser()->parse('...');
 assert($token instanceof UnencryptedToken);
 
+// validation constraints can be set in the configuration with
+// the setValidationConstraints() setter
+// see the Customisation part of the Configuration documentation
 $constraints = $config->validationConstraints();
 
 try {
@@ -51,6 +54,9 @@ assert($config instanceof Configuration);
 $token = $config->parser()->parse('...');
 assert($token instanceof UnencryptedToken);
 
+// validation constraints can be set in the configuration with
+// the setValidationConstraints() setter
+// see the Customisation part of the Configuration documentation
 $constraints = $config->validationConstraints();
 
 if (! $config->validator()->validate($token, ...$constraints)) {
@@ -69,5 +75,13 @@ This library provides the following constraints:
 * `Lcobucci\JWT\Validation\Constraint\SignedWith`: verifies if the token was signed with the expected signer and key
 * `Lcobucci\JWT\Validation\Constraint\StrictValidAt`: verifies presence and validity of the claims `iat`, `nbf`, and `exp` (supports leeway configuration)
 * `Lcobucci\JWT\Validation\Constraint\LooseValidAt`: verifies the claims `iat`, `nbf`, and `exp`, when present (supports leeway configuration)
+
+Example code for adding a constraint to the configuration object:
+
+```php
+use Lcobucci\JWT\Validation\Constraint\PermittedFor;
+
+$config->setValidationConstraints(new PermittedFor('your-aud-claim'));
+```
 
 You may also create your [own validation constraints](extending-the-library.md#validation-constraints).
