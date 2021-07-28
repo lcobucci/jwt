@@ -38,15 +38,16 @@ class Factory
      */
     public function __construct(array $callbacks = [])
     {
+        $compared = new Compared();
         $this->callbacks = array_merge(
             [
-                'iat' => [$this, 'createLesserOrEqualsTo'],
-                'nbf' => [$this, 'createLesserOrEqualsTo'],
-                'exp' => [$this, 'createGreaterOrEqualsTo'],
-                'iss' => [$this, 'createEqualsTo'],
-                'aud' => [$this, 'createEqualsTo'],
-                'sub' => [$this, 'createEqualsTo'],
-                'jti' => [$this, 'createEqualsTo']
+                'iat' => [$compared, 'createLesserOrEqualsTo'],
+                'nbf' => [$compared, 'createLesserOrEqualsTo'],
+                'exp' => [$compared, 'createGreaterOrEqualsTo'],
+                'iss' => [$compared, 'createEqualsTo'],
+                'aud' => [$compared, 'createEqualsTo'],
+                'sub' => [$compared, 'createEqualsTo'],
+                'jti' => [$compared, 'createEqualsTo']
             ],
             $callbacks
         );
@@ -75,45 +76,6 @@ class Factory
         }
 
         return $this->createBasic($name, $value);
-    }
-
-    /**
-     * Creates a claim that can be compared (greator or equals)
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @return GreaterOrEqualsTo
-     */
-    private function createGreaterOrEqualsTo($name, $value)
-    {
-        return new GreaterOrEqualsTo($name, $value);
-    }
-
-    /**
-     * Creates a claim that can be compared (greator or equals)
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @return LesserOrEqualsTo
-     */
-    private function createLesserOrEqualsTo($name, $value)
-    {
-        return new LesserOrEqualsTo($name, $value);
-    }
-
-    /**
-     * Creates a claim that can be compared (equals)
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @return EqualsTo
-     */
-    private function createEqualsTo($name, $value)
-    {
-        return new EqualsTo($name, $value);
     }
 
     /**
