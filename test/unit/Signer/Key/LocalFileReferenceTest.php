@@ -6,7 +6,11 @@ namespace Lcobucci\JWT\Signer\Key;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Key\LocalFileReference */
+/**
+ * @coversDefaultClass \Lcobucci\JWT\Signer\Key\LocalFileReference
+ *
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ */
 final class LocalFileReferenceTest extends TestCase
 {
     /** @before */
@@ -39,27 +43,13 @@ final class LocalFileReferenceTest extends TestCase
      * @covers ::file
      * @covers ::__construct
      * @covers ::contents
+     * @covers ::passphrase
      */
     public function pathShouldBeNormalised(): void
     {
-        $key = LocalFileReference::file('file://' . vfsStream::url('root/test.pem'));
+        $key = LocalFileReference::file('file://' . vfsStream::url('root/test.pem'), 'test');
 
-        self::assertSame('file://vfs://root/test.pem', $key->contents());
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::file
-     * @covers ::__construct
-     * @covers ::contents
-     * @covers ::passphrase
-     */
-    public function contentsShouldReturnOnlyTheReferenceToTheFile(): void
-    {
-        $key = LocalFileReference::file(vfsStream::url('root/test.pem'), 'test');
-
-        self::assertSame('file://vfs://root/test.pem', $key->contents());
+        self::assertSame('testing', $key->contents());
         self::assertSame('test', $key->passphrase());
     }
 }

@@ -56,6 +56,7 @@ final class EcdsaTest extends TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
      * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function signShouldReturnTheAHashBasedOnTheOpenSslSignature(): void
     {
@@ -88,6 +89,7 @@ final class EcdsaTest extends TestCase
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
      * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldDelegateToEcdsaSignerUsingPublicKey(): void
     {
