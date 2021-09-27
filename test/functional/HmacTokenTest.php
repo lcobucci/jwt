@@ -10,10 +10,16 @@ namespace Lcobucci\JWT\FunctionalTests;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\CheckForDeprecations;
 use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Signer\Key\LocalFileReference;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Signature;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
+use ReflectionProperty;
+use function file_put_contents;
+use function sys_get_temp_dir;
+use function tempnam;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -196,5 +202,40 @@ class HmacTokenTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('world', $token->getClaim('hello'));
         $this->assertTrue($token->verify($this->signer, 'testing'));
+    }
+
+    /**
+     * @test
+     *
+     * @coversNothing
+     *
+     * @see \Lcobucci\JWT\Signer\Key::setContent()
+     */
+    public function signatureValidationWithLocalFileKeyReferenceWillOperateWithKeyContents()
+    {
+        $key = tempnam(sys_get_temp_dir(), 'key');
+        file_put_contents($key, 'just a dummy key');
+
+        $validKey   = LocalFileReference::file($key);
+        $invalidKey = InMemory::plainText($key);
+        $signer     = new Sha256();
+
+        // 3.4.x implicitly extracts key contents, when `file://` is detected
+        $reflectionContents = new ReflectionProperty(InMemory::class, 'content');
+        $reflectionContents->setAccessible(true);
+        $reflectionContents->setValue($invalidKey, 'file://' . $key);
+
+        $token = (new Builder())
+            ->withClaim('foo', 'bar')
+            ->getToken($signer, $validKey);
+
+        self::assertFalse(
+            $token->verify($signer, $invalidKey),
+            'Token cannot be validated against the **path** of the key'
+        );
+        self::assertTrue(
+            $token->verify($signer, $validKey),
+            'Token can be validated against the **contents** of the key'
+        );
     }
 }
