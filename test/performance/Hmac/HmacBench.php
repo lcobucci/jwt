@@ -11,7 +11,7 @@ use PhpBench\Benchmark\Metadata\Annotations\Groups;
 /** @Groups({"Hmac"}) */
 abstract class HmacBench extends SignerBench
 {
-    private const ENCODED_KEY = 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG+Onbc6mxCcYg';
+    private const ENCODED_KEY = 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG+Onbc6mxCcYg=';
 
     protected function signingKey(): Key
     {

@@ -68,7 +68,7 @@ KEY;
         $signer = $this->getSigner();
 
         $this->expectException(CannotSignPayload::class);
-        $this->expectExceptionMessage('There was an error while creating the signature');
+        $this->expectExceptionMessage('There was an error while creating the signature: error:');
 
         $signer->sign('testing', InMemory::plainText($key));
     }
@@ -87,7 +87,7 @@ KEY;
         $signer = $this->getSigner();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key');
+        $this->expectExceptionMessage('It was not possible to parse your key, reason: error:');
 
         $signer->sign('testing', InMemory::plainText('blablabla'));
     }

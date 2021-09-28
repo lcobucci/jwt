@@ -3,13 +3,12 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Key;
 
-use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\SodiumBase64Polyfill;
 use SplFileObject;
 use Throwable;
 
 use function assert;
-use function base64_decode;
 use function is_string;
 
 final class InMemory implements Key
@@ -35,11 +34,10 @@ final class InMemory implements Key
 
     public static function base64Encoded(string $contents, string $passphrase = ''): self
     {
-        $decoded = base64_decode($contents, true);
-
-        if ($decoded === false) {
-            throw CannotDecodeContent::invalidBase64String();
-        }
+        $decoded = SodiumBase64Polyfill::base642bin(
+            $contents,
+            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL
+        );
 
         return new self($decoded, $passphrase);
     }

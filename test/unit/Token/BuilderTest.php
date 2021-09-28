@@ -89,7 +89,12 @@ final class BuilderTest extends TestCase
 
         $this->encoder->expects(self::exactly(3))
                       ->method('base64UrlEncode')
-                      ->willReturnOnConsecutiveCalls('1', '2', '3');
+                      ->willReturnArgument(0);
+
+        $this->signer->expects(self::once())
+            ->method('sign')
+            ->with('1.2')
+            ->willReturn('3');
 
         $builder = new Builder($this->encoder, new MicrosecondBasedDateConversion());
         $token   = $builder->identifiedBy('123456')

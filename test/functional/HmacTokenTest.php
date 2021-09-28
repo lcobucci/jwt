@@ -34,6 +34,7 @@ use function tempnam;
  * @covers \Lcobucci\JWT\Signer\Hmac
  * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
  * @covers \Lcobucci\JWT\Signer\Hmac\Sha512
+ * @covers \Lcobucci\JWT\SodiumBase64Polyfill
  * @covers \Lcobucci\JWT\Validation\Validator
  * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
