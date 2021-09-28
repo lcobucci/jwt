@@ -7,12 +7,17 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Signer\Key\LocalFileReference;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
+use function file_put_contents;
+use function is_string;
+use function sys_get_temp_dir;
+use function tempnam;
 
 /**
  * @covers \Lcobucci\JWT\Configuration
@@ -131,5 +136,40 @@ class HmacTokenTest extends TestCase
 
         self::assertTrue($this->config->validator()->validate($token, $constraint));
         self::assertEquals('world', $token->claims()->get('hello'));
+    }
+
+    /** @test */
+    public function signatureValidationWithLocalFileKeyReferenceWillOperateWithKeyContents(): void
+    {
+        $key = tempnam(sys_get_temp_dir(), 'key');
+        assert(is_string($key));
+
+        file_put_contents($key, 'just a dummy key');
+
+        $validKey      = LocalFileReference::file($key);
+        $invalidKey    = InMemory::plainText('file://' . $key);
+        $signer        = new Sha256();
+        $configuration = Configuration::forSymmetricSigner($signer, $validKey);
+        $validator     = $configuration->validator();
+
+        $token = $configuration->builder()
+            ->withClaim('foo', 'bar')
+            ->getToken($configuration->signer(), $configuration->signingKey());
+
+        self::assertFalse(
+            $validator->validate(
+                $token,
+                new SignedWith($signer, $invalidKey)
+            ),
+            'Token cannot be validated against the **path** of the key'
+        );
+
+        self::assertTrue(
+            $validator->validate(
+                $token,
+                new SignedWith($signer, $validKey)
+            ),
+            'Token can be validated against the **contents** of the key'
+        );
     }
 }
