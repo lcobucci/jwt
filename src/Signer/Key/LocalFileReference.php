@@ -8,6 +8,7 @@ use function file_exists;
 use function strpos;
 use function substr;
 
+/** @deprecated Use \Lcobucci\JWT\Signer\Key\InMemory::file() instead */
 final class LocalFileReference extends Key
 {
     const PATH_PREFIX = 'file://';
@@ -26,13 +27,6 @@ final class LocalFileReference extends Key
             $path = substr($path, 7);
         }
 
-        if (! file_exists($path)) {
-            throw FileCouldNotBeRead::onPath($path);
-        }
-
-        $key = new self('', $passphrase);
-        $key->content = self::PATH_PREFIX . $path;
-
-        return $key;
+        return new self(self::PATH_PREFIX . $path, $passphrase);
     }
 }
