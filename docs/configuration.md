@@ -13,15 +13,15 @@ It's meant for:
 
 In order to use it, you must:
 
-1. Initialise the configuration object
-1. Customise the configuration object
+1. Initialize the configuration object
+1. Customize the configuration object
 1. Retrieve components
 
-### Configuration initialisation
+### Configuration initialization
 
 The `Lcobucci\JWT\Signer\Key\InMemory` object is used for symmetric/asymmetric signature.
 
-To initialise it, you can pass the key content as a plain text:
+To initialize it, you can pass the key content as a plain text:
 
 ```php
 use Lcobucci\JWT\Signer\Key\InMemory;
@@ -105,12 +105,12 @@ $configuration = Configuration::forUnsecuredSigner(
 );
 ```
 
-### Customisation
+### Customization
 
-By using the setters of the `Lcobucci\JWT\Configuration` you may customise the setup of this library.
+By using the setters of the `Lcobucci\JWT\Configuration` you may customize the setup of this library.
 
 !!! Important
-    If you want to use a customised configuration, please make sure you call the setters before of invoking any getter.
+    If you want to use a customized configuration, please make sure you call the setters before of invoking any getter.
     Otherwise, the default implementations will be used.
 
 These are the available setters:
