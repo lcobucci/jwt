@@ -96,9 +96,8 @@ You can find more information on how to use the configuration object, [here](con
 ### Use new `Key` objects
 
 `Lcobucci\JWT\Signer\Key` has been converted to an interface in `v4.0`.
-We provide two new implementations: `Lcobucci\JWT\Signer\Key\InMemory` and `Lcobucci\JWT\Signer\Key\LocalFileReference`.
 
-`Lcobucci\JWT\Signer\Key\InMemory` is a drop-in replacement of the behaviour for `Lcobucci\JWT\Signer\Key` in `v3.x`.
+We provide `Lcobucci\JWT\Signer\Key\InMemory`, a drop-in replacement of the behaviour for `Lcobucci\JWT\Signer\Key` in `v3.x`.
 You will need to pick the appropriated named constructor to migrate your code:
 
 ```diff

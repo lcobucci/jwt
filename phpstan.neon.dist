@@ -6,3 +6,4 @@ parameters:
 
     ignoreErrors:
         - '#.*OpenSSLAsymmetricKey.*#'
+        - '#Call to method .* of deprecated class Lcobucci\\JWT\\Signer\\Key\\LocalFileReference#'
