@@ -10,7 +10,6 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Hmac\Sha384;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token\Plain;
-use Lcobucci\JWT\Token\TimeRequired;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
@@ -39,7 +38,6 @@ use PHPUnit\Framework\TestCase;
  * @uses  \Lcobucci\JWT\Validation\Constraint\SignedWith
  * @uses  \Lcobucci\JWT\Validation\Constraint\StrictValidAt
  * @uses  \Lcobucci\JWT\Validation\RequiredConstraintsViolated
- * @uses  \Lcobucci\JWT\Token\TimedRequiringBuilder
  */
 final class JwtFacadeTest extends TestCase
 {
@@ -58,33 +56,97 @@ final class JwtFacadeTest extends TestCase
 
     private function createToken(): string
     {
-        return (new JwtFacade())->getBuilder()
-            ->issuedAt($this->clock->now())
-            ->canOnlyBeUsedAfter($this->clock->now())
-            ->expiresAt($this->clock->now()->add(new DateInterval('PT5M')))
-            ->issuedBy($this->issuer)
-            ->getToken($this->signer, $this->key)
-            ->toString();
+        return (new JwtFacade())->issue(
+            $this->signer,
+            $this->key,
+            function (Builder $builder): Builder {
+                return $builder
+                    ->issuedAt($this->clock->now())
+                    ->canOnlyBeUsedAfter($this->clock->now())
+                    ->expiresAt($this->clock->now()->add(new DateInterval('PT5M')))
+                    ->issuedBy($this->issuer);
+            }
+        )->toString();
     }
 
     /**
      * @test
      *
-     * @covers ::getBuilder
-     *
-     * @uses \Lcobucci\JWT\Token\TimeRequired
+     * @covers ::issue
+     * @covers ::parse
      */
-    public function requireToIssueTimedTokensOnly(): void
+    public function issueSetTimeValidity(): void
     {
-        $this->expectException(TimeRequired::class);
+        $token = (new JwtFacade())->issue(
+            $this->signer,
+            $this->key,
+            static function (Builder $builder): Builder {
+                return $builder;
+            }
+        );
 
-        (new JwtFacade())->getBuilder()->getToken($this->signer, $this->key);
+        $now = (new DateTimeImmutable())->modify('+30 seconds');
+
+        self::assertTrue($token->hasBeenIssuedBefore($now));
+        self::assertTrue($token->isMinimumTimeBefore($now));
+        self::assertFalse($token->isExpired($now));
+
+        $aYearAgo = (new DateTimeImmutable())->modify('-1 year');
+
+        self::assertFalse($token->hasBeenIssuedBefore($aYearAgo));
+        self::assertFalse($token->isMinimumTimeBefore($aYearAgo));
+        self::assertFalse($token->isExpired($aYearAgo));
+
+        $inOneYear = (new DateTimeImmutable())->modify('+1 year');
+
+        self::assertTrue($token->hasBeenIssuedBefore($inOneYear));
+        self::assertTrue($token->isMinimumTimeBefore($inOneYear));
+        self::assertTrue($token->isExpired($inOneYear));
     }
 
     /**
      * @test
      *
-     * @covers ::getBuilder
+     * @covers ::issue
+     * @covers ::parse
+     */
+    public function issueAllowsTimeValidityOverwrite(): void
+    {
+        $then  = new DateTimeImmutable('2001-02-03 04:05:06');
+        $token = (new JwtFacade())->issue(
+            $this->signer,
+            $this->key,
+            static function (Builder $builder) use ($then): Builder {
+                return $builder
+                    ->issuedAt($then)
+                    ->canOnlyBeUsedAfter($then)
+                    ->expiresAt($then->modify('+1 minute'));
+            }
+        );
+
+        $now = $then->modify('+30 seconds');
+
+        self::assertTrue($token->hasBeenIssuedBefore($now));
+        self::assertTrue($token->isMinimumTimeBefore($now));
+        self::assertFalse($token->isExpired($now));
+
+        $aYearAgo = $then->modify('-1 year');
+
+        self::assertFalse($token->hasBeenIssuedBefore($aYearAgo));
+        self::assertFalse($token->isMinimumTimeBefore($aYearAgo));
+        self::assertFalse($token->isExpired($aYearAgo));
+
+        $inOneYear = $then->modify('+1 year');
+
+        self::assertTrue($token->hasBeenIssuedBefore($inOneYear));
+        self::assertTrue($token->isMinimumTimeBefore($inOneYear));
+        self::assertTrue($token->isExpired($inOneYear));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::issue
      * @covers ::parse
      */
     public function goodJwt(): void
@@ -102,7 +164,7 @@ final class JwtFacadeTest extends TestCase
     /**
      * @test
      *
-     * @covers ::getBuilder
+     * @covers ::issue
      * @covers ::parse
      */
     public function badSigner(): void
@@ -121,7 +183,7 @@ final class JwtFacadeTest extends TestCase
     /**
      * @test
      *
-     * @covers ::getBuilder
+     * @covers ::issue
      * @covers ::parse
      */
     public function badKey(): void
@@ -140,7 +202,7 @@ final class JwtFacadeTest extends TestCase
     /**
      * @test
      *
-     * @covers ::getBuilder
+     * @covers ::issue
      * @covers ::parse
      */
     public function badTime(): void
@@ -162,7 +224,7 @@ final class JwtFacadeTest extends TestCase
     /**
      * @test
      *
-     * @covers ::getBuilder
+     * @covers ::issue
      * @covers ::parse
      */
     public function badIssuer(): void
