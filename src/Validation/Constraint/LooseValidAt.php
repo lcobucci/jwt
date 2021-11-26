@@ -7,10 +7,10 @@ use DateInterval;
 use DateTimeInterface;
 use Lcobucci\Clock\Clock;
 use Lcobucci\JWT\Token;
-use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\ConstraintViolation;
+use Lcobucci\JWT\Validation\ValidAt as ValidAtInterface;
 
-final class LooseValidAt implements Constraint
+final class LooseValidAt implements ValidAtInterface
 {
     private Clock $clock;
     private DateInterval $leeway;
