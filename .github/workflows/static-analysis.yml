@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2.3.5"
+        uses: "actions/checkout@v2.4.0"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.16.0"
