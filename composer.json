@@ -1,13 +1,13 @@
 {
     "name": "lcobucci/jwt",
-    "type": "library",
     "description": "A simple library to work with JSON Web Token and JSON Web Signature",
+    "license": [
+        "BSD-3-Clause"
+    ],
+    "type": "library",
     "keywords": [
         "JWT",
         "JWS"
-    ],
-    "license": [
-        "BSD-3-Clause"
     ],
     "authors": [
         {
@@ -38,10 +38,6 @@
         "phpunit/php-invoker": "^3.1",
         "phpunit/phpunit": "^9.5"
     },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
     "autoload": {
         "psr-4": {
             "Lcobucci\\JWT\\": "src"
@@ -56,5 +52,9 @@
             ],
             "Lcobucci\\JWT\\FunctionalTests\\": "test/functional"
         }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
     }
 }
