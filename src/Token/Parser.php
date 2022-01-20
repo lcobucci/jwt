@@ -26,7 +26,7 @@ final class Parser implements ParserInterface
         $this->decoder = $decoder;
     }
 
-    public function parse(string $jwt): TokenInterface
+    public function parse(string $jwt): Plain
     {
         [$encodedHeaders, $encodedClaims, $encodedSignature] = $this->splitJwt($jwt);
 
@@ -42,7 +42,7 @@ final class Parser implements ParserInterface
     /**
      * Splits the JWT string into an array
      *
-     * @return string[]
+     * @return array{string, string, string}
      *
      * @throws InvalidTokenStructure When JWT doesn't have all parts.
      */
@@ -87,7 +87,7 @@ final class Parser implements ParserInterface
     /**
      * Parses the claim set from a string
      *
-     * @return mixed[]
+     * @return array<string, mixed>
      *
      * @throws InvalidTokenStructure When parsed content isn't an array or contains non-parseable dates.
      */
@@ -139,7 +139,7 @@ final class Parser implements ParserInterface
     /**
      * Returns the signature from given data
      *
-     * @param mixed[] $header
+     * @param array<string, mixed> $header
      */
     private function parseSignature(array $header, string $data): Signature
     {
