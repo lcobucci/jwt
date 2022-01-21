@@ -13,8 +13,6 @@ use Lcobucci\JWT\Validation\SignedWith;
 use Lcobucci\JWT\Validation\ValidAt;
 use Lcobucci\JWT\Validation\Validator;
 
-use function assert;
-
 final class JwtFacade
 {
     /** @param callable(Builder):Builder $customiseBuilder */
@@ -35,14 +33,12 @@ final class JwtFacade
     }
 
     public function parse(
-        string $jwt,
+        string $unencryptedJwt,
         SignedWith $signedWith,
         ValidAt $validAt,
         Constraint ...$constraints
     ): UnencryptedToken {
-        $token = (new Parser(new JoseEncoder()))->parse($jwt);
-
-        assert($token instanceof UnencryptedToken);
+        $token = (new Parser(new JoseEncoder()))->parseUnencrypted($unencryptedJwt);
 
         (new Validator())->assert(
             $token,

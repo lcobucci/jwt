@@ -22,4 +22,9 @@ final class InvalidTokenStructure extends InvalidArgumentException implements Ex
     {
         return new self('Value is not in the allowed date format: ' . $value);
     }
+
+    public static function unencryptedTokenExpected(string $unexpected): self
+    {
+        return new self('The JWT string was expected to decode to an unencrypted token, got: ' . $unexpected);
+    }
 }

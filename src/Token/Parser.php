@@ -7,10 +7,12 @@ use DateTimeImmutable;
 use Lcobucci\JWT\Decoder;
 use Lcobucci\JWT\Parser as ParserInterface;
 use Lcobucci\JWT\Token as TokenInterface;
+use Lcobucci\JWT\UnencryptedToken;
 
 use function array_key_exists;
 use function count;
 use function explode;
+use function get_class;
 use function is_array;
 use function is_numeric;
 use function number_format;
@@ -26,7 +28,12 @@ final class Parser implements ParserInterface
         $this->decoder = $decoder;
     }
 
-    public function parse(string $jwt): Plain
+    /**
+     * Parse the given JWT string into a structured representation.
+     *
+     * @return TokenInterface an encrypted or unencrypted token
+     */
+    public function parse(string $jwt): TokenInterface
     {
         [$encodedHeaders, $encodedClaims, $encodedSignature] = $this->splitJwt($jwt);
 
@@ -37,6 +44,22 @@ final class Parser implements ParserInterface
             new DataSet($this->parseClaims($encodedClaims), $encodedClaims),
             $this->parseSignature($header, $encodedSignature)
         );
+    }
+
+    /**
+     * Parse the given JWT string into a plain token.
+     *
+     * @throws InvalidTokenStructure if the input unexpectedly decodes to an encrypted token.
+     */
+    public function parseUnencrypted(string $unencrypted): UnencryptedToken
+    {
+        $token = $this->parse($unencrypted);
+
+        if (! ($token instanceof UnencryptedToken)) {
+            throw InvalidTokenStructure::unencryptedTokenExpected(get_class($token));
+        }
+
+        return $token;
     }
 
     /**
@@ -53,6 +76,9 @@ final class Parser implements ParserInterface
         if (count($data) !== 3) {
             throw InvalidTokenStructure::missingOrNotEnoughSeparators();
         }
+
+        // @codingStandardsIgnoreLine Missing variable $data before or after the documentation comment.
+        /** @var array{string, string, string} $data proven by count() */
 
         return $data;
     }
