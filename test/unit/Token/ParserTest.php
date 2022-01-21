@@ -599,7 +599,9 @@ final class ParserTest extends TestCase
                 $data
             );
 
+        $parser = $this->createParser();
+
         $this->expectException(InvalidTokenStructure::class);
-        $this->createParser()->parse('a.b.');
+        $parser->parse('a.b.');
     }
 }
