@@ -55,11 +55,6 @@
     },
     "config": {
         "preferred-install": "dist",
-        "sort-packages": true,
-        "allow-plugins": {
-            "infection/extension-installer": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "phpstan/extension-installer": true
-        }
+        "sort-packages": true
     }
 }
