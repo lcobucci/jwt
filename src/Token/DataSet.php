@@ -11,7 +11,7 @@ final class DataSet
     private array $data;
     private string $encoded;
 
-    /** @param mixed[] $data */
+    /** @param array<string, mixed> $data */
     public function __construct(array $data, string $encoded)
     {
         $this->data    = $data;
@@ -33,7 +33,7 @@ final class DataSet
         return array_key_exists($name, $this->data);
     }
 
-    /** @return mixed[] */
+    /** @return array<string, mixed> */
     public function all(): array
     {
         return $this->data;
