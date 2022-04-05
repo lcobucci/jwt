@@ -70,11 +70,12 @@ $configuration = Configuration::forSymmetricSigner(
 
 Currently supported symmetric algorithms:
 
-| Name      | Description        | Class                                    | Key length req. |
-| --------- | ------------------ | ---------------------------------------- |-----------------|
-| `HS256`   | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\Sha256`       | 256 bits        |
-| `HS384`   | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\Sha384`       | 384 bits        |
-| `HS512`   | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\Sha512`       | 512 bits        |
+| Name      | Description        | Class                               | Key length req. | Notes                                                                                                      |
+|-----------|--------------------|-------------------------------------|-----------------|------------------------------------------------------------------------------------------------------------|
+| `HS256`   | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\Sha256`  | 256 bits        |                                                                                                            |
+| `HS384`   | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\Sha384`  | 384 bits        |                                                                                                            |
+| `HS512`   | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\Sha512`  | 512 bits        |                                                                                                            |
+| `BLAKE2B` | Blake2b keyed Hash | `\Lcobucci\JWT\Signer\Hmac\Blake2b` | 256 bits        | Not a [JWT standard](https://www.iana.org/assignments/jose/jose.xhtml#web-signature-encryption-algorithms) |
 
 Deprecated symmetric algorithms in `v4`:
 
