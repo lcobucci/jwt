@@ -110,7 +110,7 @@ final class ConfigurationTest extends TestCase
      */
     public function forUnsecuredSignerShouldConfigureSignerAndBothKeys(): void
     {
-        $key    = InMemory::plainText('');
+        $key    = InMemory::empty();
         $config = Configuration::forUnsecuredSigner();
 
         self::assertInstanceOf(None::class, $config->signer());
