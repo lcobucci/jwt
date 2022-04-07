@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Key;
 
+use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\SodiumBase64Polyfill;
 use SplFileObject;
@@ -16,15 +17,24 @@ final class InMemory implements Key
     private string $contents;
     private string $passphrase;
 
+    /** @param non-empty-string $contents */
     private function __construct(string $contents, string $passphrase)
     {
+        if ($contents === '') {
+            throw InvalidKeyProvided::cannotBeEmpty();
+        }
+
         $this->contents   = $contents;
         $this->passphrase = $passphrase;
     }
 
     public static function empty(): self
     {
-        return new self('', '');
+        $emptyKey             = new self('empty', 'empty');
+        $emptyKey->contents   = '';
+        $emptyKey->passphrase = '';
+
+        return $emptyKey;
     }
 
     public static function plainText(string $contents, string $passphrase = ''): self

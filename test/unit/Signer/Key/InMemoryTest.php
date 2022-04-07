@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Signer\Key;
 
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
+use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
@@ -135,12 +136,28 @@ final class InMemoryTest extends TestCase
      *
      * @covers ::__construct
      * @covers ::plainText
-     * @covers ::passphrase
+     * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided::cannotBeEmpty
      */
-    public function passphraseShouldReturnAnEmptyStringWhenNothingWasConfigured(): void
+    public function emptyPlainTextContentShouldRaiseException(): void
     {
-        $key = InMemory::plainText('testing');
+        $this->expectException(InvalidKeyProvided::class);
 
-        self::assertSame('', $key->passphrase());
+        InMemory::plainText('');
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     * @covers ::base64Encoded
+     * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided::cannotBeEmpty
+     *
+     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin
+     */
+    public function emptyBase64ContentShouldRaiseException(): void
+    {
+        $this->expectException(InvalidKeyProvided::class);
+
+        InMemory::base64Encoded('');
     }
 }

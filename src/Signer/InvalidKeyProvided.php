@@ -17,4 +17,9 @@ final class InvalidKeyProvided extends InvalidArgumentException implements Excep
     {
         return new self('This key is not compatible with this signer');
     }
+
+    public static function cannotBeEmpty(): self
+    {
+        return new self('Key cannot be empty');
+    }
 }
