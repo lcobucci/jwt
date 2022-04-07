@@ -1,0 +1,12 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$contents of class Lcobucci\\\\JWT\\\\Signer\\\\Key\\\\InMemory constructor expects non\\-empty\\-string, string given\\.$#"
+			count: 3
+			path: src/Signer/Key/InMemory.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between non\\-empty\\-string and '' will always evaluate to false\\.$#"
+			count: 1
+			path: src/Signer/Key/InMemory.php
+

@@ -17,6 +17,7 @@ final class InMemory implements Key
     private string $contents;
     private string $passphrase;
 
+    /** @param non-empty-string $contents */
     private function __construct(string $contents, string $passphrase)
     {
         if ($contents === '') {
