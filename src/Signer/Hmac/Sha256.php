@@ -16,4 +16,9 @@ final class Sha256 extends Hmac
     {
         return 'sha256';
     }
+
+    public function minimumBytesLengthForKey(): int
+    {
+        return 32;
+    }
 }
