@@ -37,11 +37,13 @@ final class InMemory implements Key
         return $emptyKey;
     }
 
+    /** @param non-empty-string $contents */
     public static function plainText(string $contents, string $passphrase = ''): self
     {
         return new self($contents, $passphrase);
     }
 
+    /** @param non-empty-string $contents */
     public static function base64Encoded(string $contents, string $passphrase = ''): self
     {
         $decoded = SodiumBase64Polyfill::base642bin(
