@@ -20,6 +20,7 @@ final class InMemory implements Key
     /** @param non-empty-string $contents */
     private function __construct(string $contents, string $passphrase)
     {
+        // @phpstan-ignore-next-line
         if ($contents === '') {
             throw InvalidKeyProvided::cannotBeEmpty();
         }
@@ -37,11 +38,13 @@ final class InMemory implements Key
         return $emptyKey;
     }
 
+    /** @param non-empty-string $contents */
     public static function plainText(string $contents, string $passphrase = ''): self
     {
         return new self($contents, $passphrase);
     }
 
+    /** @param non-empty-string $contents */
     public static function base64Encoded(string $contents, string $passphrase = ''): self
     {
         $decoded = SodiumBase64Polyfill::base642bin(
@@ -49,6 +52,7 @@ final class InMemory implements Key
             SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL
         );
 
+        // @phpstan-ignore-next-line
         return new self($decoded, $passphrase);
     }
 
@@ -63,6 +67,7 @@ final class InMemory implements Key
 
         $contents = $file->fread($file->getSize());
         assert(is_string($contents));
+        assert($contents !== '');
 
         return new self($contents, $passphrase);
     }

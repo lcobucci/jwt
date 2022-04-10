@@ -50,7 +50,10 @@ final class InMemoryTest extends TestCase
      */
     public function base64EncodedShouldDecodeKeyContents(): void
     {
-        $key = InMemory::base64Encoded(base64_encode('testing'));
+        $encoded = base64_encode('testing');
+        self::assertNotSame('', $encoded);
+
+        $key = InMemory::base64Encoded($encoded);
 
         self::assertSame('testing', $key->contents());
     }
@@ -142,6 +145,7 @@ final class InMemoryTest extends TestCase
     {
         $this->expectException(InvalidKeyProvided::class);
 
+        // @phpstan-ignore-next-line
         InMemory::plainText('');
     }
 
@@ -158,6 +162,7 @@ final class InMemoryTest extends TestCase
     {
         $this->expectException(InvalidKeyProvided::class);
 
+        // @phpstan-ignore-next-line
         InMemory::base64Encoded('');
     }
 }
