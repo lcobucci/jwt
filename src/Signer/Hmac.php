@@ -7,13 +7,13 @@ use Lcobucci\JWT\Signer;
 
 use function hash_equals;
 use function hash_hmac;
-use function mb_strlen;
+use function strlen;
 
 abstract class Hmac implements Signer
 {
     final public function sign(string $payload, Key $key): string
     {
-        $actualKeyLength   = mb_strlen($key->contents(), '8bit');
+        $actualKeyLength   = strlen($key->contents());
         $expectedKeyLength = $this->minimumBytesLengthForKey();
         if ($actualKeyLength < $expectedKeyLength) {
             throw InvalidKeyProvided::tooShort($expectedKeyLength, $actualKeyLength);

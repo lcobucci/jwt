@@ -81,8 +81,9 @@ final class HmacTest extends TestCase
      * @test
      *
      * @covers ::sign
+     * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided::tooShort
      *
-     * @uses \Lcobucci\JWT\Signer\InvalidKeyProvided
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function keyMustFulfillMinimumLengthRequirement(): void
     {

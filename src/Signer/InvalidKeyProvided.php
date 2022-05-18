@@ -25,6 +25,7 @@ final class InvalidKeyProvided extends InvalidArgumentException implements Excep
 
     public static function tooShort(int $expectedLength, int $actualLength): self
     {
-        return new self('Key provided is shorter than ' . $expectedLength . ' bytes, only ' . $actualLength . ' bytes provided');
+        return new self('Key provided is shorter than ' . $expectedLength . ' bytes,'
+            . ' only ' . $actualLength . ' bytes provided');
     }
 }

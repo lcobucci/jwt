@@ -6,6 +6,7 @@ namespace Lcobucci\JWT\FunctionalTests;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
+use Lcobucci\JWT\Signer\Hmac\UnsafeSha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Key\LocalFileReference;
 use Lcobucci\JWT\Token;
@@ -34,6 +35,7 @@ use function tempnam;
  * @covers \Lcobucci\JWT\Signer\Hmac
  * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
  * @covers \Lcobucci\JWT\Signer\Hmac\Sha512
+ * @covers \Lcobucci\JWT\Signer\Hmac\UnsafeSha256
  * @covers \Lcobucci\JWT\SodiumBase64Polyfill
  * @covers \Lcobucci\JWT\Validation\Validator
  * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
@@ -46,7 +48,10 @@ class HmacTokenTest extends TestCase
     /** @before */
     public function createConfiguration(): void
     {
-        $this->config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText('testing'));
+        $this->config = Configuration::forSymmetricSigner(
+            new Sha256(),
+            InMemory::base64Encoded('Z0Y6xrhjGQYrEDsP+7aQ3ZAKKERSBeQjP33M0H7Nq6s=')
+        );
     }
 
     /** @test */
@@ -94,7 +99,10 @@ class HmacTokenTest extends TestCase
 
         $this->config->validator()->assert(
             $token,
-            new SignedWith($this->config->signer(), InMemory::plainText('testing1'))
+            new SignedWith(
+                $this->config->signer(),
+                InMemory::base64Encoded('O0MpjL80kE382RyX0rfr9PrNfVclXcdnru2aryanR2o=')
+            )
         );
     }
 
@@ -127,14 +135,18 @@ class HmacTokenTest extends TestCase
     /** @test */
     public function everythingShouldWorkWhenUsingATokenGeneratedByOtherLibs(): void
     {
-        $data = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.Rh'
+        $config = Configuration::forSymmetricSigner(
+            new UnsafeSha256(),
+            InMemory::plainText('testing')
+        );
+        $data   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.Rh'
                 . '7AEgqCB7zae1PkgIlvOpeyw9Ab8NGTbeOH7heHO0o';
 
-        $token = $this->config->parser()->parse($data);
+        $token = $config->parser()->parse($data);
         assert($token instanceof Token\Plain);
-        $constraint = new SignedWith($this->config->signer(), $this->config->verificationKey());
+        $constraint = new SignedWith($config->signer(), $config->verificationKey());
 
-        self::assertTrue($this->config->validator()->validate($token, $constraint));
+        self::assertTrue($config->validator()->validate($token, $constraint));
         self::assertEquals('world', $token->claims()->get('hello'));
     }
 
@@ -148,7 +160,7 @@ class HmacTokenTest extends TestCase
 
         $validKey      = LocalFileReference::file($key);
         $invalidKey    = InMemory::plainText('file://' . $key);
-        $signer        = new Sha256();
+        $signer        = new UnsafeSha256();
         $configuration = Configuration::forSymmetricSigner($signer, $validKey);
         $validator     = $configuration->validator();
 

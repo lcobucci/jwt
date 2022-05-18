@@ -51,7 +51,7 @@ final class JwtFacadeTest extends TestCase
     {
         $this->clock  = new FrozenClock(new DateTimeImmutable('2021-07-10'));
         $this->signer = new Sha256();
-        $this->key    = InMemory::plainText('foo');
+        $this->key    = InMemory::base64Encoded('qOIXmZRqZKY80qg0BjtCrskM6OK7gPOea8mz1H7h/dE=');
         $this->issuer = 'bar';
     }
 
@@ -190,7 +190,7 @@ final class JwtFacadeTest extends TestCase
 
         (new JwtFacade())->parse(
             $this->createToken(),
-            new SignedWith($this->signer, InMemory::plainText('xyz')),
+            new SignedWith($this->signer, InMemory::base64Encoded('czyPTpN595zVNSuvoNNlXCRFgXS2fHscMR36dGojaUE=')),
             new StrictValidAt($this->clock),
             new IssuedBy($this->issuer)
         );

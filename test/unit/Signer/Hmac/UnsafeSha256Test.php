@@ -5,8 +5,8 @@ namespace Lcobucci\JWT\Signer\Hmac;
 
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Hmac\Sha256 */
-final class Sha256Test extends TestCase
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Hmac\UnsafeSha256 */
+final class UnsafeSha256Test extends TestCase
 {
     /**
      * @test
@@ -15,7 +15,7 @@ final class Sha256Test extends TestCase
      */
     public function algorithmIdMustBeCorrect(): void
     {
-        $signer = new Sha256();
+        $signer = new UnsafeSha256();
 
         self::assertEquals('HS256', $signer->algorithmId());
     }
@@ -27,7 +27,7 @@ final class Sha256Test extends TestCase
      */
     public function algorithmMustBeCorrect(): void
     {
-        $signer = new Sha256();
+        $signer = new UnsafeSha256();
 
         self::assertEquals('sha256', $signer->algorithm());
     }
@@ -37,10 +37,10 @@ final class Sha256Test extends TestCase
      *
      * @covers ::minimumBytesLengthForKey
      */
-    public function minimumBytesLengthForKeyMustBeCorrect(): void
+    public function minimumBytesLengthForKeyIsWhatItIs(): void
     {
-        $signer = new Sha256();
+        $signer = new UnsafeSha256();
 
-        self::assertSame(32, $signer->minimumBytesLengthForKey());
+        self::assertSame(1, $signer->minimumBytesLengthForKey());
     }
 }
