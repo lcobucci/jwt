@@ -5,6 +5,8 @@ namespace Lcobucci\JWT;
 
 use Closure;
 use DateTimeImmutable;
+use Lcobucci\Clock\Clock;
+use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
@@ -18,13 +20,15 @@ use function assert;
 final class JwtFacade
 {
     private Parser $parser;
+    private Clock $clock;
 
-    public function __construct(?Parser $parser = null)
+    public function __construct(?Parser $parser = null, ?Clock $clock = null)
     {
         $this->parser = $parser ?? new Token\Parser(new JoseEncoder());
+        $this->clock  = $clock ?? SystemClock::fromSystemTimezone();
     }
 
-    /** @param Closure(Builder):Builder $customiseBuilder */
+    /** @param Closure(Builder, DateTimeImmutable):Builder $customiseBuilder */
     public function issue(
         Signer $signer,
         Key $signingKey,
@@ -32,13 +36,13 @@ final class JwtFacade
     ): UnencryptedToken {
         $builder = new Token\Builder(new JoseEncoder(), ChainedFormatter::withUnixTimestampDates());
 
-        $now = new DateTimeImmutable();
+        $now = $this->clock->now();
         $builder
             ->issuedAt($now)
             ->canOnlyBeUsedAfter($now)
             ->expiresAt($now->modify('+5 minutes'));
 
-        return $customiseBuilder($builder)->getToken($signer, $signingKey);
+        return $customiseBuilder($builder, $now)->getToken($signer, $signingKey);
     }
 
     public function parse(
