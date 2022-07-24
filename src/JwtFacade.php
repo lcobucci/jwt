@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
+use Closure;
 use DateTimeImmutable;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
@@ -17,11 +18,11 @@ use function assert;
 
 final class JwtFacade
 {
-    /** @param callable(Builder):Builder $customiseBuilder */
+    /** @param Closure(Builder):Builder $customiseBuilder */
     public function issue(
         Signer $signer,
         Key $signingKey,
-        callable $customiseBuilder
+        Closure $customiseBuilder
     ): UnencryptedToken {
         $builder = new Token\Builder(new JoseEncoder(), ChainedFormatter::withUnixTimestampDates());
 
