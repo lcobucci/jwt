@@ -5,6 +5,7 @@ nav:
   - Intro:
     - 'index.md'
     - 'installation.md'
+    - 'quick-start.md'
   - Usage:
     - 'configuration.md'
     - 'issuing-tokens.md'
