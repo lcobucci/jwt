@@ -27,6 +27,10 @@ final class HmacTest extends TestCase
         $this->signer->expects(self::any())
                      ->method('algorithm')
                      ->willReturn('sha256');
+
+        $this->signer->expects(self::any())
+                     ->method('minimumBytesLengthForKey')
+                     ->willReturn(3);
     }
 
     /**
@@ -71,5 +75,21 @@ final class HmacTest extends TestCase
     public function verifyShouldReturnFalseWhenExpectedHashWasNotCreatedWithSameInformation(string $expected): void
     {
         self::assertFalse($this->signer->verify($expected, 'test', InMemory::plainText('1234')));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::sign
+     * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided::tooShort
+     *
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     */
+    public function keyMustFulfillMinimumLengthRequirement(): void
+    {
+        $this->expectException(InvalidKeyProvided::class);
+        $this->expectExceptionMessage('Key provided is shorter than 3 bytes, only 2 bytes provided');
+
+        $this->signer->sign('test', InMemory::plainText('12'));
     }
 }

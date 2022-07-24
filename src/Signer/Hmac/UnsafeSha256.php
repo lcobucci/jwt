@@ -5,20 +5,21 @@ namespace Lcobucci\JWT\Signer\Hmac;
 
 use Lcobucci\JWT\Signer\Hmac;
 
-final class Sha512 extends Hmac
+/** @deprecated Deprecated since v4.2 */
+final class UnsafeSha256 extends Hmac
 {
     public function algorithmId(): string
     {
-        return 'HS512';
+        return 'HS256';
     }
 
     public function algorithm(): string
     {
-        return 'sha512';
+        return 'sha256';
     }
 
     public function minimumBytesLengthForKey(): int
     {
-        return 64;
+        return 1;
     }
 }

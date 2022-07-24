@@ -5,8 +5,8 @@ namespace Lcobucci\JWT\Signer\Hmac;
 
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Hmac\Sha384 */
-final class Sha384Test extends TestCase
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Hmac\UnsafeSha384 */
+final class UnsafeSha384Test extends TestCase
 {
     /**
      * @test
@@ -15,7 +15,7 @@ final class Sha384Test extends TestCase
      */
     public function algorithmIdMustBeCorrect(): void
     {
-        $signer = new Sha384();
+        $signer = new UnsafeSha384();
 
         self::assertEquals('HS384', $signer->algorithmId());
     }
@@ -27,7 +27,7 @@ final class Sha384Test extends TestCase
      */
     public function algorithmMustBeCorrect(): void
     {
-        $signer = new Sha384();
+        $signer = new UnsafeSha384();
 
         self::assertEquals('sha384', $signer->algorithm());
     }
@@ -37,10 +37,10 @@ final class Sha384Test extends TestCase
      *
      * @covers ::minimumBytesLengthForKey
      */
-    public function minimumBytesLengthForKeyMustBeCorrect(): void
+    public function minimumBytesLengthForKeyIsWhatItIs(): void
     {
-        $signer = new Sha384();
+        $signer = new UnsafeSha384();
 
-        self::assertSame(48, $signer->minimumBytesLengthForKey());
+        self::assertSame(1, $signer->minimumBytesLengthForKey());
     }
 }
