@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
+use AssertionError;
 use DateInterval;
 use DateTimeImmutable;
 use Lcobucci\Clock\FrozenClock;
@@ -17,6 +18,7 @@ use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers ::__construct
  * @coversDefaultClass \Lcobucci\JWT\JwtFacade
  *
  * @uses  \Lcobucci\JWT\Token\Parser
@@ -237,6 +239,23 @@ final class JwtFacadeTest extends TestCase
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
             new IssuedBy('xyz')
+        );
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::parse
+     */
+    public function parserForNonUnencryptedTokens(): void
+    {
+        $this->expectException(AssertionError::class);
+
+        (new JwtFacade(new UnsupportedParser()))->parse(
+            'a.very-broken.token',
+            new SignedWith($this->signer, $this->key),
+            new StrictValidAt($this->clock),
+            new IssuedBy($this->issuer)
         );
     }
 }

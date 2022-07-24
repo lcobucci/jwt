@@ -8,7 +8,6 @@ use DateTimeImmutable;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\SignedWith;
 use Lcobucci\JWT\Validation\ValidAt;
@@ -18,6 +17,13 @@ use function assert;
 
 final class JwtFacade
 {
+    private Parser $parser;
+
+    public function __construct(?Parser $parser = null)
+    {
+        $this->parser = $parser ?? new Token\Parser(new JoseEncoder());
+    }
+
     /** @param Closure(Builder):Builder $customiseBuilder */
     public function issue(
         Signer $signer,
@@ -41,8 +47,7 @@ final class JwtFacade
         ValidAt $validAt,
         Constraint ...$constraints
     ): UnencryptedToken {
-        $token = (new Parser(new JoseEncoder()))->parse($jwt);
-
+        $token = $this->parser->parse($jwt);
         assert($token instanceof UnencryptedToken);
 
         (new Validator())->assert(
