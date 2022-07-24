@@ -5,6 +5,7 @@ nav:
   - Intro:
     - 'index.md'
     - 'installation.md'
+    - 'quick-start.md'
   - Usage:
     - 'configuration.md'
     - 'issuing-tokens.md'
@@ -16,3 +17,6 @@ nav:
 
 markdown_extensions:
   - admonition
+  - footnotes
+  - toc:
+      permalink: true

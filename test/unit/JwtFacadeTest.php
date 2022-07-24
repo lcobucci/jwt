@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
-use DateInterval;
+use AssertionError;
 use DateTimeImmutable;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
@@ -17,6 +17,7 @@ use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers ::__construct
  * @coversDefaultClass \Lcobucci\JWT\JwtFacade
  *
  * @uses  \Lcobucci\JWT\Token\Parser
@@ -56,14 +57,12 @@ final class JwtFacadeTest extends TestCase
 
     private function createToken(): string
     {
-        return (new JwtFacade())->issue(
+        return (new JwtFacade(null, $this->clock))->issue(
             $this->signer,
             $this->key,
-            function (Builder $builder): Builder {
+            function (Builder $builder, DateTimeImmutable $issuedAt): Builder {
                 return $builder
-                    ->issuedAt($this->clock->now())
-                    ->canOnlyBeUsedAfter($this->clock->now())
-                    ->expiresAt($this->clock->now()->add(new DateInterval('PT5M')))
+                    ->expiresAt($issuedAt->modify('+5 minutes'))
                     ->issuedBy($this->issuer);
             }
         )->toString();
@@ -77,27 +76,25 @@ final class JwtFacadeTest extends TestCase
      */
     public function issueSetTimeValidity(): void
     {
-        $token = (new JwtFacade())->issue(
+        $token = (new JwtFacade(null, $this->clock))->issue(
             $this->signer,
             $this->key,
-            static function (Builder $builder): Builder {
-                return $builder;
-            }
+            static fn (Builder $builder): Builder => $builder
         );
 
-        $now = (new DateTimeImmutable())->modify('+30 seconds');
+        $now = $this->clock->now();
 
         self::assertTrue($token->hasBeenIssuedBefore($now));
         self::assertTrue($token->isMinimumTimeBefore($now));
         self::assertFalse($token->isExpired($now));
 
-        $aYearAgo = (new DateTimeImmutable())->modify('-1 year');
+        $aYearAgo = $now->modify('-1 year');
 
         self::assertFalse($token->hasBeenIssuedBefore($aYearAgo));
         self::assertFalse($token->isMinimumTimeBefore($aYearAgo));
         self::assertFalse($token->isExpired($aYearAgo));
 
-        $inOneYear = (new DateTimeImmutable())->modify('+1 year');
+        $inOneYear = $now->modify('+1 year');
 
         self::assertTrue($token->hasBeenIssuedBefore($inOneYear));
         self::assertTrue($token->isMinimumTimeBefore($inOneYear));
@@ -208,7 +205,7 @@ final class JwtFacadeTest extends TestCase
     public function badTime(): void
     {
         $token = $this->createToken();
-        $this->clock->setTo($this->clock->now()->add(new DateInterval('P30D')));
+        $this->clock->setTo($this->clock->now()->modify('+30 days'));
 
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token is expired');
@@ -237,6 +234,23 @@ final class JwtFacadeTest extends TestCase
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
             new IssuedBy('xyz')
+        );
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::parse
+     */
+    public function parserForNonUnencryptedTokens(): void
+    {
+        $this->expectException(AssertionError::class);
+
+        (new JwtFacade(new UnsupportedParser()))->parse(
+            'a.very-broken.token',
+            new SignedWith($this->signer, $this->key),
+            new StrictValidAt($this->clock),
+            new IssuedBy($this->issuer)
         );
     }
 }
