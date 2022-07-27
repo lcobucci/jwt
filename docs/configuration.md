@@ -71,18 +71,18 @@ $configuration = Configuration::forSymmetricSigner(
 Currently supported symmetric algorithms:
 
 | Name      | Description        | Class                                    | Key length req. |
-| --------- | ------------------ | ---------------------------------------- | --------------- |
-| `HS256`   | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\Sha256`       | 32 bytes        |
-| `HS384`   | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\Sha384`       | 48 bytes        |
-| `HS512`   | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\Sha512`       | 64 bytes        |
+| --------- | ------------------ | ---------------------------------------- |-----------------|
+| `HS256`   | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\Sha256`       | 256 bits        |
+| `HS384`   | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\Sha384`       | 384 bits        |
+| `HS512`   | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\Sha512`       | 512 bits        |
 
 Deprecated symmetric algorithms in `v4`:
 
 | Name      | Description        | Class                                    | Key length req. |
-| --------- | ------------------ | ---------------------------------------- | --------------- |
-| `HS256`   | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha256` | 1 byte          |
-| `HS384`   | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha384` | 1 byte          |
-| `HS512`   | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha512` | 1 byte          |
+| --------- | ------------------ | ---------------------------------------- |-----------------|
+| `HS256`   | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha256` | 1 bit           |
+| `HS384`   | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha384` | 1 bit           |
+| `HS512`   | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha512` | 1 bit           |
 
 #### For asymmetric algorithms
 
