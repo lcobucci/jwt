@@ -35,12 +35,12 @@ final class UnsafeSha384Test extends TestCase
     /**
      * @test
      *
-     * @covers ::minimumBytesLengthForKey
+     * @covers ::minimumBitsLengthForKey
      */
     public function minimumBytesLengthForKeyIsWhatItIs(): void
     {
         $signer = new UnsafeSha384();
 
-        self::assertSame(1, $signer->minimumBytesLengthForKey());
+        self::assertSame(1, $signer->minimumBitsLengthForKey());
     }
 }

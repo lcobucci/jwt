@@ -29,8 +29,8 @@ final class HmacTest extends TestCase
                      ->willReturn('sha256');
 
         $this->signer->expects(self::any())
-                     ->method('minimumBytesLengthForKey')
-                     ->willReturn(3);
+                     ->method('minimumBitsLengthForKey')
+                     ->willReturn(24);
     }
 
     /**
@@ -88,7 +88,7 @@ final class HmacTest extends TestCase
     public function keyMustFulfillMinimumLengthRequirement(): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('Key provided is shorter than 3 bytes, only 2 bytes provided');
+        $this->expectExceptionMessage('Key provided is shorter than 24 bits, only 16 bits provided');
 
         $this->signer->sign('test', InMemory::plainText('12'));
     }

@@ -18,7 +18,7 @@ final class UnsafeSha512 extends Hmac
         return 'sha512';
     }
 
-    public function minimumBytesLengthForKey(): int
+    public function minimumBitsLengthForKey(): int
     {
         return 1;
     }
