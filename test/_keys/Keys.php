@@ -25,7 +25,6 @@ trait Keys
             'encrypted-private' => Key\InMemory::file(__DIR__ . '/rsa/encrypted-private.key', 'testing'),
             'encrypted-public'  => Key\InMemory::file(__DIR__ . '/rsa/encrypted-public.key'),
             'private_short'     => Key\InMemory::file(__DIR__ . '/rsa/private_512.key'),
-            'public_short'      => Key\InMemory::file(__DIR__ . '/rsa/public_512.key'),
         ];
     }
 
@@ -42,9 +41,6 @@ trait Keys
             'public_ec512'   => Key\InMemory::file(__DIR__ . '/ecdsa/public_ec512.key'),
             'public2_ec512'  => Key\InMemory::file(__DIR__ . '/ecdsa/public2_ec512.key'),
             'private_short'  => Key\InMemory::file(__DIR__ . '/ecdsa/private_ec112.key'),
-            'public_short'   => Key\InMemory::file(__DIR__ . '/ecdsa/public_ec112.key'),
-            'private_enough' => Key\InMemory::file(__DIR__ . '/ecdsa/private_ec224.key'),
-            'public_enough'  => Key\InMemory::file(__DIR__ . '/ecdsa/public_ec224.key'),
         ];
     }
 

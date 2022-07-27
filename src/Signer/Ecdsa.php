@@ -44,6 +44,11 @@ abstract class Ecdsa extends OpenSSL
         return OPENSSL_KEYTYPE_EC;
     }
 
+    final public function minimumBitsLengthForKey(): int
+    {
+        return 224;
+    }
+
     /**
      * Returns the length of each point in the signature, so that we can calculate and verify R and S points properly
      *

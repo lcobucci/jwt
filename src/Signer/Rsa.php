@@ -21,4 +21,9 @@ abstract class Rsa extends OpenSSL
     {
         return OPENSSL_KEYTYPE_RSA;
     }
+
+    final public function minimumBitsLengthForKey(): int
+    {
+        return 2048;
+    }
 }

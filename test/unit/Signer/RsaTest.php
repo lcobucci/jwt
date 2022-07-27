@@ -29,6 +29,7 @@ final class RsaTest extends TestCase
      * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
+     * @uses \Lcobucci\JWT\Signer\Rsa::minimumBitsLengthForKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function signShouldReturnAValidOpensslSignature(): void
@@ -114,10 +115,32 @@ KEY;
     /**
      * @test
      *
+     * @covers ::sign
+     * @covers ::keyType
+     * @covers \Lcobucci\JWT\Signer\Rsa::minimumBitsLengthForKey
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
+     * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
+     *
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     */
+    public function signShouldRaiseAnExceptionWhenKeyLengthIsBelowMinimum(): void
+    {
+        $signer = $this->getSigner();
+
+        $this->expectException(InvalidKeyProvided::class);
+        $this->expectExceptionMessage('Key provided is shorter than 2048 bits, only 512 bits provided');
+
+        $signer->sign('testing', self::$rsaKeys['private_short']);
+    }
+
+    /**
+     * @test
+     *
      * @covers ::verify
      * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
+     * @uses \Lcobucci\JWT\Signer\Rsa::minimumBitsLengthForKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldReturnTrueWhenSignatureIsValid(): void

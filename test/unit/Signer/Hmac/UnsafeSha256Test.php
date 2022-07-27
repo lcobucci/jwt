@@ -37,7 +37,7 @@ final class UnsafeSha256Test extends TestCase
      *
      * @covers ::minimumBitsLengthForKey
      */
-    public function minimumBytesLengthForKeyIsWhatItIs(): void
+    public function minimumBitsLengthForKeyIsWhatItIs(): void
     {
         $signer = new UnsafeSha256();
 

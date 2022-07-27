@@ -37,7 +37,7 @@ final class Sha512Test extends TestCase
      *
      * @covers ::minimumBitsLengthForKey
      */
-    public function minimumBytesLengthForKeyMustBeCorrect(): void
+    public function minimumBitsLengthForKeyMustBeCorrect(): void
     {
         $signer = new Sha512();
 

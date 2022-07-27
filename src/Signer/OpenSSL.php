@@ -10,6 +10,7 @@ use function array_key_exists;
 use function assert;
 use function is_array;
 use function is_bool;
+use function is_int;
 use function is_string;
 use function openssl_error_string;
 use function openssl_free_key;
@@ -47,6 +48,9 @@ abstract class OpenSSL implements Signer
             $this->freeKey($key);
         }
     }
+
+    /** @return positive-int */
+    abstract public function minimumBitsLengthForKey(): int;
 
     /**
      * @return resource|OpenSSLAsymmetricKey
@@ -108,6 +112,12 @@ abstract class OpenSSL implements Signer
 
         if (! array_key_exists('key', $details) || $details['type'] !== $this->keyType()) {
             throw InvalidKeyProvided::incompatibleKey();
+        }
+
+        assert(array_key_exists('bits', $details));
+        assert(is_int($details['bits']));
+        if ($details['bits'] < $this->minimumBitsLengthForKey()) {
+            throw InvalidKeyProvided::tooShort($this->minimumBitsLengthForKey(), $details['bits']);
         }
     }
 

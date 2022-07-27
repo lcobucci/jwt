@@ -51,6 +51,7 @@ final class EcdsaTest extends TestCase
      *
      * @covers ::sign
      * @covers ::keyType
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::minimumBitsLengthForKey
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
@@ -81,12 +82,35 @@ final class EcdsaTest extends TestCase
     /**
      * @test
      *
+     * @covers ::sign
+     * @covers ::keyType
+     * @covers \Lcobucci\JWT\Signer\Ecdsa::minimumBitsLengthForKey
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
+     * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
+     *
+     * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     */
+    public function signShouldRaiseAnExceptionWhenKeyLengthIsBelowMinimum(): void
+    {
+        $signer = $this->getSigner();
+
+        $this->expectException(InvalidKeyProvided::class);
+        $this->expectExceptionMessage('Key provided is shorter than 224 bits, only 112 bits provided');
+
+        $signer->sign('testing', self::$ecdsaKeys['private_short']);
+    }
+
+    /**
+     * @test
+     *
      * @covers ::verify
      * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
+     * @uses \Lcobucci\JWT\Signer\Ecdsa::minimumBitsLengthForKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldDelegateToEcdsaSignerUsingPublicKey(): void

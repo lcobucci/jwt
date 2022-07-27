@@ -33,4 +33,16 @@ final class Sha256Test extends TestCase
 
         self::assertEquals(OPENSSL_ALGO_SHA256, $signer->algorithm());
     }
+
+    /**
+     * @test
+     *
+     * @covers ::minimumBitsLengthForKey
+     */
+    public function minimumBitsLengthForKeyMustBeCorrect(): void
+    {
+        $signer = new Sha256();
+
+        self::assertSame(2048, $signer->minimumBitsLengthForKey());
+    }
 }
