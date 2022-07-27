@@ -29,7 +29,6 @@ final class RsaTest extends TestCase
      * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
-     * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function signShouldReturnAValidOpensslSignature(): void
@@ -100,7 +99,6 @@ KEY;
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
-     * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function signShouldRaiseAnExceptionWhenKeyTypeIsNotRsa(): void
@@ -120,7 +118,6 @@ KEY;
      * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
-     * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldReturnTrueWhenSignatureIsValid(): void
@@ -163,7 +160,6 @@ KEY;
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
-     * @uses \Lcobucci\JWT\Signer\Key\LocalFileReference
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldRaiseAnExceptionWhenKeyTypeIsNotRsa(): void
