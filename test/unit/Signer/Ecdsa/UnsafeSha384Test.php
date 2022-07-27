@@ -7,22 +7,22 @@ use PHPUnit\Framework\TestCase;
 
 use const OPENSSL_ALGO_SHA384;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Ecdsa\Sha384 */
-final class Sha384Test extends TestCase
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Ecdsa\UnsafeSha384 */
+final class UnsafeSha384Test extends TestCase
 {
     /**
      * @test
      *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::create
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::__construct
+     * @covers \Lcobucci\JWT\Signer\UnsafeEcdsa::create
+     * @covers \Lcobucci\JWT\Signer\UnsafeEcdsa::__construct
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      */
     public function createShouldReturnAValidInstance(): void
     {
-        $signer = Sha384::create();
+        $signer = UnsafeSha384::create();
 
-        self::assertInstanceOf(Sha384::class, $signer);
+        self::assertInstanceOf(UnsafeSha384::class, $signer);
     }
 
     /**
@@ -30,7 +30,7 @@ final class Sha384Test extends TestCase
      *
      * @covers ::algorithmId
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa
+     * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa
      */
     public function algorithmIdMustBeCorrect(): void
     {
@@ -42,7 +42,7 @@ final class Sha384Test extends TestCase
      *
      * @covers ::algorithm
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa
+     * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa
      */
     public function algorithmMustBeCorrect(): void
     {
@@ -54,7 +54,7 @@ final class Sha384Test extends TestCase
      *
      * @covers ::keyLength
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa
+     * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa
      */
     public function keyLengthMustBeCorrect(): void
     {
@@ -66,15 +66,15 @@ final class Sha384Test extends TestCase
      *
      * @covers ::minimumBitsLengthForKey
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
+     * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa::__construct
      */
     public function minimumBitsLengthForKeyMustBeCorrect(): void
     {
-        self::assertSame(224, $this->getSigner()->minimumBitsLengthForKey());
+        self::assertSame(1, $this->getSigner()->minimumBitsLengthForKey());
     }
 
-    private function getSigner(): Sha384
+    private function getSigner(): UnsafeSha384
     {
-        return new Sha384($this->createMock(SignatureConverter::class));
+        return new UnsafeSha384($this->createMock(SignatureConverter::class));
     }
 }
