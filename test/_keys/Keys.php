@@ -25,6 +25,8 @@ trait Keys
             'public'            => LocalFileReference::file(__DIR__ . '/rsa/public.key'),
             'encrypted-private' => LocalFileReference::file(__DIR__ . '/rsa/encrypted-private.key', 'testing'),
             'encrypted-public'  => LocalFileReference::file(__DIR__ . '/rsa/encrypted-public.key'),
+            'private_short'     => LocalFileReference::file(__DIR__ . '/rsa/private_512.key'),
+            'public_short'      => LocalFileReference::file(__DIR__ . '/rsa/public_512.key'),
         ];
     }
 
@@ -40,6 +42,10 @@ trait Keys
             'private_ec512'  => LocalFileReference::file(__DIR__ . '/ecdsa/private_ec512.key'),
             'public_ec512'   => LocalFileReference::file(__DIR__ . '/ecdsa/public_ec512.key'),
             'public2_ec512'  => LocalFileReference::file(__DIR__ . '/ecdsa/public2_ec512.key'),
+            'private_short'  => LocalFileReference::file(__DIR__ . '/ecdsa/private_ec112.key'),
+            'public_short'   => LocalFileReference::file(__DIR__ . '/ecdsa/public_ec112.key'),
+            'private_enough' => LocalFileReference::file(__DIR__ . '/ecdsa/private_ec224.key'),
+            'public_enough'  => LocalFileReference::file(__DIR__ . '/ecdsa/public_ec224.key'),
         ];
     }
 
