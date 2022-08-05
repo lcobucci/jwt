@@ -18,7 +18,7 @@ final class UnsafeSha256 extends Hmac
         return 'sha256';
     }
 
-    public function minimumBytesLengthForKey(): int
+    public function minimumBitsLengthForKey(): int
     {
         return 1;
     }

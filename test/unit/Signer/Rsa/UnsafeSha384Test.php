@@ -5,10 +5,10 @@ namespace Lcobucci\JWT\Signer\Rsa;
 
 use PHPUnit\Framework\TestCase;
 
-use const OPENSSL_ALGO_SHA256;
+use const OPENSSL_ALGO_SHA384;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Rsa\Sha256 */
-final class Sha256Test extends TestCase
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Rsa\UnsafeSha384 */
+final class UnsafeSha384Test extends TestCase
 {
     /**
      * @test
@@ -17,9 +17,9 @@ final class Sha256Test extends TestCase
      */
     public function algorithmIdMustBeCorrect(): void
     {
-        $signer = new Sha256();
+        $signer = new UnsafeSha384();
 
-        self::assertEquals('RS256', $signer->algorithmId());
+        self::assertEquals('RS384', $signer->algorithmId());
     }
 
     /**
@@ -29,9 +29,9 @@ final class Sha256Test extends TestCase
      */
     public function algorithmMustBeCorrect(): void
     {
-        $signer = new Sha256();
+        $signer = new UnsafeSha384();
 
-        self::assertEquals(OPENSSL_ALGO_SHA256, $signer->algorithm());
+        self::assertEquals(OPENSSL_ALGO_SHA384, $signer->algorithm());
     }
 
     /**
@@ -41,8 +41,8 @@ final class Sha256Test extends TestCase
      */
     public function minimumBitsLengthForKeyMustBeCorrect(): void
     {
-        $signer = new Sha256();
+        $signer = new UnsafeSha384();
 
-        self::assertSame(2048, $signer->minimumBitsLengthForKey());
+        self::assertSame(1, $signer->minimumBitsLengthForKey());
     }
 }

@@ -8,7 +8,8 @@ use Lcobucci\JWT\Signer\Ecdsa\SignatureConverter;
 
 use const OPENSSL_KEYTYPE_EC;
 
-abstract class Ecdsa extends OpenSSL
+/** @deprecated Deprecated since v4.2 */
+abstract class UnsafeEcdsa extends OpenSSL
 {
     private SignatureConverter $converter;
 
@@ -17,7 +18,7 @@ abstract class Ecdsa extends OpenSSL
         $this->converter = $converter;
     }
 
-    public static function create(): Ecdsa
+    public static function create(): UnsafeEcdsa
     {
         return new static(new MultibyteStringConverter());  // @phpstan-ignore-line
     }
@@ -46,7 +47,7 @@ abstract class Ecdsa extends OpenSSL
 
     final public function minimumBitsLengthForKey(): int
     {
-        return 224;
+        return 1;
     }
 
     /**

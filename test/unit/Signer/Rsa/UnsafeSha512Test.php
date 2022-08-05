@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Lcobucci\JWT\Signer\Hmac;
+namespace Lcobucci\JWT\Signer\Rsa;
 
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Hmac\UnsafeSha512 */
+use const OPENSSL_ALGO_SHA512;
+
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Rsa\UnsafeSha512 */
 final class UnsafeSha512Test extends TestCase
 {
     /**
@@ -17,7 +19,7 @@ final class UnsafeSha512Test extends TestCase
     {
         $signer = new UnsafeSha512();
 
-        self::assertEquals('HS512', $signer->algorithmId());
+        self::assertEquals('RS512', $signer->algorithmId());
     }
 
     /**
@@ -29,7 +31,7 @@ final class UnsafeSha512Test extends TestCase
     {
         $signer = new UnsafeSha512();
 
-        self::assertEquals('sha512', $signer->algorithm());
+        self::assertEquals(OPENSSL_ALGO_SHA512, $signer->algorithm());
     }
 
     /**
@@ -37,7 +39,7 @@ final class UnsafeSha512Test extends TestCase
      *
      * @covers ::minimumBitsLengthForKey
      */
-    public function minimumBitsLengthForKeyIsWhatItIs(): void
+    public function minimumBitsLengthForKeyMustBeCorrect(): void
     {
         $signer = new UnsafeSha512();
 

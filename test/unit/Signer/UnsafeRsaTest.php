@@ -17,8 +17,8 @@ use function openssl_verify;
 
 use const OPENSSL_ALGO_SHA256;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Rsa */
-final class RsaTest extends TestCase
+/** @coversDefaultClass \Lcobucci\JWT\Signer\UnsafeRsa */
+final class UnsafeRsaTest extends TestCase
 {
     use Keys;
 
@@ -29,7 +29,7 @@ final class RsaTest extends TestCase
      * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
-     * @uses \Lcobucci\JWT\Signer\Rsa::minimumBitsLengthForKey
+     * @uses \Lcobucci\JWT\Signer\UnsafeRsa::minimumBitsLengthForKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function signShouldReturnAValidOpensslSignature(): void
@@ -43,6 +43,35 @@ final class RsaTest extends TestCase
         assert(is_resource($publicKey) || $publicKey instanceof OpenSSLAsymmetricKey);
 
         self::assertSame(1, openssl_verify($payload, $signature, $publicKey, OPENSSL_ALGO_SHA256));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::sign
+     * @covers ::keyType
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
+     * @covers \Lcobucci\JWT\Signer\CannotSignPayload
+     *
+     * @uses \Lcobucci\JWT\Signer\UnsafeRsa::minimumBitsLengthForKey
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     */
+    public function signShouldRaiseAnExceptionWhenKeyIsInvalid(): void
+    {
+        $key = <<<KEY
+-----BEGIN RSA PRIVATE KEY-----
+MGECAQACEQC4MRKSVsq5XnRBrJoX6+rnAgMBAAECECO8SZkgw6Yg66A6SUly/3kC
+CQDtPXZtCQWJuwIJAMbBu17GDOrFAggopfhNlFcjkwIIVjb7G+U0/TECCEERyvxP
+TWdN
+-----END RSA PRIVATE KEY-----
+KEY;
+
+        $signer = $this->getSigner();
+
+        $this->expectException(CannotSignPayload::class);
+        $this->expectExceptionMessage('There was an error while creating the signature: error:');
+
+        $signer->sign('testing', InMemory::plainText($key));
     }
 
     /**
@@ -89,20 +118,21 @@ final class RsaTest extends TestCase
      *
      * @covers ::sign
      * @covers ::keyType
-     * @covers \Lcobucci\JWT\Signer\Rsa::minimumBitsLengthForKey
+     * @covers \Lcobucci\JWT\Signer\UnsafeRsa::minimumBitsLengthForKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     * @uses \Lcobucci\JWT\Signer\UnsafeRsa::verify
      */
-    public function signShouldRaiseAnExceptionWhenKeyLengthIsBelowMinimum(): void
+    public function signShouldAcceptAKeyLengthBelowMinimum(): void
     {
         $signer = $this->getSigner();
 
-        $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('Key provided is shorter than 2048 bits, only 512 bits provided');
+        $payload   = 'testing';
+        $signature = $signer->sign($payload, self::$rsaKeys['private_short']);
 
-        $signer->sign('testing', self::$rsaKeys['private_short']);
+        self::assertTrue($signer->verify($signature, $payload, self::$rsaKeys['public_short']));
     }
 
     /**
@@ -112,7 +142,7 @@ final class RsaTest extends TestCase
      * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
-     * @uses \Lcobucci\JWT\Signer\Rsa::minimumBitsLengthForKey
+     * @uses \Lcobucci\JWT\Signer\UnsafeRsa::minimumBitsLengthForKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldReturnTrueWhenSignatureIsValid(): void
@@ -167,9 +197,9 @@ final class RsaTest extends TestCase
         $signer->verify('testing', 'testing', self::$ecdsaKeys['private']);
     }
 
-    private function getSigner(): Rsa
+    private function getSigner(): UnsafeRsa
     {
-        $signer = $this->getMockForAbstractClass(Rsa::class);
+        $signer = $this->getMockForAbstractClass(UnsafeRsa::class);
 
         $signer->method('algorithm')
                ->willReturn(OPENSSL_ALGO_SHA256);

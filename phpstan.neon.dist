@@ -8,6 +8,6 @@ parameters:
         - '#.*OpenSSLAsymmetricKey.*#'
         - '#Call to method .* of deprecated class Lcobucci\\JWT\\Signer\\Key\\LocalFileReference#'
         - """
-            #^Instantiation of deprecated class Lcobucci\\\\JWT\\\\Signer\\\\Hmac\\\\UnsafeSha\\d\\d\\d\\:
+            #^.+ deprecated class Lcobucci\\\\JWT\\\\Signer\\\\.+:
             Deprecated since v4\\.2$#
         """

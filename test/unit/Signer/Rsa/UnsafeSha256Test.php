@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Lcobucci\JWT\Signer\Hmac;
+namespace Lcobucci\JWT\Signer\Rsa;
 
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Hmac\UnsafeSha256 */
+use const OPENSSL_ALGO_SHA256;
+
+/** @coversDefaultClass \Lcobucci\JWT\Signer\Rsa\UnsafeSha256 */
 final class UnsafeSha256Test extends TestCase
 {
     /**
@@ -17,7 +19,7 @@ final class UnsafeSha256Test extends TestCase
     {
         $signer = new UnsafeSha256();
 
-        self::assertEquals('HS256', $signer->algorithmId());
+        self::assertEquals('RS256', $signer->algorithmId());
     }
 
     /**
@@ -29,7 +31,7 @@ final class UnsafeSha256Test extends TestCase
     {
         $signer = new UnsafeSha256();
 
-        self::assertEquals('sha256', $signer->algorithm());
+        self::assertEquals(OPENSSL_ALGO_SHA256, $signer->algorithm());
     }
 
     /**
@@ -37,7 +39,7 @@ final class UnsafeSha256Test extends TestCase
      *
      * @covers ::minimumBitsLengthForKey
      */
-    public function minimumBitsLengthForKeyIsWhatItIs(): void
+    public function minimumBitsLengthForKeyMustBeCorrect(): void
     {
         $signer = new UnsafeSha256();
 

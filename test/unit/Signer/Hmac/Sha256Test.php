@@ -35,12 +35,12 @@ final class Sha256Test extends TestCase
     /**
      * @test
      *
-     * @covers ::minimumBytesLengthForKey
+     * @covers ::minimumBitsLengthForKey
      */
-    public function minimumBytesLengthForKeyMustBeCorrect(): void
+    public function minimumBitsLengthForKeyMustBeCorrect(): void
     {
         $signer = new Sha256();
 
-        self::assertSame(32, $signer->minimumBytesLengthForKey());
+        self::assertSame(256, $signer->minimumBitsLengthForKey());
     }
 }

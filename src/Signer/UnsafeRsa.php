@@ -5,7 +5,8 @@ namespace Lcobucci\JWT\Signer;
 
 use const OPENSSL_KEYTYPE_RSA;
 
-abstract class Rsa extends OpenSSL
+/** @deprecated Deprecated since v4.2 */
+abstract class UnsafeRsa extends OpenSSL
 {
     final public function sign(string $payload, Key $key): string
     {
@@ -24,6 +25,6 @@ abstract class Rsa extends OpenSSL
 
     final public function minimumBitsLengthForKey(): int
     {
-        return 2048;
+        return 1;
     }
 }

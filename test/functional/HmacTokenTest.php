@@ -8,7 +8,6 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Lcobucci\JWT\Signer\Hmac\UnsafeSha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Signer\Key\LocalFileReference;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
@@ -158,7 +157,7 @@ class HmacTokenTest extends TestCase
 
         file_put_contents($key, 'just a dummy key');
 
-        $validKey      = LocalFileReference::file($key);
+        $validKey      = InMemory::file($key);
         $invalidKey    = InMemory::plainText('file://' . $key);
         $signer        = new UnsafeSha256();
         $configuration = Configuration::forSymmetricSigner($signer, $validKey);

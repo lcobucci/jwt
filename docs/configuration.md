@@ -71,18 +71,18 @@ $configuration = Configuration::forSymmetricSigner(
 Currently supported symmetric algorithms:
 
 | Name      | Description        | Class                                    | Key length req. |
-| --------- | ------------------ | ---------------------------------------- | --------------- |
-| `HS256`   | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\Sha256`       | 32 bytes        |
-| `HS384`   | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\Sha384`       | 48 bytes        |
-| `HS512`   | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\Sha512`       | 64 bytes        |
+| --------- | ------------------ | ---------------------------------------- |-----------------|
+| `HS256`   | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\Sha256`       | 256 bits        |
+| `HS384`   | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\Sha384`       | 384 bits        |
+| `HS512`   | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\Sha512`       | 512 bits        |
 
 Deprecated symmetric algorithms in `v4`:
 
 | Name      | Description        | Class                                    | Key length req. |
-| --------- | ------------------ | ---------------------------------------- | --------------- |
-| `HS256`   | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha256` | 1 byte          |
-| `HS384`   | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha384` | 1 byte          |
-| `HS512`   | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha512` | 1 byte          |
+| --------- | ------------------ | ---------------------------------------- |-----------------|
+| `HS256`   | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha256` | 1 bit           |
+| `HS384`   | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha384` | 1 bit           |
+| `HS512`   | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha512` | 1 bit           |
 
 #### For asymmetric algorithms
 
@@ -109,15 +109,26 @@ $configuration = Configuration::forAsymmetricSigner(
 
 Currently supported asymmetric algorithms:
 
-| Name    | Description                     | Class                               |
-| ------- | ------------------------------- | ----------------------------------- |
-| `ES256` | ECDSA using P-256 and SHA-256   | `\Lcobucci\JWT\Signer\Ecdsa\Sha256` |
-| `ES384` | ECDSA using P-384 and SHA-384   | `\Lcobucci\JWT\Signer\Ecdsa\Sha384` |
-| `ES512` | ECDSA using P-521 and SHA-512   | `\Lcobucci\JWT\Signer\Ecdsa\Sha512` |
-| `RS256` | RSASSA-PKCS1-v1_5 using SHA-256 | `\Lcobucci\JWT\Signer\Rsa\Sha256`   |
-| `RS384` | RSASSA-PKCS1-v1_5 using SHA-384 | `\Lcobucci\JWT\Signer\Rsa\Sha384`   |
-| `RS512` | RSASSA-PKCS1-v1_5 using SHA-512 | `\Lcobucci\JWT\Signer\Rsa\Sha512`   |
-| `EdDSA` | EdDSA signature algorithms      | `\Lcobucci\JWT\Signer\Eddsa`        |
+| Name    | Description                     | Class                               | Key length req. |
+| ------- | ------------------------------- | ----------------------------------- |-----------------|
+| `ES256` | ECDSA using P-256 and SHA-256   | `\Lcobucci\JWT\Signer\Ecdsa\Sha256` | 224 bits        |
+| `ES384` | ECDSA using P-384 and SHA-384   | `\Lcobucci\JWT\Signer\Ecdsa\Sha384` | 224 bits        |
+| `ES512` | ECDSA using P-521 and SHA-512   | `\Lcobucci\JWT\Signer\Ecdsa\Sha512` | 224 bits        |
+| `RS256` | RSASSA-PKCS1-v1_5 using SHA-256 | `\Lcobucci\JWT\Signer\Rsa\Sha256`   | 2048 bits       |
+| `RS384` | RSASSA-PKCS1-v1_5 using SHA-384 | `\Lcobucci\JWT\Signer\Rsa\Sha384`   | 2048 bits       |
+| `RS512` | RSASSA-PKCS1-v1_5 using SHA-512 | `\Lcobucci\JWT\Signer\Rsa\Sha512`   | 2048 bits       |
+| `EdDSA` | EdDSA signature algorithms      | `\Lcobucci\JWT\Signer\Eddsa`        | 256 bits        |
+
+Deprecated asymmetric algorithms in `v4`:
+
+| Name    | Description                     | Class                                     | Key length req. |
+| ------- | ------------------------------- |-------------------------------------------|-----------------|
+| `ES256` | ECDSA using P-256 and SHA-256   | `\Lcobucci\JWT\Signer\Ecdsa\UnsafeSha256` | 1 bit           |
+| `ES384` | ECDSA using P-384 and SHA-384   | `\Lcobucci\JWT\Signer\Ecdsa\UnsafeSha384` | 1 bit           |
+| `ES512` | ECDSA using P-521 and SHA-512   | `\Lcobucci\JWT\Signer\Ecdsa\UnsafeSha512` | 1 bit           |
+| `RS256` | RSASSA-PKCS1-v1_5 using SHA-256 | `\Lcobucci\JWT\Signer\Rsa\UnsafeSha256`   | 1 bit           |
+| `RS384` | RSASSA-PKCS1-v1_5 using SHA-384 | `\Lcobucci\JWT\Signer\Rsa\UnsafeSha384`   | 1 bit           |
+| `RS512` | RSASSA-PKCS1-v1_5 using SHA-512 | `\Lcobucci\JWT\Signer\Rsa\UnsafeSha512`   | 1 bit           |
 
 #### For no algorithm
 
