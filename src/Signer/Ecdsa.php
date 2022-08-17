@@ -26,33 +26,42 @@ abstract class Ecdsa extends OpenSSL
     {
         return $this->converter->fromAsn1(
             $this->createSignature($key->contents(), $key->passphrase(), $payload),
-            $this->keyLength()
+            $this->pointLength()
         );
     }
 
     final public function verify(string $expected, string $payload, Key $key): bool
     {
         return $this->verifySignature(
-            $this->converter->toAsn1($expected, $this->keyLength()),
+            $this->converter->toAsn1($expected, $this->pointLength()),
             $payload,
             $key->contents()
         );
     }
 
-    final public function keyType(): int
+    /** {@inheritdoc} */
+    final protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void
     {
-        return OPENSSL_KEYTYPE_EC;
+        if ($type !== OPENSSL_KEYTYPE_EC) {
+            throw InvalidKeyProvided::incompatibleKeyType(
+                self::KEY_TYPE_MAP[OPENSSL_KEYTYPE_EC],
+                self::KEY_TYPE_MAP[$type],
+            );
+        }
+
+        $expectedKeyLength = $this->expectedKeyLength();
+
+        if ($lengthInBits !== $expectedKeyLength) {
+            throw InvalidKeyProvided::incompatibleKeyLength($expectedKeyLength, $lengthInBits);
+        }
     }
 
-    final public function minimumBitsLengthForKey(): int
-    {
-        return 224;
-    }
+    abstract public function expectedKeyLength(): int;
 
     /**
      * Returns the length of each point in the signature, so that we can calculate and verify R and S points properly
      *
      * @internal
      */
-    abstract public function keyLength(): int;
+    abstract public function pointLength(): int;
 }

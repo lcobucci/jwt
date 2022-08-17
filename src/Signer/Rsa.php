@@ -7,6 +7,8 @@ use const OPENSSL_KEYTYPE_RSA;
 
 abstract class Rsa extends OpenSSL
 {
+    private const MINIMUM_KEY_LENGTH = 2048;
+
     final public function sign(string $payload, Key $key): string
     {
         return $this->createSignature($key->contents(), $key->passphrase(), $payload);
@@ -17,13 +19,17 @@ abstract class Rsa extends OpenSSL
         return $this->verifySignature($expected, $payload, $key->contents());
     }
 
-    final public function keyType(): int
+    final protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void
     {
-        return OPENSSL_KEYTYPE_RSA;
-    }
+        if ($type !== OPENSSL_KEYTYPE_RSA) {
+            throw InvalidKeyProvided::incompatibleKeyType(
+                self::KEY_TYPE_MAP[OPENSSL_KEYTYPE_RSA],
+                self::KEY_TYPE_MAP[$type],
+            );
+        }
 
-    final public function minimumBitsLengthForKey(): int
-    {
-        return 2048;
+        if ($lengthInBits < self::MINIMUM_KEY_LENGTH) {
+            throw InvalidKeyProvided::tooShort(self::MINIMUM_KEY_LENGTH, $lengthInBits);
+        }
     }
 }

@@ -41,8 +41,6 @@ trait Keys
             'private_ec512'  => Key\InMemory::file(__DIR__ . '/ecdsa/private_ec512.key'),
             'public_ec512'   => Key\InMemory::file(__DIR__ . '/ecdsa/public_ec512.key'),
             'public2_ec512'  => Key\InMemory::file(__DIR__ . '/ecdsa/public2_ec512.key'),
-            'private_short'  => Key\InMemory::file(__DIR__ . '/ecdsa/private_ec160.key'),
-            'public_short'   => Key\InMemory::file(__DIR__ . '/ecdsa/public_ec160.key'),
         ];
     }
 

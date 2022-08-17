@@ -52,25 +52,25 @@ final class Sha256Test extends TestCase
     /**
      * @test
      *
-     * @covers ::keyLength
+     * @covers ::pointLength
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
     public function keyLengthMustBeCorrect(): void
     {
-        self::assertSame(64, $this->getSigner()->keyLength());
+        self::assertSame(64, $this->getSigner()->pointLength());
     }
 
     /**
      * @test
      *
-     * @covers ::minimumBitsLengthForKey
+     * @covers ::expectedKeyLength
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
      */
-    public function minimumBitsLengthForKeyMustBeCorrect(): void
+    public function expectedKeyLengthMustBeCorrect(): void
     {
-        self::assertSame(224, $this->getSigner()->minimumBitsLengthForKey());
+        self::assertSame(256, $this->getSigner()->expectedKeyLength());
     }
 
     private function getSigner(): Sha256

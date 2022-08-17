@@ -10,26 +10,35 @@ use PHPUnit\Framework\TestCase;
 
 use function assert;
 use function is_resource;
+use function openssl_error_string;
 use function openssl_pkey_get_private;
 use function openssl_pkey_get_public;
 use function openssl_sign;
 use function openssl_verify;
 
 use const OPENSSL_ALGO_SHA256;
+use const PHP_EOL;
 
 /** @coversDefaultClass \Lcobucci\JWT\Signer\UnsafeRsa */
 final class UnsafeRsaTest extends TestCase
 {
     use Keys;
 
+    /** @after */
+    public function clearOpenSSLErrors(): void
+    {
+        // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedWhile
+        while (openssl_error_string()) {
+        }
+    }
+
     /**
      * @test
      *
      * @covers ::sign
-     * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
-     * @uses \Lcobucci\JWT\Signer\UnsafeRsa::minimumBitsLengthForKey
+     * @uses \Lcobucci\JWT\Signer\UnsafeRsa::guardAgainstIncompatibleKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function signShouldReturnAValidOpensslSignature(): void
@@ -49,11 +58,10 @@ final class UnsafeRsaTest extends TestCase
      * @test
      *
      * @covers ::sign
-     * @covers ::keyType
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\CannotSignPayload
      *
-     * @uses \Lcobucci\JWT\Signer\UnsafeRsa::minimumBitsLengthForKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function signShouldRaiseAnExceptionWhenKeyIsInvalid(): void
@@ -69,7 +77,7 @@ KEY;
         $signer = $this->getSigner();
 
         $this->expectException(CannotSignPayload::class);
-        $this->expectExceptionMessage('There was an error while creating the signature: error:');
+        $this->expectExceptionMessage('There was an error while creating the signature:' . PHP_EOL . '* error:');
 
         $signer->sign('testing', InMemory::plainText($key));
     }
@@ -88,7 +96,7 @@ KEY;
         $signer = $this->getSigner();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key, reason: error:');
+        $this->expectExceptionMessage('It was not possible to parse your key, reason:' . PHP_EOL . '* error:');
 
         $signer->sign('testing', InMemory::plainText('blablabla'));
     }
@@ -97,7 +105,7 @@ KEY;
      * @test
      *
      * @covers ::sign
-     * @covers ::keyType
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
@@ -108,7 +116,7 @@ KEY;
         $signer = $this->getSigner();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('This key is not compatible with this signer');
+        $this->expectExceptionMessage('The type of the provided key is not "RSA", "EC" provided');
 
         $signer->sign('testing', self::$ecdsaKeys['private']);
     }
@@ -117,13 +125,12 @@ KEY;
      * @test
      *
      * @covers ::sign
-     * @covers ::keyType
-     * @covers \Lcobucci\JWT\Signer\UnsafeRsa::minimumBitsLengthForKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      * @uses \Lcobucci\JWT\Signer\UnsafeRsa::verify
+     * @uses \Lcobucci\JWT\Signer\UnsafeRsa::guardAgainstIncompatibleKey
      */
     public function signShouldAcceptAKeyLengthBelowMinimum(): void
     {
@@ -139,11 +146,10 @@ KEY;
      * @test
      *
      * @covers ::verify
-     * @covers ::keyType
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
-     * @uses \Lcobucci\JWT\Signer\UnsafeRsa::minimumBitsLengthForKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     * @uses \Lcobucci\JWT\Signer\UnsafeRsa::guardAgainstIncompatibleKey
      */
     public function verifyShouldReturnTrueWhenSignatureIsValid(): void
     {
@@ -173,7 +179,7 @@ KEY;
         $signer = $this->getSigner();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key');
+        $this->expectExceptionMessage('It was not possible to parse your key, reason:' . PHP_EOL . '* error:');
 
         $signer->verify('testing', 'testing', InMemory::plainText('blablabla'));
     }
@@ -182,6 +188,7 @@ KEY;
      * @test
      *
      * @covers ::verify
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
@@ -192,9 +199,9 @@ KEY;
         $signer = $this->getSigner();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key');
+        $this->expectExceptionMessage('The type of the provided key is not "RSA", "EC" provided');
 
-        $signer->verify('testing', 'testing', self::$ecdsaKeys['private']);
+        $signer->verify('testing', 'testing', self::$ecdsaKeys['public1']);
     }
 
     private function getSigner(): UnsafeRsa

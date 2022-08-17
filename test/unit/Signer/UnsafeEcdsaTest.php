@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 use function assert;
 use function is_resource;
+use function openssl_error_string;
 use function openssl_pkey_get_private;
 use function openssl_pkey_get_public;
 use function openssl_sign;
@@ -23,6 +24,14 @@ final class UnsafeEcdsaTest extends TestCase
     use Keys;
 
     private MultibyteStringConverter $pointsManipulator;
+
+    /** @after */
+    public function clearOpenSSLErrors(): void
+    {
+        // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedWhile
+        while (openssl_error_string()) {
+        }
+    }
 
     /** @before */
     public function createDependencies(): void
@@ -40,7 +49,7 @@ final class UnsafeEcdsaTest extends TestCase
         $signer->method('algorithmId')
                ->willReturn('ES256');
 
-        $signer->method('keyLength')
+        $signer->method('pointLength')
                ->willReturn(64);
 
         return $signer;
@@ -50,8 +59,7 @@ final class UnsafeEcdsaTest extends TestCase
      * @test
      *
      * @covers ::sign
-     * @covers ::keyType
-     * @covers \Lcobucci\JWT\Signer\UnsafeEcdsa::minimumBitsLengthForKey
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
@@ -72,7 +80,7 @@ final class UnsafeEcdsaTest extends TestCase
             1,
             openssl_verify(
                 $payload,
-                $this->pointsManipulator->toAsn1($signature, $signer->keyLength()),
+                $this->pointsManipulator->toAsn1($signature, $signer->pointLength()),
                 $publicKey,
                 OPENSSL_ALGO_SHA256
             )
@@ -82,39 +90,33 @@ final class UnsafeEcdsaTest extends TestCase
     /**
      * @test
      *
-     * @requires extension openssl < 3.0
-     *
      * @covers ::sign
-     * @covers ::keyType
-     * @covers \Lcobucci\JWT\Signer\UnsafeEcdsa::minimumBitsLengthForKey
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa::__construct
-     * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa::verify
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
-    public function signShouldAcceptAKeyLengthBelowMinimum(): void
+    public function signShouldRaiseAnExceptionWhenKeyTypeIsNotEC(): void
     {
         $signer = $this->getSigner();
 
-        $payload   = 'testing';
-        $signature = $signer->sign($payload, self::$ecdsaKeys['private_short']);
+        $this->expectException(InvalidKeyProvided::class);
+        $this->expectExceptionMessage('The type of the provided key is not "EC", "RSA" provided');
 
-        self::assertTrue($signer->verify($signature, $payload, self::$ecdsaKeys['public_short']));
+        $signer->sign('testing', self::$rsaKeys['private']);
     }
 
     /**
      * @test
      *
      * @covers ::verify
-     * @covers ::keyType
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa::__construct
-     * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa::minimumBitsLengthForKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldDelegateToEcdsaSignerUsingPublicKey(): void
@@ -130,7 +132,7 @@ final class UnsafeEcdsaTest extends TestCase
 
         self::assertTrue(
             $signer->verify(
-                $this->pointsManipulator->fromAsn1($signature, $signer->keyLength()),
+                $this->pointsManipulator->fromAsn1($signature, $signer->pointLength()),
                 $payload,
                 self::$ecdsaKeys['public1']
             )

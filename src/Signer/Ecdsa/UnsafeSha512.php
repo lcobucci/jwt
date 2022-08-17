@@ -20,7 +20,7 @@ final class UnsafeSha512 extends UnsafeEcdsa
         return OPENSSL_ALGO_SHA512;
     }
 
-    public function keyLength(): int
+    public function pointLength(): int
     {
         return 132;
     }

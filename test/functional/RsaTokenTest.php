@@ -76,7 +76,7 @@ class RsaTokenTest extends TestCase
         $builder = $this->config->builder();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('This key is not compatible with this signer');
+        $this->expectExceptionMessage('The type of the provided key is not "RSA", "EC" provided');
 
         $builder->identifiedBy('1')
                 ->permittedFor('http://client.abc.com')
@@ -156,7 +156,7 @@ class RsaTokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('This key is not compatible with this signer');
+        $this->expectExceptionMessage('The type of the provided key is not "RSA", "EC" provided');
 
         $this->config->validator()->assert(
             $token,

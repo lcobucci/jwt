@@ -52,25 +52,13 @@ final class UnsafeSha512Test extends TestCase
     /**
      * @test
      *
-     * @covers ::keyLength
+     * @covers ::pointLength
      *
      * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa
      */
     public function keyLengthMustBeCorrect(): void
     {
-        self::assertSame(132, $this->getSigner()->keyLength());
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::minimumBitsLengthForKey
-     *
-     * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa::__construct
-     */
-    public function minimumBitsLengthForKeyMustBeCorrect(): void
-    {
-        self::assertSame(1, $this->getSigner()->minimumBitsLengthForKey());
+        self::assertSame(132, $this->getSigner()->pointLength());
     }
 
     private function getSigner(): UnsafeSha512

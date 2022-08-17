@@ -33,16 +33,4 @@ final class UnsafeSha384Test extends TestCase
 
         self::assertEquals(OPENSSL_ALGO_SHA384, $signer->algorithm());
     }
-
-    /**
-     * @test
-     *
-     * @covers ::minimumBitsLengthForKey
-     */
-    public function minimumBitsLengthForKeyMustBeCorrect(): void
-    {
-        $signer = new UnsafeSha384();
-
-        self::assertSame(1, $signer->minimumBitsLengthForKey());
-    }
 }
