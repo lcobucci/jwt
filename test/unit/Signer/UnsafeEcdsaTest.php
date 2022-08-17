@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 use function assert;
 use function is_resource;
+use function openssl_error_string;
 use function openssl_pkey_get_private;
 use function openssl_pkey_get_public;
 use function openssl_sign;
@@ -23,6 +24,14 @@ final class UnsafeEcdsaTest extends TestCase
     use Keys;
 
     private MultibyteStringConverter $pointsManipulator;
+
+    /** @after */
+    public function clearOpenSSLErrors(): void
+    {
+        // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedWhile
+        while (openssl_error_string()) {
+        }
+    }
 
     /** @before */
     public function createDependencies(): void

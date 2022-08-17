@@ -10,17 +10,27 @@ use PHPUnit\Framework\TestCase;
 
 use function assert;
 use function is_resource;
+use function openssl_error_string;
 use function openssl_pkey_get_private;
 use function openssl_pkey_get_public;
 use function openssl_sign;
 use function openssl_verify;
 
 use const OPENSSL_ALGO_SHA256;
+use const PHP_EOL;
 
 /** @coversDefaultClass \Lcobucci\JWT\Signer\UnsafeRsa */
 final class UnsafeRsaTest extends TestCase
 {
     use Keys;
+
+    /** @after */
+    public function clearOpenSSLErrors(): void
+    {
+        // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedWhile
+        while (openssl_error_string()) {
+        }
+    }
 
     /**
      * @test
@@ -69,7 +79,7 @@ KEY;
         $signer = $this->getSigner();
 
         $this->expectException(CannotSignPayload::class);
-        $this->expectExceptionMessage('There was an error while creating the signature: error:');
+        $this->expectExceptionMessage('There was an error while creating the signature:' . PHP_EOL . '* error:');
 
         $signer->sign('testing', InMemory::plainText($key));
     }
@@ -88,7 +98,7 @@ KEY;
         $signer = $this->getSigner();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key, reason: error:');
+        $this->expectExceptionMessage('It was not possible to parse your key, reason:' . PHP_EOL . '* error:');
 
         $signer->sign('testing', InMemory::plainText('blablabla'));
     }
@@ -173,7 +183,7 @@ KEY;
         $signer = $this->getSigner();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key');
+        $this->expectExceptionMessage('It was not possible to parse your key, reason:' . PHP_EOL . '* error:');
 
         $signer->verify('testing', 'testing', InMemory::plainText('blablabla'));
     }

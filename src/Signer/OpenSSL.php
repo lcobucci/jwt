@@ -11,7 +11,6 @@ use function assert;
 use function is_array;
 use function is_bool;
 use function is_int;
-use function is_string;
 use function openssl_error_string;
 use function openssl_free_key;
 use function openssl_pkey_get_details;
@@ -19,6 +18,8 @@ use function openssl_pkey_get_private;
 use function openssl_pkey_get_public;
 use function openssl_sign;
 use function openssl_verify;
+
+use const PHP_EOL;
 
 abstract class OpenSSL implements Signer
 {
@@ -37,10 +38,7 @@ abstract class OpenSSL implements Signer
             $signature = '';
 
             if (! openssl_sign($payload, $signature, $key, $this->algorithm())) {
-                $error = openssl_error_string();
-                assert(is_string($error));
-
-                throw CannotSignPayload::errorHappened($error);
+                throw CannotSignPayload::errorHappened($this->fullOpenSSLErrorString());
             }
 
             return $signature;
@@ -101,10 +99,7 @@ abstract class OpenSSL implements Signer
     private function validateKey($key): void
     {
         if (is_bool($key)) {
-            $error = openssl_error_string();
-            assert(is_string($error));
-
-            throw InvalidKeyProvided::cannotBeParsed($error);
+            throw InvalidKeyProvided::cannotBeParsed($this->fullOpenSSLErrorString());
         }
 
         $details = openssl_pkey_get_details($key);
@@ -119,6 +114,17 @@ abstract class OpenSSL implements Signer
         if ($details['bits'] < $this->minimumBitsLengthForKey()) {
             throw InvalidKeyProvided::tooShort($this->minimumBitsLengthForKey(), $details['bits']);
         }
+    }
+
+    private function fullOpenSSLErrorString(): string
+    {
+        $error = '';
+
+        while ($msg = openssl_error_string()) {
+            $error .= PHP_EOL . '* ' . $msg;
+        }
+
+        return $error;
     }
 
     /** @param resource|OpenSSLAsymmetricKey $key */

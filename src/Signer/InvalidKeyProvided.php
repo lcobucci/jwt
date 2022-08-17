@@ -10,7 +10,7 @@ final class InvalidKeyProvided extends InvalidArgumentException implements Excep
 {
     public static function cannotBeParsed(string $details): self
     {
-        return new self('It was not possible to parse your key, reason: ' . $details);
+        return new self('It was not possible to parse your key, reason:' . $details);
     }
 
     public static function incompatibleKey(): self
