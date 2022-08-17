@@ -36,10 +36,9 @@ final class RsaTest extends TestCase
      * @test
      *
      * @covers ::sign
-     * @covers ::keyType
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
-     * @uses \Lcobucci\JWT\Signer\Rsa::minimumBitsLengthForKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function signShouldReturnAValidOpensslSignature(): void
@@ -100,7 +99,7 @@ final class RsaTest extends TestCase
      * @test
      *
      * @covers ::sign
-     * @covers ::keyType
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
@@ -111,7 +110,7 @@ final class RsaTest extends TestCase
         $signer = $this->getSigner();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('This key is not compatible with this signer');
+        $this->expectExceptionMessage('The type of the provided key is not "RSA", "EC" provided');
 
         $signer->sign('testing', self::$ecdsaKeys['private']);
     }
@@ -120,8 +119,7 @@ final class RsaTest extends TestCase
      * @test
      *
      * @covers ::sign
-     * @covers ::keyType
-     * @covers \Lcobucci\JWT\Signer\Rsa::minimumBitsLengthForKey
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
@@ -141,10 +139,9 @@ final class RsaTest extends TestCase
      * @test
      *
      * @covers ::verify
-     * @covers ::keyType
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
-     * @uses \Lcobucci\JWT\Signer\Rsa::minimumBitsLengthForKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldReturnTrueWhenSignatureIsValid(): void

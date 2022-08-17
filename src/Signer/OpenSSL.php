@@ -19,10 +19,21 @@ use function openssl_pkey_get_public;
 use function openssl_sign;
 use function openssl_verify;
 
+use const OPENSSL_KEYTYPE_DH;
+use const OPENSSL_KEYTYPE_DSA;
+use const OPENSSL_KEYTYPE_EC;
+use const OPENSSL_KEYTYPE_RSA;
 use const PHP_EOL;
 
 abstract class OpenSSL implements Signer
 {
+    protected const KEY_TYPE_MAP = [
+        OPENSSL_KEYTYPE_RSA => 'RSA',
+        OPENSSL_KEYTYPE_DSA => 'DSA',
+        OPENSSL_KEYTYPE_DH => 'DH',
+        OPENSSL_KEYTYPE_EC => 'EC',
+    ];
+
     /**
      * @throws CannotSignPayload
      * @throws InvalidKeyProvided
@@ -46,9 +57,6 @@ abstract class OpenSSL implements Signer
             $this->freeKey($key);
         }
     }
-
-    /** @return positive-int */
-    abstract public function minimumBitsLengthForKey(): int;
 
     /**
      * @return resource|OpenSSLAsymmetricKey
@@ -105,15 +113,12 @@ abstract class OpenSSL implements Signer
         $details = openssl_pkey_get_details($key);
         assert(is_array($details));
 
-        if (! array_key_exists('key', $details) || $details['type'] !== $this->keyType()) {
-            throw InvalidKeyProvided::incompatibleKey();
-        }
-
         assert(array_key_exists('bits', $details));
         assert(is_int($details['bits']));
-        if ($details['bits'] < $this->minimumBitsLengthForKey()) {
-            throw InvalidKeyProvided::tooShort($this->minimumBitsLengthForKey(), $details['bits']);
-        }
+        assert(array_key_exists('type', $details));
+        assert(is_int($details['type']));
+
+        $this->guardAgainstIncompatibleKey($details['type'], $details['bits']);
     }
 
     private function fullOpenSSLErrorString(): string
@@ -127,6 +132,9 @@ abstract class OpenSSL implements Signer
         return $error;
     }
 
+    /** @throws InvalidKeyProvided */
+    abstract protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void;
+
     /** @param resource|OpenSSLAsymmetricKey $key */
     private function freeKey($key): void
     {
@@ -136,13 +144,6 @@ abstract class OpenSSL implements Signer
 
         openssl_free_key($key); // Deprecated and no longer necessary as of PHP >= 8.0
     }
-
-    /**
-     * Returns the type of key to be used to create/verify the signature (using OpenSSL constants)
-     *
-     * @internal
-     */
-    abstract public function keyType(): int;
 
     /**
      * Returns which algorithm to be used to create/verify the signature (using OpenSSL constants)

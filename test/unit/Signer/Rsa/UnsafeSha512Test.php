@@ -33,16 +33,4 @@ final class UnsafeSha512Test extends TestCase
 
         self::assertEquals(OPENSSL_ALGO_SHA512, $signer->algorithm());
     }
-
-    /**
-     * @test
-     *
-     * @covers ::minimumBitsLengthForKey
-     */
-    public function minimumBitsLengthForKeyMustBeCorrect(): void
-    {
-        $signer = new UnsafeSha512();
-
-        self::assertSame(1, $signer->minimumBitsLengthForKey());
-    }
 }

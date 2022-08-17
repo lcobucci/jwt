@@ -61,18 +61,6 @@ final class UnsafeSha384Test extends TestCase
         self::assertSame(96, $this->getSigner()->pointLength());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::minimumBitsLengthForKey
-     *
-     * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa::__construct
-     */
-    public function minimumBitsLengthForKeyMustBeCorrect(): void
-    {
-        self::assertSame(1, $this->getSigner()->minimumBitsLengthForKey());
-    }
-
     private function getSigner(): UnsafeSha384
     {
         return new UnsafeSha384($this->createMock(SignatureConverter::class));

@@ -23,4 +23,9 @@ final class Sha512 extends Ecdsa
     {
         return 132;
     }
+
+    public function expectedKeyLength(): int
+    {
+        return 521;
+    }
 }

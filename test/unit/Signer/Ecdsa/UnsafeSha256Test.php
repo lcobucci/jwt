@@ -61,18 +61,6 @@ final class UnsafeSha256Test extends TestCase
         self::assertSame(64, $this->getSigner()->pointLength());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::minimumBitsLengthForKey
-     *
-     * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa::__construct
-     */
-    public function minimumBitsLengthForKeyMustBeCorrect(): void
-    {
-        self::assertSame(1, $this->getSigner()->minimumBitsLengthForKey());
-    }
-
     private function getSigner(): UnsafeSha256
     {
         return new UnsafeSha256($this->createMock(SignatureConverter::class));

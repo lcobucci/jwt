@@ -59,8 +59,7 @@ final class UnsafeEcdsaTest extends TestCase
      * @test
      *
      * @covers ::sign
-     * @covers ::keyType
-     * @covers \Lcobucci\JWT\Signer\UnsafeEcdsa::minimumBitsLengthForKey
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
@@ -91,39 +90,33 @@ final class UnsafeEcdsaTest extends TestCase
     /**
      * @test
      *
-     * @requires extension openssl < 3.0
-     *
      * @covers ::sign
-     * @covers ::keyType
-     * @covers \Lcobucci\JWT\Signer\UnsafeEcdsa::minimumBitsLengthForKey
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa::__construct
-     * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa::verify
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
-    public function signShouldAcceptAKeyLengthBelowMinimum(): void
+    public function signShouldRaiseAnExceptionWhenKeyTypeIsNotEC(): void
     {
         $signer = $this->getSigner();
 
-        $payload   = 'testing';
-        $signature = $signer->sign($payload, self::$ecdsaKeys['private_short']);
+        $this->expectException(InvalidKeyProvided::class);
+        $this->expectExceptionMessage('The type of the provided key is not "EC", "RSA" provided');
 
-        self::assertTrue($signer->verify($signature, $payload, self::$ecdsaKeys['public_short']));
+        $signer->sign('testing', self::$rsaKeys['private']);
     }
 
     /**
      * @test
      *
      * @covers ::verify
-     * @covers ::keyType
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa::__construct
-     * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa::minimumBitsLengthForKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldDelegateToEcdsaSignerUsingPublicKey(): void

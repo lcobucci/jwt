@@ -23,4 +23,9 @@ final class Sha256 extends Ecdsa
     {
         return 64;
     }
+
+    public function expectedKeyLength(): int
+    {
+        return 256;
+    }
 }

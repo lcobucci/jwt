@@ -52,6 +52,9 @@ final class EcdsaTest extends TestCase
         $signer->method('pointLength')
                ->willReturn(64);
 
+        $signer->method('expectedKeyLength')
+               ->willReturn(256);
+
         return $signer;
     }
 
@@ -59,8 +62,7 @@ final class EcdsaTest extends TestCase
      * @test
      *
      * @covers ::sign
-     * @covers ::keyType
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::minimumBitsLengthForKey
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
@@ -91,37 +93,54 @@ final class EcdsaTest extends TestCase
     /**
      * @test
      *
-     * @requires extension openssl < 3.0
-     *
      * @covers ::sign
-     * @covers ::keyType
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::minimumBitsLengthForKey
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
-    public function signShouldRaiseAnExceptionWhenKeyLengthIsBelowMinimum(): void
+    public function signShouldRaiseAnExceptionWhenKeyLengthIsNotTheExpectedOne(): void
     {
         $signer = $this->getSigner();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('Key provided is shorter than 224 bits, only 161 bits provided');
+        $this->expectExceptionMessage('The length of the provided key is different than 256 bits, 521 bits provided');
 
-        $signer->sign('testing', self::$ecdsaKeys['private_short']);
+        $signer->sign('testing', self::$ecdsaKeys['private_ec512']);
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::sign
+     * @covers ::guardAgainstIncompatibleKey
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
+     * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
+     *
+     * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     */
+    public function signShouldRaiseAnExceptionWhenKeyTypeIsNotEC(): void
+    {
+        $signer = $this->getSigner();
+
+        $this->expectException(InvalidKeyProvided::class);
+        $this->expectExceptionMessage('The type of the provided key is not "EC", "RSA" provided');
+
+        $signer->sign('testing', self::$rsaKeys['private']);
     }
 
     /**
      * @test
      *
      * @covers ::verify
-     * @covers ::keyType
+     * @covers ::guardAgainstIncompatibleKey
      * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
      * @covers \Lcobucci\JWT\Signer\OpenSSL
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
-     * @uses \Lcobucci\JWT\Signer\Ecdsa::minimumBitsLengthForKey
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldDelegateToEcdsaSignerUsingPublicKey(): void

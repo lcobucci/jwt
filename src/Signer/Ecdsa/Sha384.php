@@ -23,4 +23,9 @@ final class Sha384 extends Ecdsa
     {
         return 96;
     }
+
+    public function expectedKeyLength(): int
+    {
+        return 384;
+    }
 }

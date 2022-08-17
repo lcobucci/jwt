@@ -40,14 +40,15 @@ abstract class UnsafeEcdsa extends OpenSSL
         );
     }
 
-    final public function keyType(): int
+    // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+    final protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void
     {
-        return OPENSSL_KEYTYPE_EC;
-    }
-
-    final public function minimumBitsLengthForKey(): int
-    {
-        return 1;
+        if ($type !== OPENSSL_KEYTYPE_EC) {
+            throw InvalidKeyProvided::incompatibleKeyType(
+                self::KEY_TYPE_MAP[OPENSSL_KEYTYPE_EC],
+                self::KEY_TYPE_MAP[$type],
+            );
+        }
     }
 
     /**

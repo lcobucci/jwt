@@ -18,13 +18,14 @@ abstract class UnsafeRsa extends OpenSSL
         return $this->verifySignature($expected, $payload, $key->contents());
     }
 
-    final public function keyType(): int
+    // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+    final protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void
     {
-        return OPENSSL_KEYTYPE_RSA;
-    }
-
-    final public function minimumBitsLengthForKey(): int
-    {
-        return 1;
+        if ($type !== OPENSSL_KEYTYPE_RSA) {
+            throw InvalidKeyProvided::incompatibleKeyType(
+                self::KEY_TYPE_MAP[OPENSSL_KEYTYPE_RSA],
+                self::KEY_TYPE_MAP[$type],
+            );
+        }
     }
 }
