@@ -52,13 +52,13 @@ final class Sha512Test extends TestCase
     /**
      * @test
      *
-     * @covers ::keyLength
+     * @covers ::pointLength
      *
      * @uses \Lcobucci\JWT\Signer\Ecdsa
      */
     public function keyLengthMustBeCorrect(): void
     {
-        self::assertSame(132, $this->getSigner()->keyLength());
+        self::assertSame(132, $this->getSigner()->pointLength());
     }
 
     /**

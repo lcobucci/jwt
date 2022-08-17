@@ -40,7 +40,7 @@ final class UnsafeEcdsaTest extends TestCase
         $signer->method('algorithmId')
                ->willReturn('ES256');
 
-        $signer->method('keyLength')
+        $signer->method('pointLength')
                ->willReturn(64);
 
         return $signer;
@@ -72,7 +72,7 @@ final class UnsafeEcdsaTest extends TestCase
             1,
             openssl_verify(
                 $payload,
-                $this->pointsManipulator->toAsn1($signature, $signer->keyLength()),
+                $this->pointsManipulator->toAsn1($signature, $signer->pointLength()),
                 $publicKey,
                 OPENSSL_ALGO_SHA256
             )
@@ -130,7 +130,7 @@ final class UnsafeEcdsaTest extends TestCase
 
         self::assertTrue(
             $signer->verify(
-                $this->pointsManipulator->fromAsn1($signature, $signer->keyLength()),
+                $this->pointsManipulator->fromAsn1($signature, $signer->pointLength()),
                 $payload,
                 self::$ecdsaKeys['public1']
             )

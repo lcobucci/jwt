@@ -19,7 +19,7 @@ final class Sha256 extends Ecdsa
         return OPENSSL_ALGO_SHA256;
     }
 
-    public function keyLength(): int
+    public function pointLength(): int
     {
         return 64;
     }

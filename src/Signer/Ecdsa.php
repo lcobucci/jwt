@@ -26,14 +26,14 @@ abstract class Ecdsa extends OpenSSL
     {
         return $this->converter->fromAsn1(
             $this->createSignature($key->contents(), $key->passphrase(), $payload),
-            $this->keyLength()
+            $this->pointLength()
         );
     }
 
     final public function verify(string $expected, string $payload, Key $key): bool
     {
         return $this->verifySignature(
-            $this->converter->toAsn1($expected, $this->keyLength()),
+            $this->converter->toAsn1($expected, $this->pointLength()),
             $payload,
             $key->contents()
         );
@@ -54,5 +54,5 @@ abstract class Ecdsa extends OpenSSL
      *
      * @internal
      */
-    abstract public function keyLength(): int;
+    abstract public function pointLength(): int;
 }

@@ -52,13 +52,13 @@ final class UnsafeSha384Test extends TestCase
     /**
      * @test
      *
-     * @covers ::keyLength
+     * @covers ::pointLength
      *
      * @uses \Lcobucci\JWT\Signer\UnsafeEcdsa
      */
     public function keyLengthMustBeCorrect(): void
     {
-        self::assertSame(96, $this->getSigner()->keyLength());
+        self::assertSame(96, $this->getSigner()->pointLength());
     }
 
     /**

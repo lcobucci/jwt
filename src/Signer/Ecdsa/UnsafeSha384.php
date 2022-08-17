@@ -20,7 +20,7 @@ final class UnsafeSha384 extends UnsafeEcdsa
         return OPENSSL_ALGO_SHA384;
     }
 
-    public function keyLength(): int
+    public function pointLength(): int
     {
         return 96;
     }
