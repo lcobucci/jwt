@@ -32,6 +32,7 @@ use function assert;
  * @covers \Lcobucci\JWT\Signer\None
  * @covers \Lcobucci\JWT\Signer\Key\InMemory
  * @covers \Lcobucci\JWT\SodiumBase64Polyfill
+ * @covers \Lcobucci\JWT\Validation\ConstraintViolation
  * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
  * @covers \Lcobucci\JWT\Validation\Validator
  * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy

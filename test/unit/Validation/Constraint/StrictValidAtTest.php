@@ -24,6 +24,7 @@ final class StrictValidAtTest extends ValidAtTestCase
      * @covers ::__construct
      * @covers ::assert
      * @covers ::guardLeeway
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -45,6 +46,7 @@ final class StrictValidAtTest extends ValidAtTestCase
      * @covers ::assert
      * @covers ::guardLeeway
      * @covers ::assertIssueTime
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -67,6 +69,7 @@ final class StrictValidAtTest extends ValidAtTestCase
      * @covers ::guardLeeway
      * @covers ::assertIssueTime
      * @covers ::assertMinimumTime
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -94,6 +97,7 @@ final class StrictValidAtTest extends ValidAtTestCase
      * @covers ::guardLeeway
      * @covers ::assertIssueTime
      * @covers ::assertMinimumTime
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      * @covers ::assertExpiration
      *
      * @uses \Lcobucci\JWT\Token\DataSet

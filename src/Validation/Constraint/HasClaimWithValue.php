@@ -31,17 +31,20 @@ final class HasClaimWithValue implements Constraint
     public function assert(Token $token): void
     {
         if (! $token instanceof UnencryptedToken) {
-            throw new ConstraintViolation('You should pass a plain token');
+            throw ConstraintViolation::error('You should pass a plain token', $this);
         }
 
         $claims = $token->claims();
 
         if (! $claims->has($this->claim)) {
-            throw new ConstraintViolation('The token does not have the claim "' . $this->claim . '"');
+            throw ConstraintViolation::error('The token does not have the claim "' . $this->claim . '"', $this);
         }
 
         if ($claims->get($this->claim) !== $this->expectedValue) {
-            throw new ConstraintViolation('The claim "' . $this->claim . '" does not have the expected value');
+            throw ConstraintViolation::error(
+                'The claim "' . $this->claim . '" does not have the expected value',
+                $this
+            );
         }
     }
 }

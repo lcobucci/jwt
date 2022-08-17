@@ -19,8 +19,9 @@ final class RelatedTo implements Constraint
     public function assert(Token $token): void
     {
         if (! $token->isRelatedTo($this->subject)) {
-            throw new ConstraintViolation(
-                'The token is not related to the expected subject'
+            throw ConstraintViolation::error(
+                'The token is not related to the expected subject',
+                $this
             );
         }
     }

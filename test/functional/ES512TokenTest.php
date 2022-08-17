@@ -37,6 +37,7 @@ use function assert;
  * @covers \Lcobucci\JWT\Signer\OpenSSL
  * @covers \Lcobucci\JWT\SodiumBase64Polyfill
  * @covers \Lcobucci\JWT\Validation\Validator
+ * @covers \Lcobucci\JWT\Validation\ConstraintViolation
  * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
  */
