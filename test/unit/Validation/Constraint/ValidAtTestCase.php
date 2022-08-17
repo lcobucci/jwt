@@ -50,6 +50,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
      * @covers ::assertExpiration
      * @covers ::assertIssueTime
      * @covers ::assertMinimumTime
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -80,6 +81,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
      * @covers ::assert
      * @covers ::assertIssueTime
      * @covers ::assertMinimumTime
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -109,6 +111,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
      * @covers ::guardLeeway
      * @covers ::assert
      * @covers ::assertIssueTime
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain

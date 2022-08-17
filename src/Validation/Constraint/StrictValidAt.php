@@ -38,7 +38,7 @@ final class StrictValidAt implements ValidAtInterface
     public function assert(Token $token): void
     {
         if (! $token instanceof UnencryptedToken) {
-            throw new ConstraintViolation('You should pass a plain token');
+            throw ConstraintViolation::error('You should pass a plain token', $this);
         }
 
         $now = $this->clock->now();
@@ -52,11 +52,11 @@ final class StrictValidAt implements ValidAtInterface
     private function assertExpiration(UnencryptedToken $token, DateTimeInterface $now): void
     {
         if (! $token->claims()->has(Token\RegisteredClaims::EXPIRATION_TIME)) {
-            throw new ConstraintViolation('"Expiration Time" claim missing');
+            throw ConstraintViolation::error('"Expiration Time" claim missing', $this);
         }
 
         if ($token->isExpired($now)) {
-            throw new ConstraintViolation('The token is expired');
+            throw ConstraintViolation::error('The token is expired', $this);
         }
     }
 
@@ -64,11 +64,11 @@ final class StrictValidAt implements ValidAtInterface
     private function assertMinimumTime(UnencryptedToken $token, DateTimeInterface $now): void
     {
         if (! $token->claims()->has(Token\RegisteredClaims::NOT_BEFORE)) {
-            throw new ConstraintViolation('"Not Before" claim missing');
+            throw ConstraintViolation::error('"Not Before" claim missing', $this);
         }
 
         if (! $token->isMinimumTimeBefore($now)) {
-            throw new ConstraintViolation('The token cannot be used yet');
+            throw ConstraintViolation::error('The token cannot be used yet', $this);
         }
     }
 
@@ -76,11 +76,11 @@ final class StrictValidAt implements ValidAtInterface
     private function assertIssueTime(UnencryptedToken $token, DateTimeInterface $now): void
     {
         if (! $token->claims()->has(Token\RegisteredClaims::ISSUED_AT)) {
-            throw new ConstraintViolation('"Issued At" claim missing');
+            throw ConstraintViolation::error('"Issued At" claim missing', $this);
         }
 
         if (! $token->hasBeenIssuedBefore($now)) {
-            throw new ConstraintViolation('The token was issued in the future');
+            throw ConstraintViolation::error('The token was issued in the future', $this);
         }
     }
 }

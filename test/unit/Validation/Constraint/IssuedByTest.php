@@ -14,6 +14,7 @@ final class IssuedByTest extends ConstraintTestCase
      *
      * @covers ::__construct
      * @covers ::assert
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -33,6 +34,7 @@ final class IssuedByTest extends ConstraintTestCase
      *
      * @covers ::__construct
      * @covers ::assert
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain
@@ -52,6 +54,7 @@ final class IssuedByTest extends ConstraintTestCase
      *
      * @covers ::__construct
      * @covers ::assert
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @uses \Lcobucci\JWT\Token\DataSet
      * @uses \Lcobucci\JWT\Token\Plain

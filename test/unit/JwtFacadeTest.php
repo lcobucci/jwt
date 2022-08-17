@@ -38,6 +38,7 @@ use PHPUnit\Framework\TestCase;
  * @uses  \Lcobucci\JWT\Validation\Constraint\IssuedBy
  * @uses  \Lcobucci\JWT\Validation\Constraint\SignedWith
  * @uses  \Lcobucci\JWT\Validation\Constraint\StrictValidAt
+ * @uses  \Lcobucci\JWT\Validation\ConstraintViolation
  * @uses  \Lcobucci\JWT\Validation\RequiredConstraintsViolated
  */
 final class JwtFacadeTest extends TestCase

@@ -39,10 +39,9 @@ use const PHP_EOL;
  * @covers \Lcobucci\JWT\Signer\OpenSSL
  * @covers \Lcobucci\JWT\SodiumBase64Polyfill
  * @covers \Lcobucci\JWT\Validation\Validator
+ * @covers \Lcobucci\JWT\Validation\ConstraintViolation
  * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
- * @covers \Lcobucci\JWT\Validation\Validator
  * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
- * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
  */
 class EcdsaTokenTest extends TestCase
 {

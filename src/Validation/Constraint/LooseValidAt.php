@@ -47,7 +47,7 @@ final class LooseValidAt implements ValidAtInterface
     private function assertExpiration(Token $token, DateTimeInterface $now): void
     {
         if ($token->isExpired($now)) {
-            throw new ConstraintViolation('The token is expired');
+            throw ConstraintViolation::error('The token is expired', $this);
         }
     }
 
@@ -55,7 +55,7 @@ final class LooseValidAt implements ValidAtInterface
     private function assertMinimumTime(Token $token, DateTimeInterface $now): void
     {
         if (! $token->isMinimumTimeBefore($now)) {
-            throw new ConstraintViolation('The token cannot be used yet');
+            throw ConstraintViolation::error('The token cannot be used yet', $this);
         }
     }
 
@@ -63,7 +63,7 @@ final class LooseValidAt implements ValidAtInterface
     private function assertIssueTime(Token $token, DateTimeInterface $now): void
     {
         if (! $token->hasBeenIssuedBefore($now)) {
-            throw new ConstraintViolation('The token was issued in the future');
+            throw ConstraintViolation::error('The token was issued in the future', $this);
         }
     }
 }

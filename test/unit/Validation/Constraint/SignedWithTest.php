@@ -32,6 +32,7 @@ final class SignedWithTest extends ConstraintTestCase
      *
      * @covers ::__construct
      * @covers ::assert
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -52,6 +53,7 @@ final class SignedWithTest extends ConstraintTestCase
      *
      * @covers ::__construct
      * @covers ::assert
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      * @uses \Lcobucci\JWT\Token\DataSet
@@ -76,6 +78,7 @@ final class SignedWithTest extends ConstraintTestCase
      *
      * @covers ::__construct
      * @covers ::assert
+     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
      *
      * @uses \Lcobucci\JWT\Signer\Key\InMemory
      * @uses \Lcobucci\JWT\Token\DataSet
