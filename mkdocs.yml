@@ -6,6 +6,7 @@ nav:
     - 'index.md'
     - 'installation.md'
     - 'quick-start.md'
+    - 'supported-algorithms.md'
   - Usage:
     - 'configuration.md'
     - 'issuing-tokens.md'

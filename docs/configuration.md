@@ -68,23 +68,6 @@ $configuration = Configuration::forSymmetricSigner(
 );
 ```
 
-Currently supported symmetric algorithms:
-
-| Name      | Description        | Class                               | Key length req. | Notes                                                                                                      |
-|-----------|--------------------|-------------------------------------|-----------------|------------------------------------------------------------------------------------------------------------|
-| `HS256`   | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\Sha256`  | 256 bits        |                                                                                                            |
-| `HS384`   | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\Sha384`  | 384 bits        |                                                                                                            |
-| `HS512`   | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\Sha512`  | 512 bits        |                                                                                                            |
-| `BLAKE2B` | Blake2b keyed Hash | `\Lcobucci\JWT\Signer\Hmac\Blake2b` | 256 bits        | Not a [JWT standard](https://www.iana.org/assignments/jose/jose.xhtml#web-signature-encryption-algorithms) |
-
-Deprecated symmetric algorithms in `v4`:
-
-| Name      | Description        | Class                                    | Key length req. |
-| --------- | ------------------ | ---------------------------------------- |-----------------|
-| `HS256`   | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha256` | 1 bit           |
-| `HS384`   | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha384` | 1 bit           |
-| `HS512`   | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha512` | 1 bit           |
-
 #### For asymmetric algorithms
 
 Asymmetric algorithms use a **private key** for signature creation and a **public key** for verification.
@@ -107,29 +90,6 @@ $configuration = Configuration::forAsymmetricSigner(
 !!! Important
     The implementation of ECDSA algorithms have a constructor dependency.
     Use the `create()` named constructor to avoid having to handle it (e.g.: `Lcobucci\JWT\Signer\Ecdsa\Sha256::create()`).
-
-Currently supported asymmetric algorithms:
-
-| Name    | Description                     | Class                               | Key length req. |
-| ------- | ------------------------------- | ----------------------------------- |-----------------|
-| `ES256` | ECDSA using P-256 and SHA-256   | `\Lcobucci\JWT\Signer\Ecdsa\Sha256` | 224 bits        |
-| `ES384` | ECDSA using P-384 and SHA-384   | `\Lcobucci\JWT\Signer\Ecdsa\Sha384` | 224 bits        |
-| `ES512` | ECDSA using P-521 and SHA-512   | `\Lcobucci\JWT\Signer\Ecdsa\Sha512` | 224 bits        |
-| `RS256` | RSASSA-PKCS1-v1_5 using SHA-256 | `\Lcobucci\JWT\Signer\Rsa\Sha256`   | 2048 bits       |
-| `RS384` | RSASSA-PKCS1-v1_5 using SHA-384 | `\Lcobucci\JWT\Signer\Rsa\Sha384`   | 2048 bits       |
-| `RS512` | RSASSA-PKCS1-v1_5 using SHA-512 | `\Lcobucci\JWT\Signer\Rsa\Sha512`   | 2048 bits       |
-| `EdDSA` | EdDSA signature algorithms      | `\Lcobucci\JWT\Signer\Eddsa`        | 256 bits        |
-
-Deprecated asymmetric algorithms in `v4`:
-
-| Name    | Description                     | Class                                     | Key length req. |
-| ------- | ------------------------------- |-------------------------------------------|-----------------|
-| `ES256` | ECDSA using P-256 and SHA-256   | `\Lcobucci\JWT\Signer\Ecdsa\UnsafeSha256` | 1 bit           |
-| `ES384` | ECDSA using P-384 and SHA-384   | `\Lcobucci\JWT\Signer\Ecdsa\UnsafeSha384` | 1 bit           |
-| `ES512` | ECDSA using P-521 and SHA-512   | `\Lcobucci\JWT\Signer\Ecdsa\UnsafeSha512` | 1 bit           |
-| `RS256` | RSASSA-PKCS1-v1_5 using SHA-256 | `\Lcobucci\JWT\Signer\Rsa\UnsafeSha256`   | 1 bit           |
-| `RS384` | RSASSA-PKCS1-v1_5 using SHA-384 | `\Lcobucci\JWT\Signer\Rsa\UnsafeSha384`   | 1 bit           |
-| `RS512` | RSASSA-PKCS1-v1_5 using SHA-512 | `\Lcobucci\JWT\Signer\Rsa\UnsafeSha512`   | 1 bit           |
 
 #### For no algorithm
 
