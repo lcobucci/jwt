@@ -53,7 +53,7 @@ class ES512TokenTest extends TestCase
         $this->config = Configuration::forAsymmetricSigner(
             Sha512::create(),
             static::$ecdsaKeys['private_ec512'],
-            static::$ecdsaKeys['public_ec512']
+            static::$ecdsaKeys['public_ec512'],
         );
     }
 
@@ -107,7 +107,7 @@ class ES512TokenTest extends TestCase
 
         self::assertEquals(
             ['http://client.abc.com', 'http://client2.abc.com'],
-            $token->claims()->get(Token\RegisteredClaims::AUDIENCE)
+            $token->claims()->get(Token\RegisteredClaims::AUDIENCE),
         );
 
         return $token;
@@ -139,8 +139,8 @@ class ES512TokenTest extends TestCase
             $token,
             new SignedWith(
                 $this->config->signer(),
-                self::$ecdsaKeys['public2_ec512']
-            )
+                self::$ecdsaKeys['public2_ec512'],
+            ),
         );
     }
 
@@ -157,8 +157,8 @@ class ES512TokenTest extends TestCase
             $token,
             new SignedWith(
                 Sha256::create(),
-                self::$ecdsaKeys['public_ec512']
-            )
+                self::$ecdsaKeys['public_ec512'],
+            ),
         );
     }
 
@@ -173,7 +173,7 @@ class ES512TokenTest extends TestCase
 
         $this->config->validator()->assert(
             $token,
-            new SignedWith($this->config->signer(), self::$rsaKeys['public'])
+            new SignedWith($this->config->signer(), self::$rsaKeys['public']),
         );
     }
 
@@ -185,7 +185,7 @@ class ES512TokenTest extends TestCase
     {
         $constraint = new SignedWith(
             $this->config->signer(),
-            $this->config->verificationKey()
+            $this->config->verificationKey(),
         );
 
         self::assertTrue($this->config->validator()->validate($token, $constraint));

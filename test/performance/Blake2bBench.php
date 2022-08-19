@@ -8,7 +8,7 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use PhpBench\Benchmark\Metadata\Annotations\Groups;
 
-/** @Groups({"Hmac"}) */
+/** @Groups({"Blake2B"}) */
 final class Blake2bBench extends SignerBench
 {
     private const ENCODED_KEY = 'b6DNRcX2SFapbICe6lXWYoOZA+JXL/dvkfWiv2hJv3Y=';

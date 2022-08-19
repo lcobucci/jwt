@@ -17,7 +17,7 @@ final class InvalidKeyProvided extends InvalidArgumentException implements Excep
     {
         return new self(
             'The type of the provided key is not "' . $expectedType
-            . '", "' . $actualType . '" provided'
+            . '", "' . $actualType . '" provided',
         );
     }
 
@@ -25,7 +25,7 @@ final class InvalidKeyProvided extends InvalidArgumentException implements Excep
     {
         return new self(
             'The length of the provided key is different than ' . $expectedLength . ' bits, '
-            . $actualLength . ' bits provided'
+            . $actualLength . ' bits provided',
         );
     }
 

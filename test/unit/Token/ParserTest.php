@@ -165,7 +165,7 @@ final class ParserTest extends TestCase
                       ->withConsecutive(['a_dec'], ['b_dec'])
                       ->willReturnOnConsecutiveCalls(
                           ['typ' => 'JWT', 'alg' => 'none'],
-                          [RegisteredClaims::AUDIENCE => 'test']
+                          [RegisteredClaims::AUDIENCE => 'test'],
                       );
 
         $parser = $this->createParser();
@@ -207,7 +207,7 @@ final class ParserTest extends TestCase
                       ->withConsecutive(['a_dec'], ['b_dec'])
                       ->willReturnOnConsecutiveCalls(
                           ['alg' => 'none'],
-                          [RegisteredClaims::AUDIENCE => 'test']
+                          [RegisteredClaims::AUDIENCE => 'test'],
                       );
 
         $parser = $this->createParser();
@@ -249,7 +249,7 @@ final class ParserTest extends TestCase
                       ->withConsecutive(['a_dec'], ['b_dec'])
                       ->willReturnOnConsecutiveCalls(
                           ['typ' => 'JWS', 'alg' => 'none'],
-                          [RegisteredClaims::AUDIENCE => 'test']
+                          [RegisteredClaims::AUDIENCE => 'test'],
                       );
 
         $parser = $this->createParser();
@@ -291,7 +291,7 @@ final class ParserTest extends TestCase
             ->withConsecutive(['a_dec'], ['b_dec'])
             ->willReturnOnConsecutiveCalls(
                 ['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test'],
-                [RegisteredClaims::AUDIENCE => 'test']
+                [RegisteredClaims::AUDIENCE => 'test'],
             );
 
         $parser = $this->createParser();
@@ -333,7 +333,7 @@ final class ParserTest extends TestCase
             ->withConsecutive(['a_dec'], ['b_dec'])
             ->willReturnOnConsecutiveCalls(
                 ['typ' => 'JWT'],
-                [RegisteredClaims::AUDIENCE => 'test']
+                [RegisteredClaims::AUDIENCE => 'test'],
             );
 
         $parser = $this->createParser();
@@ -375,7 +375,7 @@ final class ParserTest extends TestCase
             ->withConsecutive(['a_dec'], ['b_dec'])
             ->willReturnOnConsecutiveCalls(
                 ['typ' => 'JWT', 'alg' => 'none'],
-                [RegisteredClaims::AUDIENCE => 'test']
+                [RegisteredClaims::AUDIENCE => 'test'],
             );
 
         $parser = $this->createParser();
@@ -417,7 +417,7 @@ final class ParserTest extends TestCase
             ->withConsecutive(['a_dec'], ['b_dec'])
             ->willReturnOnConsecutiveCalls(
                 ['typ' => 'JWT', 'alg' => 'HS256'],
-                [RegisteredClaims::AUDIENCE => 'test']
+                [RegisteredClaims::AUDIENCE => 'test'],
             );
 
         $parser = $this->createParser();
@@ -466,7 +466,7 @@ final class ParserTest extends TestCase
             ->withConsecutive(['a_dec'], ['b_dec'])
             ->willReturnOnConsecutiveCalls(
                 ['typ' => 'JWT', 'alg' => 'HS256'],
-                $data
+                $data,
             );
 
         $token = $this->createParser()->parse('a.b.');
@@ -476,12 +476,12 @@ final class ParserTest extends TestCase
 
         self::assertEquals(
             DateTimeImmutable::createFromFormat('U', '1486930663'),
-            $claims->get(RegisteredClaims::ISSUED_AT)
+            $claims->get(RegisteredClaims::ISSUED_AT),
         );
 
         self::assertEquals(
             DateTimeImmutable::createFromFormat('U.u', '1486930757.023055'),
-            $claims->get(RegisteredClaims::EXPIRATION_TIME)
+            $claims->get(RegisteredClaims::EXPIRATION_TIME),
         );
     }
 
@@ -514,7 +514,7 @@ final class ParserTest extends TestCase
             ->withConsecutive(['a_dec'], ['b_dec'])
             ->willReturnOnConsecutiveCalls(
                 ['typ' => 'JWT', 'alg' => 'HS256'],
-                $data
+                $data,
             );
 
         $token = $this->createParser()->parse('a.b.');
@@ -524,7 +524,7 @@ final class ParserTest extends TestCase
 
         self::assertEquals(
             DateTimeImmutable::createFromFormat('U.u', '1486930757.000000'),
-            $claims->get(RegisteredClaims::NOT_BEFORE)
+            $claims->get(RegisteredClaims::NOT_BEFORE),
         );
     }
 
@@ -558,7 +558,7 @@ final class ParserTest extends TestCase
             ->withConsecutive(['a_dec'], ['b_dec'])
             ->willReturnOnConsecutiveCalls(
                 ['typ' => 'JWT', 'alg' => 'HS256'],
-                $data
+                $data,
             );
 
         $this->expectException(InvalidTokenStructure::class);
@@ -596,7 +596,7 @@ final class ParserTest extends TestCase
             ->withConsecutive(['a_dec'], ['b_dec'])
             ->willReturnOnConsecutiveCalls(
                 ['typ' => 'JWT', 'alg' => 'HS256'],
-                $data
+                $data,
             );
 
         $this->expectException(InvalidTokenStructure::class);

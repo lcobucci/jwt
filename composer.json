@@ -17,24 +17,23 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.1",
         "ext-hash": "*",
         "ext-json": "*",
-        "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-sodium": "*",
-        "lcobucci/clock": "^2.0"
+        "lcobucci/clock": "^2.2"
     },
     "require-dev": {
-        "infection/infection": "^0.21",
-        "lcobucci/coding-standard": "^6.0",
-        "mikey179/vfsstream": "^1.6.7",
+        "infection/infection": "^0.26",
+        "lcobucci/coding-standard": "^8.0",
+        "mikey179/vfsstream": "^1.6.11",
         "phpbench/phpbench": "^1.2",
-        "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan": "^1.4",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan": "^1.8",
         "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0",
-        "phpstan/phpstan-strict-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.1",
+        "phpstan/phpstan-strict-rules": "^1.3",
         "phpunit/php-invoker": "^3.1",
         "phpunit/phpunit": "^9.5"
     },

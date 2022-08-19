@@ -5,13 +5,8 @@ namespace Lcobucci\JWT\Token;
 
 final class Signature
 {
-    private string $hash;
-    private string $encoded;
-
-    public function __construct(string $hash, string $encoded)
+    public function __construct(private readonly string $hash, private readonly string $encoded)
     {
-        $this->hash    = $hash;
-        $this->encoded = $encoded;
     }
 
     public static function fromEmptyData(): self

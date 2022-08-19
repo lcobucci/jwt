@@ -10,11 +10,9 @@ interface Encoder
     /**
      * Encodes to JSON, validating the errors
      *
-     * @param mixed $data
-     *
      * @throws CannotEncodeContent When something goes wrong while encoding.
      */
-    public function jsonEncode($data): string;
+    public function jsonEncode(mixed $data): string;
 
     /**
      * Encodes to base64url

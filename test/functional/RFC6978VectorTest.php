@@ -40,7 +40,7 @@ final class RFC6978VectorTest extends TestCase
         Key $key,
         string $payload,
         string $expectedR,
-        string $expectedS
+        string $expectedS,
     ): void {
         $signature = hex2bin($expectedR . $expectedS);
         assert(is_string($signature));
@@ -64,7 +64,7 @@ final class RFC6978VectorTest extends TestCase
             '-----BEGIN PUBLIC KEY-----' . PHP_EOL
             . 'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEYP7UuiVanTHJYet0xjVtaMBJuJI7' . PHP_EOL
             . 'Yfps5mliLmDyn7Z5A/4QCLi8maQa6elWKLxk8vGyDC1+n1F3o8KU1EYimQ==' . PHP_EOL
-            . '-----END PUBLIC KEY-----'
+            . '-----END PUBLIC KEY-----',
         );
 
         yield 'SHA-256 (sample)' => [
@@ -93,7 +93,7 @@ final class RFC6978VectorTest extends TestCase
             . 'MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAE7DpOQVtOGaRWhhgCn0J/pdqai8SukuAu' . PHP_EOL
             . 'BqrlKGswDGTe+PDqkFWGYGSiVFFUgLwTgBXZty19VyROqO+awMYhiWcIpZNn+d+5' . PHP_EOL
             . '9UyoSz8cnbEoiyMcOuDU/nNE/SUzJkcg' . PHP_EOL
-            . '-----END PUBLIC KEY-----'
+            . '-----END PUBLIC KEY-----',
         );
 
         yield 'SHA-384 (sample)' => [
@@ -123,7 +123,7 @@ final class RFC6978VectorTest extends TestCase
             . 'l6BOWnFn205bzTcRI9RuRdtrXVNwp/IPtjMVXTj/oW0r12HcrEdLmi9QI6QASTEB' . PHP_EOL
             . 'yWLNTS/d94IoXmRYQTnC+RtH+H/4I1TWYw90aiig2yV0G1s0qCgAiyKswj+ST6r7' . PHP_EOL
             . '1NM/gepmlW3+qiv9/PU=' . PHP_EOL
-            . '-----END PUBLIC KEY-----'
+            . '-----END PUBLIC KEY-----',
         );
 
         yield 'SHA-512 (sample)' => [

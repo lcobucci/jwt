@@ -51,7 +51,7 @@ class EddsaTokenTest extends TestCase
         $this->config = Configuration::forAsymmetricSigner(
             new Eddsa(),
             static::$eddsaKeys['private'],
-            static::$eddsaKeys['public1']
+            static::$eddsaKeys['public1'],
         );
     }
 
@@ -90,7 +90,7 @@ class EddsaTokenTest extends TestCase
 
         self::assertEquals(
             ['http://client.abc.com', 'http://client2.abc.com'],
-            $token->claims()->get(Token\RegisteredClaims::AUDIENCE)
+            $token->claims()->get(Token\RegisteredClaims::AUDIENCE),
         );
 
         return $token;
@@ -122,8 +122,8 @@ class EddsaTokenTest extends TestCase
             $token,
             new SignedWith(
                 $this->config->signer(),
-                self::$eddsaKeys['public2']
-            )
+                self::$eddsaKeys['public2'],
+            ),
         );
     }
 
@@ -135,7 +135,7 @@ class EddsaTokenTest extends TestCase
     {
         $constraint = new SignedWith(
             $this->config->signer(),
-            $this->config->verificationKey()
+            $this->config->verificationKey(),
         );
 
         self::assertTrue($this->config->validator()->validate($token, $constraint));

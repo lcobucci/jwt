@@ -32,21 +32,25 @@ final class SodiumBase64PolyfillTest extends TestCase
      */
     public function constantsMatchExtensionOnes(): void
     {
+        // @phpstan-ignore-next-line
         self::assertSame(
             SODIUM_BASE64_VARIANT_ORIGINAL,
-            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL
+            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL,
         );
+        // @phpstan-ignore-next-line
         self::assertSame(
             SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING,
-            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING
+            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING,
         );
+        // @phpstan-ignore-next-line
         self::assertSame(
             SODIUM_BASE64_VARIANT_URLSAFE,
-            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_URLSAFE
+            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_URLSAFE,
         );
+        // @phpstan-ignore-next-line
         self::assertSame(
             SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING,
-            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING
+            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING,
         );
     }
 
@@ -63,12 +67,12 @@ final class SodiumBase64PolyfillTest extends TestCase
 
         self::assertSame(
             $expected,
-            SodiumBase64Polyfill::bin2base64($this->testString, $variant)
+            SodiumBase64Polyfill::bin2base64($this->testString, $variant),
         );
 
         self::assertSame(
             $expected,
-            SodiumBase64Polyfill::bin2base64Fallback($this->testString, $variant)
+            SodiumBase64Polyfill::bin2base64Fallback($this->testString, $variant),
         );
     }
 
@@ -85,16 +89,16 @@ final class SodiumBase64PolyfillTest extends TestCase
             $this->testString,
             SodiumBase64Polyfill::base642bin(
                 sodium_bin2base64($this->testString, $variant),
-                $variant
-            )
+                $variant,
+            ),
         );
 
         self::assertSame(
             $this->testString,
             SodiumBase64Polyfill::base642binFallback(
                 sodium_bin2base64($this->testString, $variant),
-                $variant
-            )
+                $variant,
+            ),
         );
     }
 

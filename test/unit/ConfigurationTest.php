@@ -24,23 +24,12 @@ use PHPUnit\Framework\TestCase;
  */
 final class ConfigurationTest extends TestCase
 {
-    /** @var Parser&MockObject */
-    private Parser $parser;
-
-    /** @var Signer&MockObject */
-    private Signer $signer;
-
-    /** @var Encoder&MockObject */
-    private Encoder $encoder;
-
-    /** @var Decoder&MockObject */
-    private Decoder $decoder;
-
-    /** @var Validator&MockObject */
-    private Validator $validator;
-
-    /** @var Constraint&MockObject */
-    private Constraint $validationConstraints;
+    private Parser&MockObject $parser;
+    private Signer&MockObject $signer;
+    private Encoder&MockObject $encoder;
+    private Decoder&MockObject $decoder;
+    private Validator&MockObject $validator;
+    private Constraint&MockObject $validationConstraints;
 
     /** @before */
     public function createDependencies(): void
@@ -179,7 +168,7 @@ final class ConfigurationTest extends TestCase
         $config->setBuilderFactory(
             static function () use ($builder): Builder {
                 return $builder;
-            }
+            },
         );
         self::assertSame($builder, $config->builder());
     }
@@ -214,7 +203,7 @@ final class ConfigurationTest extends TestCase
      */
     public function parserShouldReturnAParserWithCustomizedDecoder(): void
     {
-        $config = Configuration::forUnsecuredSigner(null, $this->decoder);
+        $config = Configuration::forUnsecuredSigner(decoder: $this->decoder);
         $parser = $config->parser();
 
         self::assertEquals(new ParserImpl($this->decoder), $parser);

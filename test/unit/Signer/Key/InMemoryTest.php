@@ -19,7 +19,7 @@ final class InMemoryTest extends TestCase
         vfsStream::setup(
             'root',
             null,
-            ['test.pem' => 'testing']
+            ['test.pem' => 'testing', 'empty.pem' => ''],
         );
     }
 
@@ -43,6 +43,7 @@ final class InMemoryTest extends TestCase
      * @test
      *
      * @covers ::base64Encoded
+     * @covers ::guardAgainstEmptyKey
      * @covers ::__construct
      * @covers ::contents
      *
@@ -62,6 +63,7 @@ final class InMemoryTest extends TestCase
      * @test
      *
      * @covers ::empty
+     * @covers ::guardAgainstEmptyKey
      * @covers ::__construct
      * @covers ::contents
      * @covers ::passphrase
@@ -77,6 +79,7 @@ final class InMemoryTest extends TestCase
     /**
      * @test
      *
+     * @covers ::guardAgainstEmptyKey
      * @covers ::__construct
      * @covers ::file
      * @covers \Lcobucci\JWT\Signer\Key\FileCouldNotBeRead
@@ -95,6 +98,23 @@ final class InMemoryTest extends TestCase
     /**
      * @test
      *
+     * @covers ::guardAgainstEmptyKey
+     * @covers ::__construct
+     * @covers ::file
+     * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided::cannotBeEmpty
+     */
+    public function exceptionShouldBeRaisedWhenFileIsEmpty(): void
+    {
+        $this->expectException(InvalidKeyProvided::class);
+        $this->expectExceptionMessage('Key cannot be empty');
+
+        InMemory::file(vfsStream::url('root/empty.pem'));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::guardAgainstEmptyKey
      * @covers ::__construct
      * @covers ::plainText
      * @covers ::contents
@@ -109,6 +129,7 @@ final class InMemoryTest extends TestCase
     /**
      * @test
      *
+     * @covers ::guardAgainstEmptyKey
      * @covers ::__construct
      * @covers ::file
      * @covers ::contents
@@ -123,6 +144,7 @@ final class InMemoryTest extends TestCase
     /**
      * @test
      *
+     * @covers ::guardAgainstEmptyKey
      * @covers ::__construct
      * @covers ::plainText
      * @covers ::passphrase
@@ -137,6 +159,7 @@ final class InMemoryTest extends TestCase
     /**
      * @test
      *
+     * @covers ::guardAgainstEmptyKey
      * @covers ::__construct
      * @covers ::plainText
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided::cannotBeEmpty
@@ -152,6 +175,7 @@ final class InMemoryTest extends TestCase
     /**
      * @test
      *
+     * @covers ::guardAgainstEmptyKey
      * @covers ::__construct
      * @covers ::base64Encoded
      * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided::cannotBeEmpty

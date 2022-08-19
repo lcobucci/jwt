@@ -50,7 +50,7 @@ class HmacTokenTest extends TestCase
     {
         $this->config = Configuration::forSymmetricSigner(
             new Sha256(),
-            InMemory::base64Encoded('Z0Y6xrhjGQYrEDsP+7aQ3ZAKKERSBeQjP33M0H7Nq6s=')
+            InMemory::base64Encoded('Z0Y6xrhjGQYrEDsP+7aQ3ZAKKERSBeQjP33M0H7Nq6s='),
         );
     }
 
@@ -101,8 +101,8 @@ class HmacTokenTest extends TestCase
             $token,
             new SignedWith(
                 $this->config->signer(),
-                InMemory::base64Encoded('O0MpjL80kE382RyX0rfr9PrNfVclXcdnru2aryanR2o=')
-            )
+                InMemory::base64Encoded('O0MpjL80kE382RyX0rfr9PrNfVclXcdnru2aryanR2o='),
+            ),
         );
     }
 
@@ -117,7 +117,7 @@ class HmacTokenTest extends TestCase
 
         $this->config->validator()->assert(
             $token,
-            new SignedWith(new Sha512(), $this->config->verificationKey())
+            new SignedWith(new Sha512(), $this->config->verificationKey()),
         );
     }
 
@@ -137,7 +137,7 @@ class HmacTokenTest extends TestCase
     {
         $config = Configuration::forSymmetricSigner(
             new UnsafeSha256(),
-            InMemory::plainText('testing')
+            InMemory::plainText('testing'),
         );
         $data   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJoZWxsbyI6IndvcmxkIn0.Rh'
                 . '7AEgqCB7zae1PkgIlvOpeyw9Ab8NGTbeOH7heHO0o';
@@ -171,17 +171,17 @@ class HmacTokenTest extends TestCase
         self::assertFalse(
             $validator->validate(
                 $token,
-                new SignedWith($signer, $invalidKey)
+                new SignedWith($signer, $invalidKey),
             ),
-            'Token cannot be validated against the **path** of the key'
+            'Token cannot be validated against the **path** of the key',
         );
 
         self::assertTrue(
             $validator->validate(
                 $token,
-                new SignedWith($signer, $validKey)
+                new SignedWith($signer, $validKey),
             ),
-            'Token can be validated against the **contents** of the key'
+            'Token can be validated against the **contents** of the key',
         );
     }
 }

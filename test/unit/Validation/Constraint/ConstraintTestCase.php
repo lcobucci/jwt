@@ -17,12 +17,12 @@ abstract class ConstraintTestCase extends TestCase
     protected function buildToken(
         array $claims = [],
         array $headers = [],
-        ?Signature $signature = null
+        ?Signature $signature = null,
     ): Plain {
         return new Plain(
             new DataSet($headers, ''),
             new DataSet($claims, ''),
-            $signature ?? Signature::fromEmptyData()
+            $signature ?? Signature::fromEmptyData(),
         );
     }
 }

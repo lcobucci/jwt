@@ -18,7 +18,7 @@ final class Sha512Bench extends HmacBench
     protected function createKey(): Key
     {
         return InMemory::base64Encoded(
-            'OgXKIs+aZCQgXnDfi8mAFnWVo+Xn3JTR7BvT/j1Q1zP9oRx9xGg4jmpq00RsPPDclYi8+jRl664pu4d0zan2ow=='
+            'OgXKIs+aZCQgXnDfi8mAFnWVo+Xn3JTR7BvT/j1Q1zP9oRx9xGg4jmpq00RsPPDclYi8+jRl664pu4d0zan2ow==',
         );
     }
 }

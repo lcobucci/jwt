@@ -11,7 +11,7 @@ final class CannotValidateARegisteredClaim extends InvalidArgumentException impl
     public static function create(string $claim): self
     {
         return new self(
-            'The claim "' . $claim . '" is a registered claim, another constraint must be used to validate its value'
+            'The claim "' . $claim . '" is a registered claim, another constraint must be used to validate its value',
         );
     }
 }

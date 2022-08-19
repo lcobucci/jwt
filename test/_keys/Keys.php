@@ -49,7 +49,7 @@ trait Keys
     {
         static::$eddsaKeys = [
             'private' => Key\InMemory::base64Encoded(
-                'K3NWT0XqaH+4jgi42gQmHnFE+HTPVhFYi3u4DFJ3OpRHRMt/aGRBoKD/Pt5H/iYgGCla7Q04CdjOUpLSrjZhtg=='
+                'K3NWT0XqaH+4jgi42gQmHnFE+HTPVhFYi3u4DFJ3OpRHRMt/aGRBoKD/Pt5H/iYgGCla7Q04CdjOUpLSrjZhtg==',
             ),
             'public1' => Key\InMemory::base64Encoded('R0TLf2hkQaCg/z7eR/4mIBgpWu0NOAnYzlKS0q42YbY='),
             'public2' => Key\InMemory::base64Encoded('8uLLzCdMrIWcOrAxS/fteYyJhWIGH+wav2fNz8NZhvI='),

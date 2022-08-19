@@ -12,8 +12,11 @@ final class RequiredConstraintsViolatedTest extends TestCase
      * @test
      *
      * @covers ::fromViolations
+     * @covers ::__construct
      * @covers ::buildMessage
      * @covers ::violations
+     *
+     * @uses \Lcobucci\JWT\Validation\ConstraintViolation
      */
     public function fromViolationsShouldConfigureMessageAndViolationList(): void
     {
@@ -22,7 +25,7 @@ final class RequiredConstraintsViolatedTest extends TestCase
 
         self::assertSame(
             "The token violates some mandatory constraints, details:\n- testing",
-            $exception->getMessage()
+            $exception->getMessage(),
         );
 
         self::assertSame([$violation], $exception->violations());

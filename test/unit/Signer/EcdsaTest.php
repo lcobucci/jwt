@@ -9,7 +9,6 @@ use OpenSSLAsymmetricKey;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
-use function is_resource;
 use function openssl_error_string;
 use function openssl_pkey_get_private;
 use function openssl_pkey_get_public;
@@ -77,7 +76,7 @@ final class EcdsaTest extends TestCase
         $signature = $signer->sign($payload, self::$ecdsaKeys['private']);
 
         $publicKey = openssl_pkey_get_public(self::$ecdsaKeys['public1']->contents());
-        assert(is_resource($publicKey) || $publicKey instanceof OpenSSLAsymmetricKey);
+        assert($publicKey instanceof OpenSSLAsymmetricKey);
 
         self::assertSame(
             1,
@@ -85,8 +84,8 @@ final class EcdsaTest extends TestCase
                 $payload,
                 $this->pointsManipulator->toAsn1($signature, $signer->pointLength()),
                 $publicKey,
-                OPENSSL_ALGO_SHA256
-            )
+                OPENSSL_ALGO_SHA256,
+            ),
         );
     }
 
@@ -147,7 +146,7 @@ final class EcdsaTest extends TestCase
     {
         $payload    = 'testing';
         $privateKey = openssl_pkey_get_private(self::$ecdsaKeys['private']->contents());
-        assert(is_resource($privateKey) || $privateKey instanceof OpenSSLAsymmetricKey);
+        assert($privateKey instanceof OpenSSLAsymmetricKey);
 
         $signature = '';
         openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);
@@ -158,8 +157,8 @@ final class EcdsaTest extends TestCase
             $signer->verify(
                 $this->pointsManipulator->fromAsn1($signature, $signer->pointLength()),
                 $payload,
-                self::$ecdsaKeys['public1']
-            )
+                self::$ecdsaKeys['public1'],
+            ),
         );
     }
 }

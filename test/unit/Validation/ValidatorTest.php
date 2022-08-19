@@ -10,8 +10,7 @@ use PHPUnit\Framework\TestCase;
 /** @coversDefaultClass \Lcobucci\JWT\Validation\Validator */
 final class ValidatorTest extends TestCase
 {
-    /** @var Token&MockObject */
-    private Token $token;
+    private Token&MockObject $token;
 
     /** @before */
     public function createDependencies(): void
@@ -39,6 +38,7 @@ final class ValidatorTest extends TestCase
      * @covers ::assert
      * @covers ::checkConstraint
      *
+     * @uses \Lcobucci\JWT\Validation\ConstraintViolation
      * @uses \Lcobucci\JWT\Validation\RequiredConstraintsViolated
      */
     public function assertShouldRaiseExceptionWhenAtLeastOneConstraintFails(): void
@@ -61,7 +61,7 @@ final class ValidatorTest extends TestCase
         $validator->assert(
             $this->token,
             $failedConstraint,
-            $successfulConstraint
+            $successfulConstraint,
         );
     }
 
@@ -100,6 +100,8 @@ final class ValidatorTest extends TestCase
      * @test
      *
      * @covers ::validate
+     *
+     * @uses \Lcobucci\JWT\Validation\ConstraintViolation
      */
     public function validateShouldReturnFalseWhenAtLeastOneConstraintFails(): void
     {
@@ -119,8 +121,8 @@ final class ValidatorTest extends TestCase
             $validator->validate(
                 $this->token,
                 $failedConstraint,
-                $successfulConstraint
-            )
+                $successfulConstraint,
+            ),
         );
     }
 

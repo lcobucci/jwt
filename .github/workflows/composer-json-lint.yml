@@ -15,7 +15,7 @@ jobs:
         dependencies:
           - "highest"
         php-version:
-          - "7.4"
+          - "8.1"
         operating-system:
           - "ubuntu-latest"
 
@@ -61,7 +61,7 @@ jobs:
         run: "composer-normalize --dry-run"
 
       - name: "Check composer.json explicit dependencies"
-        run: "composer-require-checker check --config-file=$(realpath composer-require-checker.json)"
+        run: "composer-require-checker check"
 
       - name: "Check composer.json unused dependencies"
         run: "composer-unused"

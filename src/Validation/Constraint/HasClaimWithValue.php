@@ -12,20 +12,11 @@ use function in_array;
 
 final class HasClaimWithValue implements Constraint
 {
-    private string $claim;
-
-    /** @var mixed */
-    private $expectedValue;
-
-    /** @param mixed $expectedValue */
-    public function __construct(string $claim, $expectedValue)
+    public function __construct(private readonly string $claim, private readonly mixed $expectedValue)
     {
         if (in_array($claim, Token\RegisteredClaims::ALL, true)) {
             throw CannotValidateARegisteredClaim::create($claim);
         }
-
-        $this->claim         = $claim;
-        $this->expectedValue = $expectedValue;
     }
 
     public function assert(Token $token): void
@@ -43,7 +34,7 @@ final class HasClaimWithValue implements Constraint
         if ($claims->get($this->claim) !== $this->expectedValue) {
             throw ConstraintViolation::error(
                 'The claim "' . $this->claim . '" does not have the expected value',
-                $this
+                $this,
             );
         }
     }

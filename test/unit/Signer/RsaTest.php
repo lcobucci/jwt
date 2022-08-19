@@ -9,7 +9,6 @@ use OpenSSLAsymmetricKey;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
-use function is_resource;
 use function openssl_error_string;
 use function openssl_pkey_get_private;
 use function openssl_pkey_get_public;
@@ -49,7 +48,7 @@ final class RsaTest extends TestCase
         $signature = $signer->sign($payload, self::$rsaKeys['private']);
 
         $publicKey = openssl_pkey_get_public(self::$rsaKeys['public']->contents());
-        assert(is_resource($publicKey) || $publicKey instanceof OpenSSLAsymmetricKey);
+        assert($publicKey instanceof OpenSSLAsymmetricKey);
 
         self::assertSame(1, openssl_verify($payload, $signature, $publicKey, OPENSSL_ALGO_SHA256));
     }
@@ -148,7 +147,7 @@ final class RsaTest extends TestCase
     {
         $payload    = 'testing';
         $privateKey = openssl_pkey_get_private(self::$rsaKeys['private']->contents());
-        assert(is_resource($privateKey) || $privateKey instanceof OpenSSLAsymmetricKey);
+        assert($privateKey instanceof OpenSSLAsymmetricKey);
 
         $signature = '';
         openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);
