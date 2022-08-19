@@ -38,8 +38,8 @@ final class MaliciousTamperingPreventionTest extends TestCase
                 . 'L5Tzxze/XeeYZnHqxiX+gle70DlGRMqqOq+PJ6RYX7vK0PJFdiAIXlyPQq0B3KaU' . PHP_EOL
                 . 'e86IvFeQSFrJdCc0K8NfiH2G1loIk3fiR+YLqlXk6FAeKtpXJKxR1pCQCAM+vBCs' . PHP_EOL
                 . 'mZudf1zCUZ8/4eodlHU=' . PHP_EOL
-                . '-----END PUBLIC KEY-----'
-            )
+                . '-----END PUBLIC KEY-----',
+            ),
         );
     }
 
@@ -91,7 +91,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
 
         self::assertFalse(
             $validator->validate($token, new SignedWith(new HS512(), $this->config->verificationKey())),
-            'Using the attackers signer should make things unsafe'
+            'Using the attackers signer should make things unsafe',
         );
 
         self::assertFalse(
@@ -99,10 +99,10 @@ final class MaliciousTamperingPreventionTest extends TestCase
                 $token,
                 new SignedWith(
                     $this->config->signer(),
-                    $this->config->verificationKey()
-                )
+                    $this->config->verificationKey(),
+                ),
             ),
-            'But we know which Signer should be used so the attack fails'
+            'But we know which Signer should be used so the attack fails',
         );
     }
 
@@ -119,7 +119,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
             'sha512',
             $asplode[0] . '.' . $asplode[1],
             $this->config->verificationKey()->contents(),
-            true
+            true,
         );
 
         $asplode[2] = $dec->base64UrlEncode($hmac);

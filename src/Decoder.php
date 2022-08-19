@@ -10,11 +10,9 @@ interface Decoder
     /**
      * Decodes from JSON, validating the errors
      *
-     * @return mixed
-     *
      * @throws CannotDecodeContent When something goes wrong while decoding.
      */
-    public function jsonDecode(string $json);
+    public function jsonDecode(string $json): mixed;
 
     /**
      * Decodes from Base64URL

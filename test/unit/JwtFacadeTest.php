@@ -58,14 +58,14 @@ final class JwtFacadeTest extends TestCase
 
     private function createToken(): string
     {
-        return (new JwtFacade(null, $this->clock))->issue(
+        return (new JwtFacade(clock: $this->clock))->issue(
             $this->signer,
             $this->key,
             function (Builder $builder, DateTimeImmutable $issuedAt): Builder {
                 return $builder
                     ->expiresAt($issuedAt->modify('+5 minutes'))
                     ->issuedBy($this->issuer);
-            }
+            },
         )->toString();
     }
 
@@ -77,10 +77,10 @@ final class JwtFacadeTest extends TestCase
      */
     public function issueSetTimeValidity(): void
     {
-        $token = (new JwtFacade(null, $this->clock))->issue(
+        $token = (new JwtFacade(clock: $this->clock))->issue(
             $this->signer,
             $this->key,
-            static fn (Builder $builder): Builder => $builder
+            static fn (Builder $builder): Builder => $builder,
         );
 
         $now = $this->clock->now();
@@ -119,7 +119,7 @@ final class JwtFacadeTest extends TestCase
                     ->issuedAt($then)
                     ->canOnlyBeUsedAfter($then)
                     ->expiresAt($then->modify('+1 minute'));
-            }
+            },
         );
 
         $now = $then->modify('+30 seconds');
@@ -153,7 +153,7 @@ final class JwtFacadeTest extends TestCase
             $this->createToken(),
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
-            new IssuedBy($this->issuer)
+            new IssuedBy($this->issuer),
         );
 
         self::assertInstanceOf(Plain::class, $token);
@@ -174,7 +174,7 @@ final class JwtFacadeTest extends TestCase
             $this->createToken(),
             new SignedWith(new Sha384(), $this->key),
             new StrictValidAt($this->clock),
-            new IssuedBy($this->issuer)
+            new IssuedBy($this->issuer),
         );
     }
 
@@ -193,7 +193,7 @@ final class JwtFacadeTest extends TestCase
             $this->createToken(),
             new SignedWith($this->signer, InMemory::base64Encoded('czyPTpN595zVNSuvoNNlXCRFgXS2fHscMR36dGojaUE=')),
             new StrictValidAt($this->clock),
-            new IssuedBy($this->issuer)
+            new IssuedBy($this->issuer),
         );
     }
 
@@ -215,7 +215,7 @@ final class JwtFacadeTest extends TestCase
             $token,
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
-            new IssuedBy($this->issuer)
+            new IssuedBy($this->issuer),
         );
     }
 
@@ -234,7 +234,7 @@ final class JwtFacadeTest extends TestCase
             $this->createToken(),
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
-            new IssuedBy('xyz')
+            new IssuedBy('xyz'),
         );
     }
 
@@ -251,7 +251,7 @@ final class JwtFacadeTest extends TestCase
             'a.very-broken.token',
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
-            new IssuedBy($this->issuer)
+            new IssuedBy($this->issuer),
         );
     }
 }

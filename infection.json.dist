@@ -15,16 +15,16 @@
                 "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::readAsn1Integer"
             ]
         },
+        "UnwrapSubstr": {
+            "ignore": [
+                "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::preparePositiveInteger"
+            ]
+        },
         "GreaterThan": {
             "ignore": [
                 "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::toAsn1",
                 "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::preparePositiveInteger",
                 "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter::retrievePositiveInteger"
-            ]
-        },
-        "InstanceOf_": {
-            "ignore": [
-                "Lcobucci\\JWT\\Signer\\OpenSSL::freeKey"
             ]
         },
         "LessThanOrEqualTo": {
@@ -35,17 +35,6 @@
         "LogicalNot": {
             "ignoreSourceCodeByRegex": [
                 "if \\(!function_exists\\('sodium_\\w+'\\)\\) \\{"
-            ]
-        },
-        "MBString": {
-            "ignore": [
-                "Lcobucci\\JWT\\Signer\\Ecdsa\\MultibyteStringConverter"
-            ]
-        },
-        "MethodCallRemoval": {
-            "ignore": [
-                "Lcobucci\\JWT\\Signer\\OpenSSL::createSignature",
-                "Lcobucci\\JWT\\Signer\\OpenSSL::verifySignature"
             ]
         }
     },

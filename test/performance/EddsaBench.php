@@ -19,7 +19,7 @@ final class EddsaBench extends SignerBench
     protected function signingKey(): Key
     {
         return InMemory::base64Encoded(
-            'dv6B60wqqFVDpt8+TnW7T6NtRpVQjiQP/PoqonDWBZkVboQttTfzXux+WnZeacJDcklMgyKFHVFy1C7tVDvcWA=='
+            'dv6B60wqqFVDpt8+TnW7T6NtRpVQjiQP/PoqonDWBZkVboQttTfzXux+WnZeacJDcklMgyKFHVFy1C7tVDvcWA==',
         );
     }
 

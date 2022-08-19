@@ -46,7 +46,7 @@ final class BuilderTest extends TestCase
         $this->expectException(RegisteredClaimGiven::class);
         $this->expectExceptionMessage(
             'Builder#withClaim() is meant to be used for non-registered claims, '
-            . 'check the documentation on how to set claim "iss"'
+            . 'check the documentation on how to set claim "iss"',
         );
 
         $builder->withClaim(RegisteredClaims::ISSUER, 'me');

@@ -52,7 +52,7 @@ class RsaTokenTest extends TestCase
         $this->config = Configuration::forAsymmetricSigner(
             new Sha256(),
             static::$rsaKeys['private'],
-            static::$rsaKeys['public']
+            static::$rsaKeys['public'],
         );
     }
 
@@ -131,7 +131,7 @@ class RsaTokenTest extends TestCase
 
         $this->config->validator()->assert(
             $token,
-            new SignedWith($this->config->signer(), self::$rsaKeys['encrypted-public'])
+            new SignedWith($this->config->signer(), self::$rsaKeys['encrypted-public']),
         );
     }
 
@@ -146,7 +146,7 @@ class RsaTokenTest extends TestCase
 
         $this->config->validator()->assert(
             $token,
-            new SignedWith(new Sha512(), $this->config->verificationKey())
+            new SignedWith(new Sha512(), $this->config->verificationKey()),
         );
     }
 
@@ -163,8 +163,8 @@ class RsaTokenTest extends TestCase
             $token,
             new SignedWith(
                 $this->config->signer(),
-                self::$ecdsaKeys['public1']
-            )
+                self::$ecdsaKeys['public1'],
+            ),
         );
     }
 

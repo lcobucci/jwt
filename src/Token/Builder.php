@@ -23,13 +23,8 @@ final class Builder implements BuilderInterface
     /** @var array<string, mixed> */
     private array $claims = [];
 
-    private Encoder $encoder;
-    private ClaimsFormatter $claimFormatter;
-
-    public function __construct(Encoder $encoder, ClaimsFormatter $claimFormatter)
+    public function __construct(private readonly Encoder $encoder, private readonly ClaimsFormatter $claimFormatter)
     {
-        $this->encoder        = $encoder;
-        $this->claimFormatter = $claimFormatter;
     }
 
     public function permittedFor(string ...$audiences): BuilderInterface
@@ -70,16 +65,14 @@ final class Builder implements BuilderInterface
         return $this->setClaim(RegisteredClaims::SUBJECT, $subject);
     }
 
-    /** @inheritdoc */
-    public function withHeader(string $name, $value): BuilderInterface
+    public function withHeader(string $name, mixed $value): BuilderInterface
     {
         $this->headers[$name] = $value;
 
         return $this;
     }
 
-    /** @inheritdoc */
-    public function withClaim(string $name, $value): BuilderInterface
+    public function withClaim(string $name, mixed $value): BuilderInterface
     {
         if (in_array($name, RegisteredClaims::ALL, true)) {
             throw RegisteredClaimGiven::forClaim($name);
@@ -88,8 +81,7 @@ final class Builder implements BuilderInterface
         return $this->setClaim($name, $value);
     }
 
-    /** @param mixed $value */
-    private function setClaim(string $name, $value): BuilderInterface
+    private function setClaim(string $name, mixed $value): BuilderInterface
     {
         $this->claims[$name] = $value;
 
@@ -104,7 +96,7 @@ final class Builder implements BuilderInterface
     private function encode(array $items): string
     {
         return $this->encoder->base64UrlEncode(
-            $this->encoder->jsonEncode($items)
+            $this->encoder->jsonEncode($items),
         );
     }
 
@@ -122,7 +114,7 @@ final class Builder implements BuilderInterface
         return new Plain(
             new DataSet($headers, $encodedHeaders),
             new DataSet($this->claims, $encodedClaims),
-            new Signature($signature, $encodedSignature)
+            new Signature($signature, $encodedSignature),
         );
     }
 }

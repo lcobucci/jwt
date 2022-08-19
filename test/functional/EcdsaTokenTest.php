@@ -55,7 +55,7 @@ class EcdsaTokenTest extends TestCase
         $this->config = Configuration::forAsymmetricSigner(
             Sha256::create(),
             static::$ecdsaKeys['private'],
-            static::$ecdsaKeys['public1']
+            static::$ecdsaKeys['public1'],
         );
     }
 
@@ -109,7 +109,7 @@ class EcdsaTokenTest extends TestCase
 
         self::assertEquals(
             ['http://client.abc.com', 'http://client2.abc.com'],
-            $token->claims()->get(Token\RegisteredClaims::AUDIENCE)
+            $token->claims()->get(Token\RegisteredClaims::AUDIENCE),
         );
 
         return $token;
@@ -141,8 +141,8 @@ class EcdsaTokenTest extends TestCase
             $token,
             new SignedWith(
                 $this->config->signer(),
-                self::$ecdsaKeys['public2']
-            )
+                self::$ecdsaKeys['public2'],
+            ),
         );
     }
 
@@ -159,8 +159,8 @@ class EcdsaTokenTest extends TestCase
             $token,
             new SignedWith(
                 Sha512::create(),
-                self::$ecdsaKeys['public1']
-            )
+                self::$ecdsaKeys['public1'],
+            ),
         );
     }
 
@@ -175,7 +175,7 @@ class EcdsaTokenTest extends TestCase
 
         $this->config->validator()->assert(
             $token,
-            new SignedWith($this->config->signer(), self::$rsaKeys['public'])
+            new SignedWith($this->config->signer(), self::$rsaKeys['public']),
         );
     }
 
@@ -187,7 +187,7 @@ class EcdsaTokenTest extends TestCase
     {
         $constraint = new SignedWith(
             $this->config->signer(),
-            $this->config->verificationKey()
+            $this->config->verificationKey(),
         );
 
         self::assertTrue($this->config->validator()->validate($token, $constraint));
@@ -208,7 +208,7 @@ class EcdsaTokenTest extends TestCase
 
         $constraint = new SignedWith(
             $this->config->signer(),
-            static::$ecdsaKeys['public-params']
+            static::$ecdsaKeys['public-params'],
         );
 
         self::assertTrue($this->config->validator()->validate($token, $constraint));

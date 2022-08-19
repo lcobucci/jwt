@@ -79,7 +79,7 @@ final class JoseEncoderTest extends TestCase
 
         self::assertSame(
             ['test' => ['test' => []]],
-            $decoder->jsonDecode('{"test":{"test":{}}}')
+            $decoder->jsonDecode('{"test":{"test":{}}}'),
         );
     }
 

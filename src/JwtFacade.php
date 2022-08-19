@@ -19,20 +19,20 @@ use function assert;
 
 final class JwtFacade
 {
-    private Parser $parser;
-    private Clock $clock;
+    private readonly Clock $clock;
 
-    public function __construct(?Parser $parser = null, ?Clock $clock = null)
-    {
-        $this->parser = $parser ?? new Token\Parser(new JoseEncoder());
-        $this->clock  = $clock ?? SystemClock::fromSystemTimezone();
+    public function __construct(
+        private readonly Parser $parser = new Token\Parser(new JoseEncoder()),
+        ?Clock $clock = null,
+    ) {
+        $this->clock = $clock ?? SystemClock::fromSystemTimezone();
     }
 
     /** @param Closure(Builder, DateTimeImmutable):Builder $customiseBuilder */
     public function issue(
         Signer $signer,
         Key $signingKey,
-        Closure $customiseBuilder
+        Closure $customiseBuilder,
     ): UnencryptedToken {
         $builder = new Token\Builder(new JoseEncoder(), ChainedFormatter::withUnixTimestampDates());
 
@@ -49,7 +49,7 @@ final class JwtFacade
         string $jwt,
         SignedWith $signedWith,
         ValidAt $validAt,
-        Constraint ...$constraints
+        Constraint ...$constraints,
     ): UnencryptedToken {
         $token = $this->parser->parse($jwt);
         assert($token instanceof UnencryptedToken);
@@ -58,7 +58,7 @@ final class JwtFacade
             $token,
             $signedWith,
             $validAt,
-            ...$constraints
+            ...$constraints,
         );
 
         return $token;

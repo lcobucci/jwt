@@ -51,19 +51,15 @@ interface Builder
 
     /**
      * Configures a header item
-     *
-     * @param mixed $value
      */
-    public function withHeader(string $name, $value): Builder;
+    public function withHeader(string $name, mixed $value): Builder;
 
     /**
      * Configures a claim item
      *
-     * @param mixed $value
-     *
      * @throws RegisteredClaimGiven When trying to set a registered claim.
      */
-    public function withClaim(string $name, $value): Builder;
+    public function withClaim(string $name, mixed $value): Builder;
 
     /**
      * Returns a signed token to be used

@@ -119,7 +119,7 @@ final class EddsaTest extends TestCase
         self::assertNotSame('', $decoded);
         $key       = InMemory::plainText(
             $decoded
-            . $encoder->base64UrlDecode('11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo')
+            . $encoder->base64UrlDecode('11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo'),
         );
         $payload   = $encoder->base64UrlEncode('{"alg":"EdDSA"}')
             . '.'
@@ -129,7 +129,7 @@ final class EddsaTest extends TestCase
         self::assertSame('eyJhbGciOiJFZERTQSJ9.RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc', $payload);
         self::assertSame(
             'hgyY0il_MGCjP0JzlnLWG1PPOt7-09PGcvMg3AIbQR6dWbhijcNR4ki4iylGjg5BhVsPt9g7sVvpAr_MuM0KAg',
-            $encoder->base64UrlEncode($signature)
+            $encoder->base64UrlEncode($signature),
         );
     }
 
@@ -155,7 +155,7 @@ final class EddsaTest extends TestCase
         $key       = InMemory::plainText($decoded);
         $payload   = 'eyJhbGciOiJFZERTQSJ9.RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc';
         $signature = $encoder->base64UrlDecode(
-            'hgyY0il_MGCjP0JzlnLWG1PPOt7-09PGcvMg3AIbQR6dWbhijcNR4ki4iylGjg5BhVsPt9g7sVvpAr_MuM0KAg'
+            'hgyY0il_MGCjP0JzlnLWG1PPOt7-09PGcvMg3AIbQR6dWbhijcNR4ki4iylGjg5BhVsPt9g7sVvpAr_MuM0KAg',
         );
 
         self::assertTrue($signer->verify($signature, $payload, $key));

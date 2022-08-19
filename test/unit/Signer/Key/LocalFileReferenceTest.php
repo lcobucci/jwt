@@ -19,7 +19,7 @@ final class LocalFileReferenceTest extends TestCase
         vfsStream::setup(
             'root',
             null,
-            ['test.pem' => 'testing']
+            ['test.pem' => 'testing'],
         );
     }
 
