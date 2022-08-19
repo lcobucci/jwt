@@ -56,6 +56,7 @@ abstract class Ecdsa extends OpenSSL
         }
     }
 
+    /** @internal */
     abstract public function expectedKeyLength(): int;
 
     /**
