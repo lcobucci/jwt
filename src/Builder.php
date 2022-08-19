@@ -9,7 +9,6 @@ use Lcobucci\JWT\Signer\CannotSignPayload;
 use Lcobucci\JWT\Signer\Ecdsa\ConversionFailed;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\RegisteredClaimGiven;
 
 interface Builder
@@ -69,5 +68,5 @@ interface Builder
      * @throws InvalidKeyProvided  When issue key is invalid/incompatible.
      * @throws ConversionFailed    When signature could not be converted.
      */
-    public function getToken(Signer $signer, Key $key): Plain;
+    public function getToken(Signer $signer, Key $key): UnencryptedToken;
 }

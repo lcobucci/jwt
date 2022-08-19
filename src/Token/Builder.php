@@ -10,6 +10,7 @@ use Lcobucci\JWT\Encoder;
 use Lcobucci\JWT\Encoding\CannotEncodeContent;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\UnencryptedToken;
 
 use function array_diff;
 use function array_merge;
@@ -100,7 +101,7 @@ final class Builder implements BuilderInterface
         );
     }
 
-    public function getToken(Signer $signer, Key $key): Plain
+    public function getToken(Signer $signer, Key $key): UnencryptedToken
     {
         $headers        = $this->headers;
         $headers['alg'] = $signer->algorithmId();
