@@ -7,7 +7,6 @@ use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key\FileCouldNotBeRead;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
 use function base64_encode;
@@ -15,16 +14,6 @@ use function base64_encode;
 /** @coversDefaultClass \Lcobucci\JWT\Signer\Key\InMemory */
 final class InMemoryTest extends TestCase
 {
-    /** @before */
-    public function configureRootDir(): void
-    {
-        vfsStream::setup(
-            'root',
-            null,
-            ['test.pem' => 'testing', 'empty.pem' => ''],
-        );
-    }
-
     /**
      * @test
      *
@@ -85,7 +74,7 @@ final class InMemoryTest extends TestCase
      */
     public function exceptionShouldBeRaisedWhenFileDoesNotExists(): void
     {
-        $path = vfsStream::url('root/test2.pem');
+        $path = __DIR__ . '/not-found.pem';
 
         $this->expectException(FileCouldNotBeRead::class);
         $this->expectExceptionMessage('The path "' . $path . '" does not contain a valid key file');
@@ -107,7 +96,7 @@ final class InMemoryTest extends TestCase
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('Key cannot be empty');
 
-        InMemory::file(vfsStream::url('root/empty.pem'));
+        InMemory::file(__DIR__ . '/empty.pem');
     }
 
     /**
@@ -135,7 +124,7 @@ final class InMemoryTest extends TestCase
      */
     public function contentsShouldReturnFileContentsWhenFilePathHasBeenPassed(): void
     {
-        $key = InMemory::file(vfsStream::url('root/test.pem'));
+        $key = InMemory::file(__DIR__ . '/test.pem');
 
         self::assertSame('testing', $key->contents());
     }
