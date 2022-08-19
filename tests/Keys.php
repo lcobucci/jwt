@@ -19,6 +19,10 @@ trait Keys
     /** @beforeClass */
     public static function createRsaKeys(): void
     {
+        if (isset(static::$rsaKeys)) {
+            return;
+        }
+
         static::$rsaKeys = [
             'private'           => Key\InMemory::file(__DIR__ . '/_keys/rsa/private.key'),
             'public'            => Key\InMemory::file(__DIR__ . '/_keys/rsa/public.key'),
@@ -32,6 +36,10 @@ trait Keys
     /** @beforeClass */
     public static function createEcdsaKeys(): void
     {
+        if (isset(static::$ecdsaKeys)) {
+            return;
+        }
+
         static::$ecdsaKeys = [
             'private'        => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/private.key'),
             'private-params' => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/private2.key'),
@@ -47,6 +55,10 @@ trait Keys
     /** @beforeClass */
     public static function createEddsaKeys(): void
     {
+        if (isset(static::$eddsaKeys)) {
+            return;
+        }
+
         static::$eddsaKeys = [
             'private' => Key\InMemory::base64Encoded(
                 'K3NWT0XqaH+4jgi42gQmHnFE+HTPVhFYi3u4DFJ3OpRHRMt/aGRBoKD/Pt5H/iYgGCla7Q04CdjOUpLSrjZhtg==',
