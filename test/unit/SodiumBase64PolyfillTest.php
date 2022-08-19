@@ -32,18 +32,22 @@ final class SodiumBase64PolyfillTest extends TestCase
      */
     public function constantsMatchExtensionOnes(): void
     {
+        // @phpstan-ignore-next-line
         self::assertSame(
             SODIUM_BASE64_VARIANT_ORIGINAL,
             SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL
         );
+        // @phpstan-ignore-next-line
         self::assertSame(
             SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING,
             SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING
         );
+        // @phpstan-ignore-next-line
         self::assertSame(
             SODIUM_BASE64_VARIANT_URLSAFE,
             SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_URLSAFE
         );
+        // @phpstan-ignore-next-line
         self::assertSame(
             SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING,
             SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING
