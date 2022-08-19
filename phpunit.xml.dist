@@ -13,12 +13,8 @@
     failOnRisky="true"
 >
     <testsuites>
-        <testsuite name="unit">
-            <directory>test/unit</directory>
-        </testsuite>
-
-        <testsuite name="functional">
-            <directory>test/functional</directory>
+        <testsuite name="tests">
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 

@@ -44,12 +44,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Lcobucci\\JWT\\": [
-                "test/_keys",
-                "test/unit",
-                "test/performance"
-            ],
-            "Lcobucci\\JWT\\FunctionalTests\\": "test/functional"
+            "Lcobucci\\JWT\\Tests\\": "tests"
         }
     },
     "config": {

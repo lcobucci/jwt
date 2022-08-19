@@ -11,12 +11,12 @@
     <arg value="p" />
 
     <file>src</file>
-    <file>test</file>
+    <file>tests</file>
 
     <rule ref="Lcobucci" />
 
     <rule ref="SlevomatCodingStandard.Functions.UnusedParameter">
-        <exclude-pattern>test/unit/UnsupportedParser.php</exclude-pattern>
+        <exclude-pattern>tests/UnsupportedParser.php</exclude-pattern>
     </rule>
 </ruleset>
 
