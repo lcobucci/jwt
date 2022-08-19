@@ -3,10 +3,3 @@ parameters:
     paths:
         - src
         - test
-
-    ignoreErrors:
-        - '#Call to method .* of deprecated class Lcobucci\\JWT\\Signer\\Key\\LocalFileReference#'
-        - """
-            #^.+ deprecated class Lcobucci\\\\JWT\\\\Signer\\\\.+:
-            Deprecated since v4\\.2$#
-        """
