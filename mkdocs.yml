@@ -6,11 +6,12 @@ nav:
     - 'index.md'
     - 'installation.md'
     - 'quick-start.md'
+    - 'supported-algorithms.md'
   - Usage:
-    - 'configuration.md'
     - 'issuing-tokens.md'
     - 'parsing-tokens.md'
     - 'validating-tokens.md'
+    - 'configuration.md'
   - Guides:
     - 'extending-the-library.md'
     - 'upgrading.md'

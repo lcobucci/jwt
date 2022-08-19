@@ -1,29 +1,37 @@
 # Parsing tokens
 
-!!! Note
-    The examples here fetch the configuration object from a hypothetical dependency injection container.
-    You can create it in the same script or require it from a different file. It basically depends on how your system is bootstrapped.
-
-To parse a token you must create a new parser (easier when using the [configuration object](configuration.md)) and ask it to parse a string:
+To parse a token you must create a new parser and ask it to parse a string:
 
 ```php
-use Lcobucci\JWT\Configuration;
+<?php
+declare(strict_types=1);
+
+use Lcobucci\JWT\Encoding\CannotDecodeContent;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Token\InvalidTokenStructure;
+use Lcobucci\JWT\Token\Parser;
+use Lcobucci\JWT\Token\UnsupportedHeaderFound;
 use Lcobucci\JWT\UnencryptedToken;
 
-$config = $container->get(Configuration::class);
-assert($config instanceof Configuration);
+require 'vendor/autoload.php';
 
-$token = $config->parser()->parse(
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
-    . 'eyJzdWIiOiIxMjM0NTY3ODkwIn0.'
-    . '2gSBz9EOsQRN9I-3iSxJoFt7NtgV6Rm0IL6a8CAwl3Q'
-);
+$parser = new Parser(new JoseEncoder());
 
+try {
+    $token = $parser->parse(
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
+        . 'eyJzdWIiOiIxMjM0NTY3ODkwIn0.'
+        . '2gSBz9EOsQRN9I-3iSxJoFt7NtgV6Rm0IL6a8CAwl3Q'
+    );
+} catch (CannotDecodeContent | InvalidTokenStructure | UnsupportedHeaderFound $e) {
+    echo 'Oh no, an error: ' . $e->getMessage();
+}
 assert($token instanceof UnencryptedToken);
 
-$token->headers(); // Retrieves the token headers
-$token->claims(); // Retrieves the token claims
+echo $token->claims()->get('sub'), PHP_EOL; // will print "1234567890"
+
 ```
 
-!!! Important
-    In case of parsing errors the Parser will throw an exception of type `InvalidArgumentException`.
+!!! Note
+    Some systems make use of components to handle dependency injection.
+    If your application follows that practice, using a [configuration object](configuration.md) might simplify the wiring of this library.
