@@ -64,8 +64,8 @@ class ES512TokenTest extends TestCase
         $this->expectExceptionMessage('It was not possible to parse your key, reason:');
 
         $builder->identifiedBy('1')
-            ->permittedFor('http://client.abc.com')
-            ->issuedBy('http://api.abc.com')
+            ->permittedFor('https://client.abc.com')
+            ->issuedBy('https://api.abc.com')
             ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
             ->getToken($this->config->signer(), InMemory::plainText('testing'));
     }
@@ -79,8 +79,8 @@ class ES512TokenTest extends TestCase
         $this->expectExceptionMessage('The type of the provided key is not "EC", "RSA" provided');
 
         $builder->identifiedBy('1')
-            ->permittedFor('http://client.abc.com')
-            ->issuedBy('http://api.abc.com')
+            ->permittedFor('https://client.abc.com')
+            ->issuedBy('https://api.abc.com')
             ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
             ->getToken($this->config->signer(), static::$rsaKeys['private']);
     }
@@ -92,19 +92,19 @@ class ES512TokenTest extends TestCase
         $builder = $this->config->builder();
 
         $token = $builder->identifiedBy('1')
-            ->permittedFor('http://client.abc.com')
-            ->permittedFor('http://client2.abc.com')
-            ->issuedBy('http://api.abc.com')
+            ->permittedFor('https://client.abc.com')
+            ->permittedFor('https://client2.abc.com')
+            ->issuedBy('https://api.abc.com')
             ->withClaim('user', $user)
             ->withHeader('jki', '1234')
             ->getToken($this->config->signer(), $this->config->signingKey());
 
         self::assertSame('1234', $token->headers()->get('jki'));
-        self::assertSame('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
+        self::assertSame('https://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
         self::assertSame($user, $token->claims()->get('user'));
 
         self::assertSame(
-            ['http://client.abc.com', 'http://client2.abc.com'],
+            ['https://client.abc.com', 'https://client2.abc.com'],
             $token->claims()->get(Token\RegisteredClaims::AUDIENCE),
         );
 

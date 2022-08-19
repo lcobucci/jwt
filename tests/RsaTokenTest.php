@@ -63,8 +63,8 @@ class RsaTokenTest extends TestCase
         $this->expectExceptionMessage('It was not possible to parse your key');
 
         $builder->identifiedBy('1')
-                ->permittedFor('http://client.abc.com')
-                ->issuedBy('http://api.abc.com')
+                ->permittedFor('https://client.abc.com')
+                ->issuedBy('https://api.abc.com')
                 ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
                 ->getToken($this->config->signer(), InMemory::plainText('testing'));
     }
@@ -78,8 +78,8 @@ class RsaTokenTest extends TestCase
         $this->expectExceptionMessage('The type of the provided key is not "RSA", "EC" provided');
 
         $builder->identifiedBy('1')
-                ->permittedFor('http://client.abc.com')
-                ->issuedBy('http://api.abc.com')
+                ->permittedFor('https://client.abc.com')
+                ->issuedBy('https://api.abc.com')
                 ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
                 ->getToken($this->config->signer(), static::$ecdsaKeys['private']);
     }
@@ -91,15 +91,15 @@ class RsaTokenTest extends TestCase
         $builder = $this->config->builder();
 
         $token = $builder->identifiedBy('1')
-                         ->permittedFor('http://client.abc.com')
-                         ->issuedBy('http://api.abc.com')
+                         ->permittedFor('https://client.abc.com')
+                         ->issuedBy('https://api.abc.com')
                          ->withClaim('user', $user)
                          ->withHeader('jki', '1234')
                          ->getToken($this->config->signer(), $this->config->signingKey());
 
         self::assertSame('1234', $token->headers()->get('jki'));
-        self::assertSame(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
-        self::assertSame('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
+        self::assertSame(['https://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
+        self::assertSame('https://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
         self::assertSame($user, $token->claims()->get('user'));
 
         return $token;

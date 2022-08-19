@@ -52,7 +52,7 @@ final class JoseEncoderTest extends TestCase
     {
         $encoder = new JoseEncoder();
 
-        self::assertSame('"http://google.com"', $encoder->jsonEncode('http://google.com'));
+        self::assertSame('"https://google.com"', $encoder->jsonEncode('https://google.com'));
     }
 
     /**

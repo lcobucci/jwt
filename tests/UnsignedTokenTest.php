@@ -61,15 +61,15 @@ class UnsignedTokenTest extends TestCase
         $expiration = new DateTimeImmutable('@' . (self::CURRENT_TIME + 3000));
 
         $token = $builder->identifiedBy('1')
-                         ->permittedFor('http://client.abc.com')
-                         ->issuedBy('http://api.abc.com')
+                         ->permittedFor('https://client.abc.com')
+                         ->issuedBy('https://api.abc.com')
                          ->expiresAt($expiration)
                          ->withClaim('user', $user)
                          ->getToken($this->config->signer(), $this->config->signingKey());
 
         self::assertEquals(new Token\Signature('', ''), $token->signature());
-        self::assertEquals(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
-        self::assertSame('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
+        self::assertEquals(['https://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
+        self::assertSame('https://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
         self::assertEquals($expiration, $token->claims()->get(Token\RegisteredClaims::EXPIRATION_TIME));
         self::assertEquals($user, $token->claims()->get('user'));
 
@@ -99,8 +99,8 @@ class UnsignedTokenTest extends TestCase
 
         $constraints = [
             new IdentifiedBy('1'),
-            new PermittedFor('http://client.abc.com'),
-            new IssuedBy('http://issuer.abc.com', 'http://api.abc.com'),
+            new PermittedFor('https://client.abc.com'),
+            new IssuedBy('https://issuer.abc.com', 'https://api.abc.com'),
             new LooseValidAt($clock),
         ];
 
@@ -124,7 +124,7 @@ class UnsignedTokenTest extends TestCase
     {
         $constraints = [
             new IdentifiedBy('1'),
-            new IssuedBy('http://issuer.abc.com'),
+            new IssuedBy('https://issuer.abc.com'),
         ];
 
         $this->expectException(RequiredConstraintsViolated::class);
