@@ -5,6 +5,7 @@ namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Keys;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Signer\Rsa\UnsafeSha256;
 use OpenSSLAsymmetricKey;
 use PHPUnit\Framework\TestCase;
 
@@ -51,6 +52,33 @@ final class RsaTest extends TestCase
         assert($publicKey instanceof OpenSSLAsymmetricKey);
 
         self::assertSame(1, openssl_verify($payload, $signature, $publicKey, OPENSSL_ALGO_SHA256));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::sign
+     * @covers \Lcobucci\JWT\Signer\OpenSSL
+     * @covers \Lcobucci\JWT\Signer\CannotSignPayload
+     *
+     * @uses \Lcobucci\JWT\Signer\Key\InMemory
+     */
+    public function signShouldRaiseAnExceptionWhenKeyIsInvalid(): void
+    {
+        $key = <<<KEY
+-----BEGIN RSA PRIVATE KEY-----
+MGECAQACEQC4MRKSVsq5XnRBrJoX6+rnAgMBAAECECO8SZkgw6Yg66A6SUly/3kC
+CQDtPXZtCQWJuwIJAMbBu17GDOrFAggopfhNlFcjkwIIVjb7G+U0/TECCEERyvxP
+TWdN
+-----END RSA PRIVATE KEY-----
+KEY;
+
+        $signer = new UnsafeSha256();
+
+        $this->expectException(CannotSignPayload::class);
+        $this->expectExceptionMessage('There was an error while creating the signature:' . PHP_EOL . '* error:');
+
+        $signer->sign('testing', InMemory::plainText($key));
     }
 
     /**
