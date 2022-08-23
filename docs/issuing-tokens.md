@@ -1,6 +1,6 @@
 # Issuing tokens
 
-To issue new tokens you must create a new token a builder, customise it, and ask it to build the token:
+To issue new tokens you must create a new token builder, customise it, and ask it to build the token:
 
 ```php
 <?php
