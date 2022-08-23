@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "~8.1.0 || ~8.2.0",
         "ext-hash": "*",
         "ext-json": "*",
         "ext-openssl": "*",
@@ -58,6 +58,9 @@
             "phpstan/extension-installer": true,
             "infection/extension-installer": true,
             "ocramius/package-versions": true
+        },
+        "platform": {
+            "php": "8.1.99"
         },
         "preferred-install": "dist",
         "sort-packages": true
