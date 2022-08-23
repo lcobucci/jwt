@@ -59,6 +59,9 @@
             "infection/extension-installer": true,
             "ocramius/package-versions": true
         },
+        "platform": {
+            "php": "8.1.99"
+        },
         "preferred-install": "dist",
         "sort-packages": true
     }
