@@ -399,7 +399,7 @@
         },
         {
             "name": "doctrine/coding-standard",
-            "version": "9.0.0",
+            "version": "9.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/coding-standard.git",
@@ -448,7 +448,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/coding-standard/issues",
-                "source": "https://github.com/doctrine/coding-standard/tree/9.0.0"
+                "source": "https://github.com/doctrine/coding-standard/tree/9.0.2"
             },
             "time": "2021-04-12T15:11:14+00:00"
         },
