@@ -51,10 +51,7 @@ final class InMemoryTest extends TestCase
      */
     public function base64EncodedShouldDecodeKeyContents(): void
     {
-        $encoded = base64_encode('testing');
-        self::assertNotSame('', $encoded);
-
-        $key = InMemory::base64Encoded($encoded);
+        $key = InMemory::base64Encoded(base64_encode('testing'));
 
         self::assertSame('testing', $key->contents());
     }
