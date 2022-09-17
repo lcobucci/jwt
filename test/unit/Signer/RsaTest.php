@@ -65,7 +65,7 @@ final class RsaTest extends TestCase
      */
     public function signShouldRaiseAnExceptionWhenKeyIsInvalid(): void
     {
-        $key = <<<KEY
+        $key = <<<'KEY'
 -----BEGIN RSA PRIVATE KEY-----
 MGECAQACEQC4MRKSVsq5XnRBrJoX6+rnAgMBAAECECO8SZkgw6Yg66A6SUly/3kC
 CQDtPXZtCQWJuwIJAMbBu17GDOrFAggopfhNlFcjkwIIVjb7G+U0/TECCEERyvxP
