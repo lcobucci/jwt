@@ -23,7 +23,7 @@ final class EddsaTest extends TestCase
      */
     public function algorithmIdMustBeCorrect(): void
     {
-        self::assertEquals('EdDSA', $this->getSigner()->algorithmId());
+        self::assertSame('EdDSA', $this->getSigner()->algorithmId());
     }
 
     /**

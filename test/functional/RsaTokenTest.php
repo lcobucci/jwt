@@ -99,10 +99,10 @@ class RsaTokenTest extends TestCase
                          ->withHeader('jki', '1234')
                          ->getToken($this->config->signer(), $this->config->signingKey());
 
-        self::assertEquals('1234', $token->headers()->get('jki'));
-        self::assertEquals(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
-        self::assertEquals('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
-        self::assertEquals($user, $token->claims()->get('user'));
+        self::assertSame('1234', $token->headers()->get('jki'));
+        self::assertSame(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
+        self::assertSame('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
+        self::assertSame($user, $token->claims()->get('user'));
 
         return $token;
     }
@@ -117,7 +117,7 @@ class RsaTokenTest extends TestCase
         assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);
-        self::assertEquals('testing', $read->claims()->get('user')['name']);
+        self::assertSame('testing', $read->claims()->get('user')['name']);
     }
 
     /**
@@ -194,6 +194,6 @@ class RsaTokenTest extends TestCase
         $constraint = new SignedWith($this->config->signer(), $this->config->verificationKey());
 
         self::assertTrue($this->config->validator()->validate($token, $constraint));
-        self::assertEquals('world', $token->claims()->get('hello'));
+        self::assertSame('world', $token->claims()->get('hello'));
     }
 }

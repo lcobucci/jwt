@@ -17,7 +17,7 @@ final class Sha256Test extends TestCase
     {
         $signer = new Sha256();
 
-        self::assertEquals('HS256', $signer->algorithmId());
+        self::assertSame('HS256', $signer->algorithmId());
     }
 
     /**
@@ -29,7 +29,7 @@ final class Sha256Test extends TestCase
     {
         $signer = new Sha256();
 
-        self::assertEquals('sha256', $signer->algorithm());
+        self::assertSame('sha256', $signer->algorithm());
     }
 
     /**

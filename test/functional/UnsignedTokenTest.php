@@ -69,8 +69,8 @@ class UnsignedTokenTest extends TestCase
 
         self::assertEquals(new Token\Signature('', ''), $token->signature());
         self::assertEquals(['http://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
-        self::assertEquals('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
-        self::assertSame($expiration, $token->claims()->get(Token\RegisteredClaims::EXPIRATION_TIME));
+        self::assertSame('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
+        self::assertEquals($expiration, $token->claims()->get(Token\RegisteredClaims::EXPIRATION_TIME));
         self::assertEquals($user, $token->claims()->get('user'));
 
         return $token;
@@ -86,7 +86,7 @@ class UnsignedTokenTest extends TestCase
         assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);
-        self::assertEquals('testing', $read->claims()->get('user')['name']);
+        self::assertSame('testing', $read->claims()->get('user')['name']);
     }
 
     /**
