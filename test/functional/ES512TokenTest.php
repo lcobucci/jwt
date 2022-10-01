@@ -101,11 +101,11 @@ class ES512TokenTest extends TestCase
             ->withHeader('jki', '1234')
             ->getToken($this->config->signer(), $this->config->signingKey());
 
-        self::assertEquals('1234', $token->headers()->get('jki'));
-        self::assertEquals('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
-        self::assertEquals($user, $token->claims()->get('user'));
+        self::assertSame('1234', $token->headers()->get('jki'));
+        self::assertSame('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
+        self::assertSame($user, $token->claims()->get('user'));
 
-        self::assertEquals(
+        self::assertSame(
             ['http://client.abc.com', 'http://client2.abc.com'],
             $token->claims()->get(Token\RegisteredClaims::AUDIENCE),
         );
@@ -123,7 +123,7 @@ class ES512TokenTest extends TestCase
         assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);
-        self::assertEquals('testing', $read->claims()->get('user')['name']);
+        self::assertSame('testing', $read->claims()->get('user')['name']);
     }
 
     /**

@@ -85,7 +85,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
         $token = $this->config->parser()->parse($bad);
         assert($token instanceof Plain);
 
-        self::assertEquals('world', $token->claims()->get('hello'), 'The claim content should not be modified');
+        self::assertSame('world', $token->claims()->get('hello'), 'The claim content should not be modified');
 
         $validator = $this->config->validator();
 

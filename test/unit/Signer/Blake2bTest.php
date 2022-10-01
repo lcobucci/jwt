@@ -48,7 +48,7 @@ final class Blake2bTest extends TestCase
     {
         $signer = new Blake2b();
 
-        self::assertEquals('BLAKE2B', $signer->algorithmId());
+        self::assertSame('BLAKE2B', $signer->algorithmId());
     }
 
     /**

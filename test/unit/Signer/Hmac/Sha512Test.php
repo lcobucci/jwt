@@ -17,7 +17,7 @@ final class Sha512Test extends TestCase
     {
         $signer = new Sha512();
 
-        self::assertEquals('HS512', $signer->algorithmId());
+        self::assertSame('HS512', $signer->algorithmId());
     }
 
     /**
@@ -29,7 +29,7 @@ final class Sha512Test extends TestCase
     {
         $signer = new Sha512();
 
-        self::assertEquals('sha512', $signer->algorithm());
+        self::assertSame('sha512', $signer->algorithm());
     }
 
     /**
