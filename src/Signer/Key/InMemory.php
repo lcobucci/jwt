@@ -29,6 +29,7 @@ final class InMemory implements Key
         $this->passphrase = $passphrase;
     }
 
+    /** @deprecated Deprecated since v4.3 */
     public static function empty(): self
     {
         $emptyKey             = new self('empty', 'empty');

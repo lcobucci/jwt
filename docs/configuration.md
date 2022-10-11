@@ -105,26 +105,6 @@ $configuration = Configuration::forAsymmetricSigner(
 );
 ```
 
-### For no algorithm
-
-!!! Warning
-    This configuration type is **NOT** recommended for production environments.
-    It's only provided to allow people to have a simpler and faster setup for tests, avoiding any kind of signature creation/verification.
-
-```php
-<?php
-declare(strict_types=1);
-
-use Lcobucci\JWT\Configuration;
-
-require 'vendor/autoload.php';
-
-$configuration = Configuration::forUnsecuredSigner(
-    // You may also override the JOSE encoder/decoder if needed by providing
-    // extra arguments here
-);
-```
-
 ## Customisation
 
 By using the setters of the `Lcobucci\JWT\Configuration` you may customise the setup of this library.
