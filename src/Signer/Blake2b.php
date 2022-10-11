@@ -5,6 +5,7 @@ namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Signer;
 
+use function assert;
 use function hash_equals;
 use function sodium_crypto_generichash;
 use function strlen;
@@ -26,7 +27,10 @@ final class Blake2b implements Signer
             throw InvalidKeyProvided::tooShort(self::MINIMUM_KEY_LENGTH_IN_BITS, $actualKeyLength);
         }
 
-        return sodium_crypto_generichash($payload, $key->contents());
+        $hash = sodium_crypto_generichash($payload, $key->contents());
+        assert($hash !== '');
+
+        return $hash;
     }
 
     public function verify(string $expected, string $payload, Key $key): bool

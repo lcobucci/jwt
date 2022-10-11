@@ -58,6 +58,7 @@ final class JwtFacadeTest extends TestCase
         $this->issuer = 'bar';
     }
 
+    /** @return non-empty-string */
     private function createToken(): string
     {
         return (new JwtFacade(clock: $this->clock))->issue(

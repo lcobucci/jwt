@@ -12,6 +12,8 @@ interface Parser
     /**
      * Parses the JWT and returns a token
      *
+     * @param non-empty-string $jwt
+     *
      * @throws CannotDecodeContent      When something goes wrong while decoding.
      * @throws InvalidTokenStructure    When token string structure is invalid.
      * @throws UnsupportedHeaderFound   When parsed token has an unsupported header.

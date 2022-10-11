@@ -50,6 +50,8 @@ interface Token
 
     /**
      * Returns an encoded representation of the token
+     *
+     * @return non-empty-string
      */
     public function toString(): string;
 }

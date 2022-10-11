@@ -49,7 +49,7 @@ final class ParserTest extends TestCase
         $this->expectException(InvalidTokenStructure::class);
         $this->expectExceptionMessage('The JWT string must have two dots');
 
-        $parser->parse('');
+        $parser->parse('.');
     }
 
     /** @test */

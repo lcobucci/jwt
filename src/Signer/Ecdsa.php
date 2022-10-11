@@ -6,6 +6,8 @@ namespace Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter;
 use Lcobucci\JWT\Signer\Ecdsa\SignatureConverter;
 
+use function assert;
+
 use const OPENSSL_KEYTYPE_EC;
 
 abstract class Ecdsa extends OpenSSL
@@ -15,6 +17,7 @@ abstract class Ecdsa extends OpenSSL
     ) {
     }
 
+    /** @return  non-empty-string */
     final public function sign(string $payload, Key $key): string
     {
         return $this->converter->fromAsn1(
@@ -25,6 +28,8 @@ abstract class Ecdsa extends OpenSSL
 
     final public function verify(string $expected, string $payload, Key $key): bool
     {
+        assert($expected !== '');
+
         return $this->verifySignature(
             $this->converter->toAsn1($expected, $this->pointLength()),
             $payload,

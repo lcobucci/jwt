@@ -12,11 +12,15 @@ interface Signer
 {
     /**
      * Returns the algorithm id
+     *
+     * @return non-empty-string
      */
     public function algorithmId(): string;
 
     /**
      * Creates a hash for the given payload
+     *
+     * @param non-empty-string $payload
      *
      * @throws CannotSignPayload  When payload signing fails.
      * @throws InvalidKeyProvided When issue key is invalid/incompatible.
@@ -26,6 +30,8 @@ interface Signer
 
     /**
      * Returns if the expected hash matches with the data and key
+     *
+     * @param non-empty-string $payload
      *
      * @throws InvalidKeyProvided When issue key is invalid/incompatible.
      * @throws ConversionFailed   When signature could not be converted.
