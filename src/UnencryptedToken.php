@@ -20,6 +20,8 @@ interface UnencryptedToken extends Token
 
     /**
      * Returns the token payload
+     *
+     * @return non-empty-string
      */
     public function payload(): string;
 }

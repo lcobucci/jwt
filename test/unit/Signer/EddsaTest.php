@@ -115,8 +115,7 @@ final class EddsaTest extends TestCase
         $signer  = $this->getSigner();
         $encoder = new JoseEncoder();
 
-        $decoded = $encoder->base64UrlDecode('nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A');
-        self::assertNotSame('', $decoded);
+        $decoded   = $encoder->base64UrlDecode('nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A');
         $key       = InMemory::plainText(
             $decoded
             . $encoder->base64UrlDecode('11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo'),
@@ -150,7 +149,6 @@ final class EddsaTest extends TestCase
         $encoder = new JoseEncoder();
 
         $decoded = $encoder->base64UrlDecode('11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo');
-        self::assertNotSame('', $decoded);
 
         $key       = InMemory::plainText($decoded);
         $payload   = 'eyJhbGciOiJFZERTQSJ9.RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc';

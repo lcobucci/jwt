@@ -53,7 +53,7 @@ final class UnsupportedParser implements Parser
 
             public function toString(): string
             {
-                return '';
+                return 'unsupported-parser';
             }
         };
     }

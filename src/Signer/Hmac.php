@@ -27,6 +27,7 @@ abstract class Hmac implements Signer
         return hash_equals($expected, $this->sign($payload, $key));
     }
 
+    /** @return non-empty-string */
     abstract public function algorithm(): string;
 
     /** @return positive-int */

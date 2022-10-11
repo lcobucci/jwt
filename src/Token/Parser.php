@@ -9,6 +9,7 @@ use Lcobucci\JWT\Parser as ParserInterface;
 use Lcobucci\JWT\Token as TokenInterface;
 
 use function array_key_exists;
+use function assert;
 use function count;
 use function explode;
 use function is_array;
@@ -26,6 +27,8 @@ final class Parser implements ParserInterface
     public function parse(string $jwt): TokenInterface
     {
         [$encodedHeaders, $encodedClaims, $encodedSignature] = $this->splitJwt($jwt);
+        assert($encodedHeaders !== '');
+        assert($encodedClaims !== '');
 
         $header = $this->parseHeader($encodedHeaders);
 
@@ -38,6 +41,8 @@ final class Parser implements ParserInterface
 
     /**
      * Splits the JWT string into an array
+     *
+     * @param non-empty-string $jwt
      *
      * @return string[]
      *
@@ -56,6 +61,8 @@ final class Parser implements ParserInterface
 
     /**
      * Parses the header from a string
+     *
+     * @param non-empty-string $data
      *
      * @return mixed[]
      *
@@ -83,6 +90,8 @@ final class Parser implements ParserInterface
 
     /**
      * Parses the claim set from a string
+     *
+     * @param non-empty-string $data
      *
      * @return mixed[]
      *

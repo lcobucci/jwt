@@ -106,6 +106,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
         );
     }
 
+    /** @return non-empty-string */
     private function createMaliciousToken(string $token): string
     {
         $dec     = new JoseEncoder();
