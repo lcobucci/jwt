@@ -53,6 +53,28 @@ final class ParserTest extends TestCase
     }
 
     /** @test */
+    public function parseMustRaiseExceptionWhenTokenDoesNotHaveHeaders(): void
+    {
+        $parser = $this->createParser();
+
+        $this->expectException(InvalidTokenStructure::class);
+        $this->expectExceptionMessage('The JWT string is missing the Header part');
+
+        $parser->parse('.b.c');
+    }
+
+    /** @test */
+    public function parseMustRaiseExceptionWhenTokenDoesNotHaveClaims(): void
+    {
+        $parser = $this->createParser();
+
+        $this->expectException(InvalidTokenStructure::class);
+        $this->expectExceptionMessage('The JWT string is missing the Claim part');
+
+        $parser->parse('a..c');
+    }
+
+    /** @test */
     public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded(): void
     {
         $this->decoder->method('base64UrlDecode')

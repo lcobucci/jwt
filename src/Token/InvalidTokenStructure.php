@@ -13,6 +13,16 @@ final class InvalidTokenStructure extends InvalidArgumentException implements Ex
         return new self('The JWT string must have two dots');
     }
 
+    public static function missingHeaderPart(): self
+    {
+        return new self('The JWT string is missing the Header part');
+    }
+
+    public static function missingClaimsPart(): self
+    {
+        return new self('The JWT string is missing the Claim part');
+    }
+
     public static function arrayExpected(string $part): self
     {
         return new self($part . ' must be an array');
