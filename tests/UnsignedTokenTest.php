@@ -6,6 +6,8 @@ namespace Lcobucci\JWT\Tests;
 use DateTimeImmutable;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\KeyDumpSigner;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
@@ -29,7 +31,6 @@ use function assert;
  * @covers \Lcobucci\JWT\Token\Plain
  * @covers \Lcobucci\JWT\Token\DataSet
  * @covers \Lcobucci\JWT\Token\Signature
- * @covers \Lcobucci\JWT\Signer\None
  * @covers \Lcobucci\JWT\Signer\Key\InMemory
  * @covers \Lcobucci\JWT\SodiumBase64Polyfill
  * @covers \Lcobucci\JWT\Validation\ConstraintViolation
@@ -49,7 +50,10 @@ class UnsignedTokenTest extends TestCase
     /** @before */
     public function createConfiguration(): void
     {
-        $this->config = Configuration::forUnsecuredSigner();
+        $this->config = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+        );
     }
 
     /** @test */
@@ -67,7 +71,7 @@ class UnsignedTokenTest extends TestCase
                          ->withClaim('user', $user)
                          ->getToken($this->config->signer(), $this->config->signingKey());
 
-        self::assertEquals(new Token\Signature('', ''), $token->signature());
+        self::assertEquals(new Token\Signature('private', 'cHJpdmF0ZQ'), $token->signature());
         self::assertEquals(['https://client.abc.com'], $token->claims()->get(Token\RegisteredClaims::AUDIENCE));
         self::assertSame('https://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
         self::assertEquals($expiration, $token->claims()->get(Token\RegisteredClaims::EXPIRATION_TIME));

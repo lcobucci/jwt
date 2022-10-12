@@ -7,8 +7,6 @@ use Closure;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Validation\Constraint;
 
 /**
@@ -67,22 +65,6 @@ final class Configuration
     ): self {
         return new self(
             $signer,
-            $key,
-            $key,
-            $encoder,
-            $decoder,
-        );
-    }
-
-    /** @deprecated Deprecated since v4.3 */
-    public static function forUnsecuredSigner(
-        Encoder $encoder = new JoseEncoder(),
-        Decoder $decoder = new JoseEncoder(),
-    ): self {
-        $key = InMemory::empty();
-
-        return new self(
-            new None(),
             $key,
             $key,
             $encoder,

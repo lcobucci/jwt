@@ -18,12 +18,6 @@ final class InMemory implements Key
     {
     }
 
-    /** @deprecated Deprecated since v4.3 */
-    public static function empty(): self
-    {
-        return new self('', '');
-    }
-
     /** @param non-empty-string $contents */
     public static function plainText(string $contents, string $passphrase = ''): self
     {

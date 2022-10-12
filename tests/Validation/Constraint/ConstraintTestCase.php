@@ -22,7 +22,7 @@ abstract class ConstraintTestCase extends TestCase
         return new Plain(
             new DataSet($headers, ''),
             new DataSet($claims, ''),
-            $signature ?? Signature::fromEmptyData(),
+            $signature ?? new Signature('sig+hash', 'sig+encoded'),
         );
     }
 }

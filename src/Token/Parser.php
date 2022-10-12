@@ -40,7 +40,7 @@ final class Parser implements ParserInterface
         return new Plain(
             new DataSet($header, $encodedHeaders),
             new DataSet($this->parseClaims($encodedClaims), $encodedClaims),
-            $this->parseSignature($header, $encodedSignature),
+            $this->parseSignature($encodedSignature),
         );
     }
 
@@ -146,14 +146,10 @@ final class Parser implements ParserInterface
     /**
      * Returns the signature from given data
      *
-     * @param mixed[] $header
+     * @param non-empty-string $data
      */
-    private function parseSignature(array $header, string $data): Signature
+    private function parseSignature(string $data): Signature
     {
-        if ($data === '' || ! array_key_exists('alg', $header) || $header['alg'] === 'none') {
-            return Signature::fromEmptyData();
-        }
-
         $hash = $this->decoder->base64UrlDecode($data);
 
         return new Signature($hash, $data);

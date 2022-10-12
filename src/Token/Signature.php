@@ -9,12 +9,6 @@ final class Signature
     {
     }
 
-    /** @deprecated Deprecated since v4.3 */
-    public static function fromEmptyData(): self
-    {
-        return new self('', '');
-    }
-
     public function hash(): string
     {
         return $this->hash;

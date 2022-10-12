@@ -138,10 +138,10 @@ final class ParserTest extends TestCase
     /** @test */
     public function parseMustReturnAnUnsecuredTokenWhenSignatureIsNotInformed(): void
     {
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects(self::exactly(3))
                       ->method('base64UrlDecode')
-                      ->withConsecutive(['a'], ['b'])
-                      ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+                      ->withConsecutive(['a'], ['b'], ['c'])
+                      ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
 
         $this->decoder->expects(self::exactly(2))
                       ->method('jsonDecode')
@@ -152,25 +152,26 @@ final class ParserTest extends TestCase
                       );
 
         $parser = $this->createParser();
-        $token  = $parser->parse('a.b.');
+        $token  = $parser->parse('a.b.c');
 
         self::assertInstanceOf(Plain::class, $token);
 
-        $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
-        $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $headers   = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
+        $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $signature = new Signature('c_dec', 'c');
 
         self::assertEquals($headers, $token->headers());
         self::assertEquals($claims, $token->claims());
-        self::assertEquals(Signature::fromEmptyData(), $token->signature());
+        self::assertEquals($signature, $token->signature());
     }
 
     /** @test */
     public function parseMustConfigureTypeToJWTWhenItIsMissing(): void
     {
-        $this->decoder->expects(self::exactly(2))
-                      ->method('base64UrlDecode')
-                      ->withConsecutive(['a'], ['b'])
-                      ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+        $this->decoder->expects(self::exactly(3))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'], ['c'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
 
         $this->decoder->expects(self::exactly(2))
                       ->method('jsonDecode')
@@ -181,25 +182,26 @@ final class ParserTest extends TestCase
                       );
 
         $parser = $this->createParser();
-        $token  = $parser->parse('a.b.');
+        $token  = $parser->parse('a.b.c');
 
         self::assertInstanceOf(Plain::class, $token);
 
-        $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
-        $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $headers   = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
+        $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $signature = new Signature('c_dec', 'c');
 
         self::assertEquals($headers, $token->headers());
         self::assertEquals($claims, $token->claims());
-        self::assertEquals(Signature::fromEmptyData(), $token->signature());
+        self::assertEquals($signature, $token->signature());
     }
 
     /** @test */
     public function parseMustNotChangeTypeWhenItIsConfigured(): void
     {
-        $this->decoder->expects(self::exactly(2))
-                      ->method('base64UrlDecode')
-                      ->withConsecutive(['a'], ['b'])
-                      ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+        $this->decoder->expects(self::exactly(3))
+            ->method('base64UrlDecode')
+            ->withConsecutive(['a'], ['b'], ['c'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
 
         $this->decoder->expects(self::exactly(2))
                       ->method('jsonDecode')
@@ -210,25 +212,26 @@ final class ParserTest extends TestCase
                       );
 
         $parser = $this->createParser();
-        $token  = $parser->parse('a.b.');
+        $token  = $parser->parse('a.b.c');
 
         self::assertInstanceOf(Plain::class, $token);
 
-        $headers = new DataSet(['typ' => 'JWS', 'alg' => 'none'], 'a');
-        $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $headers   = new DataSet(['typ' => 'JWS', 'alg' => 'none'], 'a');
+        $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $signature = new Signature('c_dec', 'c');
 
         self::assertEquals($headers, $token->headers());
         self::assertEquals($claims, $token->claims());
-        self::assertEquals(Signature::fromEmptyData(), $token->signature());
+        self::assertEquals($signature, $token->signature());
     }
 
     /** @test */
     public function parseShouldReplicateClaimValueOnHeaderWhenNeeded(): void
     {
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+            ->withConsecutive(['a'], ['b'], ['c'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
@@ -239,25 +242,26 @@ final class ParserTest extends TestCase
             );
 
         $parser = $this->createParser();
-        $token  = $parser->parse('a.b.');
+        $token  = $parser->parse('a.b.c');
 
         self::assertInstanceOf(Plain::class, $token);
 
-        $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test'], 'a');
-        $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $headers   = new DataSet(['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test'], 'a');
+        $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $signature = new Signature('c_dec', 'c');
 
         self::assertEquals($headers, $token->headers());
         self::assertEquals($claims, $token->claims());
-        self::assertEquals(Signature::fromEmptyData(), $token->signature());
+        self::assertEquals($signature, $token->signature());
     }
 
     /** @test */
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsMissing(): void
     {
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+            ->withConsecutive(['a'], ['b'], ['c'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
@@ -272,21 +276,22 @@ final class ParserTest extends TestCase
 
         self::assertInstanceOf(Plain::class, $token);
 
-        $headers = new DataSet(['typ' => 'JWT'], 'a');
-        $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $headers   = new DataSet(['typ' => 'JWT'], 'a');
+        $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $signature = new Signature('c_dec', 'c');
 
         self::assertEquals($headers, $token->headers());
         self::assertEquals($claims, $token->claims());
-        self::assertEquals(Signature::fromEmptyData(), $token->signature());
+        self::assertEquals($signature, $token->signature());
     }
 
     /** @test */
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsNone(): void
     {
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+            ->withConsecutive(['a'], ['b'], ['c'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
@@ -301,12 +306,13 @@ final class ParserTest extends TestCase
 
         self::assertInstanceOf(Plain::class, $token);
 
-        $headers = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
-        $claims  = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $headers   = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
+        $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
+        $signature = new Signature('c_dec', 'c');
 
         self::assertEquals($headers, $token->headers());
         self::assertEquals($claims, $token->claims());
-        self::assertEquals(Signature::fromEmptyData(), $token->signature());
+        self::assertEquals($signature, $token->signature());
     }
 
     /** @test */
@@ -347,10 +353,10 @@ final class ParserTest extends TestCase
             RegisteredClaims::EXPIRATION_TIME => 1486930757.023055,
         ];
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+            ->withConsecutive(['a'], ['b'], ['c'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
@@ -360,7 +366,7 @@ final class ParserTest extends TestCase
                 $data,
             );
 
-        $token = $this->createParser()->parse('a.b.');
+        $token = $this->createParser()->parse('a.b.c');
         self::assertInstanceOf(Plain::class, $token);
 
         $claims = $token->claims();
@@ -381,10 +387,10 @@ final class ParserTest extends TestCase
     {
         $data = [RegisteredClaims::NOT_BEFORE => '1486930757.000000'];
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+            ->withConsecutive(['a'], ['b'], ['c'])
+            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
@@ -394,7 +400,7 @@ final class ParserTest extends TestCase
                 $data,
             );
 
-        $token = $this->createParser()->parse('a.b.');
+        $token = $this->createParser()->parse('a.b.c');
         self::assertInstanceOf(Plain::class, $token);
 
         $claims = $token->claims();
@@ -425,7 +431,7 @@ final class ParserTest extends TestCase
 
         $this->expectException(InvalidTokenStructure::class);
         $this->expectExceptionMessage('Value is not in the allowed date format: 14/10/2018 10:50:10.10 UTC');
-        $this->createParser()->parse('a.b.');
+        $this->createParser()->parse('a.b.c');
     }
 
     /** @test */

@@ -13,7 +13,6 @@ use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Token\Builder as BuilderImpl;
 use Lcobucci\JWT\Token\Parser as ParserImpl;
 use Lcobucci\JWT\Validation\Constraint;
@@ -95,31 +94,16 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      *
-     * @covers ::forUnsecuredSigner
-     * @covers ::signer
-     * @covers ::signingKey
-     * @covers ::verificationKey
-     */
-    public function forUnsecuredSignerShouldConfigureSignerAndBothKeys(): void
-    {
-        $key    = InMemory::empty();
-        $config = Configuration::forUnsecuredSigner();
-
-        self::assertInstanceOf(None::class, $config->signer());
-        self::assertEquals($key, $config->signingKey());
-        self::assertEquals($key, $config->verificationKey());
-    }
-
-    /**
-     * @test
-     *
      * @covers ::builder
      *
-     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
      */
     public function builderShouldCreateABuilderWithDefaultEncoderAndClaimFactory(): void
     {
-        $config  = Configuration::forUnsecuredSigner();
+        $config  = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+        );
         $builder = $config->builder();
 
         self::assertInstanceOf(BuilderImpl::class, $builder);
@@ -132,11 +116,15 @@ final class ConfigurationTest extends TestCase
      *
      * @covers ::builder
      *
-     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
      */
     public function builderShouldCreateABuilderWithCustomizedEncoderAndClaimFactory(): void
     {
-        $config  = Configuration::forUnsecuredSigner($this->encoder);
+        $config  = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+            $this->encoder,
+        );
         $builder = $config->builder();
 
         self::assertInstanceOf(BuilderImpl::class, $builder);
@@ -149,13 +137,16 @@ final class ConfigurationTest extends TestCase
      * @covers ::builder
      * @covers ::setBuilderFactory
      *
-     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
      */
     public function builderShouldUseBuilderFactoryWhenThatIsConfigured(): void
     {
         $builder = $this->createMock(Builder::class);
 
-        $config = Configuration::forUnsecuredSigner();
+        $config = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+        );
         $config->setBuilderFactory(
             static function () use ($builder): Builder {
                 return $builder;
@@ -169,11 +160,14 @@ final class ConfigurationTest extends TestCase
      *
      * @covers ::parser
      *
-     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
      */
     public function parserShouldReturnAParserWithDefaultDecoder(): void
     {
-        $config = Configuration::forUnsecuredSigner();
+        $config = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+        );
         $parser = $config->parser();
 
         self::assertNotEquals(new ParserImpl($this->decoder), $parser);
@@ -184,11 +178,15 @@ final class ConfigurationTest extends TestCase
      *
      * @covers ::parser
      *
-     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
      */
     public function parserShouldReturnAParserWithCustomizedDecoder(): void
     {
-        $config = Configuration::forUnsecuredSigner(decoder: $this->decoder);
+        $config = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+            decoder: $this->decoder,
+        );
         $parser = $config->parser();
 
         self::assertEquals(new ParserImpl($this->decoder), $parser);
@@ -200,11 +198,14 @@ final class ConfigurationTest extends TestCase
      * @covers ::parser
      * @covers ::setParser
      *
-     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
      */
     public function parserShouldNotCreateAnInstanceIfItWasConfigured(): void
     {
-        $config = Configuration::forUnsecuredSigner();
+        $config = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+        );
         $config->setParser($this->parser);
 
         self::assertSame($this->parser, $config->parser());
@@ -215,11 +216,14 @@ final class ConfigurationTest extends TestCase
      *
      * @covers ::validator
      *
-     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
      */
     public function validatorShouldReturnTheDefaultWhenItWasNotConfigured(): void
     {
-        $config    = Configuration::forUnsecuredSigner();
+        $config    = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+        );
         $validator = $config->validator();
 
         self::assertNotSame($this->validator, $validator);
@@ -231,11 +235,14 @@ final class ConfigurationTest extends TestCase
      * @covers ::validator
      * @covers ::setValidator
      *
-     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
      */
     public function validatorShouldReturnTheConfiguredValidator(): void
     {
-        $config = Configuration::forUnsecuredSigner();
+        $config = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+        );
         $config->setValidator($this->validator);
 
         self::assertSame($this->validator, $config->validator());
@@ -246,11 +253,14 @@ final class ConfigurationTest extends TestCase
      *
      * @covers ::validationConstraints
      *
-     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
      */
     public function validationConstraintsShouldReturnAnEmptyArrayWhenItWasNotConfigured(): void
     {
-        $config = Configuration::forUnsecuredSigner();
+        $config = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+        );
 
         self::assertSame([], $config->validationConstraints());
     }
@@ -261,11 +271,14 @@ final class ConfigurationTest extends TestCase
      * @covers ::validationConstraints
      * @covers ::setValidationConstraints
      *
-     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
      */
     public function validationConstraintsShouldReturnTheConfiguredValidator(): void
     {
-        $config = Configuration::forUnsecuredSigner();
+        $config = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+        );
         $config->setValidationConstraints($this->validationConstraints);
 
         self::assertSame([$this->validationConstraints], $config->validationConstraints());
@@ -276,12 +289,15 @@ final class ConfigurationTest extends TestCase
      *
      * @covers ::builder
      *
-     * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
+     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
      */
     public function customClaimFormatterCanBeUsed(): void
     {
         $formatter = $this->createMock(ClaimsFormatter::class);
-        $config    = Configuration::forUnsecuredSigner();
+        $config    = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+        );
 
         self::assertEquals(new BuilderImpl(new JoseEncoder(), $formatter), $config->builder($formatter));
     }
