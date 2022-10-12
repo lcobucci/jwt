@@ -80,7 +80,7 @@ final class TimeFractionPrecisionTest extends TestCase
             new KeyDumpSigner(),
             InMemory::plainText('private'),
         );
-        $parsedToken = $config->parser()->parse($headers . '.' . $claims . '.');
+        $parsedToken = $config->parser()->parse($headers . '.' . $claims . '.cHJpdmF0ZQ');
 
         self::assertInstanceOf(Plain::class, $parsedToken);
         self::assertSame($timeFraction, $parsedToken->claims()->get('iat')->format('U.u'));

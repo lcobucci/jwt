@@ -90,7 +90,7 @@ final class ParserTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Nope');
 
-        $parser->parse('a.b.');
+        $parser->parse('a.b.c');
     }
 
     /** @test */
@@ -104,7 +104,7 @@ final class ParserTest extends TestCase
         $this->expectException(InvalidTokenStructure::class);
         $this->expectExceptionMessage('headers must be an array');
 
-        $parser->parse('a.a.');
+        $parser->parse('a.a.a');
     }
 
     /** @test */
@@ -118,7 +118,7 @@ final class ParserTest extends TestCase
         $this->expectException(UnsupportedHeaderFound::class);
         $this->expectExceptionMessage('Encryption is not supported yet');
 
-        $parser->parse('a.a.');
+        $parser->parse('a.a.a');
     }
 
     /** @test */
@@ -132,7 +132,7 @@ final class ParserTest extends TestCase
         $this->expectException(InvalidTokenStructure::class);
         $this->expectExceptionMessage('claims must be an array');
 
-        $parser->parse('a.a.');
+        $parser->parse('a.a.a');
     }
 
     /** @test */
@@ -453,6 +453,6 @@ final class ParserTest extends TestCase
             );
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->createParser()->parse('a.b.');
+        $this->createParser()->parse('a.b.c');
     }
 }
