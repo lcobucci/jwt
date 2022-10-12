@@ -22,6 +22,8 @@ interface Signer
      *
      * @param non-empty-string $payload
      *
+     * @return non-empty-string
+     *
      * @throws CannotSignPayload  When payload signing fails.
      * @throws InvalidKeyProvided When issue key is invalid/incompatible.
      * @throws ConversionFailed   When signature could not be converted.
@@ -31,6 +33,7 @@ interface Signer
     /**
      * Returns if the expected hash matches with the data and key
      *
+     * @param non-empty-string $expected
      * @param non-empty-string $payload
      *
      * @throws InvalidKeyProvided When issue key is invalid/incompatible.

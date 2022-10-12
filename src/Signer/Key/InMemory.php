@@ -14,6 +14,7 @@ use function is_string;
 
 final class InMemory implements Key
 {
+    /** @param non-empty-string $contents */
     private function __construct(public readonly string $contents, public readonly string $passphrase)
     {
     }
@@ -53,6 +54,7 @@ final class InMemory implements Key
         assert(is_string($contents));
 
         self::guardAgainstEmptyKey($contents);
+        assert($contents !== '');
 
         return new self($contents, $passphrase);
     }

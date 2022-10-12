@@ -23,6 +23,7 @@ abstract class SignerBench
     private Signer $signer;
     private Key $signingKey;
     private Key $verificationKey;
+    /** @var non-empty-string */
     private string $signature;
 
     final public function init(): void

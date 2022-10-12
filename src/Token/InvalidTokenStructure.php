@@ -23,6 +23,11 @@ final class InvalidTokenStructure extends InvalidArgumentException implements Ex
         return new self('The JWT string is missing the Claim part');
     }
 
+    public static function missingSignaturePart(): self
+    {
+        return new self('The JWT string is missing the Signature part');
+    }
+
     public static function arrayExpected(string $part): self
     {
         return new self($part . ' must be an array');
