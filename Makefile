@@ -12,7 +12,7 @@ vendor/composer/installed.json: composer.json composer.lock
 
 .PHONY: phpunit
 phpunit:
-	@php -d assert.exception=1 -d zend.assertions=1 vendor/bin/phpunit
+	@php -d assert.exception=1 -d zend.assertions=1 vendor/bin/phpunit $(PHPUNIT_FLAGS)
 
 .PHONY: infection
 infection:

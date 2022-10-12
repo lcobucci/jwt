@@ -50,6 +50,42 @@ final class ParserTest extends TestCase
      * @covers ::__construct
      * @covers ::parse
      * @covers ::splitJwt
+     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
+     */
+    public function parseMustRaiseExceptionWhenTokenDoesNotHaveHeaders(): void
+    {
+        $parser = $this->createParser();
+
+        $this->expectException(InvalidTokenStructure::class);
+        $this->expectExceptionMessage('The JWT string is missing the Header part');
+
+        $parser->parse('.b.c');
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
+     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
+     */
+    public function parseMustRaiseExceptionWhenTokenDoesNotHaveClaims(): void
+    {
+        $parser = $this->createParser();
+
+        $this->expectException(InvalidTokenStructure::class);
+        $this->expectExceptionMessage('The JWT string is missing the Claim part');
+
+        $parser->parse('a..c');
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     * @covers ::parse
+     * @covers ::splitJwt
      * @covers ::parseHeader
      */
     public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded(): void
