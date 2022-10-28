@@ -32,7 +32,7 @@
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan": "^1.8",
         "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.1",
+        "phpstan/phpstan-phpunit": "^1.2",
         "phpstan/phpstan-strict-rules": "^1.4",
         "phpunit/php-invoker": "^3.1",
         "phpunit/phpunit": "^9.5"
