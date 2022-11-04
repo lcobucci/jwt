@@ -25,13 +25,13 @@ If you are using any variant of ECDSA, please change your code following this ex
 ```diff
  <?php
  declare(strict_types=1);
- 
+
  use Lcobucci\JWT\Configuration;
  use Lcobucci\JWT\Signer;
  use Lcobucci\JWT\Signer\Key\InMemory;
- 
+
  require 'vendor/autoload.php';
- 
+
  $configuration = Configuration::forAsymmetricSigner(
 -    Signer\Ecdsa\Sha256::create(),
 +    new Signer\Ecdsa\Sha256(),
@@ -40,6 +40,36 @@ If you are using any variant of ECDSA, please change your code following this ex
      // You may also override the JOSE encoder/decoder if needed
      // by providing extra arguments here
  );
+```
+
+### Removal of `none` algorithm
+
+To promote a more secure usage of the library and prevent misuse we decided to deviate from the RFC and drop `none`, which means that the following components are being removed:
+
+* `Lcobucci\JWT\Configuration::forUnsecuredSigner()`
+* `Lcobucci\JWT\Signer\Key\InMemory::empty()`
+* `Lcobucci\JWT\Signer\None`
+* `Lcobucci\JWT\Token\Signature::fromEmptyData()`
+
+If you're relying on it and still want to have that on your system, please create your own implementation.
+
+If you're using it because it's "fast", please look into adoption the non-standard Blake2b implementation:
+
+```diff
+ <?php
+ declare(strict_types=1);
+
+ use Lcobucci\JWT\Configuration;
+ use Lcobucci\JWT\Signer;
+ use Lcobucci\JWT\Signer\Key\InMemory;
+
+ require 'vendor/autoload.php';
+
+-$configuration = Configuration::forUnsecuredSigner();
++$configuration = Configuration::forSymmetricSigner(
++    new Signer\Blake2b(),
++    InMemory::base64Encoded('MpQd6dDPiqnzFSWmpUfLy4+Rdls90Ca4C8e0QD0IxqY=')
++);
 ```
 
 ## v3.x to v4.x

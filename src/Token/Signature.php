@@ -14,6 +14,7 @@ final class Signature
         $this->encoded = $encoded;
     }
 
+    /** @deprecated Deprecated since v4.3 */
     public static function fromEmptyData(): self
     {
         return new self('', '');
