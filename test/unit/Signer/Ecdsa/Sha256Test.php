@@ -20,7 +20,7 @@ final class Sha256Test extends TestCase
      */
     public function createShouldReturnAValidInstance(): void
     {
-        $signer = Sha256::create();
+        $signer = Sha256::create(); // @phpstan-ignore-line
 
         self::assertInstanceOf(Sha256::class, $signer);
     }

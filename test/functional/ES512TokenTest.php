@@ -51,7 +51,7 @@ class ES512TokenTest extends TestCase
     public function createConfiguration(): void
     {
         $this->config = Configuration::forAsymmetricSigner(
-            Sha512::create(),
+            new Sha512(),
             static::$ecdsaKeys['private_ec512'],
             static::$ecdsaKeys['public_ec512'],
         );
@@ -156,7 +156,7 @@ class ES512TokenTest extends TestCase
         $this->config->validator()->assert(
             $token,
             new SignedWith(
-                Sha256::create(),
+                new Sha256(),
                 self::$ecdsaKeys['public_ec512'],
             ),
         );

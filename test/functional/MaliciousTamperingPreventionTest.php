@@ -30,7 +30,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
     public function createConfiguration(): void
     {
         $this->config = Configuration::forAsymmetricSigner(
-            ES512::create(),
+            new ES512(),
             InMemory::plainText('my-private-key'),
             InMemory::plainText(
                 '-----BEGIN PUBLIC KEY-----' . PHP_EOL

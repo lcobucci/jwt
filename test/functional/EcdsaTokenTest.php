@@ -53,7 +53,7 @@ class EcdsaTokenTest extends TestCase
     public function createConfiguration(): void
     {
         $this->config = Configuration::forAsymmetricSigner(
-            Sha256::create(),
+            new Sha256(),
             static::$ecdsaKeys['private'],
             static::$ecdsaKeys['public1'],
         );
@@ -158,7 +158,7 @@ class EcdsaTokenTest extends TestCase
         $this->config->validator()->assert(
             $token,
             new SignedWith(
-                Sha512::create(),
+                new Sha512(),
                 self::$ecdsaKeys['public1'],
             ),
         );
@@ -231,7 +231,7 @@ class EcdsaTokenTest extends TestCase
 
         $token = $this->config->parser()->parse($data);
         assert($token instanceof Token\Plain);
-        $constraint = new SignedWith(Sha512::create(), InMemory::plainText($key));
+        $constraint = new SignedWith(new Sha512(), InMemory::plainText($key));
 
         self::assertTrue($this->config->validator()->validate($token, $constraint));
         self::assertSame('world', $token->claims()->get('hello'));

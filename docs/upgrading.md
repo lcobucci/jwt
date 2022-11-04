@@ -2,6 +2,76 @@
 
 Here we'll keep a list of all steps you need to take to make sure your code is compatible with newer versions.
 
+## v4.x to v5.x
+
+The release `v5.0.0` is a modernised version of the library, which requires PHP 8.1+ and drops all the deprecated components.
+
+We're adding a few deprecation annotations on the version `v4.3.0`.
+So, before going to `v5.0.0` please update to the latest 4.3.x version using composer:
+
+```sh
+composer require lcobucci/jwt ^4.3
+```
+
+Then run your tests and change all calls to deprecated methods, even if they are not triggering any notices.
+Tools like [`phpstan/phpstan-deprecation-rules`](https://github.com/phpstan/phpstan-deprecation-rules) can help finding them.
+
+### Removal of `Ecdsa::create()`
+
+To promote symmetry on the instantiation of all algorithms (signers), we're dropping the named constructor in favour of the constructor.
+
+If you are using any variant of ECDSA, please change your code following this example:
+
+```diff
+ <?php
+ declare(strict_types=1);
+
+ use Lcobucci\JWT\Configuration;
+ use Lcobucci\JWT\Signer;
+ use Lcobucci\JWT\Signer\Key\InMemory;
+
+ require 'vendor/autoload.php';
+
+ $configuration = Configuration::forAsymmetricSigner(
+-    Signer\Ecdsa\Sha256::create(),
++    new Signer\Ecdsa\Sha256(),
+     InMemory::file(__DIR__ . '/my-private-key.pem'),
+     InMemory::base64Encoded('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=')
+     // You may also override the JOSE encoder/decoder if needed
+     // by providing extra arguments here
+ );
+```
+
+### Removal of `none` algorithm
+
+To promote a more secure usage of the library and prevent misuse we decided to deviate from the RFC and drop `none`, which means that the following components are being removed:
+
+* `Lcobucci\JWT\Configuration::forUnsecuredSigner()`
+* `Lcobucci\JWT\Signer\Key\InMemory::empty()`
+* `Lcobucci\JWT\Signer\None`
+* `Lcobucci\JWT\Token\Signature::fromEmptyData()`
+
+If you're relying on it and still want to have that on your system, please create your own implementation.
+
+If you're using it because it's "fast", please look into adoption the non-standard Blake2b implementation:
+
+```diff
+ <?php
+ declare(strict_types=1);
+
+ use Lcobucci\JWT\Configuration;
+ use Lcobucci\JWT\Signer;
+ use Lcobucci\JWT\Signer\Key\InMemory;
+
+ require 'vendor/autoload.php';
+
+-$configuration = Configuration::forUnsecuredSigner();
++$configuration = Configuration::forSymmetricSigner(
++    new Signer\Blake2b(),
++    InMemory::base64Encoded('MpQd6dDPiqnzFSWmpUfLy4+Rdls90Ca4C8e0QD0IxqY=')
++);
+```
+
 ## v3.x to v4.x
 
 The `v4.0.0` aggregates about 5 years of work and contains **several BC-breaks**.

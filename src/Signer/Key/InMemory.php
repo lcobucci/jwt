@@ -18,6 +18,7 @@ final class InMemory implements Key
     {
     }
 
+    /** @deprecated Deprecated since v4.3 */
     public static function empty(): self
     {
         return new self('', '');

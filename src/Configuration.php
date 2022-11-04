@@ -74,6 +74,7 @@ final class Configuration
         );
     }
 
+    /** @deprecated Deprecated since v4.3 */
     public static function forUnsecuredSigner(
         Encoder $encoder = new JoseEncoder(),
         Decoder $decoder = new JoseEncoder(),

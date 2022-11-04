@@ -14,7 +14,7 @@ final class Sha384Bench extends SignerBench
 {
     protected function signer(): Signer
     {
-        return Sha384::create();
+        return new Sha384();
     }
 
     protected function signingKey(): Key

@@ -20,7 +20,7 @@ final class Sha512Test extends TestCase
      */
     public function createShouldReturnAValidInstance(): void
     {
-        $signer = Sha512::create();
+        $signer = Sha512::create(); // @phpstan-ignore-line
 
         self::assertInstanceOf(Sha512::class, $signer);
     }

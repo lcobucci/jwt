@@ -59,7 +59,7 @@ final class RFC6978VectorTest extends TestCase
     /** @return mixed[] */
     public function sha256Data(): iterable
     {
-        $signer = Sha256::create();
+        $signer = new Sha256();
         $key    = InMemory::plainText(
             '-----BEGIN PUBLIC KEY-----' . PHP_EOL
             . 'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEYP7UuiVanTHJYet0xjVtaMBJuJI7' . PHP_EOL
@@ -87,7 +87,7 @@ final class RFC6978VectorTest extends TestCase
     /** @return mixed[] */
     public function sha384Data(): iterable
     {
-        $signer = Sha384::create();
+        $signer = new Sha384();
         $key    = InMemory::plainText(
             '-----BEGIN PUBLIC KEY-----' . PHP_EOL
             . 'MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAE7DpOQVtOGaRWhhgCn0J/pdqai8SukuAu' . PHP_EOL
@@ -116,7 +116,7 @@ final class RFC6978VectorTest extends TestCase
     /** @return mixed[] */
     public function sha512Data(): iterable
     {
-        $signer = Sha512::create();
+        $signer = new Sha512();
         $key    = InMemory::plainText(
             '-----BEGIN PUBLIC KEY-----' . PHP_EOL
             . 'MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQBiUVQ0HhZMuAOqiO2lPIT+MMSH4bc' . PHP_EOL
