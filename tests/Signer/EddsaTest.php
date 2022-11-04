@@ -25,7 +25,7 @@ final class EddsaTest extends TestCase
      */
     public function algorithmIdMustBeCorrect(): void
     {
-        self::assertSame('EdDSA', $this->getSigner()->algorithmId());
+        self::assertSame('EdDSA', (new Eddsa())->algorithmId());
     }
 
     /**
@@ -39,7 +39,7 @@ final class EddsaTest extends TestCase
     {
         $payload = 'testing';
 
-        $signer    = $this->getSigner();
+        $signer    = new Eddsa();
         $signature = $signer->sign($payload, self::$eddsaKeys['private']);
 
         $publicKey = self::$eddsaKeys['public1']->contents();
@@ -56,7 +56,7 @@ final class EddsaTest extends TestCase
      */
     public function signShouldRaiseAnExceptionWhenKeyIsInvalid(): void
     {
-        $signer = $this->getSigner();
+        $signer = new Eddsa();
 
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionCode(0);
@@ -77,7 +77,7 @@ final class EddsaTest extends TestCase
         $payload   = 'testing';
         $signature = sodium_crypto_sign_detached($payload, self::$eddsaKeys['private']->contents());
 
-        $signer = $this->getSigner();
+        $signer = new Eddsa();
 
         self::assertTrue($signer->verify($signature, $payload, self::$eddsaKeys['public1']));
     }
@@ -91,7 +91,7 @@ final class EddsaTest extends TestCase
      */
     public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
-        $signer = $this->getSigner();
+        $signer = new Eddsa();
 
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionCode(0);
@@ -114,7 +114,7 @@ final class EddsaTest extends TestCase
      */
     public function signatureOfRfcExample(): void
     {
-        $signer  = $this->getSigner();
+        $signer  = new Eddsa();
         $encoder = new JoseEncoder();
 
         $decoded = $encoder->base64UrlDecode('nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A');
@@ -148,7 +148,7 @@ final class EddsaTest extends TestCase
      */
     public function verificationOfRfcExample(): void
     {
-        $signer  = $this->getSigner();
+        $signer  = new Eddsa();
         $encoder = new JoseEncoder();
 
         $decoded = $encoder->base64UrlDecode('11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo');
@@ -161,10 +161,5 @@ final class EddsaTest extends TestCase
         );
 
         self::assertTrue($signer->verify($signature, $payload, $key));
-    }
-
-    private function getSigner(): Eddsa
-    {
-        return new Eddsa();
     }
 }
