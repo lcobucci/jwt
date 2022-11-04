@@ -3,35 +3,33 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Tests\Signer\Rsa;
 
+use Lcobucci\JWT\Signer\Rsa;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
-use PHPUnit\Framework\TestCase;
 
 use const OPENSSL_ALGO_SHA256;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Rsa\Sha256 */
-final class Sha256Test extends TestCase
+/**
+ * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
+ * @covers \Lcobucci\JWT\Signer\Rsa
+ * @covers \Lcobucci\JWT\Signer\OpenSSL
+ * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
+ *
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ */
+final class Sha256Test extends RsaTestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::algorithmId
-     */
-    public function algorithmIdMustBeCorrect(): void
+    protected function algorithm(): Rsa
     {
-        $signer = new Sha256();
-
-        self::assertSame('RS256', $signer->algorithmId());
+        return new Sha256();
     }
 
-    /**
-     * @test
-     *
-     * @covers ::algorithm
-     */
-    public function algorithmMustBeCorrect(): void
+    protected function algorithmId(): string
     {
-        $signer = new Sha256();
+        return 'RS256';
+    }
 
-        self::assertSame(OPENSSL_ALGO_SHA256, $signer->algorithm());
+    protected function signatureAlgorithm(): int
+    {
+        return OPENSSL_ALGO_SHA256;
     }
 }

@@ -3,45 +3,34 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Tests\Signer\Hmac;
 
+use Lcobucci\JWT\Signer\Hmac;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
-use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Hmac\Sha512 */
-final class Sha512Test extends TestCase
+/**
+ * @covers \Lcobucci\JWT\Signer\Hmac
+ * @covers \Lcobucci\JWT\Signer\Hmac\Sha512
+ *
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ */
+final class Sha512Test extends HmacTestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::algorithmId
-     */
-    public function algorithmIdMustBeCorrect(): void
+    protected function algorithm(): Hmac
     {
-        $signer = new Sha512();
-
-        self::assertSame('HS512', $signer->algorithmId());
+        return new Sha512();
     }
 
-    /**
-     * @test
-     *
-     * @covers ::algorithm
-     */
-    public function algorithmMustBeCorrect(): void
+    protected function expectedAlgorithmId(): string
     {
-        $signer = new Sha512();
-
-        self::assertSame('sha512', $signer->algorithm());
+        return 'HS512';
     }
 
-    /**
-     * @test
-     *
-     * @covers ::minimumBitsLengthForKey
-     */
-    public function minimumBitsLengthForKeyMustBeCorrect(): void
+    protected function expectedMinimumBits(): int
     {
-        $signer = new Sha512();
+        return 512;
+    }
 
-        self::assertSame(512, $signer->minimumBitsLengthForKey());
+    protected function hashAlgorithm(): string
+    {
+        return 'sha512';
     }
 }

@@ -46,6 +46,8 @@ trait Keys
             'public1'        => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/public1.key'),
             'public2'        => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/public2.key'),
             'public-params'  => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/public3.key'),
+            'private_ec384'  => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/private_ec384.key'),
+            'public_ec384'   => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/public_ec384.key'),
             'private_ec512'  => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/private_ec512.key'),
             'public_ec512'   => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/public_ec512.key'),
             'public2_ec512'  => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/public2_ec512.key'),

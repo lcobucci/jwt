@@ -3,45 +3,34 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Tests\Signer\Hmac;
 
+use Lcobucci\JWT\Signer\Hmac;
 use Lcobucci\JWT\Signer\Hmac\Sha384;
-use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Hmac\Sha384 */
-final class Sha384Test extends TestCase
+/**
+ * @covers \Lcobucci\JWT\Signer\Hmac
+ * @covers \Lcobucci\JWT\Signer\Hmac\Sha384
+ *
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ */
+final class Sha384Test extends HmacTestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::algorithmId
-     */
-    public function algorithmIdMustBeCorrect(): void
+    protected function algorithm(): Hmac
     {
-        $signer = new Sha384();
-
-        self::assertSame('HS384', $signer->algorithmId());
+        return new Sha384();
     }
 
-    /**
-     * @test
-     *
-     * @covers ::algorithm
-     */
-    public function algorithmMustBeCorrect(): void
+    protected function expectedAlgorithmId(): string
     {
-        $signer = new Sha384();
-
-        self::assertSame('sha384', $signer->algorithm());
+        return 'HS384';
     }
 
-    /**
-     * @test
-     *
-     * @covers ::minimumBitsLengthForKey
-     */
-    public function minimumBitsLengthForKeyMustBeCorrect(): void
+    protected function expectedMinimumBits(): int
     {
-        $signer = new Sha384();
+        return 384;
+    }
 
-        self::assertSame(384, $signer->minimumBitsLengthForKey());
+    protected function hashAlgorithm(): string
+    {
+        return 'sha384';
     }
 }

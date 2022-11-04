@@ -3,35 +3,33 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Tests\Signer\Rsa;
 
+use Lcobucci\JWT\Signer\Rsa;
 use Lcobucci\JWT\Signer\Rsa\Sha384;
-use PHPUnit\Framework\TestCase;
 
 use const OPENSSL_ALGO_SHA384;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Rsa\Sha384 */
-final class Sha384Test extends TestCase
+/**
+ * @covers \Lcobucci\JWT\Signer\Rsa\Sha384
+ * @covers \Lcobucci\JWT\Signer\Rsa
+ * @covers \Lcobucci\JWT\Signer\OpenSSL
+ * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
+ *
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ */
+final class Sha384Test extends RsaTestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::algorithmId
-     */
-    public function algorithmIdMustBeCorrect(): void
+    protected function algorithm(): Rsa
     {
-        $signer = new Sha384();
-
-        self::assertSame('RS384', $signer->algorithmId());
+        return new Sha384();
     }
 
-    /**
-     * @test
-     *
-     * @covers ::algorithm
-     */
-    public function algorithmMustBeCorrect(): void
+    protected function algorithmId(): string
     {
-        $signer = new Sha384();
+        return 'RS384';
+    }
 
-        self::assertSame(OPENSSL_ALGO_SHA384, $signer->algorithm());
+    protected function signatureAlgorithm(): int
+    {
+        return OPENSSL_ALGO_SHA384;
     }
 }

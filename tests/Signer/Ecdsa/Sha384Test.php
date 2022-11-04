@@ -3,80 +3,62 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Tests\Signer\Ecdsa;
 
+use Lcobucci\JWT\Signer\Ecdsa;
 use Lcobucci\JWT\Signer\Ecdsa\Sha384;
-use Lcobucci\JWT\Signer\Ecdsa\SignatureConverter;
-use PHPUnit\Framework\TestCase;
+use Lcobucci\JWT\Signer\Key;
 
 use const OPENSSL_ALGO_SHA384;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Ecdsa\Sha384 */
-final class Sha384Test extends TestCase
+/**
+ * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
+ * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha384
+ * @covers \Lcobucci\JWT\Signer\Ecdsa
+ * @covers \Lcobucci\JWT\Signer\OpenSSL
+ * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
+ *
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ */
+final class Sha384Test extends EcdsaTestCase
 {
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::create
-     * @covers \Lcobucci\JWT\Signer\Ecdsa::__construct
-     *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
-     */
-    public function createShouldReturnAValidInstance(): void
+    protected function algorithm(): Ecdsa
     {
-        $signer = Sha384::create(); // @phpstan-ignore-line
-
-        self::assertInstanceOf(Sha384::class, $signer);
+        return new Sha384($this->pointsManipulator);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::algorithmId
-     *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa
-     */
-    public function algorithmIdMustBeCorrect(): void
+    protected function algorithmId(): string
     {
-        self::assertSame('ES384', $this->getSigner()->algorithmId());
+        return 'ES384';
     }
 
-    /**
-     * @test
-     *
-     * @covers ::algorithm
-     *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa
-     */
-    public function algorithmMustBeCorrect(): void
+    protected function signatureAlgorithm(): int
     {
-        self::assertSame(OPENSSL_ALGO_SHA384, $this->getSigner()->algorithm());
+        return OPENSSL_ALGO_SHA384;
     }
 
-    /**
-     * @test
-     *
-     * @covers ::pointLength
-     *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa
-     */
-    public function keyLengthMustBeCorrect(): void
+    protected function pointLength(): int
     {
-        self::assertSame(96, $this->getSigner()->pointLength());
+        return 96;
     }
 
-    /**
-     * @test
-     *
-     * @covers ::expectedKeyLength
-     *
-     * @uses \Lcobucci\JWT\Signer\Ecdsa::__construct
-     */
-    public function expectedKeyLengthMustBeCorrect(): void
+    protected function keyLength(): int
     {
-        self::assertSame(384, $this->getSigner()->expectedKeyLength());
+        return 384;
     }
 
-    private function getSigner(): Sha384
+    protected function verificationKey(): Key
     {
-        return new Sha384($this->createMock(SignatureConverter::class));
+        return self::$ecdsaKeys['public_ec384'];
+    }
+
+    protected function signingKey(): Key
+    {
+        return self::$ecdsaKeys['private_ec384'];
+    }
+
+    /** {@inheritdoc} */
+    protected function incompatibleKeys(): iterable
+    {
+        yield '256 bits' => ['private', 256];
+        yield '521 bits' => ['private_ec512', 521];
     }
 }

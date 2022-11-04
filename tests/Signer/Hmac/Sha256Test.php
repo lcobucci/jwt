@@ -3,45 +3,34 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Tests\Signer\Hmac;
 
+use Lcobucci\JWT\Signer\Hmac;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
-use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Hmac\Sha256 */
-final class Sha256Test extends TestCase
+/**
+ * @covers \Lcobucci\JWT\Signer\Hmac
+ * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
+ *
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ */
+final class Sha256Test extends HmacTestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::algorithmId
-     */
-    public function algorithmIdMustBeCorrect(): void
+    protected function algorithm(): Hmac
     {
-        $signer = new Sha256();
-
-        self::assertSame('HS256', $signer->algorithmId());
+        return new Sha256();
     }
 
-    /**
-     * @test
-     *
-     * @covers ::algorithm
-     */
-    public function algorithmMustBeCorrect(): void
+    protected function expectedAlgorithmId(): string
     {
-        $signer = new Sha256();
-
-        self::assertSame('sha256', $signer->algorithm());
+        return 'HS256';
     }
 
-    /**
-     * @test
-     *
-     * @covers ::minimumBitsLengthForKey
-     */
-    public function minimumBitsLengthForKeyMustBeCorrect(): void
+    protected function expectedMinimumBits(): int
     {
-        $signer = new Sha256();
+        return 256;
+    }
 
-        self::assertSame(256, $signer->minimumBitsLengthForKey());
+    protected function hashAlgorithm(): string
+    {
+        return 'sha256';
     }
 }

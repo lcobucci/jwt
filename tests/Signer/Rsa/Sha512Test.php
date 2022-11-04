@@ -3,35 +3,33 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Tests\Signer\Rsa;
 
+use Lcobucci\JWT\Signer\Rsa;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
-use PHPUnit\Framework\TestCase;
 
 use const OPENSSL_ALGO_SHA512;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Rsa\Sha512 */
-final class Sha512Test extends TestCase
+/**
+ * @covers \Lcobucci\JWT\Signer\Rsa\Sha512
+ * @covers \Lcobucci\JWT\Signer\Rsa
+ * @covers \Lcobucci\JWT\Signer\OpenSSL
+ * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
+ *
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ */
+final class Sha512Test extends RsaTestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::algorithmId
-     */
-    public function algorithmIdMustBeCorrect(): void
+    protected function algorithm(): Rsa
     {
-        $signer = new Sha512();
-
-        self::assertSame('RS512', $signer->algorithmId());
+        return new Sha512();
     }
 
-    /**
-     * @test
-     *
-     * @covers ::algorithm
-     */
-    public function algorithmMustBeCorrect(): void
+    protected function algorithmId(): string
     {
-        $signer = new Sha512();
+        return 'RS512';
+    }
 
-        self::assertSame(OPENSSL_ALGO_SHA512, $signer->algorithm());
+    protected function signatureAlgorithm(): int
+    {
+        return OPENSSL_ALGO_SHA512;
     }
 }
