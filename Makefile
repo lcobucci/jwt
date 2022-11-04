@@ -16,7 +16,7 @@ phpunit:
 
 .PHONY: infection
 infection:
-	@php -d assert.exception=1 -d zend.assertions=1 -d xdebug.mode=coverage vendor/bin/phpunit --testsuite=unit --coverage-xml=build/coverage-xml --log-junit=build/junit.xml $(PHPUNIT_FLAGS)
+	@php -d assert.exception=1 -d zend.assertions=1 -d xdebug.mode=coverage vendor/bin/phpunit --coverage-xml=build/coverage-xml --log-junit=build/junit.xml $(PHPUNIT_FLAGS)
 	@php -d assert.exception=1 -d zend.assertions=1 vendor/bin/infection -v -s --threads=$(PARALLELISM) --coverage=build --skip-initial-tests $(INFECTION_FLAGS)
 
 .PHONY: phpcbf

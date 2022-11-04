@@ -10,14 +10,9 @@ use const OPENSSL_KEYTYPE_EC;
 
 abstract class Ecdsa extends OpenSSL
 {
-    public function __construct(private readonly SignatureConverter $converter = new MultibyteStringConverter())
-    {
-    }
-
-    /** @deprecated */
-    public static function create(): Ecdsa
-    {
-        return new static(); // @phpstan-ignore-line
+    public function __construct(
+        private readonly SignatureConverter $converter = new MultibyteStringConverter(),
+    ) {
     }
 
     final public function sign(string $payload, Key $key): string
