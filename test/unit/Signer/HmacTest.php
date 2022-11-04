@@ -44,7 +44,7 @@ final class HmacTest extends TestCase
     {
         $hash = hash_hmac('sha256', 'test', '123', true);
 
-        self::assertEquals($hash, $this->signer->sign('test', InMemory::plainText('123')));
+        self::assertSame($hash, $this->signer->sign('test', InMemory::plainText('123')));
 
         return $hash;
     }

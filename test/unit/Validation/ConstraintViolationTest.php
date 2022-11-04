@@ -12,8 +12,8 @@ final class ConstraintViolationTest extends TestCase
     /**
      * @test
      *
+     * @covers ::__construct
      * @covers ::error
-     * @covers ::constraint
      *
      * @uses \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
      */

@@ -18,7 +18,7 @@ final class NoneTest extends TestCase
     {
         $signer = new None();
 
-        self::assertEquals('none', $signer->algorithmId());
+        self::assertSame('none', $signer->algorithmId());
     }
 
     /**
@@ -32,7 +32,7 @@ final class NoneTest extends TestCase
     {
         $signer = new None();
 
-        self::assertEquals('', $signer->sign('test', InMemory::plainText('test')));
+        self::assertSame('', $signer->sign('test', InMemory::plainText('test')));
     }
 
     /**

@@ -19,7 +19,7 @@ final class Sha256Test extends TestCase
     {
         $signer = new Sha256();
 
-        self::assertEquals('RS256', $signer->algorithmId());
+        self::assertSame('RS256', $signer->algorithmId());
     }
 
     /**
@@ -31,6 +31,6 @@ final class Sha256Test extends TestCase
     {
         $signer = new Sha256();
 
-        self::assertEquals(OPENSSL_ALGO_SHA256, $signer->algorithm());
+        self::assertSame(OPENSSL_ALGO_SHA256, $signer->algorithm());
     }
 }

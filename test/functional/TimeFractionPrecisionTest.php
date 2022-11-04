@@ -64,10 +64,8 @@ final class TimeFractionPrecisionTest extends TestCase
     /**
      * @test
      * @dataProvider timeFractionConversions
-     *
-     * @param float|int|string $issuedAt
      */
-    public function typeConversionDoesNotCauseParsingErrors($issuedAt, string $timeFraction): void
+    public function typeConversionDoesNotCauseParsingErrors(float|int|string $issuedAt, string $timeFraction): void
     {
         $encoder = new JoseEncoder();
         $headers = $encoder->base64UrlEncode($encoder->jsonEncode(['typ' => 'JWT', 'alg' => 'none']));

@@ -10,11 +10,8 @@ use const OPENSSL_KEYTYPE_EC;
 
 abstract class Ecdsa extends OpenSSL
 {
-    private SignatureConverter $converter;
-
-    public function __construct(?SignatureConverter $converter = null)
+    public function __construct(private readonly SignatureConverter $converter = new MultibyteStringConverter())
     {
-        $this->converter = $converter ?? new MultibyteStringConverter();
     }
 
     /** @deprecated */
@@ -27,7 +24,7 @@ abstract class Ecdsa extends OpenSSL
     {
         return $this->converter->fromAsn1(
             $this->createSignature($key->contents(), $key->passphrase(), $payload),
-            $this->pointLength()
+            $this->pointLength(),
         );
     }
 
@@ -36,7 +33,7 @@ abstract class Ecdsa extends OpenSSL
         return $this->verifySignature(
             $this->converter->toAsn1($expected, $this->pointLength()),
             $payload,
-            $key->contents()
+            $key->contents(),
         );
     }
 

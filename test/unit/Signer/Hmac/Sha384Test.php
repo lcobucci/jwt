@@ -17,7 +17,7 @@ final class Sha384Test extends TestCase
     {
         $signer = new Sha384();
 
-        self::assertEquals('HS384', $signer->algorithmId());
+        self::assertSame('HS384', $signer->algorithmId());
     }
 
     /**
@@ -29,7 +29,7 @@ final class Sha384Test extends TestCase
     {
         $signer = new Sha384();
 
-        self::assertEquals('sha384', $signer->algorithm());
+        self::assertSame('sha384', $signer->algorithm());
     }
 
     /**

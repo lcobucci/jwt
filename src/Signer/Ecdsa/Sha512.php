@@ -26,6 +26,8 @@ final class Sha512 extends Ecdsa
 
     public function expectedKeyLength(): int
     {
+        // ES512 means ECDSA using P-521 and SHA-512.
+        // The key size is indeed 521 bits.
         return 521;
     }
 }

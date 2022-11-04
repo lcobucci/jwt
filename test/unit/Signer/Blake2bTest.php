@@ -35,7 +35,7 @@ final class Blake2bTest extends TestCase
         $this->keyTwo                 = InMemory::base64Encoded(self::KEY_TWO);
         $this->expectedHashWithKeyOne = SodiumBase64Polyfill::base642bin(
             self::EXPECTED_HASH_WITH_KEY_ONE,
-            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL
+            SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL,
         );
     }
 
@@ -48,7 +48,7 @@ final class Blake2bTest extends TestCase
     {
         $signer = new Blake2b();
 
-        self::assertEquals('BLAKE2B', $signer->algorithmId());
+        self::assertSame('BLAKE2B', $signer->algorithmId());
     }
 
     /**

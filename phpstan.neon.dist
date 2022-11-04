@@ -5,12 +5,6 @@ parameters:
         - test
 
     ignoreErrors:
-        - '#.*OpenSSLAsymmetricKey.*#'
-        - '#Call to method .* of deprecated class Lcobucci\\JWT\\Signer\\Key\\LocalFileReference#'
-        - """
-            #^.+ deprecated class Lcobucci\\\\JWT\\\\Signer\\\\.+:
-            Deprecated since v4\\.2$#
-        """
         - """
             #^Call to deprecated method fromEmptyData\\(\\) of class Lcobucci\\\\JWT\\\\Token\\\\Signature:
             Deprecated since v4\\.3$#

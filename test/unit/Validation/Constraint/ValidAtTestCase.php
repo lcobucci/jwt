@@ -188,7 +188,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
                 RegisteredClaims::ISSUED_AT => $now->modify('-40 seconds'),
                 RegisteredClaims::NOT_BEFORE => $now->modify('-20 seconds'),
                 RegisteredClaims::EXPIRATION_TIME => $now->modify('+60 seconds'),
-            ]
+            ],
         );
 
         $constraint->assert($token);
@@ -199,7 +199,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
                 RegisteredClaims::ISSUED_AT => $now,
                 RegisteredClaims::NOT_BEFORE => $now,
                 RegisteredClaims::EXPIRATION_TIME => $now->modify('+60 seconds'),
-            ]
+            ],
         );
 
         $constraint->assert($token);

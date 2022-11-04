@@ -20,7 +20,7 @@ final class HasClaimWithValueTest extends ConstraintTestCase
     {
         $this->expectException(CannotValidateARegisteredClaim::class);
         $this->expectExceptionMessage(
-            'The claim "' . $claim . '" is a registered claim, another constraint must be used to validate its value'
+            'The claim "' . $claim . '" is a registered claim, another constraint must be used to validate its value',
         );
 
         new HasClaimWithValue($claim, 'testing');

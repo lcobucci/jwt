@@ -24,12 +24,12 @@ final class PlainTest extends TestCase
     private function createToken(
         ?DataSet $headers = null,
         ?DataSet $claims = null,
-        ?Signature $signature = null
+        ?Signature $signature = null,
     ): Plain {
         return new Plain(
             $headers ?? $this->headers,
             $claims ?? $this->claims,
-            $signature ?? $this->signature
+            $signature ?? $this->signature,
         );
     }
 
@@ -98,7 +98,7 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::AUDIENCE => ['test', 'test2']], '')
+            new DataSet([RegisteredClaims::AUDIENCE => ['test', 'test2']], ''),
         );
 
         self::assertFalse($token->isPermittedFor('testing'));
@@ -117,7 +117,7 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::AUDIENCE => [10]], '')
+            new DataSet([RegisteredClaims::AUDIENCE => [10]], ''),
         );
 
         self::assertFalse($token->isPermittedFor('10'));
@@ -136,7 +136,7 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::AUDIENCE => ['testing', 'test']], '')
+            new DataSet([RegisteredClaims::AUDIENCE => ['testing', 'test']], ''),
         );
 
         self::assertTrue($token->isPermittedFor('testing'));
@@ -171,7 +171,7 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::ID => 'testing'], '')
+            new DataSet([RegisteredClaims::ID => 'testing'], ''),
         );
 
         self::assertFalse($token->isIdentifiedBy('test'));
@@ -190,7 +190,7 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::ID => 'test'], '')
+            new DataSet([RegisteredClaims::ID => 'test'], ''),
         );
 
         self::assertTrue($token->isIdentifiedBy('test'));
@@ -225,7 +225,7 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::SUBJECT => 'testing'], '')
+            new DataSet([RegisteredClaims::SUBJECT => 'testing'], ''),
         );
 
         self::assertFalse($token->isRelatedTo('test'));
@@ -244,7 +244,7 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::SUBJECT => 'test'], '')
+            new DataSet([RegisteredClaims::SUBJECT => 'test'], ''),
         );
 
         self::assertTrue($token->isRelatedTo('test'));
@@ -279,7 +279,7 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::ISSUER => 10], '')
+            new DataSet([RegisteredClaims::ISSUER => 10], ''),
         );
 
         self::assertFalse($token->hasBeenIssuedBy('10'));
@@ -298,7 +298,7 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::ISSUER => 'test'], '')
+            new DataSet([RegisteredClaims::ISSUER => 'test'], ''),
         );
 
         self::assertFalse($token->hasBeenIssuedBy('testing1', 'testing2'));
@@ -317,7 +317,7 @@ final class PlainTest extends TestCase
     {
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::ISSUER => 'test'], '')
+            new DataSet([RegisteredClaims::ISSUER => 'test'], ''),
         );
 
         self::assertTrue($token->hasBeenIssuedBy('testing1', 'testing2', 'test'));
@@ -353,7 +353,7 @@ final class PlainTest extends TestCase
         $now   = new DateTimeImmutable();
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::ISSUED_AT => $now->modify('-100 seconds')], '')
+            new DataSet([RegisteredClaims::ISSUED_AT => $now->modify('-100 seconds')], ''),
         );
 
         self::assertTrue($token->hasBeenIssuedBefore($now));
@@ -373,7 +373,7 @@ final class PlainTest extends TestCase
         $now   = new DateTimeImmutable();
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::ISSUED_AT => $now], '')
+            new DataSet([RegisteredClaims::ISSUED_AT => $now], ''),
         );
 
         self::assertTrue($token->hasBeenIssuedBefore($now));
@@ -393,7 +393,7 @@ final class PlainTest extends TestCase
         $now   = new DateTimeImmutable();
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::ISSUED_AT => $now->modify('+100 seconds')], '')
+            new DataSet([RegisteredClaims::ISSUED_AT => $now->modify('+100 seconds')], ''),
         );
 
         self::assertFalse($token->hasBeenIssuedBefore($now));
@@ -429,7 +429,7 @@ final class PlainTest extends TestCase
         $now   = new DateTimeImmutable();
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::NOT_BEFORE => $now->modify('-100 seconds')], '')
+            new DataSet([RegisteredClaims::NOT_BEFORE => $now->modify('-100 seconds')], ''),
         );
 
         self::assertTrue($token->isMinimumTimeBefore($now));
@@ -449,7 +449,7 @@ final class PlainTest extends TestCase
         $now   = new DateTimeImmutable();
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::NOT_BEFORE => $now], '')
+            new DataSet([RegisteredClaims::NOT_BEFORE => $now], ''),
         );
 
         self::assertTrue($token->isMinimumTimeBefore($now));
@@ -469,7 +469,7 @@ final class PlainTest extends TestCase
         $now   = new DateTimeImmutable();
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::NOT_BEFORE => $now->modify('100 seconds')], '')
+            new DataSet([RegisteredClaims::NOT_BEFORE => $now->modify('100 seconds')], ''),
         );
 
         self::assertFalse($token->isMinimumTimeBefore($now));
@@ -506,7 +506,7 @@ final class PlainTest extends TestCase
 
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::EXPIRATION_TIME => $now->modify('+500 seconds')], '')
+            new DataSet([RegisteredClaims::EXPIRATION_TIME => $now->modify('+500 seconds')], ''),
         );
 
         self::assertFalse($token->isExpired($now));
@@ -527,7 +527,7 @@ final class PlainTest extends TestCase
 
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::EXPIRATION_TIME => $now], '')
+            new DataSet([RegisteredClaims::EXPIRATION_TIME => $now], ''),
         );
 
         self::assertTrue($token->isExpired($now));
@@ -548,7 +548,7 @@ final class PlainTest extends TestCase
 
         $token = $this->createToken(
             null,
-            new DataSet([RegisteredClaims::EXPIRATION_TIME => $now], '')
+            new DataSet([RegisteredClaims::EXPIRATION_TIME => $now], ''),
         );
 
         self::assertTrue($token->isExpired($now->modify('+10 days')));

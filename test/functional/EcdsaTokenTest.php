@@ -55,7 +55,7 @@ class EcdsaTokenTest extends TestCase
         $this->config = Configuration::forAsymmetricSigner(
             new Sha256(),
             static::$ecdsaKeys['private'],
-            static::$ecdsaKeys['public1']
+            static::$ecdsaKeys['public1'],
         );
     }
 
@@ -103,13 +103,13 @@ class EcdsaTokenTest extends TestCase
                          ->withHeader('jki', '1234')
                          ->getToken($this->config->signer(), $this->config->signingKey());
 
-        self::assertEquals('1234', $token->headers()->get('jki'));
-        self::assertEquals('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
-        self::assertEquals($user, $token->claims()->get('user'));
+        self::assertSame('1234', $token->headers()->get('jki'));
+        self::assertSame('http://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
+        self::assertSame($user, $token->claims()->get('user'));
 
-        self::assertEquals(
+        self::assertSame(
             ['http://client.abc.com', 'http://client2.abc.com'],
-            $token->claims()->get(Token\RegisteredClaims::AUDIENCE)
+            $token->claims()->get(Token\RegisteredClaims::AUDIENCE),
         );
 
         return $token;
@@ -125,7 +125,7 @@ class EcdsaTokenTest extends TestCase
         assert($read instanceof Token\Plain);
 
         self::assertEquals($generated, $read);
-        self::assertEquals('testing', $read->claims()->get('user')['name']);
+        self::assertSame('testing', $read->claims()->get('user')['name']);
     }
 
     /**
@@ -141,8 +141,8 @@ class EcdsaTokenTest extends TestCase
             $token,
             new SignedWith(
                 $this->config->signer(),
-                self::$ecdsaKeys['public2']
-            )
+                self::$ecdsaKeys['public2'],
+            ),
         );
     }
 
@@ -159,8 +159,8 @@ class EcdsaTokenTest extends TestCase
             $token,
             new SignedWith(
                 new Sha512(),
-                self::$ecdsaKeys['public1']
-            )
+                self::$ecdsaKeys['public1'],
+            ),
         );
     }
 
@@ -175,7 +175,7 @@ class EcdsaTokenTest extends TestCase
 
         $this->config->validator()->assert(
             $token,
-            new SignedWith($this->config->signer(), self::$rsaKeys['public'])
+            new SignedWith($this->config->signer(), self::$rsaKeys['public']),
         );
     }
 
@@ -187,7 +187,7 @@ class EcdsaTokenTest extends TestCase
     {
         $constraint = new SignedWith(
             $this->config->signer(),
-            $this->config->verificationKey()
+            $this->config->verificationKey(),
         );
 
         self::assertTrue($this->config->validator()->validate($token, $constraint));
@@ -208,7 +208,7 @@ class EcdsaTokenTest extends TestCase
 
         $constraint = new SignedWith(
             $this->config->signer(),
-            static::$ecdsaKeys['public-params']
+            static::$ecdsaKeys['public-params'],
         );
 
         self::assertTrue($this->config->validator()->validate($token, $constraint));
@@ -234,6 +234,6 @@ class EcdsaTokenTest extends TestCase
         $constraint = new SignedWith(new Sha512(), InMemory::plainText($key));
 
         self::assertTrue($this->config->validator()->validate($token, $constraint));
-        self::assertEquals('world', $token->claims()->get('hello'));
+        self::assertSame('world', $token->claims()->get('hello'));
     }
 }

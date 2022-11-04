@@ -25,7 +25,7 @@ final class MultibyteStringConverterTest extends TestCase
     public function toAsn1ShouldReturnThePointsInAnAsn1SequenceFormat(
         string $r,
         string $s,
-        string $asn1
+        string $asn1,
     ): void {
         $converter = new MultibyteStringConverter();
         $message   = hex2bin($r . $s);

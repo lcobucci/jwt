@@ -19,11 +19,8 @@ final class Parser implements ParserInterface
 {
     private const MICROSECOND_PRECISION = 6;
 
-    private Decoder $decoder;
-
-    public function __construct(Decoder $decoder)
+    public function __construct(private readonly Decoder $decoder)
     {
-        $this->decoder = $decoder;
     }
 
     public function parse(string $jwt): TokenInterface
@@ -35,7 +32,7 @@ final class Parser implements ParserInterface
         return new Plain(
             new DataSet($header, $encodedHeaders),
             new DataSet($this->parseClaims($encodedClaims), $encodedClaims),
-            $this->parseSignature($header, $encodedSignature)
+            $this->parseSignature($header, $encodedSignature),
         );
     }
 
@@ -114,12 +111,8 @@ final class Parser implements ParserInterface
         return $claims;
     }
 
-    /**
-     * @param int|float|string $timestamp
-     *
-     * @throws InvalidTokenStructure
-     */
-    private function convertDate($timestamp): DateTimeImmutable
+    /** @throws InvalidTokenStructure */
+    private function convertDate(int|float|string $timestamp): DateTimeImmutable
     {
         if (! is_numeric($timestamp)) {
             throw InvalidTokenStructure::dateIsNotParseable($timestamp);

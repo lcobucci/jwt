@@ -10,7 +10,7 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 final class IssuedBy implements Constraint
 {
     /** @var string[] */
-    private array $issuers;
+    private readonly array $issuers;
 
     public function __construct(string ...$issuers)
     {
@@ -22,7 +22,7 @@ final class IssuedBy implements Constraint
         if (! $token->hasBeenIssuedBy(...$this->issuers)) {
             throw ConstraintViolation::error(
                 'The token was not issued by the given issuers',
-                $this
+                $this,
             );
         }
     }
