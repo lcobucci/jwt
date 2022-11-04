@@ -8,14 +8,20 @@ use Lcobucci\JWT\Validation\Constraint\CannotValidateARegisteredClaim;
 use Lcobucci\JWT\Validation\Constraint\HasClaimWithValue;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
-/** @coversDefaultClass \Lcobucci\JWT\Validation\Constraint\HasClaimWithValue */
+/**
+ * @covers \Lcobucci\JWT\Validation\ConstraintViolation
+ * @covers \Lcobucci\JWT\Validation\Constraint\HasClaimWithValue
+ *
+ * @uses \Lcobucci\JWT\Token\DataSet
+ * @uses \Lcobucci\JWT\Token\Plain
+ * @uses \Lcobucci\JWT\Token\Signature
+ */
 final class HasClaimWithValueTest extends ConstraintTestCase
 {
     /**
      * @test
      * @dataProvider registeredClaims
      *
-     * @covers ::__construct
      * @covers \Lcobucci\JWT\Validation\Constraint\CannotValidateARegisteredClaim
      */
     public function registeredClaimsCannotBeValidatedUsingThisConstraint(string $claim): void
@@ -36,17 +42,7 @@ final class HasClaimWithValueTest extends ConstraintTestCase
         }
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenClaimIsNotSet(): void
     {
         $this->expectException(ConstraintViolation::class);
@@ -56,17 +52,7 @@ final class HasClaimWithValueTest extends ConstraintTestCase
         $constraint->assert($this->buildToken());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenClaimValueDoesNotMatch(): void
     {
         $this->expectException(ConstraintViolation::class);
@@ -76,17 +62,7 @@ final class HasClaimWithValueTest extends ConstraintTestCase
         $constraint->assert($this->buildToken(['claimId' => 'Some wrong value']));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
         $this->expectException(ConstraintViolation::class);
@@ -96,16 +72,7 @@ final class HasClaimWithValueTest extends ConstraintTestCase
         $constraint->assert($this->createMock(Token::class));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldNotRaiseExceptionWhenClaimMatches(): void
     {
         $token      = $this->buildToken(['claimId' => 'claimValue']);

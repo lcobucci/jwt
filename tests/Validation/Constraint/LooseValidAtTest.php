@@ -8,7 +8,15 @@ use Lcobucci\Clock\Clock;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 
-/** @coversDefaultClass \Lcobucci\JWT\Validation\Constraint\LooseValidAt */
+/**
+ * @covers \Lcobucci\JWT\Validation\Constraint\LeewayCannotBeNegative
+ * @covers \Lcobucci\JWT\Validation\ConstraintViolation
+ * @covers \Lcobucci\JWT\Validation\Constraint\LooseValidAt
+ *
+ * @uses \Lcobucci\JWT\Token\DataSet
+ * @uses \Lcobucci\JWT\Token\Plain
+ * @uses \Lcobucci\JWT\Token\Signature
+ */
 final class LooseValidAtTest extends ValidAtTestCase
 {
     protected function buildValidAtConstraint(Clock $clock, ?DateInterval $leeway = null): Constraint
@@ -16,20 +24,7 @@ final class LooseValidAtTest extends ValidAtTestCase
         return new LooseValidAt($clock, $leeway);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers ::assert
-     * @covers ::assertExpiration
-     * @covers ::assertIssueTime
-     * @covers ::assertMinimumTime
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldNotRaiseExceptionWhenTokenDoesNotHaveTimeClaims(): void
     {
         $token      = $this->buildToken();

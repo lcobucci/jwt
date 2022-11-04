@@ -22,11 +22,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers ::__construct
  * @coversDefaultClass \Lcobucci\JWT\Configuration
  *
  * @uses \Lcobucci\JWT\Encoding\ChainedFormatter
  * @uses \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
  * @uses \Lcobucci\JWT\Encoding\UnifyAudience
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ * @uses \Lcobucci\JWT\Signer\None
+ * @uses \Lcobucci\JWT\Token\Builder
  * @uses \Lcobucci\JWT\Token\Parser
  * @uses \Lcobucci\JWT\Validation\Validator
  */
@@ -54,12 +58,9 @@ final class ConfigurationTest extends TestCase
      * @test
      *
      * @covers ::forAsymmetricSigner
-     * @covers ::__construct
      * @covers ::signer
      * @covers ::signingKey
      * @covers ::verificationKey
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function forAsymmetricSignerShouldConfigureSignerAndBothKeys(): void
     {
@@ -77,12 +78,9 @@ final class ConfigurationTest extends TestCase
      * @test
      *
      * @covers ::forSymmetricSigner
-     * @covers ::__construct
      * @covers ::signer
      * @covers ::signingKey
      * @covers ::verificationKey
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function forSymmetricSignerShouldConfigureSignerAndBothKeys(): void
     {
@@ -98,12 +96,9 @@ final class ConfigurationTest extends TestCase
      * @test
      *
      * @covers ::forUnsecuredSigner
-     * @covers ::__construct
      * @covers ::signer
      * @covers ::signingKey
      * @covers ::verificationKey
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function forUnsecuredSignerShouldConfigureSignerAndBothKeys(): void
     {
@@ -121,10 +116,6 @@ final class ConfigurationTest extends TestCase
      * @covers ::builder
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Token\Builder
-     * @uses \Lcobucci\JWT\Signer\None
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function builderShouldCreateABuilderWithDefaultEncoderAndClaimFactory(): void
     {
@@ -140,12 +131,8 @@ final class ConfigurationTest extends TestCase
      * @test
      *
      * @covers ::builder
-     * @covers ::__construct
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Token\Builder
-     * @uses \Lcobucci\JWT\Signer\None
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function builderShouldCreateABuilderWithCustomizedEncoderAndClaimFactory(): void
     {
@@ -163,10 +150,6 @@ final class ConfigurationTest extends TestCase
      * @covers ::setBuilderFactory
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Token\Builder
-     * @uses \Lcobucci\JWT\Signer\None
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function builderShouldUseBuilderFactoryWhenThatIsConfigured(): void
     {
@@ -187,9 +170,6 @@ final class ConfigurationTest extends TestCase
      * @covers ::parser
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Signer\None
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function parserShouldReturnAParserWithDefaultDecoder(): void
     {
@@ -203,11 +183,8 @@ final class ConfigurationTest extends TestCase
      * @test
      *
      * @covers ::parser
-     * @covers ::__construct
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Signer\None
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function parserShouldReturnAParserWithCustomizedDecoder(): void
     {
@@ -224,9 +201,6 @@ final class ConfigurationTest extends TestCase
      * @covers ::setParser
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Signer\None
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function parserShouldNotCreateAnInstanceIfItWasConfigured(): void
     {
@@ -242,9 +216,6 @@ final class ConfigurationTest extends TestCase
      * @covers ::validator
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Signer\None
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function validatorShouldReturnTheDefaultWhenItWasNotConfigured(): void
     {
@@ -261,9 +232,6 @@ final class ConfigurationTest extends TestCase
      * @covers ::setValidator
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Signer\None
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function validatorShouldReturnTheConfiguredValidator(): void
     {
@@ -279,9 +247,6 @@ final class ConfigurationTest extends TestCase
      * @covers ::validationConstraints
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Signer\None
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function validationConstraintsShouldReturnAnEmptyArrayWhenItWasNotConfigured(): void
     {
@@ -297,9 +262,6 @@ final class ConfigurationTest extends TestCase
      * @covers ::setValidationConstraints
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Signer\None
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function validationConstraintsShouldReturnTheConfiguredValidator(): void
     {
@@ -315,9 +277,6 @@ final class ConfigurationTest extends TestCase
      * @covers ::builder
      *
      * @uses \Lcobucci\JWT\Configuration::forUnsecuredSigner
-     * @uses \Lcobucci\JWT\Configuration::__construct
-     * @uses \Lcobucci\JWT\Token\Builder
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function customClaimFormatterCanBeUsed(): void
     {

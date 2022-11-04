@@ -12,7 +12,12 @@ use Lcobucci\JWT\Validation\Validator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Validation\Validator */
+/**
+ * @coversDefaultClass \Lcobucci\JWT\Validation\Validator
+ *
+ * @uses \Lcobucci\JWT\Validation\ConstraintViolation
+ * @uses \Lcobucci\JWT\Validation\RequiredConstraintsViolated
+ */
 final class ValidatorTest extends TestCase
 {
     private Token&MockObject $token;
@@ -42,9 +47,6 @@ final class ValidatorTest extends TestCase
      *
      * @covers ::assert
      * @covers ::checkConstraint
-     *
-     * @uses \Lcobucci\JWT\Validation\ConstraintViolation
-     * @uses \Lcobucci\JWT\Validation\RequiredConstraintsViolated
      */
     public function assertShouldRaiseExceptionWhenAtLeastOneConstraintFails(): void
     {
@@ -105,8 +107,6 @@ final class ValidatorTest extends TestCase
      * @test
      *
      * @covers ::validate
-     *
-     * @uses \Lcobucci\JWT\Validation\ConstraintViolation
      */
     public function validateShouldReturnFalseWhenAtLeastOneConstraintFails(): void
     {

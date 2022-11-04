@@ -16,7 +16,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-/** @coversDefaultClass \Lcobucci\JWT\Token\Parser */
+/**
+ * @covers \Lcobucci\JWT\Token\Parser
+ * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
+ * @covers \Lcobucci\JWT\Token\UnsupportedHeaderFound
+ *
+ * @uses \Lcobucci\JWT\Token\Plain
+ * @uses \Lcobucci\JWT\Token\Signature
+ * @uses \Lcobucci\JWT\Token\DataSet
+ */
 final class ParserTest extends TestCase
 {
     /** @var Decoder&MockObject */
@@ -33,14 +41,7 @@ final class ParserTest extends TestCase
         return new Parser($this->decoder);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
-     */
+    /** @test */
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
     {
         $parser = $this->createParser();
@@ -51,14 +52,7 @@ final class ParserTest extends TestCase
         $parser->parse('');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     */
+    /** @test */
     public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded(): void
     {
         $this->decoder->method('base64UrlDecode')
@@ -77,15 +71,7 @@ final class ParserTest extends TestCase
         $parser->parse('a.b.');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
-     */
+    /** @test */
     public function parseMustRaiseExceptionWhenDealingWithInvalidHeaders(): void
     {
         $this->decoder->method('jsonDecode')
@@ -99,15 +85,7 @@ final class ParserTest extends TestCase
         $parser->parse('a.a.');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers \Lcobucci\JWT\Token\UnsupportedHeaderFound
-     */
+    /** @test */
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
     {
         $this->decoder->method('jsonDecode')
@@ -121,18 +99,7 @@ final class ParserTest extends TestCase
         $parser->parse('a.a.');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function parseMustRaiseExceptionWhenDealingWithInvalidClaims(): void
     {
         $this->decoder->method('jsonDecode')
@@ -146,20 +113,7 @@ final class ParserTest extends TestCase
         $parser->parse('a.a.');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     *
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function parseMustReturnAnUnsecuredTokenWhenSignatureIsNotInformed(): void
     {
         $this->decoder->expects(self::exactly(2))
@@ -188,20 +142,7 @@ final class ParserTest extends TestCase
         self::assertEquals(Signature::fromEmptyData(), $token->signature());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     *
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function parseMustConfigureTypeToJWTWhenItIsMissing(): void
     {
         $this->decoder->expects(self::exactly(2))
@@ -230,20 +171,7 @@ final class ParserTest extends TestCase
         self::assertEquals(Signature::fromEmptyData(), $token->signature());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     *
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function parseMustNotChangeTypeWhenItIsConfigured(): void
     {
         $this->decoder->expects(self::exactly(2))
@@ -272,20 +200,7 @@ final class ParserTest extends TestCase
         self::assertEquals(Signature::fromEmptyData(), $token->signature());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     *
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function parseShouldReplicateClaimValueOnHeaderWhenNeeded(): void
     {
         $this->decoder->expects(self::exactly(2))
@@ -314,20 +229,7 @@ final class ParserTest extends TestCase
         self::assertEquals(Signature::fromEmptyData(), $token->signature());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     *
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsMissing(): void
     {
         $this->decoder->expects(self::exactly(2))
@@ -356,20 +258,7 @@ final class ParserTest extends TestCase
         self::assertEquals(Signature::fromEmptyData(), $token->signature());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     *
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsNone(): void
     {
         $this->decoder->expects(self::exactly(2))
@@ -398,20 +287,7 @@ final class ParserTest extends TestCase
         self::assertEquals(Signature::fromEmptyData(), $token->signature());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     *
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function parseMustReturnASignedTokenWhenSignatureIsInformed(): void
     {
         $this->decoder->expects(self::exactly(3))
@@ -441,21 +317,7 @@ final class ParserTest extends TestCase
         self::assertEquals($signature, $token->signature());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     * @covers ::convertDate
-     *
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function parseMustConvertDateClaimsToObjects(): void
     {
         $data = [
@@ -492,21 +354,7 @@ final class ParserTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     * @covers ::convertDate
-     *
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function parseMustConvertStringDates(): void
     {
         $data = [RegisteredClaims::NOT_BEFORE => '1486930757.000000'];
@@ -535,22 +383,7 @@ final class ParserTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     * @covers ::convertDate
-     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
-     *
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function parseShouldRaiseExceptionOnInvalidDate(): void
     {
         $data = [RegisteredClaims::ISSUED_AT => '14/10/2018 10:50:10.10 UTC'];
@@ -573,22 +406,7 @@ final class ParserTest extends TestCase
         $this->createParser()->parse('a.b.');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::parse
-     * @covers ::splitJwt
-     * @covers ::parseHeader
-     * @covers ::parseClaims
-     * @covers ::parseSignature
-     * @covers ::convertDate
-     * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
-     *
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function parseShouldRaiseExceptionOnTimestampBeyondDateTimeImmutableRange(): void
     {
         $data = [RegisteredClaims::ISSUED_AT => -10000000000 ** 5];

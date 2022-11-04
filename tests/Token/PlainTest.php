@@ -10,7 +10,14 @@ use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Token\Signature;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Token\Plain */
+/**
+ * @coversDefaultClass \Lcobucci\JWT\Token\Plain
+ *
+ * @uses \Lcobucci\JWT\Token\Plain::__construct
+ * @uses \Lcobucci\JWT\Token\Plain::payload
+ * @uses \Lcobucci\JWT\Token\DataSet
+ * @uses \Lcobucci\JWT\Token\Signature
+ */
 final class PlainTest extends TestCase
 {
     private DataSet $headers;
@@ -44,9 +51,6 @@ final class PlainTest extends TestCase
      * @covers ::headers
      * @covers ::claims
      * @covers ::signature
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function signedShouldCreateATokenWithSignature(): void
     {
@@ -61,10 +65,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::payload
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function payloadShouldReturnAStringWithTheEncodedHeadersAndClaims(): void
     {
@@ -77,10 +77,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isPermittedFor
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isPermittedForShouldReturnFalseWhenNoAudienceIsConfigured(): void
     {
@@ -93,10 +89,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isPermittedFor
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isPermittedForShouldReturnFalseWhenAudienceDoesNotMatchAsArray(): void
     {
@@ -112,10 +104,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isPermittedFor
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isPermittedForShouldReturnFalseWhenAudienceTypeDoesNotMatch(): void
     {
@@ -131,10 +119,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isPermittedFor
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isPermittedForShouldReturnTrueWhenAudienceMatchesAsArray(): void
     {
@@ -150,10 +134,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isIdentifiedBy
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isIdentifiedByShouldReturnFalseWhenNoIdWasConfigured(): void
     {
@@ -166,10 +146,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isIdentifiedBy
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isIdentifiedByShouldReturnFalseWhenIdDoesNotMatch(): void
     {
@@ -185,10 +161,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isIdentifiedBy
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isIdentifiedByShouldReturnTrueWhenIdMatches(): void
     {
@@ -204,10 +176,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isRelatedTo
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isRelatedToShouldReturnFalseWhenNoSubjectWasConfigured(): void
     {
@@ -220,10 +188,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isRelatedTo
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isRelatedToShouldReturnFalseWhenSubjectDoesNotMatch(): void
     {
@@ -239,10 +203,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isRelatedTo
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isRelatedToShouldReturnTrueWhenSubjectMatches(): void
     {
@@ -258,10 +218,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::hasBeenIssuedBy
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function hasBeenIssuedByShouldReturnFalseWhenIssuerIsNotConfigured(): void
     {
@@ -274,10 +230,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::hasBeenIssuedBy
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function hasBeenIssuedByShouldReturnFalseWhenIssuerTypeDoesNotMatches(): void
     {
@@ -293,10 +245,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::hasBeenIssuedBy
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function hasBeenIssuedByShouldReturnFalseWhenIssuerIsNotInTheGivenList(): void
     {
@@ -312,10 +260,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::hasBeenIssuedBy
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function hasBeenIssuedByShouldReturnTrueWhenIssuerIsInTheGivenList(): void
     {
@@ -331,10 +275,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::hasBeenIssuedBefore
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsNotConfigured(): void
     {
@@ -347,10 +287,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::hasBeenIssuedBefore
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsBeforeThanNow(): void
     {
@@ -367,10 +303,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::hasBeenIssuedBefore
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsEqualsToNow(): void
     {
@@ -387,10 +319,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::hasBeenIssuedBefore
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function hasBeenIssuedBeforeShouldReturnFalseWhenIssueTimeIsGreaterThanNow(): void
     {
@@ -407,10 +335,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isMinimumTimeBefore
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isMinimumTimeBeforeShouldReturnTrueWhenIssueTimeIsNotConfigured(): void
     {
@@ -423,10 +347,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isMinimumTimeBefore
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsBeforeThanNow(): void
     {
@@ -443,10 +363,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isMinimumTimeBefore
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsEqualsToNow(): void
     {
@@ -463,10 +379,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isMinimumTimeBefore
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isMinimumTimeBeforeShouldReturnFalseWhenNotBeforeClaimIsGreaterThanNow(): void
     {
@@ -483,10 +395,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isExpired
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isExpiredShouldReturnFalseWhenTokenDoesNotExpires(): void
     {
@@ -499,10 +407,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isExpired
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isExpiredShouldReturnFalseWhenTokenIsNotExpired(): void
     {
@@ -520,10 +424,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isExpired
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isExpiredShouldReturnTrueWhenExpirationIsEqualsToNow(): void
     {
@@ -541,10 +441,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::isExpired
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function isExpiredShouldReturnTrueAfterTokenExpires(): void
     {
@@ -562,11 +458,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::toString
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\Plain::payload
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function toStringMustReturnEncodedDataWithEmptySignature(): void
     {
@@ -579,10 +470,6 @@ final class PlainTest extends TestCase
      * @test
      *
      * @covers ::toString
-     *
-     * @uses \Lcobucci\JWT\Token\Plain::__construct
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Signature
      */
     public function toStringMustReturnEncodedData(): void
     {

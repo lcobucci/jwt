@@ -10,7 +10,15 @@ use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use PHPUnit\Framework\MockObject\MockObject;
 
-/** @coversDefaultClass \Lcobucci\JWT\Validation\Constraint\SignedWith */
+/**
+ * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
+ * @covers \Lcobucci\JWT\Validation\ConstraintViolation
+ *
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ * @uses \Lcobucci\JWT\Token\DataSet
+ * @uses \Lcobucci\JWT\Token\Plain
+ * @uses \Lcobucci\JWT\Token\Signature
+ */
 final class SignedWithTest extends ConstraintTestCase
 {
     /** @var Signer&MockObject */
@@ -28,18 +36,7 @@ final class SignedWithTest extends ConstraintTestCase
         $this->signature = new Signature('1234', '5678');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
         $this->expectException(ConstraintViolation::class);
@@ -49,18 +46,7 @@ final class SignedWithTest extends ConstraintTestCase
         $constraint->assert($this->createMock(Token::class));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenSignerIsNotTheSame(): void
     {
         $token = $this->buildToken([], ['alg' => 'test'], $this->signature);
@@ -74,18 +60,7 @@ final class SignedWithTest extends ConstraintTestCase
         $constraint->assert($token);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenSignatureIsInvalid(): void
     {
         $token = $this->buildToken([], ['alg' => 'RS256'], $this->signature);
@@ -102,17 +77,7 @@ final class SignedWithTest extends ConstraintTestCase
         $constraint->assert($token);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenSignatureIsValid(): void
     {
         $token = $this->buildToken([], ['alg' => 'RS256'], $this->signature);

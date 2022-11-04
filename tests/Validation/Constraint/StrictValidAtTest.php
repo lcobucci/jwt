@@ -11,7 +11,15 @@ use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
-/** @coversDefaultClass \Lcobucci\JWT\Validation\Constraint\StrictValidAt */
+/**
+ * @covers \Lcobucci\JWT\Validation\Constraint\LeewayCannotBeNegative
+ * @covers \Lcobucci\JWT\Validation\ConstraintViolation
+ * @covers \Lcobucci\JWT\Validation\Constraint\StrictValidAt
+ *
+ * @uses \Lcobucci\JWT\Token\DataSet
+ * @uses \Lcobucci\JWT\Token\Plain
+ * @uses \Lcobucci\JWT\Token\Signature
+ */
 final class StrictValidAtTest extends ValidAtTestCase
 {
     protected function buildValidAtConstraint(Clock $clock, ?DateInterval $leeway = null): Constraint
@@ -19,18 +27,7 @@ final class StrictValidAtTest extends ValidAtTestCase
         return new StrictValidAt($clock, $leeway);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers ::guardLeeway
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
         $this->expectException(ConstraintViolation::class);
@@ -40,19 +37,7 @@ final class StrictValidAtTest extends ValidAtTestCase
         $constraint->assert($this->createMock(Token::class));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers ::guardLeeway
-     * @covers ::assertIssueTime
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenIatClaimIsMissing(): void
     {
         $this->expectException(ConstraintViolation::class);
@@ -62,20 +47,7 @@ final class StrictValidAtTest extends ValidAtTestCase
         $constraint->assert($this->buildToken());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers ::guardLeeway
-     * @covers ::assertIssueTime
-     * @covers ::assertMinimumTime
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenNbfClaimIsMissing(): void
     {
         $this->expectException(ConstraintViolation::class);
@@ -90,21 +62,7 @@ final class StrictValidAtTest extends ValidAtTestCase
         $constraint->assert($this->buildToken($claims));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers ::guardLeeway
-     * @covers ::assertIssueTime
-     * @covers ::assertMinimumTime
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     * @covers ::assertExpiration
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenExpClaimIsMissing(): void
     {
         $this->expectException(ConstraintViolation::class);

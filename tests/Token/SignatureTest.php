@@ -6,16 +6,18 @@ namespace Lcobucci\JWT\Tests\Token;
 use Lcobucci\JWT\Token\Signature;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Token\Signature */
+/**
+ * @covers ::__construct
+ * @covers ::toString
+ * @covers ::hash
+ * @coversDefaultClass \Lcobucci\JWT\Token\Signature
+ */
 final class SignatureTest extends TestCase
 {
     /**
      * @test
      *
-     * @covers ::__construct
      * @covers ::fromEmptyData
-     * @covers ::toString
-     * @covers ::hash
      */
     public function fromEmptyDataShouldReturnAnEmptySignature(): void
     {
@@ -25,13 +27,7 @@ final class SignatureTest extends TestCase
         self::assertSame('', $signature->toString());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::hash
-     * @covers ::toString
-     */
+    /** @test */
     public function hashShouldReturnTheHash(): void
     {
         $signature = new Signature('test', 'encoded');

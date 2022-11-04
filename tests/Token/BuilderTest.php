@@ -15,9 +15,14 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass \Lcobucci\JWT\Token\Builder
+ * @covers \Lcobucci\JWT\Token\Builder
+ * @covers \Lcobucci\JWT\Token\RegisteredClaimGiven
  *
  * @uses \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ * @uses \Lcobucci\JWT\Token\Plain
+ * @uses \Lcobucci\JWT\Token\Signature
+ * @uses \Lcobucci\JWT\Token\DataSet
  */
 final class BuilderTest extends TestCase
 {
@@ -35,13 +40,7 @@ final class BuilderTest extends TestCase
         $this->signer->method('algorithmId')->willReturn('RS256');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::withClaim
-     * @covers \Lcobucci\JWT\Token\RegisteredClaimGiven
-     */
+    /** @test */
     public function withClaimShouldRaiseExceptionWhenTryingToConfigureARegisteredClaim(): void
     {
         $builder = new Builder($this->encoder, new MicrosecondBasedDateConversion());
@@ -55,28 +54,7 @@ final class BuilderTest extends TestCase
         $builder->withClaim(RegisteredClaims::ISSUER, 'me');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::getToken
-     * @covers ::encode
-     * @covers ::withClaim
-     * @covers ::withHeader
-     * @covers ::identifiedBy
-     * @covers ::setClaim
-     * @covers ::issuedBy
-     * @covers ::issuedAt
-     * @covers ::relatedTo
-     * @covers ::canOnlyBeUsedAfter
-     * @covers ::expiresAt
-     * @covers ::permittedFor
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     * @uses \Lcobucci\JWT\Token\DataSet
-     */
+    /** @test */
     public function getTokenShouldReturnACompletelyConfigureToken(): void
     {
         $issuedAt   = new DateTimeImmutable('@1487285080');

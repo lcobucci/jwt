@@ -24,13 +24,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
 
     abstract protected function buildValidAtConstraint(Clock $clock, ?DateInterval $leeway = null): Constraint;
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers \Lcobucci\JWT\Validation\Constraint\LeewayCannotBeNegative
-     */
+    /** @test */
     final public function constructShouldRaiseExceptionOnNegativeLeeway(): void
     {
         $leeway         = new DateInterval('PT30S');
@@ -42,21 +36,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
         $this->buildValidAtConstraint($this->clock, $leeway);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers ::assert
-     * @covers ::assertExpiration
-     * @covers ::assertIssueTime
-     * @covers ::assertMinimumTime
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     final public function assertShouldRaiseExceptionWhenTokenIsExpired(): void
     {
         $now = $this->clock->now();
@@ -74,20 +54,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
         $constraint->assert($this->buildToken($claims));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers ::assert
-     * @covers ::assertIssueTime
-     * @covers ::assertMinimumTime
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     final public function assertShouldRaiseExceptionWhenMinimumTimeIsNotMet(): void
     {
         $now = $this->clock->now();
@@ -105,19 +72,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
         $constraint->assert($this->buildToken($claims));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers ::assert
-     * @covers ::assertIssueTime
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     final public function assertShouldRaiseExceptionWhenTokenWasIssuedInTheFuture(): void
     {
         $now = $this->clock->now();
@@ -135,20 +90,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
         $constraint->assert($this->buildToken($claims));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers ::assert
-     * @covers ::assertExpiration
-     * @covers ::assertIssueTime
-     * @covers ::assertMinimumTime
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     final public function assertShouldNotRaiseExceptionWhenLeewayIsUsed(): void
     {
         $now = $this->clock->now();
@@ -165,20 +107,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
         $this->addToAssertionCount(1);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::guardLeeway
-     * @covers ::assert
-     * @covers ::assertExpiration
-     * @covers ::assertIssueTime
-     * @covers ::assertMinimumTime
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     final public function assertShouldNotRaiseExceptionWhenTokenIsUsedInTheRightMoment(): void
     {
         $constraint = $this->buildValidAtConstraint($this->clock);

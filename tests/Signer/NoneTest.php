@@ -7,7 +7,11 @@ use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\None;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\None */
+/**
+ * @coversDefaultClass \Lcobucci\JWT\Signer\None
+ *
+ * @uses \Lcobucci\JWT\Signer\Key\InMemory
+ */
 final class NoneTest extends TestCase
 {
     /**
@@ -26,8 +30,6 @@ final class NoneTest extends TestCase
      * @test
      *
      * @covers ::sign
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function signShouldReturnAnEmptyString(): void
     {
@@ -40,8 +42,6 @@ final class NoneTest extends TestCase
      * @test
      *
      * @covers ::verify
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldReturnTrueWhenSignatureHashIsEmpty(): void
     {
@@ -54,8 +54,6 @@ final class NoneTest extends TestCase
      * @test
      *
      * @covers ::verify
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
      */
     public function verifyShouldReturnFalseWhenSignatureHashIsEmpty(): void
     {

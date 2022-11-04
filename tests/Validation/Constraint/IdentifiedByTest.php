@@ -7,20 +7,17 @@ use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
-/** @coversDefaultClass \Lcobucci\JWT\Validation\Constraint\IdentifiedBy */
+/**
+ * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
+ * @covers \Lcobucci\JWT\Validation\ConstraintViolation
+ *
+ * @uses \Lcobucci\JWT\Token\DataSet
+ * @uses \Lcobucci\JWT\Token\Plain
+ * @uses \Lcobucci\JWT\Token\Signature
+ */
 final class IdentifiedByTest extends ConstraintTestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenIdIsNotSet(): void
     {
         $this->expectException(ConstraintViolation::class);
@@ -30,17 +27,7 @@ final class IdentifiedByTest extends ConstraintTestCase
         $constraint->assert($this->buildToken());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldRaiseExceptionWhenIdDoesNotMatch(): void
     {
         $this->expectException(ConstraintViolation::class);
@@ -50,17 +37,7 @@ final class IdentifiedByTest extends ConstraintTestCase
         $constraint->assert($this->buildToken([RegisteredClaims::ID => 15]));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::assert
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet
-     * @uses \Lcobucci\JWT\Token\Plain
-     * @uses \Lcobucci\JWT\Token\Signature
-     */
+    /** @test */
     public function assertShouldNotRaiseExceptionWhenIdMatches(): void
     {
         $token = $this->buildToken([RegisteredClaims::ID => '123456']);

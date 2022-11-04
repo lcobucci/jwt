@@ -6,17 +6,10 @@ namespace Lcobucci\JWT\Tests\Token;
 use Lcobucci\JWT\Token\DataSet;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Token\DataSet */
+/** @covers \Lcobucci\JWT\Token\DataSet */
 final class DataSetTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::get
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet::has
-     */
+    /** @test */
     public function getShouldReturnTheConfiguredValue(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
@@ -24,14 +17,7 @@ final class DataSetTest extends TestCase
         self::assertSame(1, $set->get('one'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::get
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet::has
-     */
+    /** @test */
     public function getShouldReturnTheFallbackValueWhenItWasGiven(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
@@ -39,14 +25,7 @@ final class DataSetTest extends TestCase
         self::assertSame(2, $set->get('two', 2));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::get
-     *
-     * @uses \Lcobucci\JWT\Token\DataSet::has
-     */
+    /** @test */
     public function getShouldReturnNullWhenFallbackValueWasNotGiven(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
@@ -54,12 +33,7 @@ final class DataSetTest extends TestCase
         self::assertNull($set->get('two'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::has
-     */
+    /** @test */
     public function hasShouldReturnTrueWhenItemWasConfigured(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
@@ -67,12 +41,7 @@ final class DataSetTest extends TestCase
         self::assertTrue($set->has('one'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::has
-     */
+    /** @test */
     public function hasShouldReturnFalseWhenItemWasNotConfigured(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
@@ -80,12 +49,7 @@ final class DataSetTest extends TestCase
         self::assertFalse($set->has('two'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::all
-     */
+    /** @test */
     public function allShouldReturnAllConfiguredItems(): void
     {
         $items = ['one' => 1, 'two' => 2];
@@ -94,12 +58,7 @@ final class DataSetTest extends TestCase
         self::assertSame($items, $set->all());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::toString
-     */
+    /** @test */
     public function toStringShouldReturnTheEncodedData(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
