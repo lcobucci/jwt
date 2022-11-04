@@ -14,7 +14,7 @@ final class Sha256Bench extends SignerBench
 {
     protected function signer(): Signer
     {
-        return Sha256::create();
+        return new Sha256();
     }
 
     protected function signingKey(): Key
