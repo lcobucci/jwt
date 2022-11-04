@@ -105,10 +105,6 @@ $configuration = Configuration::forAsymmetricSigner(
 );
 ```
 
-!!! Important
-    The implementation of ECDSA algorithms have a constructor dependency.
-    Use the `create()` named constructor to avoid having to handle it (e.g.: `Lcobucci\JWT\Signer\Ecdsa\Sha256::create()`).
-
 ### For no algorithm
 
 !!! Warning
