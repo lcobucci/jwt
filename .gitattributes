@@ -10,3 +10,4 @@
 /composer.lock                  export-ignore
 /README.md                      export-ignore
 /Makefile                       export-ignore
+/roave-bc-check.yaml            export-ignore
