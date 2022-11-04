@@ -30,7 +30,7 @@
         "mikey179/vfsstream": "^1.6.11",
         "phpbench/phpbench": "^1.2",
         "phpstan/extension-installer": "^1.2",
-        "phpstan/phpstan": "^1.8",
+        "phpstan/phpstan": "^1.9",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.2",
         "phpstan/phpstan-strict-rules": "^1.4",
