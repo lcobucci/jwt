@@ -6,7 +6,6 @@ namespace Lcobucci\JWT\Tests;
 use DateTimeImmutable;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\KeyDumpSigner;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;

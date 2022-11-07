@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Lcobucci\JWT;
+namespace Lcobucci\JWT\Tests;
 
+use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 
 final class KeyDumpSigner implements Signer

@@ -28,7 +28,6 @@ use PHPUnit\Framework\TestCase;
  * @uses \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
  * @uses \Lcobucci\JWT\Encoding\UnifyAudience
  * @uses \Lcobucci\JWT\Signer\Key\InMemory
- * @uses \Lcobucci\JWT\Signer\None
  * @uses \Lcobucci\JWT\Token\Builder
  * @uses \Lcobucci\JWT\Token\Parser
  * @uses \Lcobucci\JWT\Validation\Validator

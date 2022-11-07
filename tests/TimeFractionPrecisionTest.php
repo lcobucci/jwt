@@ -6,7 +6,6 @@ namespace Lcobucci\JWT\Tests;
 use DateTimeImmutable;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Encoding\JoseEncoder;
-use Lcobucci\JWT\KeyDumpSigner;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token\Plain;
 use PHPUnit\Framework\TestCase;

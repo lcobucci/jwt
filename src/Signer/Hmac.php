@@ -30,8 +30,8 @@ abstract class Hmac implements Signer
 
     /**
      * @internal
-     * 
-     * @return non-empty-string 
+     *
+     * @return non-empty-string
      */
     abstract public function algorithm(): string;
 
