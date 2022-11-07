@@ -40,7 +40,11 @@ final class InMemory implements Key
         return new self($decoded, $passphrase);
     }
 
-    /** @throws FileCouldNotBeRead */
+    /**
+     * @param non-empty-string $path
+     *
+     * @throws FileCouldNotBeRead
+     */
     public static function file(string $path, string $passphrase = ''): self
     {
         try {
@@ -54,11 +58,11 @@ final class InMemory implements Key
         assert(is_string($contents));
 
         self::guardAgainstEmptyKey($contents);
-        assert($contents !== '');
 
         return new self($contents, $passphrase);
     }
 
+    /** @phpstan-assert non-empty-string $contents */
     private static function guardAgainstEmptyKey(string $contents): void
     {
         if ($contents === '') {

@@ -73,7 +73,7 @@ final class Parser implements ParserInterface
      *
      * @param non-empty-string $data
      *
-     * @return mixed[]
+     * @return array<non-empty-string, mixed>
      *
      * @throws UnsupportedHeaderFound When an invalid header is informed.
      * @throws InvalidTokenStructure  When parsed content isn't an array.
@@ -85,6 +85,8 @@ final class Parser implements ParserInterface
         if (! is_array($header)) {
             throw InvalidTokenStructure::arrayExpected('headers');
         }
+
+        $this->guardAgainstEmptyStringKeys($header, 'headers');
 
         if (array_key_exists('enc', $header)) {
             throw UnsupportedHeaderFound::encryption();
@@ -102,7 +104,7 @@ final class Parser implements ParserInterface
      *
      * @param non-empty-string $data
      *
-     * @return mixed[]
+     * @return array<non-empty-string, mixed>
      *
      * @throws InvalidTokenStructure When parsed content isn't an array or contains non-parseable dates.
      */
@@ -113,6 +115,8 @@ final class Parser implements ParserInterface
         if (! is_array($claims)) {
             throw InvalidTokenStructure::arrayExpected('claims');
         }
+
+        $this->guardAgainstEmptyStringKeys($claims, 'claims');
 
         if (array_key_exists(RegisteredClaims::AUDIENCE, $claims)) {
             $claims[RegisteredClaims::AUDIENCE] = (array) $claims[RegisteredClaims::AUDIENCE];
@@ -127,6 +131,21 @@ final class Parser implements ParserInterface
         }
 
         return $claims;
+    }
+
+    /**
+     * @param array<string, mixed> $array
+     * @param non-empty-string     $part
+     *
+     * @phpstan-assert array<non-empty-string, mixed> $array
+     */
+    private function guardAgainstEmptyStringKeys(array $array, string $part): void
+    {
+        foreach ($array as $key => $value) {
+            if ($key === '') {
+                throw InvalidTokenStructure::arrayExpected($part);
+            }
+        }
     }
 
     /** @throws InvalidTokenStructure */

@@ -11,8 +11,8 @@ use PHPUnit\Framework\TestCase;
 abstract class ConstraintTestCase extends TestCase
 {
     /**
-     * @param mixed[] $claims
-     * @param mixed[] $headers
+     * @param array<non-empty-string, mixed> $claims
+     * @param array<non-empty-string, mixed> $headers
      */
     protected function buildToken(
         array $claims = [],

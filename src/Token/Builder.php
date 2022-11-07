@@ -18,10 +18,10 @@ use function in_array;
 
 final class Builder implements BuilderInterface
 {
-    /** @var array<string, mixed> */
+    /** @var array<non-empty-string, mixed> */
     private array $headers = ['typ' => 'JWT', 'alg' => null];
 
-    /** @var array<string, mixed> */
+    /** @var array<non-empty-string, mixed> */
     private array $claims = [];
 
     public function __construct(private readonly Encoder $encoder, private readonly ClaimsFormatter $claimFormatter)
@@ -82,6 +82,7 @@ final class Builder implements BuilderInterface
         return $this->setClaim($name, $value);
     }
 
+    /** @param non-empty-string $name */
     private function setClaim(string $name, mixed $value): BuilderInterface
     {
         $this->claims[$name] = $value;
@@ -90,7 +91,7 @@ final class Builder implements BuilderInterface
     }
 
     /**
-     * @param array<string, mixed> $items
+     * @param array<non-empty-string, mixed> $items
      *
      * @throws CannotEncodeContent When data cannot be converted to JSON.
      */

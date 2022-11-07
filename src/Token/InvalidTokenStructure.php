@@ -28,9 +28,10 @@ final class InvalidTokenStructure extends InvalidArgumentException implements Ex
         return new self('The JWT string is missing the Signature part');
     }
 
+    /** @param non-empty-string $part */
     public static function arrayExpected(string $part): self
     {
-        return new self($part . ' must be an array');
+        return new self($part . ' must be an array with non-empty-string keys');
     }
 
     public static function dateIsNotParseable(string $value): self

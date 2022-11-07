@@ -13,6 +13,7 @@ final class RegisteredClaimGiven extends InvalidArgumentException implements Exc
     private const DEFAULT_MESSAGE = 'Builder#withClaim() is meant to be used for non-registered claims, '
                                   . 'check the documentation on how to set claim "%s"';
 
+    /** @param non-empty-string $name */
     public static function forClaim(string $name): self
     {
         return new self(sprintf(self::DEFAULT_MESSAGE, $name));

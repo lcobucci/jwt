@@ -48,6 +48,7 @@ final class JwtFacadeTest extends TestCase
     private FrozenClock $clock;
     private Sha256 $signer;
     private InMemory $key;
+    /** @var non-empty-string */
     private string $issuer;
 
     protected function setUp(): void

@@ -23,6 +23,8 @@ final class HasClaimWithValueTest extends ConstraintTestCase
      * @dataProvider registeredClaims
      *
      * @covers \Lcobucci\JWT\Validation\Constraint\CannotValidateARegisteredClaim
+     *
+     * @param non-empty-string $claim
      */
     public function registeredClaimsCannotBeValidatedUsingThisConstraint(string $claim): void
     {
@@ -34,7 +36,7 @@ final class HasClaimWithValueTest extends ConstraintTestCase
         new HasClaimWithValue($claim, 'testing');
     }
 
-    /** @return iterable<string, array{string}> */
+    /** @return iterable<non-empty-string, array{non-empty-string}> */
     public function registeredClaims(): iterable
     {
         foreach (Token\RegisteredClaims::ALL as $claim) {

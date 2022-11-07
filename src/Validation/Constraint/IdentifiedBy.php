@@ -9,6 +9,7 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class IdentifiedBy implements Constraint
 {
+    /** @param non-empty-string $id */
     public function __construct(private readonly string $id)
     {
     }

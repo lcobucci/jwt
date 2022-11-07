@@ -105,10 +105,24 @@ final class ParserTest extends TestCase
     }
 
     /** @test */
-    public function parseMustRaiseExceptionWhenDealingWithInvalidHeaders(): void
+    public function parseMustRaiseExceptionWhenDealingWithNonArrayHeaders(): void
     {
         $this->decoder->method('jsonDecode')
                       ->willReturn('A very invalid header');
+
+        $parser = $this->createParser();
+
+        $this->expectException(InvalidTokenStructure::class);
+        $this->expectExceptionMessage('headers must be an array');
+
+        $parser->parse('a.a.a');
+    }
+
+    /** @test */
+    public function parseMustRaiseExceptionWhenDealingWithHeadersThatHaveEmptyStringKeys(): void
+    {
+        $this->decoder->method('jsonDecode')
+                      ->willReturn(['' => 'foo']);
 
         $parser = $this->createParser();
 
@@ -133,10 +147,24 @@ final class ParserTest extends TestCase
     }
 
     /** @test */
-    public function parseMustRaiseExceptionWhenDealingWithInvalidClaims(): void
+    public function parseMustRaiseExceptionWhenDealingWithNonArrayClaims(): void
     {
         $this->decoder->method('jsonDecode')
                       ->willReturnOnConsecutiveCalls(['typ' => 'JWT'], 'A very invalid claim set');
+
+        $parser = $this->createParser();
+
+        $this->expectException(InvalidTokenStructure::class);
+        $this->expectExceptionMessage('claims must be an array');
+
+        $parser->parse('a.a.a');
+    }
+
+    /** @test */
+    public function parseMustRaiseExceptionWhenDealingWithClaimsThatHaveEmptyStringKeys(): void
+    {
+        $this->decoder->method('jsonDecode')
+                      ->willReturnOnConsecutiveCalls(['typ' => 'JWT'], ['' => 'foo']);
 
         $parser = $this->createParser();
 

@@ -15,7 +15,6 @@ abstract class Ecdsa extends OpenSSL
     ) {
     }
 
-    /** @return  non-empty-string */
     final public function sign(string $payload, Key $key): string
     {
         return $this->converter->fromAsn1(
@@ -50,13 +49,19 @@ abstract class Ecdsa extends OpenSSL
         }
     }
 
-    /** @internal */
+    /**
+     * @internal
+     *
+     * @return positive-int
+     */
     abstract public function expectedKeyLength(): int;
 
     /**
      * Returns the length of each point in the signature, so that we can calculate and verify R and S points properly
      *
      * @internal
+     *
+     * @return positive-int
      */
     abstract public function pointLength(): int;
 }
