@@ -9,9 +9,10 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class IssuedBy implements Constraint
 {
-    /** @var string[] */
+    /** @var non-empty-string[] */
     private readonly array $issuers;
 
+    /** @param non-empty-string ...$issuers */
     public function __construct(string ...$issuers)
     {
         $this->issuers = $issuers;

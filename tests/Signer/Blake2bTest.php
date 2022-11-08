@@ -28,6 +28,7 @@ final class Blake2bTest extends TestCase
 
     private InMemory $keyOne;
     private InMemory $keyTwo;
+    /** @var non-empty-string */
     private string $expectedHashWithKeyOne;
 
     /** @before */

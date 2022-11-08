@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
 
 use function assert;
 use function file_put_contents;
-use function is_string;
 use function sys_get_temp_dir;
 use function tempnam;
 
@@ -154,7 +153,8 @@ class HmacTokenTest extends TestCase
     public function signatureValidationWithLocalFileKeyReferenceWillOperateWithKeyContents(): void
     {
         $key = tempnam(sys_get_temp_dir(), 'a-very-long-prefix-to-create-a-longer-key');
-        assert(is_string($key));
+        self::assertIsString($key);
+        self::assertNotSame('', $key);
 
         file_put_contents(
             $key,

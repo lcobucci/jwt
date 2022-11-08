@@ -12,6 +12,7 @@ use function in_array;
 
 final class HasClaimWithValue implements Constraint
 {
+    /** @param non-empty-string $claim */
     public function __construct(private readonly string $claim, private readonly mixed $expectedValue)
     {
         if (in_array($claim, Token\RegisteredClaims::ALL, true)) {

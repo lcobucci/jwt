@@ -14,14 +14,9 @@ use function is_string;
 
 final class InMemory implements Key
 {
+    /** @param non-empty-string $contents */
     private function __construct(public readonly string $contents, public readonly string $passphrase)
     {
-    }
-
-    /** @deprecated Deprecated since v4.3 */
-    public static function empty(): self
-    {
-        return new self('', '');
     }
 
     /** @param non-empty-string $contents */
@@ -45,7 +40,11 @@ final class InMemory implements Key
         return new self($decoded, $passphrase);
     }
 
-    /** @throws FileCouldNotBeRead */
+    /**
+     * @param non-empty-string $path
+     *
+     * @throws FileCouldNotBeRead
+     */
     public static function file(string $path, string $passphrase = ''): self
     {
         try {
@@ -63,6 +62,7 @@ final class InMemory implements Key
         return new self($contents, $passphrase);
     }
 
+    /** @phpstan-assert non-empty-string $contents */
     private static function guardAgainstEmptyKey(string $contents): void
     {
         if ($contents === '') {

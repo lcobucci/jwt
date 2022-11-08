@@ -11,9 +11,7 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use PHPUnit\Framework\TestCase;
 
-use function assert;
 use function hex2bin;
-use function is_string;
 
 use const PHP_EOL;
 
@@ -34,6 +32,8 @@ final class RFC6978VectorTest extends TestCase
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha384
      * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
      * @covers \Lcobucci\JWT\Signer\OpenSSL
+     *
+     * @param non-empty-string $payload
      */
     public function theVectorsFromRFC6978CanBeVerified(
         Ecdsa $signer,
@@ -43,7 +43,8 @@ final class RFC6978VectorTest extends TestCase
         string $expectedS,
     ): void {
         $signature = hex2bin($expectedR . $expectedS);
-        assert(is_string($signature));
+        self::assertIsString($signature);
+        self::assertNotSame('', $signature);
 
         static::assertTrue($signer->verify($signature, $payload, $key));
     }

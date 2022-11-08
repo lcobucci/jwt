@@ -14,19 +14,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class SignatureTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::fromEmptyData
-     */
-    public function fromEmptyDataShouldReturnAnEmptySignature(): void
-    {
-        $signature = Signature::fromEmptyData();
-
-        self::assertSame('', $signature->hash());
-        self::assertSame('', $signature->toString());
-    }
-
     /** @test */
     public function hashShouldReturnTheHash(): void
     {

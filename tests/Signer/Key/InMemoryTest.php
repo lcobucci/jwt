@@ -50,23 +50,6 @@ final class InMemoryTest extends TestCase
     /**
      * @test
      *
-     * @covers ::empty
-     * @covers ::guardAgainstEmptyKey
-     * @covers ::__construct
-     * @covers ::contents
-     * @covers ::passphrase
-     */
-    public function emptyShouldCreateAKeyWithEmptyContentsAndPassphrase(): void
-    {
-        $key = InMemory::empty();
-
-        self::assertSame('', $key->contents());
-        self::assertSame('', $key->passphrase());
-    }
-
-    /**
-     * @test
-     *
      * @covers ::guardAgainstEmptyKey
      * @covers ::__construct
      * @covers ::file

@@ -6,6 +6,7 @@ namespace Lcobucci\JWT\Tests;
 use DateTimeImmutable;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token\Plain;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +22,6 @@ use PHPUnit\Framework\TestCase;
  * @covers \Lcobucci\JWT\Token\DataSet
  * @covers \Lcobucci\JWT\Token\Signature
  * @covers \Lcobucci\JWT\Signer\Key\InMemory
- * @covers \Lcobucci\JWT\Signer\None
  * @covers \Lcobucci\JWT\Validation\Validator
  * @covers \Lcobucci\JWT\Validation\ConstraintViolation
  * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
@@ -36,7 +36,10 @@ final class TimeFractionPrecisionTest extends TestCase
      */
     public function timeFractionsPrecisionsAreRespected(string $timeFraction): void
     {
-        $config = Configuration::forUnsecuredSigner();
+        $config = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+        );
 
         $issuedAt = DateTimeImmutable::createFromFormat('U.u', $timeFraction);
 
@@ -72,8 +75,11 @@ final class TimeFractionPrecisionTest extends TestCase
         $headers = $encoder->base64UrlEncode($encoder->jsonEncode(['typ' => 'JWT', 'alg' => 'none']));
         $claims  = $encoder->base64UrlEncode($encoder->jsonEncode(['iat' => $issuedAt]));
 
-        $config      = Configuration::forUnsecuredSigner();
-        $parsedToken = $config->parser()->parse($headers . '.' . $claims . '.');
+        $config      = Configuration::forSymmetricSigner(
+            new KeyDumpSigner(),
+            InMemory::plainText('private'),
+        );
+        $parsedToken = $config->parser()->parse($headers . '.' . $claims . '.cHJpdmF0ZQ');
 
         self::assertInstanceOf(Plain::class, $parsedToken);
         self::assertSame($timeFraction, $parsedToken->claims()->get('iat')->format('U.u'));

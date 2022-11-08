@@ -9,6 +9,7 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class PermittedFor implements Constraint
 {
+    /** @param non-empty-string $audience */
     public function __construct(private readonly string $audience)
     {
     }

@@ -7,10 +7,8 @@ use Lcobucci\JWT\Signer\Ecdsa\ConversionFailed;
 use Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter;
 use PHPUnit\Framework\TestCase;
 
-use function assert;
 use function bin2hex;
 use function hex2bin;
-use function is_string;
 use function strlen;
 
 /** @coversDefaultClass \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter */
@@ -23,6 +21,10 @@ final class MultibyteStringConverterTest extends TestCase
      * @covers ::toAsn1
      * @covers ::octetLength
      * @covers ::preparePositiveInteger
+     *
+     * @param non-empty-string $r
+     * @param non-empty-string $s
+     * @param non-empty-string $asn1
      */
     public function toAsn1ShouldReturnThePointsInAnAsn1SequenceFormat(
         string $r,
@@ -31,7 +33,8 @@ final class MultibyteStringConverterTest extends TestCase
     ): void {
         $converter = new MultibyteStringConverter();
         $message   = hex2bin($r . $s);
-        assert(is_string($message));
+        self::assertIsString($message);
+        self::assertNotSame('', $message);
 
         self::assertSame($asn1, bin2hex($converter->toAsn1($message, strlen($r))));
     }
@@ -65,7 +68,8 @@ final class MultibyteStringConverterTest extends TestCase
     {
         $converter = new MultibyteStringConverter();
         $message   = hex2bin($asn1);
-        assert(is_string($message));
+        self::assertIsString($message);
+        self::assertNotSame('', $message);
 
         self::assertSame($r . $s, bin2hex($converter->fromAsn1($message, strlen($r))));
     }
@@ -113,7 +117,7 @@ final class MultibyteStringConverterTest extends TestCase
     {
         $converter = new MultibyteStringConverter();
         $message   = hex2bin($message);
-        assert(is_string($message));
+        self::assertIsString($message);
 
         $this->expectException(ConversionFailed::class);
         $this->expectExceptionMessage($expectedMessage);

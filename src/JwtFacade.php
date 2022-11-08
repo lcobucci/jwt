@@ -45,6 +45,7 @@ final class JwtFacade
         return $customiseBuilder($builder, $now)->getToken($signer, $signingKey);
     }
 
+    /** @param non-empty-string $jwt */
     public function parse(
         string $jwt,
         SignedWith $signedWith,

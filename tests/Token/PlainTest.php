@@ -461,9 +461,9 @@ final class PlainTest extends TestCase
      */
     public function toStringMustReturnEncodedDataWithEmptySignature(): void
     {
-        $token = $this->createToken(null, null, Signature::fromEmptyData());
+        $token = $this->createToken(null, null, new Signature('123', '456'));
 
-        self::assertSame('headers.claims.', $token->toString());
+        self::assertSame('headers.claims.456', $token->toString());
     }
 
     /**

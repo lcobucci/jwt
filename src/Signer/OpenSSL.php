@@ -34,6 +34,8 @@ abstract class OpenSSL implements Signer
     ];
 
     /**
+     * @return non-empty-string
+     *
      * @throws CannotSignPayload
      * @throws InvalidKeyProvided
      */

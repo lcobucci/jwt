@@ -48,6 +48,7 @@ final class JwtFacadeTest extends TestCase
     private FrozenClock $clock;
     private Sha256 $signer;
     private InMemory $key;
+    /** @var non-empty-string */
     private string $issuer;
 
     protected function setUp(): void
@@ -58,6 +59,7 @@ final class JwtFacadeTest extends TestCase
         $this->issuer = 'bar';
     }
 
+    /** @return non-empty-string */
     private function createToken(): string
     {
         return (new JwtFacade(clock: $this->clock))->issue(

@@ -8,6 +8,7 @@ use Lcobucci\JWT\Exception;
 
 final class CannotValidateARegisteredClaim extends InvalidArgumentException implements Exception
 {
+    /** @param non-empty-string $claim */
     public static function create(string $claim): self
     {
         return new self(

@@ -65,6 +65,7 @@ final class MultibyteStringConverter implements SignatureConverter
             . self::ASN1_INTEGER . dechex($lengthS) . $pointS,
         );
         assert(is_string($asn1));
+        assert($asn1 !== '');
 
         return $asn1;
     }
@@ -109,6 +110,7 @@ final class MultibyteStringConverter implements SignatureConverter
 
         $points = hex2bin(str_pad($pointR, $length, '0', STR_PAD_LEFT) . str_pad($pointS, $length, '0', STR_PAD_LEFT));
         assert(is_string($points));
+        assert($points !== '');
 
         return $points;
     }

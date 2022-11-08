@@ -15,6 +15,8 @@ interface Builder
 {
     /**
      * Appends new items to audience
+     *
+     * @param non-empty-string ...$audiences
      */
     public function permittedFor(string ...$audiences): Builder;
 
@@ -25,6 +27,8 @@ interface Builder
 
     /**
      * Configures the token id
+     *
+     * @param non-empty-string $id
      */
     public function identifiedBy(string $id): Builder;
 
@@ -35,6 +39,8 @@ interface Builder
 
     /**
      * Configures the issuer
+     *
+     * @param non-empty-string $issuer
      */
     public function issuedBy(string $issuer): Builder;
 
@@ -45,16 +51,22 @@ interface Builder
 
     /**
      * Configures the subject
+     *
+     * @param non-empty-string $subject
      */
     public function relatedTo(string $subject): Builder;
 
     /**
      * Configures a header item
+     *
+     * @param non-empty-string $name
      */
     public function withHeader(string $name, mixed $value): Builder;
 
     /**
      * Configures a claim item
+     *
+     * @param non-empty-string $name
      *
      * @throws RegisteredClaimGiven When trying to set a registered claim.
      */

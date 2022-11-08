@@ -8,6 +8,7 @@ use Lcobucci\JWT\Decoder;
 use Lcobucci\JWT\Encoder;
 use Lcobucci\JWT\SodiumBase64Polyfill;
 
+use function assert;
 use function json_decode;
 use function json_encode;
 
@@ -23,10 +24,14 @@ final class JoseEncoder implements Encoder, Decoder
     public function jsonEncode(mixed $data): string
     {
         try {
-            return json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
+            $jsonEncoded = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
         } catch (JsonException $exception) {
             throw CannotEncodeContent::jsonIssues($exception);
         }
+
+        assert($jsonEncoded !== '');
+
+        return $jsonEncoded;
     }
 
     public function jsonDecode(string $json): mixed
