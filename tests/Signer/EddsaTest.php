@@ -76,9 +76,7 @@ final class EddsaTest extends TestCase
     {
         $payload   = 'testing';
         $signature = sodium_crypto_sign_detached($payload, self::$eddsaKeys['private']->contents());
-        self::assertNotSame('', $signature);
-
-        $signer = new Eddsa();
+        $signer    = new Eddsa();
 
         self::assertTrue($signer->verify($signature, $payload, self::$eddsaKeys['public1']));
     }
