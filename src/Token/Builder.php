@@ -16,6 +16,7 @@ use function array_diff;
 use function array_merge;
 use function in_array;
 
+/** @immutable */
 final class Builder implements BuilderInterface
 {
     /** @var array<non-empty-string, mixed> */
@@ -68,9 +69,10 @@ final class Builder implements BuilderInterface
 
     public function withHeader(string $name, mixed $value): BuilderInterface
     {
-        $this->headers[$name] = $value;
+        $new                 = clone $this;
+        $new->headers[$name] = $value;
 
-        return $this;
+        return $new;
     }
 
     public function withClaim(string $name, mixed $value): BuilderInterface
@@ -85,9 +87,10 @@ final class Builder implements BuilderInterface
     /** @param non-empty-string $name */
     private function setClaim(string $name, mixed $value): BuilderInterface
     {
-        $this->claims[$name] = $value;
+        $new                = clone $this;
+        $new->claims[$name] = $value;
 
-        return $this;
+        return $new;
     }
 
     /**

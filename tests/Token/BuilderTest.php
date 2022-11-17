@@ -13,6 +13,7 @@ use Lcobucci\JWT\Token\RegisteredClaimGiven;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use SplObjectStorage;
 
 /**
  * @covers \Lcobucci\JWT\Token\Builder
@@ -103,5 +104,33 @@ final class BuilderTest extends TestCase
         self::assertSame('subject', $token->claims()->get(RegisteredClaims::SUBJECT));
         self::assertSame(['test1', 'test2'], $token->claims()->get(RegisteredClaims::AUDIENCE));
         self::assertSame('3', $token->signature()->toString());
+    }
+
+    /** @test */
+    public function immutability(): void
+    {
+        $map           = new SplObjectStorage();
+        $builder       = new Builder($this->encoder, new MicrosecondBasedDateConversion());
+        $map[$builder] = true;
+        $builder       = $builder->identifiedBy('123456');
+        $map[$builder] = true;
+        $builder       = $builder->issuedBy('https://issuer.com');
+        $map[$builder] = true;
+        $builder       = $builder->issuedAt(new DateTimeImmutable());
+        $map[$builder] = true;
+        $builder       = $builder->canOnlyBeUsedAfter(new DateTimeImmutable());
+        $map[$builder] = true;
+        $builder       = $builder->expiresAt(new DateTimeImmutable());
+        $map[$builder] = true;
+        $builder       = $builder->relatedTo('subject');
+        $map[$builder] = true;
+        $builder       = $builder->permittedFor('test1');
+        $map[$builder] = true;
+        $builder       = $builder->withClaim('test', 123);
+        $map[$builder] = true;
+        $builder       = $builder->withHeader('userId', 2);
+        $map[$builder] = true;
+
+        self::assertCount(10, $map);
     }
 }
