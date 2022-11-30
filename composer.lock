@@ -3803,16 +3803,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v6.1.7",
+            "version": "v6.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "a1282bd0c096e0bdb8800b104177e2ce404d8815"
+                "reference": "a71863ea74f444d93c768deb3e314e1f750cf20d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/a1282bd0c096e0bdb8800b104177e2ce404d8815",
-                "reference": "a1282bd0c096e0bdb8800b104177e2ce404d8815",
+                "url": "https://api.github.com/repos/symfony/console/zipball/a71863ea74f444d93c768deb3e314e1f750cf20d",
+                "reference": "a71863ea74f444d93c768deb3e314e1f750cf20d",
                 "shasum": ""
             },
             "require": {
@@ -3879,7 +3879,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v6.1.7"
+                "source": "https://github.com/symfony/console/tree/v6.1.8"
             },
             "funding": [
                 {
@@ -3895,7 +3895,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-26T21:42:49+00:00"
+            "time": "2022-11-25T18:59:16+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
