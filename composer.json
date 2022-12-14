@@ -27,14 +27,14 @@
     "require-dev": {
         "infection/infection": "^0.26",
         "lcobucci/coding-standard": "^9.0",
-        "phpbench/phpbench": "^1.2",
+        "phpbench/phpbench": "^1.2.7",
         "phpstan/extension-installer": "^1.2",
-        "phpstan/phpstan": "^1.8",
-        "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.2",
-        "phpstan/phpstan-strict-rules": "^1.4",
-        "phpunit/php-code-coverage": "9.2.17",
-        "phpunit/phpunit": "^9.5"
+        "phpstan/phpstan": "^1.9.3",
+        "phpstan/phpstan-deprecation-rules": "^1.1.1",
+        "phpstan/phpstan-phpunit": "^1.3.2",
+        "phpstan/phpstan-strict-rules": "^1.4.4",
+        "phpunit/php-code-coverage": "9.2.21",
+        "phpunit/phpunit": "^9.5.27"
     },
     "autoload": {
         "psr-4": {
