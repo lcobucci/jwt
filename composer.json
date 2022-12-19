@@ -23,7 +23,7 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-sodium": "*",
-        "lcobucci/clock": "^2.0"
+        "lcobucci/clock": "^2.0 || ^3.0"
     },
     "require-dev": {
         "infection/infection": "^0.21",
