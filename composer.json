@@ -22,7 +22,7 @@
         "ext-json": "*",
         "ext-openssl": "*",
         "ext-sodium": "*",
-        "lcobucci/clock": "^2.2"
+        "lcobucci/clock": "^3.0.0"
     },
     "require-dev": {
         "infection/infection": "^0.26",
