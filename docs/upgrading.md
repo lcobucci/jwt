@@ -72,6 +72,55 @@ If you're using it because it's "fast", please look into adoption the non-standa
 +);
 ```
 
+### `Builder` API is now `@immutable`
+
+`\Lcobucci\JWT\Builder` interface alongside with its default implementation `\Lcobucci\JWT\Token\Builder` are now marked `@immutable`.
+
+If you are using it for example with the `JwtFacade` ensure now to use the returned new `Builder` instance:
+
+```diff
+ $token = (new JwtFacade())->issue(
+     new Sha256(),
+     $key,
+     static function (
+         Builder $builder,
+         DateTimeImmutable $now
+     ): Builder {
+-        $builder->issuedBy('https://api.my-awesome-app.io');
+-        $builder->permittedFor('https://client-app.io');
+-        $builder->expiresAt($now->modify('+10 minutes'));
++        $builder = $builder->issuedBy('https://api.my-awesome-app.io');
++        $builder = $builder->permittedFor('https://client-app.io');
++        $builder = $builder->expiresAt($now->modify('+10 minutes'));
+
+         return $builder;
+     }
+ );
+```
+
+Or:
+
+```diff
+ $token = (new JwtFacade())->issue(
+     new Sha256(),
+     $key,
+-    static function (
++    static fn (
+         Builder $builder,
+         DateTimeImmutable $now
+-    ): Builder {
+-        $builder->issuedBy('https://api.my-awesome-app.io');
+-        $builder->permittedFor('https://client-app.io');
+-        $builder->expiresAt($now->modify('+10 minutes'));
+-
+-         return $builder;
+-     }
++    ): Builder => $builder->issuedBy('https://api.my-awesome-app.io')
++        ->permittedFor('https://client-app.io')
++        ->expiresAt($now->modify('+10 minutes'))
+ );
+```
+
 ## v3.x to v4.x
 
 The `v4.0.0` aggregates about 5 years of work and contains **several BC-breaks**.
