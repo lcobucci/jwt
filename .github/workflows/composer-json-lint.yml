@@ -29,7 +29,7 @@ jobs:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
           ini-values: memory_limit=-1
-          tools: composer:v2, composer-normalize, composer-require-checker, composer-unused
+          tools: composer:v2, composer-normalize:2.28.3, composer-require-checker, composer-unused
 
       - name: Get composer cache directory
         id: composer-cache
