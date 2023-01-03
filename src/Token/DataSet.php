@@ -7,33 +7,24 @@ use function array_key_exists;
 
 final class DataSet
 {
-    /** @var array<string, mixed> */
-    private array $data;
-    private string $encoded;
-
-    /** @param array<string, mixed> $data */
-    public function __construct(array $data, string $encoded)
+    /** @param array<non-empty-string, mixed> $data */
+    public function __construct(private readonly array $data, private readonly string $encoded)
     {
-        $this->data    = $data;
-        $this->encoded = $encoded;
     }
 
-    /**
-     * @param mixed|null $default
-     *
-     * @return mixed|null
-     */
-    public function get(string $name, $default = null)
+    /** @param non-empty-string $name */
+    public function get(string $name, mixed $default = null): mixed
     {
         return $this->data[$name] ?? $default;
     }
 
+    /** @param non-empty-string $name */
     public function has(string $name): bool
     {
         return array_key_exists($name, $this->data);
     }
 
-    /** @return array<string, mixed> */
+    /** @return array<non-empty-string, mixed> */
     public function all(): array
     {
         return $this->data;

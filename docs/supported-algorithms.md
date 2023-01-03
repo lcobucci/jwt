@@ -21,18 +21,6 @@ They're usually recommended for scenarios where these operations are handled by 
 !!! Warning
     Although `BLAKE2B` is fantastic due to its performance, it's not [JWT standard] and won't necessarily be offered by other libraries.
 
-### Deprecated items
-
-In `v4.2.0`, we introduced key length validation and added a way for users to still use non-recommended keys.
-The following implementations will be **removed** in `v5.0.0` (use them carefully):
-
-| Name    | Description        | Class                                    | Key length req. |
-|---------|--------------------|------------------------------------------|-----------------|
-| `HS256` | HMAC using SHA-256 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha256` | `>= 1 bit`      |
-| `HS384` | HMAC using SHA-384 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha384` | `>= 1 bit`      |
-| `HS512` | HMAC using SHA-512 | `\Lcobucci\JWT\Signer\Hmac\UnsafeSha512` | `>= 1 bit`      |
-
-
 ## Asymmetric algorithms
 
 Asymmetric algorithms perform signature creation with private/secret keys and verification with public keys.
@@ -48,18 +36,10 @@ They're usually recommended for scenarios where creation is handled by a compone
 | `RS512` | RSASSA-PKCS1-v1_5 using SHA-512 | `\Lcobucci\JWT\Signer\Rsa\Sha512`   | `>= 2048 bits`  |
 | `EdDSA` | EdDSA signature algorithms      | `\Lcobucci\JWT\Signer\Eddsa`        | `>= 256 bits`   |
 
-### Deprecated items
+## `none` algorithm
 
-In `v4.2.0`, we introduced key length validation and added a way for users to still use non-recommended keys.
-The following implementations will be **removed** in `v5.0.0` (use them carefully):
-
-| Name    | Description                     | Class                                     | Key length req. |
-|---------|---------------------------------|-------------------------------------------|-----------------|
-| `ES256` | ECDSA using P-256 and SHA-256   | `\Lcobucci\JWT\Signer\Ecdsa\UnsafeSha256` | `>= 1 bit`      |
-| `ES384` | ECDSA using P-384 and SHA-384   | `\Lcobucci\JWT\Signer\Ecdsa\UnsafeSha384` | `>= 1 bit`      |
-| `ES512` | ECDSA using P-521 and SHA-512   | `\Lcobucci\JWT\Signer\Ecdsa\UnsafeSha512` | `>= 1 bit`      |
-| `RS256` | RSASSA-PKCS1-v1_5 using SHA-256 | `\Lcobucci\JWT\Signer\Rsa\UnsafeSha256`   | `>= 1 bit`      |
-| `RS384` | RSASSA-PKCS1-v1_5 using SHA-384 | `\Lcobucci\JWT\Signer\Rsa\UnsafeSha384`   | `>= 1 bit`      |
-| `RS512` | RSASSA-PKCS1-v1_5 using SHA-512 | `\Lcobucci\JWT\Signer\Rsa\UnsafeSha512`   | `>= 1 bit`      |
+The `none` algorithm as described by [JWT standard] is intentionally not implemented and not supported.
+The risk of misusing it is too high, and even where other means guarantee the token validity a symmetric algorithm
+shouldn't represent a computational bottleneck with modern hardware.
 
 [JWT standard]: https://www.iana.org/assignments/jose/jose.xhtml#web-signature-encryption-algorithms

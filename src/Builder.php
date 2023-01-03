@@ -9,13 +9,14 @@ use Lcobucci\JWT\Signer\CannotSignPayload;
 use Lcobucci\JWT\Signer\Ecdsa\ConversionFailed;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\RegisteredClaimGiven;
 
 interface Builder
 {
     /**
      * Appends new items to audience
+     *
+     * @param non-empty-string ...$audiences
      */
     public function permittedFor(string ...$audiences): Builder;
 
@@ -26,6 +27,8 @@ interface Builder
 
     /**
      * Configures the token id
+     *
+     * @param non-empty-string $id
      */
     public function identifiedBy(string $id): Builder;
 
@@ -36,6 +39,8 @@ interface Builder
 
     /**
      * Configures the issuer
+     *
+     * @param non-empty-string $issuer
      */
     public function issuedBy(string $issuer): Builder;
 
@@ -46,24 +51,26 @@ interface Builder
 
     /**
      * Configures the subject
+     *
+     * @param non-empty-string $subject
      */
     public function relatedTo(string $subject): Builder;
 
     /**
      * Configures a header item
      *
-     * @param mixed $value
+     * @param non-empty-string $name
      */
-    public function withHeader(string $name, $value): Builder;
+    public function withHeader(string $name, mixed $value): Builder;
 
     /**
      * Configures a claim item
      *
-     * @param mixed $value
+     * @param non-empty-string $name
      *
      * @throws RegisteredClaimGiven When trying to set a registered claim.
      */
-    public function withClaim(string $name, $value): Builder;
+    public function withClaim(string $name, mixed $value): Builder;
 
     /**
      * Returns a signed token to be used
@@ -73,5 +80,5 @@ interface Builder
      * @throws InvalidKeyProvided  When issue key is invalid/incompatible.
      * @throws ConversionFailed    When signature could not be converted.
      */
-    public function getToken(Signer $signer, Key $key): Plain;
+    public function getToken(Signer $signer, Key $key): UnencryptedToken;
 }

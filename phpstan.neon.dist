@@ -2,28 +2,4 @@ parameters:
     level: 8 # not yet ready for all the `mixed` checks
     paths:
         - src
-        - test
-
-    ignoreErrors:
-        - '#.*OpenSSLAsymmetricKey.*#'
-        - '#Call to method .* of deprecated class Lcobucci\\JWT\\Signer\\Key\\LocalFileReference#'
-        - """
-            #^.+ deprecated class Lcobucci\\\\JWT\\\\Signer\\\\.+:
-            Deprecated since v4\\.2$#
-        """
-        - """
-            #^Call to deprecated method fromEmptyData\\(\\) of class Lcobucci\\\\JWT\\\\Token\\\\Signature:
-            Deprecated since v4\\.3$#
-        """
-        - """
-            #^Call to deprecated method forUnsecuredSigner\\(\\) of class Lcobucci\\\\JWT\\\\Configuration:
-            Deprecated since v4\\.3$#
-        """
-        - """
-            #^Call to deprecated method empty\\(\\) of class Lcobucci\\\\JWT\\\\Signer\\\\Key\\\\InMemory:
-            Deprecated since v4\\.3$#
-        """
-        - """
-            #^.+ of deprecated class Lcobucci\\\\JWT\\\\Signer\\\\None:
-            Deprecated since v4\\.3$#
-        """
+        - tests

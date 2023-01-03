@@ -17,26 +17,24 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "~8.1.0 || ~8.2.0",
         "ext-hash": "*",
         "ext-json": "*",
-        "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-sodium": "*",
-        "lcobucci/clock": "^2.0 || ^3.0"
+        "lcobucci/clock": "^3.0.0"
     },
     "require-dev": {
-        "infection/infection": "^0.21",
-        "lcobucci/coding-standard": "^6.0",
-        "mikey179/vfsstream": "^1.6.7",
-        "phpbench/phpbench": "^1.2",
-        "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan": "^1.4",
-        "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0",
-        "phpstan/phpstan-strict-rules": "^1.0",
-        "phpunit/php-invoker": "^3.1",
-        "phpunit/phpunit": "^9.5"
+        "infection/infection": "^0.26",
+        "lcobucci/coding-standard": "^9.0",
+        "phpbench/phpbench": "^1.2.7",
+        "phpstan/extension-installer": "^1.2",
+        "phpstan/phpstan": "^1.9.4",
+        "phpstan/phpstan-deprecation-rules": "^1.1.1",
+        "phpstan/phpstan-phpunit": "^1.3.3",
+        "phpstan/phpstan-strict-rules": "^1.4.4",
+        "phpunit/php-code-coverage": "9.2.23",
+        "phpunit/phpunit": "^9.5.27"
     },
     "autoload": {
         "psr-4": {
@@ -45,12 +43,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Lcobucci\\JWT\\": [
-                "test/_keys",
-                "test/unit",
-                "test/performance"
-            ],
-            "Lcobucci\\JWT\\FunctionalTests\\": "test/functional"
+            "Lcobucci\\JWT\\Tests\\": "tests"
         }
     },
     "config": {
@@ -59,6 +52,9 @@
             "phpstan/extension-installer": true,
             "infection/extension-installer": true,
             "ocramius/package-versions": true
+        },
+        "platform": {
+            "php": "8.1.99"
         },
         "preferred-install": "dist",
         "sort-packages": true

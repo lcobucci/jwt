@@ -6,21 +6,19 @@ namespace Lcobucci\JWT\Validation;
 use Lcobucci\JWT\Exception;
 use RuntimeException;
 
-use function get_class;
-
 final class ConstraintViolation extends RuntimeException implements Exception
 {
-    /**
-     * @readonly
-     * @var class-string<Constraint>|null
-     */
-    public ?string $constraint = null;
+    /** @param class-string<Constraint>|null $constraint */
+    public function __construct(
+        string $message = '',
+        public readonly ?string $constraint = null,
+    ) {
+        parent::__construct($message);
+    }
 
+    /** @param non-empty-string $message */
     public static function error(string $message, Constraint $constraint): self
     {
-        $exception             = new self($message);
-        $exception->constraint = get_class($constraint);
-
-        return $exception;
+        return new self(message: $message, constraint: $constraint::class);
     }
 }

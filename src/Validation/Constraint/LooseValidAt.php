@@ -12,12 +12,10 @@ use Lcobucci\JWT\Validation\ValidAt as ValidAtInterface;
 
 final class LooseValidAt implements ValidAtInterface
 {
-    private Clock $clock;
-    private DateInterval $leeway;
+    private readonly DateInterval $leeway;
 
-    public function __construct(Clock $clock, ?DateInterval $leeway = null)
+    public function __construct(private readonly Clock $clock, ?DateInterval $leeway = null)
     {
-        $this->clock  = $clock;
         $this->leeway = $this->guardLeeway($leeway);
     }
 

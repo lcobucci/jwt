@@ -29,7 +29,7 @@ $token = $parser->parse(
 $validator = new Validator();
 
 try {
-    $validator->assert($token, new RelatedTo('1234567891')); // doesn't throw na exception
+    $validator->assert($token, new RelatedTo('1234567891')); // doesn't throw an exception
     $validator->assert($token, new RelatedTo('1234567890'));
 } catch (RequiredConstraintsViolated $e) {
     // list of constraints violation exceptions:

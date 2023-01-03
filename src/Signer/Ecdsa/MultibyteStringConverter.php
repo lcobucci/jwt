@@ -20,9 +20,9 @@ use function dechex;
 use function hex2bin;
 use function hexdec;
 use function is_string;
-use function mb_strlen;
-use function mb_substr;
 use function str_pad;
+use function strlen;
+use function substr;
 
 use const STR_PAD_LEFT;
 
@@ -49,8 +49,8 @@ final class MultibyteStringConverter implements SignatureConverter
             throw ConversionFailed::invalidLength();
         }
 
-        $pointR = self::preparePositiveInteger(mb_substr($points, 0, $length, '8bit'));
-        $pointS = self::preparePositiveInteger(mb_substr($points, $length, null, '8bit'));
+        $pointR = self::preparePositiveInteger(substr($points, 0, $length));
+        $pointS = self::preparePositiveInteger(substr($points, $length, null));
 
         $lengthR = self::octetLength($pointR);
         $lengthS = self::octetLength($pointS);
@@ -62,29 +62,30 @@ final class MultibyteStringConverter implements SignatureConverter
             self::ASN1_SEQUENCE
             . $lengthPrefix . dechex($totalLength)
             . self::ASN1_INTEGER . dechex($lengthR) . $pointR
-            . self::ASN1_INTEGER . dechex($lengthS) . $pointS
+            . self::ASN1_INTEGER . dechex($lengthS) . $pointS,
         );
         assert(is_string($asn1));
+        assert($asn1 !== '');
 
         return $asn1;
     }
 
     private static function octetLength(string $data): int
     {
-        return (int) (mb_strlen($data, '8bit') / self::BYTE_SIZE);
+        return (int) (strlen($data) / self::BYTE_SIZE);
     }
 
     private static function preparePositiveInteger(string $data): string
     {
-        if (mb_substr($data, 0, self::BYTE_SIZE, '8bit') > self::ASN1_BIG_INTEGER_LIMIT) {
+        if (substr($data, 0, self::BYTE_SIZE) > self::ASN1_BIG_INTEGER_LIMIT) {
             return self::ASN1_NEGATIVE_INTEGER . $data;
         }
 
         while (
-            mb_substr($data, 0, self::BYTE_SIZE, '8bit') === self::ASN1_NEGATIVE_INTEGER
-            && mb_substr($data, 2, self::BYTE_SIZE, '8bit') <= self::ASN1_BIG_INTEGER_LIMIT
+            substr($data, 0, self::BYTE_SIZE) === self::ASN1_NEGATIVE_INTEGER
+            && substr($data, 2, self::BYTE_SIZE) <= self::ASN1_BIG_INTEGER_LIMIT
         ) {
-            $data = mb_substr($data, 2, null, '8bit');
+            $data = substr($data, 2, null);
         }
 
         return $data;
@@ -109,13 +110,14 @@ final class MultibyteStringConverter implements SignatureConverter
 
         $points = hex2bin(str_pad($pointR, $length, '0', STR_PAD_LEFT) . str_pad($pointS, $length, '0', STR_PAD_LEFT));
         assert(is_string($points));
+        assert($points !== '');
 
         return $points;
     }
 
     private static function readAsn1Content(string $message, int &$position, int $length): string
     {
-        $content   = mb_substr($message, $position, $length, '8bit');
+        $content   = substr($message, $position, $length);
         $position += $length;
 
         return $content;
@@ -135,10 +137,10 @@ final class MultibyteStringConverter implements SignatureConverter
     private static function retrievePositiveInteger(string $data): string
     {
         while (
-            mb_substr($data, 0, self::BYTE_SIZE, '8bit') === self::ASN1_NEGATIVE_INTEGER
-            && mb_substr($data, 2, self::BYTE_SIZE, '8bit') > self::ASN1_BIG_INTEGER_LIMIT
+            substr($data, 0, self::BYTE_SIZE) === self::ASN1_NEGATIVE_INTEGER
+            && substr($data, 2, self::BYTE_SIZE) > self::ASN1_BIG_INTEGER_LIMIT
         ) {
-            $data = mb_substr($data, 2, null, '8bit');
+            $data = substr($data, 2, null);
         }
 
         return $data;
