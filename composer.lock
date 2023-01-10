@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "67b5850dc5e279190d2fd626fb08b332",
+    "content-hash": "22dfb757d1af93a760f013602b0e066b",
     "packages": [
         {
             "name": "lcobucci/clock",
@@ -1754,16 +1754,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.9.6",
+            "version": "1.9.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "ef38a25950e5d0e6c95eedf49d8a784272f8dc5e"
+                "reference": "45411d15bf85a33b4a8ee9b75a6e82998c9adb97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ef38a25950e5d0e6c95eedf49d8a784272f8dc5e",
-                "reference": "ef38a25950e5d0e6c95eedf49d8a784272f8dc5e",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/45411d15bf85a33b4a8ee9b75a6e82998c9adb97",
+                "reference": "45411d15bf85a33b4a8ee9b75a6e82998c9adb97",
                 "shasum": ""
             },
             "require": {
@@ -1793,7 +1793,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.9.6"
+                "source": "https://github.com/phpstan/phpstan/tree/1.9.8"
             },
             "funding": [
                 {
@@ -1809,7 +1809,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-03T13:40:32+00:00"
+            "time": "2023-01-08T21:26:18+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
