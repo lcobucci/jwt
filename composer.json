@@ -25,11 +25,11 @@
         "lcobucci/clock": "^3.0.0"
     },
     "require-dev": {
-        "infection/infection": "^0.26.16",
+        "infection/infection": "^0.26.17",
         "lcobucci/coding-standard": "^9.0",
         "phpbench/phpbench": "^1.2.8",
         "phpstan/extension-installer": "^1.2",
-        "phpstan/phpstan": "^1.9.13",
+        "phpstan/phpstan": "^1.9.14",
         "phpstan/phpstan-deprecation-rules": "^1.1.1",
         "phpstan/phpstan-phpunit": "^1.3.3",
         "phpstan/phpstan-strict-rules": "^1.4.5",
