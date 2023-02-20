@@ -118,7 +118,7 @@ abstract class EcdsaTestCase extends TestCase
     }
 
     /** @return iterable<string, array{string, int}> */
-    abstract protected function incompatibleKeys(): iterable;
+    abstract public static function incompatibleKeys(): iterable;
 
     /** @test */
     public function signShouldRaiseAnExceptionWhenKeyTypeIsNotEC(): void

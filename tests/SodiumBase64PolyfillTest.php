@@ -104,7 +104,7 @@ final class SodiumBase64PolyfillTest extends TestCase
     }
 
     /** @return int[][] */
-    public function provideVariants(): array
+    public static function provideVariants(): array
     {
         return [
             [SODIUM_BASE64_VARIANT_ORIGINAL],
