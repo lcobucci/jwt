@@ -57,7 +57,7 @@ final class TimeFractionPrecisionTest extends TestCase
     }
 
     /** @return iterable<string[]> */
-    public function datesWithPotentialRoundingIssues(): iterable
+    public static function datesWithPotentialRoundingIssues(): iterable
     {
         yield ['1613938511.017448'];
         yield ['1613938511.023691'];
@@ -86,7 +86,7 @@ final class TimeFractionPrecisionTest extends TestCase
     }
 
     /** @return iterable<array{0: float|int|string, 1: string}> */
-    public function timeFractionConversions(): iterable
+    public static function timeFractionConversions(): iterable
     {
         yield [1616481863.528781890869140625, '1616481863.528782'];
         yield [1616497608.0510409, '1616497608.051041'];

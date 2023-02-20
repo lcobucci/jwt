@@ -56,7 +56,7 @@ final class Sha384Test extends EcdsaTestCase
     }
 
     /** {@inheritdoc} */
-    protected function incompatibleKeys(): iterable
+    public static function incompatibleKeys(): iterable
     {
         yield '256 bits' => ['private', 256];
         yield '521 bits' => ['private_ec512', 521];

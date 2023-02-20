@@ -37,7 +37,7 @@ final class HasClaimWithValueTest extends ConstraintTestCase
     }
 
     /** @return iterable<non-empty-string, array{non-empty-string}> */
-    public function registeredClaims(): iterable
+    public static function registeredClaims(): iterable
     {
         foreach (Token\RegisteredClaims::ALL as $claim) {
             yield $claim => [$claim];

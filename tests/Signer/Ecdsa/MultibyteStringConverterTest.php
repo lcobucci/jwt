@@ -75,7 +75,7 @@ final class MultibyteStringConverterTest extends TestCase
     }
 
     /** @return string[][] */
-    public function pointsConversionData(): iterable
+    public static function pointsConversionData(): iterable
     {
         return [
             [
@@ -125,7 +125,7 @@ final class MultibyteStringConverterTest extends TestCase
     }
 
     /** @return string[][] */
-    public function invalidAsn1Structures(): iterable
+    public static function invalidAsn1Structures(): iterable
     {
         return [
             'Not a sequence'           => ['', 'Should start with a sequence'],

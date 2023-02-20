@@ -50,15 +50,15 @@ final class RFC6978VectorTest extends TestCase
     }
 
     /** @return mixed[] */
-    public function dataRFC6979(): iterable
+    public static function dataRFC6979(): iterable
     {
-        yield from $this->sha256Data();
-        yield from $this->sha384Data();
-        yield from $this->sha512Data();
+        yield from self::sha256Data();
+        yield from self::sha384Data();
+        yield from self::sha512Data();
     }
 
     /** @return mixed[] */
-    public function sha256Data(): iterable
+    public static function sha256Data(): iterable
     {
         $signer = new Sha256();
         $key    = InMemory::plainText(
@@ -86,7 +86,7 @@ final class RFC6978VectorTest extends TestCase
     }
 
     /** @return mixed[] */
-    public function sha384Data(): iterable
+    public static function sha384Data(): iterable
     {
         $signer = new Sha384();
         $key    = InMemory::plainText(
@@ -115,7 +115,7 @@ final class RFC6978VectorTest extends TestCase
     }
 
     /** @return mixed[] */
-    public function sha512Data(): iterable
+    public static function sha512Data(): iterable
     {
         $signer = new Sha512();
         $key    = InMemory::plainText(
