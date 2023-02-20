@@ -178,17 +178,19 @@ final class ParserTest extends TestCase
     public function parseMustReturnAnUnsecuredTokenWhenSignatureIsNotInformed(): void
     {
         $this->decoder->expects(self::exactly(3))
-                      ->method('base64UrlDecode')
-                      ->withConsecutive(['a'], ['b'], ['c'])
-                      ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
+            ->method('base64UrlDecode')
+            ->willReturnMap([
+                ['a', 'a_dec'],
+                ['b', 'b_dec'],
+                ['c', 'c_dec'],
+            ]);
 
         $this->decoder->expects(self::exactly(2))
-                      ->method('jsonDecode')
-                      ->withConsecutive(['a_dec'], ['b_dec'])
-                      ->willReturnOnConsecutiveCalls(
-                          ['typ' => 'JWT', 'alg' => 'none'],
-                          [RegisteredClaims::AUDIENCE => 'test'],
-                      );
+            ->method('jsonDecode')
+            ->willReturnMap([
+                ['a_dec', ['typ' => 'JWT', 'alg' => 'none']],
+                ['b_dec', [RegisteredClaims::AUDIENCE => 'test']],
+            ]);
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
@@ -209,16 +211,18 @@ final class ParserTest extends TestCase
     {
         $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'], ['c'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
+            ->willReturnMap([
+                ['a', 'a_dec'],
+                ['b', 'b_dec'],
+                ['c', 'c_dec'],
+            ]);
 
         $this->decoder->expects(self::exactly(2))
-                      ->method('jsonDecode')
-                      ->withConsecutive(['a_dec'], ['b_dec'])
-                      ->willReturnOnConsecutiveCalls(
-                          ['alg' => 'none'],
-                          [RegisteredClaims::AUDIENCE => 'test'],
-                      );
+            ->method('jsonDecode')
+            ->willReturnMap([
+                ['a_dec', ['alg' => 'none']],
+                ['b_dec', [RegisteredClaims::AUDIENCE => 'test']],
+            ]);
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
@@ -239,16 +243,18 @@ final class ParserTest extends TestCase
     {
         $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'], ['c'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
+            ->willReturnMap([
+                ['a', 'a_dec'],
+                ['b', 'b_dec'],
+                ['c', 'c_dec'],
+            ]);
 
         $this->decoder->expects(self::exactly(2))
-                      ->method('jsonDecode')
-                      ->withConsecutive(['a_dec'], ['b_dec'])
-                      ->willReturnOnConsecutiveCalls(
-                          ['typ' => 'JWS', 'alg' => 'none'],
-                          [RegisteredClaims::AUDIENCE => 'test'],
-                      );
+            ->method('jsonDecode')
+            ->willReturnMap([
+                ['a_dec', ['typ' => 'JWS', 'alg' => 'none']],
+                ['b_dec', [RegisteredClaims::AUDIENCE => 'test']],
+            ]);
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
@@ -269,16 +275,18 @@ final class ParserTest extends TestCase
     {
         $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'], ['c'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
+            ->willReturnMap([
+                ['a', 'a_dec'],
+                ['b', 'b_dec'],
+                ['c', 'c_dec'],
+            ]);
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
-            ->withConsecutive(['a_dec'], ['b_dec'])
-            ->willReturnOnConsecutiveCalls(
-                ['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test'],
-                [RegisteredClaims::AUDIENCE => 'test'],
-            );
+            ->willReturnMap([
+                ['a_dec', ['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test']],
+                ['b_dec', [RegisteredClaims::AUDIENCE => 'test']],
+            ]);
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
@@ -299,16 +307,18 @@ final class ParserTest extends TestCase
     {
         $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'], ['c'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
+            ->willReturnMap([
+                ['a', 'a_dec'],
+                ['b', 'b_dec'],
+                ['c', 'c_dec'],
+            ]);
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
-            ->withConsecutive(['a_dec'], ['b_dec'])
-            ->willReturnOnConsecutiveCalls(
-                ['typ' => 'JWT'],
-                [RegisteredClaims::AUDIENCE => 'test'],
-            );
+            ->willReturnMap([
+                ['a_dec', ['typ' => 'JWT']],
+                ['b_dec', [RegisteredClaims::AUDIENCE => 'test']],
+            ]);
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
@@ -329,16 +339,18 @@ final class ParserTest extends TestCase
     {
         $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'], ['c'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
+            ->willReturnMap([
+                ['a', 'a_dec'],
+                ['b', 'b_dec'],
+                ['c', 'c_dec'],
+            ]);
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
-            ->withConsecutive(['a_dec'], ['b_dec'])
-            ->willReturnOnConsecutiveCalls(
-                ['typ' => 'JWT', 'alg' => 'none'],
-                [RegisteredClaims::AUDIENCE => 'test'],
-            );
+            ->willReturnMap([
+                ['a_dec', ['typ' => 'JWT', 'alg' => 'none']],
+                ['b_dec', [RegisteredClaims::AUDIENCE => 'test']],
+            ]);
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
@@ -359,16 +371,18 @@ final class ParserTest extends TestCase
     {
         $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'], ['c'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
+            ->willReturnMap([
+                ['a', 'a_dec'],
+                ['b', 'b_dec'],
+                ['c', 'c_dec'],
+            ]);
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
-            ->withConsecutive(['a_dec'], ['b_dec'])
-            ->willReturnOnConsecutiveCalls(
-                ['typ' => 'JWT', 'alg' => 'HS256'],
-                [RegisteredClaims::AUDIENCE => 'test'],
-            );
+            ->willReturnMap([
+                ['a_dec', ['typ' => 'JWT', 'alg' => 'HS256']],
+                ['b_dec', [RegisteredClaims::AUDIENCE => 'test']],
+            ]);
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
@@ -394,16 +408,18 @@ final class ParserTest extends TestCase
 
         $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'], ['c'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
+            ->willReturnMap([
+                ['a', 'a_dec'],
+                ['b', 'b_dec'],
+                ['c', 'c_dec'],
+            ]);
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
-            ->withConsecutive(['a_dec'], ['b_dec'])
-            ->willReturnOnConsecutiveCalls(
-                ['typ' => 'JWT', 'alg' => 'HS256'],
-                $data,
-            );
+            ->willReturnMap([
+                ['a_dec', ['typ' => 'JWT', 'alg' => 'HS256']],
+                ['b_dec', $data],
+            ]);
 
         $token = $this->createParser()->parse('a.b.c');
         self::assertInstanceOf(Plain::class, $token);
@@ -428,16 +444,18 @@ final class ParserTest extends TestCase
 
         $this->decoder->expects(self::exactly(3))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'], ['c'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec', 'c_dec');
+            ->willReturnMap([
+                ['a', 'a_dec'],
+                ['b', 'b_dec'],
+                ['c', 'c_dec'],
+            ]);
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
-            ->withConsecutive(['a_dec'], ['b_dec'])
-            ->willReturnOnConsecutiveCalls(
-                ['typ' => 'JWT', 'alg' => 'HS256'],
-                $data,
-            );
+            ->willReturnMap([
+                ['a_dec', ['typ' => 'JWT', 'alg' => 'HS256']],
+                ['b_dec', $data],
+            ]);
 
         $token = $this->createParser()->parse('a.b.c');
         self::assertInstanceOf(Plain::class, $token);
@@ -457,16 +475,17 @@ final class ParserTest extends TestCase
 
         $this->decoder->expects(self::exactly(2))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+            ->willReturnMap([
+                ['a', 'a_dec'],
+                ['b', 'b_dec'],
+            ]);
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
-            ->withConsecutive(['a_dec'], ['b_dec'])
-            ->willReturnOnConsecutiveCalls(
-                ['typ' => 'JWT', 'alg' => 'HS256'],
-                $data,
-            );
+            ->willReturnMap([
+                ['a_dec', ['typ' => 'JWT', 'alg' => 'HS256']],
+                ['b_dec', $data],
+            ]);
 
         $this->expectException(InvalidTokenStructure::class);
         $this->expectExceptionMessage('Value is not in the allowed date format: 14/10/2018 10:50:10.10 UTC');
@@ -480,16 +499,17 @@ final class ParserTest extends TestCase
 
         $this->decoder->expects(self::exactly(2))
             ->method('base64UrlDecode')
-            ->withConsecutive(['a'], ['b'])
-            ->willReturnOnConsecutiveCalls('a_dec', 'b_dec');
+            ->willReturnMap([
+                ['a', 'a_dec'],
+                ['b', 'b_dec'],
+            ]);
 
         $this->decoder->expects(self::exactly(2))
             ->method('jsonDecode')
-            ->withConsecutive(['a_dec'], ['b_dec'])
-            ->willReturnOnConsecutiveCalls(
-                ['typ' => 'JWT', 'alg' => 'HS256'],
-                $data,
-            );
+            ->willReturnMap([
+                ['a_dec', ['typ' => 'JWT', 'alg' => 'HS256']],
+                ['b_dec', $data],
+            ]);
 
         $this->expectException(InvalidTokenStructure::class);
         $this->createParser()->parse('a.b.c');
