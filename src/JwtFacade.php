@@ -5,7 +5,6 @@ namespace Lcobucci\JWT;
 
 use Closure;
 use DateTimeImmutable;
-use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
@@ -14,6 +13,7 @@ use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\SignedWith;
 use Lcobucci\JWT\Validation\ValidAt;
 use Lcobucci\JWT\Validation\Validator;
+use Psr\Clock\ClockInterface as Clock;
 
 use function assert;
 

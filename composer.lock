@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0845c883bfa853ed0065aa7af416eac1",
+    "content-hash": "6213231e73ab90ed5ac862e518dbee2b",
     "packages": [
         {
             "name": "lcobucci/clock",

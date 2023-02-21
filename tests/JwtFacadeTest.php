@@ -17,6 +17,7 @@ use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use PHPUnit\Framework\TestCase;
+use Psr\Clock\ClockInterface;
 
 /**
  * @covers ::__construct
@@ -65,11 +66,9 @@ final class JwtFacadeTest extends TestCase
         return (new JwtFacade(clock: $this->clock))->issue(
             $this->signer,
             $this->key,
-            function (Builder $builder, DateTimeImmutable $issuedAt): Builder {
-                return $builder
+            fn (Builder $builder, DateTimeImmutable $issuedAt): Builder => $builder
                     ->expiresAt($issuedAt->modify('+5 minutes'))
-                    ->issuedBy($this->issuer);
-            },
+                    ->issuedBy($this->issuer),
         )->toString();
     }
 
@@ -256,6 +255,39 @@ final class JwtFacadeTest extends TestCase
             new SignedWith($this->signer, $this->key),
             new StrictValidAt($this->clock),
             new IssuedBy($this->issuer),
+        );
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::issue
+     * @covers ::parse
+     */
+    public function customPsrClock(): void
+    {
+        $clock = new class () implements ClockInterface {
+            public function now(): DateTimeImmutable
+            {
+                return new DateTimeImmutable('2021-07-10');
+            }
+        };
+
+        $facade = new JwtFacade(clock: $clock);
+
+        $token = $facade->issue(
+            $this->signer,
+            $this->key,
+            static fn (Builder $builder): Builder => $builder,
+        );
+
+        self::assertEquals(
+            $token,
+            $facade->parse(
+                $token->toString(),
+                new SignedWith($this->signer, $this->key),
+                new StrictValidAt($clock),
+            ),
         );
     }
 }
