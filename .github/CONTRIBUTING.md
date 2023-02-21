@@ -20,15 +20,28 @@ We accept contributions via pull requests [here](https://github.com/lcobucci/jwt
 - Follow [semver](http://semver.org);
 - Add tests (everything MUST be well tested);
 - Improve documentation (don't forget to update README.md);
-- Create topic branchs (don't send a PR from your master);
+- Create topic branches (don't send a PR from your master);
 - One pull request per feature;
 - Send coherent history by rebasing your work before submitting;
 
+### Running tests locally
+
+We provide a GNU-Make configuration that allows you to run the CI checks locally with a single command: `make`.
+
 ### Branches
 
-- **master**: used to the next major release (new features that breaks BC)
-- **3.x**: used to fix bugs
-- **2.1**: unmaintained (all users should upgrade to +3.x)
+- **5.0.x**: used to the next major release (new features that breaks BC)
+- **4.4.x**: used to develop migration path for the next version
+- **4.3.x**: used to fix bugs
+- **4.2.x**: unmaintained
+- **4.1.x**: unmaintained
+- **4.0.x**: unmaintained
+- **3.4.x**: security issues only
+- **3.3**: unmaintained
+- **3.2**: unmaintained
+- **3.1**: unmaintained
+- **3.0**: unmaintained
+- **2.1**: unmaintained
 
 **Thank you and happy coding!**
 
