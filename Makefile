@@ -29,7 +29,7 @@ phpcs:
 
 .PHONY: phpstan
 phpstan:
-	@vendor/bin/phpstan analyse --memory-limit=-1
+	@php -d xdebug.mode=off vendor/bin/phpstan analyse --memory-limit=-1
 
 .PHONY: phpbench
 phpbench:
