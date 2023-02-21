@@ -71,7 +71,7 @@ final class ClaimSerializer implements ClaimsFormatter
 $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
-$config->builder(new ClaimSerializer());
+$builder = $config->builder(new ClaimSerializer());
 ```
 
 The class `Lcobucci\JWT\Encoding\ChainedFormatter` allows for users to combine multiple formatters. 

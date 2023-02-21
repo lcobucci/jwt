@@ -36,8 +36,8 @@ final class JwtFacade
     ): UnencryptedToken {
         $builder = new Token\Builder(new JoseEncoder(), ChainedFormatter::withUnixTimestampDates());
 
-        $now = $this->clock->now();
-        $builder
+        $now     = $this->clock->now();
+        $builder = $builder
             ->issuedAt($now)
             ->canOnlyBeUsedAfter($now)
             ->expiresAt($now->modify('+5 minutes'));

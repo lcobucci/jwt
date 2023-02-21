@@ -11,6 +11,7 @@ use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\RegisteredClaimGiven;
 
+/** @immutable */
 interface Builder
 {
     /**
