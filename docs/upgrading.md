@@ -121,6 +121,16 @@ Or:
  );
 ```
 
+### `lcobucci/clock` is not installed by default anymore
+
+Thanks to [PSR-20](https://www.php-fig.org/psr/psr-20/), users can more easily plug-in other [clock implementations](https://packagist.org/providers/psr/clock-implementation) if they choose to do so.
+
+If you like and were already using `lcobucci/clock` on your system, you're required to explicitly add it as a production dependency:
+
+```sh
+composer require lcobucci/clock
+```
+
 ## v3.x to v4.x
 
 The `v4.0.0` aggregates about 5 years of work and contains **several BC-breaks**.
