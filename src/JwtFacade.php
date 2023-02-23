@@ -5,7 +5,6 @@ namespace Lcobucci\JWT;
 
 use Closure;
 use DateTimeImmutable;
-use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
@@ -25,7 +24,12 @@ final class JwtFacade
         private readonly Parser $parser = new Token\Parser(new JoseEncoder()),
         ?Clock $clock = null,
     ) {
-        $this->clock = $clock ?? SystemClock::fromSystemTimezone();
+        $this->clock = $clock ?? new class implements Clock {
+            public function now(): DateTimeImmutable
+            {
+                return new DateTimeImmutable();
+            }
+        };
     }
 
     /** @param Closure(Builder, DateTimeImmutable):Builder $customiseBuilder */
