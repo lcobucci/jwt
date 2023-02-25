@@ -5,10 +5,10 @@ namespace Lcobucci\JWT\Validation\Constraint;
 
 use DateInterval;
 use DateTimeInterface;
-use Lcobucci\Clock\Clock;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\ValidAt as ValidAtInterface;
+use Psr\Clock\ClockInterface as Clock;
 
 final class LooseValidAt implements ValidAtInterface
 {

@@ -200,7 +200,8 @@ It configures which are the base constraints to be used during validation.
 <?php
 declare(strict_types=1);
 
-use Lcobucci\Clock\SystemClock;
+use Lcobucci\Clock\SystemClock; // If you prefer, other PSR-20 implementations may also be used
+                                // (https://packagist.org/providers/psr/clock-implementation)
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key\InMemory;

@@ -64,7 +64,8 @@ namespace MyApp;
 require 'vendor/autoload.php';
 
 use DateTimeImmutable;
-use Lcobucci\Clock\FrozenClock;
+use Lcobucci\Clock\FrozenClock; // If you prefer, other PSR-20 implementations may also be used
+                                // (https://packagist.org/providers/psr/clock-implementation)
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\JwtFacade;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
@@ -104,7 +105,8 @@ namespace MyApp;
 require 'vendor/autoload.php';
 
 use DateTimeImmutable;
-use Lcobucci\Clock\FrozenClock;
+use Lcobucci\Clock\FrozenClock; // If you prefer, other PSR-20 implementations may also be used
+                                // (https://packagist.org/providers/psr/clock-implementation)
 use Lcobucci\JWT\JwtFacade;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
