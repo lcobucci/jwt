@@ -32,5 +32,5 @@ free to check out Auth0's PHP SDK and free plan at
 [Total Downloads]: https://img.shields.io/packagist/dt/lcobucci/jwt.svg?style=flat-square
 [Latest Stable Version]: https://img.shields.io/packagist/v/lcobucci/jwt.svg?style=flat-square
 [Unstable Version]: https://img.shields.io/packagist/vpre/lcobucci/jwt.svg?style=flat-square
-[Build Status]: https://img.shields.io/github/actions/workflow/status/lcobucci/jwt/phpunit.yml?branch=5.0.x&style=flat-square
-[Code Coverage]: https://codecov.io/gh/lcobucci/jwt/branch/4.1.x/graph/badge.svg
+[Build Status]: https://img.shields.io/github/actions/workflow/status/lcobucci/jwt/phpunit.yml?branch=5.1.x&style=flat-square
+[Code Coverage]: https://codecov.io/gh/lcobucci/jwt/branch/5.1.x/graph/badge.svg
