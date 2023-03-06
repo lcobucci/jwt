@@ -30,7 +30,7 @@
         "lcobucci/coding-standard": "^9.0",
         "phpbench/phpbench": "^1.2.8",
         "phpstan/extension-installer": "^1.2",
-        "phpstan/phpstan": "^1.10.3",
+        "phpstan/phpstan": "^1.10.4",
         "phpstan/phpstan-deprecation-rules": "^1.1.2",
         "phpstan/phpstan-phpunit": "^1.3.10",
         "phpstan/phpstan-strict-rules": "^1.5.0",
