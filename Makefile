@@ -31,6 +31,10 @@ phpcs:
 phpstan:
 	@php -d xdebug.mode=off vendor/bin/phpstan analyse --memory-limit=-1
 
+ifndef PHPBENCH_REPORT
+override PHPBENCH_REPORT = aggregate
+endif
+
 .PHONY: phpbench
 phpbench:
-	@vendor/bin/phpbench run -l dots --report aggregate
+	@vendor/bin/phpbench run -l dots --report=$(PHPBENCH_REPORT) $(PHPBENCH_FLAGS)
