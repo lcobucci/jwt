@@ -39,7 +39,7 @@ jobs:
         run: echo "composer_cache_dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v3.2.6"
+        uses: "actions/cache@v3.3.0"
         with:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.lock') }}"
@@ -95,7 +95,7 @@ jobs:
         run: echo "composer_cache_dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v3.2.6"
+        uses: "actions/cache@v3.3.0"
         with:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.lock') }}"
