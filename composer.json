@@ -31,7 +31,7 @@
         "phpbench/phpbench": "^1.2.9",
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan": "^1.10.7",
-        "phpstan/phpstan-deprecation-rules": "^1.1.2",
+        "phpstan/phpstan-deprecation-rules": "^1.1.3",
         "phpstan/phpstan-phpunit": "^1.3.10",
         "phpstan/phpstan-strict-rules": "^1.5.0",
         "phpunit/phpunit": "^10.0.16"
