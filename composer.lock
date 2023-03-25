@@ -1524,16 +1524,16 @@
         },
         {
             "name": "phpbench/phpbench",
-            "version": "1.2.9",
+            "version": "1.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpbench/phpbench.git",
-                "reference": "7aaea137809603b1c4f46d1790ba0f009be15797"
+                "reference": "95206f92479674599a75e02b74b9933e2d9883aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpbench/phpbench/zipball/7aaea137809603b1c4f46d1790ba0f009be15797",
-                "reference": "7aaea137809603b1c4f46d1790ba0f009be15797",
+                "url": "https://api.github.com/repos/phpbench/phpbench/zipball/95206f92479674599a75e02b74b9933e2d9883aa",
+                "reference": "95206f92479674599a75e02b74b9933e2d9883aa",
                 "shasum": ""
             },
             "require": {
@@ -1602,7 +1602,7 @@
             "description": "PHP Benchmarking Framework",
             "support": {
                 "issues": "https://github.com/phpbench/phpbench/issues",
-                "source": "https://github.com/phpbench/phpbench/tree/1.2.9"
+                "source": "https://github.com/phpbench/phpbench/tree/1.2.10"
             },
             "funding": [
                 {
@@ -1610,7 +1610,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-08T08:56:01+00:00"
+            "time": "2023-03-24T08:52:55+00:00"
         },
         {
             "name": "phpstan/extension-installer",
@@ -1703,16 +1703,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.7",
+            "version": "1.10.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "b10ceb526d9607903c5b2673f1fc8775dbe48975"
+                "reference": "0166aef76e066f0dd2adc2799bdadfa1635711e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b10ceb526d9607903c5b2673f1fc8775dbe48975",
-                "reference": "b10ceb526d9607903c5b2673f1fc8775dbe48975",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0166aef76e066f0dd2adc2799bdadfa1635711e9",
+                "reference": "0166aef76e066f0dd2adc2799bdadfa1635711e9",
                 "shasum": ""
             },
             "require": {
@@ -1761,7 +1761,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-16T15:24:20+00:00"
+            "time": "2023-03-24T10:28:16+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
