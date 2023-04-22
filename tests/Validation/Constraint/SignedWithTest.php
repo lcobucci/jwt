@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Tests\Validation\Constraint;
 
 use Lcobucci\JWT\Signer;
+use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
@@ -24,6 +25,8 @@ final class SignedWithTest extends ConstraintTestCase
     /** @var Signer&MockObject */
     private Signer $signer;
     private Signer\Key $key;
+    /** @var Signer\Key[] */
+    private array $keys;
     private Signature $signature;
 
     /** @before */
@@ -33,6 +36,10 @@ final class SignedWithTest extends ConstraintTestCase
         $this->signer->method('algorithmId')->willReturn('RS256');
 
         $this->key       = Signer\Key\InMemory::plainText('123');
+        $this->keys      = [
+            Signer\Key\InMemory::plainText('abc'),
+            Signer\Key\InMemory::plainText('123'),
+        ];
         $this->signature = new Signature('1234', '5678');
     }
 
@@ -89,6 +96,35 @@ final class SignedWithTest extends ConstraintTestCase
 
         $constraint = new SignedWith($this->signer, $this->key);
 
+        $constraint->assert($token);
+        $this->addToAssertionCount(1);
+    }
+
+    /** @test */
+    public function assertShouldNotRaiseExceptionWhenSignatureIsValidWithMultipleKeys(): void
+    {
+        $token = $this->buildToken([], ['alg' => 'RS256'], $this->signature);
+        $this->signer->expects(self::exactly(2))
+            ->method('verify')
+            ->willReturnCallback(fn (string $expected, string $payload, Key $key) => $key->contents() === '123');
+
+        $constraint = new SignedWith($this->signer, $this->keys);
+        $constraint->assert($token);
+        $this->addToAssertionCount(1);
+    }
+
+    /** @test */
+    public function assertShouldRaiseExceptionWhenSignatureIsInValidWithMultipleKeys(): void
+    {
+        $token = $this->buildToken([], ['alg' => 'RS256'], $this->signature);
+        $this->signer->expects(self::exactly(2))
+            ->method('verify')
+            ->willReturn(false);
+
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('Token signature mismatch');
+
+        $constraint = new SignedWith($this->signer, $this->keys);
         $constraint->assert($token);
         $this->addToAssertionCount(1);
     }
