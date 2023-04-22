@@ -78,7 +78,7 @@ final class SignedWithTest extends ConstraintTestCase
     }
 
     /** @test */
-    public function assertShouldRaiseExceptionWhenSignatureIsValid(): void
+    public function assertShouldNotRaiseExceptionWhenSignatureIsValid(): void
     {
         $token = $this->buildToken([], ['alg' => 'RS256'], $this->signature);
 
