@@ -8,7 +8,6 @@ use Lcobucci\JWT\Decoder;
 use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Lcobucci\JWT\Token\Parser;
-use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Token\UnsupportedHeaderFound;
@@ -195,8 +194,6 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
 
-        self::assertInstanceOf(Plain::class, $token);
-
         $headers   = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
         $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
         $signature = new Signature('c_dec', 'c');
@@ -226,8 +223,6 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
-
-        self::assertInstanceOf(Plain::class, $token);
 
         $headers   = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
         $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
@@ -259,8 +254,6 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
 
-        self::assertInstanceOf(Plain::class, $token);
-
         $headers   = new DataSet(['typ' => 'JWS', 'alg' => 'none'], 'a');
         $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
         $signature = new Signature('c_dec', 'c');
@@ -290,8 +283,6 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
-
-        self::assertInstanceOf(Plain::class, $token);
 
         $headers   = new DataSet(['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test'], 'a');
         $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
@@ -323,8 +314,6 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
 
-        self::assertInstanceOf(Plain::class, $token);
-
         $headers   = new DataSet(['typ' => 'JWT'], 'a');
         $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
         $signature = new Signature('c_dec', 'c');
@@ -355,8 +344,6 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
 
-        self::assertInstanceOf(Plain::class, $token);
-
         $headers   = new DataSet(['typ' => 'JWT', 'alg' => 'none'], 'a');
         $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
         $signature = new Signature('c_dec', 'c');
@@ -386,8 +373,6 @@ final class ParserTest extends TestCase
 
         $parser = $this->createParser();
         $token  = $parser->parse('a.b.c');
-
-        self::assertInstanceOf(Plain::class, $token);
 
         $headers   = new DataSet(['typ' => 'JWT', 'alg' => 'HS256'], 'a');
         $claims    = new DataSet([RegisteredClaims::AUDIENCE => ['test']], 'b');
@@ -421,9 +406,7 @@ final class ParserTest extends TestCase
                 ['b_dec', $data],
             ]);
 
-        $token = $this->createParser()->parse('a.b.c');
-        self::assertInstanceOf(Plain::class, $token);
-
+        $token  = $this->createParser()->parse('a.b.c');
         $claims = $token->claims();
 
         self::assertEquals(
@@ -457,9 +440,7 @@ final class ParserTest extends TestCase
                 ['b_dec', $data],
             ]);
 
-        $token = $this->createParser()->parse('a.b.c');
-        self::assertInstanceOf(Plain::class, $token);
-
+        $token  = $this->createParser()->parse('a.b.c');
         $claims = $token->claims();
 
         self::assertEquals(
