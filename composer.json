@@ -27,7 +27,7 @@
     "require-dev": {
         "infection/infection": "^0.26.19",
         "lcobucci/clock": "^3.0",
-        "lcobucci/coding-standard": "^9.0",
+        "lcobucci/coding-standard": "^10.0",
         "phpbench/phpbench": "^1.2.9",
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan": "^1.10.7",
