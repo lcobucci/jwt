@@ -22,12 +22,6 @@ composer require lcobucci/jwt
 
 The documentation is available at <https://lcobucci-jwt.readthedocs.io/en/latest/>.
 
-## Supported by Auth0 ![auth0](http://passportjs.org/images/supported_logo.svg)
-
-If you want to add secure token based authentication to your PHP projects, feel
-free to check out Auth0's PHP SDK and free plan at
-[auth0.com/developers](https://auth0.com/developers?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=jwt-php&utm_content=auth).
-
 [Gitter]: https://img.shields.io/badge/GITTER-JOIN%20CHAT%20%E2%86%92-brightgreen.svg?style=flat-square
 [Total Downloads]: https://img.shields.io/packagist/dt/lcobucci/jwt.svg?style=flat-square
 [Latest Stable Version]: https://img.shields.io/packagist/v/lcobucci/jwt.svg?style=flat-square
