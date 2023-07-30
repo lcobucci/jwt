@@ -55,7 +55,7 @@ final class Sha256Test extends EcdsaTestCase
         return self::$ecdsaKeys['private'];
     }
 
-    /** {@inheritdoc} */
+    /** {@inheritDoc} */
     public static function incompatibleKeys(): iterable
     {
         yield '384 bits' => ['private_ec384', 384];
