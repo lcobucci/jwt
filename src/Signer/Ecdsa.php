@@ -32,7 +32,7 @@ abstract class Ecdsa extends OpenSSL
         );
     }
 
-    /** {@inheritdoc} */
+    /** {@inheritDoc} */
     final protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void
     {
         if ($type !== OPENSSL_KEYTYPE_EC) {
