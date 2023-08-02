@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
+use Lcobucci\JWT\DataSet as DataSetInterface;
+
 use function array_key_exists;
 
-final class DataSet
+final class DataSet implements DataSetInterface
 {
     /** @param array<non-empty-string, mixed> $data */
     public function __construct(private readonly array $data, private readonly string $encoded)
