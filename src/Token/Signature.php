@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
-final class Signature
+use Lcobucci\JWT\Signature as SignatureInterface;
+
+final class Signature implements SignatureInterface
 {
     /**
      * @param non-empty-string $hash
