@@ -74,6 +74,15 @@ interface Builder
     public function withClaim(string $name, mixed $value): Builder;
 
     /**
+     * Configures multiple claim items
+     *
+     * @param non-empty-array $claims
+     *
+     * @throws RegisteredClaimGiven When trying to set a registered claim.
+     */
+    public function withClaim(array $claims): Builder;
+
+    /**
      * Returns a signed token to be used
      *
      * @throws CannotEncodeContent When data cannot be converted to JSON.
