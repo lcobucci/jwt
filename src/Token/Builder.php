@@ -84,6 +84,18 @@ final class Builder implements BuilderInterface
         return $this->setClaim($name, $value);
     }
 
+	public function withClaims(array $claims): BuilderInterface
+	{
+		$new = clone $this;
+		foreach ($claims as $key => $value) {
+			if (in_array($key, RegisteredClaims::ALL, true)) {
+				throw RegisteredClaimGiven::forClaim($key);
+			}
+			$new->claims[$key] = $value;
+		}
+		return $new;
+	}
+
     /** @param non-empty-string $name */
     private function setClaim(string $name, mixed $value): BuilderInterface
     {
