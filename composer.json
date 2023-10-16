@@ -52,9 +52,9 @@
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "phpstan/extension-installer": true,
             "infection/extension-installer": true,
-            "ocramius/package-versions": true
+            "ocramius/package-versions": true,
+            "phpstan/extension-installer": true
         },
         "platform": {
             "php": "8.1.99"
