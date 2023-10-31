@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca4967db7ef943a9105aab433001254e",
+    "content-hash": "eb30412f3b5476124fef57f093daa4c1",
     "packages": [
         {
             "name": "psr/clock",
@@ -4933,7 +4933,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~8.1.0 || ~8.2.0",
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
         "ext-hash": "*",
         "ext-json": "*",
         "ext-openssl": "*",
