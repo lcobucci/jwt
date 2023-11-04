@@ -24,6 +24,8 @@ $token = $tokenBuilder
     ->issuedBy('http://example.com')
     // Configures the audience (aud claim)
     ->permittedFor('http://example.org')
+    // Configures the subject of the token (sub claim)
+    ->relatedTo('component1')
     // Configures the id (jti claim)
     ->identifiedBy('4f1g23a12aa')
     // Configures the time that the token was issue (iat claim)
