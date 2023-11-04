@@ -85,7 +85,8 @@ This library provides the following constraints:
 * `Lcobucci\JWT\Validation\Constraint\PermittedFor`: verifies if the claim `aud` contains the expected value
 * `Lcobucci\JWT\Validation\Constraint\RelatedTo`: verifies if the claim `sub` matches the expected value
 * `Lcobucci\JWT\Validation\Constraint\SignedWith`: verifies if the token was signed with the expected signer and key
-* `Lcobucci\JWT\Validation\Constraint\SignedWithOneInSet`: verifies the token signature against multiple `SignedWith` constraints
+* `Lcobucci\JWT\Validation\Constraint\SignedWithOneInSet`: verifies the token signature against multiple `SignedWithUntilDate` constraints
+* `Lcobucci\JWT\Validation\Constraint\SignedWithUntilDate`: verifies if the token was signed with the expected signer and key (until a certain date)
 * `Lcobucci\JWT\Validation\Constraint\StrictValidAt`: verifies presence and validity of the claims `iat`, `nbf`, and `exp` (supports leeway configuration)
 * `Lcobucci\JWT\Validation\Constraint\LooseValidAt`: verifies the claims `iat`, `nbf`, and `exp`, when present (supports leeway configuration)
 * `Lcobucci\JWT\Validation\Constraint\HasClaimWithValue`: verifies that a **custom claim** has the expected value (not recommended when comparing cryptographic hashes)
