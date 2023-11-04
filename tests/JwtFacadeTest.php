@@ -14,14 +14,16 @@ use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\Constraint\SignedWithOneInSet;
+use Lcobucci\JWT\Validation\Constraint\SignedWithUntilDate;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 use Psr\Clock\ClockInterface;
 
 /**
- * @covers ::__construct
- * @coversDefaultClass \Lcobucci\JWT\JwtFacade
+ * @covers \Lcobucci\JWT\JwtFacade
  *
  * @uses  \Lcobucci\JWT\Token\Parser
  * @uses  \Lcobucci\JWT\Encoding\JoseEncoder
@@ -40,6 +42,8 @@ use Psr\Clock\ClockInterface;
  * @uses  \Lcobucci\JWT\Validation\Validator
  * @uses  \Lcobucci\JWT\Validation\Constraint\IssuedBy
  * @uses  \Lcobucci\JWT\Validation\Constraint\SignedWith
+ * @uses  \Lcobucci\JWT\Validation\Constraint\SignedWithOneInSet
+ * @uses  \Lcobucci\JWT\Validation\Constraint\SignedWithUntilDate
  * @uses  \Lcobucci\JWT\Validation\Constraint\StrictValidAt
  * @uses  \Lcobucci\JWT\Validation\ConstraintViolation
  * @uses  \Lcobucci\JWT\Validation\RequiredConstraintsViolated
@@ -72,12 +76,7 @@ final class JwtFacadeTest extends TestCase
         )->toString();
     }
 
-    /**
-     * @test
-     *
-     * @covers ::issue
-     * @covers ::parse
-     */
+    #[PHPUnit\Test]
     public function issueSetTimeValidity(): void
     {
         $token = (new JwtFacade(clock: $this->clock))->issue(
@@ -105,12 +104,7 @@ final class JwtFacadeTest extends TestCase
         self::assertTrue($token->isExpired($inOneYear));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::issue
-     * @covers ::parse
-     */
+    #[PHPUnit\Test]
     public function issueAllowsTimeValidityOverwrite(): void
     {
         $then  = new DateTimeImmutable('2001-02-03 04:05:06');
@@ -144,12 +138,7 @@ final class JwtFacadeTest extends TestCase
         self::assertTrue($token->isExpired($inOneYear));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::issue
-     * @covers ::parse
-     */
+    #[PHPUnit\Test]
     public function goodJwt(): void
     {
         $token = (new JwtFacade())->parse(
@@ -162,12 +151,7 @@ final class JwtFacadeTest extends TestCase
         self::assertInstanceOf(Plain::class, $token);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::issue
-     * @covers ::parse
-     */
+    #[PHPUnit\Test]
     public function badSigner(): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
@@ -181,12 +165,7 @@ final class JwtFacadeTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @covers ::issue
-     * @covers ::parse
-     */
+    #[PHPUnit\Test]
     public function badKey(): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
@@ -200,12 +179,7 @@ final class JwtFacadeTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @covers ::issue
-     * @covers ::parse
-     */
+    #[PHPUnit\Test]
     public function badTime(): void
     {
         $token = $this->createToken();
@@ -222,12 +196,7 @@ final class JwtFacadeTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @covers ::issue
-     * @covers ::parse
-     */
+    #[PHPUnit\Test]
     public function badIssuer(): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
@@ -241,11 +210,7 @@ final class JwtFacadeTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @covers ::parse
-     */
+    #[PHPUnit\Test]
     public function parserForNonUnencryptedTokens(): void
     {
         $this->expectException(AssertionError::class);
@@ -258,12 +223,7 @@ final class JwtFacadeTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @covers ::issue
-     * @covers ::parse
-     */
+    #[PHPUnit\Test]
     public function customPsrClock(): void
     {
         $clock = new class () implements ClockInterface {
@@ -289,5 +249,33 @@ final class JwtFacadeTest extends TestCase
                 new StrictValidAt($clock),
             ),
         );
+    }
+
+    #[PHPUnit\Test]
+    public function multipleKeys(): void
+    {
+        $clock = new FrozenClock(new DateTimeImmutable('2023-11-19 22:10:00'));
+
+        $token = (new JwtFacade())->parse(
+            $this->createToken(),
+            new SignedWithOneInSet(
+                new SignedWithUntilDate(
+                    $this->signer,
+                    InMemory::base64Encoded('czyPTpN595zVNSuvoNNlXCRFgXS2fHscMR36dGojaUE='),
+                    new DateTimeImmutable('2024-11-19 22:10:00'),
+                    $clock,
+                ),
+                new SignedWithUntilDate(
+                    $this->signer,
+                    $this->key,
+                    new DateTimeImmutable('2025-11-19 22:10:00'),
+                    $clock,
+                ),
+            ),
+            new StrictValidAt($this->clock),
+            new IssuedBy($this->issuer),
+        );
+
+        self::assertInstanceOf(Plain::class, $token);
     }
 }
