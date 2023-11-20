@@ -212,5 +212,5 @@ Now check the changes on the parsing and validation logic:
 Now the application is able to accept non-expired tokens issued with either old and new keys!
 In this case, the old key would automatically only be accepted until `2023-12-31 23:59:59+00:00`, even if engineers forget to remove it from the list.
 
-!!! Important`
+!!! Important
     The order of `SignedWithUntilDate` constraints given to `SignedWithOneInSet` does matter, and it's recommended to leave older keys at the end of the list.
