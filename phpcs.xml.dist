@@ -16,7 +16,7 @@
     <rule ref="Lcobucci" />
 
     <rule ref="SlevomatCodingStandard.Functions.UnusedParameter">
-        <exclude-pattern>tests/UnsupportedParser.php</exclude-pattern>
+        <exclude-pattern>tests</exclude-pattern>
     </rule>
 </ruleset>
 
