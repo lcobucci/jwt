@@ -5,6 +5,7 @@ namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Signer;
 
+use function function_exists;
 use function hash_equals;
 use function sodium_crypto_generichash;
 use function strlen;
@@ -20,6 +21,10 @@ final class Blake2b implements Signer
 
     public function sign(string $payload, Key $key): string
     {
+        if (! function_exists('sodium_crypto_generichash')) {
+            throw ExtSodiumMissing::forBlake2b();
+        }
+
         $actualKeyLength = 8 * strlen($key->contents());
 
         if ($actualKeyLength < self::MINIMUM_KEY_LENGTH_IN_BITS) {
