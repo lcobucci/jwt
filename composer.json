@@ -19,7 +19,7 @@
     "require": {
         "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
         "ext-openssl": "*",
-        "ext-sodium": "*",
+        "paragonie/sodium_compat": "^1.20",
         "psr/clock": "^1.0"
     },
     "require-dev": {
@@ -35,7 +35,8 @@
         "phpunit/phpunit": "^10.2.6"
     },
     "suggest": {
-        "lcobucci/clock": ">= 3.0"
+        "lcobucci/clock": ">= 3.0",
+        "ext-sodium": "Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
     },
     "autoload": {
         "psr-4": {
