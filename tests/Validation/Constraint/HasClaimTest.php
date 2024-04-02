@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Tests\Validation\Constraint;
 
 use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Validation\Constraint\CannotValidateARegisteredClaim;
 use Lcobucci\JWT\Validation\Constraint\HasClaim;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
@@ -17,6 +18,32 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
  */
 final class HasClaimTest extends ConstraintTestCase
 {
+    /**
+     * @test
+     * @dataProvider registeredClaims
+     *
+     * @covers \Lcobucci\JWT\Validation\Constraint\CannotValidateARegisteredClaim
+     *
+     * @param non-empty-string $claim
+     */
+    public function registeredClaimsCannotBeValidatedUsingThisConstraint(string $claim): void
+    {
+        $this->expectException(CannotValidateARegisteredClaim::class);
+        $this->expectExceptionMessage(
+            'The claim "' . $claim . '" is a registered claim, another constraint must be used to validate its value',
+        );
+
+        new HasClaim($claim);
+    }
+
+    /** @return iterable<non-empty-string, array{non-empty-string}> */
+    public static function registeredClaims(): iterable
+    {
+        foreach (Token\RegisteredClaims::ALL as $claim) {
+            yield $claim => [$claim];
+        }
+    }
+
     /** @test */
     public function assertShouldRaiseExceptionWhenClaimIsNotSet(): void
     {
