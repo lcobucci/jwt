@@ -90,6 +90,6 @@ This library provides the following constraints:
 * `Lcobucci\JWT\Validation\Constraint\StrictValidAt`: verifies presence and validity of the claims `iat`, `nbf`, and `exp` (supports leeway configuration)
 * `Lcobucci\JWT\Validation\Constraint\LooseValidAt`: verifies the claims `iat`, `nbf`, and `exp`, when present (supports leeway configuration)
 * `Lcobucci\JWT\Validation\Constraint\HasClaimWithValue`: verifies that a **custom claim** has the expected value (not recommended when comparing cryptographic hashes)
-* `Lcobucci\JWT\Validation\Constraint\HasClaim`: verifies that a claim is present
+* `Lcobucci\JWT\Validation\Constraint\HasClaim`: verifies that a **custom claim** is present
 
 You may also create your [own validation constraints](extending-the-library.md#validation-constraints).
