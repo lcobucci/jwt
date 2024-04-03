@@ -47,21 +47,24 @@ final class HasClaimTest extends ConstraintTestCase
     /** @test */
     public function assertShouldRaiseExceptionWhenClaimIsNotSet(): void
     {
+        $constraint = new HasClaim('claimId');
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('The token does not have the claim "claimId"');
 
-        $constraint = new HasClaim('claimId');
         $constraint->assert($this->buildToken());
     }
 
     /** @test */
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
+        $token      = $this->createMock(Token::class);
+        $constraint = new HasClaim('claimId');
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('You should pass a plain token');
 
-        $constraint = new HasClaim('claimId');
-        $constraint->assert($this->createMock(Token::class));
+        $constraint->assert($token);
     }
 
     /** @test */
