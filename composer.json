@@ -26,7 +26,7 @@
         "infection/infection": "^0.28",
         "lcobucci/clock": "^3.2",
         "lcobucci/coding-standard": "^11.0",
-        "phpbench/phpbench": "^1.2.9",
+        "phpbench/phpbench": "^1.2",
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan": "^1.10.7",
         "phpstan/phpstan-deprecation-rules": "^1.1.3",
