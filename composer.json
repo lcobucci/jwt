@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+        "php": "~8.2.0 || ~8.3.0",
         "ext-openssl": "*",
         "ext-sodium": "*",
         "psr/clock": "^1.0"
@@ -55,7 +55,7 @@
             "phpstan/extension-installer": true
         },
         "platform": {
-            "php": "8.1.99"
+            "php": "8.2.99"
         },
         "preferred-install": "dist",
         "sort-packages": true
