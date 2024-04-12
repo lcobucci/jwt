@@ -24,7 +24,7 @@
     },
     "require-dev": {
         "infection/infection": "^0.28",
-        "lcobucci/clock": "^3.0",
+        "lcobucci/clock": "^3.2",
         "lcobucci/coding-standard": "^11.0",
         "phpbench/phpbench": "^1.2.9",
         "phpstan/extension-installer": "^1.2",
@@ -35,7 +35,7 @@
         "phpunit/phpunit": "^10.2.6"
     },
     "suggest": {
-        "lcobucci/clock": ">= 3.0"
+        "lcobucci/clock": ">= 3.2"
     },
     "autoload": {
         "psr-4": {
