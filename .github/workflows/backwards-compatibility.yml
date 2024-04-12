@@ -18,7 +18,7 @@ jobs:
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.29.0"
         with:
-          php-version: "8.1"
+          php-version: "8.2"
           ini-values: memory_limit=-1
           tools: composer:v2, cs2pr
         env:
@@ -32,8 +32,8 @@ jobs:
         uses: "actions/cache@v4.0.0"
         with:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
-          key: "php-8.1-bc-break-check-${{ hashFiles('.github/workflows/backwards-compatibility.yml') }}"
-          restore-keys: "php-8.1-bc-break-check-"
+          key: "php-8.2-bc-break-check-${{ hashFiles('.github/workflows/backwards-compatibility.yml') }}"
+          restore-keys: "php-8.2-bc-break-check-"
 
       # Only necessary until https://github.com/Roave/BackwardCompatibilityCheck/pull/737 gets resolved
       - name: "Configure custom repository"
