@@ -37,4 +37,4 @@ endif
 
 .PHONY: phpbench
 phpbench:
-	@vendor/bin/phpbench run -l dots --report=$(PHPBENCH_REPORT) $(PHPBENCH_FLAGS)
+	@vendor/bin/phpbench run -l dots --retry-threshold=5 --report=$(PHPBENCH_REPORT) $(PHPBENCH_FLAGS)
