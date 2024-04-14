@@ -5,24 +5,20 @@ namespace Lcobucci\JWT\Tests\Encoding;
 
 use DateTimeImmutable;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
+use Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion;
+use Lcobucci\JWT\Encoding\UnifyAudience;
+use Lcobucci\JWT\Encoding\UnixTimestampDates;
 use Lcobucci\JWT\Token\RegisteredClaims;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Encoding\ChainedFormatter */
+#[PHPUnit\CoversClass(ChainedFormatter::class)]
+#[PHPUnit\UsesClass(MicrosecondBasedDateConversion::class)]
+#[PHPUnit\UsesClass(UnifyAudience::class)]
+#[PHPUnit\UsesClass(UnixTimestampDates::class)]
 final class ChainedFormatterTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::default
-     * @covers ::withUnixTimestampDates
-     * @covers ::formatClaims
-     *
-     * @uses \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
-     * @uses \Lcobucci\JWT\Encoding\UnifyAudience
-     * @uses \Lcobucci\JWT\Encoding\UnixTimestampDates
-     */
+    #[PHPUnit\Test]
     public function formatClaimsShouldApplyAllConfiguredFormatters(): void
     {
         $expiration = DateTimeImmutable::createFromFormat('U.u', '1487285080.123456');

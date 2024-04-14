@@ -9,12 +9,21 @@ use Lcobucci\JWT\Signer\Ecdsa\Sha384;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Signer\OpenSSL;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function hex2bin;
 
 use const PHP_EOL;
 
+#[PHPUnit\CoversClass(InMemory::class)]
+#[PHPUnit\CoversClass(OpenSSL::class)]
+#[PHPUnit\CoversClass(Ecdsa::class)]
+#[PHPUnit\CoversClass(Ecdsa\MultibyteStringConverter::class)]
+#[PHPUnit\CoversClass(Ecdsa\Sha256::class)]
+#[PHPUnit\CoversClass(Ecdsa\Sha384::class)]
+#[PHPUnit\CoversClass(Ecdsa\Sha512::class)]
 final class RFC6978VectorTest extends TestCase
 {
     /**
@@ -22,19 +31,10 @@ final class RFC6978VectorTest extends TestCase
      * @see https://tools.ietf.org/html/rfc6979#appendix-A.2.6
      * @see https://tools.ietf.org/html/rfc6979#appendix-A.2.7
      *
-     * @test
-     * @dataProvider dataRFC6979
-     *
-     * @covers \Lcobucci\JWT\Signer\Key\InMemory
-     * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha384
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
-     * @covers \Lcobucci\JWT\Signer\OpenSSL
-     *
      * @param non-empty-string $payload
      */
+    #[PHPUnit\Test]
+    #[PHPUnit\DataProvider('dataRFC6979')]
     public function theVectorsFromRFC6978CanBeVerified(
         Ecdsa $signer,
         Key $key,

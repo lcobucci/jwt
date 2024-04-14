@@ -10,16 +10,14 @@ use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolation;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
-/**
- * @covers \Lcobucci\JWT\Validation\Constraint\LeewayCannotBeNegative
- * @covers \Lcobucci\JWT\Validation\ConstraintViolation
- * @covers \Lcobucci\JWT\Validation\Constraint\StrictValidAt
- *
- * @uses \Lcobucci\JWT\Token\DataSet
- * @uses \Lcobucci\JWT\Token\Plain
- * @uses \Lcobucci\JWT\Token\Signature
- */
+#[PHPUnit\CoversClass(ConstraintViolation::class)]
+#[PHPUnit\CoversClass(Constraint\LeewayCannotBeNegative::class)]
+#[PHPUnit\CoversClass(StrictValidAt::class)]
+#[PHPUnit\UsesClass(Token\DataSet::class)]
+#[PHPUnit\UsesClass(Token\Plain::class)]
+#[PHPUnit\UsesClass(Token\Signature::class)]
 final class StrictValidAtTest extends ValidAtTestCase
 {
     protected function buildValidAtConstraint(Clock $clock, ?DateInterval $leeway = null): Constraint
@@ -27,47 +25,47 @@ final class StrictValidAtTest extends ValidAtTestCase
         return new StrictValidAt($clock, $leeway);
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
+        $constraint = $this->buildValidAtConstraint($this->clock);
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('You should pass a plain token');
 
-        $constraint = $this->buildValidAtConstraint($this->clock);
         $constraint->assert($this->createMock(Token::class));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenIatClaimIsMissing(): void
     {
+        $constraint = $this->buildValidAtConstraint($this->clock);
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('"Issued At" claim missing');
 
-        $constraint = $this->buildValidAtConstraint($this->clock);
         $constraint->assert($this->buildToken());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenNbfClaimIsMissing(): void
     {
-        $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('"Not Before" claim missing');
-
         $now    = $this->clock->now();
         $claims = [
             RegisteredClaims::ISSUED_AT => $now->modify('-5 seconds'),
         ];
 
         $constraint = $this->buildValidAtConstraint($this->clock);
+
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('"Not Before" claim missing');
+
         $constraint->assert($this->buildToken($claims));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenExpClaimIsMissing(): void
     {
-        $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('"Expiration Time" claim missing');
-
         $now    = $this->clock->now();
         $claims = [
             RegisteredClaims::ISSUED_AT => $now->modify('-5 seconds'),
@@ -75,6 +73,10 @@ final class StrictValidAtTest extends ValidAtTestCase
         ];
 
         $constraint = $this->buildValidAtConstraint($this->clock);
+
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('"Expiration Time" claim missing');
+
         $constraint->assert($this->buildToken($claims));
     }
 }

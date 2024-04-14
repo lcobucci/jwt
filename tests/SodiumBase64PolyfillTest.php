@@ -5,6 +5,7 @@ namespace Lcobucci\JWT\Tests;
 
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\SodiumBase64Polyfill;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function rtrim;
@@ -15,17 +16,15 @@ use const SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING;
 use const SODIUM_BASE64_VARIANT_URLSAFE;
 use const SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING;
 
-/** @coversDefaultClass \Lcobucci\JWT\SodiumBase64Polyfill */
+#[PHPUnit\CoversClass(SodiumBase64Polyfill::class)]
+#[PHPUnit\UsesClass(CannotDecodeContent::class)]
 final class SodiumBase64PolyfillTest extends TestCase
 {
     private const B64    = 'I+o2tVq8ynY=';
     private const B64URL = 'lZ-2HIl9dTz_Oy0nAb-2gvKdG0jhHJ36XB2rWAKj8Uo=';
 
-    /**
-     * @test
-     *
-     * @coversNothing
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\CoversNothing]
     public function constantsMatchExtensionOnes(): void
     {
         // @phpstan-ignore-next-line
@@ -50,26 +49,16 @@ final class SodiumBase64PolyfillTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @dataProvider base64Variants
-     *
-     * @covers ::bin2base64
-     * @covers ::bin2base64Fallback
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\DataProvider('base64Variants')]
     public function bin2base64(string $encoded, string $binary, int $variant): void
     {
         self::assertSame($encoded, SodiumBase64Polyfill::bin2base64($binary, $variant));
         self::assertSame($encoded, SodiumBase64Polyfill::bin2base64Fallback($binary, $variant));
     }
 
-    /**
-     * @test
-     * @dataProvider base64Variants
-     *
-     * @covers ::base642bin
-     * @covers ::base642binFallback
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\DataProvider('base64Variants')]
     public function base642binFallback(string $encoded, string $binary, int $variant): void
     {
         self::assertSame($binary, SodiumBase64Polyfill::base642bin($encoded, $variant));
@@ -90,14 +79,8 @@ final class SodiumBase64PolyfillTest extends TestCase
         yield [rtrim(self::B64URL, '='), $urlBinary, SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING];
     }
 
-    /**
-     * @test
-     * @dataProvider invalidBase64
-     *
-     * @covers ::base642bin
-     *
-     * @uses \Lcobucci\JWT\Encoding\CannotDecodeContent::invalidBase64String()
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\DataProvider('invalidBase64')]
     public function sodiumBase642BinRaisesExceptionOnInvalidBase64(string $content, int $variant): void
     {
         $this->expectException(CannotDecodeContent::class);
@@ -105,14 +88,8 @@ final class SodiumBase64PolyfillTest extends TestCase
         SodiumBase64Polyfill::base642bin($content, $variant);
     }
 
-    /**
-     * @test
-     * @dataProvider invalidBase64
-     *
-     * @covers ::base642binFallback
-     *
-     * @uses \Lcobucci\JWT\Encoding\CannotDecodeContent::invalidBase64String()
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\DataProvider('invalidBase64')]
     public function fallbackBase642BinRaisesExceptionOnInvalidBase64(string $content, int $variant): void
     {
         $this->expectException(CannotDecodeContent::class);

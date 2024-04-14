@@ -4,12 +4,13 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Tests\Token;
 
 use Lcobucci\JWT\Token\DataSet;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
-/** @covers \Lcobucci\JWT\Token\DataSet */
+#[PHPUnit\CoversClass(DataSet::class)]
 final class DataSetTest extends TestCase
 {
-    /** @test */
+    #[PHPUnit\Test]
     public function getShouldReturnTheConfiguredValue(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
@@ -17,7 +18,7 @@ final class DataSetTest extends TestCase
         self::assertSame(1, $set->get('one'));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function getShouldReturnTheFallbackValueWhenItWasGiven(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
@@ -25,7 +26,7 @@ final class DataSetTest extends TestCase
         self::assertSame(2, $set->get('two', 2));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function getShouldReturnNullWhenFallbackValueWasNotGiven(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
@@ -33,7 +34,7 @@ final class DataSetTest extends TestCase
         self::assertNull($set->get('two'));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function hasShouldReturnTrueWhenItemWasConfigured(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
@@ -41,7 +42,7 @@ final class DataSetTest extends TestCase
         self::assertTrue($set->has('one'));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function hasShouldReturnFalseWhenItemWasNotConfigured(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');
@@ -49,7 +50,7 @@ final class DataSetTest extends TestCase
         self::assertFalse($set->has('two'));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function allShouldReturnAllConfiguredItems(): void
     {
         $items = ['one' => 1, 'two' => 2];
@@ -58,7 +59,7 @@ final class DataSetTest extends TestCase
         self::assertSame($items, $set->all());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function toStringShouldReturnTheEncodedData(): void
     {
         $set = new DataSet(['one' => 1], 'one=1');

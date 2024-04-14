@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Tests;
 
 use Lcobucci\JWT\Signer\Key;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
 trait Keys
 {
@@ -16,7 +17,7 @@ trait Keys
     /** @var array<string, Key> */
     protected static array $eddsaKeys;
 
-    /** @beforeClass */
+    #[PHPUnit\BeforeClass]
     public static function createRsaKeys(): void
     {
         if (isset(static::$rsaKeys)) {
@@ -33,7 +34,7 @@ trait Keys
         ];
     }
 
-    /** @beforeClass */
+    #[PHPUnit\BeforeClass]
     public static function createEcdsaKeys(): void
     {
         if (isset(static::$ecdsaKeys)) {
@@ -54,7 +55,7 @@ trait Keys
         ];
     }
 
-    /** @beforeClass */
+    #[PHPUnit\BeforeClass]
     public static function createEddsaKeys(): void
     {
         if (isset(static::$eddsaKeys)) {

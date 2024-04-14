@@ -5,21 +5,14 @@ namespace Lcobucci\JWT\Tests\Validation;
 
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Validation\RequiredConstraintsViolated */
+#[PHPUnit\CoversClass(RequiredConstraintsViolated::class)]
+#[PHPUnit\UsesClass(ConstraintViolation::class)]
 final class RequiredConstraintsViolatedTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::fromViolations
-     * @covers ::__construct
-     * @covers ::buildMessage
-     * @covers ::violations
-     *
-     * @uses \Lcobucci\JWT\Validation\ConstraintViolation
-     */
+    #[PHPUnit\Test]
     public function fromViolationsShouldConfigureMessageAndViolationList(): void
     {
         $violation = new ConstraintViolation('testing');

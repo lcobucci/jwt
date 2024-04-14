@@ -4,12 +4,20 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Tests;
 
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Encoding;
 use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Signer\Ecdsa;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512 as ES512;
+use Lcobucci\JWT\Signer\Hmac;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HS512;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\SodiumBase64Polyfill;
+use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\ConstraintViolation;
+use Lcobucci\JWT\Validation\Validator;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
@@ -19,13 +27,27 @@ use function implode;
 
 use const PHP_EOL;
 
+#[PHPUnit\CoversClass(Configuration::class)]
+#[PHPUnit\CoversClass(Encoding\JoseEncoder::class)]
+#[PHPUnit\CoversClass(Token\Parser::class)]
+#[PHPUnit\CoversClass(Token\Plain::class)]
+#[PHPUnit\CoversClass(Token\DataSet::class)]
+#[PHPUnit\CoversClass(Token\Signature::class)]
+#[PHPUnit\CoversClass(Ecdsa::class)]
+#[PHPUnit\CoversClass(Ecdsa\Sha512::class)]
+#[PHPUnit\CoversClass(Hmac\Sha256::class)]
+#[PHPUnit\CoversClass(InMemory::class)]
+#[PHPUnit\CoversClass(SodiumBase64Polyfill::class)]
+#[PHPUnit\CoversClass(ConstraintViolation::class)]
+#[PHPUnit\CoversClass(Validator::class)]
+#[PHPUnit\CoversClass(SignedWith::class)]
 final class MaliciousTamperingPreventionTest extends TestCase
 {
     use Keys;
 
     private Configuration $config;
 
-    /** @before */
+    #[PHPUnit\Before]
     public function createConfiguration(): void
     {
         $this->config = Configuration::forAsymmetricSigner(
@@ -42,28 +64,7 @@ final class MaliciousTamperingPreventionTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Configuration
-     * @covers \Lcobucci\JWT\Encoding\JoseEncoder
-     * @covers \Lcobucci\JWT\Token\Builder
-     * @covers \Lcobucci\JWT\Token\Parser
-     * @covers \Lcobucci\JWT\Token\Plain
-     * @covers \Lcobucci\JWT\Token\DataSet
-     * @covers \Lcobucci\JWT\Token\Signature
-     * @covers \Lcobucci\JWT\Signer\Key\InMemory
-     * @covers \Lcobucci\JWT\Signer\Ecdsa
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
-     * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
-     * @covers \Lcobucci\JWT\Signer\Hmac
-     * @covers \Lcobucci\JWT\Signer\Hmac\Sha256
-     * @covers \Lcobucci\JWT\Signer\Hmac\Sha512
-     * @covers \Lcobucci\JWT\SodiumBase64Polyfill
-     * @covers \Lcobucci\JWT\Validation\ConstraintViolation
-     * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
-     * @covers \Lcobucci\JWT\Validation\Validator
-     */
+    #[PHPUnit\Test]
     public function preventRegressionsThatAllowsMaliciousTampering(): void
     {
         $data = 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJoZWxsbyI6IndvcmxkIn0.'

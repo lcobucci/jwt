@@ -7,34 +7,29 @@ use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Eddsa;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\SodiumBase64Polyfill;
 use Lcobucci\JWT\Tests\Keys;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function sodium_crypto_sign_detached;
 use function sodium_crypto_sign_verify_detached;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Eddsa */
+#[PHPUnit\CoversClass(Eddsa::class)]
+#[PHPUnit\UsesClass(InMemory::class)]
+#[PHPUnit\UsesClass(JoseEncoder::class)]
+#[PHPUnit\UsesClass(SodiumBase64Polyfill::class)]
 final class EddsaTest extends TestCase
 {
     use Keys;
 
-    /**
-     * @test
-     *
-     * @covers ::algorithmId
-     */
+    #[PHPUnit\Test]
     public function algorithmIdMustBeCorrect(): void
     {
         self::assertSame('EdDSA', (new Eddsa())->algorithmId());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::sign
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
-     */
+    #[PHPUnit\Test]
     public function signShouldReturnAValidEddsaSignature(): void
     {
         $payload = 'testing';
@@ -47,13 +42,7 @@ final class EddsaTest extends TestCase
         self::assertTrue(sodium_crypto_sign_verify_detached($signature, $payload, $publicKey));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::sign
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
-     */
+    #[PHPUnit\Test]
     public function signShouldRaiseAnExceptionWhenKeyIsInvalid(): void
     {
         $signer = new Eddsa();
@@ -65,13 +54,7 @@ final class EddsaTest extends TestCase
         $signer->sign('testing', InMemory::plainText('tooshort'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::verify
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
-     */
+    #[PHPUnit\Test]
     public function verifyShouldReturnTrueWhenSignatureIsValid(): void
     {
         $payload   = 'testing';
@@ -81,13 +64,7 @@ final class EddsaTest extends TestCase
         self::assertTrue($signer->verify($signature, $payload, self::$eddsaKeys['public1']));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::verify
-     *
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
-     */
+    #[PHPUnit\Test]
     public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $signer = new Eddsa();
@@ -99,18 +76,8 @@ final class EddsaTest extends TestCase
         $signer->verify('testing', 'testing', InMemory::plainText('blablabla'));
     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc8037#appendix-A.4
-     *
-     * @test
-     *
-     * @covers ::sign
-     *
-     * @uses \Lcobucci\JWT\Encoding\JoseEncoder
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
-     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
-     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::bin2base64()
-     */
+    /** @see https://tools.ietf.org/html/rfc8037#appendix-A.4 */
+    #[PHPUnit\Test]
     public function signatureOfRfcExample(): void
     {
         $signer  = new Eddsa();
@@ -133,17 +100,8 @@ final class EddsaTest extends TestCase
         );
     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc8037#appendix-A.5
-     *
-     * @test
-     *
-     * @covers ::verify
-     *
-     * @uses \Lcobucci\JWT\Encoding\JoseEncoder
-     * @uses \Lcobucci\JWT\Signer\Key\InMemory
-     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
-     */
+    /** @see https://tools.ietf.org/html/rfc8037#appendix-A.5 */
+    #[PHPUnit\Test]
     public function verificationOfRfcExample(): void
     {
         $signer  = new Eddsa();

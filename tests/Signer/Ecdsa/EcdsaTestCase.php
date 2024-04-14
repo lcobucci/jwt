@@ -9,6 +9,7 @@ use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Tests\Keys;
 use OpenSSLAsymmetricKey;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
@@ -24,7 +25,7 @@ abstract class EcdsaTestCase extends TestCase
 
     protected MultibyteStringConverter $pointsManipulator;
 
-    /** @after */
+    #[PHPUnit\After]
     final public function clearOpenSSLErrors(): void
     {
         // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedWhile
@@ -32,7 +33,7 @@ abstract class EcdsaTestCase extends TestCase
         }
     }
 
-    /** @before */
+    #[PHPUnit\Before]
     final public function createDependencies(): void
     {
         $this->pointsManipulator = new MultibyteStringConverter();
@@ -52,31 +53,31 @@ abstract class EcdsaTestCase extends TestCase
 
     abstract protected function signingKey(): Key;
 
-    /** @test */
+    #[PHPUnit\Test]
     final public function algorithmIdMustBeCorrect(): void
     {
         self::assertSame($this->algorithmId(), $this->algorithm()->algorithmId());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     final public function signatureAlgorithmMustBeCorrect(): void
     {
         self::assertSame($this->signatureAlgorithm(), $this->algorithm()->algorithm());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     final public function pointLengthMustBeCorrect(): void
     {
         self::assertSame($this->pointLength(), $this->algorithm()->pointLength());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     final public function expectedKeyLengthMustBeCorrect(): void
     {
         self::assertSame($this->keyLength(), $this->algorithm()->expectedKeyLength());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function signShouldReturnTheAHashBasedOnTheOpenSslSignature(): void
     {
         $payload = 'testing';
@@ -98,10 +99,8 @@ abstract class EcdsaTestCase extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @dataProvider incompatibleKeys
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\DataProvider('incompatibleKeys')]
     public function signShouldRaiseAnExceptionWhenKeyLengthIsNotTheExpectedOne(
         string $keyId,
         int $keyLength,
@@ -120,7 +119,7 @@ abstract class EcdsaTestCase extends TestCase
     /** @return iterable<string, array{string, int}> */
     abstract public static function incompatibleKeys(): iterable;
 
-    /** @test */
+    #[PHPUnit\Test]
     public function signShouldRaiseAnExceptionWhenKeyTypeIsNotEC(): void
     {
         $this->expectException(InvalidKeyProvided::class);
@@ -129,7 +128,7 @@ abstract class EcdsaTestCase extends TestCase
         $this->algorithm()->sign('testing', self::$rsaKeys['private']);
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function verifyShouldDelegateToEcdsaSignerUsingPublicKey(): void
     {
         $payload    = 'testing';

@@ -7,6 +7,7 @@ use Lcobucci\JWT\Signer\CannotSignPayload;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\OpenSSL;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function openssl_error_string;
@@ -14,15 +15,12 @@ use function openssl_error_string;
 use const OPENSSL_ALGO_SHA256;
 use const PHP_EOL;
 
-/**
- * @covers \Lcobucci\JWT\Signer\OpenSSL
- * @covers \Lcobucci\JWT\Signer\CannotSignPayload
- *
- * @uses \Lcobucci\JWT\Signer\Key\InMemory
- */
+#[PHPUnit\CoversClass(OpenSSL::class)]
+#[PHPUnit\CoversClass(CannotSignPayload::class)]
+#[PHPUnit\UsesClass(InMemory::class)]
 final class KeyValidationTest extends TestCase
 {
-    /** @after */
+    #[PHPUnit\After]
     public function clearOpenSSLErrors(): void
     {
         // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedWhile
@@ -30,7 +28,7 @@ final class KeyValidationTest extends TestCase
         }
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function signShouldRaiseAnExceptionWhenKeyIsInvalid(): void
     {
         $key = <<<'KEY'

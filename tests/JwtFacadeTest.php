@@ -7,59 +7,56 @@ use AssertionError;
 use DateTimeImmutable;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Encoding;
 use Lcobucci\JWT\JwtFacade;
-use Lcobucci\JWT\Signer\Hmac\Sha256;
-use Lcobucci\JWT\Signer\Hmac\Sha384;
+use Lcobucci\JWT\Signer\Hmac;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Token\Plain;
-use Lcobucci\JWT\Validation\Constraint\IssuedBy;
-use Lcobucci\JWT\Validation\Constraint\SignedWith;
-use Lcobucci\JWT\Validation\Constraint\SignedWithOneInSet;
-use Lcobucci\JWT\Validation\Constraint\SignedWithUntilDate;
-use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
+use Lcobucci\JWT\SodiumBase64Polyfill;
+use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Validation\Constraint;
+use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
+use Lcobucci\JWT\Validation\Validator;
 use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 use Psr\Clock\ClockInterface;
 
-/**
- * @covers \Lcobucci\JWT\JwtFacade
- *
- * @uses  \Lcobucci\JWT\Token\Parser
- * @uses  \Lcobucci\JWT\Encoding\JoseEncoder
- * @uses  \Lcobucci\JWT\Encoding\ChainedFormatter
- * @uses  \Lcobucci\JWT\Encoding\UnifyAudience
- * @uses  \Lcobucci\JWT\Encoding\UnixTimestampDates
- * @uses  \Lcobucci\JWT\Signer\Hmac
- * @uses  \Lcobucci\JWT\Signer\Hmac\Sha256
- * @uses  \Lcobucci\JWT\Signer\Hmac\Sha384
- * @uses  \Lcobucci\JWT\Signer\Key\InMemory
- * @uses  \Lcobucci\JWT\SodiumBase64Polyfill
- * @uses  \Lcobucci\JWT\Token\Builder
- * @uses  \Lcobucci\JWT\Token\DataSet
- * @uses  \Lcobucci\JWT\Token\Plain
- * @uses  \Lcobucci\JWT\Token\Signature
- * @uses  \Lcobucci\JWT\Validation\Validator
- * @uses  \Lcobucci\JWT\Validation\Constraint\IssuedBy
- * @uses  \Lcobucci\JWT\Validation\Constraint\SignedWith
- * @uses  \Lcobucci\JWT\Validation\Constraint\SignedWithOneInSet
- * @uses  \Lcobucci\JWT\Validation\Constraint\SignedWithUntilDate
- * @uses  \Lcobucci\JWT\Validation\Constraint\StrictValidAt
- * @uses  \Lcobucci\JWT\Validation\ConstraintViolation
- * @uses  \Lcobucci\JWT\Validation\RequiredConstraintsViolated
- */
+#[PHPUnit\CoversClass(JwtFacade::class)]
+#[PHPUnit\UsesClass(Token\Builder::class)]
+#[PHPUnit\UsesClass(Token\Parser::class)]
+#[PHPUnit\UsesClass(Token\Plain::class)]
+#[PHPUnit\UsesClass(Token\DataSet::class)]
+#[PHPUnit\UsesClass(Token\Signature::class)]
+#[PHPUnit\UsesClass(Encoding\JoseEncoder::class)]
+#[PHPUnit\UsesClass(Encoding\ChainedFormatter::class)]
+#[PHPUnit\UsesClass(Encoding\UnixTimestampDates::class)]
+#[PHPUnit\UsesClass(Encoding\UnifyAudience::class)]
+#[PHPUnit\UsesClass(Hmac::class)]
+#[PHPUnit\UsesClass(Hmac\Sha256::class)]
+#[PHPUnit\UsesClass(Hmac\Sha384::class)]
+#[PHPUnit\UsesClass(SodiumBase64Polyfill::class)]
+#[PHPUnit\UsesClass(InMemory::class)]
+#[PHPUnit\UsesClass(Validator::class)]
+#[PHPUnit\UsesClass(Constraint\IssuedBy::class)]
+#[PHPUnit\UsesClass(Constraint\SignedWith::class)]
+#[PHPUnit\UsesClass(Constraint\SignedWithOneInSet::class)]
+#[PHPUnit\UsesClass(Constraint\SignedWithUntilDate::class)]
+#[PHPUnit\UsesClass(Constraint\StrictValidAt::class)]
+#[PHPUnit\UsesClass(ConstraintViolation::class)]
+#[PHPUnit\UsesClass(RequiredConstraintsViolated::class)]
 final class JwtFacadeTest extends TestCase
 {
     private FrozenClock $clock;
-    private Sha256 $signer;
+    private Hmac\Sha256 $signer;
     private InMemory $key;
     /** @var non-empty-string */
     private string $issuer;
 
-    protected function setUp(): void
+    #[PHPUnit\Before]
+    public function configureDependencies(): void
     {
         $this->clock  = new FrozenClock(new DateTimeImmutable('2021-07-10'));
-        $this->signer = new Sha256();
+        $this->signer = new Hmac\Sha256();
         $this->key    = InMemory::base64Encoded('qOIXmZRqZKY80qg0BjtCrskM6OK7gPOea8mz1H7h/dE=');
         $this->issuer = 'bar';
     }
@@ -143,12 +140,12 @@ final class JwtFacadeTest extends TestCase
     {
         $token = (new JwtFacade())->parse(
             $this->createToken(),
-            new SignedWith($this->signer, $this->key),
-            new StrictValidAt($this->clock),
-            new IssuedBy($this->issuer),
+            new Constraint\SignedWith($this->signer, $this->key),
+            new Constraint\StrictValidAt($this->clock),
+            new Constraint\IssuedBy($this->issuer),
         );
 
-        self::assertInstanceOf(Plain::class, $token);
+        self::assertInstanceOf(Token\Plain::class, $token);
     }
 
     #[PHPUnit\Test]
@@ -159,9 +156,9 @@ final class JwtFacadeTest extends TestCase
 
         (new JwtFacade())->parse(
             $this->createToken(),
-            new SignedWith(new Sha384(), $this->key),
-            new StrictValidAt($this->clock),
-            new IssuedBy($this->issuer),
+            new Constraint\SignedWith(new Hmac\Sha384(), $this->key),
+            new Constraint\StrictValidAt($this->clock),
+            new Constraint\IssuedBy($this->issuer),
         );
     }
 
@@ -173,9 +170,12 @@ final class JwtFacadeTest extends TestCase
 
         (new JwtFacade())->parse(
             $this->createToken(),
-            new SignedWith($this->signer, InMemory::base64Encoded('czyPTpN595zVNSuvoNNlXCRFgXS2fHscMR36dGojaUE=')),
-            new StrictValidAt($this->clock),
-            new IssuedBy($this->issuer),
+            new Constraint\SignedWith(
+                $this->signer,
+                InMemory::base64Encoded('czyPTpN595zVNSuvoNNlXCRFgXS2fHscMR36dGojaUE='),
+            ),
+            new Constraint\StrictValidAt($this->clock),
+            new Constraint\IssuedBy($this->issuer),
         );
     }
 
@@ -190,9 +190,9 @@ final class JwtFacadeTest extends TestCase
 
         (new JwtFacade())->parse(
             $token,
-            new SignedWith($this->signer, $this->key),
-            new StrictValidAt($this->clock),
-            new IssuedBy($this->issuer),
+            new Constraint\SignedWith($this->signer, $this->key),
+            new Constraint\StrictValidAt($this->clock),
+            new Constraint\IssuedBy($this->issuer),
         );
     }
 
@@ -204,9 +204,9 @@ final class JwtFacadeTest extends TestCase
 
         (new JwtFacade())->parse(
             $this->createToken(),
-            new SignedWith($this->signer, $this->key),
-            new StrictValidAt($this->clock),
-            new IssuedBy('xyz'),
+            new Constraint\SignedWith($this->signer, $this->key),
+            new Constraint\StrictValidAt($this->clock),
+            new Constraint\IssuedBy('xyz'),
         );
     }
 
@@ -217,9 +217,9 @@ final class JwtFacadeTest extends TestCase
 
         (new JwtFacade(new UnsupportedParser()))->parse(
             'a.very-broken.token',
-            new SignedWith($this->signer, $this->key),
-            new StrictValidAt($this->clock),
-            new IssuedBy($this->issuer),
+            new Constraint\SignedWith($this->signer, $this->key),
+            new Constraint\StrictValidAt($this->clock),
+            new Constraint\IssuedBy($this->issuer),
         );
     }
 
@@ -245,8 +245,8 @@ final class JwtFacadeTest extends TestCase
             $token,
             $facade->parse(
                 $token->toString(),
-                new SignedWith($this->signer, $this->key),
-                new StrictValidAt($clock),
+                new Constraint\SignedWith($this->signer, $this->key),
+                new Constraint\StrictValidAt($clock),
             ),
         );
     }
@@ -258,24 +258,24 @@ final class JwtFacadeTest extends TestCase
 
         $token = (new JwtFacade())->parse(
             $this->createToken(),
-            new SignedWithOneInSet(
-                new SignedWithUntilDate(
+            new Constraint\SignedWithOneInSet(
+                new Constraint\SignedWithUntilDate(
                     $this->signer,
                     InMemory::base64Encoded('czyPTpN595zVNSuvoNNlXCRFgXS2fHscMR36dGojaUE='),
                     new DateTimeImmutable('2024-11-19 22:10:00'),
                     $clock,
                 ),
-                new SignedWithUntilDate(
+                new Constraint\SignedWithUntilDate(
                     $this->signer,
                     $this->key,
                     new DateTimeImmutable('2025-11-19 22:10:00'),
                     $clock,
                 ),
             ),
-            new StrictValidAt($this->clock),
-            new IssuedBy($this->issuer),
+            new Constraint\StrictValidAt($this->clock),
+            new Constraint\IssuedBy($this->issuer),
         );
 
-        self::assertInstanceOf(Plain::class, $token);
+        self::assertInstanceOf(Token\Plain::class, $token);
     }
 }

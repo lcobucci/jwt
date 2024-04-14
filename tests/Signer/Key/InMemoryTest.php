@@ -7,21 +7,20 @@ use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key\FileCouldNotBeRead;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\SodiumBase64Polyfill;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function base64_encode;
 
-/** @coversDefaultClass \Lcobucci\JWT\Signer\Key\InMemory */
+#[PHPUnit\CoversClass(CannotDecodeContent::class)]
+#[PHPUnit\CoversClass(FileCouldNotBeRead::class)]
+#[PHPUnit\CoversClass(InMemory::class)]
+#[PHPUnit\CoversClass(InvalidKeyProvided::class)]
+#[PHPUnit\UsesClass(SodiumBase64Polyfill::class)]
 final class InMemoryTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::base64Encoded
-     * @covers \Lcobucci\JWT\Encoding\CannotDecodeContent
-     *
-     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
-     */
+    #[PHPUnit\Test]
     public function exceptionShouldBeRaisedWhenInvalidBase64CharsAreUsed(): void
     {
         $this->expectException(CannotDecodeContent::class);
@@ -30,16 +29,7 @@ final class InMemoryTest extends TestCase
         InMemory::base64Encoded('ááá');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::base64Encoded
-     * @covers ::guardAgainstEmptyKey
-     * @covers ::__construct
-     * @covers ::contents
-     *
-     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
-     */
+    #[PHPUnit\Test]
     public function base64EncodedShouldDecodeKeyContents(): void
     {
         $key = InMemory::base64Encoded(base64_encode('testing'));
@@ -47,14 +37,7 @@ final class InMemoryTest extends TestCase
         self::assertSame('testing', $key->contents());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::guardAgainstEmptyKey
-     * @covers ::__construct
-     * @covers ::file
-     * @covers \Lcobucci\JWT\Signer\Key\FileCouldNotBeRead
-     */
+    #[PHPUnit\Test]
     public function exceptionShouldBeRaisedWhenFileDoesNotExists(): void
     {
         $path = __DIR__ . '/not-found.pem';
@@ -66,14 +49,7 @@ final class InMemoryTest extends TestCase
         InMemory::file($path);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::guardAgainstEmptyKey
-     * @covers ::__construct
-     * @covers ::file
-     * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided::cannotBeEmpty
-     */
+    #[PHPUnit\Test]
     public function exceptionShouldBeRaisedWhenFileIsEmpty(): void
     {
         $this->expectException(InvalidKeyProvided::class);
@@ -82,14 +58,7 @@ final class InMemoryTest extends TestCase
         InMemory::file(__DIR__ . '/empty.pem');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::guardAgainstEmptyKey
-     * @covers ::__construct
-     * @covers ::plainText
-     * @covers ::contents
-     */
+    #[PHPUnit\Test]
     public function contentsShouldReturnConfiguredData(): void
     {
         $key = InMemory::plainText('testing', 'test');
@@ -97,14 +66,7 @@ final class InMemoryTest extends TestCase
         self::assertSame('testing', $key->contents());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::guardAgainstEmptyKey
-     * @covers ::__construct
-     * @covers ::file
-     * @covers ::contents
-     */
+    #[PHPUnit\Test]
     public function contentsShouldReturnFileContentsWhenFilePathHasBeenPassed(): void
     {
         $key = InMemory::file(__DIR__ . '/test.pem');
@@ -112,14 +74,7 @@ final class InMemoryTest extends TestCase
         self::assertSame('testing', $key->contents());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::guardAgainstEmptyKey
-     * @covers ::__construct
-     * @covers ::plainText
-     * @covers ::passphrase
-     */
+    #[PHPUnit\Test]
     public function passphraseShouldReturnConfiguredData(): void
     {
         $key = InMemory::plainText('testing', 'test');
@@ -127,14 +82,7 @@ final class InMemoryTest extends TestCase
         self::assertSame('test', $key->passphrase());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::guardAgainstEmptyKey
-     * @covers ::__construct
-     * @covers ::plainText
-     * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided::cannotBeEmpty
-     */
+    #[PHPUnit\Test]
     public function emptyPlainTextContentShouldRaiseException(): void
     {
         $this->expectException(InvalidKeyProvided::class);
@@ -143,16 +91,7 @@ final class InMemoryTest extends TestCase
         InMemory::plainText('');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::guardAgainstEmptyKey
-     * @covers ::__construct
-     * @covers ::base64Encoded
-     * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided::cannotBeEmpty
-     *
-     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin
-     */
+    #[PHPUnit\Test]
     public function emptyBase64ContentShouldRaiseException(): void
     {
         $this->expectException(InvalidKeyProvided::class);

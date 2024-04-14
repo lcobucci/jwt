@@ -7,16 +7,15 @@ use Lcobucci\JWT\Signer\Blake2b;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\SodiumBase64Polyfill;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function hash_equals;
 
-/**
- * @coversDefaultClass \Lcobucci\JWT\Signer\Blake2b
- *
- * @uses \Lcobucci\JWT\Signer\Key\InMemory
- * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
- */
+#[PHPUnit\CoversClass(Blake2b::class)]
+#[PHPUnit\UsesClass(InMemory::class)]
+#[PHPUnit\UsesClass(InvalidKeyProvided::class)]
+#[PHPUnit\UsesClass(SodiumBase64Polyfill::class)]
 final class Blake2bTest extends TestCase
 {
     private const KEY_ONE                    = 'GOu4rLyVCBxmxP+sbniU68ojAja5PkRdvv7vNvBCqDQ=';
@@ -31,22 +30,19 @@ final class Blake2bTest extends TestCase
     /** @var non-empty-string */
     private string $expectedHashWithKeyOne;
 
-    /** @before */
+    #[PHPUnit\Before]
     public function initializeKey(): void
     {
-        $this->keyOne                 = InMemory::base64Encoded(self::KEY_ONE);
-        $this->keyTwo                 = InMemory::base64Encoded(self::KEY_TWO);
+        $this->keyOne = InMemory::base64Encoded(self::KEY_ONE);
+        $this->keyTwo = InMemory::base64Encoded(self::KEY_TWO);
+
         $this->expectedHashWithKeyOne = SodiumBase64Polyfill::base642bin(
             self::EXPECTED_HASH_WITH_KEY_ONE,
             SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL,
         );
     }
 
-    /**
-     * @test
-     *
-     * @covers ::algorithmId
-     */
+    #[PHPUnit\Test]
     public function algorithmIdMustBeCorrect(): void
     {
         $signer = new Blake2b();
@@ -54,12 +50,7 @@ final class Blake2bTest extends TestCase
         self::assertSame('BLAKE2B', $signer->algorithmId());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::sign
-     * @covers ::verify
-     */
+    #[PHPUnit\Test]
     public function generatedSignatureMustBeSuccessfullyVerified(): void
     {
         $signer = new Blake2b();
@@ -68,13 +59,7 @@ final class Blake2bTest extends TestCase
         self::assertTrue($signer->verify($this->expectedHashWithKeyOne, self::CONTENTS, $this->keyOne));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::sign
-     *
-     * @uses \Lcobucci\JWT\Signer\InvalidKeyProvided
-     */
+    #[PHPUnit\Test]
     public function signShouldRejectShortKeys(): void
     {
         $signer = new Blake2b();
@@ -85,12 +70,7 @@ final class Blake2bTest extends TestCase
         $signer->sign(self::CONTENTS, InMemory::base64Encoded(self::SHORT_KEY));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::sign
-     * @covers ::verify
-     */
+    #[PHPUnit\Test]
     public function verifyShouldReturnFalseWhenExpectedHashWasNotCreatedWithSameInformation(): void
     {
         $signer = new Blake2b();

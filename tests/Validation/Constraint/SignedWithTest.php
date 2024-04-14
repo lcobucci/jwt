@@ -8,25 +8,22 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\ConstraintViolation;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\MockObject\MockObject;
 
-/**
- * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
- * @covers \Lcobucci\JWT\Validation\ConstraintViolation
- *
- * @uses \Lcobucci\JWT\Signer\Key\InMemory
- * @uses \Lcobucci\JWT\Token\DataSet
- * @uses \Lcobucci\JWT\Token\Plain
- * @uses \Lcobucci\JWT\Token\Signature
- */
+#[PHPUnit\CoversClass(ConstraintViolation::class)]
+#[PHPUnit\CoversClass(SignedWith::class)]
+#[PHPUnit\UsesClass(Signer\Key\InMemory::class)]
+#[PHPUnit\UsesClass(Token\DataSet::class)]
+#[PHPUnit\UsesClass(Token\Plain::class)]
+#[PHPUnit\UsesClass(Token\Signature::class)]
 final class SignedWithTest extends ConstraintTestCase
 {
-    /** @var Signer&MockObject */
-    private Signer $signer;
+    private Signer&MockObject $signer;
     private Signer\Key $key;
     private Signature $signature;
 
-    /** @before */
+    #[PHPUnit\Before]
     public function createDependencies(): void
     {
         $this->signer = $this->createMock(Signer::class);
@@ -36,53 +33,56 @@ final class SignedWithTest extends ConstraintTestCase
         $this->signature = new Signature('1234', '5678');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
+        $constraint = new SignedWith($this->signer, $this->key);
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('You should pass a plain token');
 
-        $constraint = new SignedWith($this->signer, $this->key);
         $constraint->assert($this->createMock(Token::class));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenSignerIsNotTheSame(): void
     {
         $token = $this->buildToken([], ['alg' => 'test'], $this->signature);
 
-        $this->signer->expects(self::never())->method('verify');
+        $this->signer->expects($this->never())->method('verify');
+
+        $constraint = new SignedWith($this->signer, $this->key);
 
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('Token signer mismatch');
 
-        $constraint = new SignedWith($this->signer, $this->key);
         $constraint->assert($token);
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenSignatureIsInvalid(): void
     {
         $token = $this->buildToken([], ['alg' => 'RS256'], $this->signature);
 
-        $this->signer->expects(self::once())
+        $this->signer->expects($this->once())
                      ->method('verify')
                      ->with($this->signature->hash(), $token->payload(), $this->key)
                      ->willReturn(false);
 
+        $constraint = new SignedWith($this->signer, $this->key);
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('Token signature mismatch');
 
-        $constraint = new SignedWith($this->signer, $this->key);
         $constraint->assert($token);
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldNotRaiseExceptionWhenSignatureIsValid(): void
     {
         $token = $this->buildToken([], ['alg' => 'RS256'], $this->signature);
 
-        $this->signer->expects(self::once())
+        $this->signer->expects($this->once())
                      ->method('verify')
                      ->with($this->signature->hash(), $token->payload(), $this->key)
                      ->willReturn(true);

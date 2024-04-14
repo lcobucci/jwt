@@ -3,19 +3,20 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Tests\Signer\Rsa;
 
+use Lcobucci\JWT\Signer\InvalidKeyProvided;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Signer\OpenSSL;
 use Lcobucci\JWT\Signer\Rsa;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
 use const OPENSSL_ALGO_SHA256;
 
-/**
- * @covers \Lcobucci\JWT\Signer\Rsa\Sha256
- * @covers \Lcobucci\JWT\Signer\Rsa
- * @covers \Lcobucci\JWT\Signer\OpenSSL
- * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
- *
- * @uses \Lcobucci\JWT\Signer\Key\InMemory
- */
+#[PHPUnit\CoversClass(Sha256::class)]
+#[PHPUnit\CoversClass(Rsa::class)]
+#[PHPUnit\CoversClass(OpenSSL::class)]
+#[PHPUnit\CoversClass(InvalidKeyProvided::class)]
+#[PHPUnit\UsesClass(InMemory::class)]
 final class Sha256Test extends RsaTestCase
 {
     protected function algorithm(): Rsa
