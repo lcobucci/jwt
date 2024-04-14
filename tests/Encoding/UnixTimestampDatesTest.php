@@ -6,17 +6,13 @@ namespace Lcobucci\JWT\Tests\Encoding;
 use DateTimeImmutable;
 use Lcobucci\JWT\Encoding\UnixTimestampDates;
 use Lcobucci\JWT\Token\RegisteredClaims;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Encoding\UnixTimestampDates */
+#[PHPUnit\CoversClass(UnixTimestampDates::class)]
 final class UnixTimestampDatesTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::formatClaims
-     * @covers ::convertDate
-     */
+    #[PHPUnit\Test]
     public function dateClaimsHaveMicrosecondsOrSeconds(): void
     {
         $issuedAt   = new DateTimeImmutable('@1487285080');
@@ -42,12 +38,7 @@ final class UnixTimestampDatesTest extends TestCase
         self::assertSame('test', $formatted['testing']); // this should remain untouched
     }
 
-    /**
-     * @test
-     *
-     * @covers ::formatClaims
-     * @covers ::convertDate
-     */
+    #[PHPUnit\Test]
     public function notAllDateClaimsNeedToBeConfigured(): void
     {
         $issuedAt   = new DateTimeImmutable('@1487285080');

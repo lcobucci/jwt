@@ -4,48 +4,56 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Tests;
 
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Encoding\ChainedFormatter;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion;
+use Lcobucci\JWT\Encoding\UnifyAudience;
+use Lcobucci\JWT\Signer\Ecdsa;
 use Lcobucci\JWT\Signer\Ecdsa\Sha256;
 use Lcobucci\JWT\Signer\Ecdsa\Sha512;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Signer\OpenSSL;
+use Lcobucci\JWT\SodiumBase64Polyfill;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
+use Lcobucci\JWT\Validation\Validator;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
 
-/**
- * @covers \Lcobucci\JWT\Configuration
- * @covers \Lcobucci\JWT\Encoding\JoseEncoder
- * @covers \Lcobucci\JWT\Encoding\ChainedFormatter
- * @covers \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
- * @covers \Lcobucci\JWT\Encoding\UnifyAudience
- * @covers \Lcobucci\JWT\Token\Builder
- * @covers \Lcobucci\JWT\Token\Parser
- * @covers \Lcobucci\JWT\Token\Plain
- * @covers \Lcobucci\JWT\Token\DataSet
- * @covers \Lcobucci\JWT\Token\Signature
- * @covers \Lcobucci\JWT\Signer\Key\InMemory
- * @covers \Lcobucci\JWT\Signer\Ecdsa
- * @covers \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter
- * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha256
- * @covers \Lcobucci\JWT\Signer\Ecdsa\Sha512
- * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided
- * @covers \Lcobucci\JWT\Signer\OpenSSL
- * @covers \Lcobucci\JWT\SodiumBase64Polyfill
- * @covers \Lcobucci\JWT\Validation\Validator
- * @covers \Lcobucci\JWT\Validation\ConstraintViolation
- * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
- * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
- */
+#[PHPUnit\CoversClass(Configuration::class)]
+#[PHPUnit\CoversClass(JoseEncoder::class)]
+#[PHPUnit\CoversClass(ChainedFormatter::class)]
+#[PHPUnit\CoversClass(MicrosecondBasedDateConversion::class)]
+#[PHPUnit\CoversClass(UnifyAudience::class)]
+#[PHPUnit\CoversClass(Token\Builder::class)]
+#[PHPUnit\CoversClass(Token\Parser::class)]
+#[PHPUnit\CoversClass(Token\Plain::class)]
+#[PHPUnit\CoversClass(Token\DataSet::class)]
+#[PHPUnit\CoversClass(Token\Signature::class)]
+#[PHPUnit\CoversClass(Ecdsa::class)]
+#[PHPUnit\CoversClass(Ecdsa\MultibyteStringConverter::class)]
+#[PHPUnit\CoversClass(Sha256::class)]
+#[PHPUnit\CoversClass(Sha512::class)]
+#[PHPUnit\CoversClass(InMemory::class)]
+#[PHPUnit\CoversClass(InvalidKeyProvided::class)]
+#[PHPUnit\CoversClass(OpenSSL::class)]
+#[PHPUnit\CoversClass(SodiumBase64Polyfill::class)]
+#[PHPUnit\CoversClass(Validator::class)]
+#[PHPUnit\CoversClass(ConstraintViolation::class)]
+#[PHPUnit\CoversClass(SignedWith::class)]
+#[PHPUnit\CoversClass(RequiredConstraintsViolated::class)]
 class ES512TokenTest extends TestCase
 {
     use Keys;
 
     private Configuration $config;
 
-    /** @before */
+    #[PHPUnit\Before]
     public function createConfiguration(): void
     {
         $this->config = Configuration::forAsymmetricSigner(
@@ -55,7 +63,7 @@ class ES512TokenTest extends TestCase
         );
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function builderShouldRaiseExceptionWhenKeyIsInvalid(): void
     {
         $builder = $this->config->builder();
@@ -70,7 +78,7 @@ class ES512TokenTest extends TestCase
             ->getToken($this->config->signer(), InMemory::plainText('testing'));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function builderShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(): void
     {
         $builder = $this->config->builder();
@@ -85,7 +93,7 @@ class ES512TokenTest extends TestCase
             ->getToken($this->config->signer(), static::$rsaKeys['private']);
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function builderCanGenerateAToken(): Token
     {
         $user    = ['name' => 'testing', 'email' => 'testing@abc.com'];
@@ -111,10 +119,8 @@ class ES512TokenTest extends TestCase
         return $token;
     }
 
-    /**
-     * @test
-     * @depends builderCanGenerateAToken
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\Depends('builderCanGenerateAToken')]
     public function parserCanReadAToken(Token $generated): void
     {
         $read = $this->config->parser()->parse($generated->toString());
@@ -124,10 +130,8 @@ class ES512TokenTest extends TestCase
         self::assertSame('testing', $read->claims()->get('user')['name']);
     }
 
-    /**
-     * @test
-     * @depends builderCanGenerateAToken
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\Depends('builderCanGenerateAToken')]
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
@@ -142,10 +146,8 @@ class ES512TokenTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @depends builderCanGenerateAToken
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\Depends('builderCanGenerateAToken')]
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
@@ -160,10 +162,8 @@ class ES512TokenTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @depends builderCanGenerateAToken
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\Depends('builderCanGenerateAToken')]
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(Token $token): void
     {
         $this->expectException(InvalidKeyProvided::class);
@@ -175,10 +175,8 @@ class ES512TokenTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @depends builderCanGenerateAToken
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\Depends('builderCanGenerateAToken')]
     public function signatureValidationShouldSucceedWhenKeyIsRight(Token $token): void
     {
         $constraint = new SignedWith(

@@ -8,23 +8,19 @@ use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Token\Signature;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass \Lcobucci\JWT\Token\Plain
- *
- * @uses \Lcobucci\JWT\Token\Plain::__construct
- * @uses \Lcobucci\JWT\Token\Plain::payload
- * @uses \Lcobucci\JWT\Token\DataSet
- * @uses \Lcobucci\JWT\Token\Signature
- */
+#[PHPUnit\CoversClass(Plain::class)]
+#[PHPUnit\UsesClass(DataSet::class)]
+#[PHPUnit\UsesClass(Signature::class)]
 final class PlainTest extends TestCase
 {
     private DataSet $headers;
     private DataSet $claims;
     private Signature $signature;
 
-    /** @before */
+    #[PHPUnit\Before]
     public function createDependencies(): void
     {
         $this->headers   = new DataSet(['alg' => 'none'], 'headers');
@@ -44,14 +40,7 @@ final class PlainTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::headers
-     * @covers ::claims
-     * @covers ::signature
-     */
+    #[PHPUnit\Test]
     public function signedShouldCreateATokenWithSignature(): void
     {
         $token = $this->createToken();
@@ -61,11 +50,7 @@ final class PlainTest extends TestCase
         self::assertSame($this->signature, $token->signature());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::payload
-     */
+    #[PHPUnit\Test]
     public function payloadShouldReturnAStringWithTheEncodedHeadersAndClaims(): void
     {
         $token = $this->createToken();
@@ -73,11 +58,7 @@ final class PlainTest extends TestCase
         self::assertSame('headers.claims', $token->payload());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isPermittedFor
-     */
+    #[PHPUnit\Test]
     public function isPermittedForShouldReturnFalseWhenNoAudienceIsConfigured(): void
     {
         $token = $this->createToken();
@@ -85,11 +66,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->isPermittedFor('testing'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isPermittedFor
-     */
+    #[PHPUnit\Test]
     public function isPermittedForShouldReturnFalseWhenAudienceDoesNotMatchAsArray(): void
     {
         $token = $this->createToken(
@@ -100,11 +77,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->isPermittedFor('testing'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isPermittedFor
-     */
+    #[PHPUnit\Test]
     public function isPermittedForShouldReturnFalseWhenAudienceTypeDoesNotMatch(): void
     {
         $token = $this->createToken(
@@ -115,11 +88,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->isPermittedFor('10'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isPermittedFor
-     */
+    #[PHPUnit\Test]
     public function isPermittedForShouldReturnTrueWhenAudienceMatchesAsArray(): void
     {
         $token = $this->createToken(
@@ -130,11 +99,7 @@ final class PlainTest extends TestCase
         self::assertTrue($token->isPermittedFor('testing'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isIdentifiedBy
-     */
+    #[PHPUnit\Test]
     public function isIdentifiedByShouldReturnFalseWhenNoIdWasConfigured(): void
     {
         $token = $this->createToken();
@@ -142,11 +107,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->isIdentifiedBy('test'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isIdentifiedBy
-     */
+    #[PHPUnit\Test]
     public function isIdentifiedByShouldReturnFalseWhenIdDoesNotMatch(): void
     {
         $token = $this->createToken(
@@ -157,11 +118,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->isIdentifiedBy('test'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isIdentifiedBy
-     */
+    #[PHPUnit\Test]
     public function isIdentifiedByShouldReturnTrueWhenIdMatches(): void
     {
         $token = $this->createToken(
@@ -172,11 +129,7 @@ final class PlainTest extends TestCase
         self::assertTrue($token->isIdentifiedBy('test'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isRelatedTo
-     */
+    #[PHPUnit\Test]
     public function isRelatedToShouldReturnFalseWhenNoSubjectWasConfigured(): void
     {
         $token = $this->createToken();
@@ -184,11 +137,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->isRelatedTo('test'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isRelatedTo
-     */
+    #[PHPUnit\Test]
     public function isRelatedToShouldReturnFalseWhenSubjectDoesNotMatch(): void
     {
         $token = $this->createToken(
@@ -199,11 +148,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->isRelatedTo('test'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isRelatedTo
-     */
+    #[PHPUnit\Test]
     public function isRelatedToShouldReturnTrueWhenSubjectMatches(): void
     {
         $token = $this->createToken(
@@ -214,11 +159,7 @@ final class PlainTest extends TestCase
         self::assertTrue($token->isRelatedTo('test'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::hasBeenIssuedBy
-     */
+    #[PHPUnit\Test]
     public function hasBeenIssuedByShouldReturnFalseWhenIssuerIsNotConfigured(): void
     {
         $token = $this->createToken();
@@ -226,11 +167,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->hasBeenIssuedBy('test'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::hasBeenIssuedBy
-     */
+    #[PHPUnit\Test]
     public function hasBeenIssuedByShouldReturnFalseWhenIssuerTypeDoesNotMatches(): void
     {
         $token = $this->createToken(
@@ -241,11 +178,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->hasBeenIssuedBy('10'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::hasBeenIssuedBy
-     */
+    #[PHPUnit\Test]
     public function hasBeenIssuedByShouldReturnFalseWhenIssuerIsNotInTheGivenList(): void
     {
         $token = $this->createToken(
@@ -256,11 +189,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->hasBeenIssuedBy('testing1', 'testing2'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::hasBeenIssuedBy
-     */
+    #[PHPUnit\Test]
     public function hasBeenIssuedByShouldReturnTrueWhenIssuerIsInTheGivenList(): void
     {
         $token = $this->createToken(
@@ -271,11 +200,7 @@ final class PlainTest extends TestCase
         self::assertTrue($token->hasBeenIssuedBy('testing1', 'testing2', 'test'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::hasBeenIssuedBefore
-     */
+    #[PHPUnit\Test]
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsNotConfigured(): void
     {
         $token = $this->createToken();
@@ -283,11 +208,7 @@ final class PlainTest extends TestCase
         self::assertTrue($token->hasBeenIssuedBefore(new DateTimeImmutable()));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::hasBeenIssuedBefore
-     */
+    #[PHPUnit\Test]
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsBeforeThanNow(): void
     {
         $now   = new DateTimeImmutable();
@@ -299,11 +220,7 @@ final class PlainTest extends TestCase
         self::assertTrue($token->hasBeenIssuedBefore($now));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::hasBeenIssuedBefore
-     */
+    #[PHPUnit\Test]
     public function hasBeenIssuedBeforeShouldReturnTrueWhenIssueTimeIsEqualsToNow(): void
     {
         $now   = new DateTimeImmutable();
@@ -315,11 +232,7 @@ final class PlainTest extends TestCase
         self::assertTrue($token->hasBeenIssuedBefore($now));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::hasBeenIssuedBefore
-     */
+    #[PHPUnit\Test]
     public function hasBeenIssuedBeforeShouldReturnFalseWhenIssueTimeIsGreaterThanNow(): void
     {
         $now   = new DateTimeImmutable();
@@ -331,11 +244,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->hasBeenIssuedBefore($now));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isMinimumTimeBefore
-     */
+    #[PHPUnit\Test]
     public function isMinimumTimeBeforeShouldReturnTrueWhenIssueTimeIsNotConfigured(): void
     {
         $token = $this->createToken();
@@ -343,11 +252,7 @@ final class PlainTest extends TestCase
         self::assertTrue($token->isMinimumTimeBefore(new DateTimeImmutable()));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isMinimumTimeBefore
-     */
+    #[PHPUnit\Test]
     public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsBeforeThanNow(): void
     {
         $now   = new DateTimeImmutable();
@@ -359,11 +264,7 @@ final class PlainTest extends TestCase
         self::assertTrue($token->isMinimumTimeBefore($now));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isMinimumTimeBefore
-     */
+    #[PHPUnit\Test]
     public function isMinimumTimeBeforeShouldReturnTrueWhenNotBeforeClaimIsEqualsToNow(): void
     {
         $now   = new DateTimeImmutable();
@@ -375,11 +276,7 @@ final class PlainTest extends TestCase
         self::assertTrue($token->isMinimumTimeBefore($now));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isMinimumTimeBefore
-     */
+    #[PHPUnit\Test]
     public function isMinimumTimeBeforeShouldReturnFalseWhenNotBeforeClaimIsGreaterThanNow(): void
     {
         $now   = new DateTimeImmutable();
@@ -391,11 +288,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->isMinimumTimeBefore($now));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isExpired
-     */
+    #[PHPUnit\Test]
     public function isExpiredShouldReturnFalseWhenTokenDoesNotExpires(): void
     {
         $token = $this->createToken();
@@ -403,11 +296,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->isExpired(new DateTimeImmutable()));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isExpired
-     */
+    #[PHPUnit\Test]
     public function isExpiredShouldReturnFalseWhenTokenIsNotExpired(): void
     {
         $now = new DateTimeImmutable();
@@ -420,11 +309,7 @@ final class PlainTest extends TestCase
         self::assertFalse($token->isExpired($now));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isExpired
-     */
+    #[PHPUnit\Test]
     public function isExpiredShouldReturnTrueWhenExpirationIsEqualsToNow(): void
     {
         $now = new DateTimeImmutable();
@@ -437,11 +322,7 @@ final class PlainTest extends TestCase
         self::assertTrue($token->isExpired($now));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::isExpired
-     */
+    #[PHPUnit\Test]
     public function isExpiredShouldReturnTrueAfterTokenExpires(): void
     {
         $now = new DateTimeImmutable();
@@ -454,11 +335,7 @@ final class PlainTest extends TestCase
         self::assertTrue($token->isExpired($now->modify('+10 days')));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::toString
-     */
+    #[PHPUnit\Test]
     public function toStringMustReturnEncodedDataWithEmptySignature(): void
     {
         $token = $this->createToken(null, null, new Signature('123', '456'));
@@ -466,11 +343,7 @@ final class PlainTest extends TestCase
         self::assertSame('headers.claims.456', $token->toString());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::toString
-     */
+    #[PHPUnit\Test]
     public function toStringMustReturnEncodedData(): void
     {
         $token = $this->createToken();

@@ -7,25 +7,19 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\CannotValidateARegisteredClaim;
 use Lcobucci\JWT\Validation\Constraint\HasClaimWithValue;
 use Lcobucci\JWT\Validation\ConstraintViolation;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
-/**
- * @covers \Lcobucci\JWT\Validation\ConstraintViolation
- * @covers \Lcobucci\JWT\Validation\Constraint\HasClaimWithValue
- *
- * @uses \Lcobucci\JWT\Token\DataSet
- * @uses \Lcobucci\JWT\Token\Plain
- * @uses \Lcobucci\JWT\Token\Signature
- */
+#[PHPUnit\CoversClass(ConstraintViolation::class)]
+#[PHPUnit\CoversClass(HasClaimWithValue::class)]
+#[PHPUnit\CoversClass(CannotValidateARegisteredClaim::class)]
+#[PHPUnit\UsesClass(Token\DataSet::class)]
+#[PHPUnit\UsesClass(Token\Plain::class)]
+#[PHPUnit\UsesClass(Token\Signature::class)]
 final class HasClaimWithValueTest extends ConstraintTestCase
 {
-    /**
-     * @test
-     * @dataProvider registeredClaims
-     *
-     * @covers \Lcobucci\JWT\Validation\Constraint\CannotValidateARegisteredClaim
-     *
-     * @param non-empty-string $claim
-     */
+    /** @param non-empty-string $claim */
+    #[PHPUnit\Test]
+    #[PHPUnit\DataProvider('registeredClaims')]
     public function registeredClaimsCannotBeValidatedUsingThisConstraint(string $claim): void
     {
         $this->expectException(CannotValidateARegisteredClaim::class);
@@ -44,37 +38,40 @@ final class HasClaimWithValueTest extends ConstraintTestCase
         }
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenClaimIsNotSet(): void
     {
+        $constraint = new HasClaimWithValue('claimId', 'claimValue');
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('The token does not have the claim "claimId"');
 
-        $constraint = new HasClaimWithValue('claimId', 'claimValue');
         $constraint->assert($this->buildToken());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenClaimValueDoesNotMatch(): void
     {
+        $constraint = new HasClaimWithValue('claimId', 'claimValue');
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('The claim "claimId" does not have the expected value');
 
-        $constraint = new HasClaimWithValue('claimId', 'claimValue');
         $constraint->assert($this->buildToken(['claimId' => 'Some wrong value']));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
+        $constraint = new HasClaimWithValue('claimId', 'claimValue');
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('You should pass a plain token');
 
-        $constraint = new HasClaimWithValue('claimId', 'claimValue');
         $constraint->assert($this->createMock(Token::class));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldNotRaiseExceptionWhenClaimMatches(): void
     {
         $token      = $this->buildToken(['claimId' => 'claimValue']);

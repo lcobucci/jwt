@@ -5,13 +5,14 @@ namespace Lcobucci\JWT\Tests\Signer\Hmac;
 
 use Lcobucci\JWT\Signer\Hmac;
 use Lcobucci\JWT\Signer\Hmac\Sha384;
+use Lcobucci\JWT\Signer\InvalidKeyProvided;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
-/**
- * @covers \Lcobucci\JWT\Signer\Hmac
- * @covers \Lcobucci\JWT\Signer\Hmac\Sha384
- *
- * @uses \Lcobucci\JWT\Signer\Key\InMemory
- */
+#[PHPUnit\CoversClass(Hmac::class)]
+#[PHPUnit\CoversClass(Sha384::class)]
+#[PHPUnit\CoversClass(InvalidKeyProvided::class)]
+#[PHPUnit\UsesClass(InMemory::class)]
 final class Sha384Test extends HmacTestCase
 {
     protected function algorithm(): Hmac

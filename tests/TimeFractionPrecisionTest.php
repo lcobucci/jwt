@@ -5,35 +5,30 @@ namespace Lcobucci\JWT\Tests;
 
 use DateTimeImmutable;
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Encoding;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\SodiumBase64Polyfill;
+use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\Plain;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Lcobucci\JWT\Configuration
- * @covers \Lcobucci\JWT\Encoding\JoseEncoder
- * @covers \Lcobucci\JWT\Encoding\ChainedFormatter
- * @covers \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
- * @covers \Lcobucci\JWT\Encoding\UnifyAudience
- * @covers \Lcobucci\JWT\Token\Builder
- * @covers \Lcobucci\JWT\Token\Parser
- * @covers \Lcobucci\JWT\Token\Plain
- * @covers \Lcobucci\JWT\Token\DataSet
- * @covers \Lcobucci\JWT\Token\Signature
- * @covers \Lcobucci\JWT\Signer\Key\InMemory
- * @covers \Lcobucci\JWT\Validation\Validator
- * @covers \Lcobucci\JWT\Validation\ConstraintViolation
- * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
- * @covers \Lcobucci\JWT\Validation\Constraint\SignedWith
- * @covers \Lcobucci\JWT\SodiumBase64Polyfill
- */
+#[PHPUnit\CoversClass(Configuration::class)]
+#[PHPUnit\CoversClass(Encoding\JoseEncoder::class)]
+#[PHPUnit\CoversClass(Encoding\ChainedFormatter::class)]
+#[PHPUnit\CoversClass(Encoding\MicrosecondBasedDateConversion::class)]
+#[PHPUnit\CoversClass(Encoding\UnifyAudience::class)]
+#[PHPUnit\CoversClass(Token\Builder::class)]
+#[PHPUnit\CoversClass(Token\Parser::class)]
+#[PHPUnit\CoversClass(Token\Plain::class)]
+#[PHPUnit\CoversClass(Token\DataSet::class)]
+#[PHPUnit\CoversClass(Token\Signature::class)]
+#[PHPUnit\CoversClass(InMemory::class)]
+#[PHPUnit\CoversClass(SodiumBase64Polyfill::class)]
 final class TimeFractionPrecisionTest extends TestCase
 {
-    /**
-     * @test
-     * @dataProvider datesWithPotentialRoundingIssues
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\DataProvider('datesWithPotentialRoundingIssues')]
     public function timeFractionsPrecisionsAreRespected(string $timeFraction): void
     {
         $config = Configuration::forSymmetricSigner(
@@ -65,13 +60,11 @@ final class TimeFractionPrecisionTest extends TestCase
         yield ['1616074725.008455'];
     }
 
-    /**
-     * @test
-     * @dataProvider timeFractionConversions
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\DataProvider('timeFractionConversions')]
     public function typeConversionDoesNotCauseParsingErrors(float|int|string $issuedAt, string $timeFraction): void
     {
-        $encoder = new JoseEncoder();
+        $encoder = new Encoding\JoseEncoder();
         $headers = $encoder->base64UrlEncode($encoder->jsonEncode(['typ' => 'JWT', 'alg' => 'none']));
         $claims  = $encoder->base64UrlEncode($encoder->jsonEncode(['iat' => $issuedAt]));
 
@@ -81,7 +74,7 @@ final class TimeFractionPrecisionTest extends TestCase
         );
         $parsedToken = $config->parser()->parse($headers . '.' . $claims . '.cHJpdmF0ZQ');
 
-        self::assertInstanceOf(Plain::class, $parsedToken);
+        self::assertInstanceOf(Token\Plain::class, $parsedToken);
         self::assertSame($timeFraction, $parsedToken->claims()->get('iat')->format('U.u'));
     }
 

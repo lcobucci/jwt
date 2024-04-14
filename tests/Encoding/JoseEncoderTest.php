@@ -6,24 +6,21 @@ namespace Lcobucci\JWT\Tests\Encoding;
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Encoding\CannotEncodeContent;
 use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\SodiumBase64Polyfill;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
 use function base64_decode;
 use function is_string;
 
-/**
- * @covers \Lcobucci\JWT\Encoding\CannotDecodeContent
- * @covers \Lcobucci\JWT\Encoding\CannotEncodeContent
- * @coversDefaultClass \Lcobucci\JWT\Encoding\JoseEncoder
- */
+#[PHPUnit\CoversClass(JoseEncoder::class)]
+#[PHPUnit\CoversClass(CannotDecodeContent::class)]
+#[PHPUnit\CoversClass(CannotEncodeContent::class)]
+#[PHPUnit\UsesClass(SodiumBase64Polyfill::class)]
 final class JoseEncoderTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::jsonEncode
-     */
+    #[PHPUnit\Test]
     public function jsonEncodeMustReturnAJSONString(): void
     {
         $encoder = new JoseEncoder();
@@ -31,11 +28,7 @@ final class JoseEncoderTest extends TestCase
         self::assertSame('{"test":"test"}', $encoder->jsonEncode(['test' => 'test']));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::jsonEncode
-     */
+    #[PHPUnit\Test]
     public function jsonEncodeShouldNotEscapeUnicode(): void
     {
         $encoder = new JoseEncoder();
@@ -43,11 +36,7 @@ final class JoseEncoderTest extends TestCase
         self::assertSame('"汉语"', $encoder->jsonEncode('汉语'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::jsonEncode
-     */
+    #[PHPUnit\Test]
     public function jsonEncodeShouldNotEscapeSlashes(): void
     {
         $encoder = new JoseEncoder();
@@ -55,11 +44,7 @@ final class JoseEncoderTest extends TestCase
         self::assertSame('"https://google.com"', $encoder->jsonEncode('https://google.com'));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::jsonEncode
-     */
+    #[PHPUnit\Test]
     public function jsonEncodeMustRaiseExceptionWhenAnErrorHasOccurred(): void
     {
         $encoder = new JoseEncoder();
@@ -71,11 +56,7 @@ final class JoseEncoderTest extends TestCase
         $encoder->jsonEncode("\xB1\x31");
     }
 
-    /**
-     * @test
-     *
-     * @covers ::jsonDecode
-     */
+    #[PHPUnit\Test]
     public function jsonDecodeMustReturnTheDecodedData(): void
     {
         $decoder = new JoseEncoder();
@@ -86,11 +67,7 @@ final class JoseEncoderTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @covers ::jsonDecode
-     */
+    #[PHPUnit\Test]
     public function jsonDecodeMustRaiseExceptionWhenAnErrorHasOccurred(): void
     {
         $decoder = new JoseEncoder();
@@ -102,13 +79,7 @@ final class JoseEncoderTest extends TestCase
         $decoder->jsonDecode('{"test":\'test\'}');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::base64UrlEncode
-     *
-     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::bin2base64()
-     */
+    #[PHPUnit\Test]
     public function base64UrlEncodeMustReturnAUrlSafeBase64(): void
     {
         $data = base64_decode('0MB2wKB+L3yvIdzeggmJ+5WOSLaRLTUPXbpzqUe0yuo=', true);
@@ -118,17 +89,10 @@ final class JoseEncoderTest extends TestCase
         self::assertSame('0MB2wKB-L3yvIdzeggmJ-5WOSLaRLTUPXbpzqUe0yuo', $encoder->base64UrlEncode($data));
     }
 
-    /**
-     * @link https://tools.ietf.org/html/rfc7520#section-4
-     *
-     * @test
-     *
-     * @covers ::base64UrlEncode
-     *
-     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::bin2base64()
-     */
+    #[PHPUnit\Test]
     public function base64UrlEncodeMustEncodeBilboMessageProperly(): void
     {
+        /** @link https://tools.ietf.org/html/rfc7520#section-4 */
         $message = 'It’s a dangerous business, Frodo, going out your door. You step '
                    . "onto the road, and if you don't keep your feet, there’s no knowing "
                    . 'where you might be swept off to.';
@@ -142,13 +106,7 @@ final class JoseEncoderTest extends TestCase
         self::assertSame($expected, $encoder->base64UrlEncode($message));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::base64UrlDecode
-     *
-     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
-     */
+    #[PHPUnit\Test]
     public function base64UrlDecodeMustRaiseExceptionWhenInvalidBase64CharsAreUsed(): void
     {
         $decoder = new JoseEncoder();
@@ -160,13 +118,7 @@ final class JoseEncoderTest extends TestCase
         $decoder->base64UrlDecode('ááá');
     }
 
-    /**
-     * @test
-     *
-     * @covers ::base64UrlDecode
-     *
-     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
-     */
+    #[PHPUnit\Test]
     public function base64UrlDecodeMustReturnTheRightData(): void
     {
         $data = base64_decode('0MB2wKB+L3yvIdzeggmJ+5WOSLaRLTUPXbpzqUe0yuo=', true);
@@ -175,17 +127,10 @@ final class JoseEncoderTest extends TestCase
         self::assertSame($data, $decoder->base64UrlDecode('0MB2wKB-L3yvIdzeggmJ-5WOSLaRLTUPXbpzqUe0yuo'));
     }
 
-    /**
-     * @link https://tools.ietf.org/html/rfc7520#section-4
-     *
-     * @test
-     *
-     * @covers ::base64UrlDecode
-     *
-     * @uses \Lcobucci\JWT\SodiumBase64Polyfill::base642bin()
-     */
+    #[PHPUnit\Test]
     public function base64UrlDecodeMustDecodeBilboMessageProperly(): void
     {
+        /** @link https://tools.ietf.org/html/rfc7520#section-4 */
         $message = 'SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IH'
                    . 'lvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBk'
                    . 'b24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcm'

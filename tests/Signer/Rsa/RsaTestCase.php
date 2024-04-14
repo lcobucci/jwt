@@ -8,6 +8,7 @@ use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa;
 use Lcobucci\JWT\Tests\Keys;
 use OpenSSLAsymmetricKey;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
@@ -29,7 +30,7 @@ abstract class RsaTestCase extends TestCase
 
     abstract protected function signatureAlgorithm(): int;
 
-    /** @after */
+    #[PHPUnit\After]
     final public function clearOpenSSLErrors(): void
     {
         // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedWhile
@@ -37,19 +38,19 @@ abstract class RsaTestCase extends TestCase
         }
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     final public function algorithmIdMustBeCorrect(): void
     {
         self::assertSame($this->algorithmId(), $this->algorithm()->algorithmId());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     final public function signatureAlgorithmMustBeCorrect(): void
     {
         self::assertSame($this->signatureAlgorithm(), $this->algorithm()->algorithm());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function signShouldReturnAValidOpensslSignature(): void
     {
         $payload   = 'testing';
@@ -64,7 +65,7 @@ abstract class RsaTestCase extends TestCase
         );
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function signShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $this->expectException(InvalidKeyProvided::class);
@@ -73,7 +74,7 @@ abstract class RsaTestCase extends TestCase
         $this->algorithm()->sign('testing', InMemory::plainText('blablabla'));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function allOpenSSLErrorsShouldBeOnTheErrorMessage(): void
     {
         // Injects a random OpenSSL error message
@@ -85,7 +86,7 @@ abstract class RsaTestCase extends TestCase
         $this->algorithm()->sign('testing', InMemory::plainText('blablabla'));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function signShouldRaiseAnExceptionWhenKeyTypeIsNotRsa(): void
     {
         $this->expectException(InvalidKeyProvided::class);
@@ -94,7 +95,7 @@ abstract class RsaTestCase extends TestCase
         $this->algorithm()->sign('testing', self::$ecdsaKeys['private']);
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function signShouldRaiseAnExceptionWhenKeyLengthIsBelowMinimum(): void
     {
         $this->expectException(InvalidKeyProvided::class);
@@ -103,7 +104,7 @@ abstract class RsaTestCase extends TestCase
         $this->algorithm()->sign('testing', self::$rsaKeys['private_short']);
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function verifyShouldReturnTrueWhenSignatureIsValid(): void
     {
         $payload    = 'testing';
@@ -116,7 +117,7 @@ abstract class RsaTestCase extends TestCase
         self::assertTrue($this->algorithm()->verify($signature, $payload, self::$rsaKeys['public']));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $this->expectException(InvalidKeyProvided::class);
@@ -125,7 +126,7 @@ abstract class RsaTestCase extends TestCase
         $this->algorithm()->verify('testing', 'testing', InMemory::plainText('blablabla'));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function verifyShouldRaiseAnExceptionWhenKeyTypeIsNotRsa(): void
     {
         $this->expectException(InvalidKeyProvided::class);

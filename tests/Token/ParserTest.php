@@ -12,25 +12,22 @@ use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Token\Signature;
 use Lcobucci\JWT\Token\UnsupportedHeaderFound;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-/**
- * @covers \Lcobucci\JWT\Token\Parser
- * @covers \Lcobucci\JWT\Token\InvalidTokenStructure
- * @covers \Lcobucci\JWT\Token\UnsupportedHeaderFound
- *
- * @uses \Lcobucci\JWT\Token\Plain
- * @uses \Lcobucci\JWT\Token\Signature
- * @uses \Lcobucci\JWT\Token\DataSet
- */
+#[PHPUnit\CoversClass(Parser::class)]
+#[PHPUnit\CoversClass(InvalidTokenStructure::class)]
+#[PHPUnit\CoversClass(UnsupportedHeaderFound::class)]
+#[PHPUnit\UsesClass(Plain::class)]
+#[PHPUnit\UsesClass(DataSet::class)]
+#[PHPUnit\UsesClass(Signature::class)]
 final class ParserTest extends TestCase
 {
-    /** @var Decoder&MockObject */
-    protected Decoder $decoder;
+    protected Decoder&MockObject $decoder;
 
-    /** @before */
+    #[PHPUnit\Before]
     public function createDependencies(): void
     {
         $this->decoder = $this->createMock(Decoder::class);
@@ -41,7 +38,7 @@ final class ParserTest extends TestCase
         return new Parser($this->decoder);
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
     {
         $parser = $this->createParser();
@@ -52,7 +49,7 @@ final class ParserTest extends TestCase
         $parser->parse('.');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveHeaders(): void
     {
         $parser = $this->createParser();
@@ -63,7 +60,7 @@ final class ParserTest extends TestCase
         $parser->parse('.b.c');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveClaims(): void
     {
         $parser = $this->createParser();
@@ -74,7 +71,7 @@ final class ParserTest extends TestCase
         $parser->parse('a..c');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveSignature(): void
     {
         $parser = $this->createParser();
@@ -85,7 +82,7 @@ final class ParserTest extends TestCase
         $parser->parse('a.b.');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded(): void
     {
         $this->decoder->method('base64UrlDecode')
@@ -104,7 +101,7 @@ final class ParserTest extends TestCase
         $parser->parse('a.b.c');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenDealingWithNonArrayHeaders(): void
     {
         $this->decoder->method('jsonDecode')
@@ -118,7 +115,7 @@ final class ParserTest extends TestCase
         $parser->parse('a.a.a');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenDealingWithHeadersThatHaveEmptyStringKeys(): void
     {
         $this->decoder->method('jsonDecode')
@@ -132,7 +129,7 @@ final class ParserTest extends TestCase
         $parser->parse('a.a.a');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
     {
         $this->decoder->method('jsonDecode')
@@ -146,7 +143,7 @@ final class ParserTest extends TestCase
         $parser->parse('a.a.a');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenDealingWithNonArrayClaims(): void
     {
         $this->decoder->method('jsonDecode')
@@ -160,7 +157,7 @@ final class ParserTest extends TestCase
         $parser->parse('a.a.a');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenDealingWithClaimsThatHaveEmptyStringKeys(): void
     {
         $this->decoder->method('jsonDecode')
@@ -174,10 +171,10 @@ final class ParserTest extends TestCase
         $parser->parse('a.a.a');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustReturnAnUnsecuredTokenWhenSignatureIsNotInformed(): void
     {
-        $this->decoder->expects(self::exactly(3))
+        $this->decoder->expects($this->exactly(3))
             ->method('base64UrlDecode')
             ->willReturnMap([
                 ['a', 'a_dec'],
@@ -185,7 +182,7 @@ final class ParserTest extends TestCase
                 ['c', 'c_dec'],
             ]);
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('jsonDecode')
             ->willReturnMap([
                 ['a_dec', ['typ' => 'JWT', 'alg' => 'none']],
@@ -206,10 +203,10 @@ final class ParserTest extends TestCase
         self::assertEquals($signature, $token->signature());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustConfigureTypeToJWTWhenItIsMissing(): void
     {
-        $this->decoder->expects(self::exactly(3))
+        $this->decoder->expects($this->exactly(3))
             ->method('base64UrlDecode')
             ->willReturnMap([
                 ['a', 'a_dec'],
@@ -217,7 +214,7 @@ final class ParserTest extends TestCase
                 ['c', 'c_dec'],
             ]);
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('jsonDecode')
             ->willReturnMap([
                 ['a_dec', ['alg' => 'none']],
@@ -238,10 +235,10 @@ final class ParserTest extends TestCase
         self::assertEquals($signature, $token->signature());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustNotChangeTypeWhenItIsConfigured(): void
     {
-        $this->decoder->expects(self::exactly(3))
+        $this->decoder->expects($this->exactly(3))
             ->method('base64UrlDecode')
             ->willReturnMap([
                 ['a', 'a_dec'],
@@ -249,7 +246,7 @@ final class ParserTest extends TestCase
                 ['c', 'c_dec'],
             ]);
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('jsonDecode')
             ->willReturnMap([
                 ['a_dec', ['typ' => 'JWS', 'alg' => 'none']],
@@ -270,10 +267,10 @@ final class ParserTest extends TestCase
         self::assertEquals($signature, $token->signature());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseShouldReplicateClaimValueOnHeaderWhenNeeded(): void
     {
-        $this->decoder->expects(self::exactly(3))
+        $this->decoder->expects($this->exactly(3))
             ->method('base64UrlDecode')
             ->willReturnMap([
                 ['a', 'a_dec'],
@@ -281,7 +278,7 @@ final class ParserTest extends TestCase
                 ['c', 'c_dec'],
             ]);
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('jsonDecode')
             ->willReturnMap([
                 ['a_dec', ['typ' => 'JWT', 'alg' => 'none', RegisteredClaims::AUDIENCE => 'test']],
@@ -302,10 +299,10 @@ final class ParserTest extends TestCase
         self::assertEquals($signature, $token->signature());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsMissing(): void
     {
-        $this->decoder->expects(self::exactly(3))
+        $this->decoder->expects($this->exactly(3))
             ->method('base64UrlDecode')
             ->willReturnMap([
                 ['a', 'a_dec'],
@@ -313,7 +310,7 @@ final class ParserTest extends TestCase
                 ['c', 'c_dec'],
             ]);
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('jsonDecode')
             ->willReturnMap([
                 ['a_dec', ['typ' => 'JWT']],
@@ -334,10 +331,10 @@ final class ParserTest extends TestCase
         self::assertEquals($signature, $token->signature());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustReturnANonSignedTokenWhenSignatureAlgorithmIsNone(): void
     {
-        $this->decoder->expects(self::exactly(3))
+        $this->decoder->expects($this->exactly(3))
             ->method('base64UrlDecode')
             ->willReturnMap([
                 ['a', 'a_dec'],
@@ -345,7 +342,7 @@ final class ParserTest extends TestCase
                 ['c', 'c_dec'],
             ]);
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('jsonDecode')
             ->willReturnMap([
                 ['a_dec', ['typ' => 'JWT', 'alg' => 'none']],
@@ -366,10 +363,10 @@ final class ParserTest extends TestCase
         self::assertEquals($signature, $token->signature());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustReturnASignedTokenWhenSignatureIsInformed(): void
     {
-        $this->decoder->expects(self::exactly(3))
+        $this->decoder->expects($this->exactly(3))
             ->method('base64UrlDecode')
             ->willReturnMap([
                 ['a', 'a_dec'],
@@ -377,7 +374,7 @@ final class ParserTest extends TestCase
                 ['c', 'c_dec'],
             ]);
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('jsonDecode')
             ->willReturnMap([
                 ['a_dec', ['typ' => 'JWT', 'alg' => 'HS256']],
@@ -398,7 +395,7 @@ final class ParserTest extends TestCase
         self::assertEquals($signature, $token->signature());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustConvertDateClaimsToObjects(): void
     {
         $data = [
@@ -406,7 +403,7 @@ final class ParserTest extends TestCase
             RegisteredClaims::EXPIRATION_TIME => 1486930757.023055,
         ];
 
-        $this->decoder->expects(self::exactly(3))
+        $this->decoder->expects($this->exactly(3))
             ->method('base64UrlDecode')
             ->willReturnMap([
                 ['a', 'a_dec'],
@@ -414,7 +411,7 @@ final class ParserTest extends TestCase
                 ['c', 'c_dec'],
             ]);
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('jsonDecode')
             ->willReturnMap([
                 ['a_dec', ['typ' => 'JWT', 'alg' => 'HS256']],
@@ -437,12 +434,12 @@ final class ParserTest extends TestCase
         );
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseMustConvertStringDates(): void
     {
         $data = [RegisteredClaims::NOT_BEFORE => '1486930757.000000'];
 
-        $this->decoder->expects(self::exactly(3))
+        $this->decoder->expects($this->exactly(3))
             ->method('base64UrlDecode')
             ->willReturnMap([
                 ['a', 'a_dec'],
@@ -450,7 +447,7 @@ final class ParserTest extends TestCase
                 ['c', 'c_dec'],
             ]);
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('jsonDecode')
             ->willReturnMap([
                 ['a_dec', ['typ' => 'JWT', 'alg' => 'HS256']],
@@ -468,19 +465,19 @@ final class ParserTest extends TestCase
         );
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseShouldRaiseExceptionOnInvalidDate(): void
     {
         $data = [RegisteredClaims::ISSUED_AT => '14/10/2018 10:50:10.10 UTC'];
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('base64UrlDecode')
             ->willReturnMap([
                 ['a', 'a_dec'],
                 ['b', 'b_dec'],
             ]);
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('jsonDecode')
             ->willReturnMap([
                 ['a_dec', ['typ' => 'JWT', 'alg' => 'HS256']],
@@ -492,19 +489,19 @@ final class ParserTest extends TestCase
         $this->createParser()->parse('a.b.c');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function parseShouldRaiseExceptionOnTimestampBeyondDateTimeImmutableRange(): void
     {
         $data = [RegisteredClaims::ISSUED_AT => -10000000000 ** 5];
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('base64UrlDecode')
             ->willReturnMap([
                 ['a', 'a_dec'],
                 ['b', 'b_dec'],
             ]);
 
-        $this->decoder->expects(self::exactly(2))
+        $this->decoder->expects($this->exactly(2))
             ->method('jsonDecode')
             ->willReturnMap([
                 ['a_dec', ['typ' => 'JWT', 'alg' => 'HS256']],

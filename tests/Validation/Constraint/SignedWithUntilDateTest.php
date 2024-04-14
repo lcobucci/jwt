@@ -44,9 +44,6 @@ final class SignedWithUntilDateTest extends ConstraintTestCase
     #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenConstraintUsageIsNotValidAnymore(): void
     {
-        $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('This constraint was only usable until 2023-11-19T21:45:10+00:00');
-
         $clock = new FrozenClock(new DateTimeImmutable('2023-11-19 22:45:10'));
 
         $constraint = new SignedWithUntilDate(
@@ -56,44 +53,50 @@ final class SignedWithUntilDateTest extends ConstraintTestCase
             $clock,
         );
 
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('This constraint was only usable until 2023-11-19T21:45:10+00:00');
+
         $constraint->assert($this->issueToken(new FakeSigner('1'), InMemory::plainText('a')));
     }
 
     #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
-        $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('You should pass a plain token');
-
         $clock = new FrozenClock(new DateTimeImmutable('2023-11-19 22:45:10'));
 
         $constraint = new SignedWithUntilDate(new FakeSigner('1'), InMemory::plainText('a'), $clock->now(), $clock);
+
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('You should pass a plain token');
+
         $constraint->assert($this->createMock(Token::class));
     }
 
     #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenSignerIsNotTheSame(): void
     {
-        $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('Token signer mismatch');
-
         $clock = new FrozenClock(new DateTimeImmutable('2023-11-19 22:45:10'));
         $key   = InMemory::plainText('a');
 
         $constraint = new SignedWithUntilDate(new FakeSigner('1'), $key, $clock->now(), $clock);
+
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('Token signer mismatch');
+
         $constraint->assert($this->issueToken(new FakeSigner('2'), $key));
     }
 
     #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenSignatureIsInvalid(): void
     {
-        $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('Token signature mismatch');
-
         $clock  = new FrozenClock(new DateTimeImmutable('2023-11-19 22:45:10'));
         $signer = new FakeSigner('1');
 
         $constraint = new SignedWithUntilDate($signer, InMemory::plainText('a'), $clock->now(), $clock);
+
+        $this->expectException(ConstraintViolation::class);
+        $this->expectExceptionMessage('Token signature mismatch');
+
         $constraint->assert($this->issueToken($signer, InMemory::plainText('b')));
     }
 

@@ -5,19 +5,14 @@ namespace Lcobucci\JWT\Tests\Validation;
 
 use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
 use Lcobucci\JWT\Validation\ConstraintViolation;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Validation\ConstraintViolation */
+#[PHPUnit\CoversClass(ConstraintViolation::class)]
+#[PHPUnit\UsesClass(IdentifiedBy::class)]
 final class ConstraintViolationTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::error
-     *
-     * @uses \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
-     */
+    #[PHPUnit\Test]
     public function errorShouldConfigureMessageAndConstraint(): void
     {
         $violation = ConstraintViolation::error('testing', new IdentifiedBy('token id'));

@@ -5,16 +5,13 @@ namespace Lcobucci\JWT\Tests\Encoding;
 
 use Lcobucci\JWT\Encoding\UnifyAudience;
 use Lcobucci\JWT\Token\RegisteredClaims;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \Lcobucci\JWT\Encoding\UnifyAudience */
+#[PHPUnit\CoversClass(UnifyAudience::class)]
 final class UnifyAudienceTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::formatClaims
-     */
+    #[PHPUnit\Test]
     public function nothingShouldBeDoneWhenAudienceIsNotSet(): void
     {
         $claims = ['testing' => 'test'];
@@ -25,11 +22,7 @@ final class UnifyAudienceTest extends TestCase
         self::assertSame('test', $formatted['testing']);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::formatClaims
-     */
+    #[PHPUnit\Test]
     public function audienceShouldBeFormattedAsSingleStringWhenOneValueIsUsed(): void
     {
         $claims = [
@@ -44,11 +37,7 @@ final class UnifyAudienceTest extends TestCase
         self::assertSame('test', $formatted['testing']); // this should remain untouched
     }
 
-    /**
-     * @test
-     *
-     * @covers ::formatClaims
-     */
+    #[PHPUnit\Test]
     public function audienceShouldBeFormattedAsArrayWhenMultipleValuesAreUsed(): void
     {
         $claims = [

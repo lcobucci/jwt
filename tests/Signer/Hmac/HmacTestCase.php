@@ -6,6 +6,7 @@ namespace Lcobucci\JWT\Tests\Signer\Hmac;
 use Lcobucci\JWT\Signer\Hmac;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
@@ -26,13 +27,13 @@ abstract class HmacTestCase extends TestCase
 
     abstract protected function expectedMinimumBits(): int;
 
-    /** @test */
+    #[PHPUnit\Test]
     public function algorithmIdMustBeCorrect(): void
     {
         self::assertEquals($this->expectedAlgorithmId(), $this->algorithm()->algorithmId());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function signMustReturnAHashAccordingWithTheAlgorithm(): void
     {
         $secret = $this->generateSecret();
@@ -43,7 +44,7 @@ abstract class HmacTestCase extends TestCase
         self::assertTrue(hash_equals($expectedHash, $signature));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function verifyMustReturnTrueWhenContentWasSignedWithTheSameKey(): void
     {
         $secret = $this->generateSecret();
@@ -53,7 +54,7 @@ abstract class HmacTestCase extends TestCase
         self::assertTrue($this->algorithm()->verify($signature, 'test', InMemory::plainText($secret)));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function verifyMustReturnTrueWhenContentWasSignedWithADifferentKey(): void
     {
         $signature = hash_hmac(
@@ -72,11 +73,7 @@ abstract class HmacTestCase extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @covers \Lcobucci\JWT\Signer\InvalidKeyProvided::tooShort
-     */
+    #[PHPUnit\Test]
     public function keyMustFulfillMinimumLengthRequirement(): void
     {
         $secret = $this->generateSecret(($this->expectedMinimumBits() / 8) - 1);

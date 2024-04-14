@@ -11,12 +11,13 @@ use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\Constraint\LeewayCannotBeNegative;
 use Lcobucci\JWT\Validation\ConstraintViolation;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
 abstract class ValidAtTestCase extends ConstraintTestCase
 {
     protected Clock $clock;
 
-    /** @before */
+    #[PHPUnit\Before]
     final public function createDependencies(): void
     {
         $this->clock = new FrozenClock(new DateTimeImmutable());
@@ -24,7 +25,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
 
     abstract protected function buildValidAtConstraint(Clock $clock, ?DateInterval $leeway = null): Constraint;
 
-    /** @test */
+    #[PHPUnit\Test]
     final public function constructShouldRaiseExceptionOnNegativeLeeway(): void
     {
         $leeway         = new DateInterval('PT30S');
@@ -36,7 +37,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
         $this->buildValidAtConstraint($this->clock, $leeway);
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     final public function assertShouldRaiseExceptionWhenTokenIsExpired(): void
     {
         $now = $this->clock->now();
@@ -47,14 +48,15 @@ abstract class ValidAtTestCase extends ConstraintTestCase
             RegisteredClaims::EXPIRATION_TIME => $now->modify('-10 seconds'),
         ];
 
+        $constraint = $this->buildValidAtConstraint($this->clock);
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('The token is expired');
 
-        $constraint = $this->buildValidAtConstraint($this->clock);
         $constraint->assert($this->buildToken($claims));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     final public function assertShouldRaiseExceptionWhenMinimumTimeIsNotMet(): void
     {
         $now = $this->clock->now();
@@ -65,14 +67,15 @@ abstract class ValidAtTestCase extends ConstraintTestCase
             RegisteredClaims::EXPIRATION_TIME => $now->modify('+60 seconds'),
         ];
 
+        $constraint = $this->buildValidAtConstraint($this->clock);
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('The token cannot be used yet');
 
-        $constraint = $this->buildValidAtConstraint($this->clock);
         $constraint->assert($this->buildToken($claims));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     final public function assertShouldRaiseExceptionWhenTokenWasIssuedInTheFuture(): void
     {
         $now = $this->clock->now();
@@ -83,14 +86,15 @@ abstract class ValidAtTestCase extends ConstraintTestCase
             RegisteredClaims::EXPIRATION_TIME => $now->modify('+60 seconds'),
         ];
 
+        $constraint = $this->buildValidAtConstraint($this->clock);
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('The token was issued in the future');
 
-        $constraint = $this->buildValidAtConstraint($this->clock);
         $constraint->assert($this->buildToken($claims));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     final public function assertShouldNotRaiseExceptionWhenLeewayIsUsed(): void
     {
         $now = $this->clock->now();
@@ -107,7 +111,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
         $this->addToAssertionCount(1);
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     final public function assertShouldNotRaiseExceptionWhenTokenIsUsedInTheRightMoment(): void
     {
         $constraint = $this->buildValidAtConstraint($this->clock);

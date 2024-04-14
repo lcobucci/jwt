@@ -3,41 +3,42 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Tests\Validation\Constraint;
 
+use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\Constraint\RelatedTo;
 use Lcobucci\JWT\Validation\ConstraintViolation;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
-/**
- * @covers \Lcobucci\JWT\Validation\Constraint\RelatedTo
- * @covers \Lcobucci\JWT\Validation\ConstraintViolation
- *
- * @uses \Lcobucci\JWT\Token\DataSet
- * @uses \Lcobucci\JWT\Token\Plain
- * @uses \Lcobucci\JWT\Token\Signature
- */
+#[PHPUnit\CoversClass(ConstraintViolation::class)]
+#[PHPUnit\CoversClass(RelatedTo::class)]
+#[PHPUnit\UsesClass(Token\DataSet::class)]
+#[PHPUnit\UsesClass(Token\Plain::class)]
+#[PHPUnit\UsesClass(Token\Signature::class)]
 final class RelatedToTest extends ConstraintTestCase
 {
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenSubjectIsNotSet(): void
     {
+        $constraint = new RelatedTo('user-auth');
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('The token is not related to the expected subject');
 
-        $constraint = new RelatedTo('user-auth');
         $constraint->assert($this->buildToken());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenSubjectDoesNotMatch(): void
     {
+        $constraint = new RelatedTo('user-auth');
+
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('The token is not related to the expected subject');
 
-        $constraint = new RelatedTo('user-auth');
         $constraint->assert($this->buildToken([RegisteredClaims::SUBJECT => 'password-recovery']));
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldNotRaiseExceptionWhenSubjectMatches(): void
     {
         $token      = $this->buildToken([RegisteredClaims::SUBJECT => 'user-auth']);

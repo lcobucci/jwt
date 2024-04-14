@@ -6,7 +6,9 @@ namespace Lcobucci\JWT\Tests;
 use DateTimeImmutable;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Encoding;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\SodiumBase64Polyfill;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
@@ -15,38 +17,38 @@ use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
+use Lcobucci\JWT\Validation\Validator;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
 
-/**
- * @covers \Lcobucci\JWT\Configuration
- * @covers \Lcobucci\JWT\Encoding\JoseEncoder
- * @covers \Lcobucci\JWT\Encoding\ChainedFormatter
- * @covers \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
- * @covers \Lcobucci\JWT\Encoding\UnifyAudience
- * @covers \Lcobucci\JWT\Token\Builder
- * @covers \Lcobucci\JWT\Token\Parser
- * @covers \Lcobucci\JWT\Token\Plain
- * @covers \Lcobucci\JWT\Token\DataSet
- * @covers \Lcobucci\JWT\Token\Signature
- * @covers \Lcobucci\JWT\Signer\Key\InMemory
- * @covers \Lcobucci\JWT\SodiumBase64Polyfill
- * @covers \Lcobucci\JWT\Validation\ConstraintViolation
- * @covers \Lcobucci\JWT\Validation\RequiredConstraintsViolated
- * @covers \Lcobucci\JWT\Validation\Validator
- * @covers \Lcobucci\JWT\Validation\Constraint\IssuedBy
- * @covers \Lcobucci\JWT\Validation\Constraint\PermittedFor
- * @covers \Lcobucci\JWT\Validation\Constraint\IdentifiedBy
- * @covers \Lcobucci\JWT\Validation\Constraint\LooseValidAt
- */
+#[PHPUnit\CoversClass(Configuration::class)]
+#[PHPUnit\CoversClass(Encoding\JoseEncoder::class)]
+#[PHPUnit\CoversClass(Encoding\ChainedFormatter::class)]
+#[PHPUnit\CoversClass(Encoding\MicrosecondBasedDateConversion::class)]
+#[PHPUnit\CoversClass(Encoding\UnifyAudience::class)]
+#[PHPUnit\CoversClass(Token\Builder::class)]
+#[PHPUnit\CoversClass(Token\Parser::class)]
+#[PHPUnit\CoversClass(Token\Plain::class)]
+#[PHPUnit\CoversClass(Token\DataSet::class)]
+#[PHPUnit\CoversClass(Token\Signature::class)]
+#[PHPUnit\CoversClass(InMemory::class)]
+#[PHPUnit\CoversClass(SodiumBase64Polyfill::class)]
+#[PHPUnit\CoversClass(ConstraintViolation::class)]
+#[PHPUnit\CoversClass(RequiredConstraintsViolated::class)]
+#[PHPUnit\CoversClass(Validator::class)]
+#[PHPUnit\CoversClass(IssuedBy::class)]
+#[PHPUnit\CoversClass(PermittedFor::class)]
+#[PHPUnit\CoversClass(IdentifiedBy::class)]
+#[PHPUnit\CoversClass(LooseValidAt::class)]
 class UnsignedTokenTest extends TestCase
 {
     public const CURRENT_TIME = 100000;
 
     private Configuration $config;
 
-    /** @before */
+    #[PHPUnit\Before]
     public function createConfiguration(): void
     {
         $this->config = Configuration::forSymmetricSigner(
@@ -55,7 +57,7 @@ class UnsignedTokenTest extends TestCase
         );
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function builderCanGenerateAToken(): Token
     {
         $user    = ['name' => 'testing', 'email' => 'testing@abc.com'];
@@ -79,10 +81,8 @@ class UnsignedTokenTest extends TestCase
         return $token;
     }
 
-    /**
-     * @test
-     * @depends builderCanGenerateAToken
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\Depends('builderCanGenerateAToken')]
     public function parserCanReadAToken(Token $generated): void
     {
         $read = $this->config->parser()->parse($generated->toString());
@@ -92,10 +92,8 @@ class UnsignedTokenTest extends TestCase
         self::assertSame('testing', $read->claims()->get('user')['name']);
     }
 
-    /**
-     * @test
-     * @depends builderCanGenerateAToken
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\Depends('builderCanGenerateAToken')]
     public function tokenValidationShouldPassWhenEverythingIsFine(Token $generated): void
     {
         $clock = new FrozenClock(new DateTimeImmutable('@' . self::CURRENT_TIME));
@@ -110,19 +108,15 @@ class UnsignedTokenTest extends TestCase
         self::assertTrue($this->config->validator()->validate($generated, ...$constraints));
     }
 
-    /**
-     * @test
-     * @depends builderCanGenerateAToken
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\Depends('builderCanGenerateAToken')]
     public function tokenValidationShouldAllowCustomConstraint(Token $generated): void
     {
         self::assertTrue($this->config->validator()->validate($generated, $this->validUserConstraint()));
     }
 
-    /**
-     * @test
-     * @depends builderCanGenerateAToken
-     */
+    #[PHPUnit\Test]
+    #[PHPUnit\Depends('builderCanGenerateAToken')]
     public function tokenAssertionShouldRaiseExceptionWhenOneOfTheConstraintsFails(Token $generated): void
     {
         $constraints = [

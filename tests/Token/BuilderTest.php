@@ -9,31 +9,29 @@ use Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token\Builder;
+use Lcobucci\JWT\Token\DataSet;
+use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\RegisteredClaimGiven;
 use Lcobucci\JWT\Token\RegisteredClaims;
+use Lcobucci\JWT\Token\Signature;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SplObjectStorage;
 
-/**
- * @covers \Lcobucci\JWT\Token\Builder
- * @covers \Lcobucci\JWT\Token\RegisteredClaimGiven
- *
- * @uses \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
- * @uses \Lcobucci\JWT\Signer\Key\InMemory
- * @uses \Lcobucci\JWT\Token\Plain
- * @uses \Lcobucci\JWT\Token\Signature
- * @uses \Lcobucci\JWT\Token\DataSet
- */
+#[PHPUnit\CoversClass(Builder::class)]
+#[PHPUnit\CoversClass(RegisteredClaimGiven::class)]
+#[PHPUnit\UsesClass(MicrosecondBasedDateConversion::class)]
+#[PHPUnit\UsesClass(InMemory::class)]
+#[PHPUnit\UsesClass(Plain::class)]
+#[PHPUnit\UsesClass(Signature::class)]
+#[PHPUnit\UsesClass(DataSet::class)]
 final class BuilderTest extends TestCase
 {
-    /** @var Encoder&MockObject */
-    private Encoder $encoder;
+    private Encoder&MockObject $encoder;
+    private Signer&MockObject $signer;
 
-    /** @var Signer&MockObject */
-    private Signer $signer;
-
-    /** @before */
+    #[PHPUnit\Before]
     public function initializeDependencies(): void
     {
         $this->encoder = $this->createMock(Encoder::class);
@@ -41,7 +39,7 @@ final class BuilderTest extends TestCase
         $this->signer->method('algorithmId')->willReturn('RS256');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function withClaimShouldRaiseExceptionWhenTryingToConfigureARegisteredClaim(): void
     {
         $builder = new Builder($this->encoder, new MicrosecondBasedDateConversion());
@@ -55,7 +53,7 @@ final class BuilderTest extends TestCase
         $builder->withClaim(RegisteredClaims::ISSUER, 'me');
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function getTokenShouldReturnACompletelyConfigureToken(): void
     {
         $issuedAt   = new DateTimeImmutable('@1487285080');
@@ -73,7 +71,7 @@ final class BuilderTest extends TestCase
                       ->method('base64UrlEncode')
                       ->willReturnArgument(0);
 
-        $this->signer->expects(self::once())
+        $this->signer->expects($this->once())
             ->method('sign')
             ->with('1.2')
             ->willReturn('3');
@@ -106,7 +104,7 @@ final class BuilderTest extends TestCase
         self::assertSame('3', $token->signature()->toString());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function immutability(): void
     {
         $map           = new SplObjectStorage();

@@ -7,25 +7,19 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\CannotValidateARegisteredClaim;
 use Lcobucci\JWT\Validation\Constraint\HasClaim;
 use Lcobucci\JWT\Validation\ConstraintViolation;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
-/**
- * @covers \Lcobucci\JWT\Validation\ConstraintViolation
- * @covers \Lcobucci\JWT\Validation\Constraint\HasClaim
- *
- * @uses \Lcobucci\JWT\Token\DataSet
- * @uses \Lcobucci\JWT\Token\Plain
- * @uses \Lcobucci\JWT\Token\Signature
- */
+#[PHPUnit\CoversClass(ConstraintViolation::class)]
+#[PHPUnit\CoversClass(HasClaim::class)]
+#[PHPUnit\CoversClass(CannotValidateARegisteredClaim::class)]
+#[PHPUnit\UsesClass(Token\DataSet::class)]
+#[PHPUnit\UsesClass(Token\Plain::class)]
+#[PHPUnit\UsesClass(Token\Signature::class)]
 final class HasClaimTest extends ConstraintTestCase
 {
-    /**
-     * @test
-     * @dataProvider registeredClaims
-     *
-     * @covers \Lcobucci\JWT\Validation\Constraint\CannotValidateARegisteredClaim
-     *
-     * @param non-empty-string $claim
-     */
+    /** @param non-empty-string $claim */
+    #[PHPUnit\Test]
+    #[PHPUnit\DataProvider('registeredClaims')]
     public function registeredClaimsCannotBeValidatedUsingThisConstraint(string $claim): void
     {
         $this->expectException(CannotValidateARegisteredClaim::class);
@@ -44,7 +38,7 @@ final class HasClaimTest extends ConstraintTestCase
         }
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenClaimIsNotSet(): void
     {
         $constraint = new HasClaim('claimId');
@@ -55,7 +49,7 @@ final class HasClaimTest extends ConstraintTestCase
         $constraint->assert($this->buildToken());
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
         $token      = $this->createMock(Token::class);
@@ -67,7 +61,7 @@ final class HasClaimTest extends ConstraintTestCase
         $constraint->assert($token);
     }
 
-    /** @test */
+    #[PHPUnit\Test]
     public function assertShouldNotRaiseExceptionWhenClaimMatches(): void
     {
         $token      = $this->buildToken(['claimId' => 'claimValue']);

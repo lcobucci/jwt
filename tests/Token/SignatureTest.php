@@ -4,17 +4,13 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Tests\Token;
 
 use Lcobucci\JWT\Token\Signature;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers ::__construct
- * @covers ::toString
- * @covers ::hash
- * @coversDefaultClass \Lcobucci\JWT\Token\Signature
- */
+#[PHPUnit\CoversClass(Signature::class)]
 final class SignatureTest extends TestCase
 {
-    /** @test */
+    #[PHPUnit\Test]
     public function hashShouldReturnTheHash(): void
     {
         $signature = new Signature('test', 'encoded');

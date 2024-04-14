@@ -17,21 +17,16 @@ use Lcobucci\JWT\Token\Builder as BuilderImpl;
 use Lcobucci\JWT\Token\Parser as ParserImpl;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validator;
+use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers ::__construct
- * @coversDefaultClass \Lcobucci\JWT\Configuration
- *
- * @uses \Lcobucci\JWT\Encoding\ChainedFormatter
- * @uses \Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion
- * @uses \Lcobucci\JWT\Encoding\UnifyAudience
- * @uses \Lcobucci\JWT\Signer\Key\InMemory
- * @uses \Lcobucci\JWT\Token\Builder
- * @uses \Lcobucci\JWT\Token\Parser
- * @uses \Lcobucci\JWT\Validation\Validator
- */
+#[PHPUnit\CoversClass(Configuration::class)]
+#[PHPUnit\UsesClass(ChainedFormatter::class)]
+#[PHPUnit\UsesClass(InMemory::class)]
+#[PHPUnit\UsesClass(BuilderImpl::class)]
+#[PHPUnit\UsesClass(ParserImpl::class)]
+#[PHPUnit\UsesClass(\Lcobucci\JWT\Validation\Validator::class)]
 final class ConfigurationTest extends TestCase
 {
     private Parser&MockObject $parser;
@@ -41,7 +36,7 @@ final class ConfigurationTest extends TestCase
     private Validator&MockObject $validator;
     private Constraint&MockObject $validationConstraints;
 
-    /** @before */
+    #[PHPUnit\Before]
     public function createDependencies(): void
     {
         $this->signer                = $this->createMock(Signer::class);
@@ -52,14 +47,7 @@ final class ConfigurationTest extends TestCase
         $this->validationConstraints = $this->createMock(Constraint::class);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::forAsymmetricSigner
-     * @covers ::signer
-     * @covers ::signingKey
-     * @covers ::verificationKey
-     */
+    #[PHPUnit\Test]
     public function forAsymmetricSignerShouldConfigureSignerAndBothKeys(): void
     {
         $signingKey      = InMemory::plainText('private');
@@ -72,14 +60,7 @@ final class ConfigurationTest extends TestCase
         self::assertSame($verificationKey, $config->verificationKey());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::forSymmetricSigner
-     * @covers ::signer
-     * @covers ::signingKey
-     * @covers ::verificationKey
-     */
+    #[PHPUnit\Test]
     public function forSymmetricSignerShouldConfigureSignerAndBothKeys(): void
     {
         $key    = InMemory::plainText('private');
@@ -90,13 +71,7 @@ final class ConfigurationTest extends TestCase
         self::assertSame($key, $config->verificationKey());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::builder
-     *
-     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
-     */
+    #[PHPUnit\Test]
     public function builderShouldCreateABuilderWithDefaultEncoderAndClaimFactory(): void
     {
         $config  = Configuration::forSymmetricSigner(
@@ -110,13 +85,7 @@ final class ConfigurationTest extends TestCase
         self::assertEquals(new BuilderImpl(new JoseEncoder(), ChainedFormatter::default()), $builder);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::builder
-     *
-     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
-     */
+    #[PHPUnit\Test]
     public function builderShouldCreateABuilderWithCustomizedEncoderAndClaimFactory(): void
     {
         $config  = Configuration::forSymmetricSigner(
@@ -130,14 +99,7 @@ final class ConfigurationTest extends TestCase
         self::assertEquals(new BuilderImpl($this->encoder, ChainedFormatter::default()), $builder);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::builder
-     * @covers ::setBuilderFactory
-     *
-     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
-     */
+    #[PHPUnit\Test]
     public function builderShouldUseBuilderFactoryWhenThatIsConfigured(): void
     {
         $builder = $this->createMock(Builder::class);
@@ -154,13 +116,7 @@ final class ConfigurationTest extends TestCase
         self::assertSame($builder, $config->builder());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::parser
-     *
-     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
-     */
+    #[PHPUnit\Test]
     public function parserShouldReturnAParserWithDefaultDecoder(): void
     {
         $config = Configuration::forSymmetricSigner(
@@ -172,13 +128,7 @@ final class ConfigurationTest extends TestCase
         self::assertNotEquals(new ParserImpl($this->decoder), $parser);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::parser
-     *
-     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
-     */
+    #[PHPUnit\Test]
     public function parserShouldReturnAParserWithCustomizedDecoder(): void
     {
         $config = Configuration::forSymmetricSigner(
@@ -191,14 +141,7 @@ final class ConfigurationTest extends TestCase
         self::assertEquals(new ParserImpl($this->decoder), $parser);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::parser
-     * @covers ::setParser
-     *
-     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
-     */
+    #[PHPUnit\Test]
     public function parserShouldNotCreateAnInstanceIfItWasConfigured(): void
     {
         $config = Configuration::forSymmetricSigner(
@@ -210,13 +153,7 @@ final class ConfigurationTest extends TestCase
         self::assertSame($this->parser, $config->parser());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::validator
-     *
-     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
-     */
+    #[PHPUnit\Test]
     public function validatorShouldReturnTheDefaultWhenItWasNotConfigured(): void
     {
         $config    = Configuration::forSymmetricSigner(
@@ -228,14 +165,7 @@ final class ConfigurationTest extends TestCase
         self::assertNotSame($this->validator, $validator);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::validator
-     * @covers ::setValidator
-     *
-     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
-     */
+    #[PHPUnit\Test]
     public function validatorShouldReturnTheConfiguredValidator(): void
     {
         $config = Configuration::forSymmetricSigner(
@@ -247,13 +177,7 @@ final class ConfigurationTest extends TestCase
         self::assertSame($this->validator, $config->validator());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::validationConstraints
-     *
-     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
-     */
+    #[PHPUnit\Test]
     public function validationConstraintsShouldReturnAnEmptyArrayWhenItWasNotConfigured(): void
     {
         $config = Configuration::forSymmetricSigner(
@@ -264,14 +188,7 @@ final class ConfigurationTest extends TestCase
         self::assertSame([], $config->validationConstraints());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::validationConstraints
-     * @covers ::setValidationConstraints
-     *
-     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
-     */
+    #[PHPUnit\Test]
     public function validationConstraintsShouldReturnTheConfiguredValidator(): void
     {
         $config = Configuration::forSymmetricSigner(
@@ -283,13 +200,7 @@ final class ConfigurationTest extends TestCase
         self::assertSame([$this->validationConstraints], $config->validationConstraints());
     }
 
-    /**
-     * @test
-     *
-     * @covers ::builder
-     *
-     * @uses \Lcobucci\JWT\Configuration::forSymmetricSigner
-     */
+    #[PHPUnit\Test]
     public function customClaimFormatterCanBeUsed(): void
     {
         $formatter = $this->createMock(ClaimsFormatter::class);
