@@ -2308,16 +2308,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.1.3",
+            "version": "11.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "d475be032238173ca3b0a516f5cc291d174708ae"
+                "reference": "705eba0190afe04bc057f565ad843267717cf109"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d475be032238173ca3b0a516f5cc291d174708ae",
-                "reference": "d475be032238173ca3b0a516f5cc291d174708ae",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/705eba0190afe04bc057f565ad843267717cf109",
+                "reference": "705eba0190afe04bc057f565ad843267717cf109",
                 "shasum": ""
             },
             "require": {
@@ -2356,7 +2356,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "11.1-dev"
+                    "dev-main": "11.2-dev"
                 }
             },
             "autoload": {
@@ -2388,7 +2388,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.1.3"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.2.0"
             },
             "funding": [
                 {
@@ -2404,7 +2404,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-24T06:34:25+00:00"
+            "time": "2024-06-07T04:48:50+00:00"
         },
         {
             "name": "psr/cache",
