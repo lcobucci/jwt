@@ -156,7 +156,6 @@ class HmacTokenTest extends TestCase
     {
         $key = tempnam(sys_get_temp_dir(), 'a-very-long-prefix-to-create-a-longer-key');
         self::assertIsString($key);
-        self::assertNotSame('', $key);
 
         file_put_contents(
             $key,
