@@ -808,16 +808,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.29.4",
+            "version": "0.29.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "cb975d32cfaf53e275563b7842c0d4fc919ce553"
+                "reference": "a663d6cecee222e9b33f11608073c134eb5e6916"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/cb975d32cfaf53e275563b7842c0d4fc919ce553",
-                "reference": "cb975d32cfaf53e275563b7842c0d4fc919ce553",
+                "url": "https://api.github.com/repos/infection/infection/zipball/a663d6cecee222e9b33f11608073c134eb5e6916",
+                "reference": "a663d6cecee222e9b33f11608073c134eb5e6916",
                 "shasum": ""
             },
             "require": {
@@ -923,7 +923,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.29.4"
+                "source": "https://github.com/infection/infection/tree/0.29.5"
             },
             "funding": [
                 {
@@ -935,7 +935,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-06-07T22:57:33+00:00"
+            "time": "2024-06-12T07:22:52+00:00"
         },
         {
             "name": "infection/mutator",
