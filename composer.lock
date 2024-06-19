@@ -2309,16 +2309,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.2.2",
+            "version": "11.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3e1843a58adc9c433ee6170bdee7d615f7ccc20b"
+                "reference": "8475044fbb0af57c8daea06bcfe21e2785401f97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3e1843a58adc9c433ee6170bdee7d615f7ccc20b",
-                "reference": "3e1843a58adc9c433ee6170bdee7d615f7ccc20b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/8475044fbb0af57c8daea06bcfe21e2785401f97",
+                "reference": "8475044fbb0af57c8daea06bcfe21e2785401f97",
                 "shasum": ""
             },
             "require": {
@@ -2342,7 +2342,7 @@
                 "sebastian/comparator": "^6.0",
                 "sebastian/diff": "^6.0",
                 "sebastian/environment": "^7.0",
-                "sebastian/exporter": "^6.0",
+                "sebastian/exporter": "^6.1.2",
                 "sebastian/global-state": "^7.0",
                 "sebastian/object-enumerator": "^6.0",
                 "sebastian/type": "^5.0",
@@ -2389,7 +2389,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.2.2"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.2.3"
             },
             "funding": [
                 {
@@ -2405,7 +2405,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-15T09:14:53+00:00"
+            "time": "2024-06-19T05:31:11+00:00"
         },
         {
             "name": "psr/cache",
@@ -3126,16 +3126,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "6.0.1",
+            "version": "6.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "f291e5a317c321c0381fa9ecc796fa2d21b186da"
+                "reference": "507d2333cbc4e6ea248fbda2d45ee1511e03da13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/f291e5a317c321c0381fa9ecc796fa2d21b186da",
-                "reference": "f291e5a317c321c0381fa9ecc796fa2d21b186da",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/507d2333cbc4e6ea248fbda2d45ee1511e03da13",
+                "reference": "507d2333cbc4e6ea248fbda2d45ee1511e03da13",
                 "shasum": ""
             },
             "require": {
@@ -3144,12 +3144,12 @@
                 "sebastian/recursion-context": "^6.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^11.0"
+                "phpunit/phpunit": "^11.2"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "6.0-dev"
+                    "dev-main": "6.1-dev"
                 }
             },
             "autoload": {
@@ -3192,7 +3192,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
                 "security": "https://github.com/sebastianbergmann/exporter/security/policy",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/6.0.1"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/6.1.2"
             },
             "funding": [
                 {
@@ -3200,7 +3200,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-02T07:28:20+00:00"
+            "time": "2024-06-18T11:19:56+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -3438,16 +3438,16 @@
         },
         {
             "name": "sebastian/recursion-context",
-            "version": "6.0.0",
+            "version": "6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "b75224967b5a466925c6d54e68edd0edf8dd4ed4"
+                "reference": "2f15508e17af4ea35129bbc32ce28a814d9c7426"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/b75224967b5a466925c6d54e68edd0edf8dd4ed4",
-                "reference": "b75224967b5a466925c6d54e68edd0edf8dd4ed4",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/2f15508e17af4ea35129bbc32ce28a814d9c7426",
+                "reference": "2f15508e17af4ea35129bbc32ce28a814d9c7426",
                 "shasum": ""
             },
             "require": {
@@ -3490,7 +3490,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
                 "security": "https://github.com/sebastianbergmann/recursion-context/security/policy",
-                "source": "https://github.com/sebastianbergmann/recursion-context/tree/6.0.0"
+                "source": "https://github.com/sebastianbergmann/recursion-context/tree/6.0.1"
             },
             "funding": [
                 {
@@ -3498,7 +3498,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-02T06:08:48+00:00"
+            "time": "2024-06-17T05:22:57+00:00"
         },
         {
             "name": "sebastian/type",
