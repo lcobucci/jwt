@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.5"
+        uses: "shivammathur/setup-php@2.31.0"
         with:
           php-version: "8.2"
           ini-values: memory_limit=-1
