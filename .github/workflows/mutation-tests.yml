@@ -24,7 +24,7 @@ jobs:
         uses: "actions/checkout@v4.1.7"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.31.0"
+        uses: "shivammathur/setup-php@2.31.1"
         with:
           coverage: "xdebug"
           php-version: "${{ matrix.php-version }}"
