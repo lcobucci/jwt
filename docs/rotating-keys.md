@@ -13,7 +13,7 @@ Rotating keys allows us to:
 
 ## The challenges
 
-After rotating keys, apps will likely receive requests with tokens issues with the previous key.
+After rotating keys, apps will likely receive requests with tokens issued with the previous key.
 If the key rotation of an app is done with a "hard cut", requests with non-expired tokens issued with the old key **will fail**!
 
 Imagine if you were the user who logged in just before a key rotation on that kind of app, you'd probably have to log in again!
