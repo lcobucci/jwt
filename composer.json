@@ -20,6 +20,7 @@
         "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
         "ext-openssl": "*",
         "ext-sodium": "*",
+        "phpseclib/phpseclib": "^3.0.36",
         "psr/clock": "^1.0"
     },
     "require-dev": {

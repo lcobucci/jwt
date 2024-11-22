@@ -20,6 +20,7 @@ abstract class AlgorithmsBench
         'ecdsa' => ['ES256', 'ES384', 'ES512'],
         'eddsa' => ['EdDSA'],
         'blake2b' => ['BLAKE2B'],
+        'rsapss' => ['PS256', 'PS384', 'PS512'],
     ];
 
     protected const PAYLOAD = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road"
@@ -96,6 +97,20 @@ abstract class AlgorithmsBench
         yield from $this->iterateAlgorithms('blake2b');
     }
 
+    #[Bench\Subject]
+    #[Bench\ParamProviders('rsaPssAlgorithms')]
+    #[Bench\Groups(['rsapss', 'asymmetric'])]
+    public function rsaPss(): void
+    {
+        $this->runBenchmark();
+    }
+
+    /** @return iterable<string, array{algorithm: string}> */
+    public function rsaPssAlgorithms(): iterable
+    {
+        yield from $this->iterateAlgorithms('rsapss');
+    }
+
     abstract protected function runBenchmark(): void;
 
     protected function resolveAlgorithm(string $name): Signer
@@ -112,6 +127,9 @@ abstract class AlgorithmsBench
             'ES512' => new Signer\Ecdsa\Sha512(),
             'EdDSA' => new Signer\Eddsa(),
             'BLAKE2B' => new Signer\Blake2b(),
+            'PS256' => new Signer\RsaPss\Sha256(),
+            'PS384' => new Signer\RsaPss\Sha384(),
+            'PS512' => new Signer\RsaPss\Sha512(),
             default => throw new RuntimeException('Unknown algorithm'),
         };
     }
@@ -132,6 +150,7 @@ abstract class AlgorithmsBench
                 'K3NWT0XqaH+4jgi42gQmHnFE+HTPVhFYi3u4DFJ3OpRHRMt/aGRBoKD/Pt5H/iYgGCla7Q04CdjOUpLSrjZhtg==',
             ),
             'BLAKE2B' => InMemory::base64Encoded('b6DNRcX2SFapbICe6lXWYoOZA+JXL/dvkfWiv2hJv3Y='),
+            'PS256', 'PS384', 'PS512' => InMemory::file(__DIR__ . '/Rsa/private.key'),
             default => throw new RuntimeException('Unknown algorithm'),
         };
     }
@@ -145,6 +164,7 @@ abstract class AlgorithmsBench
             'ES384' => InMemory::file(__DIR__ . '/Ecdsa/public-384.key'),
             'ES512' => InMemory::file(__DIR__ . '/Ecdsa/public-521.key'),
             'EdDSA' => InMemory::base64Encoded('R0TLf2hkQaCg/z7eR/4mIBgpWu0NOAnYzlKS0q42YbY='),
+            'PS256', 'PS384', 'PS512' => InMemory::file(__DIR__ . '/Rsa/public.key'),
             default => throw new RuntimeException('Unknown algorithm'),
         };
     }
