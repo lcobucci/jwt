@@ -8,10 +8,10 @@ use Lcobucci\JWT\Signer\Ecdsa\SignatureConverter;
 
 use const OPENSSL_KEYTYPE_EC;
 
-abstract class Ecdsa extends OpenSSL
+abstract readonly class Ecdsa extends OpenSSL
 {
     public function __construct(
-        private readonly SignatureConverter $converter = new MultibyteStringConverter(),
+        private SignatureConverter $converter = new MultibyteStringConverter(),
     ) {
     }
 

@@ -10,7 +10,7 @@ use function array_key_exists;
 use function count;
 use function current;
 
-final class UnifyAudience implements ClaimsFormatter
+final readonly class UnifyAudience implements ClaimsFormatter
 {
     /** @inheritdoc */
     public function formatClaims(array $claims): array

@@ -7,7 +7,7 @@ use Lcobucci\JWT\Signer\Ecdsa;
 
 use const OPENSSL_ALGO_SHA256;
 
-final class Sha256 extends Ecdsa
+final readonly class Sha256 extends Ecdsa
 {
     public function algorithmId(): string
     {

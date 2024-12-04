@@ -5,7 +5,7 @@ namespace Lcobucci\JWT\Signer;
 
 use const OPENSSL_KEYTYPE_RSA;
 
-abstract class Rsa extends OpenSSL
+abstract readonly class Rsa extends OpenSSL
 {
     private const MINIMUM_KEY_LENGTH = 2048;
 

@@ -8,12 +8,12 @@ use Lcobucci\JWT\UnencryptedToken;
 
 use function in_array;
 
-final class Plain implements UnencryptedToken
+final readonly class Plain implements UnencryptedToken
 {
     public function __construct(
-        private readonly DataSet $headers,
-        private readonly DataSet $claims,
-        private readonly Signature $signature,
+        private DataSet $headers,
+        private DataSet $claims,
+        private Signature $signature,
     ) {
     }
 

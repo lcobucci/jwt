@@ -31,7 +31,7 @@ use const STR_PAD_LEFT;
  *
  * @internal
  */
-final class MultibyteStringConverter implements SignatureConverter
+final readonly class MultibyteStringConverter implements SignatureConverter
 {
     private const ASN1_SEQUENCE          = '30';
     private const ASN1_INTEGER           = '02';

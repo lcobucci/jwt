@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Tests\Signer\Rsa;
 
 use Lcobucci\JWT\Signer\CannotSignPayload;
-use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\OpenSSL;
 use PHPUnit\Framework\Attributes as PHPUnit;
@@ -12,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 use function openssl_error_string;
 
-use const OPENSSL_ALGO_SHA256;
 use const PHP_EOL;
 
 #[PHPUnit\CoversClass(OpenSSL::class)]
@@ -47,32 +45,6 @@ KEY;
 
     private function algorithm(): OpenSSL
     {
-        return new class () extends OpenSSL
-        {
-            // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-            protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void
-            {
-            }
-
-            public function algorithm(): int
-            {
-                return OPENSSL_ALGO_SHA256;
-            }
-
-            public function algorithmId(): string
-            {
-                return 'RS256';
-            }
-
-            public function sign(string $payload, Key $key): string
-            {
-                return $this->createSignature($key->contents(), $key->passphrase(), $payload);
-            }
-
-            public function verify(string $expected, string $payload, Key $key): bool
-            {
-                return $this->verifySignature($expected, $payload, $key->contents());
-            }
-        };
+        return new KeyValidationSigner();
     }
 }

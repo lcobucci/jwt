@@ -9,7 +9,7 @@ use SodiumException;
 use function sodium_crypto_sign_detached;
 use function sodium_crypto_sign_verify_detached;
 
-final class Eddsa implements Signer
+final readonly class Eddsa implements Signer
 {
     public function algorithmId(): string
     {

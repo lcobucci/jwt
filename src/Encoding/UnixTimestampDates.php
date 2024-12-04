@@ -9,7 +9,7 @@ use Lcobucci\JWT\Token\RegisteredClaims;
 
 use function array_key_exists;
 
-final class UnixTimestampDates implements ClaimsFormatter
+final readonly class UnixTimestampDates implements ClaimsFormatter
 {
     /** @inheritdoc */
     public function formatClaims(array $claims): array

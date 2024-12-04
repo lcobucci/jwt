@@ -9,10 +9,10 @@ use Lcobucci\JWT\Validation\SignedWith as SignedWithInterface;
 
 use const PHP_EOL;
 
-final class SignedWithOneInSet implements SignedWithInterface
+final readonly class SignedWithOneInSet implements SignedWithInterface
 {
     /** @var array<SignedWithUntilDate> */
-    private readonly array $constraints;
+    private array $constraints;
 
     public function __construct(SignedWithUntilDate ...$constraints)
     {
