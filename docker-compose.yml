@@ -1,0 +1,11 @@
+services:
+  php:
+    build:
+      context: .
+      args:
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
+    # Same paths mean stack traces from docker are usable in host too
+    volumes:
+      - .:${PWD}
+    working_dir: ${PWD}

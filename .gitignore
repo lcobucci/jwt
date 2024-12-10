@@ -3,6 +3,7 @@ phpunit.xml
 infection.txt
 coverage
 phpcs.xml
+/.env
 /.phpcs.cache
 /.phpunit.result.cache
 /.phpunit.cache
