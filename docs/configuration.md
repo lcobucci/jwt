@@ -136,7 +136,7 @@ $configuration = Configuration::forSymmetricSigner(
     InMemory::base64Encoded('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=')
 );
 
-$configuration->setBuilderFactory(
+$configuration = $configuration->withBuilderFactory(
     static function (ClaimsFormatter $formatter): Builder {
         // This assumes `MyCustomBuilder` is an existing class 
         return new MyCustomBuilder(new JoseEncoder(), $formatter);
@@ -165,7 +165,7 @@ $configuration = Configuration::forSymmetricSigner(
 );
 
 // This assumes `MyParser` is an existing class 
-$configuration->setParser(new MyParser());
+$configuration = $configuration->withParser(new MyParser());
 ```
 
 ### Validator
@@ -189,7 +189,7 @@ $configuration = Configuration::forSymmetricSigner(
 );
 
 // This assumes `MyValidator` is an existing class
-$configuration->setValidator(new MyValidator());
+$configuration = $configuration->withValidator(new MyValidator());
 ```
 
 ### Validation constraints
@@ -216,7 +216,7 @@ $configuration = Configuration::forSymmetricSigner(
     InMemory::base64Encoded('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=')
 );
 
-$configuration->setValidationConstraints(
+$configuration = $configuration->withValidationConstraints(
     new SignedWith($configuration->signer(), $configuration->signingKey()),
     new StrictValidAt(SystemClock::fromUTC()),
     new IssuedBy('https://api.my-awesome-company.com')

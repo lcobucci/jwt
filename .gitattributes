@@ -11,3 +11,5 @@
 /README.md                                export-ignore
 /Makefile                                 export-ignore
 /.roave-backward-compatibility-check.json export-ignore
+/.readthedocs.yaml                        export-ignore
+/renovate.json                            export-ignore

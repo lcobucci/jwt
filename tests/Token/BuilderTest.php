@@ -42,7 +42,7 @@ final class BuilderTest extends TestCase
     #[PHPUnit\Test]
     public function withClaimShouldRaiseExceptionWhenTryingToConfigureARegisteredClaim(): void
     {
-        $builder = new Builder($this->encoder, new MicrosecondBasedDateConversion());
+        $builder = Builder::new($this->encoder, new MicrosecondBasedDateConversion());
 
         $this->expectException(RegisteredClaimGiven::class);
         $this->expectExceptionMessage(
@@ -76,7 +76,7 @@ final class BuilderTest extends TestCase
             ->with('1.2')
             ->willReturn('3');
 
-        $builder = new Builder($this->encoder, new MicrosecondBasedDateConversion());
+        $builder = Builder::new($this->encoder, new MicrosecondBasedDateConversion());
         $token   = $builder->identifiedBy('123456')
                            ->issuedBy('https://issuer.com')
                            ->issuedAt($issuedAt)
@@ -108,7 +108,7 @@ final class BuilderTest extends TestCase
     public function immutability(): void
     {
         $map           = new SplObjectStorage();
-        $builder       = new Builder($this->encoder, new MicrosecondBasedDateConversion());
+        $builder       = Builder::new($this->encoder, new MicrosecondBasedDateConversion());
         $map[$builder] = true;
         $builder       = $builder->identifiedBy('123456');
         $map[$builder] = true;

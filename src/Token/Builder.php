@@ -25,8 +25,14 @@ final class Builder implements BuilderInterface
     /** @var array<non-empty-string, mixed> */
     private array $claims = [];
 
+    /** @deprecated Deprecated since v5.5, please use {@see self::new()} instead */
     public function __construct(private readonly Encoder $encoder, private readonly ClaimsFormatter $claimFormatter)
     {
+    }
+
+    public static function new(Encoder $encoder, ClaimsFormatter $claimFormatter): self
+    {
+        return new self($encoder, $claimFormatter);
     }
 
     /**

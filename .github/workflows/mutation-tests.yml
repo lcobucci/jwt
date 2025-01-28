@@ -24,38 +24,20 @@ jobs:
         uses: "actions/checkout@v4.2.2"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.31.1"
+        uses: "shivammathur/setup-php@2.32.0"
         with:
           coverage: "xdebug"
           php-version: "${{ matrix.php-version }}"
           ini-values: memory_limit=-1
           tools: composer:v2, cs2pr
 
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "composer_cache_dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-      - name: "Cache dependencies"
-        uses: "actions/cache@v4.1.2"
+      - name: "Install dependencies"
+        uses: "ramsey/composer-install@3.0.0"
         with:
-          path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
-          key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.lock') }}"
-          restore-keys: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-"
-
-      - name: "Install lowest dependencies"
-        if: ${{ matrix.dependencies == 'lowest' }}
-        run: "composer update --prefer-lowest --no-interaction --no-progress"
-
-      - name: "Install highest dependencies"
-        if: ${{ matrix.dependencies == 'highest' }}
-        run: "composer update --no-interaction --no-progress"
-
-      - name: "Install locked dependencies"
-        if: ${{ matrix.dependencies == 'locked' }}
-        run: "composer install --no-interaction --no-progress"
+          dependency-versions: "${{ matrix.dependencies }}"
 
       - name: "Infection"
         run: "make infection PHPUNIT_FLAGS=--coverage-clover=coverage.xml INFECTION_FLAGS=--logger-github"
 
       - name: "Upload Code Coverage"
-        uses: "codecov/codecov-action@v5.0.7"
+        uses: "codecov/codecov-action@v5.3.1"

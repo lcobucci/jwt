@@ -32,7 +32,7 @@ use Lcobucci\JWT\Configuration;
 $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
-$config->setBuilderFactory(
+$configuration = $configuration->withBuilderFactory(
     static function (ClaimsFormatter $formatter): Builder {
         return new MyCustomTokenBuilder($formatter);
     }
@@ -99,7 +99,7 @@ use Lcobucci\JWT\Configuration;
 $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
-$config->setParser(new MyCustomTokenParser());
+$configuration = $configuration->withParser(new MyCustomTokenParser());
 ```
 
 ## Signer
@@ -157,7 +157,7 @@ use Lcobucci\JWT\Configuration;
 $config = $container->get(Configuration::class);
 assert($config instanceof Configuration);
 
-$config->setValidator(new MyCustomTokenValidator());
+$configuration = $configuration->withValidator(new MyCustomTokenValidator());
 ```
 
 ## Validation constraints

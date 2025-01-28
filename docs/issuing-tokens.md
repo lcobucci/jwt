@@ -14,7 +14,7 @@ use Lcobucci\JWT\Token\Builder;
 
 require 'vendor/autoload.php';
 
-$tokenBuilder = (new Builder(new JoseEncoder(), ChainedFormatter::default()));
+$tokenBuilder = Builder::new(new JoseEncoder(), ChainedFormatter::default());
 $algorithm    = new Sha256();
 $signingKey   = InMemory::plainText(random_bytes(32));
 
@@ -58,7 +58,7 @@ use Lcobucci\JWT\Token\Builder;
 
 require 'vendor/autoload.php';
 
-$tokenBuilder = (new Builder(new JoseEncoder(), ChainedFormatter::default()));
+$tokenBuilder = Builder::new(new JoseEncoder(), ChainedFormatter::default());
 $algorithm    = new Sha256();
 $signingKey   = InMemory::plainText(random_bytes(32));
 
