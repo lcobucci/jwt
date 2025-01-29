@@ -36,10 +36,6 @@ final readonly class Builder implements BuilderInterface
         return new self($encoder, $claimFormatter);
     }
 
-    /**
-     * @inheritDoc
-     * @pure
-     */
     public function permittedFor(string ...$audiences): BuilderInterface
     {
         $configured = $this->claims[RegisteredClaims::AUDIENCE] ?? [];
@@ -48,64 +44,36 @@ final readonly class Builder implements BuilderInterface
         return $this->newWithClaim(RegisteredClaims::AUDIENCE, array_merge($configured, $toAppend));
     }
 
-    /**
-     * @inheritDoc
-     * @pure
-     */
     public function expiresAt(DateTimeImmutable $expiration): BuilderInterface
     {
         return $this->newWithClaim(RegisteredClaims::EXPIRATION_TIME, $expiration);
     }
 
-    /**
-     * @inheritDoc
-     * @pure
-     */
     public function identifiedBy(string $id): BuilderInterface
     {
         return $this->newWithClaim(RegisteredClaims::ID, $id);
     }
 
-    /**
-     * @inheritDoc
-     * @pure
-     */
     public function issuedAt(DateTimeImmutable $issuedAt): BuilderInterface
     {
         return $this->newWithClaim(RegisteredClaims::ISSUED_AT, $issuedAt);
     }
 
-    /**
-     * @inheritDoc
-     * @pure
-     */
     public function issuedBy(string $issuer): BuilderInterface
     {
         return $this->newWithClaim(RegisteredClaims::ISSUER, $issuer);
     }
 
-    /**
-     * @inheritDoc
-     * @pure
-     */
     public function canOnlyBeUsedAfter(DateTimeImmutable $notBefore): BuilderInterface
     {
         return $this->newWithClaim(RegisteredClaims::NOT_BEFORE, $notBefore);
     }
 
-    /**
-     * @inheritDoc
-     * @pure
-     */
     public function relatedTo(string $subject): BuilderInterface
     {
         return $this->newWithClaim(RegisteredClaims::SUBJECT, $subject);
     }
 
-    /**
-     * @inheritDoc
-     * @pure
-     */
     public function withHeader(string $name, mixed $value): BuilderInterface
     {
         $headers        = $this->headers;
@@ -119,10 +87,6 @@ final readonly class Builder implements BuilderInterface
         );
     }
 
-    /**
-     * @inheritDoc
-     * @pure
-     */
     public function withClaim(string $name, mixed $value): BuilderInterface
     {
         if (in_array($name, RegisteredClaims::ALL, true)) {
