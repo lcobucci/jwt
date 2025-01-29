@@ -31,7 +31,7 @@ final readonly class InMemory implements Key
         #[SensitiveParameter]
         string $passphrase = '',
     ): self {
-        self::guardAgainstEmptyKey($contents);
+        self::guardAgainstEmptyKey($contents); // @phpstan-ignore staticMethod.alreadyNarrowedType
 
         return new self($contents, $passphrase);
     }
@@ -48,7 +48,7 @@ final readonly class InMemory implements Key
             SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL,
         );
 
-        self::guardAgainstEmptyKey($decoded);
+        self::guardAgainstEmptyKey($decoded); // @phpstan-ignore staticMethod.alreadyNarrowedType
 
         return new self($decoded, $passphrase);
     }
