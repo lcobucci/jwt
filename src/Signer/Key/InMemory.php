@@ -13,14 +13,14 @@ use Throwable;
 use function assert;
 use function is_string;
 
-final class InMemory implements Key
+final readonly class InMemory implements Key
 {
     /** @param non-empty-string $contents */
     private function __construct(
         #[SensitiveParameter]
-        public readonly string $contents,
+        public string $contents,
         #[SensitiveParameter]
-        public readonly string $passphrase,
+        public string $passphrase,
     ) {
     }
 

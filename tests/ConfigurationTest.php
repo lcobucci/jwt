@@ -100,24 +100,6 @@ final class ConfigurationTest extends TestCase
     }
 
     #[PHPUnit\Test]
-    public function builderShouldUseBuilderFactoryWhenThatIsConfiguredWithDeprecatedSet(): void
-    {
-        $builder = $this->createMock(Builder::class);
-
-        $config = Configuration::forSymmetricSigner(
-            new KeyDumpSigner(),
-            InMemory::plainText('private'),
-        );
-        /** @phpstan-ignore method.deprecated */
-        $config->setBuilderFactory(
-            static function () use ($builder): Builder {
-                return $builder;
-            },
-        );
-        self::assertSame($builder, $config->builder());
-    }
-
-    #[PHPUnit\Test]
     public function builderShouldUseBuilderFactoryWhenThatIsConfigured(): void
     {
         $builder = $this->createMock(Builder::class);
@@ -161,19 +143,6 @@ final class ConfigurationTest extends TestCase
     }
 
     #[PHPUnit\Test]
-    public function parserShouldNotCreateAnInstanceIfItWasConfiguredWithDeprecatedSet(): void
-    {
-        $config = Configuration::forSymmetricSigner(
-            new KeyDumpSigner(),
-            InMemory::plainText('private'),
-        );
-        /** @phpstan-ignore method.deprecated */
-        $config->setParser($this->parser);
-
-        self::assertSame($this->parser, $config->parser());
-    }
-
-    #[PHPUnit\Test]
     public function parserShouldNotCreateAnInstanceIfItWasConfigured(): void
     {
         $config    = Configuration::forSymmetricSigner(
@@ -199,19 +168,6 @@ final class ConfigurationTest extends TestCase
     }
 
     #[PHPUnit\Test]
-    public function validatorShouldReturnTheConfiguredValidatorWithDeprecatedSet(): void
-    {
-        $config = Configuration::forSymmetricSigner(
-            new KeyDumpSigner(),
-            InMemory::plainText('private'),
-        );
-        /** @phpstan-ignore method.deprecated */
-        $config->setValidator($this->validator);
-
-        self::assertSame($this->validator, $config->validator());
-    }
-
-    #[PHPUnit\Test]
     public function validatorShouldReturnTheConfiguredValidator(): void
     {
         $config    = Configuration::forSymmetricSigner(
@@ -233,19 +189,6 @@ final class ConfigurationTest extends TestCase
         );
 
         self::assertSame([], $config->validationConstraints());
-    }
-
-    #[PHPUnit\Test]
-    public function validationConstraintsShouldReturnTheConfiguredValidatorWithDeprecatedSet(): void
-    {
-        $config = Configuration::forSymmetricSigner(
-            new KeyDumpSigner(),
-            InMemory::plainText('private'),
-        );
-        /** @phpstan-ignore method.deprecated */
-        $config->setValidationConstraints($this->validationConstraints);
-
-        self::assertSame([$this->validationConstraints], $config->validationConstraints());
     }
 
     #[PHPUnit\Test]

@@ -9,7 +9,7 @@ use function hash_equals;
 use function sodium_crypto_generichash;
 use function strlen;
 
-final class Blake2b implements Signer
+final readonly class Blake2b implements Signer
 {
     private const MINIMUM_KEY_LENGTH_IN_BITS = 256;
 

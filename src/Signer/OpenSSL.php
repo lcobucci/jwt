@@ -25,7 +25,7 @@ use const OPENSSL_KEYTYPE_EC;
 use const OPENSSL_KEYTYPE_RSA;
 use const PHP_EOL;
 
-abstract class OpenSSL implements Signer
+abstract readonly class OpenSSL implements Signer
 {
     protected const KEY_TYPE_MAP = [
         OPENSSL_KEYTYPE_RSA => 'RSA',
