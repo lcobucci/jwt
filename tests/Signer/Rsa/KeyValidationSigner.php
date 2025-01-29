@@ -27,11 +27,11 @@ final readonly class KeyValidationSigner extends OpenSSL
 
     public function sign(string $payload, Key $key): string
     {
-        return $this->createSignature($key->contents(), $key->passphrase(), $payload);
+        return $this->createSignature($key, $payload);
     }
 
     public function verify(string $expected, string $payload, Key $key): bool
     {
-        return $this->verifySignature($expected, $payload, $key->contents());
+        return $this->verifySignature($expected, $payload, $key);
     }
 }
