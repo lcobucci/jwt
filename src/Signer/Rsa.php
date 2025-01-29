@@ -11,12 +11,12 @@ abstract readonly class Rsa extends OpenSSL
 
     final public function sign(string $payload, Key $key): string
     {
-        return $this->createSignature($key->contents(), $key->passphrase(), $payload);
+        return $this->createSignature($key, $payload);
     }
 
     final public function verify(string $expected, string $payload, Key $key): bool
     {
-        return $this->verifySignature($expected, $payload, $key->contents());
+        return $this->verifySignature($expected, $payload, $key);
     }
 
     final protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void
