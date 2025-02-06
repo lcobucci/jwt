@@ -36,6 +36,15 @@ They're usually recommended for scenarios where creation is handled by a compone
 | `RS512` | RSASSA-PKCS1-v1_5 using SHA-512 | `\Lcobucci\JWT\Signer\Rsa\Sha512`   | `>= 2048 bits`  |
 | `EdDSA` | EdDSA signature algorithms      | `\Lcobucci\JWT\Signer\Eddsa`        | `>= 256 bits`   |
 
+The following algorithms are implemented in a separate package `lcobucci/jwt-rsassa-pss` in order to keep dependencies low in the main package.
+Please see the installation instructions in the [RSASSA-PSS readme].
+
+| Name    | Description                     | Class                                | Key length req. |
+|---------|---------------------------------|--------------------------------------|-----------------|
+| `PS256` | RSASSA-PSS using SHA-256        | `\Lcobucci\JWT\Signer\RsaPss\Sha256` | `>= 2048 bits`  |
+| `PS384` | RSASSA-PSS using SHA-384        | `\Lcobucci\JWT\Signer\RsaPss\Sha384` | `>= 2048 bits`  |
+| `PS512` | RSASSA-PSS using SHA-512        | `\Lcobucci\JWT\Signer\RsaPss\Sha512` | `>= 2048 bits`  |
+
 ## `none` algorithm
 
 The `none` algorithm as described by [JWT standard] is intentionally not implemented and not supported.
@@ -43,3 +52,4 @@ The risk of misusing it is too high, and even where other means guarantee the to
 shouldn't represent a computational bottleneck with modern hardware.
 
 [JWT standard]: https://www.iana.org/assignments/jose/jose.xhtml#web-signature-encryption-algorithms
+[RSASSA-PSS readme]: https://github.com/lcobucci/jwt-rsassa-pss
