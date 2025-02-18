@@ -85,13 +85,17 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded(): void
     {
-        $this->decoder->method('base64UrlDecode')
-                      ->with('a')
-                      ->willReturn('b');
+        $this->decoder
+            ->expects($this->once())
+            ->method('base64UrlDecode')
+            ->with('a')
+            ->willReturn('b');
 
-        $this->decoder->method('jsonDecode')
-                      ->with('b')
-                      ->willThrowException(new RuntimeException('Nope'));
+        $this->decoder
+            ->expects($this->once())
+            ->method('jsonDecode')
+            ->with('b')
+            ->willThrowException(new RuntimeException('Nope'));
 
         $parser = $this->createParser();
 
