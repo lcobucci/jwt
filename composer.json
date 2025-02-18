@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+        "php": "~8.3.0 || ~8.4.0",
         "ext-openssl": "*",
         "ext-sodium": "*",
         "psr/clock": "^1.0"
@@ -53,9 +53,6 @@
             "infection/extension-installer": true,
             "ocramius/package-versions": true,
             "phpstan/extension-installer": true
-        },
-        "platform": {
-            "php": "8.2.99"
         },
         "preferred-install": "dist",
         "sort-packages": true

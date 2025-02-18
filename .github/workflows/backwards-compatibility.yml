@@ -18,7 +18,7 @@ jobs:
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.32.0"
         with:
-          php-version: "8.2"
+          php-version: "8.3"
           ini-values: memory_limit=-1
           tools: composer:v2, cs2pr
         env:
@@ -32,17 +32,11 @@ jobs:
         uses: "actions/cache@v4.2.0"
         with:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
-          key: "php-8.2-bc-break-check-${{ hashFiles('.github/workflows/backwards-compatibility.yml') }}"
-          restore-keys: "php-8.2-bc-break-check-"
-
-      # Only necessary until https://github.com/Roave/BackwardCompatibilityCheck/pull/737 gets resolved
-      - name: "Configure custom repository"
-        run: |
-          echo '{"repositories": [{"type":"vcs","url":"git@github.com:lcobucci/BackwardCompatibilityCheck.git"}]}' > ~/.composer/composer.json
+          key: "php-8.3-bc-break-check-${{ hashFiles('.github/workflows/backwards-compatibility.yml') }}"
+          restore-keys: "php-8.3-bc-break-check-"
 
       - name: "Install dependencies"
-        # run: composer global require roave/backward-compatibility-check
-        run: composer global require "roave/backward-compatibility-check:dev-support-baseline-configuration"
+        run: composer global require roave/backward-compatibility-check
 
       - name: "BC Check"
         run: |
