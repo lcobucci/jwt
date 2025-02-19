@@ -7,7 +7,6 @@
 /CONTRIBUTING.md                          export-ignore
 /*.dist                                   export-ignore
 /phpbench.json                            export-ignore
-/composer.lock                            export-ignore
 /README.md                                export-ignore
 /Makefile                                 export-ignore
 /.roave-backward-compatibility-check.json export-ignore
