@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         dependencies:
-          - "locked"
+          - "lowest"
         php-version:
           - "8.3"
         operating-system:
