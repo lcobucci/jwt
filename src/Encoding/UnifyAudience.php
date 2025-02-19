@@ -12,7 +12,7 @@ use function current;
 
 final readonly class UnifyAudience implements ClaimsFormatter
 {
-    /** @inheritdoc */
+    /** @inheritDoc */
     public function formatClaims(array $claims): array
     {
         if (

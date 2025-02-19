@@ -55,7 +55,7 @@ use Serializable;
 
 final class ClaimSerializer implements ClaimsFormatter
 {
-    /** @inheritdoc  */
+    /** @inheritDoc  */
     public function formatClaims(array $claims): array
     {
         foreach ($claims as $claim => $claimValue) {

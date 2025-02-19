@@ -25,7 +25,7 @@ final readonly class ChainedFormatter implements ClaimsFormatter
         return new self(new UnifyAudience(), new UnixTimestampDates());
     }
 
-    /** @inheritdoc */
+    /** @inheritDoc */
     public function formatClaims(array $claims): array
     {
         foreach ($this->formatters as $formatter) {

@@ -11,7 +11,7 @@ use function array_key_exists;
 
 final readonly class UnixTimestampDates implements ClaimsFormatter
 {
-    /** @inheritdoc */
+    /** @inheritDoc */
     public function formatClaims(array $claims): array
     {
         foreach (RegisteredClaims::DATE_CLAIMS as $claim) {
