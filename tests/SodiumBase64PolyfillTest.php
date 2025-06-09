@@ -24,7 +24,6 @@ final class SodiumBase64PolyfillTest extends TestCase
     private const B64URL = 'lZ-2HIl9dTz_Oy0nAb-2gvKdG0jhHJ36XB2rWAKj8Uo=';
 
     #[PHPUnit\Test]
-    #[PHPUnit\CoversNothing]
     public function constantsMatchExtensionOnes(): void
     {
         // @phpstan-ignore-next-line
