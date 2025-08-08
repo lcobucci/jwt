@@ -27,7 +27,7 @@ jobs:
         uses: "actions/checkout@v4.2.2"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.32.0"
+        uses: "shivammathur/setup-php@2.35.2"
         with:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
@@ -35,7 +35,7 @@ jobs:
           tools: composer:v2, cs2pr
 
       - name: "Install dependencies"
-        uses: "ramsey/composer-install@3.0.0"
+        uses: "ramsey/composer-install@3.1.1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
 
@@ -61,7 +61,7 @@ jobs:
         uses: "actions/checkout@v4.2.2"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.32.0"
+        uses: "shivammathur/setup-php@2.35.2"
         with:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
@@ -69,7 +69,7 @@ jobs:
           tools: composer:v2, cs2pr
 
       - name: "Install dependencies"
-        uses: "ramsey/composer-install@3.0.0"
+        uses: "ramsey/composer-install@3.1.1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: " --ignore-platform-req=php"
