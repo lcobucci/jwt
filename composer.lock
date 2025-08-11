@@ -2377,16 +2377,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.3.2",
+            "version": "12.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ac6952c92e8a66ee5698cf81f421120ff64c8d0f"
+                "reference": "0b18fea9cc38c59147b85c9eeaca9531969a8cee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ac6952c92e8a66ee5698cf81f421120ff64c8d0f",
-                "reference": "ac6952c92e8a66ee5698cf81f421120ff64c8d0f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0b18fea9cc38c59147b85c9eeaca9531969a8cee",
+                "reference": "0b18fea9cc38c59147b85c9eeaca9531969a8cee",
                 "shasum": ""
             },
             "require": {
@@ -2406,7 +2406,7 @@
                 "phpunit/php-text-template": "^5.0.0",
                 "phpunit/php-timer": "^8.0.0",
                 "sebastian/cli-parser": "^4.0.0",
-                "sebastian/comparator": "^7.1.1",
+                "sebastian/comparator": "^7.1.2",
                 "sebastian/diff": "^7.0.0",
                 "sebastian/environment": "^8.0.2",
                 "sebastian/exporter": "^7.0.0",
@@ -2454,7 +2454,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.3.2"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.3.3"
             },
             "funding": [
                 {
@@ -2478,7 +2478,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-10T08:36:39+00:00"
+            "time": "2025-08-11T05:34:32+00:00"
         },
         {
             "name": "psr/cache",
