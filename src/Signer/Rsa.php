@@ -24,7 +24,7 @@ abstract readonly class Rsa extends OpenSSL
         if ($type !== OPENSSL_KEYTYPE_RSA) {
             throw InvalidKeyProvided::incompatibleKeyType(
                 self::KEY_TYPE_MAP[OPENSSL_KEYTYPE_RSA],
-                self::KEY_TYPE_MAP[$type],
+                self::KEY_TYPE_MAP[$type] ?? 'unknown',
             );
         }
 
