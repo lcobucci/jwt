@@ -38,7 +38,7 @@ abstract readonly class Ecdsa extends OpenSSL
         if ($type !== OPENSSL_KEYTYPE_EC) {
             throw InvalidKeyProvided::incompatibleKeyType(
                 self::KEY_TYPE_MAP[OPENSSL_KEYTYPE_EC],
-                self::KEY_TYPE_MAP[$type],
+                self::KEY_TYPE_MAP[$type] ?? 'unknown',
             );
         }
 
