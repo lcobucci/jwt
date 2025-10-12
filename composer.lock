@@ -834,16 +834,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.31.6",
+            "version": "0.31.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "f6fdf9177c170fdfaecb847c1625674a0a7c4ccc"
+                "reference": "a66e38972304f5c742d4ee19adec132c45bb5a46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/f6fdf9177c170fdfaecb847c1625674a0a7c4ccc",
-                "reference": "f6fdf9177c170fdfaecb847c1625674a0a7c4ccc",
+                "url": "https://api.github.com/repos/infection/infection/zipball/a66e38972304f5c742d4ee19adec132c45bb5a46",
+                "reference": "a66e38972304f5c742d4ee19adec132c45bb5a46",
                 "shasum": ""
             },
             "require": {
@@ -949,7 +949,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.31.6"
+                "source": "https://github.com/infection/infection/tree/0.31.7"
             },
             "funding": [
                 {
@@ -961,7 +961,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-10-10T10:22:48+00:00"
+            "time": "2025-10-12T08:32:39+00:00"
         },
         {
             "name": "infection/mutator",
