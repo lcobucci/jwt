@@ -9,7 +9,7 @@ use function hash_equals;
 use function hash_hmac;
 use function strlen;
 
-abstract class Hmac implements Signer
+abstract readonly class Hmac implements Signer
 {
     final public function sign(string $payload, Key $key): string
     {

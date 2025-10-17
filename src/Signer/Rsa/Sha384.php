@@ -7,7 +7,7 @@ use Lcobucci\JWT\Signer\Rsa;
 
 use const OPENSSL_ALGO_SHA384;
 
-final class Sha384 extends Rsa
+final readonly class Sha384 extends Rsa
 {
     public function algorithmId(): string
     {

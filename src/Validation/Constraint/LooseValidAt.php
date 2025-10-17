@@ -10,11 +10,11 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\ValidAt as ValidAtInterface;
 use Psr\Clock\ClockInterface as Clock;
 
-final class LooseValidAt implements ValidAtInterface
+final readonly class LooseValidAt implements ValidAtInterface
 {
-    private readonly DateInterval $leeway;
+    private DateInterval $leeway;
 
-    public function __construct(private readonly Clock $clock, ?DateInterval $leeway = null)
+    public function __construct(private Clock $clock, ?DateInterval $leeway = null)
     {
         $this->leeway = $this->guardLeeway($leeway);
     }

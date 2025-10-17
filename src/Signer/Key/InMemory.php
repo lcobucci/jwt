@@ -13,14 +13,14 @@ use Throwable;
 use function assert;
 use function is_string;
 
-final class InMemory implements Key
+final readonly class InMemory implements Key
 {
     /** @param non-empty-string $contents */
     private function __construct(
         #[SensitiveParameter]
-        public readonly string $contents,
+        public string $contents,
         #[SensitiveParameter]
-        public readonly string $passphrase,
+        public string $passphrase,
     ) {
     }
 
@@ -31,7 +31,7 @@ final class InMemory implements Key
         #[SensitiveParameter]
         string $passphrase = '',
     ): self {
-        self::guardAgainstEmptyKey($contents);
+        self::guardAgainstEmptyKey($contents); // @phpstan-ignore staticMethod.alreadyNarrowedType
 
         return new self($contents, $passphrase);
     }
@@ -48,7 +48,7 @@ final class InMemory implements Key
             SodiumBase64Polyfill::SODIUM_BASE64_VARIANT_ORIGINAL,
         );
 
-        self::guardAgainstEmptyKey($decoded);
+        self::guardAgainstEmptyKey($decoded); // @phpstan-ignore staticMethod.alreadyNarrowedType
 
         return new self($decoded, $passphrase);
     }

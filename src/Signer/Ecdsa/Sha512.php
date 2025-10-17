@@ -7,7 +7,7 @@ use Lcobucci\JWT\Signer\Ecdsa;
 
 use const OPENSSL_ALGO_SHA512;
 
-final class Sha512 extends Ecdsa
+final readonly class Sha512 extends Ecdsa
 {
     public function algorithmId(): string
     {

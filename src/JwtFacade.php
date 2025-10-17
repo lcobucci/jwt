@@ -16,12 +16,12 @@ use Psr\Clock\ClockInterface as Clock;
 
 use function assert;
 
-final class JwtFacade
+final readonly class JwtFacade
 {
-    private readonly Clock $clock;
+    private Clock $clock;
 
     public function __construct(
-        private readonly Parser $parser = new Token\Parser(new JoseEncoder()),
+        private Parser $parser = new Token\Parser(new JoseEncoder()),
         ?Clock $clock = null,
     ) {
         $this->clock = $clock ?? new class implements Clock {

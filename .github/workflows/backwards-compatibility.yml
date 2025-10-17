@@ -11,14 +11,14 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v4.2.2"
+        uses: "actions/checkout@v5.0.0"
         with:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.32.0"
+        uses: "shivammathur/setup-php@2.35.5"
         with:
-          php-version: "8.2"
+          php-version: "8.3"
           ini-values: memory_limit=-1
           tools: composer:v2, cs2pr
         env:
@@ -29,12 +29,11 @@ jobs:
         run: echo "composer_cache_dir=$(composer global config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v4.2.0"
+        uses: "actions/cache@v4.3.0"
         with:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
-          key: "php-8.2-bc-break-check-${{ hashFiles('.github/workflows/backwards-compatibility.yml') }}"
-          restore-keys: "php-8.2-bc-break-check-"
-
+          key: "php-8.3-bc-break-check-${{ hashFiles('.github/workflows/backwards-compatibility.yml') }}"
+          restore-keys: "php-8.3-bc-break-check-"
       - name: "Install dependencies"
         run: composer global require roave/backward-compatibility-check
 

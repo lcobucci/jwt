@@ -15,11 +15,11 @@ use function is_array;
 use function is_numeric;
 use function number_format;
 
-final class Parser implements ParserInterface
+final readonly class Parser implements ParserInterface
 {
     private const MICROSECOND_PRECISION = 6;
 
-    public function __construct(private readonly Decoder $decoder)
+    public function __construct(private Decoder $decoder)
     {
     }
 

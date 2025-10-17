@@ -15,7 +15,7 @@ use Lcobucci\JWT\Validation\Constraint;
  * Serves like a small DI container to simplify the creation and usage
  * of the objects.
  */
-final class Configuration
+final readonly class Configuration
 {
     private Parser $parser;
     private Validator $validator;
@@ -28,11 +28,11 @@ final class Configuration
 
     /** @param Closure(ClaimsFormatter $claimFormatter): Builder|null $builderFactory */
     private function __construct(
-        private readonly Signer $signer,
-        private readonly Key $signingKey,
-        private readonly Key $verificationKey,
-        private readonly Encoder $encoder,
-        private readonly Decoder $decoder,
+        private Signer $signer,
+        private Key $signingKey,
+        private Key $verificationKey,
+        private Encoder $encoder,
+        private Decoder $decoder,
         ?Parser $parser,
         ?Validator $validator,
         ?Closure $builderFactory,
@@ -86,16 +86,6 @@ final class Configuration
         );
     }
 
-    /**
-     * @deprecated Deprecated since v5.5, please use {@see self::withBuilderFactory()} instead
-     *
-     * @param callable(ClaimsFormatter): Builder $builderFactory
-     */
-    public function setBuilderFactory(callable $builderFactory): void
-    {
-        $this->builderFactory = $builderFactory(...);
-    }
-
     /** @param callable(ClaimsFormatter): Builder $builderFactory */
     public function withBuilderFactory(callable $builderFactory): self
     {
@@ -120,12 +110,6 @@ final class Configuration
     public function parser(): Parser
     {
         return $this->parser;
-    }
-
-    /** @deprecated Deprecated since v5.5, please use {@see self::withParser()} instead */
-    public function setParser(Parser $parser): void
-    {
-        $this->parser = $parser;
     }
 
     public function withParser(Parser $parser): self
@@ -163,12 +147,6 @@ final class Configuration
         return $this->validator;
     }
 
-    /** @deprecated Deprecated since v5.5, please use {@see self::withValidator()} instead */
-    public function setValidator(Validator $validator): void
-    {
-        $this->validator = $validator;
-    }
-
     public function withValidator(Validator $validator): self
     {
         return new self(
@@ -188,12 +166,6 @@ final class Configuration
     public function validationConstraints(): array
     {
         return $this->validationConstraints;
-    }
-
-    /** @deprecated Deprecated since v5.5, please use {@see self::withValidationConstraints()} instead */
-    public function setValidationConstraints(Constraint ...$validationConstraints): void
-    {
-        $this->validationConstraints = $validationConstraints;
     }
 
     public function withValidationConstraints(Constraint ...$validationConstraints): self

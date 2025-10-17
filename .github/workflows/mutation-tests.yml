@@ -15,16 +15,16 @@ jobs:
         dependencies:
           - "locked"
         php-version:
-          - "8.2"
+          - "8.3"
         operating-system:
           - "ubuntu-latest"
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v4.2.2"
+        uses: "actions/checkout@v5.0.0"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.32.0"
+        uses: "shivammathur/setup-php@2.35.5"
         with:
           coverage: "xdebug"
           php-version: "${{ matrix.php-version }}"
@@ -32,7 +32,7 @@ jobs:
           tools: composer:v2, cs2pr
 
       - name: "Install dependencies"
-        uses: "ramsey/composer-install@3.0.0"
+        uses: "ramsey/composer-install@3.1.1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
 
@@ -40,4 +40,4 @@ jobs:
         run: "make infection PHPUNIT_FLAGS=--coverage-clover=coverage.xml INFECTION_FLAGS=--logger-github"
 
       - name: "Upload Code Coverage"
-        uses: "codecov/codecov-action@v5.3.1"
+        uses: "codecov/codecov-action@v5.5.1"

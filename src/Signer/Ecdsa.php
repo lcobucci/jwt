@@ -8,17 +8,17 @@ use Lcobucci\JWT\Signer\Ecdsa\SignatureConverter;
 
 use const OPENSSL_KEYTYPE_EC;
 
-abstract class Ecdsa extends OpenSSL
+abstract readonly class Ecdsa extends OpenSSL
 {
     public function __construct(
-        private readonly SignatureConverter $converter = new MultibyteStringConverter(),
+        private SignatureConverter $converter = new MultibyteStringConverter(),
     ) {
     }
 
     final public function sign(string $payload, Key $key): string
     {
         return $this->converter->fromAsn1(
-            $this->createSignature($key->contents(), $key->passphrase(), $payload),
+            $this->createSignature($key, $payload),
             $this->pointLength(),
         );
     }
@@ -28,7 +28,7 @@ abstract class Ecdsa extends OpenSSL
         return $this->verifySignature(
             $this->converter->toAsn1($expected, $this->pointLength()),
             $payload,
-            $key->contents(),
+            $key,
         );
     }
 
@@ -38,7 +38,7 @@ abstract class Ecdsa extends OpenSSL
         if ($type !== OPENSSL_KEYTYPE_EC) {
             throw InvalidKeyProvided::incompatibleKeyType(
                 self::KEY_TYPE_MAP[OPENSSL_KEYTYPE_EC],
-                self::KEY_TYPE_MAP[$type],
+                self::KEY_TYPE_MAP[$type] ?? 'unknown',
             );
         }
 

@@ -10,10 +10,10 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 
 use function in_array;
 
-final class HasClaim implements Constraint
+final readonly class HasClaim implements Constraint
 {
     /** @param non-empty-string $claim */
-    public function __construct(private readonly string $claim)
+    public function __construct(private string $claim)
     {
         if (in_array($claim, Token\RegisteredClaims::ALL, true)) {
             throw CannotValidateARegisteredClaim::create($claim);

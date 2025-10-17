@@ -5,7 +5,6 @@ namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Signer;
 use OpenSSLAsymmetricKey;
-use SensitiveParameter;
 
 use function array_key_exists;
 use function assert;
@@ -25,7 +24,7 @@ use const OPENSSL_KEYTYPE_EC;
 use const OPENSSL_KEYTYPE_RSA;
 use const PHP_EOL;
 
-abstract class OpenSSL implements Signer
+abstract readonly class OpenSSL implements Signer
 {
     protected const KEY_TYPE_MAP = [
         OPENSSL_KEYTYPE_RSA => 'RSA',
@@ -41,17 +40,14 @@ abstract class OpenSSL implements Signer
      * @throws InvalidKeyProvided
      */
     final protected function createSignature(
-        #[SensitiveParameter]
-        string $pem,
-        #[SensitiveParameter]
-        string $passphrase,
+        Key $key,
         string $payload,
     ): string {
-        $key = $this->getPrivateKey($pem, $passphrase);
+        $opensslKey = $this->getPrivateKey($key);
 
         $signature = '';
 
-        if (! openssl_sign($payload, $signature, $key, $this->algorithm())) {
+        if (! openssl_sign($payload, $signature, $opensslKey, $this->algorithm())) {
             throw CannotSignPayload::errorHappened($this->fullOpenSSLErrorString());
         }
 
@@ -60,30 +56,27 @@ abstract class OpenSSL implements Signer
 
     /** @throws CannotSignPayload */
     private function getPrivateKey(
-        #[SensitiveParameter]
-        string $pem,
-        #[SensitiveParameter]
-        string $passphrase,
+        Key $key,
     ): OpenSSLAsymmetricKey {
-        return $this->validateKey(openssl_pkey_get_private($pem, $passphrase));
+        return $this->validateKey(openssl_pkey_get_private($key->contents(), $key->passphrase()));
     }
 
     /** @throws InvalidKeyProvided */
     final protected function verifySignature(
         string $expected,
         string $payload,
-        string $pem,
+        Key $key,
     ): bool {
-        $key    = $this->getPublicKey($pem);
-        $result = openssl_verify($payload, $expected, $key, $this->algorithm());
+        $opensslKey = $this->getPublicKey($key);
+        $result     = openssl_verify($payload, $expected, $opensslKey, $this->algorithm());
 
         return $result === 1;
     }
 
     /** @throws InvalidKeyProvided */
-    private function getPublicKey(string $pem): OpenSSLAsymmetricKey
+    private function getPublicKey(Key $key): OpenSSLAsymmetricKey
     {
-        return $this->validateKey(openssl_pkey_get_public($pem));
+        return $this->validateKey(openssl_pkey_get_public($key->contents()));
     }
 
     /**

@@ -16,7 +16,7 @@ use function sodium_bin2base64;
 use function strtr;
 
 /** @internal */
-final class SodiumBase64Polyfill
+final readonly class SodiumBase64Polyfill
 {
     public const SODIUM_BASE64_VARIANT_ORIGINAL            = 1;
     public const SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING = 3;
