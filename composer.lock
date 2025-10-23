@@ -1157,21 +1157,21 @@
         },
         {
             "name": "lcobucci/coding-standard",
-            "version": "11.1.0",
+            "version": "11.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/coding-standard.git",
-                "reference": "dd7c1de5be4a0137dd59e03bd2e1eb2250ae9dfa"
+                "reference": "fc10aa7b00726e85897d1701cba4b0f1b7b8dc85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/coding-standard/zipball/dd7c1de5be4a0137dd59e03bd2e1eb2250ae9dfa",
-                "reference": "dd7c1de5be4a0137dd59e03bd2e1eb2250ae9dfa",
+                "url": "https://api.github.com/repos/lcobucci/coding-standard/zipball/fc10aa7b00726e85897d1701cba4b0f1b7b8dc85",
+                "reference": "fc10aa7b00726e85897d1701cba4b0f1b7b8dc85",
                 "shasum": ""
             },
             "require": {
                 "doctrine/coding-standard": "^12.0.0",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0"
             },
             "require-dev": {
                 "roave/security-advisories": "dev-latest"
@@ -1190,7 +1190,7 @@
             "description": "Lcobucci's Coding Standard",
             "support": {
                 "issues": "https://github.com/lcobucci/coding-standard/issues",
-                "source": "https://github.com/lcobucci/coding-standard/tree/11.1.0"
+                "source": "https://github.com/lcobucci/coding-standard/tree/11.2.0"
             },
             "funding": [
                 {
@@ -1202,7 +1202,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-09-24T17:46:42+00:00"
+            "time": "2025-10-23T09:16:13+00:00"
         },
         {
             "name": "marc-mabe/php-enum",
