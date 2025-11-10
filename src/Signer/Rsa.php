@@ -7,7 +7,7 @@ use const OPENSSL_KEYTYPE_RSA;
 
 abstract class Rsa extends OpenSSL
 {
-    private const MINIMUM_KEY_LENGTH = 2048;
+    private const MINIMUM_KEY_LENGTH = 1024;
 
     final public function sign(string $payload, Key $key): string
     {
