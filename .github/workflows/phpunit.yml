@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v5.0.0"
+        uses: "actions/checkout@v5.0.1"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.35.5"
@@ -58,7 +58,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v5.0.0"
+        uses: "actions/checkout@v5.0.1"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.35.5"
