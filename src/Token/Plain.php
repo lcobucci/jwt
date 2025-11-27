@@ -82,4 +82,12 @@ final readonly class Plain implements UnencryptedToken
              . $this->claims->toString() . '.'
              . $this->signature->toString();
     }
+
+    public function __toString(): string
+    {
+        // or $this->>toString();
+        return $this->headers->toString() . '.'
+            . $this->claims->toString() . '.'
+            . $this->signature->toString();
+    }
 }
