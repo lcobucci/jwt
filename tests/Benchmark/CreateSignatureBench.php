@@ -22,6 +22,6 @@ final class CreateSignatureBench extends AlgorithmsBench
 
     protected function runBenchmark(): void
     {
-        $this->algorithm->sign(self::PAYLOAD, $this->key);
+        $void = $this->algorithm->sign(self::PAYLOAD, $this->key);
     }
 }

@@ -5,6 +5,7 @@ namespace Lcobucci\JWT;
 
 use DateTimeInterface;
 use Lcobucci\JWT\Token\DataSet;
+use NoDiscard;
 
 interface Token
 {
@@ -61,5 +62,6 @@ interface Token
      *
      * @return non-empty-string
      */
+    #[NoDiscard]
     public function toString(): string;
 }

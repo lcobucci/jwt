@@ -154,7 +154,7 @@ final class JwtFacadeTest extends TestCase
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('Token signer mismatch');
 
-        (new JwtFacade())->parse(
+        $void = (new JwtFacade())->parse(
             $this->createToken(),
             new Constraint\SignedWith(new Hmac\Sha384(), $this->key),
             new Constraint\StrictValidAt($this->clock),
@@ -168,7 +168,7 @@ final class JwtFacadeTest extends TestCase
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('Token signature mismatch');
 
-        (new JwtFacade())->parse(
+        $void = (new JwtFacade())->parse(
             $this->createToken(),
             new Constraint\SignedWith(
                 $this->signer,
@@ -188,7 +188,7 @@ final class JwtFacadeTest extends TestCase
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token is expired');
 
-        (new JwtFacade())->parse(
+        $void = (new JwtFacade())->parse(
             $token,
             new Constraint\SignedWith($this->signer, $this->key),
             new Constraint\StrictValidAt($this->clock),
@@ -202,7 +202,7 @@ final class JwtFacadeTest extends TestCase
         $this->expectException(RequiredConstraintsViolated::class);
         $this->expectExceptionMessage('The token was not issued by the given issuers');
 
-        (new JwtFacade())->parse(
+        $void = (new JwtFacade())->parse(
             $this->createToken(),
             new Constraint\SignedWith($this->signer, $this->key),
             new Constraint\StrictValidAt($this->clock),
@@ -215,7 +215,7 @@ final class JwtFacadeTest extends TestCase
     {
         $this->expectException(AssertionError::class);
 
-        (new JwtFacade(new UnsupportedParser()))->parse(
+        $void = (new JwtFacade(new UnsupportedParser()))->parse(
             'a.very-broken.token',
             new Constraint\SignedWith($this->signer, $this->key),
             new Constraint\StrictValidAt($this->clock),

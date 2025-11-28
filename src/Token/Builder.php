@@ -11,6 +11,7 @@ use Lcobucci\JWT\Encoding\CannotEncodeContent;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\UnencryptedToken;
+use NoDiscard;
 
 use function array_diff;
 use function array_merge;
@@ -31,6 +32,7 @@ final readonly class Builder implements BuilderInterface
     ) {
     }
 
+    #[NoDiscard]
     public static function new(Encoder $encoder, ClaimsFormatter $claimFormatter): self
     {
         return new self($encoder, $claimFormatter);

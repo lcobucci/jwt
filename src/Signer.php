@@ -7,6 +7,7 @@ use Lcobucci\JWT\Signer\CannotSignPayload;
 use Lcobucci\JWT\Signer\Ecdsa\ConversionFailed;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key;
+use NoDiscard;
 
 interface Signer
 {
@@ -28,6 +29,7 @@ interface Signer
      * @throws InvalidKeyProvided When issue key is invalid/incompatible.
      * @throws ConversionFailed   When signature could not be converted.
      */
+    #[NoDiscard]
     public function sign(string $payload, Key $key): string;
 
     /**
@@ -39,5 +41,6 @@ interface Signer
      * @throws InvalidKeyProvided When issue key is invalid/incompatible.
      * @throws ConversionFailed   When signature could not be converted.
      */
+    #[NoDiscard]
     public function verify(string $expected, string $payload, Key $key): bool;
 }

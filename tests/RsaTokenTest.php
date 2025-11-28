@@ -62,31 +62,31 @@ class RsaTokenTest extends TestCase
     #[PHPUnit\Test]
     public function builderShouldRaiseExceptionWhenKeyIsInvalid(): void
     {
-        $builder = $this->config->builder();
+        $builder = $this->config->builder()
+            ->identifiedBy('1')
+            ->permittedFor('https://client.abc.com')
+            ->issuedBy('https://api.abc.com')
+            ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com']);
 
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('It was not possible to parse your key');
 
-        $builder->identifiedBy('1')
-                ->permittedFor('https://client.abc.com')
-                ->issuedBy('https://api.abc.com')
-                ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-                ->getToken($this->config->signer(), InMemory::plainText('testing'));
+        $void = $builder->getToken($this->config->signer(), InMemory::plainText('testing'));
     }
 
     #[PHPUnit\Test]
     public function builderShouldRaiseExceptionWhenKeyIsNotRsaCompatible(): void
     {
-        $builder = $this->config->builder();
+        $builder = $this->config->builder()
+            ->identifiedBy('1')
+            ->permittedFor('https://client.abc.com')
+            ->issuedBy('https://api.abc.com')
+            ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com']);
 
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('The type of the provided key is not "RSA", "EC" provided');
 
-        $builder->identifiedBy('1')
-                ->permittedFor('https://client.abc.com')
-                ->issuedBy('https://api.abc.com')
-                ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-                ->getToken($this->config->signer(), static::$ecdsaKeys['private']);
+        $void = $builder->getToken($this->config->signer(), static::$ecdsaKeys['private']);
     }
 
     #[PHPUnit\Test]
