@@ -11,7 +11,7 @@ use function strlen;
 
 final readonly class Blake2b implements Signer
 {
-    private const MINIMUM_KEY_LENGTH_IN_BITS = 256;
+    private const int MINIMUM_KEY_LENGTH_IN_BITS = 256;
 
     public function algorithmId(): string
     {

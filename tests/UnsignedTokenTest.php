@@ -44,7 +44,7 @@ use function assert;
 #[PHPUnit\CoversClass(LooseValidAt::class)]
 class UnsignedTokenTest extends TestCase
 {
-    public const CURRENT_TIME = 100000;
+    public const int CURRENT_TIME = 100000;
 
     private Configuration $config;
 
