@@ -26,7 +26,7 @@ use const PHP_EOL;
 
 abstract readonly class OpenSSL implements Signer
 {
-    protected const KEY_TYPE_MAP = [
+    protected const array KEY_TYPE_MAP = [
         OPENSSL_KEYTYPE_RSA => 'RSA',
         OPENSSL_KEYTYPE_DSA => 'DSA',
         OPENSSL_KEYTYPE_DH => 'DH',

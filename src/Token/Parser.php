@@ -17,7 +17,7 @@ use function number_format;
 
 final readonly class Parser implements ParserInterface
 {
-    private const MICROSECOND_PRECISION = 6;
+    private const int MICROSECOND_PRECISION = 6;
 
     public function __construct(private Decoder $decoder)
     {

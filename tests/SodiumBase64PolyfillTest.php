@@ -20,8 +20,8 @@ use const SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING;
 #[PHPUnit\UsesClass(CannotDecodeContent::class)]
 final class SodiumBase64PolyfillTest extends TestCase
 {
-    private const B64    = 'I+o2tVq8ynY=';
-    private const B64URL = 'lZ-2HIl9dTz_Oy0nAb-2gvKdG0jhHJ36XB2rWAKj8Uo=';
+    private const string B64    = 'I+o2tVq8ynY=';
+    private const string B64URL = 'lZ-2HIl9dTz_Oy0nAb-2gvKdG0jhHJ36XB2rWAKj8Uo=';
 
     #[PHPUnit\Test]
     public function constantsMatchExtensionOnes(): void
