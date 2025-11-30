@@ -9,6 +9,7 @@ use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key;
 use NoDiscard;
 
+/** @immutable */
 interface Signer
 {
     /**

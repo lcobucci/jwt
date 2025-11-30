@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Lcobucci\JWT\Token\DataSet;
 use NoDiscard;
 
+/** @immutable */
 interface Token
 {
     /**
