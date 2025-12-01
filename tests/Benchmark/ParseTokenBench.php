@@ -38,7 +38,7 @@ final class ParseTokenBench extends AlgorithmsBench
 
     protected function runBenchmark(): void
     {
-        (new JwtFacade())->parse(
+        $void = (new JwtFacade())->parse(
             $this->jwt,
             new Constraint\SignedWith($this->algorithm, $this->key),
             new Constraint\StrictValidAt(SystemClock::fromSystemTimezone()),

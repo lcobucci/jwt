@@ -8,6 +8,7 @@ use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Validation\Constraint;
+use NoDiscard;
 
 /**
  * Configuration container for the JWT Builder and Parser
@@ -49,6 +50,7 @@ final readonly class Configuration
         $this->validationConstraints = $validationConstraints;
     }
 
+    #[NoDiscard]
     public static function forAsymmetricSigner(
         Signer $signer,
         Key $signingKey,
@@ -68,6 +70,7 @@ final readonly class Configuration
         );
     }
 
+    #[NoDiscard]
     public static function forSymmetricSigner(
         Signer $signer,
         Key $key,
@@ -87,6 +90,7 @@ final readonly class Configuration
     }
 
     /** @param callable(ClaimsFormatter): Builder $builderFactory */
+    #[NoDiscard]
     public function withBuilderFactory(callable $builderFactory): self
     {
         return new self(
@@ -112,6 +116,7 @@ final readonly class Configuration
         return $this->parser;
     }
 
+    #[NoDiscard]
     public function withParser(Parser $parser): self
     {
         return new self(
@@ -147,6 +152,7 @@ final readonly class Configuration
         return $this->validator;
     }
 
+    #[NoDiscard]
     public function withValidator(Validator $validator): self
     {
         return new self(
@@ -168,6 +174,7 @@ final readonly class Configuration
         return $this->validationConstraints;
     }
 
+    #[NoDiscard]
     public function withValidationConstraints(Constraint ...$validationConstraints): self
     {
         return new self(

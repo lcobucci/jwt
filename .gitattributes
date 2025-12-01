@@ -3,6 +3,7 @@
 /.gitattributes                           export-ignore
 /.github                                  export-ignore
 /.gitignore                               export-ignore
+/.composer-require-checker.config.json    export-ignore
 /*.yml                                    export-ignore
 /CONTRIBUTING.md                          export-ignore
 /*.dist                                   export-ignore
