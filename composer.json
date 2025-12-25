@@ -23,7 +23,7 @@
         "psr/clock": "^1.0"
     },
     "require-dev": {
-        "infection/infection": "^0.31.1",
+        "infection/infection": "^0.32.0",
         "lcobucci/clock": "^3.3.1",
         "lcobucci/coding-standard": "^11.1",
         "phpbench/phpbench": "^1.4.1",
