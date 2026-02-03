@@ -19,39 +19,6 @@ jobs:
         php-version:
           - "8.3"
           - "8.4"
-        operating-system:
-          - "ubuntu-latest"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v6.0.1"
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.36.0"
-        with:
-          coverage: "none"
-          php-version: "${{ matrix.php-version }}"
-          ini-values: memory_limit=-1
-          tools: composer:v2, cs2pr
-
-      - name: "Install dependencies"
-        uses: "ramsey/composer-install@3.1.1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-
-      - name: "Tests"
-        run: "make phpunit"
-
-  phpunit-rc:
-    name: "PHPUnit tests (nightly)"
-
-    runs-on: ${{ matrix.operating-system }}
-
-    strategy:
-      matrix:
-        dependencies:
-          - "locked"
-        php-version:
           - "8.5"
         operating-system:
           - "ubuntu-latest"
@@ -72,7 +39,6 @@ jobs:
         uses: "ramsey/composer-install@3.1.1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: " --ignore-platform-req=php"
 
       - name: "Tests"
         run: "make phpunit"

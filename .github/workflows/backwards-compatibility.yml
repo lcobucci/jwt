@@ -34,7 +34,6 @@ jobs:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
           key: "php-8.3-bc-break-check-${{ hashFiles('.github/workflows/backwards-compatibility.yml') }}"
           restore-keys: "php-8.3-bc-break-check-"
-
       - name: "Install dependencies"
         run: composer global require roave/backward-compatibility-check
 
