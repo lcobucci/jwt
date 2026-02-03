@@ -6,6 +6,7 @@ namespace Lcobucci\JWT;
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Lcobucci\JWT\Token\UnsupportedHeaderFound;
+use NoDiscard;
 
 interface Parser
 {
@@ -18,5 +19,6 @@ interface Parser
      * @throws InvalidTokenStructure    When token string structure is invalid.
      * @throws UnsupportedHeaderFound   When parsed token has an unsupported header.
      */
+    #[NoDiscard]
     public function parse(string $jwt): Token;
 }

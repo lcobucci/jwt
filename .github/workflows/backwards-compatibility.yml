@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v5.0.0"
+        uses: "actions/checkout@v6.0.1"
         with:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.35.5"
+        uses: "shivammathur/setup-php@2.36.0"
         with:
           php-version: "8.3"
           ini-values: memory_limit=-1
@@ -29,7 +29,7 @@ jobs:
         run: echo "composer_cache_dir=$(composer global config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v4.3.0"
+        uses: "actions/cache@v5.0.1"
         with:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
           key: "php-8.3-bc-break-check-${{ hashFiles('.github/workflows/backwards-compatibility.yml') }}"

@@ -40,7 +40,7 @@ KEY;
         $this->expectException(CannotSignPayload::class);
         $this->expectExceptionMessage('There was an error while creating the signature:' . PHP_EOL . '* error:');
 
-        $this->algorithm()->sign('testing', InMemory::plainText($key));
+        $void = $this->algorithm()->sign('testing', InMemory::plainText($key));
     }
 
     private function algorithm(): OpenSSL

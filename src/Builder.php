@@ -10,6 +10,7 @@ use Lcobucci\JWT\Signer\Ecdsa\ConversionFailed;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token\RegisteredClaimGiven;
+use NoDiscard;
 
 /** @immutable */
 interface Builder
@@ -19,11 +20,13 @@ interface Builder
      *
      * @param non-empty-string ...$audiences
      */
+    #[NoDiscard]
     public function permittedFor(string ...$audiences): Builder;
 
     /**
      * Configures the expiration time
      */
+    #[NoDiscard]
     public function expiresAt(DateTimeImmutable $expiration): Builder;
 
     /**
@@ -31,11 +34,13 @@ interface Builder
      *
      * @param non-empty-string $id
      */
+    #[NoDiscard]
     public function identifiedBy(string $id): Builder;
 
     /**
      * Configures the time that the token was issued
      */
+    #[NoDiscard]
     public function issuedAt(DateTimeImmutable $issuedAt): Builder;
 
     /**
@@ -43,11 +48,13 @@ interface Builder
      *
      * @param non-empty-string $issuer
      */
+    #[NoDiscard]
     public function issuedBy(string $issuer): Builder;
 
     /**
      * Configures the time before which the token cannot be accepted
      */
+    #[NoDiscard]
     public function canOnlyBeUsedAfter(DateTimeImmutable $notBefore): Builder;
 
     /**
@@ -55,6 +62,7 @@ interface Builder
      *
      * @param non-empty-string $subject
      */
+    #[NoDiscard]
     public function relatedTo(string $subject): Builder;
 
     /**
@@ -62,6 +70,7 @@ interface Builder
      *
      * @param non-empty-string $name
      */
+    #[NoDiscard]
     public function withHeader(string $name, mixed $value): Builder;
 
     /**
@@ -71,6 +80,7 @@ interface Builder
      *
      * @throws RegisteredClaimGiven When trying to set a registered claim.
      */
+    #[NoDiscard]
     public function withClaim(string $name, mixed $value): Builder;
 
     /**
@@ -81,5 +91,6 @@ interface Builder
      * @throws InvalidKeyProvided  When issue key is invalid/incompatible.
      * @throws ConversionFailed    When signature could not be converted.
      */
+    #[NoDiscard]
     public function getToken(Signer $signer, Key $key): UnencryptedToken;
 }
