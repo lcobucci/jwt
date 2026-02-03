@@ -33,7 +33,7 @@ final class StrictValidAtTest extends ValidAtTestCase
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('You should pass a plain token');
 
-        $constraint->assert($this->createMock(Token::class));
+        $constraint->assert(self::createStub(Token::class));
     }
 
     #[PHPUnit\Test]
