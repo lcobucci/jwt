@@ -23,16 +23,16 @@
         "psr/clock": "^1.0"
     },
     "require-dev": {
-        "infection/infection": "^0.32.0",
-        "lcobucci/clock": "^3.3.1",
-        "lcobucci/coding-standard": "^11.1",
-        "phpbench/phpbench": "^1.4.1",
+        "infection/infection": "^0.32.3",
+        "lcobucci/clock": "^3.5.0",
+        "lcobucci/coding-standard": "^11.2",
+        "phpbench/phpbench": "^1.4.3",
         "phpstan/extension-installer": "^1.4.3",
-        "phpstan/phpstan": "^2.1.22",
+        "phpstan/phpstan": "^2.1.38",
         "phpstan/phpstan-deprecation-rules": "^2.0.3",
-        "phpstan/phpstan-phpunit": "^2.0.7",
-        "phpstan/phpstan-strict-rules": "^2.0.6",
-        "phpunit/phpunit": "^12.3.0"
+        "phpstan/phpstan-phpunit": "^2.0.12",
+        "phpstan/phpstan-strict-rules": "^2.0.8",
+        "phpunit/phpunit": "^12.5.8"
     },
     "suggest": {
         "lcobucci/clock": ">= 3.2"
