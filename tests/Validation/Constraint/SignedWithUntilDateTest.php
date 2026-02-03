@@ -68,7 +68,7 @@ final class SignedWithUntilDateTest extends ConstraintTestCase
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('You should pass a plain token');
 
-        $constraint->assert($this->createMock(Token::class));
+        $constraint->assert(self::createStub(Token::class));
     }
 
     #[PHPUnit\Test]

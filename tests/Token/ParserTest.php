@@ -41,6 +41,8 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
     {
+        $this->decoder->expects($this->never())->method(self::anything());
+
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
@@ -52,6 +54,8 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveHeaders(): void
     {
+        $this->decoder->expects($this->never())->method(self::anything());
+
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
@@ -63,6 +67,8 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveClaims(): void
     {
+        $this->decoder->expects($this->never())->method(self::anything());
+
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
@@ -74,6 +80,8 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveSignature(): void
     {
+        $this->decoder->expects($this->never())->method(self::anything());
+
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
@@ -104,7 +112,8 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenDealingWithNonArrayHeaders(): void
     {
-        $this->decoder->method('jsonDecode')
+        $this->decoder->expects($this->once())
+            ->method('jsonDecode')
                       ->willReturn('A very invalid header');
 
         $parser = $this->createParser();
@@ -118,8 +127,9 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenDealingWithHeadersThatHaveEmptyStringKeys(): void
     {
-        $this->decoder->method('jsonDecode')
-                      ->willReturn(['' => 'foo']);
+        $this->decoder->expects($this->once())
+            ->method('jsonDecode')
+            ->willReturn(['' => 'foo']);
 
         $parser = $this->createParser();
 
@@ -132,8 +142,9 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
     {
-        $this->decoder->method('jsonDecode')
-                      ->willReturn(['enc' => 'AAA']);
+        $this->decoder->expects($this->once())
+            ->method('jsonDecode')
+            ->willReturn(['enc' => 'AAA']);
 
         $parser = $this->createParser();
 
@@ -146,8 +157,9 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenDealingWithNonArrayClaims(): void
     {
-        $this->decoder->method('jsonDecode')
-                      ->willReturnOnConsecutiveCalls(['typ' => 'JWT'], 'A very invalid claim set');
+        $this->decoder->expects($this->exactly(2))
+            ->method('jsonDecode')
+            ->willReturnOnConsecutiveCalls(['typ' => 'JWT'], 'A very invalid claim set');
 
         $parser = $this->createParser();
 
@@ -160,8 +172,9 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenDealingWithClaimsThatHaveEmptyStringKeys(): void
     {
-        $this->decoder->method('jsonDecode')
-                      ->willReturnOnConsecutiveCalls(['typ' => 'JWT'], ['' => 'foo']);
+        $this->decoder->expects($this->exactly(2))
+            ->method('jsonDecode')
+            ->willReturnOnConsecutiveCalls(['typ' => 'JWT'], ['' => 'foo']);
 
         $parser = $this->createParser();
 

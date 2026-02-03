@@ -10,7 +10,7 @@ use Lcobucci\JWT\Validation\NoConstraintsGiven;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use Lcobucci\JWT\Validation\Validator;
 use PHPUnit\Framework\Attributes as PHPUnit;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 #[PHPUnit\CoversClass(Validator::class)]
@@ -18,12 +18,12 @@ use PHPUnit\Framework\TestCase;
 #[PHPUnit\UsesClass(RequiredConstraintsViolated::class)]
 final class ValidatorTest extends TestCase
 {
-    private Token&MockObject $token;
+    private Token&Stub $token;
 
     #[PHPUnit\Before]
     public function createDependencies(): void
     {
-        $this->token = $this->createMock(Token::class);
+        $this->token = self::createStub(Token::class);
     }
 
     #[PHPUnit\Test]

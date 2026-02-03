@@ -52,7 +52,7 @@ final class HasClaimTest extends ConstraintTestCase
     #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
-        $token      = $this->createMock(Token::class);
+        $token      = self::createStub(Token::class);
         $constraint = new HasClaim('claimId');
 
         $this->expectException(ConstraintViolation::class);

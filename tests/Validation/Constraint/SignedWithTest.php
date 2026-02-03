@@ -36,12 +36,14 @@ final class SignedWithTest extends ConstraintTestCase
     #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
+        $this->signer->expects($this->never())->method(self::anything());
+
         $constraint = new SignedWith($this->signer, $this->key);
 
         $this->expectException(ConstraintViolation::class);
         $this->expectExceptionMessage('You should pass a plain token');
 
-        $constraint->assert($this->createMock(Token::class));
+        $constraint->assert(self::createStub(Token::class));
     }
 
     #[PHPUnit\Test]
