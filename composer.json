@@ -33,7 +33,7 @@
         "phpstan/phpstan-phpunit": "^2.0.12",
         "phpstan/phpstan-strict-rules": "^2.0.8",
         "phpunit/phpunit": "^12.5.8",
-        "sebastian/recursion-context": "^7.0.1"
+        "sebastian/recursion-context": "^8.0.0"
     },
     "suggest": {
         "lcobucci/clock": ">= 3.2"
