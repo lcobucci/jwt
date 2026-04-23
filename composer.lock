@@ -835,16 +835,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.32.6",
+            "version": "0.32.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "4ed769947eaf2ecf42203027301bad2bedf037e5"
+                "reference": "066ee69f1e8e6dec8965a79d5ba020656c590b5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/4ed769947eaf2ecf42203027301bad2bedf037e5",
-                "reference": "4ed769947eaf2ecf42203027301bad2bedf037e5",
+                "url": "https://api.github.com/repos/infection/infection/zipball/066ee69f1e8e6dec8965a79d5ba020656c590b5e",
+                "reference": "066ee69f1e8e6dec8965a79d5ba020656c590b5e",
                 "shasum": ""
             },
             "require": {
@@ -863,7 +863,7 @@
                 "justinrainbow/json-schema": "^6.0",
                 "nikic/php-parser": "^5.6.2",
                 "ondram/ci-detector": "^4.1.0",
-                "php": "^8.2",
+                "php": "^8.3",
                 "psr/log": "^2.0 || ^3.0",
                 "sanmai/di-container": "^0.1.12",
                 "sanmai/duoclock": "^0.1.0",
@@ -883,9 +883,11 @@
                 "dg/bypass-finals": "<1.4.1"
             },
             "require-dev": {
+                "carthage-software/mago": "^1.20",
                 "ext-simplexml": "*",
                 "fidry/makefile": "^1.0",
                 "fig/log-test": "^1.2",
+                "phpat/phpat": "^0.12.4",
                 "phpbench/phpbench": "^1.4",
                 "phpstan/extension-installer": "^1.4",
                 "phpstan/phpstan": "^2.1",
@@ -894,7 +896,7 @@
                 "phpstan/phpstan-webmozart-assert": "^2.0",
                 "phpunit/phpunit": "^11.5.27",
                 "rector/rector": "^2.2.4",
-                "shipmonk/dead-code-detector": "^0.14.0",
+                "shipmonk/dead-code-detector": "^0.15",
                 "shipmonk/name-collision-detector": "^2.1",
                 "sidz/phpstan-rules": "^0.5.1",
                 "symfony/yaml": "^6.4 || ^7.0 || ^8.0",
@@ -955,7 +957,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.32.6"
+                "source": "https://github.com/infection/infection/tree/0.32.7"
             },
             "funding": [
                 {
@@ -967,7 +969,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-02-26T14:34:26+00:00"
+            "time": "2026-04-23T21:11:41+00:00"
         },
         {
             "name": "infection/mutator",
