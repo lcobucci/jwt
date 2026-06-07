@@ -40,6 +40,6 @@ jobs:
         run: "make infection PHPUNIT_FLAGS=--coverage-clover=coverage.xml INFECTION_FLAGS=--logger-github"
 
       - name: "Upload Code Coverage"
-        uses: "codecov/codecov-action@v6.0.2"
+        uses: "codecov/codecov-action@v7.0.0"
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
