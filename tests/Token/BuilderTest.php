@@ -48,7 +48,7 @@ final class BuilderTest extends TestCase
         $builder = Builder::new($this->encoder, new MicrosecondBasedDateConversion());
 
         $this->expectException(RegisteredClaimGiven::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'Builder#withClaim() is meant to be used for non-registered claims, '
             . 'check the documentation on how to set claim "iss"',
         );

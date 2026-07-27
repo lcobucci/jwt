@@ -76,7 +76,7 @@ class EcdsaTokenTest extends TestCase
             ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com']);
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key, reason:');
+        $this->expectExceptionMessageIsOrContains('It was not possible to parse your key, reason:');
 
         $void = $builder->getToken($this->config->signer(), InMemory::plainText('testing'));
     }
@@ -91,7 +91,7 @@ class EcdsaTokenTest extends TestCase
             ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com']);
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('The type of the provided key is not "EC", "RSA" provided');
+        $this->expectExceptionMessageIsOrContains('The type of the provided key is not "EC", "RSA" provided');
 
         $void = $builder->getToken($this->config->signer(), static::$rsaKeys['private']);
     }
@@ -138,7 +138,7 @@ class EcdsaTokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token violates some mandatory constraints');
+        $this->expectExceptionMessageIsOrContains('The token violates some mandatory constraints');
 
         $this->config->validator()->assert(
             $token,
@@ -154,7 +154,7 @@ class EcdsaTokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token violates some mandatory constraints');
+        $this->expectExceptionMessageIsOrContains('The token violates some mandatory constraints');
 
         $this->config->validator()->assert(
             $token,
@@ -170,7 +170,7 @@ class EcdsaTokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(Token $token): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('The type of the provided key is not "EC", "RSA" provided');
+        $this->expectExceptionMessageIsOrContains('The type of the provided key is not "EC", "RSA" provided');
 
         $this->config->validator()->assert(
             $token,

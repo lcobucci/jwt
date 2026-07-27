@@ -56,7 +56,7 @@ final class SignedWithOneInSetTest extends ConstraintTestCase
         );
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'It was not possible to verify the signature of the token, reasons:'
             . PHP_EOL . '- Token signature mismatch'
             . PHP_EOL . '- This constraint was only usable until 2023-11-19T22:18:00+00:00',

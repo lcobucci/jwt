@@ -43,7 +43,7 @@ final class MultibyteStringConverterTest extends TestCase
         $converter = new MultibyteStringConverter();
 
         $this->expectException(ConversionFailed::class);
-        $this->expectExceptionMessage('Invalid signature length');
+        $this->expectExceptionMessageIsOrContains('Invalid signature length');
         $converter->toAsn1('a very wrong string', 64);
     }
 
@@ -97,7 +97,7 @@ final class MultibyteStringConverterTest extends TestCase
         self::assertIsString($message);
 
         $this->expectException(ConversionFailed::class);
-        $this->expectExceptionMessage($expectedMessage);
+        $this->expectExceptionMessageIsOrContains($expectedMessage);
         $converter->fromAsn1($message, 64);
     }
 

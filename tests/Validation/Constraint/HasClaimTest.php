@@ -23,7 +23,7 @@ final class HasClaimTest extends ConstraintTestCase
     public function registeredClaimsCannotBeValidatedUsingThisConstraint(string $claim): void
     {
         $this->expectException(CannotValidateARegisteredClaim::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'The claim "' . $claim . '" is a registered claim, another constraint must be used to validate its value',
         );
 
@@ -44,7 +44,7 @@ final class HasClaimTest extends ConstraintTestCase
         $constraint = new HasClaim('claimId');
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token does not have the claim "claimId"');
+        $this->expectExceptionMessageIsOrContains('The token does not have the claim "claimId"');
 
         $constraint->assert($this->buildToken());
     }
@@ -56,7 +56,7 @@ final class HasClaimTest extends ConstraintTestCase
         $constraint = new HasClaim('claimId');
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('You should pass a plain token');
+        $this->expectExceptionMessageIsOrContains('You should pass a plain token');
 
         $constraint->assert($token);
     }

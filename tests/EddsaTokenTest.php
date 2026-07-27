@@ -68,7 +68,7 @@ class EddsaTokenTest extends TestCase
             ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com']);
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('SODIUM_CRYPTO_SIGN_SECRETKEYBYTES');
+        $this->expectExceptionMessageIsOrContains('SODIUM_CRYPTO_SIGN_SECRETKEYBYTES');
 
         $void = $builder->getToken($this->config->signer(), InMemory::plainText('testing'));
     }
@@ -115,7 +115,7 @@ class EddsaTokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token violates some mandatory constraints');
+        $this->expectExceptionMessageIsOrContains('The token violates some mandatory constraints');
 
         $this->config->validator()->assert(
             $token,

@@ -53,7 +53,7 @@ final class SignedWithUntilDateTest extends ConstraintTestCase
         );
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('This constraint was only usable until 2023-11-19T21:45:10+00:00');
+        $this->expectExceptionMessageIsOrContains('This constraint was only usable until 2023-11-19T21:45:10+00:00');
 
         $constraint->assert($this->issueToken(new FakeSigner('1'), InMemory::plainText('a')));
     }
@@ -66,7 +66,7 @@ final class SignedWithUntilDateTest extends ConstraintTestCase
         $constraint = new SignedWithUntilDate(new FakeSigner('1'), InMemory::plainText('a'), $clock->now(), $clock);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('You should pass a plain token');
+        $this->expectExceptionMessageIsOrContains('You should pass a plain token');
 
         $constraint->assert(self::createStub(Token::class));
     }
@@ -80,7 +80,7 @@ final class SignedWithUntilDateTest extends ConstraintTestCase
         $constraint = new SignedWithUntilDate(new FakeSigner('1'), $key, $clock->now(), $clock);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('Token signer mismatch');
+        $this->expectExceptionMessageIsOrContains('Token signer mismatch');
 
         $constraint->assert($this->issueToken(new FakeSigner('2'), $key));
     }
@@ -94,7 +94,7 @@ final class SignedWithUntilDateTest extends ConstraintTestCase
         $constraint = new SignedWithUntilDate($signer, InMemory::plainText('a'), $clock->now(), $clock);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('Token signature mismatch');
+        $this->expectExceptionMessageIsOrContains('Token signature mismatch');
 
         $constraint->assert($this->issueToken($signer, InMemory::plainText('b')));
     }

@@ -41,7 +41,7 @@ final class SignedWithTest extends ConstraintTestCase
         $constraint = new SignedWith($this->signer, $this->key);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('You should pass a plain token');
+        $this->expectExceptionMessageIsOrContains('You should pass a plain token');
 
         $constraint->assert(self::createStub(Token::class));
     }
@@ -56,7 +56,7 @@ final class SignedWithTest extends ConstraintTestCase
         $constraint = new SignedWith($this->signer, $this->key);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('Token signer mismatch');
+        $this->expectExceptionMessageIsOrContains('Token signer mismatch');
 
         $constraint->assert($token);
     }
@@ -74,7 +74,7 @@ final class SignedWithTest extends ConstraintTestCase
         $constraint = new SignedWith($this->signer, $this->key);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('Token signature mismatch');
+        $this->expectExceptionMessageIsOrContains('Token signature mismatch');
 
         $constraint->assert($token);
     }

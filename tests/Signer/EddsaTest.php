@@ -49,7 +49,7 @@ final class EddsaTest extends TestCase
 
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('SODIUM_CRYPTO_SIGN_SECRETKEYBYTES');
+        $this->expectExceptionMessageIsOrContains('SODIUM_CRYPTO_SIGN_SECRETKEYBYTES');
 
         $signer->sign('testing', InMemory::plainText('tooshort'));
     }
@@ -71,7 +71,7 @@ final class EddsaTest extends TestCase
 
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('SODIUM_CRYPTO_SIGN_BYTES');
+        $this->expectExceptionMessageIsOrContains('SODIUM_CRYPTO_SIGN_BYTES');
 
         $signer->verify('testing', 'testing', InMemory::plainText('blablabla'));
     }
