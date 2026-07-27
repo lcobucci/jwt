@@ -32,7 +32,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
         $leeway->invert = 1;
 
         $this->expectException(LeewayCannotBeNegative::class);
-        $this->expectExceptionMessage('Leeway cannot be negative');
+        $this->expectExceptionMessageIsOrContains('Leeway cannot be negative');
 
         $this->buildValidAtConstraint($this->clock, $leeway);
     }
@@ -51,7 +51,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
         $constraint = $this->buildValidAtConstraint($this->clock);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token is expired');
+        $this->expectExceptionMessageIsOrContains('The token is expired');
 
         $constraint->assert($this->buildToken($claims));
     }
@@ -70,7 +70,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
         $constraint = $this->buildValidAtConstraint($this->clock);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token cannot be used yet');
+        $this->expectExceptionMessageIsOrContains('The token cannot be used yet');
 
         $constraint->assert($this->buildToken($claims));
     }
@@ -89,7 +89,7 @@ abstract class ValidAtTestCase extends ConstraintTestCase
         $constraint = $this->buildValidAtConstraint($this->clock);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token was issued in the future');
+        $this->expectExceptionMessageIsOrContains('The token was issued in the future');
 
         $constraint->assert($this->buildToken($claims));
     }

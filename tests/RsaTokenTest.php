@@ -69,7 +69,7 @@ class RsaTokenTest extends TestCase
             ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com']);
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key');
+        $this->expectExceptionMessageIsOrContains('It was not possible to parse your key');
 
         $void = $builder->getToken($this->config->signer(), InMemory::plainText('testing'));
     }
@@ -84,7 +84,7 @@ class RsaTokenTest extends TestCase
             ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com']);
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('The type of the provided key is not "RSA", "EC" provided');
+        $this->expectExceptionMessageIsOrContains('The type of the provided key is not "RSA", "EC" provided');
 
         $void = $builder->getToken($this->config->signer(), static::$ecdsaKeys['private']);
     }
@@ -126,7 +126,7 @@ class RsaTokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token violates some mandatory constraints');
+        $this->expectExceptionMessageIsOrContains('The token violates some mandatory constraints');
 
         $this->config->validator()->assert(
             $token,
@@ -139,7 +139,7 @@ class RsaTokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token violates some mandatory constraints');
+        $this->expectExceptionMessageIsOrContains('The token violates some mandatory constraints');
 
         $this->config->validator()->assert(
             $token,
@@ -152,7 +152,7 @@ class RsaTokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('The type of the provided key is not "RSA", "EC" provided');
+        $this->expectExceptionMessageIsOrContains('The type of the provided key is not "RSA", "EC" provided');
 
         $this->config->validator()->assert(
             $token,

@@ -52,7 +52,7 @@ final class ValidatorTest extends TestCase
         $validator = new Validator();
 
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token violates some mandatory constraints');
+        $this->expectExceptionMessageIsOrContains('The token violates some mandatory constraints');
 
         $validator->assert(
             $this->token,

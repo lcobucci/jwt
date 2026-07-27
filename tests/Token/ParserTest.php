@@ -46,7 +46,7 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('The JWT string must have two dots');
+        $this->expectExceptionMessageIsOrContains('The JWT string must have two dots');
 
         $parser->parse('.');
     }
@@ -59,7 +59,7 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('The JWT string is missing the Header part');
+        $this->expectExceptionMessageIsOrContains('The JWT string is missing the Header part');
 
         $parser->parse('.b.c');
     }
@@ -72,7 +72,7 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('The JWT string is missing the Claim part');
+        $this->expectExceptionMessageIsOrContains('The JWT string is missing the Claim part');
 
         $parser->parse('a..c');
     }
@@ -85,7 +85,7 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('The JWT string is missing the Signature part');
+        $this->expectExceptionMessageIsOrContains('The JWT string is missing the Signature part');
 
         $parser->parse('a.b.');
     }
@@ -108,7 +108,7 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Nope');
+        $this->expectExceptionMessageIsOrContains('Nope');
 
         $parser->parse('a.b.c');
     }
@@ -123,7 +123,7 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('headers must be an array');
+        $this->expectExceptionMessageIsOrContains('headers must be an array');
 
         $parser->parse('a.a.a');
     }
@@ -138,7 +138,7 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('headers must be an array');
+        $this->expectExceptionMessageIsOrContains('headers must be an array');
 
         $parser->parse('a.a.a');
     }
@@ -153,7 +153,7 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
 
         $this->expectException(UnsupportedHeaderFound::class);
-        $this->expectExceptionMessage('Encryption is not supported yet');
+        $this->expectExceptionMessageIsOrContains('Encryption is not supported yet');
 
         $parser->parse('a.a.a');
     }
@@ -168,7 +168,7 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('claims must be an array');
+        $this->expectExceptionMessageIsOrContains('claims must be an array');
 
         $parser->parse('a.a.a');
     }
@@ -183,7 +183,7 @@ final class ParserTest extends TestCase
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('claims must be an array');
+        $this->expectExceptionMessageIsOrContains('claims must be an array');
 
         $parser->parse('a.a.a');
     }
@@ -502,7 +502,9 @@ final class ParserTest extends TestCase
             ]);
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('Value is not in the allowed date format: 14/10/2018 10:50:10.10 UTC');
+        $this->expectExceptionMessageIsOrContains(
+            'Value is not in the allowed date format: 14/10/2018 10:50:10.10 UTC',
+        );
         $this->createParser()->parse('a.b.c');
     }
 

@@ -65,7 +65,7 @@ final class Blake2bTest extends TestCase
         $signer = new Blake2b();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('Key provided is shorter than 256 bits, only 128 bits provided');
+        $this->expectExceptionMessageIsOrContains('Key provided is shorter than 256 bits, only 128 bits provided');
 
         $signer->sign(self::CONTENTS, InMemory::base64Encoded(self::SHORT_KEY));
     }

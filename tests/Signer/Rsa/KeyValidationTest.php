@@ -38,7 +38,9 @@ TWdN
 KEY;
 
         $this->expectException(CannotSignPayload::class);
-        $this->expectExceptionMessage('There was an error while creating the signature:' . PHP_EOL . '* error:');
+        $this->expectExceptionMessageIsOrContains(
+            'There was an error while creating the signature:' . PHP_EOL . '* error:',
+        );
 
         $void = $this->algorithm()->sign('testing', InMemory::plainText($key));
     }

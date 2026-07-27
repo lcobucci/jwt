@@ -79,7 +79,7 @@ abstract class HmacTestCase extends TestCase
         $secret = $this->generateSecret(($this->expectedMinimumBits() / 8) - 1);
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             sprintf(
                 'Key provided is shorter than %d bits, only %d bits provided',
                 $this->expectedMinimumBits(),

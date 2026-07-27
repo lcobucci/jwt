@@ -20,7 +20,7 @@ final class IssuedByTest extends ConstraintTestCase
     public function assertShouldRaiseExceptionWhenIssuerIsNotSet(): void
     {
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token was not issued by the given issuers');
+        $this->expectExceptionMessageIsOrContains('The token was not issued by the given issuers');
 
         $constraint = new IssuedBy('test.com', 'test.net');
         $constraint->assert($this->buildToken());
@@ -30,7 +30,7 @@ final class IssuedByTest extends ConstraintTestCase
     public function assertShouldRaiseExceptionWhenIssuerValueDoesNotMatch(): void
     {
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token was not issued by the given issuers');
+        $this->expectExceptionMessageIsOrContains('The token was not issued by the given issuers');
 
         $constraint = new IssuedBy('test.com', 'test.net');
         $constraint->assert($this->buildToken([RegisteredClaims::ISSUER => 'example.com']));
@@ -40,7 +40,7 @@ final class IssuedByTest extends ConstraintTestCase
     public function assertShouldRaiseExceptionWhenIssuerTypeValueDoesNotMatch(): void
     {
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token was not issued by the given issuers');
+        $this->expectExceptionMessageIsOrContains('The token was not issued by the given issuers');
 
         $constraint = new IssuedBy('test.com', '123');
         $constraint->assert($this->buildToken([RegisteredClaims::ISSUER => 123]));
