@@ -24,7 +24,9 @@ final class InMemoryTest extends TestCase
     public function exceptionShouldBeRaisedWhenInvalidBase64CharsAreUsed(): void
     {
         $this->expectException(CannotDecodeContent::class);
-        $this->expectExceptionMessage('Error while decoding from Base64Url, invalid base64 characters detected');
+        $this->expectExceptionMessageIsOrContains(
+            'Error while decoding from Base64Url, invalid base64 characters detected',
+        );
 
         InMemory::base64Encoded('ááá');
     }
@@ -43,7 +45,7 @@ final class InMemoryTest extends TestCase
         $path = __DIR__ . '/not-found.pem';
 
         $this->expectException(FileCouldNotBeRead::class);
-        $this->expectExceptionMessage('The path "' . $path . '" does not contain a valid key file');
+        $this->expectExceptionMessageIsOrContains('The path "' . $path . '" does not contain a valid key file');
         $this->expectExceptionCode(0);
 
         InMemory::file($path);
@@ -53,7 +55,7 @@ final class InMemoryTest extends TestCase
     public function exceptionShouldBeRaisedWhenFileIsEmpty(): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('Key cannot be empty');
+        $this->expectExceptionMessageIsOrContains('Key cannot be empty');
 
         InMemory::file(__DIR__ . '/empty.pem');
     }

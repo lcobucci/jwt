@@ -102,7 +102,7 @@ final class ConfigurationTest extends TestCase
     #[PHPUnit\Test]
     public function builderShouldUseBuilderFactoryWhenThatIsConfiguredWithDeprecatedSet(): void
     {
-        $builder = $this->createMock(Builder::class);
+        $builder = self::createStub(Builder::class);
 
         $config = Configuration::forSymmetricSigner(
             new KeyDumpSigner(),

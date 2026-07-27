@@ -31,7 +31,7 @@ final class StrictValidAtTest extends ValidAtTestCase
         $constraint = $this->buildValidAtConstraint($this->clock);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('You should pass a plain token');
+        $this->expectExceptionMessageIsOrContains('You should pass a plain token');
 
         $constraint->assert(self::createStub(Token::class));
     }
@@ -42,7 +42,7 @@ final class StrictValidAtTest extends ValidAtTestCase
         $constraint = $this->buildValidAtConstraint($this->clock);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('"Issued At" claim missing');
+        $this->expectExceptionMessageIsOrContains('"Issued At" claim missing');
 
         $constraint->assert($this->buildToken());
     }
@@ -58,7 +58,7 @@ final class StrictValidAtTest extends ValidAtTestCase
         $constraint = $this->buildValidAtConstraint($this->clock);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('"Not Before" claim missing');
+        $this->expectExceptionMessageIsOrContains('"Not Before" claim missing');
 
         $constraint->assert($this->buildToken($claims));
     }
@@ -75,7 +75,7 @@ final class StrictValidAtTest extends ValidAtTestCase
         $constraint = $this->buildValidAtConstraint($this->clock);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('"Expiration Time" claim missing');
+        $this->expectExceptionMessageIsOrContains('"Expiration Time" claim missing');
 
         $constraint->assert($this->buildToken($claims));
     }

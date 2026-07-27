@@ -69,7 +69,9 @@ abstract class RsaTestCase extends TestCase
     public function signShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key, reason:' . PHP_EOL . '* error:');
+        $this->expectExceptionMessageIsOrContains(
+            'It was not possible to parse your key, reason:' . PHP_EOL . '* error:',
+        );
 
         $this->algorithm()->sign('testing', InMemory::plainText('blablabla'));
     }
@@ -90,7 +92,7 @@ abstract class RsaTestCase extends TestCase
     public function signShouldRaiseAnExceptionWhenKeyTypeIsNotRsa(): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('The type of the provided key is not "RSA", "EC" provided');
+        $this->expectExceptionMessageIsOrContains('The type of the provided key is not "RSA", "EC" provided');
 
         $this->algorithm()->sign('testing', self::$ecdsaKeys['private']);
     }
@@ -99,7 +101,7 @@ abstract class RsaTestCase extends TestCase
     public function signShouldRaiseAnExceptionWhenKeyLengthIsBelowMinimum(): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('Key provided is shorter than 2048 bits, only 512 bits provided');
+        $this->expectExceptionMessageIsOrContains('Key provided is shorter than 2048 bits, only 512 bits provided');
 
         $this->algorithm()->sign('testing', self::$rsaKeys['private_short']);
     }
@@ -121,7 +123,9 @@ abstract class RsaTestCase extends TestCase
     public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key, reason:' . PHP_EOL . '* error:');
+        $this->expectExceptionMessageIsOrContains(
+            'It was not possible to parse your key, reason:' . PHP_EOL . '* error:',
+        );
 
         $this->algorithm()->verify('testing', 'testing', InMemory::plainText('blablabla'));
     }
@@ -130,7 +134,7 @@ abstract class RsaTestCase extends TestCase
     public function verifyShouldRaiseAnExceptionWhenKeyTypeIsNotRsa(): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key');
+        $this->expectExceptionMessageIsOrContains('It was not possible to parse your key');
 
         $this->algorithm()->verify('testing', 'testing', self::$ecdsaKeys['private']);
     }

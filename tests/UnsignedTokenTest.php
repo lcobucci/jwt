@@ -125,7 +125,7 @@ class UnsignedTokenTest extends TestCase
         ];
 
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token violates some mandatory constraints');
+        $this->expectExceptionMessageIsOrContains('The token violates some mandatory constraints');
 
         $this->config->validator()->assert($generated, ...$constraints);
     }

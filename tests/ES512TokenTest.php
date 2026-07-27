@@ -70,7 +70,7 @@ class ES512TokenTest extends TestCase
         $builder = $this->config->builder();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key, reason:');
+        $this->expectExceptionMessageIsOrContains('It was not possible to parse your key, reason:');
 
         $builder->identifiedBy('1')
             ->permittedFor('https://client.abc.com')
@@ -85,7 +85,7 @@ class ES512TokenTest extends TestCase
         $builder = $this->config->builder();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('The type of the provided key is not "EC", "RSA" provided');
+        $this->expectExceptionMessageIsOrContains('The type of the provided key is not "EC", "RSA" provided');
 
         $builder->identifiedBy('1')
             ->permittedFor('https://client.abc.com')
@@ -136,7 +136,7 @@ class ES512TokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token violates some mandatory constraints');
+        $this->expectExceptionMessageIsOrContains('The token violates some mandatory constraints');
 
         $this->config->validator()->assert(
             $token,
@@ -152,7 +152,7 @@ class ES512TokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token violates some mandatory constraints');
+        $this->expectExceptionMessageIsOrContains('The token violates some mandatory constraints');
 
         $this->config->validator()->assert(
             $token,
@@ -168,7 +168,7 @@ class ES512TokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotEcdsaCompatible(Token $token): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('The type of the provided key is not "EC", "RSA" provided');
+        $this->expectExceptionMessageIsOrContains('The type of the provided key is not "EC", "RSA" provided');
 
         $this->config->validator()->assert(
             $token,

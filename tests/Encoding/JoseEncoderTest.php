@@ -51,7 +51,7 @@ final class JoseEncoderTest extends TestCase
 
         $this->expectException(CannotEncodeContent::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Error while encoding to JSON');
+        $this->expectExceptionMessageIsOrContains('Error while encoding to JSON');
 
         $encoder->jsonEncode("\xB1\x31");
     }
@@ -74,7 +74,7 @@ final class JoseEncoderTest extends TestCase
 
         $this->expectException(CannotDecodeContent::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Error while decoding from JSON');
+        $this->expectExceptionMessageIsOrContains('Error while decoding from JSON');
 
         $decoder->jsonDecode('{"test":\'test\'}');
     }
@@ -113,7 +113,9 @@ final class JoseEncoderTest extends TestCase
 
         $this->expectException(CannotDecodeContent::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Error while decoding from Base64Url, invalid base64 characters detected');
+        $this->expectExceptionMessageIsOrContains(
+            'Error while decoding from Base64Url, invalid base64 characters detected',
+        );
 
         $decoder->base64UrlDecode('ááá');
     }
