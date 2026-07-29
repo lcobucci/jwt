@@ -34,6 +34,14 @@ final class InvalidKeyProvided extends InvalidArgumentException implements Excep
         );
     }
 
+    public static function incompatibleKeyCurve(string $expectedCurve, string $actualCurve): self
+    {
+        return new self(
+            'The curve of the provided key is not "' . $expectedCurve
+            . '", "' . $actualCurve . '" provided',
+        );
+    }
+
     public static function cannotBeEmpty(): self
     {
         return new self('Key cannot be empty');

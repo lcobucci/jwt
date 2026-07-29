@@ -26,15 +26,16 @@ They're usually recommended for scenarios where these operations are handled by 
 Asymmetric algorithms perform signature creation with private/secret keys and verification with public keys.
 They're usually recommended for scenarios where creation is handled by a component and verification by many others.
 
-| Name    | Description                     | Class                               | Key length req. |
-|---------|---------------------------------|-------------------------------------|-----------------|
-| `ES256` | ECDSA using P-256 and SHA-256   | `\Lcobucci\JWT\Signer\Ecdsa\Sha256` | `== 256 bits`   |
-| `ES384` | ECDSA using P-384 and SHA-384   | `\Lcobucci\JWT\Signer\Ecdsa\Sha384` | `== 384 bits`   |
-| `ES512` | ECDSA using P-521 and SHA-512   | `\Lcobucci\JWT\Signer\Ecdsa\Sha512` | `== 521 bits`   |
-| `RS256` | RSASSA-PKCS1-v1_5 using SHA-256 | `\Lcobucci\JWT\Signer\Rsa\Sha256`   | `>= 2048 bits`  |
-| `RS384` | RSASSA-PKCS1-v1_5 using SHA-384 | `\Lcobucci\JWT\Signer\Rsa\Sha384`   | `>= 2048 bits`  |
-| `RS512` | RSASSA-PKCS1-v1_5 using SHA-512 | `\Lcobucci\JWT\Signer\Rsa\Sha512`   | `>= 2048 bits`  |
-| `EdDSA` | EdDSA signature algorithms      | `\Lcobucci\JWT\Signer\Eddsa`        | `>= 256 bits`   |
+| Name     | Description                        | Class                                 | Key length req. |
+|----------|-------------------------------------|---------------------------------------|-----------------|
+| `ES256`  | ECDSA using P-256 and SHA-256      | `\Lcobucci\JWT\Signer\Ecdsa\Sha256`  | `== 256 bits`   |
+| `ES256K` | ECDSA using secp256k1 and SHA-256  | `\Lcobucci\JWT\Signer\Ecdsa\Sha256K` | `== 256 bits`   |
+| `ES384`  | ECDSA using P-384 and SHA-384      | `\Lcobucci\JWT\Signer\Ecdsa\Sha384`  | `== 384 bits`   |
+| `ES512`  | ECDSA using P-521 and SHA-512      | `\Lcobucci\JWT\Signer\Ecdsa\Sha512`  | `== 521 bits`   |
+| `RS256`  | RSASSA-PKCS1-v1_5 using SHA-256    | `\Lcobucci\JWT\Signer\Rsa\Sha256`    | `>= 2048 bits`  |
+| `RS384`  | RSASSA-PKCS1-v1_5 using SHA-384    | `\Lcobucci\JWT\Signer\Rsa\Sha384`    | `>= 2048 bits`  |
+| `RS512`  | RSASSA-PKCS1-v1_5 using SHA-512    | `\Lcobucci\JWT\Signer\Rsa\Sha512`    | `>= 2048 bits`  |
+| `EdDSA`  | EdDSA signature algorithms          | `\Lcobucci\JWT\Signer\Eddsa`          | `>= 256 bits`   |
 
 The following algorithms are implemented in a separate package `lcobucci/jwt-rsassa-pss` in order to keep dependencies low in the main package.
 Please see the installation instructions in the [RSASSA-PSS readme].
@@ -51,5 +52,11 @@ The `none` algorithm as described by [JWT standard] is intentionally not impleme
 The risk of misusing it is too high, and even where other means guarantee the token validity a symmetric algorithm
 shouldn't represent a computational bottleneck with modern hardware.
 
+!!! Note
+    `ES256K` uses the secp256k1 ("Koblitz") curve, commonly used in blockchain ecosystems, as defined by
+    [RFC 8812]. Unlike `ES256`, `ES384` and `ES512`, keys for `ES256K` must explicitly use the `secp256k1`
+    curve; a `P-256` key won't be accepted even though it has the same bit length.
+
 [JWT standard]: https://www.iana.org/assignments/jose/jose.xhtml#web-signature-encryption-algorithms
 [RSASSA-PSS readme]: https://github.com/lcobucci/jwt-rsassa-pss
+[RFC 8812]: https://www.rfc-editor.org/rfc/rfc8812
