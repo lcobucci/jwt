@@ -30,4 +30,9 @@ final readonly class Sha512 extends Ecdsa
         // The key size is indeed 521 bits.
         return 521;
     }
+
+    public function expectedCurve(): string
+    {
+        return 'secp521r1';
+    }
 }
