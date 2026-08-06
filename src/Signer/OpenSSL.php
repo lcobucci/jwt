@@ -108,7 +108,7 @@ abstract readonly class OpenSSL implements Signer
     /** @param array<string, mixed> $details */
     private function curveNameFrom(array $details): ?string
     {
-        if (! isset($details['ec']) || ! is_array($details['ec']) || ! isset($details['ec']['curve_name'])) {
+        if (! isset($details['ec']['curve_name'])) {
             return null;
         }
 
