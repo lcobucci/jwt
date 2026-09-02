@@ -11,6 +11,7 @@ use function assert;
 use function is_array;
 use function is_bool;
 use function is_int;
+use function is_string;
 use function openssl_error_string;
 use function openssl_pkey_get_details;
 use function openssl_pkey_get_private;
@@ -99,8 +100,22 @@ abstract readonly class OpenSSL implements Signer
         assert(is_int($details['type']));
 
         $this->guardAgainstIncompatibleKey($details['type'], $details['bits']);
+        $this->guardAgainstIncompatibleCurve($this->curveNameFrom($details));
 
         return $key;
+    }
+
+    /** @param array<string, mixed> $details */
+    private function curveNameFrom(array $details): ?string
+    {
+        if (! isset($details['ec']['curve_name'])) {
+            return null;
+        }
+
+        $curveName = $details['ec']['curve_name'];
+        assert(is_string($curveName));
+
+        return $curveName;
     }
 
     private function fullOpenSSLErrorString(): string
@@ -116,6 +131,19 @@ abstract readonly class OpenSSL implements Signer
 
     /** @throws InvalidKeyProvided */
     abstract protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void;
+
+    /**
+     * Raises an exception when the key curve is not the expected one
+     *
+     * The default implementation performs no check; only algorithms that are sensitive to the
+     * curve (e.g. ECDSA-based ones) need to override this.
+     *
+     * @throws InvalidKeyProvided
+     */
+    // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter
+    protected function guardAgainstIncompatibleCurve(?string $curveName): void
+    {
+    }
 
     /**
      * Returns which algorithm to be used to create/verify the signature (using OpenSSL constants)

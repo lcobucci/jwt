@@ -28,4 +28,9 @@ final readonly class Sha256 extends Ecdsa
     {
         return 256;
     }
+
+    public function expectedCurve(): string
+    {
+        return 'prime256v1';
+    }
 }

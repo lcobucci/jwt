@@ -49,12 +49,29 @@ abstract readonly class Ecdsa extends OpenSSL
         }
     }
 
+    /** {@inheritDoc} */
+    final protected function guardAgainstIncompatibleCurve(?string $curveName): void
+    {
+        $expectedCurve = $this->expectedCurve();
+
+        if ($curveName !== $expectedCurve) {
+            throw InvalidKeyProvided::incompatibleKeyCurve($expectedCurve, $curveName ?? 'unknown');
+        }
+    }
+
     /**
      * @internal
      *
      * @return positive-int
      */
     abstract public function expectedKeyLength(): int;
+
+    /**
+     * Returns the name of the curve that keys must use
+     *
+     * @internal
+     */
+    abstract public function expectedCurve(): string;
 
     /**
      * Returns the length of each point in the signature, so that we can calculate and verify R and S points properly
