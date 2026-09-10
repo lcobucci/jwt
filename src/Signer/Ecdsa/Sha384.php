@@ -28,4 +28,9 @@ final readonly class Sha384 extends Ecdsa
     {
         return 384;
     }
+
+    public function expectedCurve(): string
+    {
+        return 'secp384r1';
+    }
 }

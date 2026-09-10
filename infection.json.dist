@@ -36,6 +36,11 @@
             "ignoreSourceCodeByRegex": [
                 "if \\(! function_exists\\('sodium_\\w+'\\)\\) \\{"
             ]
+        },
+        "ProtectedVisibility": {
+            "ignore": [
+                "Lcobucci\\JWT\\Signer\\OpenSSL::guardAgainstIncompatibleCurve"
+            ]
         }
     },
     "minMsi": 100,
