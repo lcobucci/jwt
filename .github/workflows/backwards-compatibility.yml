@@ -18,7 +18,7 @@ jobs:
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.37.2"
         with:
-          php-version: "8.4"
+          php-version: "8.5"
           ini-values: memory_limit=-1
           tools: composer:v2, cs2pr
         env:
