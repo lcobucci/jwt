@@ -1,0 +1,41 @@
+<?php
+declare(strict_types=1);
+
+namespace Lcobucci\JWT\Signer;
+
+use const OPENSSL_KEYTYPE_RSA;
+use const OPENSSL_PKCS1_PSS_PADDING;
+
+abstract readonly class RsaPss extends OpenSSL
+{
+    private const int MINIMUM_KEY_LENGTH = 2048;
+
+    final public function sign(string $payload, Key $key): string
+    {
+        return $this->createSignature($key, $payload);
+    }
+
+    final public function verify(string $expected, string $payload, Key $key): bool
+    {
+        return $this->verifySignature($expected, $payload, $key);
+    }
+
+    final protected function padding(): int
+    {
+        return OPENSSL_PKCS1_PSS_PADDING;
+    }
+
+    final protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void
+    {
+        if ($type !== OPENSSL_KEYTYPE_RSA) {
+            throw InvalidKeyProvided::incompatibleKeyType(
+                self::KEY_TYPE_MAP[OPENSSL_KEYTYPE_RSA],
+                self::KEY_TYPE_MAP[$type] ?? 'unknown',
+            );
+        }
+
+        if ($lengthInBits < self::MINIMUM_KEY_LENGTH) {
+            throw InvalidKeyProvided::tooShort(self::MINIMUM_KEY_LENGTH, $lengthInBits);
+        }
+    }
+}
