@@ -155,10 +155,7 @@ abstract readonly class OpenSSL implements Signer
     /**
      * Returns which padding to be used to create/verify the signature (using OpenSSL constants)
      *
-     * The default implementation returns `0`, letting OpenSSL pick the default padding for the key type.
+     * Every signer states it explicitly, rather than relying on what OpenSSL picks for the key type.
      */
-    protected function padding(): int
-    {
-        return 0;
-    }
+    abstract protected function padding(): int;
 }
