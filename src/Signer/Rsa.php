@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Signer;
 
 use const OPENSSL_KEYTYPE_RSA;
+use const OPENSSL_PKCS1_PADDING;
 
 abstract readonly class Rsa extends OpenSSL
 {
@@ -17,6 +18,11 @@ abstract readonly class Rsa extends OpenSSL
     final public function verify(string $expected, string $payload, Key $key): bool
     {
         return $this->verifySignature($expected, $payload, $key);
+    }
+
+    final protected function padding(): int
+    {
+        return OPENSSL_PKCS1_PADDING;
     }
 
     final protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void
