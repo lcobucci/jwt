@@ -2,6 +2,40 @@
 
 Here we'll keep a list of all steps you need to take to make sure your code is compatible with newer versions.
 
+## v5.x to v6.x
+
+The release `v6.0.0` requires PHP 8.5+, whose `ext-openssl` can sign and verify with RSASSA-PSS natively.
+
+### `PS256`, `PS384`, and `PS512` are now built in
+
+These algorithms used to be provided by the separate package `lcobucci/jwt-rsassa-pss`, which relied on `phpseclib/phpseclib`.
+They are now part of this library, under the same class names (`\Lcobucci\JWT\Signer\RsaPss\Sha256`, `Sha384`, and `Sha512`), so no code change is needed.
+
+The two packages can't be installed together: `lcobucci/jwt-rsassa-pss` requires `lcobucci/jwt` v5, and this library declares a conflict with it to avoid loading the same classes twice.
+Remove it as part of the upgrade:
+
+```sh
+composer remove lcobucci/jwt-rsassa-pss --no-update
+composer require lcobucci/jwt ^6.0
+```
+
+Keys restricted to RSASSA-PSS (`rsassaPss` OID) aren't supported, please use regular RSA keys.
+
+### Custom signers extending `Signer\OpenSSL` must declare their padding
+
+`Signer\OpenSSL::padding()` is now abstract, so that every signer states which padding it uses instead of relying on what OpenSSL picks for the key type.
+
+If you have a signer extending `Signer\OpenSSL` directly, implement it:
+
+```php
+protected function padding(): int
+{
+    return OPENSSL_PKCS1_PADDING; // RSASSA-PKCS1-v1_5; use `0` for ECDSA, which has no padding
+}
+```
+
+Signers extending `Signer\Rsa`, `Signer\RsaPss`, or `Signer\Ecdsa` don't need any change.
+
 ## v4.x to v5.x
 
 The release `v5.0.0` is a modernised version of the library, which requires PHP 8.1+ and drops all the deprecated components.
