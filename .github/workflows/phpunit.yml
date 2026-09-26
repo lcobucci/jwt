@@ -40,3 +40,39 @@ jobs:
 
       - name: "Tests"
         run: "make phpunit"
+
+  phpunit-rc:
+    name: "PHPUnit tests (nightly)"
+
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        dependencies:
+          - "locked"
+        php-version:
+          - "8.6"
+        operating-system:
+          - "ubuntu-latest"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v7.0.1"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.37.2"
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
+          ini-values: memory_limit=-1
+          tools: composer:v2, cs2pr
+
+      # the development dependencies don't declare PHP 8.6 support yet
+      - name: "Install dependencies"
+        uses: "ramsey/composer-install@4.0.0"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--ignore-platform-req=php"
+
+      - name: "Tests"
+        run: "make phpunit"
