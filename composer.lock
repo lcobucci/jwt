@@ -834,16 +834,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.35.4",
+            "version": "0.35.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "487bf060228e1272c6a9653468b87a4fe29436df"
+                "reference": "0db852996c8de64d908a4ed2112c36853232d992"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/487bf060228e1272c6a9653468b87a4fe29436df",
-                "reference": "487bf060228e1272c6a9653468b87a4fe29436df",
+                "url": "https://api.github.com/repos/infection/infection/zipball/0db852996c8de64d908a4ed2112c36853232d992",
+                "reference": "0db852996c8de64d908a4ed2112c36853232d992",
                 "shasum": ""
             },
             "require": {
@@ -874,7 +874,7 @@
                 "symfony/finder": "^6.4 || ^7.4 || ^8.0",
                 "symfony/polyfill-php85": "^1.33",
                 "symfony/process": "^6.4 || ^7.4 || ^8.0",
-                "thecodingmachine/safe": "^v3.0",
+                "thecodingmachine/safe": "^v3.4",
                 "webmozart/assert": "^1.11 || ^2.0"
             },
             "conflict": {
@@ -958,7 +958,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.35.4"
+                "source": "https://github.com/infection/infection/tree/0.35.5"
             },
             "funding": [
                 {
@@ -970,7 +970,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-09-02T13:30:25+00:00"
+            "time": "2026-09-27T14:35:40+00:00"
         },
         {
             "name": "infection/mutator",
