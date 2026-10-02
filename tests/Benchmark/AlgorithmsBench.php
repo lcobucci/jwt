@@ -17,6 +17,7 @@ abstract class AlgorithmsBench
     private const array SUPPORTED_ALGORITHMS = [
         'hmac' => ['HS256', 'HS384', 'HS512'],
         'rsa' => ['RS256', 'RS384', 'RS512'],
+        'rsaPss' => ['PS256', 'PS384', 'PS512'],
         'ecdsa' => ['ES256', 'ES384', 'ES512'],
         'eddsa' => ['EdDSA'],
         'blake2b' => ['BLAKE2B'],
@@ -52,6 +53,20 @@ abstract class AlgorithmsBench
     public function rsaAlgorithms(): iterable
     {
         yield from $this->iterateAlgorithms('rsa');
+    }
+
+    #[Bench\Subject]
+    #[Bench\ParamProviders('rsaPssAlgorithms')]
+    #[Bench\Groups(['rsa-pss', 'asymmetric'])]
+    public function rsaPss(): void
+    {
+        $this->runBenchmark();
+    }
+
+    /** @return iterable<string, array{algorithm: string}> */
+    public function rsaPssAlgorithms(): iterable
+    {
+        yield from $this->iterateAlgorithms('rsaPss');
     }
 
     #[Bench\Subject]
@@ -107,6 +122,9 @@ abstract class AlgorithmsBench
             'RS256' => new Signer\Rsa\Sha256(),
             'RS384' => new Signer\Rsa\Sha384(),
             'RS512' => new Signer\Rsa\Sha512(),
+            'PS256' => new Signer\RsaPss\Sha256(),
+            'PS384' => new Signer\RsaPss\Sha384(),
+            'PS512' => new Signer\RsaPss\Sha512(),
             'ES256' => new Signer\Ecdsa\Sha256(),
             'ES384' => new Signer\Ecdsa\Sha384(),
             'ES512' => new Signer\Ecdsa\Sha512(),
@@ -124,7 +142,7 @@ abstract class AlgorithmsBench
             'HS512' => InMemory::base64Encoded(
                 'OgXKIs+aZCQgXnDfi8mAFnWVo+Xn3JTR7BvT/j1Q1zP9oRx9xGg4jmpq00RsPPDclYi8+jRl664pu4d0zan2ow==',
             ),
-            'RS256', 'RS384', 'RS512' => InMemory::file(__DIR__ . '/Rsa/private.key'),
+            'RS256', 'RS384', 'RS512', 'PS256', 'PS384', 'PS512' => InMemory::file(__DIR__ . '/Rsa/private.key'),
             'ES256' => InMemory::file(__DIR__ . '/Ecdsa/private-256.key'),
             'ES384' => InMemory::file(__DIR__ . '/Ecdsa/private-384.key'),
             'ES512' => InMemory::file(__DIR__ . '/Ecdsa/private-521.key'),
@@ -140,7 +158,7 @@ abstract class AlgorithmsBench
     {
         return match ($name) {
             'HS256', 'HS384', 'HS512', 'BLAKE2B' => $this->resolveSigningKey($name),
-            'RS256', 'RS384', 'RS512' => InMemory::file(__DIR__ . '/Rsa/public.key'),
+            'RS256', 'RS384', 'RS512', 'PS256', 'PS384', 'PS512' => InMemory::file(__DIR__ . '/Rsa/public.key'),
             'ES256' => InMemory::file(__DIR__ . '/Ecdsa/public-256.key'),
             'ES384' => InMemory::file(__DIR__ . '/Ecdsa/public-384.key'),
             'ES512' => InMemory::file(__DIR__ . '/Ecdsa/public-521.key'),

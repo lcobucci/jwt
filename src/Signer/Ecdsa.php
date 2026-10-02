@@ -32,6 +32,15 @@ abstract readonly class Ecdsa extends OpenSSL
         );
     }
 
+    /**
+     * ECDSA signatures have no padding: OpenSSL rejects every RSA padding for an EC key,
+     * and `0` is the only accepted value
+     */
+    final protected function padding(): int
+    {
+        return 0;
+    }
+
     /** {@inheritDoc} */
     final protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void
     {
