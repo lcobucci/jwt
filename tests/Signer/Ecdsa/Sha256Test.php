@@ -18,6 +18,7 @@ use const OPENSSL_ALGO_SHA256;
 #[PHPUnit\CoversClass(OpenSSL::class)]
 #[PHPUnit\CoversClass(InvalidKeyProvided::class)]
 #[PHPUnit\UsesClass(Key\InMemory::class)]
+#[PHPUnit\UsesClass(Ecdsa\ConversionFailed::class)]
 final class Sha256Test extends EcdsaTestCase
 {
     protected function algorithm(): Ecdsa

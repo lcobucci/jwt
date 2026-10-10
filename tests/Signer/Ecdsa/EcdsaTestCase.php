@@ -148,4 +148,22 @@ abstract class EcdsaTestCase extends TestCase
             ),
         );
     }
+
+    /** @param non-empty-string $signature */
+    #[PHPUnit\Test]
+    #[PHPUnit\DataProvider('malformedSignatures')]
+    public function verifyShouldReturnFalseWhenSignatureHasAnInvalidLength(string $signature): void
+    {
+        self::assertFalse(
+            $this->algorithm()->verify($signature, 'testing', $this->verificationKey()),
+        );
+    }
+
+    /** @return iterable<non-empty-string, array{non-empty-string}> */
+    public static function malformedSignatures(): iterable
+    {
+        yield 'single byte' => ['0'];
+        yield 'too short' => ['too-short'];
+        yield 'odd length' => ['abcdefghijklmnopq'];
+    }
 }
