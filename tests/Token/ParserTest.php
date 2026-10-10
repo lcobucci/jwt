@@ -530,4 +530,40 @@ final class ParserTest extends TestCase
         $this->expectException(InvalidTokenStructure::class);
         $this->createParser()->parse('a.b.c');
     }
+
+    #[PHPUnit\Test]
+    #[PHPUnit\DataProvider('nonNumericDateClaims')]
+    public function parseShouldRaiseInvalidTokenStructureWhenDateClaimIsNotNumeric(mixed $value): void
+    {
+        $data = [RegisteredClaims::ISSUED_AT => $value];
+
+        $this->decoder->expects($this->exactly(2))
+            ->method('base64UrlDecode')
+            ->willReturnMap([
+                ['a', 'a_dec'],
+                ['b', 'b_dec'],
+            ]);
+
+        $this->decoder->expects($this->exactly(2))
+            ->method('jsonDecode')
+            ->willReturnMap([
+                ['a_dec', ['typ' => 'JWT', 'alg' => 'HS256']],
+                ['b_dec', $data],
+            ]);
+
+        $this->expectException(InvalidTokenStructure::class);
+        $this->expectExceptionMessageIsOrContains('Value is not in the allowed date format');
+
+        $this->createParser()->parse('a.b.c');
+    }
+
+    /** @return iterable<string, array{mixed}> */
+    public static function nonNumericDateClaims(): iterable
+    {
+        yield 'null' => [null];
+        yield 'boolean true' => [true];
+        yield 'boolean false' => [false];
+        yield 'list' => [[2021, 10, 10]];
+        yield 'associative array (JSON object)' => [['year' => 2021]];
+    }
 }

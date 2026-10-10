@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer;
 
+use Lcobucci\JWT\Signer\Ecdsa\ConversionFailed;
 use Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter;
 use Lcobucci\JWT\Signer\Ecdsa\SignatureConverter;
 
@@ -25,11 +26,13 @@ abstract readonly class Ecdsa extends OpenSSL
 
     final public function verify(string $expected, string $payload, Key $key): bool
     {
-        return $this->verifySignature(
-            $this->converter->toAsn1($expected, $this->pointLength()),
-            $payload,
-            $key,
-        );
+        try {
+            $asn1Signature = $this->converter->toAsn1($expected, $this->pointLength());
+        } catch (ConversionFailed) {
+            return false;
+        }
+
+        return $this->verifySignature($asn1Signature, $payload, $key);
     }
 
     /** {@inheritDoc} */
