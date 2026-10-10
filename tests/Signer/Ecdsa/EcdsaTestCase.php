@@ -149,6 +149,7 @@ abstract class EcdsaTestCase extends TestCase
         );
     }
 
+    /** @param non-empty-string $signature */
     #[PHPUnit\Test]
     #[PHPUnit\DataProvider('malformedSignatures')]
     public function verifyShouldReturnFalseWhenSignatureHasAnInvalidLength(string $signature): void
@@ -158,7 +159,7 @@ abstract class EcdsaTestCase extends TestCase
         );
     }
 
-    /** @return iterable<string, array{string}> */
+    /** @return iterable<non-empty-string, array{non-empty-string}> */
     public static function malformedSignatures(): iterable
     {
         yield 'single byte' => ['0'];
