@@ -552,7 +552,7 @@ final class ParserTest extends TestCase
             ]);
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('Value is not in the allowed date format');
+        $this->expectExceptionMessageIsOrContains('Value is not in the allowed date format');
 
         $this->createParser()->parse('a.b.c');
     }
