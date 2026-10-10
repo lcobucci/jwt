@@ -15,16 +15,16 @@ jobs:
         dependencies:
           - "highest"
         php-version:
-          - "8.2"
+          - "8.4"
         operating-system:
           - "ubuntu-latest"
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v4.2.2"
+        uses: "actions/checkout@v7.0.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.32.0"
+        uses: "shivammathur/setup-php@2.40.0"
         with:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
@@ -32,7 +32,7 @@ jobs:
           tools: composer:v2, composer-normalize, composer-require-checker, composer-unused
 
       - name: "Install dependencies"
-        uses: "ramsey/composer-install@3.0.0"
+        uses: "ramsey/composer-install@4.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
 
@@ -43,7 +43,7 @@ jobs:
         run: "composer-normalize --dry-run"
 
       - name: "Check composer.json explicit dependencies"
-        run: "composer-require-checker check"
+        run: "composer-require-checker check --config-file=.composer-require-checker.config.json"
 
 #      - name: "Check composer.json unused dependencies"
 #        run: "composer-unused"

@@ -6,7 +6,7 @@ namespace Lcobucci\JWT\Tests;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 
-final class KeyDumpSigner implements Signer
+final readonly class KeyDumpSigner implements Signer
 {
     public function algorithmId(): string
     {

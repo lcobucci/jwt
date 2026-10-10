@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
+use NoDiscard;
 
 interface Decoder
 {
@@ -14,6 +15,7 @@ interface Decoder
      *
      * @throws CannotDecodeContent When something goes wrong while decoding.
      */
+    #[NoDiscard]
     public function jsonDecode(string $json): mixed;
 
     /**
@@ -25,5 +27,6 @@ interface Decoder
      *
      * @throws CannotDecodeContent When something goes wrong while decoding.
      */
+    #[NoDiscard]
     public function base64UrlDecode(string $data): string;
 }

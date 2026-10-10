@@ -42,10 +42,13 @@ final class BuilderTest extends TestCase
     #[PHPUnit\Test]
     public function withClaimShouldRaiseExceptionWhenTryingToConfigureARegisteredClaim(): void
     {
+        $this->encoder->expects($this->never())->method(self::anything());
+        $this->signer->expects($this->never())->method(self::anything());
+
         $builder = Builder::new($this->encoder, new MicrosecondBasedDateConversion());
 
         $this->expectException(RegisteredClaimGiven::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'Builder#withClaim() is meant to be used for non-registered claims, '
             . 'check the documentation on how to set claim "iss"',
         );
@@ -107,6 +110,9 @@ final class BuilderTest extends TestCase
     #[PHPUnit\Test]
     public function immutability(): void
     {
+        $this->encoder->expects($this->never())->method(self::anything());
+        $this->signer->expects($this->never())->method(self::anything());
+
         $map           = new SplObjectStorage();
         $builder       = Builder::new($this->encoder, new MicrosecondBasedDateConversion());
         $map[$builder] = true;

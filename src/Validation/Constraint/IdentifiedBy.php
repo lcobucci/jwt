@@ -7,10 +7,10 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
-final class IdentifiedBy implements Constraint
+final readonly class IdentifiedBy implements Constraint
 {
     /** @param non-empty-string $id */
-    public function __construct(private readonly string $id)
+    public function __construct(private string $id)
     {
     }
 

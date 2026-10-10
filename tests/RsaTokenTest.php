@@ -62,31 +62,31 @@ class RsaTokenTest extends TestCase
     #[PHPUnit\Test]
     public function builderShouldRaiseExceptionWhenKeyIsInvalid(): void
     {
-        $builder = $this->config->builder();
+        $builder = $this->config->builder()
+            ->identifiedBy('1')
+            ->permittedFor('https://client.abc.com')
+            ->issuedBy('https://api.abc.com')
+            ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com']);
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key');
+        $this->expectExceptionMessageIsOrContains('It was not possible to parse your key');
 
-        $builder->identifiedBy('1')
-                ->permittedFor('https://client.abc.com')
-                ->issuedBy('https://api.abc.com')
-                ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-                ->getToken($this->config->signer(), InMemory::plainText('testing'));
+        $void = $builder->getToken($this->config->signer(), InMemory::plainText('testing'));
     }
 
     #[PHPUnit\Test]
     public function builderShouldRaiseExceptionWhenKeyIsNotRsaCompatible(): void
     {
-        $builder = $this->config->builder();
+        $builder = $this->config->builder()
+            ->identifiedBy('1')
+            ->permittedFor('https://client.abc.com')
+            ->issuedBy('https://api.abc.com')
+            ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com']);
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('The type of the provided key is not "RSA", "EC" provided');
+        $this->expectExceptionMessageIsOrContains('The type of the provided key is not "RSA", "EC" provided');
 
-        $builder->identifiedBy('1')
-                ->permittedFor('https://client.abc.com')
-                ->issuedBy('https://api.abc.com')
-                ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com'])
-                ->getToken($this->config->signer(), static::$ecdsaKeys['private']);
+        $void = $builder->getToken($this->config->signer(), static::$ecdsaKeys['private']);
     }
 
     #[PHPUnit\Test]
@@ -126,7 +126,7 @@ class RsaTokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRight(Token $token): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token violates some mandatory constraints');
+        $this->expectExceptionMessageIsOrContains('The token violates some mandatory constraints');
 
         $this->config->validator()->assert(
             $token,
@@ -139,7 +139,7 @@ class RsaTokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenAlgorithmIsDifferent(Token $token): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token violates some mandatory constraints');
+        $this->expectExceptionMessageIsOrContains('The token violates some mandatory constraints');
 
         $this->config->validator()->assert(
             $token,
@@ -152,7 +152,7 @@ class RsaTokenTest extends TestCase
     public function signatureAssertionShouldRaiseExceptionWhenKeyIsNotRsaCompatible(Token $token): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('The type of the provided key is not "RSA", "EC" provided');
+        $this->expectExceptionMessageIsOrContains('The type of the provided key is not "RSA", "EC" provided');
 
         $this->config->validator()->assert(
             $token,

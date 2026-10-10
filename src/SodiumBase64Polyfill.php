@@ -16,12 +16,12 @@ use function sodium_bin2base64;
 use function strtr;
 
 /** @internal */
-final class SodiumBase64Polyfill
+final readonly class SodiumBase64Polyfill
 {
-    public const SODIUM_BASE64_VARIANT_ORIGINAL            = 1;
-    public const SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING = 3;
-    public const SODIUM_BASE64_VARIANT_URLSAFE             = 5;
-    public const SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING  = 7;
+    public const int SODIUM_BASE64_VARIANT_ORIGINAL            = 1;
+    public const int SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING = 3;
+    public const int SODIUM_BASE64_VARIANT_URLSAFE             = 5;
+    public const int SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING  = 7;
 
     /** @return ($decoded is non-empty-string ? non-empty-string : string) */
     public static function bin2base64(string $decoded, int $variant): string

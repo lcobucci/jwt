@@ -9,9 +9,9 @@ use Lcobucci\JWT\UnencryptedToken;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\SignedWith as SignedWithInterface;
 
-final class SignedWith implements SignedWithInterface
+final readonly class SignedWith implements SignedWithInterface
 {
-    public function __construct(private readonly Signer $signer, private readonly Signer\Key $key)
+    public function __construct(private Signer $signer, private Signer\Key $key)
     {
     }
 

@@ -10,7 +10,7 @@ namespace Lcobucci\JWT\Token;
  */
 interface RegisteredClaims
 {
-    public const ALL = [
+    public const array ALL = [
         self::AUDIENCE,
         self::EXPIRATION_TIME,
         self::ID,
@@ -20,7 +20,7 @@ interface RegisteredClaims
         self::SUBJECT,
     ];
 
-    public const DATE_CLAIMS = [
+    public const array DATE_CLAIMS = [
         self::ISSUED_AT,
         self::NOT_BEFORE,
         self::EXPIRATION_TIME,
@@ -31,47 +31,47 @@ interface RegisteredClaims
      *
      * @see https://tools.ietf.org/html/rfc7519#section-4.1.3
      */
-    public const AUDIENCE = 'aud';
+    public const string AUDIENCE = 'aud';
 
     /**
      * Identifies the expiration time on or after which the JWT MUST NOT be accepted for processing
      *
      * @see https://tools.ietf.org/html/rfc7519#section-4.1.4
      */
-    public const EXPIRATION_TIME = 'exp';
+    public const string EXPIRATION_TIME = 'exp';
 
     /**
      * Provides a unique identifier for the JWT
      *
      * @see https://tools.ietf.org/html/rfc7519#section-4.1.7
      */
-    public const ID = 'jti';
+    public const string ID = 'jti';
 
     /**
      * Identifies the time at which the JWT was issued
      *
      * @see https://tools.ietf.org/html/rfc7519#section-4.1.6
      */
-    public const ISSUED_AT = 'iat';
+    public const string ISSUED_AT = 'iat';
 
     /**
      * Identifies the principal that issued the JWT
      *
      * @see https://tools.ietf.org/html/rfc7519#section-4.1.1
      */
-    public const ISSUER = 'iss';
+    public const string ISSUER = 'iss';
 
     /**
      * Identifies the time before which the JWT MUST NOT be accepted for processing
      *
      * https://tools.ietf.org/html/rfc7519#section-4.1.5
      */
-    public const NOT_BEFORE = 'nbf';
+    public const string NOT_BEFORE = 'nbf';
 
     /**
      * Identifies the principal that is the subject of the JWT.
      *
      * https://tools.ietf.org/html/rfc7519#section-4.1.2
      */
-    public const SUBJECT = 'sub';
+    public const string SUBJECT = 'sub';
 }

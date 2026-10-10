@@ -12,16 +12,17 @@ use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\SignedWith;
 use Lcobucci\JWT\Validation\ValidAt;
 use Lcobucci\JWT\Validation\Validator;
+use NoDiscard;
 use Psr\Clock\ClockInterface as Clock;
 
 use function assert;
 
-final class JwtFacade
+final readonly class JwtFacade
 {
-    private readonly Clock $clock;
+    private Clock $clock;
 
     public function __construct(
-        private readonly Parser $parser = new Token\Parser(new JoseEncoder()),
+        private Parser $parser = new Token\Parser(new JoseEncoder()),
         ?Clock $clock = null,
     ) {
         $this->clock = $clock ?? new class implements Clock {
@@ -33,6 +34,7 @@ final class JwtFacade
     }
 
     /** @param Closure(Builder, DateTimeImmutable):Builder $customiseBuilder */
+    #[NoDiscard]
     public function issue(
         Signer $signer,
         Key $signingKey,
@@ -50,6 +52,7 @@ final class JwtFacade
     }
 
     /** @param non-empty-string $jwt */
+    #[NoDiscard]
     public function parse(
         string $jwt,
         SignedWith $signedWith,

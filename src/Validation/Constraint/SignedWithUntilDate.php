@@ -11,15 +11,15 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\SignedWith as SignedWithInterface;
 use Psr\Clock\ClockInterface;
 
-final class SignedWithUntilDate implements SignedWithInterface
+final readonly class SignedWithUntilDate implements SignedWithInterface
 {
-    private readonly SignedWith $verifySignature;
-    private readonly ClockInterface $clock;
+    private SignedWith $verifySignature;
+    private ClockInterface $clock;
 
     public function __construct(
         Signer $signer,
         Signer\Key $key,
-        private readonly DateTimeImmutable $validUntil,
+        private DateTimeImmutable $validUntil,
         ?ClockInterface $clock = null,
     ) {
         $this->verifySignature = new SignedWith($signer, $key);

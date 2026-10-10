@@ -9,17 +9,17 @@ use Lcobucci\JWT\Signer\Ecdsa\SignatureConverter;
 
 use const OPENSSL_KEYTYPE_EC;
 
-abstract class Ecdsa extends OpenSSL
+abstract readonly class Ecdsa extends OpenSSL
 {
     public function __construct(
-        private readonly SignatureConverter $converter = new MultibyteStringConverter(),
+        private SignatureConverter $converter = new MultibyteStringConverter(),
     ) {
     }
 
     final public function sign(string $payload, Key $key): string
     {
         return $this->converter->fromAsn1(
-            $this->createSignature($key->contents(), $key->passphrase(), $payload),
+            $this->createSignature($key, $payload),
             $this->pointLength(),
         );
     }
@@ -32,7 +32,7 @@ abstract class Ecdsa extends OpenSSL
             return false;
         }
 
-        return $this->verifySignature($asn1Signature, $payload, $key->contents());
+        return $this->verifySignature($asn1Signature, $payload, $key);
     }
 
     /** {@inheritDoc} */
@@ -41,7 +41,7 @@ abstract class Ecdsa extends OpenSSL
         if ($type !== OPENSSL_KEYTYPE_EC) {
             throw InvalidKeyProvided::incompatibleKeyType(
                 self::KEY_TYPE_MAP[OPENSSL_KEYTYPE_EC],
-                self::KEY_TYPE_MAP[$type],
+                self::KEY_TYPE_MAP[$type] ?? 'unknown',
             );
         }
 
@@ -52,12 +52,29 @@ abstract class Ecdsa extends OpenSSL
         }
     }
 
+    /** {@inheritDoc} */
+    final protected function guardAgainstIncompatibleCurve(?string $curveName): void
+    {
+        $expectedCurve = $this->expectedCurve();
+
+        if ($curveName !== $expectedCurve) {
+            throw InvalidKeyProvided::incompatibleKeyCurve($expectedCurve, $curveName ?? 'unknown');
+        }
+    }
+
     /**
      * @internal
      *
      * @return positive-int
      */
     abstract public function expectedKeyLength(): int;
+
+    /**
+     * Returns the name of the curve that keys must use
+     *
+     * @internal
+     */
+    abstract public function expectedCurve(): string;
 
     /**
      * Returns the length of each point in the signature, so that we can calculate and verify R and S points properly

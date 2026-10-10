@@ -36,12 +36,14 @@ final class SignedWithTest extends ConstraintTestCase
     #[PHPUnit\Test]
     public function assertShouldRaiseExceptionWhenTokenIsNotAPlainToken(): void
     {
+        $this->signer->expects($this->never())->method(self::anything());
+
         $constraint = new SignedWith($this->signer, $this->key);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('You should pass a plain token');
+        $this->expectExceptionMessageIsOrContains('You should pass a plain token');
 
-        $constraint->assert($this->createMock(Token::class));
+        $constraint->assert(self::createStub(Token::class));
     }
 
     #[PHPUnit\Test]
@@ -54,7 +56,7 @@ final class SignedWithTest extends ConstraintTestCase
         $constraint = new SignedWith($this->signer, $this->key);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('Token signer mismatch');
+        $this->expectExceptionMessageIsOrContains('Token signer mismatch');
 
         $constraint->assert($token);
     }
@@ -72,7 +74,7 @@ final class SignedWithTest extends ConstraintTestCase
         $constraint = new SignedWith($this->signer, $this->key);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('Token signature mismatch');
+        $this->expectExceptionMessageIsOrContains('Token signature mismatch');
 
         $constraint->assert($token);
     }

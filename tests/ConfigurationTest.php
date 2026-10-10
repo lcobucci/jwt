@@ -18,7 +18,7 @@ use Lcobucci\JWT\Token\Parser as ParserImpl;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validator;
 use PHPUnit\Framework\Attributes as PHPUnit;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 #[PHPUnit\CoversClass(Configuration::class)]
@@ -29,22 +29,22 @@ use PHPUnit\Framework\TestCase;
 #[PHPUnit\UsesClass(\Lcobucci\JWT\Validation\Validator::class)]
 final class ConfigurationTest extends TestCase
 {
-    private Parser&MockObject $parser;
-    private Signer&MockObject $signer;
-    private Encoder&MockObject $encoder;
-    private Decoder&MockObject $decoder;
-    private Validator&MockObject $validator;
-    private Constraint&MockObject $validationConstraints;
+    private Parser&Stub $parser;
+    private Signer&Stub $signer;
+    private Encoder&Stub $encoder;
+    private Decoder&Stub $decoder;
+    private Validator&Stub $validator;
+    private Constraint&Stub $validationConstraints;
 
     #[PHPUnit\Before]
     public function createDependencies(): void
     {
-        $this->signer                = $this->createMock(Signer::class);
-        $this->encoder               = $this->createMock(Encoder::class);
-        $this->decoder               = $this->createMock(Decoder::class);
-        $this->parser                = $this->createMock(Parser::class);
-        $this->validator             = $this->createMock(Validator::class);
-        $this->validationConstraints = $this->createMock(Constraint::class);
+        $this->signer                = self::createStub(Signer::class);
+        $this->encoder               = self::createStub(Encoder::class);
+        $this->decoder               = self::createStub(Decoder::class);
+        $this->parser                = self::createStub(Parser::class);
+        $this->validator             = self::createStub(Validator::class);
+        $this->validationConstraints = self::createStub(Constraint::class);
     }
 
     #[PHPUnit\Test]
@@ -100,27 +100,9 @@ final class ConfigurationTest extends TestCase
     }
 
     #[PHPUnit\Test]
-    public function builderShouldUseBuilderFactoryWhenThatIsConfiguredWithDeprecatedSet(): void
-    {
-        $builder = $this->createMock(Builder::class);
-
-        $config = Configuration::forSymmetricSigner(
-            new KeyDumpSigner(),
-            InMemory::plainText('private'),
-        );
-        /** @phpstan-ignore method.deprecated */
-        $config->setBuilderFactory(
-            static function () use ($builder): Builder {
-                return $builder;
-            },
-        );
-        self::assertSame($builder, $config->builder());
-    }
-
-    #[PHPUnit\Test]
     public function builderShouldUseBuilderFactoryWhenThatIsConfigured(): void
     {
-        $builder = $this->createMock(Builder::class);
+        $builder = self::createStub(Builder::class);
 
         $config    = Configuration::forSymmetricSigner(
             new KeyDumpSigner(),
@@ -161,19 +143,6 @@ final class ConfigurationTest extends TestCase
     }
 
     #[PHPUnit\Test]
-    public function parserShouldNotCreateAnInstanceIfItWasConfiguredWithDeprecatedSet(): void
-    {
-        $config = Configuration::forSymmetricSigner(
-            new KeyDumpSigner(),
-            InMemory::plainText('private'),
-        );
-        /** @phpstan-ignore method.deprecated */
-        $config->setParser($this->parser);
-
-        self::assertSame($this->parser, $config->parser());
-    }
-
-    #[PHPUnit\Test]
     public function parserShouldNotCreateAnInstanceIfItWasConfigured(): void
     {
         $config    = Configuration::forSymmetricSigner(
@@ -196,19 +165,6 @@ final class ConfigurationTest extends TestCase
         $validator = $config->validator();
 
         self::assertNotSame($this->validator, $validator);
-    }
-
-    #[PHPUnit\Test]
-    public function validatorShouldReturnTheConfiguredValidatorWithDeprecatedSet(): void
-    {
-        $config = Configuration::forSymmetricSigner(
-            new KeyDumpSigner(),
-            InMemory::plainText('private'),
-        );
-        /** @phpstan-ignore method.deprecated */
-        $config->setValidator($this->validator);
-
-        self::assertSame($this->validator, $config->validator());
     }
 
     #[PHPUnit\Test]
@@ -236,19 +192,6 @@ final class ConfigurationTest extends TestCase
     }
 
     #[PHPUnit\Test]
-    public function validationConstraintsShouldReturnTheConfiguredValidatorWithDeprecatedSet(): void
-    {
-        $config = Configuration::forSymmetricSigner(
-            new KeyDumpSigner(),
-            InMemory::plainText('private'),
-        );
-        /** @phpstan-ignore method.deprecated */
-        $config->setValidationConstraints($this->validationConstraints);
-
-        self::assertSame([$this->validationConstraints], $config->validationConstraints());
-    }
-
-    #[PHPUnit\Test]
     public function validationConstraintsShouldReturnTheConfiguredValidator(): void
     {
         $config    = Configuration::forSymmetricSigner(
@@ -264,7 +207,7 @@ final class ConfigurationTest extends TestCase
     #[PHPUnit\Test]
     public function customClaimFormatterCanBeUsed(): void
     {
-        $formatter = $this->createMock(ClaimsFormatter::class);
+        $formatter = self::createStub(ClaimsFormatter::class);
         $config    = Configuration::forSymmetricSigner(
             new KeyDumpSigner(),
             InMemory::plainText('private'),

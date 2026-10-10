@@ -44,7 +44,7 @@ use function assert;
 #[PHPUnit\CoversClass(LooseValidAt::class)]
 class UnsignedTokenTest extends TestCase
 {
-    public const CURRENT_TIME = 100000;
+    public const int CURRENT_TIME = 100000;
 
     private Configuration $config;
 
@@ -125,7 +125,7 @@ class UnsignedTokenTest extends TestCase
         ];
 
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token violates some mandatory constraints');
+        $this->expectExceptionMessageIsOrContains('The token violates some mandatory constraints');
 
         $this->config->validator()->assert($generated, ...$constraints);
     }

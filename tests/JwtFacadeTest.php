@@ -152,9 +152,9 @@ final class JwtFacadeTest extends TestCase
     public function badSigner(): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('Token signer mismatch');
+        $this->expectExceptionMessageIsOrContains('Token signer mismatch');
 
-        (new JwtFacade())->parse(
+        $void = (new JwtFacade())->parse(
             $this->createToken(),
             new Constraint\SignedWith(new Hmac\Sha384(), $this->key),
             new Constraint\StrictValidAt($this->clock),
@@ -166,9 +166,9 @@ final class JwtFacadeTest extends TestCase
     public function badKey(): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('Token signature mismatch');
+        $this->expectExceptionMessageIsOrContains('Token signature mismatch');
 
-        (new JwtFacade())->parse(
+        $void = (new JwtFacade())->parse(
             $this->createToken(),
             new Constraint\SignedWith(
                 $this->signer,
@@ -186,9 +186,9 @@ final class JwtFacadeTest extends TestCase
         $this->clock->setTo($this->clock->now()->modify('+30 days'));
 
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token is expired');
+        $this->expectExceptionMessageIsOrContains('The token is expired');
 
-        (new JwtFacade())->parse(
+        $void = (new JwtFacade())->parse(
             $token,
             new Constraint\SignedWith($this->signer, $this->key),
             new Constraint\StrictValidAt($this->clock),
@@ -200,9 +200,9 @@ final class JwtFacadeTest extends TestCase
     public function badIssuer(): void
     {
         $this->expectException(RequiredConstraintsViolated::class);
-        $this->expectExceptionMessage('The token was not issued by the given issuers');
+        $this->expectExceptionMessageIsOrContains('The token was not issued by the given issuers');
 
-        (new JwtFacade())->parse(
+        $void = (new JwtFacade())->parse(
             $this->createToken(),
             new Constraint\SignedWith($this->signer, $this->key),
             new Constraint\StrictValidAt($this->clock),
@@ -215,7 +215,7 @@ final class JwtFacadeTest extends TestCase
     {
         $this->expectException(AssertionError::class);
 
-        (new JwtFacade(new UnsupportedParser()))->parse(
+        $void = (new JwtFacade(new UnsupportedParser()))->parse(
             'a.very-broken.token',
             new Constraint\SignedWith($this->signer, $this->key),
             new Constraint\StrictValidAt($this->clock),

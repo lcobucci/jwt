@@ -41,10 +41,12 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveThreeParts(): void
     {
+        $this->decoder->expects($this->never())->method(self::anything());
+
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('The JWT string must have two dots');
+        $this->expectExceptionMessageIsOrContains('The JWT string must have two dots');
 
         $parser->parse('.');
     }
@@ -52,10 +54,12 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveHeaders(): void
     {
+        $this->decoder->expects($this->never())->method(self::anything());
+
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('The JWT string is missing the Header part');
+        $this->expectExceptionMessageIsOrContains('The JWT string is missing the Header part');
 
         $parser->parse('.b.c');
     }
@@ -63,10 +67,12 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveClaims(): void
     {
+        $this->decoder->expects($this->never())->method(self::anything());
+
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('The JWT string is missing the Claim part');
+        $this->expectExceptionMessageIsOrContains('The JWT string is missing the Claim part');
 
         $parser->parse('a..c');
     }
@@ -74,10 +80,12 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenTokenDoesNotHaveSignature(): void
     {
+        $this->decoder->expects($this->never())->method(self::anything());
+
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('The JWT string is missing the Signature part');
+        $this->expectExceptionMessageIsOrContains('The JWT string is missing the Signature part');
 
         $parser->parse('a.b.');
     }
@@ -85,18 +93,22 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded(): void
     {
-        $this->decoder->method('base64UrlDecode')
-                      ->with('a')
-                      ->willReturn('b');
+        $this->decoder
+            ->expects($this->once())
+            ->method('base64UrlDecode')
+            ->with('a')
+            ->willReturn('b');
 
-        $this->decoder->method('jsonDecode')
-                      ->with('b')
-                      ->willThrowException(new RuntimeException('Nope'));
+        $this->decoder
+            ->expects($this->once())
+            ->method('jsonDecode')
+            ->with('b')
+            ->willThrowException(new RuntimeException('Nope'));
 
         $parser = $this->createParser();
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Nope');
+        $this->expectExceptionMessageIsOrContains('Nope');
 
         $parser->parse('a.b.c');
     }
@@ -104,13 +116,14 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenDealingWithNonArrayHeaders(): void
     {
-        $this->decoder->method('jsonDecode')
+        $this->decoder->expects($this->once())
+            ->method('jsonDecode')
                       ->willReturn('A very invalid header');
 
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('headers must be an array');
+        $this->expectExceptionMessageIsOrContains('headers must be an array');
 
         $parser->parse('a.a.a');
     }
@@ -118,13 +131,14 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenDealingWithHeadersThatHaveEmptyStringKeys(): void
     {
-        $this->decoder->method('jsonDecode')
-                      ->willReturn(['' => 'foo']);
+        $this->decoder->expects($this->once())
+            ->method('jsonDecode')
+            ->willReturn(['' => 'foo']);
 
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('headers must be an array');
+        $this->expectExceptionMessageIsOrContains('headers must be an array');
 
         $parser->parse('a.a.a');
     }
@@ -132,13 +146,14 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken(): void
     {
-        $this->decoder->method('jsonDecode')
-                      ->willReturn(['enc' => 'AAA']);
+        $this->decoder->expects($this->once())
+            ->method('jsonDecode')
+            ->willReturn(['enc' => 'AAA']);
 
         $parser = $this->createParser();
 
         $this->expectException(UnsupportedHeaderFound::class);
-        $this->expectExceptionMessage('Encryption is not supported yet');
+        $this->expectExceptionMessageIsOrContains('Encryption is not supported yet');
 
         $parser->parse('a.a.a');
     }
@@ -146,13 +161,14 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenDealingWithNonArrayClaims(): void
     {
-        $this->decoder->method('jsonDecode')
-                      ->willReturnOnConsecutiveCalls(['typ' => 'JWT'], 'A very invalid claim set');
+        $this->decoder->expects($this->exactly(2))
+            ->method('jsonDecode')
+            ->willReturnOnConsecutiveCalls(['typ' => 'JWT'], 'A very invalid claim set');
 
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('claims must be an array');
+        $this->expectExceptionMessageIsOrContains('claims must be an array');
 
         $parser->parse('a.a.a');
     }
@@ -160,13 +176,14 @@ final class ParserTest extends TestCase
     #[PHPUnit\Test]
     public function parseMustRaiseExceptionWhenDealingWithClaimsThatHaveEmptyStringKeys(): void
     {
-        $this->decoder->method('jsonDecode')
-                      ->willReturnOnConsecutiveCalls(['typ' => 'JWT'], ['' => 'foo']);
+        $this->decoder->expects($this->exactly(2))
+            ->method('jsonDecode')
+            ->willReturnOnConsecutiveCalls(['typ' => 'JWT'], ['' => 'foo']);
 
         $parser = $this->createParser();
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('claims must be an array');
+        $this->expectExceptionMessageIsOrContains('claims must be an array');
 
         $parser->parse('a.a.a');
     }
@@ -485,7 +502,9 @@ final class ParserTest extends TestCase
             ]);
 
         $this->expectException(InvalidTokenStructure::class);
-        $this->expectExceptionMessage('Value is not in the allowed date format: 14/10/2018 10:50:10.10 UTC');
+        $this->expectExceptionMessageIsOrContains(
+            'Value is not in the allowed date format: 14/10/2018 10:50:10.10 UTC',
+        );
         $this->createParser()->parse('a.b.c');
     }
 

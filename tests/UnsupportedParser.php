@@ -8,7 +8,7 @@ use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\DataSet;
 
-final class UnsupportedParser implements Parser
+final readonly class UnsupportedParser implements Parser
 {
     public function parse(string $jwt): Token
     {

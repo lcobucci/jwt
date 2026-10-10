@@ -24,7 +24,7 @@ final class IssueTokenBench extends AlgorithmsBench
 
     protected function runBenchmark(): void
     {
-        (new JwtFacade())->issue(
+        $void = (new JwtFacade())->issue(
             $this->algorithm,
             $this->key,
             static fn (Builder $builder): Builder => $builder

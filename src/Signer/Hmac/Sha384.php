@@ -5,7 +5,7 @@ namespace Lcobucci\JWT\Signer\Hmac;
 
 use Lcobucci\JWT\Signer\Hmac;
 
-final class Sha384 extends Hmac
+final readonly class Sha384 extends Hmac
 {
     public function algorithmId(): string
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Lcobucci\JWT;
 
 use Lcobucci\JWT\Encoding\CannotEncodeContent;
+use NoDiscard;
 
 interface Encoder
 {
@@ -14,6 +15,7 @@ interface Encoder
      *
      * @throws CannotEncodeContent When something goes wrong while encoding.
      */
+    #[NoDiscard]
     public function jsonEncode(mixed $data): string;
 
     /**
@@ -23,5 +25,6 @@ interface Encoder
      *
      * @return ($data is non-empty-string ? non-empty-string : string)
      */
+    #[NoDiscard]
     public function base64UrlEncode(string $data): string;
 }

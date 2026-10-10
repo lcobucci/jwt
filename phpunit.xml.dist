@@ -3,29 +3,22 @@
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     colors="true"
     beStrictAboutOutputDuringTests="true"
-    beStrictAboutTodoAnnotatedTests="true"
     beStrictAboutChangesToGlobalState="true"
     beStrictAboutCoverageMetadata="true"
+    beStrictAboutTestsThatDoNotTestAnything="true"
     requireCoverageMetadata="true"
-    failOnRisky="true"
-    failOnEmptyTestSuite="true"
+    failOnAllIssues="true"
+    displayDetailsOnAllIssues="true"
     cacheDirectory=".phpunit.cache"
-    displayDetailsOnTestsThatTriggerWarnings="true"
-    displayDetailsOnTestsThatTriggerNotices="true"
-    displayDetailsOnTestsThatTriggerErrors="true"
-    displayDetailsOnTestsThatTriggerDeprecations="true"
-    displayDetailsOnIncompleteTests="true"
-    displayDetailsOnSkippedTests="true"
 >
     <testsuites>
         <testsuite name="tests">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
-
     <source>
         <include>
-            <directory suffix=".php">src</directory>
+            <directory>src</directory>
         </include>
     </source>
 </phpunit>

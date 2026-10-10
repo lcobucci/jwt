@@ -7,10 +7,10 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
-final class IssuedBy implements Constraint
+final readonly class IssuedBy implements Constraint
 {
     /** @var non-empty-string[] */
-    private readonly array $issuers;
+    private array $issuers;
 
     /** @param non-empty-string ...$issuers */
     public function __construct(string ...$issuers)

@@ -4,7 +4,7 @@
 [![Latest Stable Version]](https://packagist.org/packages/lcobucci/jwt)
 [![Unstable Version]](https://packagist.org/packages/lcobucci/jwt)
 
-[![Build Status]](https://github.com/lcobucci/jwt/actions?query=workflow%3A%22PHPUnit%20Tests%22+branch%3A4.1.x)
+[![Build Status]](https://github.com/lcobucci/jwt/actions?query=workflow%3A%22PHPUnit%20Tests%22+branch%3A6.0.x)
 [![Code Coverage]](https://codecov.io/gh/lcobucci/jwt)
 
 A simple library to work with JSON Web Token and JSON Web Signature based on the [RFC 7519](https://tools.ietf.org/html/rfc7519).
@@ -26,5 +26,5 @@ The documentation is available at <https://lcobucci-jwt.readthedocs.io/en/latest
 [Total Downloads]: https://img.shields.io/packagist/dt/lcobucci/jwt.svg?style=flat-square
 [Latest Stable Version]: https://img.shields.io/packagist/v/lcobucci/jwt.svg?style=flat-square
 [Unstable Version]: https://img.shields.io/packagist/vpre/lcobucci/jwt.svg?style=flat-square
-[Build Status]: https://img.shields.io/github/actions/workflow/status/lcobucci/jwt/phpunit.yml?branch=5.1.x&style=flat-square
+[Build Status]: https://img.shields.io/github/actions/workflow/status/lcobucci/jwt/phpunit.yml?branch=6.0.x&style=flat-square
 [Code Coverage]: https://codecov.io/gh/lcobucci/jwt/branch/5.1.x/graph/badge.svg

@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Token;
 
-final class Signature
+final readonly class Signature
 {
     /**
      * @param non-empty-string $hash
      * @param non-empty-string $encoded
      */
-    public function __construct(private readonly string $hash, private readonly string $encoded)
+    public function __construct(private string $hash, private string $encoded)
     {
     }
 

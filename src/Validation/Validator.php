@@ -5,7 +5,7 @@ namespace Lcobucci\JWT\Validation;
 
 use Lcobucci\JWT\Token;
 
-final class Validator implements \Lcobucci\JWT\Validator
+final readonly class Validator implements \Lcobucci\JWT\Validator
 {
     public function assert(Token $token, Constraint ...$constraints): void
     {
@@ -19,7 +19,7 @@ final class Validator implements \Lcobucci\JWT\Validator
             $this->checkConstraint($constraint, $token, $violations);
         }
 
-        if ($violations) {
+        if ($violations !== []) {
             throw RequiredConstraintsViolated::fromViolations(...$violations);
         }
     }

@@ -7,10 +7,10 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
-final class RelatedTo implements Constraint
+final readonly class RelatedTo implements Constraint
 {
     /** @param non-empty-string $subject */
-    public function __construct(private readonly string $subject)
+    public function __construct(private string $subject)
     {
     }
 

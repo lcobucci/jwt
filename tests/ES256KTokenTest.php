@@ -10,7 +10,7 @@ use Lcobucci\JWT\Encoding\MicrosecondBasedDateConversion;
 use Lcobucci\JWT\Encoding\UnifyAudience;
 use Lcobucci\JWT\Signer\Ecdsa;
 use Lcobucci\JWT\Signer\Ecdsa\Sha256;
-use Lcobucci\JWT\Signer\Ecdsa\Sha512;
+use Lcobucci\JWT\Signer\Ecdsa\Sha256K;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\OpenSSL;
@@ -38,7 +38,7 @@ use function assert;
 #[PHPUnit\CoversClass(Ecdsa::class)]
 #[PHPUnit\CoversClass(Ecdsa\MultibyteStringConverter::class)]
 #[PHPUnit\CoversClass(Sha256::class)]
-#[PHPUnit\CoversClass(Sha512::class)]
+#[PHPUnit\CoversClass(Sha256K::class)]
 #[PHPUnit\CoversClass(InMemory::class)]
 #[PHPUnit\CoversClass(InvalidKeyProvided::class)]
 #[PHPUnit\CoversClass(OpenSSL::class)]
@@ -47,7 +47,7 @@ use function assert;
 #[PHPUnit\CoversClass(ConstraintViolation::class)]
 #[PHPUnit\CoversClass(SignedWith::class)]
 #[PHPUnit\CoversClass(RequiredConstraintsViolated::class)]
-class ES512TokenTest extends TestCase
+final class ES256KTokenTest extends TestCase
 {
     use Keys;
 
@@ -57,9 +57,9 @@ class ES512TokenTest extends TestCase
     public function createConfiguration(): void
     {
         $this->config = Configuration::forAsymmetricSigner(
-            new Sha512(),
-            static::$ecdsaKeys['private_ec512'],
-            static::$ecdsaKeys['public_ec512'],
+            new Sha256K(),
+            static::$ecdsaKeys['private_secp256k1'],
+            static::$ecdsaKeys['public_secp256k1'],
         );
     }
 
@@ -94,18 +94,35 @@ class ES512TokenTest extends TestCase
     }
 
     #[PHPUnit\Test]
+    public function builderShouldRaiseExceptionWhenKeyCurveIsNotSecp256k1(): void
+    {
+        $builder = $this->config->builder()
+            ->identifiedBy('1')
+            ->permittedFor('https://client.abc.com')
+            ->issuedBy('https://api.abc.com')
+            ->withClaim('user', ['name' => 'testing', 'email' => 'testing@abc.com']);
+
+        $this->expectException(InvalidKeyProvided::class);
+        $this->expectExceptionMessageIsOrContains(
+            'The curve of the provided key is not "secp256k1", "prime256v1" provided',
+        );
+
+        $void = $builder->getToken($this->config->signer(), static::$ecdsaKeys['private']);
+    }
+
+    #[PHPUnit\Test]
     public function builderCanGenerateAToken(): Token
     {
         $user    = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->builder();
 
         $token = $builder->identifiedBy('1')
-            ->permittedFor('https://client.abc.com')
-            ->permittedFor('https://client2.abc.com')
-            ->issuedBy('https://api.abc.com')
-            ->withClaim('user', $user)
-            ->withHeader('jki', '1234')
-            ->getToken($this->config->signer(), $this->config->signingKey());
+                         ->permittedFor('https://client.abc.com')
+                         ->permittedFor('https://client2.abc.com')
+                         ->issuedBy('https://api.abc.com')
+                         ->withClaim('user', $user)
+                         ->withHeader('jki', '1234')
+                         ->getToken($this->config->signer(), $this->config->signingKey());
 
         self::assertSame('1234', $token->headers()->get('jki'));
         self::assertSame('https://api.abc.com', $token->claims()->get(Token\RegisteredClaims::ISSUER));
@@ -141,7 +158,7 @@ class ES512TokenTest extends TestCase
             $token,
             new SignedWith(
                 $this->config->signer(),
-                self::$ecdsaKeys['public2_ec512'],
+                self::$ecdsaKeys['public2_secp256k1'],
             ),
         );
     }
@@ -157,7 +174,7 @@ class ES512TokenTest extends TestCase
             $token,
             new SignedWith(
                 new Sha256(),
-                self::$ecdsaKeys['public_ec512'],
+                self::$ecdsaKeys['public1'],
             ),
         );
     }
@@ -172,6 +189,21 @@ class ES512TokenTest extends TestCase
         $this->config->validator()->assert(
             $token,
             new SignedWith($this->config->signer(), self::$rsaKeys['public']),
+        );
+    }
+
+    #[PHPUnit\Test]
+    #[PHPUnit\Depends('builderCanGenerateAToken')]
+    public function signatureAssertionShouldRaiseExceptionWhenKeyCurveIsNotSecp256k1(Token $token): void
+    {
+        $this->expectException(InvalidKeyProvided::class);
+        $this->expectExceptionMessageIsOrContains(
+            'The curve of the provided key is not "secp256k1", "prime256v1" provided',
+        );
+
+        $this->config->validator()->assert(
+            $token,
+            new SignedWith($this->config->signer(), self::$ecdsaKeys['public1']),
         );
     }
 

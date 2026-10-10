@@ -22,7 +22,7 @@ final class IdentifiedByTest extends ConstraintTestCase
         $constraint = new IdentifiedBy('123456');
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token is not identified with the expected ID');
+        $this->expectExceptionMessageIsOrContains('The token is not identified with the expected ID');
 
         $constraint->assert($this->buildToken());
     }
@@ -33,7 +33,7 @@ final class IdentifiedByTest extends ConstraintTestCase
         $constraint = new IdentifiedBy('123456');
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token is not identified with the expected ID');
+        $this->expectExceptionMessageIsOrContains('The token is not identified with the expected ID');
 
         $constraint->assert($this->buildToken([RegisteredClaims::ID => 15]));
     }

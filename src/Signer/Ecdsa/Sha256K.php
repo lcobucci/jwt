@@ -5,34 +5,37 @@ namespace Lcobucci\JWT\Signer\Ecdsa;
 
 use Lcobucci\JWT\Signer\Ecdsa;
 
-use const OPENSSL_ALGO_SHA512;
+use const OPENSSL_ALGO_SHA256;
 
-final readonly class Sha512 extends Ecdsa
+/**
+ * ECDSA using the secp256k1 curve and SHA-256, as defined by RFC 8812.
+ *
+ * @see https://www.rfc-editor.org/rfc/rfc8812#section-3.2
+ */
+final readonly class Sha256K extends Ecdsa
 {
     public function algorithmId(): string
     {
-        return 'ES512';
+        return 'ES256K';
     }
 
     public function algorithm(): int
     {
-        return OPENSSL_ALGO_SHA512;
+        return OPENSSL_ALGO_SHA256;
     }
 
     public function pointLength(): int
     {
-        return 132;
+        return 64;
     }
 
     public function expectedKeyLength(): int
     {
-        // ES512 means ECDSA using P-521 and SHA-512.
-        // The key size is indeed 521 bits.
-        return 521;
+        return 256;
     }
 
     public function expectedCurve(): string
     {
-        return 'secp521r1';
+        return 'secp256k1';
     }
 }

@@ -5,7 +5,7 @@ namespace Lcobucci\JWT\Encoding;
 
 use Lcobucci\JWT\ClaimsFormatter;
 
-final class ChainedFormatter implements ClaimsFormatter
+final readonly class ChainedFormatter implements ClaimsFormatter
 {
     /** @var array<ClaimsFormatter> */
     private array $formatters;
