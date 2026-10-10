@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Lcobucci\JWT\Signer;
 
 use const OPENSSL_KEYTYPE_RSA;
-use const OPENSSL_PKCS1_PADDING;
+use const OPENSSL_PKCS1_PSS_PADDING;
 
-abstract readonly class Rsa extends OpenSSL
+abstract readonly class RsaPss extends OpenSSL
 {
     private const int MINIMUM_KEY_LENGTH = 2048;
 
@@ -22,7 +22,7 @@ abstract readonly class Rsa extends OpenSSL
 
     final protected function padding(): int
     {
-        return OPENSSL_PKCS1_PADDING;
+        return OPENSSL_PKCS1_PSS_PADDING;
     }
 
     final protected function guardAgainstIncompatibleKey(int $type, int $lengthInBits): void
