@@ -14,6 +14,9 @@ use PHPUnit\Framework\TestCase;
 
 use function sodium_crypto_sign_detached;
 use function sodium_crypto_sign_verify_detached;
+use function str_repeat;
+
+use const SODIUM_CRYPTO_SIGN_BYTES;
 
 #[PHPUnit\CoversClass(Eddsa::class)]
 #[PHPUnit\UsesClass(InMemory::class)]
@@ -79,9 +82,9 @@ final class EddsaTest extends TestCase
 
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('SODIUM_CRYPTO_SIGN_BYTES');
+        $this->expectExceptionMessage('SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES');
 
-        $signer->verify('testing', 'testing', InMemory::plainText('blablabla'));
+        $signer->verify(str_repeat('a', SODIUM_CRYPTO_SIGN_BYTES), 'testing', InMemory::plainText('blablabla'));
     }
 
     /** @see https://tools.ietf.org/html/rfc8037#appendix-A.4 */
