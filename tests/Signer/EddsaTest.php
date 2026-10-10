@@ -65,6 +65,14 @@ final class EddsaTest extends TestCase
     }
 
     #[PHPUnit\Test]
+    public function verifyShouldReturnFalseWhenSignatureHasAnInvalidLength(): void
+    {
+        $signer = new Eddsa();
+
+        self::assertFalse($signer->verify('too-short', 'testing', self::$eddsaKeys['public1']));
+    }
+
+    #[PHPUnit\Test]
     public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $signer = new Eddsa();
