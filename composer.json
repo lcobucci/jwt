@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "~8.4.0 || ~8.5.0",
+        "php": "~8.5.0 || ~8.6.0",
         "ext-openssl": "*",
         "ext-sodium": "*",
         "psr/clock": "^1.0"
@@ -33,6 +33,9 @@
         "phpstan/phpstan-phpunit": "^2.0.18",
         "phpstan/phpstan-strict-rules": "^2.0.12",
         "phpunit/phpunit": "^13.2.5"
+    },
+    "conflict": {
+        "lcobucci/jwt-rsassa-pss": "*"
     },
     "suggest": {
         "lcobucci/clock": ">= 3.2"

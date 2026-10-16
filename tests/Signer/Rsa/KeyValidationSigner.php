@@ -7,6 +7,7 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\OpenSSL;
 
 use const OPENSSL_ALGO_SHA256;
+use const OPENSSL_PKCS1_PADDING;
 
 final readonly class KeyValidationSigner extends OpenSSL
 {
@@ -18,6 +19,11 @@ final readonly class KeyValidationSigner extends OpenSSL
     public function algorithm(): int
     {
         return OPENSSL_ALGO_SHA256;
+    }
+
+    protected function padding(): int
+    {
+        return OPENSSL_PKCS1_PADDING;
     }
 
     public function algorithmId(): string

@@ -36,19 +36,18 @@ They're usually recommended for scenarios where creation is handled by a compone
 | `RS512`  | RSASSA-PKCS1-v1_5 using SHA-512    | `\Lcobucci\JWT\Signer\Rsa\Sha512`    | `>= 2048 bits`  |
 | `EdDSA`  | EdDSA signature algorithms         | `\Lcobucci\JWT\Signer\Eddsa`         | `>= 256 bits`   |
 | `ES256K` | ECDSA using secp256k1 and SHA-256  | `\Lcobucci\JWT\Signer\Ecdsa\Sha256K` | `== 256 bits`   |
+| `PS256`  | RSASSA-PSS using SHA-256           | `\Lcobucci\JWT\Signer\RsaPss\Sha256` | `>= 2048 bits`  |
+| `PS384`  | RSASSA-PSS using SHA-384           | `\Lcobucci\JWT\Signer\RsaPss\Sha384` | `>= 2048 bits`  |
+| `PS512`  | RSASSA-PSS using SHA-512           | `\Lcobucci\JWT\Signer\RsaPss\Sha512` | `>= 2048 bits`  |
 
 !!! Note
 `ES256K` uses the secp256k1 ("Koblitz") curve, commonly used in blockchain ecosystems, as defined by [RFC 8812].
 Unlike `ES256`, keys for `ES256K` must explicitly use the `secp256k1` curve; a `P-256` key won't be accepted even though it has the same bit length.
 
-The following algorithms are implemented in a separate package `lcobucci/jwt-rsassa-pss` in order to keep dependencies low in the main package.
-Please see the installation instructions in the [RSASSA-PSS readme].
-
-| Name    | Description                     | Class                                | Key length req. |
-|---------|---------------------------------|--------------------------------------|-----------------|
-| `PS256` | RSASSA-PSS using SHA-256        | `\Lcobucci\JWT\Signer\RsaPss\Sha256` | `>= 2048 bits`  |
-| `PS384` | RSASSA-PSS using SHA-384        | `\Lcobucci\JWT\Signer\RsaPss\Sha384` | `>= 2048 bits`  |
-| `PS512` | RSASSA-PSS using SHA-512        | `\Lcobucci\JWT\Signer\RsaPss\Sha512` | `>= 2048 bits`  |
+!!! Note
+`PS256`, `PS384`, and `PS512` rely on the RSASSA-PSS padding support added to `ext-openssl` in PHP 8.5.
+They used to be provided by the separate package `lcobucci/jwt-rsassa-pss`, which is no longer needed as the class names are the same.
+Keys must be regular RSA keys: keys restricted to RSASSA-PSS (`rsassaPss` OID) aren't supported.
 
 ## `none` algorithm
 
@@ -58,5 +57,4 @@ shouldn't represent a computational bottleneck with modern hardware.
 
 
 [JWT standard]: https://www.iana.org/assignments/jose/jose.xhtml#web-signature-encryption-algorithms
-[RSASSA-PSS readme]: https://github.com/lcobucci/jwt-rsassa-pss
 [RFC 8812]: https://www.rfc-editor.org/rfc/rfc8812

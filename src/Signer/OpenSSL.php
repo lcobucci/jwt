@@ -48,7 +48,7 @@ abstract readonly class OpenSSL implements Signer
 
         $signature = '';
 
-        if (! openssl_sign($payload, $signature, $opensslKey, $this->algorithm())) {
+        if (! openssl_sign($payload, $signature, $opensslKey, $this->algorithm(), $this->padding())) {
             throw CannotSignPayload::errorHappened($this->fullOpenSSLErrorString());
         }
 
@@ -69,7 +69,7 @@ abstract readonly class OpenSSL implements Signer
         Key $key,
     ): bool {
         $opensslKey = $this->getPublicKey($key);
-        $result     = openssl_verify($payload, $expected, $opensslKey, $this->algorithm());
+        $result     = openssl_verify($payload, $expected, $opensslKey, $this->algorithm(), $this->padding());
 
         return $result === 1;
     }
@@ -151,4 +151,11 @@ abstract readonly class OpenSSL implements Signer
      * @internal
      */
     abstract public function algorithm(): int;
+
+    /**
+     * Returns which padding to be used to create/verify the signature (using OpenSSL constants)
+     *
+     * Every signer states it explicitly, rather than relying on what OpenSSL picks for the key type.
+     */
+    abstract protected function padding(): int;
 }
