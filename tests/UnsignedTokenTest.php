@@ -13,8 +13,8 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
-use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
+use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use Lcobucci\JWT\Validation\Validator;
@@ -41,7 +41,7 @@ use function assert;
 #[PHPUnit\CoversClass(IssuedBy::class)]
 #[PHPUnit\CoversClass(PermittedFor::class)]
 #[PHPUnit\CoversClass(IdentifiedBy::class)]
-#[PHPUnit\CoversClass(LooseValidAt::class)]
+#[PHPUnit\CoversClass(StrictValidAt::class)]
 class UnsignedTokenTest extends TestCase
 {
     public const int CURRENT_TIME = 100000;
@@ -63,11 +63,14 @@ class UnsignedTokenTest extends TestCase
         $user    = ['name' => 'testing', 'email' => 'testing@abc.com'];
         $builder = $this->config->builder();
 
+        $issuedAt   = new DateTimeImmutable('@' . self::CURRENT_TIME);
         $expiration = new DateTimeImmutable('@' . (self::CURRENT_TIME + 3000));
 
         $token = $builder->identifiedBy('1')
                          ->permittedFor('https://client.abc.com')
                          ->issuedBy('https://api.abc.com')
+                         ->issuedAt($issuedAt)
+                         ->canOnlyBeUsedAfter($issuedAt)
                          ->expiresAt($expiration)
                          ->withClaim('user', $user)
                          ->getToken($this->config->signer(), $this->config->signingKey());
@@ -102,7 +105,7 @@ class UnsignedTokenTest extends TestCase
             new IdentifiedBy('1'),
             new PermittedFor('https://client.abc.com'),
             new IssuedBy('https://issuer.abc.com', 'https://api.abc.com'),
-            new LooseValidAt($clock),
+            new StrictValidAt($clock),
         ];
 
         self::assertTrue($this->config->validator()->validate($generated, ...$constraints));
