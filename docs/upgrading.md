@@ -2,6 +2,26 @@
 
 Here we'll keep a list of all steps you need to take to make sure your code is compatible with newer versions.
 
+## v5.x to v6.x
+
+### Removal of `LooseValidAt`
+
+`Lcobucci\JWT\Validation\Constraint\LooseValidAt` was deprecated in `v5.7.0` and is now removed.
+It accepts tokens without the `exp` claim, which means such tokens never expire (CWE-613: Insufficient Session Expiration).
+
+Please use `Lcobucci\JWT\Validation\Constraint\StrictValidAt` instead, and make sure the tokens you issue contain the `iat`, `nbf`, and `exp` claims:
+
+```diff
+ <?php
+ declare(strict_types=1);
+
+-use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
++use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
+
+-$constraint = new LooseValidAt($clock, $leeway);
++$constraint = new StrictValidAt($clock, $leeway);
+```
+
 ## v4.x to v5.x
 
 The release `v5.0.0` is a modernised version of the library, which requires PHP 8.1+ and drops all the deprecated components.
