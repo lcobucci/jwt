@@ -10,6 +10,11 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\ValidAt as ValidAtInterface;
 use Psr\Clock\ClockInterface as Clock;
 
+/**
+ * @deprecated Deprecated since v5.7, please use {@see StrictValidAt} instead.
+ *             Accepting tokens without the "exp" claim leads to tokens that never expire
+ *             (CWE-613: Insufficient Session Expiration).
+ */
 final class LooseValidAt implements ValidAtInterface
 {
     private readonly DateInterval $leeway;
