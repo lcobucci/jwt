@@ -380,7 +380,8 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2026-05-06T08:26:05+00:00"
+            "time": "2026-05-06T08:26:05+00:00",
+            "published-time": "2026-05-06T12:56:03+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -513,7 +514,8 @@
                 "issues": "https://github.com/doctrine/coding-standard/issues",
                 "source": "https://github.com/doctrine/coding-standard/tree/14.0.0"
             },
-            "time": "2025-09-21T18:21:47+00:00"
+            "time": "2025-09-21T18:21:47+00:00",
+            "published-time": "2025-09-30T17:01:23+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -1155,21 +1157,21 @@
         },
         {
             "name": "lcobucci/coding-standard",
-            "version": "12.0.0",
+            "version": "12.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/coding-standard.git",
-                "reference": "8a186dc165176be308f1ad68586f6e696c7c39ae"
+                "reference": "3d7f649ee7588f20133c0bd1c791d3c2af544626"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/coding-standard/zipball/8a186dc165176be308f1ad68586f6e696c7c39ae",
-                "reference": "8a186dc165176be308f1ad68586f6e696c7c39ae",
+                "url": "https://api.github.com/repos/lcobucci/coding-standard/zipball/3d7f649ee7588f20133c0bd1c791d3c2af544626",
+                "reference": "3d7f649ee7588f20133c0bd1c791d3c2af544626",
                 "shasum": ""
             },
             "require": {
                 "doctrine/coding-standard": "^14.0.0",
-                "php": "~8.4.0 || ~8.5.0"
+                "php": "~8.4.0 || ~8.5.0 || ~8.6.0"
             },
             "require-dev": {
                 "roave/security-advisories": "dev-latest"
@@ -1188,7 +1190,7 @@
             "description": "Lcobucci's Coding Standard",
             "support": {
                 "issues": "https://github.com/lcobucci/coding-standard/issues",
-                "source": "https://github.com/lcobucci/coding-standard/tree/12.0.0"
+                "source": "https://github.com/lcobucci/coding-standard/tree/12.1.0"
             },
             "funding": [
                 {
@@ -1200,7 +1202,8 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-04-13T20:06:47+00:00"
+            "time": "2026-10-31T11:37:16+00:00",
+            "published-time": "2026-10-31T11:38:55+00:00"
         },
         {
             "name": "marc-mabe/php-enum",
@@ -1831,7 +1834,8 @@
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
                 "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.6"
             },
-            "time": "2026-09-27T20:07:45+00:00"
+            "time": "2026-09-27T20:07:45+00:00",
+            "published-time": "2026-09-27T20:08:57+00:00"
         },
         {
             "name": "phpstan/phpstan",
@@ -4191,7 +4195,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-31T10:42:43+00:00"
+            "time": "2026-07-31T10:42:43+00:00",
+            "published-time": "2026-07-31T11:07:05+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -4275,7 +4280,8 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2026-08-06T02:45:27+00:00"
+            "time": "2026-08-06T02:45:27+00:00",
+            "published-time": "2026-08-06T02:57:35+00:00"
         },
         {
             "name": "staabm/side-effects-detector",
@@ -5687,5 +5693,5 @@
         "ext-sodium": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
