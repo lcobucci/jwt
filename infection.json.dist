@@ -3,6 +3,7 @@
         "directories": ["src"]
     },
     "timeout": 3,
+    "staticAnalysisTool": "phpstan",
     "logs": {
         "text": "infection.txt"
     },
