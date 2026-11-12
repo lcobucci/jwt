@@ -25,6 +25,7 @@ use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
+use function str_repeat;
 
 use const PHP_EOL;
 
@@ -188,6 +189,26 @@ class EcdsaTokenTest extends TestCase
         );
 
         self::assertTrue($this->config->validator()->validate($token, $constraint));
+    }
+
+    #[PHPUnit\Test]
+    #[PHPUnit\Depends('builderCanGenerateAToken')]
+    public function signatureValidationShouldFailWhenSignatureHasLeadingZeroComponents(Token $token): void
+    {
+        assert($token instanceof Token\Plain);
+
+        // R = 1 and S = 1, left-padded with zero bytes to the curve's point size
+        $point     = str_repeat("\0", 31) . "\1";
+        $malicious = $this->config->parser()->parse(
+            $token->payload() . '.' . (new JoseEncoder())->base64UrlEncode($point . $point),
+        );
+
+        $constraint = new SignedWith(
+            $this->config->signer(),
+            $this->config->verificationKey(),
+        );
+
+        self::assertFalse($this->config->validator()->validate($malicious, $constraint));
     }
 
     #[PHPUnit\Test]
