@@ -13,7 +13,7 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
-use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
+use Lcobucci\JWT\Validation\Constraint\PermissiveValidAt;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
@@ -41,7 +41,7 @@ use function assert;
 #[PHPUnit\CoversClass(IssuedBy::class)]
 #[PHPUnit\CoversClass(PermittedFor::class)]
 #[PHPUnit\CoversClass(IdentifiedBy::class)]
-#[PHPUnit\CoversClass(LooseValidAt::class)]
+#[PHPUnit\CoversClass(PermissiveValidAt::class)]
 class UnsignedTokenTest extends TestCase
 {
     public const int CURRENT_TIME = 100000;
@@ -102,7 +102,7 @@ class UnsignedTokenTest extends TestCase
             new IdentifiedBy('1'),
             new PermittedFor('https://client.abc.com'),
             new IssuedBy('https://issuer.abc.com', 'https://api.abc.com'),
-            new LooseValidAt($clock),
+            new PermissiveValidAt($clock),
         ];
 
         self::assertTrue($this->config->validator()->validate($generated, ...$constraints));

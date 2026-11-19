@@ -62,6 +62,14 @@ final class MultibyteStringConverterTest extends TestCase
     /** @return string[][] */
     public static function pointsConversionData(): iterable
     {
+        // R and S shrink to a single byte once their 17+ leading zero bytes are
+        // stripped, so their encoded length is a single hex digit (GHSA-g3gx-p6xp-9gxq).
+        yield 'R and S with many leading zero bytes' => [
+            '0000000000000000000000000000000000000000000000000000000000000001',
+            '0000000000000000000000000000000000000000000000000000000000000001',
+            '3006020101020101',
+        ];
+
         yield [
             'efd48b2aacb6a8fd1140dd9cd45e81d69d2c877b56aaf991c34d0ea84eaf3716',
             'f7cb1c942d657c41d436c7a1b6e29f65f3e900dbb9aff4064dc4ab2f843acda8',
