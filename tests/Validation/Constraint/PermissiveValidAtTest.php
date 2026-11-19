@@ -50,7 +50,7 @@ final class PermissiveValidAtTest extends ValidAtTestCase
         $constraint = $this->buildValidAtConstraint($this->clock);
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('"Expiration Time" claim missing');
+        $this->expectExceptionMessageIs('"Expiration Time" claim missing');
 
         $constraint->assert($this->buildToken($claims));
     }

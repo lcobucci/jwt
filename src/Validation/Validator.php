@@ -19,7 +19,7 @@ final class Validator implements \Lcobucci\JWT\Validator
             $this->checkConstraint($constraint, $token, $violations);
         }
 
-        if ($violations) {
+        if ($violations !== []) {
             throw RequiredConstraintsViolated::fromViolations(...$violations);
         }
     }
