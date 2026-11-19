@@ -12,7 +12,7 @@ use function strlen;
 
 use const SODIUM_CRYPTO_SIGN_BYTES;
 
-final class Eddsa implements Signer
+final readonly class Eddsa implements Signer
 {
     public function algorithmId(): string
     {

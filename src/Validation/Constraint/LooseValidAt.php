@@ -15,11 +15,11 @@ use Psr\Clock\ClockInterface as Clock;
  *             Accepting tokens without the "exp" claim leads to tokens that never expire
  *             (CWE-613: Insufficient Session Expiration).
  */
-final class LooseValidAt implements ValidAtInterface
+final readonly class LooseValidAt implements ValidAtInterface
 {
-    private readonly DateInterval $leeway;
+    private DateInterval $leeway;
 
-    public function __construct(private readonly Clock $clock, ?DateInterval $leeway = null)
+    public function __construct(private Clock $clock, ?DateInterval $leeway = null)
     {
         $this->leeway = $this->guardLeeway($leeway);
     }

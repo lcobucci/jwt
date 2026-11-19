@@ -8,6 +8,7 @@ use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Validation\Constraint;
+use NoDiscard;
 
 /**
  * Configuration container for the JWT Builder and Parser
@@ -15,7 +16,7 @@ use Lcobucci\JWT\Validation\Constraint;
  * Serves like a small DI container to simplify the creation and usage
  * of the objects.
  */
-final class Configuration
+final readonly class Configuration
 {
     private Parser $parser;
     private Validator $validator;
@@ -28,11 +29,11 @@ final class Configuration
 
     /** @param Closure(ClaimsFormatter $claimFormatter): Builder|null $builderFactory */
     private function __construct(
-        private readonly Signer $signer,
-        private readonly Key $signingKey,
-        private readonly Key $verificationKey,
-        private readonly Encoder $encoder,
-        private readonly Decoder $decoder,
+        private Signer $signer,
+        private Key $signingKey,
+        private Key $verificationKey,
+        private Encoder $encoder,
+        private Decoder $decoder,
         ?Parser $parser,
         ?Validator $validator,
         ?Closure $builderFactory,
@@ -49,6 +50,7 @@ final class Configuration
         $this->validationConstraints = $validationConstraints;
     }
 
+    #[NoDiscard]
     public static function forAsymmetricSigner(
         Signer $signer,
         Key $signingKey,
@@ -68,6 +70,7 @@ final class Configuration
         );
     }
 
+    #[NoDiscard]
     public static function forSymmetricSigner(
         Signer $signer,
         Key $key,
@@ -86,17 +89,8 @@ final class Configuration
         );
     }
 
-    /**
-     * @deprecated Deprecated since v5.5, please use {@see self::withBuilderFactory()} instead
-     *
-     * @param callable(ClaimsFormatter): Builder $builderFactory
-     */
-    public function setBuilderFactory(callable $builderFactory): void
-    {
-        $this->builderFactory = $builderFactory(...);
-    }
-
     /** @param callable(ClaimsFormatter): Builder $builderFactory */
+    #[NoDiscard]
     public function withBuilderFactory(callable $builderFactory): self
     {
         return new self(
@@ -122,12 +116,7 @@ final class Configuration
         return $this->parser;
     }
 
-    /** @deprecated Deprecated since v5.5, please use {@see self::withParser()} instead */
-    public function setParser(Parser $parser): void
-    {
-        $this->parser = $parser;
-    }
-
+    #[NoDiscard]
     public function withParser(Parser $parser): self
     {
         return new self(
@@ -163,12 +152,7 @@ final class Configuration
         return $this->validator;
     }
 
-    /** @deprecated Deprecated since v5.5, please use {@see self::withValidator()} instead */
-    public function setValidator(Validator $validator): void
-    {
-        $this->validator = $validator;
-    }
-
+    #[NoDiscard]
     public function withValidator(Validator $validator): self
     {
         return new self(
@@ -190,12 +174,7 @@ final class Configuration
         return $this->validationConstraints;
     }
 
-    /** @deprecated Deprecated since v5.5, please use {@see self::withValidationConstraints()} instead */
-    public function setValidationConstraints(Constraint ...$validationConstraints): void
-    {
-        $this->validationConstraints = $validationConstraints;
-    }
-
+    #[NoDiscard]
     public function withValidationConstraints(Constraint ...$validationConstraints): self
     {
         return new self(

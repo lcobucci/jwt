@@ -7,7 +7,7 @@ use Lcobucci\JWT\Signer\Ecdsa;
 
 use const OPENSSL_ALGO_SHA512;
 
-final class Sha512 extends Ecdsa
+final readonly class Sha512 extends Ecdsa
 {
     public function algorithmId(): string
     {
@@ -29,5 +29,10 @@ final class Sha512 extends Ecdsa
         // ES512 means ECDSA using P-521 and SHA-512.
         // The key size is indeed 521 bits.
         return 521;
+    }
+
+    public function expectedCurve(): string
+    {
+        return 'secp521r1';
     }
 }

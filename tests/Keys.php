@@ -52,6 +52,9 @@ trait Keys
             'private_ec512'  => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/private_ec512.key'),
             'public_ec512'   => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/public_ec512.key'),
             'public2_ec512'  => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/public2_ec512.key'),
+            'private_secp256k1' => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/private_secp256k1.key'),
+            'public_secp256k1'  => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/public_secp256k1.key'),
+            'public2_secp256k1' => Key\InMemory::file(__DIR__ . '/_keys/ecdsa/public2_secp256k1.key'),
         ];
     }
 

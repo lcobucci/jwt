@@ -5,10 +5,10 @@ namespace Lcobucci\JWT\Token;
 
 use function array_key_exists;
 
-final class DataSet
+final readonly class DataSet
 {
     /** @param array<non-empty-string, mixed> $data */
-    public function __construct(private readonly array $data, private readonly string $encoded)
+    public function __construct(private array $data, private string $encoded)
     {
     }
 

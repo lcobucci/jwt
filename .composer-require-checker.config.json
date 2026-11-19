@@ -1,0 +1,13 @@
+{
+  "symbol-whitelist" : [
+    "NoDiscard"
+  ],
+  "php-core-extensions" : [
+    "Core",
+    "date",
+    "json",
+    "hash",
+    "SPL",
+    "standard"
+  ]
+}

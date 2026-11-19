@@ -29,6 +29,6 @@ final class VerifySignatureBench extends AlgorithmsBench
 
     protected function runBenchmark(): void
     {
-        $this->algorithm->verify($this->signature, self::PAYLOAD, $this->key);
+        $void = $this->algorithm->verify($this->signature, self::PAYLOAD, $this->key);
     }
 }

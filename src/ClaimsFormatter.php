@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
+use NoDiscard;
+
 interface ClaimsFormatter
 {
     /**
@@ -10,5 +12,6 @@ interface ClaimsFormatter
      *
      * @return array<non-empty-string, mixed>
      */
+    #[NoDiscard]
     public function formatClaims(array $claims): array;
 }

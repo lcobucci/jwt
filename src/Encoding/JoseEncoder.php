@@ -18,7 +18,7 @@ use const JSON_UNESCAPED_UNICODE;
 /**
  * A utilitarian class that encodes and decodes data according to JOSE specifications
  */
-final class JoseEncoder implements Encoder, Decoder
+final readonly class JoseEncoder implements Encoder, Decoder
 {
     public function jsonEncode(mixed $data): string
     {
