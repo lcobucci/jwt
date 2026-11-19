@@ -17,22 +17,22 @@
         }
     ],
     "require": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0 || ~8.6.0",
+        "php": "~8.4.0 || ~8.5.0 || ~8.6.0",
         "ext-openssl": "*",
         "ext-sodium": "*",
         "psr/clock": "^1.0"
     },
     "require-dev": {
-        "infection/infection": "^0.32.6",
-        "lcobucci/clock": "^3.3.1",
-        "lcobucci/coding-standard": "^11.2",
+        "infection/infection": "^0.35",
+        "lcobucci/clock": "^3.7",
+        "lcobucci/coding-standard": "^12.1",
         "phpbench/phpbench": "^1.7",
         "phpstan/extension-installer": "^1.4.3",
-        "phpstan/phpstan": "^1.12.34",
-        "phpstan/phpstan-deprecation-rules": "^1.2.1",
-        "phpstan/phpstan-phpunit": "^1.4.2",
-        "phpstan/phpstan-strict-rules": "^1.6.2",
-        "phpunit/phpunit": "^11.5.57"
+        "phpstan/phpstan": "^2.3",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.1",
+        "phpstan/phpstan-strict-rules": "^2.1",
+        "phpunit/phpunit": "^13.4"
     },
     "suggest": {
         "lcobucci/clock": ">= 3.2"
@@ -55,7 +55,7 @@
             "phpstan/extension-installer": true
         },
         "platform": {
-            "php": "8.2.99"
+            "php": "8.4.99"
         },
         "preferred-install": "dist",
         "sort-packages": true

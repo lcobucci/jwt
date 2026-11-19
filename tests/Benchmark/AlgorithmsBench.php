@@ -14,7 +14,7 @@ use RuntimeException;
 #[Bench\Warmup(3)]
 abstract class AlgorithmsBench
 {
-    private const SUPPORTED_ALGORITHMS = [
+    private const array SUPPORTED_ALGORITHMS = [
         'hmac' => ['HS256', 'HS384', 'HS512'],
         'rsa' => ['RS256', 'RS384', 'RS512'],
         'ecdsa' => ['ES256', 'ES384', 'ES512'],
@@ -22,8 +22,8 @@ abstract class AlgorithmsBench
         'blake2b' => ['BLAKE2B'],
     ];
 
-    protected const PAYLOAD = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road"
-        . ", and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept"
+    protected const string PAYLOAD = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step"
+        . " onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept"
         . ' off to.';
 
     #[Bench\Subject]

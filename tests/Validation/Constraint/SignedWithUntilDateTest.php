@@ -27,7 +27,6 @@ use PHPUnit\Framework\Attributes as PHPUnit;
 #[PHPUnit\CoversClass(SignedWith::class)]
 #[PHPUnit\CoversClass(ConstraintViolation::class)]
 #[PHPUnit\UsesClass(DataSet::class)]
-#[PHPUnit\UsesClass(InMemory::class)]
 #[PHPUnit\UsesClass(Plain::class)]
 #[PHPUnit\UsesClass(Signature::class)]
 #[PHPUnit\UsesClass(InMemory::class)]
