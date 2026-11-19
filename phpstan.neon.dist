@@ -3,7 +3,4 @@ parameters:
     paths:
         - src
         - tests
-    ignoreErrors:
-        -
-            message: '#deprecated class Lcobucci\\JWT\\Validation\\Constraint\\LooseValidAt#'
-            path: tests/Validation/Constraint/LooseValidAtTest.php
+
