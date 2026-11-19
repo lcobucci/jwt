@@ -108,7 +108,7 @@ abstract class EcdsaTestCase extends TestCase
         self::assertArrayHasKey($keyId, self::$ecdsaKeys);
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'The length of the provided key is different than ' . $this->keyLength()
             . ' bits, ' . $keyLength . ' bits provided',
         );
@@ -123,7 +123,7 @@ abstract class EcdsaTestCase extends TestCase
     public function signShouldRaiseAnExceptionWhenKeyTypeIsNotEC(): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('The type of the provided key is not "EC", "RSA" provided');
+        $this->expectExceptionMessageIsOrContains('The type of the provided key is not "EC", "RSA" provided');
 
         $this->algorithm()->sign('testing', self::$rsaKeys['private']);
     }

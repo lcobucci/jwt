@@ -34,7 +34,7 @@
         },
         "LogicalNot": {
             "ignoreSourceCodeByRegex": [
-                "if \\(!function_exists\\('sodium_\\w+'\\)\\) \\{"
+                "if \\(!\\s+function_exists\\('sodium_\\w+'\\)\\) \\{"
             ]
         }
     },

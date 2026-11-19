@@ -10,9 +10,7 @@ use Lcobucci\JWT\SodiumBase64Polyfill;
 use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
 
-use function assert;
 use function base64_decode;
-use function is_string;
 
 #[PHPUnit\CoversClass(JoseEncoder::class)]
 #[PHPUnit\CoversClass(CannotDecodeContent::class)]
@@ -51,7 +49,7 @@ final class JoseEncoderTest extends TestCase
 
         $this->expectException(CannotEncodeContent::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Error while encoding to JSON');
+        $this->expectExceptionMessageIsOrContains('Error while encoding to JSON');
 
         $encoder->jsonEncode("\xB1\x31");
     }
@@ -74,7 +72,7 @@ final class JoseEncoderTest extends TestCase
 
         $this->expectException(CannotDecodeContent::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Error while decoding from JSON');
+        $this->expectExceptionMessageIsOrContains('Error while decoding from JSON');
 
         $decoder->jsonDecode('{"test":\'test\'}');
     }
@@ -83,7 +81,6 @@ final class JoseEncoderTest extends TestCase
     public function base64UrlEncodeMustReturnAUrlSafeBase64(): void
     {
         $data = base64_decode('0MB2wKB+L3yvIdzeggmJ+5WOSLaRLTUPXbpzqUe0yuo=', true);
-        assert(is_string($data));
 
         $encoder = new JoseEncoder();
         self::assertSame('0MB2wKB-L3yvIdzeggmJ-5WOSLaRLTUPXbpzqUe0yuo', $encoder->base64UrlEncode($data));
@@ -113,7 +110,9 @@ final class JoseEncoderTest extends TestCase
 
         $this->expectException(CannotDecodeContent::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Error while decoding from Base64Url, invalid base64 characters detected');
+        $this->expectExceptionMessageIsOrContains(
+            'Error while decoding from Base64Url, invalid base64 characters detected',
+        );
 
         $decoder->base64UrlDecode('ááá');
     }

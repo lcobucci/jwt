@@ -22,7 +22,7 @@ final class RelatedToTest extends ConstraintTestCase
         $constraint = new RelatedTo('user-auth');
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token is not related to the expected subject');
+        $this->expectExceptionMessageIsOrContains('The token is not related to the expected subject');
 
         $constraint->assert($this->buildToken());
     }
@@ -33,7 +33,7 @@ final class RelatedToTest extends ConstraintTestCase
         $constraint = new RelatedTo('user-auth');
 
         $this->expectException(ConstraintViolation::class);
-        $this->expectExceptionMessage('The token is not related to the expected subject');
+        $this->expectExceptionMessageIsOrContains('The token is not related to the expected subject');
 
         $constraint->assert($this->buildToken([RegisteredClaims::SUBJECT => 'password-recovery']));
     }

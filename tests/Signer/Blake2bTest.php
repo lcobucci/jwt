@@ -18,12 +18,12 @@ use function hash_equals;
 #[PHPUnit\UsesClass(SodiumBase64Polyfill::class)]
 final class Blake2bTest extends TestCase
 {
-    private const KEY_ONE                    = 'GOu4rLyVCBxmxP+sbniU68ojAja5PkRdvv7vNvBCqDQ=';
-    private const KEY_TWO                    = 'Pu7gywseH+R5HLIWnMll4rEg1ltjUPq/P9WwEzAsAb8=';
-    private const CONTENTS                   = 'test';
-    private const EXPECTED_HASH_WITH_KEY_ONE = '/TG5kmkav/YGl3I9uQiv4cm1VN6Q0zPCom4G7+p74JU=';
+    private const string KEY_ONE                    = 'GOu4rLyVCBxmxP+sbniU68ojAja5PkRdvv7vNvBCqDQ=';
+    private const string KEY_TWO                    = 'Pu7gywseH+R5HLIWnMll4rEg1ltjUPq/P9WwEzAsAb8=';
+    private const string CONTENTS                   = 'test';
+    private const string EXPECTED_HASH_WITH_KEY_ONE = '/TG5kmkav/YGl3I9uQiv4cm1VN6Q0zPCom4G7+p74JU=';
 
-    private const SHORT_KEY = 'PIBQuM5PopdMxtmTWmyvNA==';
+    private const string SHORT_KEY = 'PIBQuM5PopdMxtmTWmyvNA==';
 
     private InMemory $keyOne;
     private InMemory $keyTwo;
@@ -65,7 +65,7 @@ final class Blake2bTest extends TestCase
         $signer = new Blake2b();
 
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('Key provided is shorter than 256 bits, only 128 bits provided');
+        $this->expectExceptionMessageIsOrContains('Key provided is shorter than 256 bits, only 128 bits provided');
 
         $signer->sign(self::CONTENTS, InMemory::base64Encoded(self::SHORT_KEY));
     }
