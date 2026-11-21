@@ -1665,16 +1665,16 @@
         },
         {
             "name": "phpbench/phpbench",
-            "version": "1.7.0",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpbench/phpbench.git",
-                "reference": "3d13c0d5dcf8730a67b70fa7fb03b4556b5cc0fe"
+                "reference": "a745fa340629d0b2cba5197e44b1a9428797ba1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpbench/phpbench/zipball/3d13c0d5dcf8730a67b70fa7fb03b4556b5cc0fe",
-                "reference": "3d13c0d5dcf8730a67b70fa7fb03b4556b5cc0fe",
+                "url": "https://api.github.com/repos/phpbench/phpbench/zipball/a745fa340629d0b2cba5197e44b1a9428797ba1b",
+                "reference": "a745fa340629d0b2cba5197e44b1a9428797ba1b",
                 "shasum": ""
             },
             "require": {
@@ -1685,7 +1685,7 @@
                 "ext-reflection": "*",
                 "ext-spl": "*",
                 "ext-tokenizer": "*",
-                "php": "^8.2",
+                "php": "^8.3",
                 "phpbench/container": "^2.2",
                 "psr/log": "^1.1 || ^2.0 || ^3.0",
                 "seld/jsonlint": "^1.1",
@@ -1752,7 +1752,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpbench/phpbench/issues",
-                "source": "https://github.com/phpbench/phpbench/tree/1.7.0"
+                "source": "https://github.com/phpbench/phpbench/tree/1.7.1"
             },
             "funding": [
                 {
@@ -1760,8 +1760,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-08T19:09:20+00:00",
-            "published-time": "2026-06-08T19:11:37+00:00"
+            "time": "2026-11-21T19:11:14+00:00",
+            "published-time": "2026-11-21T19:12:24+00:00"
         },
         {
             "name": "phpstan/extension-installer",
